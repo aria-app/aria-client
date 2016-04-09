@@ -1,0 +1,18 @@
+@import '../../styles/palette';
+
+$zen-app__color: $zen-color;
+$zen-app__background-color: $zen-background-color;
+
+.zen-app {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  color: $zen-app__color;
+  background-color: $zen-app__background-color;
+  overflow: hidden;
+}

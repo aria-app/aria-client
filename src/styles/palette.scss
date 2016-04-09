@@ -1,0 +1,42 @@
+$zen-neutral-base: #808080;
+$zen-neutral-0: black;
+$zen-neutral-1: darken($zen-neutral-base, 45.00%);
+$zen-neutral-2: darken($zen-neutral-base, 33.75%);
+$zen-neutral-3: darken($zen-neutral-base, 22.50%);
+$zen-neutral-4: darken($zen-neutral-base, 11.25%);
+$zen-neutral-5: lighten($zen-neutral-base, 00.00%);
+$zen-neutral-6: lighten($zen-neutral-base, 11.25%);
+$zen-neutral-7: lighten($zen-neutral-base, 22.50%);
+$zen-neutral-8: lighten($zen-neutral-base, 33.75%);
+$zen-neutral-9: lighten($zen-neutral-base, 45.00%);
+$zen-neutral-10: white;
+
+$zen-primary-base: #FC8003;
+$zen-primary-1: darken($zen-primary-base, 45.00%);
+$zen-primary-2: darken($zen-primary-base, 33.75%);
+$zen-primary-3: darken($zen-primary-base, 22.50%);
+$zen-primary-4: darken($zen-primary-base, 11.25%);
+$zen-primary-5: lighten($zen-primary-base, 00.00%);
+$zen-primary-6: lighten($zen-primary-base, 11.25%);
+$zen-primary-7: lighten($zen-primary-base, 22.50%);
+$zen-primary-8: lighten($zen-primary-base, 33.75%);
+$zen-primary-9: lighten($zen-primary-base, 45.00%);
+
+$zen-accent-base: #41BEBC;
+$zen-accent-1: darken($zen-accent-base, 45.00%);
+$zen-accent-2: darken($zen-accent-base, 33.75%);
+$zen-accent-3: darken($zen-accent-base, 22.50%);
+$zen-accent-4: darken($zen-accent-base, 11.25%);
+$zen-accent-5: lighten($zen-accent-base, 00.00%);
+$zen-accent-6: lighten($zen-accent-base, 11.25%);
+$zen-accent-7: lighten($zen-accent-base, 22.50%);
+$zen-accent-8: lighten($zen-accent-base, 33.75%);
+$zen-accent-9: lighten($zen-accent-base, 45.00%);
+
+$zen-color: $zen-neutral-9;
+$zen-color-primary: $zen-primary-6;
+$zen-color-accent: $zen-accent-6;
+
+$zen-background-color: $zen-neutral-2;
+$zen-background-color-primary: $zen-primary-6;
+$zen-background-color-primary: $zen-accent-6;

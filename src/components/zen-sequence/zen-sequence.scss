@@ -1,0 +1,80 @@
+@import '../../styles/palette';
+
+$zen-sequence__background-color: $zen-neutral-2;
+$zen-sequence__step__background-color: $zen-neutral-3;
+$zen-sequence__step__shadow: 0 -1px 0px $zen-neutral-4 inset;
+$zen-sequence__note__background-color: $zen-color-primary;
+$zen-sequence__note__border: 1px solid $zen-primary-5;
+$zen-sequence__edge__background-color: $zen-primary-5;
+$zen-sequence__edge__border: 1px solid $zen-primary-5;
+
+.zen-sequence {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 1;
+  position: relative;
+  background-color: $zen-sequence__background-color;
+  overflow: scroll;
+  &__row {
+    display: flex;
+    flex-shrink: 0;
+  }
+  &__step {
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    padding: 14px;
+  }
+  &__step__fill {
+    display: flex;
+    flex-grow: 1;
+    background-color: $zen-sequence__step__background-color;
+    box-shadow: $zen-sequence__step__shadow;
+    border-radius: 20%;
+  }
+  &__note {
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 4px;
+  }
+  &__note__fill {
+    display: flex;
+    flex-grow: 1;
+    background-color: $zen-sequence__note__background-color;
+    // border: $zen-sequence__note__border;
+    border-radius: 20%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 20%;
+  }
+  &__edge {
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    flex-shrink: 0;
+    width: 120px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 12px;
+  }
+  &__edge__fill {
+    display: flex;
+    flex-grow: 1;
+    background-color: $zen-sequence__edge__background-color;
+    opacity: 0.9;
+    // border: $zen-sequence__edge__border;
+    border-radius: 20%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  }
+}
