@@ -1,0 +1,47 @@
+@import '../../styles/palette';
+
+$zen-sequence-note__point__fill__background-color: $zen-color-primary;
+$zen-sequence-note__edge__background-color: $zen-primary-5;
+
+.zen-sequence-note {
+  &__point {
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 6px;
+  }
+  &__point__fill {
+    display: flex;
+    flex-grow: 1;
+    background-color: $zen-sequence-note__point__fill__background-color;
+    border-radius: 20%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 20%;
+  }
+  &__edge {
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    flex-shrink: 0;
+    width: 120px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 14px;
+  }
+  &__edge__fill {
+    display: flex;
+    flex-grow: 1;
+    background-color: $zen-sequence-note__edge__background-color;
+    opacity: 0.9;
+    border-radius: 20%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  }
+}

@@ -3,8 +3,6 @@
 $zen-sequence-grid__background-color: $zen-neutral-2;
 $zen-sequence-grid__slot__background-color: $zen-neutral-3;
 $zen-sequence-grid__slot__shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
-$zen-sequence-grid__note__background-color: $zen-color-primary;
-$zen-sequence-grid__edge__background-color: $zen-primary-5;
 
 .zen-sequence-grid {
   display: flex;
@@ -40,45 +38,5 @@ $zen-sequence-grid__edge__background-color: $zen-primary-5;
     background-color: $zen-sequence-grid__slot__background-color;
     box-shadow: $zen-sequence-grid__slot__shadow;
     border-radius: 20%;
-  }
-  &__note {
-    display: flex;
-    align-items: stretch;
-    justify-content: stretch;
-    flex-shrink: 0;
-    width: 40px;
-    height: 40px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 6px;
-  }
-  &__note__fill {
-    display: flex;
-    flex-grow: 1;
-    background-color: $zen-sequence-grid__note__background-color;
-    border-radius: 20%;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-    border-radius: 20%;
-  }
-  &__edge {
-    display: flex;
-    align-items: stretch;
-    justify-content: stretch;
-    flex-shrink: 0;
-    width: 120px;
-    height: 40px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 14px;
-  }
-  &__edge__fill {
-    display: flex;
-    flex-grow: 1;
-    background-color: $zen-sequence-grid__edge__background-color;
-    opacity: 0.9;
-    border-radius: 20%;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   }
 }

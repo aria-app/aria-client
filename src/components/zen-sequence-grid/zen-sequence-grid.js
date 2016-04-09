@@ -2,6 +2,7 @@ import React from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
 import './zen-sequence-grid.scss';
+import { ZenSequenceNote } from '../zen-sequence-note/zen-sequence-note';
 
 export const ZenSequenceGrid = React.createClass({
   render() {
@@ -19,30 +20,10 @@ export const ZenSequenceGrid = React.createClass({
       h('div.zen-sequence-grid', [
         h('div.zen-sequence-grid__wrapper', [
           ...rowElements,
-          h('div.zen-sequence-grid__edge', {
-            style: {
-              top: 80,
-              left: 80,
-            },
-          }, [
-            h('div.zen-sequence-grid__edge__fill'),
-          ]),
-          h('div.zen-sequence-grid__note', {
-            style: {
-              top: 80,
-              left: 80,
-            },
-          }, [
-            h('div.zen-sequence-grid__note__fill'),
-          ]),
-          h('div.zen-sequence-grid__note', {
-            style: {
-              top: 80,
-              left: 160,
-            },
-          }, [
-            h('div.zen-sequence-grid__note__fill'),
-          ]),
+          h(ZenSequenceNote, {
+            top: 4,
+            left: 2,
+          }),
         ]),
       ])
     );
