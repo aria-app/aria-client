@@ -2,11 +2,13 @@
 
 $zen-sequence-keys__width: 40px;
 $zen-sequence-keys__key__height: 40px;
-$zen-sequence-keys__key__font-size: 0.875em;
-$zen-sequence-keys__key--ebony__color: $zen-neutral-8;
+$zen-sequence-keys__key__font-size: 1.0em;
+$zen-sequence-keys__key__font-weight: 600;
+$zen-sequence-keys__key--ebony__color: $zen-neutral-7;
 $zen-sequence-keys__key--ebony__background-color: $zen-neutral-3;
 $zen-sequence-keys__key--ivory__color: $zen-neutral-3;
-$zen-sequence-keys__key--ivory__background-color: $zen-neutral-8;
+$zen-sequence-keys__key--ivory__background-color: $zen-neutral-7;
+$zen-sequence-keys__key--ivory__border: 1px solid $zen-neutral-6;
 
 .zen-sequence-keys {
   display: flex;
@@ -22,6 +24,7 @@ $zen-sequence-keys__key--ivory__background-color: $zen-neutral-8;
     flex-shrink: 0;
     height: $zen-sequence-keys__key__height;
     font-size: $zen-sequence-keys__key__font-size;
+    font-weight: $zen-sequence-keys__key__font-weight;
   }
   &__key--ebony {
     color: $zen-sequence-keys__key--ebony__color;
@@ -30,5 +33,8 @@ $zen-sequence-keys__key--ivory__background-color: $zen-neutral-8;
   &__key--ivory {
     color: $zen-sequence-keys__key--ivory__color;
     background-color: $zen-sequence-keys__key--ivory__background-color;
+  }
+  &__key--ivory + &__key--ivory {
+    border-top: $zen-sequence-keys__key--ivory__border;
   }
 }

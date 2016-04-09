@@ -5,7 +5,7 @@ import './zen-sequence-keys.scss';
 export const ZenSequenceKeys = React.createClass({
   render() {
     const keys = [
-      { number: 8, type: 'ivory', name: 'C' },
+      ...getOctave(8).slice(11, 12),
       ...getOctave(7),
       ...getOctave(6),
       ...getOctave(5),
@@ -13,13 +13,14 @@ export const ZenSequenceKeys = React.createClass({
       ...getOctave(3),
       ...getOctave(2),
       ...getOctave(1),
-      { number: 0, type: 'ivory', name: 'B' },
-      { number: 0, type: 'ebony', name: 'Bb' },
-      { number: 0, type: 'ivory', name: 'A' },
+      ...getOctave(0).slice(0, 3),
     ];
     return (
       h('div.zen-sequence-keys',
-        keys.map(key => h(`div.zen-sequence-keys__key--${key.type}`, key.name))
+        keys.map(key =>
+          h(`div.zen-sequence-keys__key--${key.type}`,
+          key.name === 'C' ? key.number : ''
+        ))
       )
     );
   },
@@ -27,17 +28,17 @@ export const ZenSequenceKeys = React.createClass({
 
 function getOctave(number) {
   return [
-   { number, type: 'ivory', name: 'B' },
-   { number, type: 'ebony', name: 'Bb' },
-   { number, type: 'ivory', name: 'A' },
-   { number, type: 'ebony', name: 'G#' },
-   { number, type: 'ivory', name: 'G' },
-   { number, type: 'ebony', name: 'F#' },
-   { number, type: 'ivory', name: 'F' },
-   { number, type: 'ivory', name: 'E' },
-   { number, type: 'ebony', name: 'Eb' },
-   { number, type: 'ivory', name: 'D' },
-   { number, type: 'ebony', name: 'C#' },
-   { number, type: 'ivory', name: 'C' },
- ];
+    { type: 'ivory', name: 'B', number },
+    { type: 'ebony', name: 'Bb', number },
+    { type: 'ivory', name: 'A', number },
+    { type: 'ebony', name: 'G#', number },
+    { type: 'ivory', name: 'G', number },
+    { type: 'ebony', name: 'F#', number },
+    { type: 'ivory', name: 'F', number },
+    { type: 'ivory', name: 'E', number },
+    { type: 'ebony', name: 'Eb', number },
+    { type: 'ivory', name: 'D', number },
+    { type: 'ebony', name: 'C#', number },
+    { type: 'ivory', name: 'C', number },
+  ];
 }
