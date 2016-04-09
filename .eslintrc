@@ -2,5 +2,8 @@
   "extends": "airbnb/base",
   "globals": {
     "React": true
+  },
+  "rules": {
+    "no-use-before-define": ["error", { "functions": false, "classes": true }]
   }
 }

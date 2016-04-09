@@ -1,0 +1,34 @@
+@import '../../styles/palette';
+
+$zen-sequence-keys__width: 40px;
+$zen-sequence-keys__key__height: 40px;
+$zen-sequence-keys__key__font-size: 0.875em;
+$zen-sequence-keys__key--ebony__color: $zen-neutral-8;
+$zen-sequence-keys__key--ebony__background-color: $zen-neutral-3;
+$zen-sequence-keys__key--ivory__color: $zen-neutral-3;
+$zen-sequence-keys__key--ivory__background-color: $zen-neutral-8;
+
+.zen-sequence-keys {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: $zen-sequence-keys__width;
+  overflow: hidden;
+  &__key--ebony,
+  &__key--ivory {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    height: $zen-sequence-keys__key__height;
+    font-size: $zen-sequence-keys__key__font-size;
+  }
+  &__key--ebony {
+    color: $zen-sequence-keys__key--ebony__color;
+    background-color: $zen-sequence-keys__key--ebony__background-color;
+  }
+  &__key--ivory {
+    color: $zen-sequence-keys__key--ivory__color;
+    background-color: $zen-sequence-keys__key--ivory__background-color;
+  }
+}
