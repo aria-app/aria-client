@@ -4,17 +4,17 @@ import './zen-sequence-note.scss';
 
 export const ZenSequenceNote = React.createClass({
   propTypes: {
-    top: PropTypes.number,
-    left: PropTypes.number,
+    octave: PropTypes.number,
+    note: PropTypes.number,
+    time: PropTypes.number,
   },
   render() {
+    const bottom = ((this.props.octave * 12) + this.props.note) * 40;
+    const left = this.props.time * 40;
     return (
       h('div.zen-sequence-note', [
         h('div.zen-sequence-note__point', {
-          style: {
-            top: this.props.top * 40,
-            left: this.props.left * 40,
-          },
+          style: { bottom, left },
         }, [
           h('div.zen-sequence-note__point__fill'),
         ]),

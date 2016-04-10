@@ -17,8 +17,9 @@ export const ZenSequenceGrid = React.createClass({
           this.props.notes.map((note, index) =>
             h(ZenSequenceNote, {
               key: index,
-              top: note.top,
-              left: note.left,
+              octave: note.octave,
+              note: note.note,
+              time: note.time,
             })
           ),
         ]),
