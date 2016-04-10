@@ -9,20 +9,10 @@ export const ZenSequenceGrid = React.createClass({
     notes: PropTypes.array,
   },
   render() {
-    const rows = _.range(88)
-      .map(() => ({
-        columns: _.range(40),
-      }));
-    const rowElements = rows.map(row =>
-      h('div.zen-sequence-grid__row', row.columns.map(() =>
-        h('div.zen-sequence-grid__slot', [
-          h('div.zen-sequence-grid__slot__fill'),
-        ])
-    )));
     return (
       h('div.zen-sequence-grid', [
         h('div.zen-sequence-grid__wrapper', [
-          ...rowElements,
+          ...getRows(),
           this.props.notes.map((note, index) =>
             h(ZenSequenceNote, {
               key: index,
@@ -35,3 +25,12 @@ export const ZenSequenceGrid = React.createClass({
     );
   },
 });
+
+function getRows() {
+  return _.range(88).map(() =>
+    h('div.zen-sequence-grid__row', _.range(40).map(() =>
+      h('div.zen-sequence-grid__slot', [
+        h('div.zen-sequence-grid__slot__fill'),
+      ])
+  )));
+}

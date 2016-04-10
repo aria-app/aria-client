@@ -25,6 +25,7 @@ $zen-sequence-keys__key--ivory__border: 1px solid $zen-neutral-6;
     height: $zen-sequence-keys__key__height;
     font-size: $zen-sequence-keys__key__font-size;
     font-weight: $zen-sequence-keys__key__font-weight;
+    cursor: pointer;
   }
   &__key--ebony {
     color: $zen-sequence-keys__key--ebony__color;
