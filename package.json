@@ -32,6 +32,7 @@
     "lodash": "^4.8.2",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
-    "react-hyperscript": "^2.3.0"
+    "react-hyperscript": "^2.3.0",
+    "tone": "^0.6.1"
   }
 }

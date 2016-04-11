@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import h from 'react-hyperscript';
+import _ from 'lodash';
+import Tone from 'tone';
 import './zen-sequence.scss';
 import { pitches } from 'helpers/zen-pitches/zen-pitches';
 import { ZenSequenceGrid } from 'components/zen-sequence-grid/zen-sequence-grid';
@@ -9,29 +11,42 @@ export const ZenSequence = React.createClass({
   propTypes: {
     audioContext: PropTypes.object,
   },
+  getInitialState() {
+    return {
+      activeSounds: [],
+    };
+  },
   componentDidMount() {
-    this.element.scrollTop = 1000;
+    this.synth = new Tone.SimpleSynth({ oscillator: { type: 'pulse' } }).toMaster();
+    // this.element.scrollTop = 1000;
+    // this.setState({
+    //   activeSounds: [
+    //     {
+    //       octave: 3,
+    //       pitch: pitches.C,
+    //       time: 0,
+    //     },
+    //     {
+    //       octave: 3,
+    //       pitch: pitches.D,
+    //       time: 2,
+    //     },
+    //     {
+    //       octave: 3,
+    //       pitch: pitches.E,
+    //       time: 4,
+    //     },
+    //   ],
+    // });
   },
   render() {
-    const activeNotes = [
-      {
-        octave: 3,
-        pitch: pitches.C,
-        time: 0,
-      },
-      {
-        octave: 3,
-        pitch: pitches.D,
-        time: 2,
-      },
-      {
-        octave: 3,
-        pitch: pitches.E,
-        time: 4,
-      },
-    ];
     return (
       h('div.zen-sequence', { ref: this.getRef }, [
+        h('div.zen-sequence__toolbar', [
+          h('button.zen-sequence__play-button', {
+            onClick: this.handlePlayClick,
+          }, 'PLAY'),
+        ]),
         h('div.zen-sequence__wrapper', [
           h(ZenSequenceKeys, {
             audioContext: this.props.audioContext,
@@ -39,11 +54,27 @@ export const ZenSequence = React.createClass({
           }),
           h(ZenSequenceGrid, {
             notes: getNotes(),
-            activeNotes,
+            activeSounds: this.state.activeSounds,
+            onSoundPress: this.handleSoundPress,
           }),
         ]),
       ])
     );
+  },
+  handlePlayClick() {
+    // this.synth
+    console.log(this.state.activeSounds);
+  },
+  handleSoundPress(sound) {
+    if (_.includes(this.state.activeSounds, sound)) {
+      this.setState({
+        activeSounds: _.without(this.state.activeSounds, sound),
+      });
+    } else {
+      this.setState({
+        activeSounds: this.state.activeSounds.concat([ sound ]),
+      });
+    }
   },
   getRef(ref) {
     this.element = ref;
@@ -61,19 +92,19 @@ function getNotes() {
   ];
 }
 
-function getOctave(number) {
+function getOctave(octave) {
   return [
-    { type: 'ivory', pitch: pitches.B, frequency: 30.87 * Math.pow(2, number), number },
-    { type: 'ebony', pitch: pitches.BFLAT, frequency: 29.14 * Math.pow(2, number), number },
-    { type: 'ivory', pitch: pitches.A, frequency: 27.50 * Math.pow(2, number), number },
-    { type: 'ebony', pitch: pitches.GSHARP, frequency: 25.96 * Math.pow(2, number), number },
-    { type: 'ivory', pitch: pitches.G, frequency: 24.50 * Math.pow(2, number), number },
-    { type: 'ebony', pitch: pitches.FSHARP, frequency: 23.12 * Math.pow(2, number), number },
-    { type: 'ivory', pitch: pitches.F, frequency: 21.83 * Math.pow(2, number), number },
-    { type: 'ivory', pitch: pitches.E, frequency: 20.60 * Math.pow(2, number), number },
-    { type: 'ebony', pitch: pitches.EFLAT, frequency: 19.45 * Math.pow(2, number), number },
-    { type: 'ivory', pitch: pitches.D, frequency: 18.35 * Math.pow(2, number), number },
-    { type: 'ebony', pitch: pitches.CSHARP, frequency: 17.32 * Math.pow(2, number), number },
-    { type: 'ivory', pitch: pitches.C, frequency: 16.35 * Math.pow(2, number), number },
+    { type: 'ivory', pitch: pitches.B, frequency: 30.87 * Math.pow(2, octave), octave },
+    { type: 'ebony', pitch: pitches.BFLAT, frequency: 29.14 * Math.pow(2, octave), octave },
+    { type: 'ivory', pitch: pitches.A, frequency: 27.50 * Math.pow(2, octave), octave },
+    { type: 'ebony', pitch: pitches.GSHARP, frequency: 25.96 * Math.pow(2, octave), octave },
+    { type: 'ivory', pitch: pitches.G, frequency: 24.50 * Math.pow(2, octave), octave },
+    { type: 'ebony', pitch: pitches.FSHARP, frequency: 23.12 * Math.pow(2, octave), octave },
+    { type: 'ivory', pitch: pitches.F, frequency: 21.83 * Math.pow(2, octave), octave },
+    { type: 'ivory', pitch: pitches.E, frequency: 20.60 * Math.pow(2, octave), octave },
+    { type: 'ebony', pitch: pitches.EFLAT, frequency: 19.45 * Math.pow(2, octave), octave },
+    { type: 'ivory', pitch: pitches.D, frequency: 18.35 * Math.pow(2, octave), octave },
+    { type: 'ebony', pitch: pitches.CSHARP, frequency: 17.32 * Math.pow(2, octave), octave },
+    { type: 'ivory', pitch: pitches.C, frequency: 16.35 * Math.pow(2, octave), octave },
   ];
 }

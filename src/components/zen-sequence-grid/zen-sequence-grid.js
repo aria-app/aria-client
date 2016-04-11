@@ -8,14 +8,15 @@ import { ZenSequenceNote } from 'components/zen-sequence-note/zen-sequence-note'
 export const ZenSequenceGrid = React.createClass({
   propTypes: {
     notes: PropTypes.array,
-    activeNotes: PropTypes.array,
+    activeSounds: PropTypes.array,
+    onSoundPress: PropTypes.func,
   },
   render() {
     return (
       h('div.zen-sequence-grid', [
         h('div.zen-sequence-grid__wrapper', [
           ...this.getRows(),
-          this.props.activeNotes.map((note, index) =>
+          this.props.activeSounds.map((note, index) =>
             h(ZenSequenceNote, {
               key: index,
               octave: note.octave,
@@ -27,20 +28,37 @@ export const ZenSequenceGrid = React.createClass({
       ])
     );
   },
+  handleSoundPress(sound) {
+    this.props.onSoundPress(sound);
+  },
   getRows() {
-    const slots = _.range(8).map(() =>
-      h('div.zen-sequence-grid__slot', [h('div.zen-sequence-grid__slot__fill')])
-    );
-
-    const sections = _.range(4).map(() =>
-      h('div.zen-sequence-grid__section', slots)
-    );
-
     return this.props.notes.map(note => {
       const name = note.pitch === pitches.C
         ? 'div.zen-sequence-grid__row.zen-sequence-grid__row--c'
         : 'div.zen-sequence-grid__row';
-      return h(name, sections);
+      return h(name, this.getSections(note));
     });
+  },
+  getSections(note) {
+    return _.range(4).map(n =>
+      h('div.zen-sequence-grid__section', this.getNotes(note, n))
+    );
+  },
+  getNotes(note, sectionNumber) {
+    return _.range(8).map(n =>
+      h('div.zen-sequence-grid__slot',
+        {
+          onClick: () => this.handleSoundPress({
+            frequency: note.frequency,
+            octave: note.octave,
+            pitch: note.pitch,
+            time: n + (sectionNumber * 8),
+          }),
+        },
+        [
+          h('div.zen-sequence-grid__slot__fill'),
+        ]
+      )
+    );
   },
 });
