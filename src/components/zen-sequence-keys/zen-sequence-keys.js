@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-// import ADSR from 'adsr';
 import Immutable from 'immutable';
 import h from 'react-hyperscript';
 import './zen-sequence-keys.scss';
@@ -7,7 +6,7 @@ import './zen-sequence-keys.scss';
 export const ZenSequenceKeys = React.createClass({
   propTypes: {
     audioContext: PropTypes.object,
-    keys: PropTypes.array,
+    notes: PropTypes.array,
   },
   getInitialState() {
     return {
@@ -17,30 +16,30 @@ export const ZenSequenceKeys = React.createClass({
   render() {
     return (
       h('div.zen-sequence-keys',
-        this.props.keys.map(key =>
-          h(`div.zen-sequence-keys__key--${key.type}`,
+        this.props.notes.map(note =>
+          h(`div.zen-sequence-keys__key--${note.type}${note.pitch === 0 ? '.zen-sequence-keys__key--ivory--c' : ''}`,
             {
-              onMouseDown: () => this.handleMouseDown(key),
-              onMouseUp: () => this.handleMouseUp(key),
+              onMouseDown: () => this.handleMouseDown(note),
+              onMouseUp: () => this.handleMouseUp(note),
             },
-            key.note === 0 ? `C${key.number}` : ''
+            note.pitch === 0 ? `C${note.number}` : ''
           )
         )
       )
     );
   },
-  handleMouseDown(key) {
-    const oscillator = this.getOscillator(key.frequency);
+  handleMouseDown(note) {
+    const oscillator = this.getOscillator(note.frequency);
     oscillator.start();
     this.setState({
       oscillators: this.state.oscillators.set(
-        key.note,
+        note.pitch,
         oscillator
       ),
     });
   },
-  handleMouseUp(key) {
-    this.state.oscillators.get(key.note).stop();
+  handleMouseUp(note) {
+    this.state.oscillators.get(note.pitch).stop();
   },
   getOscillator(frequency) {
     const oscillator = this.props.audioContext.createOscillator();
@@ -50,35 +49,9 @@ export const ZenSequenceKeys = React.createClass({
     oscillator.frequency.value = frequency;
     oscillator.connect(gain);
 
-    gain.gain.value = 1;
+    gain.gain.value = 0.5;
     gain.connect(this.props.audioContext.destination);
 
     return oscillator;
   },
-  // getOscillatorWithADSR(frequency) {
-  //   const oscillator = this.props.audioContext.createOscillator();
-  //   const gain = this.props.audioContext.createGain();
-  //   const envelope = ADSR(this.props.audioContext);
-  //   oscillator.connect(gain);
-  //   gain.connect(this.props.audioContext.destination);
-  //   gain.gain.value = 0;
-  //   envelope.connect(gain.gain);
-  //
-  //   envelope.attack = 0;
-  //   envelope.decay = 2;
-  //   envelope.sustain = 0.1;
-  //   envelope.release = 2;
-  //
-  //   envelope.value.value = 1;
-  //
-  //   oscillator.type = 'square';
-  //   oscillator.frequency.value = frequency;
-  //
-  //   envelope.start(this.props.audioContext.currentTime);
-  //   oscillator.start(this.props.audioContext.currentTime);
-  //
-  //   const stopAt = envelope.stop(this.props.audioContext.currentTime + envelope.sustain);
-  //   oscillator.stop(stopAt);
-  //   return oscillator;
-  // },
 });

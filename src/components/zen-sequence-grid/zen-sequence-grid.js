@@ -2,23 +2,24 @@ import React, { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
 import './zen-sequence-grid.scss';
-import { ZenSequenceNote } from '../zen-sequence-note/zen-sequence-note';
+import { pitches } from 'helpers/zen-pitches/zen-pitches';
+import { ZenSequenceNote } from 'components/zen-sequence-note/zen-sequence-note';
 
 export const ZenSequenceGrid = React.createClass({
   propTypes: {
-    keys: PropTypes.array,
     notes: PropTypes.array,
+    activeNotes: PropTypes.array,
   },
   render() {
     return (
       h('div.zen-sequence-grid', [
         h('div.zen-sequence-grid__wrapper', [
           ...this.getRows(),
-          this.props.notes.map((note, index) =>
+          this.props.activeNotes.map((note, index) =>
             h(ZenSequenceNote, {
               key: index,
               octave: note.octave,
-              note: note.note,
+              pitch: note.pitch,
               time: note.time,
             })
           ),
@@ -27,11 +28,19 @@ export const ZenSequenceGrid = React.createClass({
     );
   },
   getRows() {
-    return this.props.keys.map(() =>
-      h('div.zen-sequence-grid__row', _.range(40).map(() =>
-        h('div.zen-sequence-grid__slot', [
-          h('div.zen-sequence-grid__slot__fill'),
-        ])
-    )));
-  }
+    const slots = _.range(8).map(() =>
+      h('div.zen-sequence-grid__slot', [h('div.zen-sequence-grid__slot__fill')])
+    );
+
+    const sections = _.range(4).map(() =>
+      h('div.zen-sequence-grid__section', slots)
+    );
+
+    return this.props.notes.map(note => {
+      const name = note.pitch === pitches.C
+        ? 'div.zen-sequence-grid__row.zen-sequence-grid__row--c'
+        : 'div.zen-sequence-grid__row';
+      return h(name, sections);
+    });
+  },
 });
