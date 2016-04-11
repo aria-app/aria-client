@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import Immutable from 'immutable';
 import h from 'react-hyperscript';
+import classnames from 'classnames';
 import Tone from 'tone';
 import './zen-sequence-keys.scss';
 import { pitches } from 'helpers/zen-pitches/zen-pitches';
@@ -22,9 +23,9 @@ export const ZenSequenceKeys = React.createClass({
     return (
       h('div.zen-sequence-keys',
         this.props.notes.map(note =>
-          h(`div.zen-sequence-keys__key--${note.type}${note.pitch === pitches.C ? '.zen-sequence-keys__key--ivory--c' : ''}${note.pitch === pitches.F ? '.zen-sequence-keys__key--ivory--f' : ''}`,
+          h('div',
             {
-              onMouseDown: () => this.handleMouseDown(note),
+              className: this.getKeyClasses(note),
               onMouseUp: () => this.handleMouseUp(note),
             },
             note.pitch === 0 ? `C${note.octave}` : ''
@@ -33,19 +34,16 @@ export const ZenSequenceKeys = React.createClass({
       )
     );
   },
-  handleMouseDown(note) {
-    // const oscillator = this.getOscillator(note.frequency);
-    // oscillator.start();
-    // this.setState({
-    //   oscillators: this.state.oscillators.set(
-    //     note.pitch,
-    //     oscillator
-    //   ),
-    // });
-  },
   handleMouseUp(note) {
     this.synth.triggerAttackRelease(note.frequency, '8n');
-    // this.state.oscillators.get(note.pitch).stop();
+  },
+  getKeyClasses(note) {
+    return classnames({
+      'zen-sequence-keys__key--ebony': note.type === 'ebony',
+      'zen-sequence-keys__key--ivory': note.type === 'ivory',
+      'zen-sequence-keys__key--ivory--c': note.pitch === pitches.C,
+      'zen-sequence-keys__key--ivory--f': note.pitch === pitches.F,
+    });
   },
   getOscillator(frequency) {
     const oscillator = this.props.audioContext.createOscillator();
