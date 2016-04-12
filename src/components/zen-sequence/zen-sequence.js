@@ -17,7 +17,21 @@ export const ZenSequence = React.createClass({
     };
   },
   componentDidMount() {
-    this.synth = new Tone.SimpleSynth({ oscillator: { type: 'pwm' } }).toMaster();
+    this.synth = new Tone.SimpleSynth({ oscillator: { type: 'square' } }).toMaster();
+    this.synth.volume.value = -20;
+    this.loop = new Tone.Sequence((time, step) => {
+      _.filter(this.state.notes, note => note.time === step)
+        .forEach(note => {
+          this.synth.triggerAttackRelease(note.frequency, '32n', time);
+        });
+    }, _.range(32), '32n');
+    Tone.Transport.bpm.value = 140;
+    this.loop.start();
+
+    setTimeout(() => {
+      Tone.Transport.start();
+    }, 1000);
+
     // this.element.scrollTop = 1000;
   },
   render() {
@@ -36,6 +50,7 @@ export const ZenSequence = React.createClass({
           h(ZenGrid, {
             notes: this.state.notes,
             scale: getScale(),
+            onNotePress: this.handleNotePress,
             onSlotPress: this.handleSlotPress,
           }),
         ]),
@@ -43,18 +58,21 @@ export const ZenSequence = React.createClass({
     );
   },
   handlePlayClick() {
-    console.log(this.state.notes);
-  },
-  handleSlotPress(sound) {
-    if (_.includes(this.state.notes, sound)) {
-      this.setState({
-        notes: _.without(this.state.notes, sound),
-      });
+    if (Tone.Transport.state === 'stopped') {
+      Tone.Transport.start();
     } else {
-      this.setState({
-        notes: this.state.notes.concat([sound]),
-      });
+      Tone.Transport.stop();
     }
+  },
+  handleNotePress(note) {
+    this.setState({
+      notes: _.without(this.state.notes, note),
+    });
+  },
+  handleSlotPress(note) {
+    this.setState({
+      notes: this.state.notes.concat([note]),
+    });
   },
   getRef(ref) {
     this.element = ref;

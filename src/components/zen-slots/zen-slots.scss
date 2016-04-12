@@ -37,7 +37,7 @@ $zen-slots__section__slot__background-color: $zen-neutral-2;
     padding-bottom: 14px;
     &:nth-child(2n) {
       background-color: $zen-slots__section__background-color--even;
-      .zen-slots__slot__fill {
+      .zen-slots__slot {
         background-color: $zen-slots__section__slot__background-color;
       }
     }

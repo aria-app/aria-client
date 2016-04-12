@@ -6,16 +6,15 @@ import { ZenNote } from 'components/zen-note/zen-note';
 export const ZenNotes = React.createClass({
   propTypes: {
     notes: PropTypes.array,
+    onNotePress: PropTypes.func,
   },
   render() {
-    console.log(this.props.notes);
     return (
       h('div.zen-notes', this.props.notes.map((note, index) =>
         h(ZenNote, {
           key: index,
-          octave: note.octave,
-          pitch: note.pitch,
-          time: note.time,
+          note,
+          onPress: this.props.onNotePress,
         })
       ))
 

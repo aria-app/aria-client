@@ -8,6 +8,7 @@ export const ZenGrid = React.createClass({
   propTypes: {
     notes: PropTypes.array,
     scale: PropTypes.array,
+    onNotePress: PropTypes.func,
     onSlotPress: PropTypes.func,
   },
   render() {
@@ -20,6 +21,7 @@ export const ZenGrid = React.createClass({
           }),
           h(ZenNotes, {
             notes: this.props.notes,
+            onNotePress: this.props.onNotePress,
           }),
         ]),
       ])
