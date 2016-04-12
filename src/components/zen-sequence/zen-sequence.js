@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
 import Tone from 'tone';
@@ -8,17 +8,16 @@ import { ZenGrid } from 'components/zen-grid/zen-grid';
 import { ZenKeys } from 'components/zen-keys/zen-keys';
 
 export const ZenSequence = React.createClass({
-  propTypes: {
-    audioContext: PropTypes.object,
-  },
   getInitialState() {
     return {
       notes: [],
     };
   },
   componentDidMount() {
-    this.synth = new Tone.SimpleSynth({ oscillator: { type: 'square' } }).toMaster();
-    this.synth.volume.value = -20;
+    this.synth = new Tone.PolySynth(4, Tone.SimpleSynth, {
+      oscillator: { type: 'square' },
+    }).toMaster();
+    this.synth.volume.value = -10;
     this.loop = new Tone.Sequence((time, step) => {
       _.filter(this.state.notes, note => note.time === step)
         .forEach(note => {
