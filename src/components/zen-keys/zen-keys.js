@@ -3,13 +3,13 @@ import Immutable from 'immutable';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
 import Tone from 'tone';
-import './zen-sequence-keys.scss';
+import './zen-keys.scss';
 import { pitches } from 'helpers/zen-pitches/zen-pitches';
 
-export const ZenSequenceKeys = React.createClass({
+export const ZenKeys = React.createClass({
   propTypes: {
     audioContext: PropTypes.object,
-    notes: PropTypes.array,
+    scale: PropTypes.array,
   },
   getInitialState() {
     return {
@@ -21,8 +21,8 @@ export const ZenSequenceKeys = React.createClass({
   },
   render() {
     return (
-      h('div.zen-sequence-keys',
-        this.props.notes.map(note =>
+      h('div.zen-keys',
+        this.props.scale.map(note =>
           h('div',
             {
               className: this.getKeyClasses(note),
@@ -39,23 +39,23 @@ export const ZenSequenceKeys = React.createClass({
   },
   getKeyClasses(note) {
     return classnames({
-      'zen-sequence-keys__key--ebony': note.type === 'ebony',
-      'zen-sequence-keys__key--ivory': note.type === 'ivory',
-      'zen-sequence-keys__key--ivory--c': note.pitch === pitches.C,
-      'zen-sequence-keys__key--ivory--f': note.pitch === pitches.F,
+      'zen-keys__key--ebony': note.type === 'ebony',
+      'zen-keys__key--ivory': note.type === 'ivory',
+      'zen-keys__key--ivory--c': note.pitch === pitches.C,
+      'zen-keys__key--ivory--f': note.pitch === pitches.F,
     });
   },
-  getOscillator(frequency) {
-    const oscillator = this.props.audioContext.createOscillator();
-    const gain = this.props.audioContext.createGain();
-
-    oscillator.type = 'square';
-    oscillator.frequency.value = frequency;
-    oscillator.connect(gain);
-
-    gain.gain.value = 0.5;
-    gain.connect(this.props.audioContext.destination);
-
-    return oscillator;
-  },
+  // getOscillator(frequency) {
+  //   const oscillator = this.props.audioContext.createOscillator();
+  //   const gain = this.props.audioContext.createGain();
+  //
+  //   oscillator.type = 'square';
+  //   oscillator.frequency.value = frequency;
+  //   oscillator.connect(gain);
+  //
+  //   gain.gain.value = 0.5;
+  //   gain.connect(this.props.audioContext.destination);
+  //
+  //   return oscillator;
+  // },
 });

@@ -1,0 +1,25 @@
+@import '../../styles/palette';
+
+$zen-grid__background-color: $zen-neutral-2;
+$zen-grid__row--c__divider-color: $zen-neutral-4;
+$zen-grid__slot__background-color: $zen-neutral-3;
+$zen-grid__slot__shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+$zen-grid__section__background-color--even: $zen-neutral-3;
+$zen-grid__section__slot__background-color: $zen-neutral-2;
+
+.zen-grid {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  position: relative;
+  background-color: $zen-grid__background-color;
+  overflow-x: scroll;
+  overflow-y: visible;
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+}

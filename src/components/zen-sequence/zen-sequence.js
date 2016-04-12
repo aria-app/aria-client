@@ -4,8 +4,8 @@ import _ from 'lodash';
 import Tone from 'tone';
 import './zen-sequence.scss';
 import { pitches } from 'helpers/zen-pitches/zen-pitches';
-import { ZenSequenceGrid } from 'components/zen-sequence-grid/zen-sequence-grid';
-import { ZenSequenceKeys } from 'components/zen-sequence-keys/zen-sequence-keys';
+import { ZenGrid } from 'components/zen-grid/zen-grid';
+import { ZenKeys } from 'components/zen-keys/zen-keys';
 
 export const ZenSequence = React.createClass({
   propTypes: {
@@ -13,31 +13,12 @@ export const ZenSequence = React.createClass({
   },
   getInitialState() {
     return {
-      activeSounds: [],
+      notes: [],
     };
   },
   componentDidMount() {
-    this.synth = new Tone.SimpleSynth({ oscillator: { type: 'pulse' } }).toMaster();
+    this.synth = new Tone.SimpleSynth({ oscillator: { type: 'pwm' } }).toMaster();
     // this.element.scrollTop = 1000;
-    // this.setState({
-    //   activeSounds: [
-    //     {
-    //       octave: 3,
-    //       pitch: pitches.C,
-    //       time: 0,
-    //     },
-    //     {
-    //       octave: 3,
-    //       pitch: pitches.D,
-    //       time: 2,
-    //     },
-    //     {
-    //       octave: 3,
-    //       pitch: pitches.E,
-    //       time: 4,
-    //     },
-    //   ],
-    // });
   },
   render() {
     return (
@@ -48,31 +29,30 @@ export const ZenSequence = React.createClass({
           }, 'PLAY'),
         ]),
         h('div.zen-sequence__wrapper', [
-          h(ZenSequenceKeys, {
+          h(ZenKeys, {
             audioContext: this.props.audioContext,
-            notes: getNotes(),
+            scale: getScale(),
           }),
-          h(ZenSequenceGrid, {
-            notes: getNotes(),
-            activeSounds: this.state.activeSounds,
-            onSoundPress: this.handleSoundPress,
+          h(ZenGrid, {
+            notes: this.state.notes,
+            scale: getScale(),
+            onSlotPress: this.handleSlotPress,
           }),
         ]),
       ])
     );
   },
   handlePlayClick() {
-    // this.synth
-    console.log(this.state.activeSounds);
+    console.log(this.state.notes);
   },
-  handleSoundPress(sound) {
-    if (_.includes(this.state.activeSounds, sound)) {
+  handleSlotPress(sound) {
+    if (_.includes(this.state.notes, sound)) {
       this.setState({
-        activeSounds: _.without(this.state.activeSounds, sound),
+        notes: _.without(this.state.notes, sound),
       });
     } else {
       this.setState({
-        activeSounds: this.state.activeSounds.concat([ sound ]),
+        notes: this.state.notes.concat([sound]),
       });
     }
   },
@@ -81,7 +61,7 @@ export const ZenSequence = React.createClass({
   },
 });
 
-function getNotes() {
+function getScale() {
   return [
     ...getOctave(5),
     ...getOctave(4),

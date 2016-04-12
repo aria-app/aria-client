@@ -1,0 +1,25 @@
+@import '../../styles/palette';
+
+$zen-note__point__fill__background-color: $zen-color-primary;
+$zen-note__edge__background-color: $zen-primary-5;
+
+.zen-note {
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 6px;
+  &__fill {
+    display: flex;
+    flex-grow: 1;
+    background-color: $zen-note__point__fill__background-color;
+    border-radius: 20%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 20%;
+  }
+}
