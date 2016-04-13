@@ -16,8 +16,7 @@ $zen-keys__key--ivory__divider-color: $zen-neutral-6;
   flex-shrink: 0;
   width: $zen-keys__width;
   overflow: hidden;
-  &__key--ebony,
-  &__key--ivory {
+  &__key {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -27,26 +26,32 @@ $zen-keys__key--ivory__divider-color: $zen-neutral-6;
     font-size: $zen-keys__key__font-size;
     font-weight: $zen-keys__key__font-weight;
     cursor: pointer;
-  }
-  &__key--ebony {
-    color: $zen-keys__key--ebony__color;
-    background-color: $zen-keys__key--ebony__background-color;
-  }
-  &__key--ivory {
-    color: $zen-keys__key--ivory__color;
-    background-color: $zen-keys__key--ivory__background-color;
-  }
-  &__key--ivory--c, &__key--ivory--f {
-    &:after {
-      content: '';
+    &__label {
+      display: none;
+    }
+    &--a, &--b, &--c, &--d, &--e, &--f, &--g {
+      color: $zen-keys__key--ivory__color;
+      background-color: $zen-keys__key--ivory__background-color;
+    }
+    &--bflat, &--gsharp, &--fsharp, &--eflat, &--csharp {
+      color: $zen-keys__key--ebony__color;
+      background-color: $zen-keys__key--ebony__background-color;
+    }
+    &--c, &--f {
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 1px;
+        background-color: $zen-keys__key--ivory__divider-color;
+      }
+    }
+    &--c &__label {
       display: block;
-      position: absolute;
-      bottom: 0px;
-      left: 0;
-      right: 0;
-      width: 100%;
-      height: 1px;
-      background-color: $zen-keys__key--ivory__divider-color;
     }
   }
 }

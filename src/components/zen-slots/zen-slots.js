@@ -1,50 +1,53 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
 import './zen-slots.scss';
-import { pitches } from 'helpers/zen-pitches/zen-pitches';
+import { getLetter } from 'helpers/zen-pitches/zen-pitches';
 
 export const ZenSlots = React.createClass({
   propTypes: {
-    scale: PropTypes.array,
-    onSlotPress: PropTypes.func,
+    measureCount: React.PropTypes.number,
+    scale: React.PropTypes.array,
+    synth: React.PropTypes.object,
+    onSlotPress: React.PropTypes.func,
   },
   shouldComponentUpdate(nextProps) {
-    return !_.isEqual(nextProps.scale, this.props.scale);
+    return nextProps.measureCount !== this.props.measureCount;
   },
   render() {
-    return (
-      h('div.zen-slots', this.getRows())
-    );
+    return h('.zen-slots', this.getRows());
   },
-  handleSlotPress(note) {
-    this.props.onSlotPress(note);
-  },
-  getRows() {
-    return this.props.scale.map(note => {
-      const name = note.pitch === pitches.C
-        ? 'div.zen-slots__row.zen-slots__row--c'
-        : 'div.zen-slots__row';
-      return h(name, this.getSections(note));
+  handleSlotPress(slot, time) {
+    this.props.synth.triggerAttackRelease(slot.frequency, '32n');
+    this.props.onSlotPress({
+      frequency: slot.frequency,
+      octave: slot.octave,
+      pitch: slot.pitch,
+      length: '32n',
+      time,
     });
   },
-  getSections(note) {
-    return _.range(4).map(n =>
-      h('div.zen-slots__section', this.getSlots(note, n))
+  getRows() {
+    return this.props.scale.map(step => h(
+      `.zen-slots__row.zen-slots__row--${getLetter(step.pitch)}`,
+      this.getSections(step)
+    ));
+  },
+  getSections(step) {
+    return _.range(4 * this.props.measureCount).map(n =>
+      h('.zen-slots__section', this.getSlots(step, n))
     );
   },
-  getSlots(note, sectionNumber) {
-    const notesPerSection = 8;
-    return _.range(notesPerSection).map(n =>
-      h('div.zen-slots__slot', {
-        onClick: () => this.handleSlotPress({
-          frequency: note.frequency,
-          octave: note.octave,
-          pitch: note.pitch,
-          time: n + (sectionNumber * notesPerSection),
-        }),
-      })
+  getSlots(step, sectionNumber) {
+    return _.range(8).map(n => h(
+      '.zen-slots__slot', {
+        onClick: () => this.handleSlotPress(
+          step,
+          n + (sectionNumber * 8)
+        ),
+      }, [
+        h('.zen-slots__slot__fill'),
+      ])
     );
   },
-
 });
