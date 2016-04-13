@@ -4,22 +4,23 @@ import _ from 'lodash';
 import Tone from 'tone';
 import './zen-sequence.scss';
 import { ZenGrid } from 'components/zen-grid/zen-grid';
+import { ZenSequenceToolbar } from 'components/zen-sequence-toolbar/zen-sequence-toolbar';
 import { ZenKeys } from 'components/zen-keys/zen-keys';
-import { pitches } from 'helpers/zen-pitches/zen-pitches';
+import { getScale } from 'helpers/zen-scale/zen-scale';
+import { synths } from 'helpers/zen-synths/zen-synths';
 
 export const ZenSequence = React.createClass({
   propTypes: {
     measureCount: React.PropTypes.number,
+    notes: React.PropTypes.array,
     synth: React.PropTypes.object,
-  },
-  getInitialState() {
-    return {
-      notes: [],
-    };
+    requestAddNote: React.PropTypes.func,
+    requestRemoveNote: React.PropTypes.func,
+    requestSetSynth: React.PropTypes.func,
   },
   componentWillMount() {
     this.loop = new Tone.Sequence((time, step) => {
-      _.filter(this.state.notes, note => note.time === step)
+      _.filter(this.props.notes, note => note.time === step)
         .forEach(note => {
           this.props.synth.triggerAttackRelease(
             note.frequency,
@@ -33,61 +34,25 @@ export const ZenSequence = React.createClass({
   },
   render() {
     return (
-      h('.zen-sequence', {
-        ref: this.getRef,
-      }, [
-        h('.zen-sequence__wrapper', [
-          h(ZenKeys, {
-            scale: getScale(),
-            synth: this.props.synth,
-          }),
-          h(ZenGrid, {
-            measureCount: this.props.measureCount,
-            notes: this.state.notes,
-            scale: getScale(),
-            synth: this.props.synth,
-            onNotePress: this.handleNotePress,
-            onSlotPress: this.handleSlotPress,
-          }),
+      h('.zen-sequence', [
+        h(ZenSequenceToolbar, { requestSetSynth: this.props.requestSetSynth }),
+        h('.zen-sequence__content', [
+          h('.zen-sequence__wrapper', [
+            h(ZenKeys, {
+              scale: getScale(),
+              synth: this.props.synth,
+            }),
+            h(ZenGrid, {
+              measureCount: this.props.measureCount,
+              notes: this.props.notes,
+              scale: getScale(),
+              synth: this.props.synth,
+              onNotePress: this.props.requestRemoveNote,
+              onSlotPress: this.props.requestAddNote,
+            }),
+          ]),
         ]),
       ])
     );
   },
-  handleNotePress(note) {
-    this.setState({
-      notes: _.without(this.state.notes, note),
-    });
-  },
-  handleSlotPress(note) {
-    this.setState({
-      notes: this.state.notes.concat([note]),
-    });
-  },
-  getRef(ref) {
-    this.element = ref;
-  },
 });
-
-function getScale() {
-  return _([0, 1, 2, 3, 4, 5])
-    .reverse()
-    .flatMap(getOctave)
-    .value();
-}
-
-function getOctave(octave) {
-  return [
-    { pitch: pitches.B, frequency: 30.87 * Math.pow(2, octave), octave },
-    { pitch: pitches.BFLAT, frequency: 29.14 * Math.pow(2, octave), octave },
-    { pitch: pitches.A, frequency: 27.50 * Math.pow(2, octave), octave },
-    { pitch: pitches.GSHARP, frequency: 25.96 * Math.pow(2, octave), octave },
-    { pitch: pitches.G, frequency: 24.50 * Math.pow(2, octave), octave },
-    { pitch: pitches.FSHARP, frequency: 23.12 * Math.pow(2, octave), octave },
-    { pitch: pitches.F, frequency: 21.83 * Math.pow(2, octave), octave },
-    { pitch: pitches.E, frequency: 20.60 * Math.pow(2, octave), octave },
-    { pitch: pitches.EFLAT, frequency: 19.45 * Math.pow(2, octave), octave },
-    { pitch: pitches.D, frequency: 18.35 * Math.pow(2, octave), octave },
-    { pitch: pitches.CSHARP, frequency: 17.32 * Math.pow(2, octave), octave },
-    { pitch: pitches.C, frequency: 16.35 * Math.pow(2, octave), octave },
-  ];
-}

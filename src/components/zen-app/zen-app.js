@@ -2,14 +2,10 @@ import React from 'react';
 import h from 'react-hyperscript';
 import Tone from 'tone';
 import './zen-app.scss';
-import { ZenSequence } from 'components/zen-sequence/zen-sequence';
+import { ZenSequenceContainer } from 'containers/zen-sequence-container/zen-sequence-container';
 
 export const ZenApp = React.createClass({
   componentWillMount() {
-    this.synth = new Tone.PolySynth(4, Tone.SimpleSynth, {
-      oscillator: { type: 'square' },
-    }).toMaster();
-    this.synth.volume.value = -20;
     Tone.Transport.bpm.value = 120;
     Tone.Transport.start();
   },
@@ -19,10 +15,7 @@ export const ZenApp = React.createClass({
   render() {
     return (
       h('.zen-app', [
-        h(ZenSequence, {
-          measureCount: 1,
-          synth: this.synth,
-        }),
+        h(ZenSequenceContainer),
       ])
     );
   },

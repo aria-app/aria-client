@@ -15,7 +15,9 @@ $zen-keys__key--ivory__divider-color: $zen-neutral-6;
   flex-direction: column;
   flex-shrink: 0;
   width: $zen-keys__width;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.25);
   overflow: hidden;
+  z-index: 50;
   &__key {
     display: flex;
     align-items: center;
