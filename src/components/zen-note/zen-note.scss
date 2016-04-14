@@ -5,6 +5,7 @@ $zen-note__point__fill__size: 24px;
 $zen-note__point__fill__background-color: $zen-color-primary;
 $zen-note__point__fill__border-radius: 20%;
 $zen-note__point__fill__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+$zen-note__point__fill--active__background-color: $zen-accent-6;
 // $zen-note__edge__background-color: $zen-primary-5;
 
 .zen-note {
@@ -27,5 +28,8 @@ $zen-note__point__fill__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
       border-radius: $zen-note__point__fill__border-radius;
       box-shadow: $zen-note__point__fill__box-shadow;
     }
+  }
+  &--active &__point__fill {
+    background-color: $zen-note__point__fill--active__background-color;
   }
 }

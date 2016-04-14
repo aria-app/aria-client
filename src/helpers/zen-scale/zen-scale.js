@@ -8,19 +8,36 @@ export function getScale() {
     .value();
 }
 
+export function getFrequency(note) {
+  return {
+    [pitches.B]: 30.87,
+    [pitches.BFLAT]: 29.14,
+    [pitches.A]: 27.50,
+    [pitches.GSHARP]: 25.96,
+    [pitches.G]: 24.50,
+    [pitches.FSHARP]: 23.12,
+    [pitches.F]: 21.83,
+    [pitches.E]: 20.60,
+    [pitches.EFLAT]: 19.45,
+    [pitches.D]: 18.35,
+    [pitches.CSHARP]: 17.32,
+    [pitches.C]: 16.35,
+  }[note.pitch] * Math.pow(2, note.octave);
+}
+
 function getOctave(octave) {
   return [
-    { pitch: pitches.B, frequency: 30.87 * Math.pow(2, octave), octave },
-    { pitch: pitches.BFLAT, frequency: 29.14 * Math.pow(2, octave), octave },
-    { pitch: pitches.A, frequency: 27.50 * Math.pow(2, octave), octave },
-    { pitch: pitches.GSHARP, frequency: 25.96 * Math.pow(2, octave), octave },
-    { pitch: pitches.G, frequency: 24.50 * Math.pow(2, octave), octave },
-    { pitch: pitches.FSHARP, frequency: 23.12 * Math.pow(2, octave), octave },
-    { pitch: pitches.F, frequency: 21.83 * Math.pow(2, octave), octave },
-    { pitch: pitches.E, frequency: 20.60 * Math.pow(2, octave), octave },
-    { pitch: pitches.EFLAT, frequency: 19.45 * Math.pow(2, octave), octave },
-    { pitch: pitches.D, frequency: 18.35 * Math.pow(2, octave), octave },
-    { pitch: pitches.CSHARP, frequency: 17.32 * Math.pow(2, octave), octave },
-    { pitch: pitches.C, frequency: 16.35 * Math.pow(2, octave), octave },
+    { pitch: pitches.B, octave },
+    { pitch: pitches.BFLAT, octave },
+    { pitch: pitches.A, octave },
+    { pitch: pitches.GSHARP, octave },
+    { pitch: pitches.G, octave },
+    { pitch: pitches.FSHARP, octave },
+    { pitch: pitches.F, octave },
+    { pitch: pitches.E, octave },
+    { pitch: pitches.EFLAT, octave },
+    { pitch: pitches.D, octave },
+    { pitch: pitches.CSHARP, octave },
+    { pitch: pitches.C, octave },
   ];
 }

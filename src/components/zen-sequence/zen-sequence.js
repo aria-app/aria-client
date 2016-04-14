@@ -6,16 +6,20 @@ import './zen-sequence.scss';
 import { ZenGrid } from 'components/zen-grid/zen-grid';
 import { ZenSequenceToolbar } from 'components/zen-sequence-toolbar/zen-sequence-toolbar';
 import { ZenKeys } from 'components/zen-keys/zen-keys';
-import { getScale } from 'helpers/zen-scale/zen-scale';
+import { getFrequency, getScale } from 'helpers/zen-scale/zen-scale';
 
 export const ZenSequence = React.createClass({
   propTypes: {
     measureCount: React.PropTypes.number,
     notes: React.PropTypes.array,
+    selectedNotes: React.PropTypes.array,
     synth: React.PropTypes.object,
     requestAddNote: React.PropTypes.func,
-    requestRemoveNote: React.PropTypes.func,
+    requestDeleteNotes: React.PropTypes.func,
     requestSetSynth: React.PropTypes.func,
+  },
+  shouldComponentUpdate(nextProps) {
+    return !_.isEqual(nextProps, this.props);
   },
   componentWillMount() {
     this.sequenceLoop = new Tone.Sequence((time, step) => {
@@ -23,7 +27,7 @@ export const ZenSequence = React.createClass({
       _.filter(this.props.notes, note => note.time === step)
         .forEach(note => {
           this.props.synth.triggerAttackRelease(
-            note.frequency,
+            getFrequency(note),
             note.length,
             time
           );
@@ -33,6 +37,7 @@ export const ZenSequence = React.createClass({
     this.sequenceLoop.start();
   },
   componentDidMount() {
+    document.addEventListener('keyup', this.handleKeyUp);
     this.contentElement.scrollTop = 2 * (40 * 12);
   },
   render() {
@@ -53,16 +58,35 @@ export const ZenSequence = React.createClass({
             h(ZenGrid, {
               measureCount: this.props.measureCount,
               notes: this.props.notes,
+              selectedNotes: this.props.selectedNotes,
               position: this.props.position,
               scale: getScale(),
               synth: this.props.synth,
-              onNotePress: this.props.requestRemoveNote,
+              onNotePress: this.handleNotePress,
+              onNotePress: this.handleNotePress,
               onSlotPress: this.props.requestAddNote,
             }),
           ]),
         ]),
       ])
     );
+  },
+  handleKeyUp(e) {
+    if (e.code === 'Backspace') {
+      this.props.requestDeleteNotes(this.props.selectedNotes);
+      e.preventDefault();
+      return false;
+    }
+    return true;
+  },
+  handleNotePress(note, isCtrlPressed) {
+    if (!isCtrlPressed) this.props.requestSelectNotes([note]);
+
+    if (_.includes(this.props.selectedNotes, note)) {
+      this.props.requestSelectNotes(_.without(this.props.selectedNotes, note));
+    } else {
+      this.props.requestSelectNotes(this.props.selectedNotes.concat([note]));
+    }
   },
   setContentElement(ref) {
     this.contentElement = ref;

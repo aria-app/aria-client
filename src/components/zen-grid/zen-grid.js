@@ -1,5 +1,6 @@
 import React from 'react';
 import h from 'react-hyperscript';
+import _ from 'lodash';
 import './zen-grid.scss';
 import { ZenNotes } from 'components/zen-notes/zen-notes';
 import { ZenPositionMarker } from 'components/zen-position-marker/zen-position-marker';
@@ -11,9 +12,13 @@ export const ZenGrid = React.createClass({
     notes: React.PropTypes.array,
     position: React.PropTypes.number,
     scale: React.PropTypes.array,
+    selectedNotes: React.PropTypes.array,
     synth: React.PropTypes.object,
     onNotePress: React.PropTypes.func,
     onSlotPress: React.PropTypes.func,
+  },
+  shouldComponentUpdate(nextProps) {
+    return !_.isEqual(nextProps, this.props);
   },
   render() {
     return (
@@ -27,6 +32,7 @@ export const ZenGrid = React.createClass({
           }),
           h(ZenNotes, {
             notes: this.props.notes,
+            selectedNotes: this.props.selectedNotes,
             onNotePress: this.props.onNotePress,
           }),
           h(ZenPositionMarker, {

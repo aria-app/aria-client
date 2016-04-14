@@ -1,6 +1,7 @@
 const actions = {
   ADD_NOTE: 'ADD_NOTE',
-  REMOVE_NOTE: 'REMOVE_NOTE',
+  DELETE_NOTES: 'DELETE_NOTES',
+  SELECT_NOTES: 'SELECT_NOTES',
   SET_MEASURE_COUNT: 'SET_MEASURE_COUNT',
   SET_POSITION: 'SET_POSITION',
   SET_SYNTH: 'SET_SYNTH',
@@ -15,10 +16,17 @@ export function addNote(note) {
   };
 }
 
-export function removeNote(note) {
+export function deleteNotes(notes) {
   return {
-    type: actions.REMOVE_NOTE,
-    note,
+    type: actions.DELETE_NOTES,
+    notes,
+  };
+}
+
+export function selectNotes(notes) {
+  return {
+    type: actions.SELECT_NOTES,
+    notes,
   };
 }
 

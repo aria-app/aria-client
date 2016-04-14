@@ -1,5 +1,6 @@
 import React from 'react';
 import h from 'react-hyperscript';
+import _ from 'lodash';
 import classnames from 'classnames';
 import './zen-sequence-toolbar.scss';
 import { synths } from 'helpers/zen-synths/zen-synths';
@@ -8,6 +9,9 @@ export const ZenSequenceToolbar = React.createClass({
   propTypes: {
     requestSetSynth: React.PropTypes.func,
     synth: React.PropTypes.object,
+  },
+  shouldComponentUpdate(nextProps) {
+    return !_.isEqual(nextProps, this.props);
   },
   render() {
     return (

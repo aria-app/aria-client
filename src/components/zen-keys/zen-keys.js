@@ -2,6 +2,7 @@ import React from 'react';
 import h from 'react-hyperscript';
 import './zen-keys.scss';
 import { getLetter } from 'helpers/zen-pitches/zen-pitches';
+import { getFrequency } from 'helpers/zen-scale/zen-scale';
 
 export const ZenKeys = React.createClass({
   propTypes: {
@@ -21,7 +22,7 @@ export const ZenKeys = React.createClass({
     );
   },
   handleMouseUp(note) {
-    this.props.synth.triggerAttackRelease(note.frequency, '8n');
+    this.props.synth.triggerAttackRelease(getFrequency(note), '8n');
   },
 });
 

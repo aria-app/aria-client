@@ -7,7 +7,7 @@ import { ZenSequenceContainer } from 'containers/zen-sequence-container/zen-sequ
 export const ZenApp = React.createClass({
   componentWillMount() {
     Tone.Transport.bpm.value = 120;
-    Tone.Transport.start();
+    setTimeout(() => Tone.Transport.start(), 1500);
   },
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown);
@@ -28,10 +28,6 @@ export const ZenApp = React.createClass({
       this.stop();
       e.preventDefault();
       return false;
-    } else if (e.code === 'Backspace') {
-      this.restart();
-      e.preventDefault();
-      return false;
     }
     return true;
   },
@@ -41,9 +37,6 @@ export const ZenApp = React.createClass({
     } else {
       Tone.Transport.start();
     }
-  },
-  restart() {
-    Tone.Transport.position = '0:0:0';
   },
   stop() {
     Tone.Transport.stop();

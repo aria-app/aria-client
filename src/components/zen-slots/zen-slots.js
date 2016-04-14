@@ -3,6 +3,7 @@ import h from 'react-hyperscript';
 import _ from 'lodash';
 import './zen-slots.scss';
 import { getLetter } from 'helpers/zen-pitches/zen-pitches';
+import { getFrequency } from 'helpers/zen-scale/zen-scale';
 
 export const ZenSlots = React.createClass({
   propTypes: {
@@ -18,9 +19,8 @@ export const ZenSlots = React.createClass({
     return h('.zen-slots', this.getRows());
   },
   handleSlotPress(slot, time) {
-    this.props.synth.triggerAttackRelease(slot.frequency, '32n');
+    this.props.synth.triggerAttackRelease(getFrequency(slot), '32n');
     this.props.onSlotPress({
-      frequency: slot.frequency,
       octave: slot.octave,
       pitch: slot.pitch,
       length: '32n',
