@@ -7,6 +7,7 @@ import { ZenGrid } from 'components/zen-grid/zen-grid';
 import { ZenSequenceToolbar } from 'components/zen-sequence-toolbar/zen-sequence-toolbar';
 import { ZenKeys } from 'components/zen-keys/zen-keys';
 import { getFrequency, getScale } from 'helpers/zen-scale/zen-scale';
+import { tools } from 'helpers/zen-tools/zen-tools';
 
 export const ZenSequence = React.createClass({
   propTypes: {
@@ -14,9 +15,11 @@ export const ZenSequence = React.createClass({
     notes: React.PropTypes.array,
     selectedNotes: React.PropTypes.array,
     synth: React.PropTypes.object,
+    tool: React.PropTypes.oneOf(tools),
     requestAddNote: React.PropTypes.func,
     requestDeleteNotes: React.PropTypes.func,
     requestSetSynth: React.PropTypes.func,
+    requestSetTool: React.PropTypes.func,
   },
   shouldComponentUpdate(nextProps) {
     return !_.isEqual(nextProps, this.props);
@@ -45,7 +48,9 @@ export const ZenSequence = React.createClass({
       h('.zen-sequence', [
         h(ZenSequenceToolbar, {
           requestSetSynth: this.props.requestSetSynth,
+          requestSetTool: this.props.requestSetTool,
           synth: this.props.synth,
+          tool: this.props.tool,
         }),
         h('.zen-sequence__content', {
           ref: this.setContentElement,
@@ -62,7 +67,7 @@ export const ZenSequence = React.createClass({
               position: this.props.position,
               scale: getScale(),
               synth: this.props.synth,
-              onNotePress: this.handleNotePress,
+              tool: this.props.tool,
               onNotePress: this.handleNotePress,
               onSlotPress: this.props.requestAddNote,
             }),

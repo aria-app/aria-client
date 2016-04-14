@@ -3,56 +3,49 @@ import h from 'react-hyperscript';
 import _ from 'lodash';
 import classnames from 'classnames';
 import './zen-sequence-toolbar.scss';
-import { synths } from 'helpers/zen-synths/zen-synths';
+import { getType, synths } from 'helpers/zen-synths/zen-synths';
+import { tools } from 'helpers/zen-tools/zen-tools';
 
 export const ZenSequenceToolbar = React.createClass({
   propTypes: {
     requestSetSynth: React.PropTypes.func,
+    requestSetTool: React.PropTypes.func,
     synth: React.PropTypes.object,
+    tool: React.PropTypes.oneOf(tools),
   },
   shouldComponentUpdate(nextProps) {
     return !_.isEqual(nextProps, this.props);
   },
   render() {
+    const toolButtons = tools.map(this.getToolButton);
+    const synthButtons = synths.map(this.getSynthButton);
     return (
       h('.zen-sequence-toolbar', [
-        h('.zen-sequence-toolbar__right', [
-          h('.zen-sequence-toolbar__set-synth', {
-            className: this.getClassName(synths.sawtooth),
-            onClick: () => this.props.requestSetSynth(synths.sawtooth),
-          },
-            'SAWTOOTH'
-          ),
-          h('.zen-sequence-toolbar__set-synth', {
-            className: this.getClassName(synths.sine),
-            onClick: () => this.props.requestSetSynth(synths.sine),
-          },
-            'SINE'
-          ),
-          h('.zen-sequence-toolbar__set-synth', {
-            className: this.getClassName(synths.square),
-            onClick: () => this.props.requestSetSynth(synths.square),
-          },
-            'SQUARE'
-          ),
-        ]),
+        toolButtons,
+        h('.zen-sequence-toolbar__right', synthButtons),
       ])
     );
   },
-  getClassName(synthType) {
-    return classnames({
-      'zen-sequence-toolbar__set-synth--active':
-        synthType === this.props.synth.voices[0].oscillator.type,
-
-      'zen-sequence-toolbar__set-synth--sawtooth':
-        synthType === synths.sawtooth,
-
-      'zen-sequence-toolbar__set-synth--sine':
-        synthType === synths.sine,
-
-      'zen-sequence-toolbar__set-synth--square':
-        synthType === synths.square,
-
-    });
+  getSynthButton(synth, index) {
+    const className = classnames({
+      'zen-sequence-toolbar__button--active':
+        synth === getType(this.props.synth),
+    }, `zen-sequence-toolbar__button--${synth}`);
+    return h('.zen-sequence-toolbar__button', {
+      key: index,
+      className,
+      onClick: () => this.props.requestSetSynth(synth),
+    }, synth);
+  },
+  getToolButton(tool, index) {
+    const className = classnames({
+      'zen-sequence-toolbar__button--active':
+        tool === this.props.tool,
+    }, `zen-sequence-toolbar__button--${tool}`);
+    return h('.zen-sequence-toolbar__button', {
+      key: index,
+      className,
+      onClick: () => this.props.requestSetTool(tool),
+    }, tool);
   },
 });

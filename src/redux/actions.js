@@ -5,6 +5,7 @@ const actions = {
   SET_MEASURE_COUNT: 'SET_MEASURE_COUNT',
   SET_POSITION: 'SET_POSITION',
   SET_SYNTH: 'SET_SYNTH',
+  SET_TOOL: 'SET_TOOL',
 };
 
 export default actions;
@@ -41,5 +42,12 @@ export function setSynth(synthType) {
   return {
     type: actions.SET_SYNTH,
     synthType,
+  };
+}
+
+export function setTool(tool) {
+  return {
+    type: actions.SET_TOOL,
+    tool,
   };
 }

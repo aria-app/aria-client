@@ -1,6 +1,13 @@
 import { connect } from 'react-redux';
-import { addNote, deleteNotes, selectNotes, setPosition, setSynth } from 'redux/actions';
 import { ZenSequence } from 'components/zen-sequence/zen-sequence';
+import {
+  addNote,
+  deleteNotes,
+  selectNotes,
+  setPosition,
+  setSynth,
+  setTool,
+} from 'redux/actions';
 
 export const ZenSequenceContainer = connect(
   state => ({
@@ -9,6 +16,7 @@ export const ZenSequenceContainer = connect(
     selectedNotes: state.selectedNotes,
     position: state.position,
     synth: state.synth,
+    tool: state.tool,
   }),
   dispatch => ({
     requestAddNote: note => {
@@ -25,6 +33,9 @@ export const ZenSequenceContainer = connect(
     },
     requestSetSynth: type => {
       dispatch(setSynth(type));
+    },
+    requestSetTool: tool => {
+      dispatch(setTool(tool));
     },
   })
 )(ZenSequence);

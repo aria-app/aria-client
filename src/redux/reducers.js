@@ -1,13 +1,15 @@
 import _ from 'lodash';
-import Tone from 'tone';
 import actions from './actions';
+import { createSynth, synths } from 'helpers/zen-synths/zen-synths';
+import { tools } from 'helpers/zen-tools/zen-tools';
 
 const initialState = {
   measureCount: 1,
   notes: [],
   selectedNotes: [],
   position: 0,
-  synth: getSynth('square'),
+  synth: createSynth(synths[0]),
+  tool: tools[0],
 };
 
 const initialStateWithNotes = _.assign({}, initialState, {
@@ -68,16 +70,13 @@ export function app(state = initialStateWithNotes, action) {
       });
     case actions.SET_SYNTH:
       return _.assign({}, state, {
-        synth: getSynth(action.synthType),
+        synth: createSynth(action.synthType),
+      });
+    case actions.SET_TOOL:
+      return _.assign({}, state, {
+        tool: action.tool,
       });
     default:
       return state;
   }
-}
-
-function getSynth(type) {
-  return new Tone.PolySynth(4, Tone.SimpleSynth, {
-    oscillator: { type },
-    volume: -20,
-  }).toMaster();
 }
