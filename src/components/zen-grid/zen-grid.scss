@@ -8,6 +8,7 @@
   position: relative;
   overflow-x: scroll;
   overflow-y: visible;
+  cursor: pointer;
   &__wrapper {
     display: flex;
     flex-direction: column;

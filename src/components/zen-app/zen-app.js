@@ -20,12 +20,16 @@ export const ZenApp = React.createClass({
     );
   },
   handleKeyDown(e) {
-    if (e.code === 'Space') {
+    if (e.code === 'Enter') {
       this.playPause();
       e.preventDefault();
       return false;
     } else if (e.code === 'Escape') {
       this.stop();
+      e.preventDefault();
+      return false;
+    } else if (e.code === 'Backspace') {
+      this.restart();
       e.preventDefault();
       return false;
     }
@@ -37,6 +41,9 @@ export const ZenApp = React.createClass({
     } else {
       Tone.Transport.start();
     }
+  },
+  restart() {
+    Tone.Transport.position = '0:0:0';
   },
   stop() {
     Tone.Transport.stop();

@@ -11,4 +11,5 @@ $zen-position-marker__background-color: $zen-neutral-8;
   bottom: 0;
   background-color: $zen-position-marker__background-color;
   opacity: 0.25;
+  pointer-events: none;
 }

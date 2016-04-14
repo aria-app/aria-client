@@ -49,6 +49,7 @@ $zen-slots__section__slot__background-color: $zen-neutral-2;
     flex-shrink: 0;
     width: $zen-slots__slot__size;
     height: $zen-slots__slot__size;
+    position: relative;
     &__fill {
       width: $zen-slots__slot__fill__size;
       height: $zen-slots__slot__fill__size;

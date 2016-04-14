@@ -6,6 +6,9 @@ export const ZenPositionMarker = React.createClass({
   propTypes: {
     position: React.PropTypes.number,
   },
+  shouldComponentUpdate(nextProps) {
+    return nextProps.position !== this.props.position;
+  },
   render() {
     const left = this.props.position * 40;
 
