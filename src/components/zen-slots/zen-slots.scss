@@ -5,8 +5,8 @@ $zen-slots__slot__size: 40px;
 $zen-slots__slot__fill__size: 12px;
 $zen-slots__slot__fill__background-color: $zen-neutral-3;
 $zen-slots__slot__fill__shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
-$zen-slots__section__background-color: $zen-neutral-2;
-$zen-slots__section__background-color--even: $zen-neutral-3;
+$zen-slots__row__section__background-color: $zen-neutral-2;
+$zen-slots__row__section__background-color--even: $zen-neutral-3;
 $zen-slots__section__slot__background-color: $zen-neutral-2;
 
 .zen-slots {
@@ -17,7 +17,7 @@ $zen-slots__section__slot__background-color: $zen-neutral-2;
   &__row {
     display: flex;
     flex-shrink: 0;
-    &--c .zen-slots__section:after {
+    &--c &__section:after {
       content: '';
       display: block;
       position: absolute;
@@ -28,17 +28,17 @@ $zen-slots__section__slot__background-color: $zen-neutral-2;
       height: 1px;
       background-color: $zen-slots__row--c__section__divider-color;
     }
-  }
-  &__section {
-    display: flex;
-    justify-content: space-around;
-    flex-shrink: 0;
-    position: relative;
-    background-color: $zen-slots__section__background-color;
-    &:nth-child(2n) {
-      background-color: $zen-slots__section__background-color--even;
-      .zen-slots__slot__fill {
-        background-color: $zen-slots__section__slot__background-color;
+    &__section {
+      display: flex;
+      justify-content: space-around;
+      flex-shrink: 0;
+      position: relative;
+      background-color: $zen-slots__row__section__background-color;
+      &:nth-child(2n) {
+        background-color: $zen-slots__row__section__background-color--even;
+        .zen-slots__slot__fill {
+          background-color: $zen-slots__section__slot__background-color;
+        }
       }
     }
   }

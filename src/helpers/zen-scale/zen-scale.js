@@ -2,7 +2,7 @@ import { pitches } from 'helpers/zen-pitches/zen-pitches';
 import _ from 'lodash';
 
 export function getScale() {
-  return _([0, 1, 2, 3, 4, 5])
+  return _([0, 1, 2, 3, 4, 5, 6])
     .reverse()
     .flatMap(getOctave)
     .value();

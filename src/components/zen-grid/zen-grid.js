@@ -2,12 +2,14 @@ import React from 'react';
 import h from 'react-hyperscript';
 import './zen-grid.scss';
 import { ZenNotes } from 'components/zen-notes/zen-notes';
+import { ZenPositionMarker } from 'components/zen-position-marker/zen-position-marker';
 import { ZenSlots } from 'components/zen-slots/zen-slots';
 
 export const ZenGrid = React.createClass({
   propTypes: {
     measureCount: React.PropTypes.number,
     notes: React.PropTypes.array,
+    position: React.PropTypes.number,
     scale: React.PropTypes.array,
     synth: React.PropTypes.object,
     onNotePress: React.PropTypes.func,
@@ -26,6 +28,9 @@ export const ZenGrid = React.createClass({
           h(ZenNotes, {
             notes: this.props.notes,
             onNotePress: this.props.onNotePress,
+          }),
+          h(ZenPositionMarker, {
+            position: this.props.position,
           }),
         ]),
       ])

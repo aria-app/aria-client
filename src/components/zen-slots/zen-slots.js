@@ -35,7 +35,7 @@ export const ZenSlots = React.createClass({
   },
   getSections(step) {
     return _.range(4 * this.props.measureCount).map(n =>
-      h('.zen-slots__section', this.getSlots(step, n))
+      h('.zen-slots__row__section', this.getSlots(step, n))
     );
   },
   getSlots(step, sectionNumber) {

@@ -5,6 +5,7 @@ import actions from './actions';
 const initialState = {
   measureCount: 1,
   notes: [],
+  position: 0,
   synth: getSynth('square'),
 };
 
@@ -21,6 +22,10 @@ export function app(state = initialState, action) {
     case actions.SET_MEASURE_COUNT:
       return _.assign({}, state, {
         measureCount: action.measureCount,
+      });
+    case actions.SET_POSITION:
+      return _.assign({}, state, {
+        position: action.position,
       });
     case actions.SET_SYNTH:
       return _.assign({}, state, {

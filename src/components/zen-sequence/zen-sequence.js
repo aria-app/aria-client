@@ -7,7 +7,6 @@ import { ZenGrid } from 'components/zen-grid/zen-grid';
 import { ZenSequenceToolbar } from 'components/zen-sequence-toolbar/zen-sequence-toolbar';
 import { ZenKeys } from 'components/zen-keys/zen-keys';
 import { getScale } from 'helpers/zen-scale/zen-scale';
-import { synths } from 'helpers/zen-synths/zen-synths';
 
 export const ZenSequence = React.createClass({
   propTypes: {
@@ -19,7 +18,8 @@ export const ZenSequence = React.createClass({
     requestSetSynth: React.PropTypes.func,
   },
   componentWillMount() {
-    this.loop = new Tone.Sequence((time, step) => {
+    this.sequenceLoop = new Tone.Sequence((time, step) => {
+      this.props.requestSetPosition(step);
       _.filter(this.props.notes, note => note.time === step)
         .forEach(note => {
           this.props.synth.triggerAttackRelease(
@@ -30,13 +30,21 @@ export const ZenSequence = React.createClass({
         });
     }, _.range(this.props.measureCount * 32), '32n');
 
-    this.loop.start();
+    this.sequenceLoop.start();
+  },
+  componentDidMount() {
+    this.contentElement.scrollTop = 2 * (40 * 12);
   },
   render() {
     return (
       h('.zen-sequence', [
-        h(ZenSequenceToolbar, { requestSetSynth: this.props.requestSetSynth }),
-        h('.zen-sequence__content', [
+        h(ZenSequenceToolbar, {
+          requestSetSynth: this.props.requestSetSynth,
+          synth: this.props.synth,
+        }),
+        h('.zen-sequence__content', {
+          ref: this.setContentElement,
+        }, [
           h('.zen-sequence__wrapper', [
             h(ZenKeys, {
               scale: getScale(),
@@ -45,6 +53,7 @@ export const ZenSequence = React.createClass({
             h(ZenGrid, {
               measureCount: this.props.measureCount,
               notes: this.props.notes,
+              position: this.props.position,
               scale: getScale(),
               synth: this.props.synth,
               onNotePress: this.props.requestRemoveNote,
@@ -54,5 +63,8 @@ export const ZenSequence = React.createClass({
         ]),
       ])
     );
+  },
+  setContentElement(ref) {
+    this.contentElement = ref;
   },
 });
