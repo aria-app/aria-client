@@ -1,44 +1,48 @@
-import React from 'react';
 import h from 'react-hyperscript';
 import Tone from 'tone';
+import _ from 'lodash';
+import { compose, lifecycle, setDisplayName } from 'recompose';
+import {
+  ZenSequenceContainer,
+} from '../../containers/zen-sequence-container/zen-sequence-container';
 import './zen-app.scss';
-import { ZenSequenceContainer } from 'containers/zen-sequence-container/zen-sequence-container';
 
-export const ZenApp = React.createClass({
-  componentWillMount() {
-    Tone.Transport.bpm.value = 120;
-    setTimeout(() => Tone.Transport.start(), 1500);
-  },
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyDown);
-  },
-  render() {
-    return (
-      h('.zen-app', [
-        h(ZenSequenceContainer),
-      ])
-    );
-  },
-  handleKeyDown(e) {
-    if (e.code === 'Enter') {
-      this.playPause();
-      e.preventDefault();
-      return false;
-    } else if (e.code === 'Escape') {
-      this.stop();
-      e.preventDefault();
-      return false;
-    }
-    return true;
-  },
-  playPause() {
-    if (Tone.Transport.state === 'started') {
-      Tone.Transport.pause();
-    } else {
-      Tone.Transport.start();
-    }
-  },
-  stop() {
-    Tone.Transport.stop();
-  },
-});
+const component = () =>
+  h('.zen-app', [
+    h(ZenSequenceContainer),
+  ]);
+
+export const ZenApp = compose([
+  lifecycle(startup),
+  setDisplayName('ZenApp'),
+])(component);
+
+function startup() {
+  Tone.Transport.bpm.value = 120;
+  document.addEventListener('keydown', e => handleDocumentKeydown(e));
+}
+
+function handleDocumentKeydown(e) {
+  if (_.includes(['Enter', 'Space'], e.code)) {
+    playPause();
+    e.preventDefault();
+    return false;
+  } else if (e.code === 'Escape') {
+    stop();
+    e.preventDefault();
+    return false;
+  }
+  return true;
+}
+
+function playPause() {
+  if (Tone.Transport.state === 'started') {
+    Tone.Transport.pause();
+  } else {
+    Tone.Transport.start();
+  }
+}
+
+function stop() {
+  Tone.Transport.stop();
+}

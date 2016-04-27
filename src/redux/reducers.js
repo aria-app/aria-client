@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import actions from './actions';
-import { createSynth, synths } from 'helpers/zen-synths/zen-synths';
-import { tools } from 'helpers/zen-tools/zen-tools';
+import { createSynth, synths } from '../helpers/zen-synths/zen-synths';
+import { tools } from '../helpers/zen-tools/zen-tools';
 
 const initialState = {
   measureCount: 1,
@@ -47,14 +47,14 @@ const initialStateWithNotes = _.assign({}, initialState, {
 
 export function app(state = initialStateWithNotes, action) {
   switch (action.type) {
-    case actions.ADD_NOTE:
-      return _.assign({}, state, {
-        notes: state.notes.concat(action.note),
-      });
     case actions.DELETE_NOTES:
       return _.assign({}, state, {
         notes: _.difference(state.notes, action.notes),
         selectedNotes: [],
+      });
+    case actions.DRAW_NOTE:
+      return _.assign({}, state, {
+        notes: state.notes.concat(action.note),
       });
     case actions.SELECT_NOTES:
       return _.assign({}, state, {

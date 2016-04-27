@@ -1,19 +1,17 @@
-import React from 'react';
+import { PropTypes } from 'react';
 import h from 'react-hyperscript';
+import { compose, mapProps, pure, setPropTypes } from 'recompose';
 import './zen-position-marker.scss';
 
-export const ZenPositionMarker = React.createClass({
-  propTypes: {
-    position: React.PropTypes.number,
-  },
-  shouldComponentUpdate(nextProps) {
-    return nextProps.position !== this.props.position;
-  },
-  render() {
-    const left = this.props.position * 40;
+const component = ({ left }) =>
+  h('.zen-position-marker', { style: { left } });
 
-    return h('.zen-position-marker', {
-      style: { left },
-    });
-  },
-});
+export const ZenPositionMarker = compose([
+  setPropTypes({
+    position: PropTypes.number,
+  }),
+  mapProps(({ position }) => ({
+    left: position * 40,
+  })),
+  pure,
+])(component);

@@ -7,8 +7,6 @@ export const synths = [
   'square',
 ];
 
-
-
 export function createSynth(type) {
   return new Tone.PolySynth(4, Tone.SimpleSynth, {
     oscillator: { type },
@@ -17,6 +15,5 @@ export function createSynth(type) {
 }
 
 export function getType(synth) {
-  console.log(synth);
   return synth.voices[0].oscillator.type;
 }

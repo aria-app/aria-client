@@ -1,4 +1,4 @@
-import { pitches } from 'helpers/zen-pitches/zen-pitches';
+import { pitches } from '../zen-pitches/zen-pitches';
 import _ from 'lodash';
 
 export function getScale() {

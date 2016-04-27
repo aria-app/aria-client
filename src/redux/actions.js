@@ -1,6 +1,8 @@
 const actions = {
-  ADD_NOTE: 'ADD_NOTE',
   DELETE_NOTES: 'DELETE_NOTES',
+  DRAW_NOTE: 'DRAW_NOTE',
+  ERASE_NOTE: 'ERASE_NOTE',
+  MOVE_NOTES: 'MOVE_NOTES',
   SELECT_NOTES: 'SELECT_NOTES',
   SET_MEASURE_COUNT: 'SET_MEASURE_COUNT',
   SET_POSITION: 'SET_POSITION',
@@ -10,16 +12,30 @@ const actions = {
 
 export default actions;
 
-export function addNote(note) {
+export function deleteNotes(notes) {
   return {
-    type: actions.ADD_NOTE,
+    type: actions.DELETE_NOTES,
+    notes,
+  };
+}
+
+export function drawNote(note) {
+  return {
+    type: actions.DRAW_NOTE,
     note,
   };
 }
 
-export function deleteNotes(notes) {
+export function eraseNote(note) {
   return {
-    type: actions.DELETE_NOTES,
+    type: actions.ERASE_NOTE,
+    note,
+  };
+}
+
+export function moveNotes(notes) {
+  return {
+    type: actions.MOVE_NOTES,
     notes,
   };
 }

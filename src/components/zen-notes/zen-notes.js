@@ -1,33 +1,31 @@
-import React, { PropTypes } from 'react';
+import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
+import { compose, setPropTypes, shouldUpdate } from 'recompose';
+import { ZenNote } from '../zen-note/zen-note';
 import './zen-notes.scss';
-import { ZenNote } from 'components/zen-note/zen-note';
 
-export const ZenNotes = React.createClass({
-  propTypes: {
+const component = ({
+  notes,
+  onNotePress,
+  selectedNotes,
+}) => h('.zen-notes', notes.map((note, index) =>
+  h(ZenNote, {
+    key: index,
+    isSelected: _.includes(selectedNotes, note),
+    note,
+    onPress: onNotePress,
+  })
+));
+
+export const ZenNotes = compose([
+  setPropTypes({
     notes: PropTypes.array,
     selectedNotes: PropTypes.array,
     onNotePress: PropTypes.func,
-  },
-  shouldComponentUpdate(nextProps) {
-    return !_.isEqual(nextProps.notes, this.props.notes)
-      || !_.isEqual(nextProps.selectedNotes, this.props.selectedNotes);
-  },
-  render() {
-    return (
-      h('div.zen-notes', this.props.notes.map((note, index) =>
-        h(ZenNote, {
-          key: index,
-          isSelected: this.isSelected(note),
-          note,
-          onPress: this.props.onNotePress,
-        })
-      ))
-
-    );
-  },
-  isSelected(note) {
-    return _.includes(this.props.selectedNotes, note);
-  },
-});
+  }),
+  shouldUpdate((props, nextProps) =>
+    !_.isEqual(nextProps.notes, props.notes)
+      || !_.isEqual(nextProps.selectedNotes, props.selectedNotes)
+  ),
+])(component);

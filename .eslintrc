@@ -1,8 +1,12 @@
 {
-  "extends": "airbnb/base",
-  "globals": {
-    "React": true
+  "extends": "airbnb-base",
+
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
   },
+
   "rules": {
     "new-cap": 0,
     "no-use-before-define": ["error", { "functions": false, "classes": true }]

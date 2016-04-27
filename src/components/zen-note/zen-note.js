@@ -1,37 +1,43 @@
-import React from 'react';
+import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
-import _ from 'lodash';
+import { compose, mapProps, setPropTypes, pure, withHandlers } from 'recompose';
 import './zen-note.scss';
 
-export const ZenNote = React.createClass({
-  propTypes: {
-    note: React.PropTypes.object,
-    isSelected: React.PropTypes.bool,
-    onPress: React.PropTypes.func,
-  },
-  shouldComponentUpdate(nextProps) {
-    return !_.isEqual(nextProps.note, this.props.note)
-      || nextProps.isSelected !== this.props.isSelected;
-  },
-  render() {
-    const bottom = ((this.props.note.octave * 12) + this.props.note.pitch) * 40;
-    const left = this.props.note.time * 40;
-    const className = classnames({
-      'zen-note--active': this.props.isSelected,
-    });
+const component = ({
+  bottom,
+  className,
+  left,
+  handlePress,
+}) => h('.zen-note', {
+  className,
+  style: { bottom, left },
+}, [
+  h('.zen-note__point', {
+    onClick: handlePress,
+  }, [
+    h('.zen-note__point__fill'),
+  ]),
+]);
 
-    return (
-      h('.zen-note', {
-        style: { bottom, left },
-        className,
-      }, [
-        h('.zen-note__point', {
-          onClick: (e) => this.props.onPress(this.props.note, e.metaKey || e.ctrlKey),
-        }, [
-          h('.zen-note__point__fill'),
-        ]),
-      ])
-    );
-  },
-});
+export const ZenNote = compose([
+  withHandlers({
+    handlePress: ({ onPress, note }) => e => {
+      onPress(note, e.metaKey || e.ctrlKey);
+    },
+  }),
+  mapProps(({ isSelected, note, ...rest }) => ({
+    bottom: ((note.octave * 12) + note.pitch) * 40,
+    left: note.time * 40,
+    className: classnames({
+      'zen-note--active': isSelected,
+    }),
+    ...rest,
+  })),
+  setPropTypes({
+    note: PropTypes.object,
+    isSelected: PropTypes.bool,
+    onPress: PropTypes.func,
+  }),
+  pure,
+])(component);

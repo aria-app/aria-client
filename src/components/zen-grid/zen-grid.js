@@ -1,45 +1,49 @@
-import React from 'react';
+import { PropTypes } from 'react';
 import h from 'react-hyperscript';
-import _ from 'lodash';
+import { compose, pure, setPropTypes } from 'recompose';
+import { ZenNotes } from '../zen-notes/zen-notes';
+import { ZenPositionMarker } from '../zen-position-marker/zen-position-marker';
+import { ZenSlots } from '../zen-slots/zen-slots';
 import './zen-grid.scss';
-import { ZenNotes } from 'components/zen-notes/zen-notes';
-import { ZenPositionMarker } from 'components/zen-position-marker/zen-position-marker';
-import { ZenSlots } from 'components/zen-slots/zen-slots';
 
-export const ZenGrid = React.createClass({
-  propTypes: {
-    measureCount: React.PropTypes.number,
-    notes: React.PropTypes.array,
-    position: React.PropTypes.number,
-    scale: React.PropTypes.array,
-    selectedNotes: React.PropTypes.array,
-    synth: React.PropTypes.object,
-    onNotePress: React.PropTypes.func,
-    onSlotPress: React.PropTypes.func,
-  },
-  shouldComponentUpdate(nextProps) {
-    return !_.isEqual(nextProps, this.props);
-  },
-  render() {
-    return (
-      h('.zen-grid', [
-        h('.zen-grid__wrapper', [
-          h(ZenSlots, {
-            measureCount: this.props.measureCount,
-            scale: this.props.scale,
-            synth: this.props.synth,
-            onSlotPress: this.props.onSlotPress,
-          }),
-          h(ZenNotes, {
-            notes: this.props.notes,
-            selectedNotes: this.props.selectedNotes,
-            onNotePress: this.props.onNotePress,
-          }),
-          h(ZenPositionMarker, {
-            position: this.props.position,
-          }),
-        ]),
-      ])
-    );
-  },
-});
+const component = ({
+  measureCount,
+  onNotePress,
+  onSlotPress,
+  notes,
+  position,
+  scale,
+  selectedNotes,
+  synth,
+}) => h('.zen-grid', [
+  h('.zen-grid__wrapper', [
+    h(ZenSlots, {
+      measureCount,
+      scale,
+      synth,
+      onSlotPress,
+    }),
+    h(ZenNotes, {
+      notes,
+      selectedNotes,
+      onNotePress,
+    }),
+    h(ZenPositionMarker, {
+      position,
+    }),
+  ]),
+]);
+
+export const ZenGrid = compose([
+  setPropTypes({
+    measureCount: PropTypes.number,
+    notes: PropTypes.array,
+    position: PropTypes.number,
+    scale: PropTypes.array,
+    selectedNotes: PropTypes.array,
+    synth: PropTypes.object,
+    onNotePress: PropTypes.func,
+    onSlotPress: PropTypes.func,
+  }),
+  pure,
+])(component);
