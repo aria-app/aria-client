@@ -1,6 +1,6 @@
 import h from 'react-hyperscript';
 import Tone from 'tone';
-import _ from 'lodash';
+import Mousetrap from 'mousetrap';
 import { compose, lifecycle } from 'recompose';
 import {
   ZenSequenceContainer,
@@ -18,20 +18,8 @@ export const ZenApp = compose([
 
 function startup() {
   Tone.Transport.bpm.value = 120;
-  document.addEventListener('keydown', e => handleDocumentKeydown(e));
-}
-
-function handleDocumentKeydown(e) {
-  if (_.includes(['Enter', 'Space'], e.code)) {
-    playPause();
-    e.preventDefault();
-    return false;
-  } else if (e.code === 'Escape') {
-    stop();
-    e.preventDefault();
-    return false;
-  }
-  return true;
+  Mousetrap.bind(['enter', 'space'], playPause);
+  Mousetrap.bind('escape', stop);
 }
 
 function playPause() {

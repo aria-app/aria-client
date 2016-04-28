@@ -1,12 +1,7 @@
 import { pitches } from '../zen-pitches/zen-pitches';
 import _ from 'lodash';
 
-export function getScale() {
-  return _([0, 1, 2, 3, 4, 5, 6])
-    .reverse()
-    .flatMap(getOctave)
-    .value();
-}
+export const scale = getScale();
 
 export function getFrequency(note) {
   return {
@@ -40,4 +35,11 @@ function getOctave(octave) {
     { pitch: pitches.CSHARP, octave },
     { pitch: pitches.C, octave },
   ];
+}
+
+function getScale() {
+  return _([0, 1, 2, 3, 4, 5, 6])
+    .reverse()
+    .flatMap(getOctave)
+    .value();
 }

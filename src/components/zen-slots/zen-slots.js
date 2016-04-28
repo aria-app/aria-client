@@ -2,8 +2,8 @@ import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
 import { compose, mapProps, onlyUpdateForKeys, setPropTypes, withHandlers } from 'recompose';
+import { getFrequency, scale } from '../../helpers/zen-scale/zen-scale';
 import { getLetter } from '../../helpers/zen-pitches/zen-pitches';
-import { getFrequency } from '../../helpers/zen-scale/zen-scale';
 import './zen-slots.scss';
 
 const component = ({ rows }) =>
@@ -12,7 +12,6 @@ const component = ({ rows }) =>
 export const ZenSlots = compose([
   setPropTypes({
     measureCount: PropTypes.number,
-    scale: PropTypes.array,
     synth: PropTypes.object,
     onSlotPress: PropTypes.func,
   }),
@@ -30,7 +29,6 @@ export const ZenSlots = compose([
   mapProps(({
     handleSlotPress,
     measureCount,
-    scale,
     }) => ({
       rows: scale.map(step => h('.zen-slots__row', {
         className: `zen-slots__row--${getLetter(step.pitch)}`,
