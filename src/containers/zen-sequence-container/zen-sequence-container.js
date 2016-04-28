@@ -9,16 +9,19 @@ import {
   setTool,
 } from '../../redux/actions';
 
-export const ZenSequenceContainer = connect(
-  state => ({
+function mapStateToProps(state) {
+  return {
     measureCount: state.measureCount,
     notes: state.notes,
     selectedNotes: state.selectedNotes,
     position: state.position,
     synth: state.synth,
     tool: state.tool,
-  }),
-  dispatch => ({
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
     requestDeleteNotes: notes => {
       dispatch(deleteNotes(notes));
     },
@@ -37,5 +40,10 @@ export const ZenSequenceContainer = connect(
     requestSetTool: tool => {
       dispatch(setTool(tool));
     },
-  })
+  };
+}
+
+export const ZenSequenceContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(ZenSequence);

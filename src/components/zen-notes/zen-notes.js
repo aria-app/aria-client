@@ -1,7 +1,7 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
-import { compose, setPropTypes, shouldUpdate } from 'recompose';
+import { compose, setPropTypes, onlyUpdateForKeys } from 'recompose';
 import { ZenNote } from '../zen-note/zen-note';
 import './zen-notes.scss';
 
@@ -24,8 +24,5 @@ export const ZenNotes = compose([
     selectedNotes: PropTypes.array,
     onNotePress: PropTypes.func,
   }),
-  shouldUpdate((props, nextProps) =>
-    !_.isEqual(nextProps.notes, props.notes)
-      || !_.isEqual(nextProps.selectedNotes, props.selectedNotes)
-  ),
+  onlyUpdateForKeys(['notes', 'selectedNotes']),
 ])(component);

@@ -21,6 +21,11 @@ const component = ({
 ]);
 
 export const ZenNote = compose([
+  setPropTypes({
+    note: PropTypes.object,
+    isSelected: PropTypes.bool,
+    onPress: PropTypes.func,
+  }),
   withHandlers({
     handlePress: ({ onPress, note }) => e => {
       onPress(note, e.metaKey || e.ctrlKey);
@@ -34,10 +39,5 @@ export const ZenNote = compose([
     }),
     ...rest,
   })),
-  setPropTypes({
-    note: PropTypes.object,
-    isSelected: PropTypes.bool,
-    onPress: PropTypes.func,
-  }),
   pure,
 ])(component);

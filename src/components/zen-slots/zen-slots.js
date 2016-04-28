@@ -1,7 +1,7 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
-import { compose, mapProps, setPropTypes, shouldUpdate, withHandlers } from 'recompose';
+import { compose, mapProps, onlyUpdateForKeys, setPropTypes, withHandlers } from 'recompose';
 import { getLetter } from '../../helpers/zen-pitches/zen-pitches';
 import { getFrequency } from '../../helpers/zen-scale/zen-scale';
 import './zen-slots.scss';
@@ -43,7 +43,5 @@ export const ZenSlots = compose([
       ))),
     })
   ),
-  shouldUpdate((props, nextProps) =>
-    nextProps.measureCount !== props.measureCount
-  ),
+  onlyUpdateForKeys(['measureCount']),
 ])(component);

@@ -11,8 +11,10 @@ const component = ({
   toolButtons,
 }) =>
   h('.zen-sequence-toolbar', [
-    toolButtons,
-    h('.zen-sequence-toolbar__right', synthButtons),
+    ...toolButtons,
+    h('.zen-sequence-toolbar__right', [
+      ...synthButtons,
+    ]),
   ]);
 
 const button = ({

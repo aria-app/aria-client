@@ -8,7 +8,7 @@ const initialState = {
   notes: [],
   selectedNotes: [],
   position: 0,
-  synth: createSynth(synths[0]),
+  synth: createSynth(synths[1]),
   tool: tools[0],
 };
 

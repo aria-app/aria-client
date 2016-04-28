@@ -1,6 +1,6 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
-import { compose, mapProps, setPropTypes, withHandlers } from 'recompose';
+import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
 import { getLetter } from '../../helpers/zen-pitches/zen-pitches';
 import { getFrequency } from '../../helpers/zen-scale/zen-scale';
 import './zen-keys.scss';
@@ -19,6 +19,9 @@ const key = ({ note, playNote }) =>
   ]);
 
 export const ZenKeys = compose([
+  setPropTypes({
+    scale: PropTypes.array,
+  }),
   withHandlers({
     playNote: ({ synth }) => note => synth.triggerAttackRelease(
       getFrequency(note),
@@ -29,9 +32,7 @@ export const ZenKeys = compose([
     keys: scale.map(note => key({ note, playNote })),
     ...rest,
   })),
-  setPropTypes({
-    scale: PropTypes.array,
-  }),
+  pure,
 ])(component);
 
 function getLabel(note) {

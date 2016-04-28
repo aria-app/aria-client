@@ -1,7 +1,7 @@
 import h from 'react-hyperscript';
 import Tone from 'tone';
 import _ from 'lodash';
-import { compose, lifecycle, setDisplayName } from 'recompose';
+import { compose, lifecycle } from 'recompose';
 import {
   ZenSequenceContainer,
 } from '../../containers/zen-sequence-container/zen-sequence-container';
@@ -14,7 +14,6 @@ const component = () =>
 
 export const ZenApp = compose([
   lifecycle(startup),
-  setDisplayName('ZenApp'),
 ])(component);
 
 function startup() {
