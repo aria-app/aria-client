@@ -1,12 +1,13 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
+import Mousetrap from 'mousetrap';
 import Tone from 'tone';
 import { compose, pure, setPropTypes, withHandlers } from 'recompose';
 import { ZenGrid } from '../zen-grid/zen-grid';
 import { ZenSequenceToolbar } from '../zen-sequence-toolbar/zen-sequence-toolbar';
 import { ZenKeys } from '../zen-keys/zen-keys';
-import { getFrequency } from '../../helpers/zen-scale/zen-scale';
+import { getFrequency, scale } from '../../helpers/zen-scale/zen-scale';
 import { tools } from '../../helpers/zen-tools/zen-tools';
 import './zen-sequence.scss';
 
@@ -36,13 +37,6 @@ const component = ({
         synth,
       }),
       h(ZenGrid, {
-        measureCount,
-        notes,
-        selectedNotes,
-        position,
-        synth,
-        tool,
-        onNotePress,
         onSlotPress: requestDrawNote,
       }),
     ]),
@@ -61,22 +55,28 @@ const composed = compose([
     requestSetSynth: React.PropTypes.func,
     requestSetTool: React.PropTypes.func,
   }),
+  withHandlers({
+    onNotePress: ({
+      requestSelectNotes,
+      selectedNotes,
+    }) => (note, isCtrlPressed) => {
+      if (!isCtrlPressed) requestSelectNotes([note]);
+
+      if (_.includes(selectedNotes, note)) {
+        requestSelectNotes(_.without(selectedNotes, note));
+      } else {
+        requestSelectNotes(selectedNotes.concat([note]));
+      }
+    },
+  }),
   pure,
 ])(component);
 
 export const ZenSequence = React.createClass({
   componentWillMount() {
-    const {
-      measureCount,
-      notes,
-      requestDeleteNotes,
-      requestSetPosition,
-      selectedNotes,
-    } = this.props;
-    const sequence = new Tone.Sequence((time, step) => {
-      console.log('sequence');
-      requestSetPosition(step);
-      _.filter(notes, note => note.time === step)
+    new Tone.Sequence((time, step) => {
+      this.props.requestSetPosition(step);
+      _.filter(this.props.notes, note => note.time === step)
         .forEach(note => {
           this.props.synth.triggerAttackRelease(
             getFrequency(note),
@@ -84,30 +84,16 @@ export const ZenSequence = React.createClass({
             time
           );
         });
-    }, _.range(measureCount * 32), '32n');
+    }, _.range(this.props.measureCount * 32), '32n').start();
 
-    console.log('sequencestart');
-    sequence.start();
-
-    document.addEventListener('keyup', handleKeyUp({
-      requestDeleteNotes,
-      selectedNotes,
-    }));
+    Mousetrap.bind('backspace', this.deleteNotes);
   },
   render() {
     return h(composed, {
       ...this.props,
     });
   },
+  deleteNotes() {
+    this.props.requestDeleteNotes(this.props.selectedNotes);
+  },
 });
-
-function handleKeyUp({ requestDeleteNotes, selectedNotes }) {
-  return e => {
-    if (e.code === 'Backspace') {
-      requestDeleteNotes(selectedNotes);
-      e.preventDefault();
-      return false;
-    }
-    return true;
-  };
-}

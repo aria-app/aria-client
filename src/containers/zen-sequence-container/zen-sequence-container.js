@@ -9,6 +9,7 @@ import {
 
 function mapStateToProps(state) {
   return {
+    measureCount: state.measureCount,
     notes: state.notes,
     selectedNotes: state.selectedNotes,
     synth: state.synth,
