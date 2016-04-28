@@ -6,7 +6,7 @@ import { compose, pure, setPropTypes, withHandlers } from 'recompose';
 import { ZenGrid } from '../zen-grid/zen-grid';
 import { ZenSequenceToolbar } from '../zen-sequence-toolbar/zen-sequence-toolbar';
 import { ZenKeys } from '../zen-keys/zen-keys';
-import { getFrequency, getScale } from '../../helpers/zen-scale/zen-scale';
+import { getFrequency } from '../../helpers/zen-scale/zen-scale';
 import { tools } from '../../helpers/zen-tools/zen-tools';
 import './zen-sequence.scss';
 
@@ -33,7 +33,6 @@ const component = ({
   }, [
     h('.zen-sequence__wrapper', [
       h(ZenKeys, {
-        scale: getScale(),
         synth,
       }),
       h(ZenGrid, {
@@ -41,7 +40,6 @@ const component = ({
         notes,
         selectedNotes,
         position,
-        scale: getScale(),
         synth,
         tool,
         onNotePress,
@@ -63,20 +61,6 @@ const composed = compose([
     requestSetSynth: React.PropTypes.func,
     requestSetTool: React.PropTypes.func,
   }),
-  withHandlers({
-    onNotePress: ({
-      requestSelectNotes,
-      selectedNotes,
-    }) => (note, isCtrlPressed) => {
-      if (!isCtrlPressed) requestSelectNotes([note]);
-
-      if (_.includes(selectedNotes, note)) {
-        requestSelectNotes(_.without(selectedNotes, note));
-      } else {
-        requestSelectNotes(selectedNotes.concat([note]));
-      }
-    },
-  }),
   pure,
 ])(component);
 
@@ -89,7 +73,8 @@ export const ZenSequence = React.createClass({
       requestSetPosition,
       selectedNotes,
     } = this.props;
-    new Tone.Sequence((time, step) => {
+    const sequence = new Tone.Sequence((time, step) => {
+      console.log('sequence');
       requestSetPosition(step);
       _.filter(notes, note => note.time === step)
         .forEach(note => {
@@ -99,7 +84,10 @@ export const ZenSequence = React.createClass({
             time
           );
         });
-    }, _.range(measureCount * 32), '32n').start();
+    }, _.range(measureCount * 32), '32n');
+
+    console.log('sequencestart');
+    sequence.start();
 
     document.addEventListener('keyup', handleKeyUp({
       requestDeleteNotes,

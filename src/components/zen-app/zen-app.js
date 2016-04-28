@@ -36,8 +36,10 @@ function handleDocumentKeydown(e) {
 
 function playPause() {
   if (Tone.Transport.state === 'started') {
+    console.log('pause');
     Tone.Transport.pause();
   } else {
+    console.log('start');
     Tone.Transport.start();
   }
 }

@@ -2,8 +2,6 @@ import { connect } from 'react-redux';
 import { ZenSequence } from '../../components/zen-sequence/zen-sequence';
 import {
   deleteNotes,
-  drawNote,
-  selectNotes,
   setPosition,
   setSynth,
   setTool,
@@ -11,10 +9,8 @@ import {
 
 function mapStateToProps(state) {
   return {
-    measureCount: state.measureCount,
     notes: state.notes,
     selectedNotes: state.selectedNotes,
-    position: state.position,
     synth: state.synth,
     tool: state.tool,
   };
@@ -22,14 +18,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    requestDeleteNotes: notes => {
-      dispatch(deleteNotes(notes));
-    },
-    requestDrawNote: note => {
-      dispatch(drawNote(note));
-    },
-    requestSelectNotes: notes => {
-      dispatch(selectNotes(notes));
+    requestDeleteNotes: note => {
+      dispatch(deleteNotes(note));
     },
     requestSetPosition: position => {
       dispatch(setPosition(position));
