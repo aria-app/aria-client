@@ -37,6 +37,9 @@ module.exports = {
     return [autoprefixer];
   },
   resolve: {
-    root: path.join(__dirname, 'src'),
+    modulesDirectories: [
+      'node_modules',
+      'src',
+    ],
   },
 };

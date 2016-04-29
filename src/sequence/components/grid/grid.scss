@@ -1,0 +1,18 @@
+@import '../../../styles/palette';
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  position: relative;
+  overflow-x: scroll;
+  overflow-y: visible;
+  cursor: pointer;
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+}

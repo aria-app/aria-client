@@ -1,0 +1,15 @@
+@import '../../../styles/palette';
+
+$position-marker__background-color: $neutral-8;
+
+.position-marker {
+  display: block;
+  width: 40px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: $position-marker__background-color;
+  opacity: 0.25;
+  pointer-events: none;
+}

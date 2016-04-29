@@ -1,0 +1,61 @@
+@import '../../../styles/palette';
+
+$slots__row--c__section__divider-color: $neutral-4;
+$slots__slot__size: 40px;
+$slots__slot__fill__size: 12px;
+$slots__slot__fill__background-color: $neutral-3;
+$slots__slot__fill__shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+$slots__row__section__background-color: $neutral-2;
+$slots__row__section__background-color--even: $neutral-3;
+$slots__section__slot__background-color: $neutral-2;
+
+.slots {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  &__row {
+    display: flex;
+    flex-shrink: 0;
+    &--c &__section:after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 0px;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 1px;
+      background-color: $slots__row--c__section__divider-color;
+    }
+    &__section {
+      display: flex;
+      justify-content: space-around;
+      flex-shrink: 0;
+      position: relative;
+      background-color: $slots__row__section__background-color;
+      &:nth-child(2n) {
+        background-color: $slots__row__section__background-color--even;
+        .slots__slot__fill {
+          background-color: $slots__section__slot__background-color;
+        }
+      }
+    }
+  }
+  &__slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: $slots__slot__size;
+    height: $slots__slot__size;
+    position: relative;
+    &__fill {
+      width: $slots__slot__fill__size;
+      height: $slots__slot__fill__size;
+      background-color: $slots__slot__fill__background-color;
+      border-radius: 20%;
+      box-shadow: $slots__slot__fill__shadow;
+    }
+  }
+}
