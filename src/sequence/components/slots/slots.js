@@ -19,7 +19,7 @@ const composed = compose([
   }),
   withHandlers({
     handleSlotPress: ({ requestDrawNote }) => (slot, time) => {
-      playNote(slot.frequency, '32n');
+      playNote(slot.frequency);
       requestDrawNote({
         octave: slot.octave,
         pitch: slot.pitch,

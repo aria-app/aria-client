@@ -17,7 +17,7 @@ export const App = compose([
 ])(component);
 
 function startup() {
-  Tone.Transport.bpm.value = 120;
+  Tone.Transport.bpm.value = 90;
   Mousetrap.bind(['enter', 'space'], playPause);
   Mousetrap.bind('escape', stop);
 }

@@ -8,11 +8,11 @@ import reducer from './reducer';
 import './styles/resets.scss';
 
 const { App } = app.components;
-const { updateState } = sound.model;
+const { initializeState, updateState } = sound.model;
 
 const store = createStore(reducer);
 
-updateState(store.getState());
+initializeState(store.getState(), store.dispatch);
 
 store.subscribe(() => updateState(store.getState()));
 
