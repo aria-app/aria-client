@@ -8,8 +8,14 @@ import { compose, pure, setDisplayName, setPropTypes, withHandlers } from 'recom
 import sound from 'sound';
 import { Grid } from '../grid/grid';
 import { Keys } from '../keys/keys';
-import { deleteNotes, setPosition, setSynth, setTool } from '../../actions';
-import { toolTypes } from '../../constants';
+import { deleteNotes, drawNote, setPosition, setSynth, setTool } from '../../actions';
+import {
+  getMeasureCount,
+  getNotes,
+  getSelectedNotes,
+  getSynth,
+  getTool,
+} from '../../selectors';
 import { SequenceToolbar } from '../sequence-toolbar/sequence-toolbar';
 import './sequence.scss';
 
@@ -72,7 +78,7 @@ const composed = compose([
   pure,
 ])(component);
 
-const seq = React.createClass({
+const classified = React.createClass({
   componentWillMount() {
     new Tone.Sequence((time, step) => {
       this.props.requestSetPosition(step);
@@ -100,19 +106,22 @@ const seq = React.createClass({
 
 function mapStateToProps(state) {
   return {
-    measureCount: state.sequence.measureCount,
-    notes: state.sequence.notes,
-    selectedNotes: state.sequence.selectedNotes,
-    synth: state.sequence.synth,
-    tool: state.sequence.tool,
+    measureCount: getMeasureCount(state),
+    notes: getNotes(state),
+    selectedNotes: getSelectedNotes(state),
+    synth: getSynth(state),
+    tool: getTool(state),
   };
 }
 
 export const Sequence = connect(
   mapStateToProps,
   (dispatch) => ({
-    requestDeleteNotes: note => {
-      dispatch(deleteNotes(note));
+    requestDeleteNotes: notes => {
+      dispatch(deleteNotes(notes));
+    },
+    requestDrawNote: note => {
+      dispatch(drawNote(note));
     },
     requestSetPosition: position => {
       dispatch(setPosition(position));
@@ -124,4 +133,4 @@ export const Sequence = connect(
       dispatch(setTool(tool));
     },
   })
-)(seq);
+)(classified);

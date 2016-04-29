@@ -4,6 +4,7 @@ import h from 'react-hyperscript';
 import _ from 'lodash';
 import { compose, pure, setPropTypes, withHandlers } from 'recompose';
 import { selectNotes } from '../../actions';
+import { getNotes, getSelectedNotes } from '../../selectors';
 import { Note } from '../note/note';
 import './notes.scss';
 
@@ -20,7 +21,7 @@ const component = ({
   })
 ));
 
-const notesComponent = compose([
+const composed = compose([
   setPropTypes({
     notes: PropTypes.array,
     requestSelectNotes: PropTypes.func,
@@ -46,8 +47,8 @@ const notesComponent = compose([
 
 function mapStateToProps(state) {
   return {
-    notes: state.sequence.notes,
-    selectedNotes: state.sequence.selectedNotes,
+    notes: getNotes(state),
+    selectedNotes: getSelectedNotes(state),
   };
 }
 
@@ -62,4 +63,4 @@ function mapDispatchToProps(dispatch) {
 export const Notes = connect(
   mapStateToProps,
   mapDispatchToProps
-)(notesComponent);
+)(composed);

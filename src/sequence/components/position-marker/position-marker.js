@@ -1,12 +1,13 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setPropTypes } from 'recompose';
+import { getPosition } from '../../selectors';
 import './position-marker.scss';
 
 const component = ({ left }) =>
   h('.position-marker', { style: { left } });
 
-const positionMarker = compose([
+const composed = compose([
   setPropTypes({
     position: PropTypes.number,
   }),
@@ -20,7 +21,7 @@ import { connect } from 'react-redux';
 
 function mapStateToProps(state) {
   return {
-    position: state.sequence.position,
+    position: getPosition(state),
   };
 }
 
@@ -31,4 +32,4 @@ function mapDispatchToProps() {
 export const PositionMarker = connect(
   mapStateToProps,
   mapDispatchToProps
-)(positionMarker);
+)(composed);
