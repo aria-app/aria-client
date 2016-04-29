@@ -1,0 +1,29 @@
+@import '../../../../styles/palette';
+
+.sequence {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 1;
+  flex-grow: 1;
+  overflow: hidden;
+  .toolbar {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    background-color: red;
+    height: 56px;
+  }
+  &__content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+  &__wrapper {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+}

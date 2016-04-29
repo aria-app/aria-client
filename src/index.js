@@ -1,16 +1,18 @@
 import { createElement } from 'react';
 import { render } from 'react-dom';
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
-import app from 'app';
-import sound from 'sound';
+import thunkMiddleware from 'redux-thunk';
+import app from 'modules/app';
+import sound from 'modules/sound';
 import reducer from './reducer';
 import './styles/resets.scss';
 
 const { App } = app.components;
 const { initializeState, updateState } = sound.model;
 
-const store = createStore(reducer);
+const middleware = applyMiddleware(thunkMiddleware);
+const store = createStore(reducer, middleware);
 
 initializeState(store.getState(), store.dispatch);
 

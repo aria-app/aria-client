@@ -1,0 +1,59 @@
+@import '../../../../styles/palette';
+
+$keys__width: 40px;
+$keys__key__height: 40px;
+$keys__key__font-size: 1.0em;
+$keys__key__font-weight: 600;
+$keys__key--ebony__color: $neutral-7;
+$keys__key--ebony__background-color: $neutral-3;
+$keys__key--ivory__color: $neutral-3;
+$keys__key--ivory__background-color: $neutral-7;
+$keys__key--ivory__divider-color: $neutral-6;
+
+.keys {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: $keys__width;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  z-index: 50;
+  &__key {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    height: $keys__key__height;
+    position: relative;
+    font-size: $keys__key__font-size;
+    font-weight: $keys__key__font-weight;
+    cursor: pointer;
+    &__label {
+      display: none;
+    }
+    &--a, &--b, &--c, &--d, &--e, &--f, &--g {
+      color: $keys__key--ivory__color;
+      background-color: $keys__key--ivory__background-color;
+    }
+    &--bflat, &--gsharp, &--fsharp, &--eflat, &--csharp {
+      color: $keys__key--ebony__color;
+      background-color: $keys__key--ebony__background-color;
+    }
+    &--c, &--f {
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 1px;
+        background-color: $keys__key--ivory__divider-color;
+      }
+    }
+    &--c &__label {
+      display: block;
+    }
+  }
+}

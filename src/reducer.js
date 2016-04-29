@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import app from 'app';
-import sequence from 'sequence';
+import app from 'modules/app';
+import sequence from 'modules/sequence';
 
 export default combineReducers({
   [app.constants.NAME]: app.reducer,

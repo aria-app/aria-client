@@ -1,0 +1,35 @@
+@import '../../../../styles/palette';
+
+$note__point__size: 40px;
+$note__point__fill__size: 24px;
+$note__point__fill__background-color: $color-primary;
+$note__point__fill__border-radius: 20%;
+$note__point__fill__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+$note__point__fill--active__background-color: $accent-6;
+// $note__edge__background-color: $primary-5;
+
+.note {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  &__point {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: $note__point__size;
+    height: $note__point__size;
+    pointer-events: all;
+    &__fill {
+      width: $note__point__fill__size;
+      height: $note__point__fill__size;
+      background-color: $note__point__fill__background-color;
+      border-radius: $note__point__fill__border-radius;
+      box-shadow: $note__point__fill__box-shadow;
+    }
+  }
+  &--active &__point__fill {
+    background-color: $note__point__fill--active__background-color;
+  }
+}
