@@ -4,47 +4,44 @@ import sound from 'sound';
 import { toolTypes } from './constants';
 
 const { synthTypes } = sound.constants;
-const { createSynth } = sound.model;
+const { createNote, getScale } = sound.helpers;
 
 const initialState = {
   measureCount: 1,
   notes: [],
   selectedNotes: [],
   position: 0,
-  synth: createSynth(synthTypes.SAWTOOTH),
+  scale: getScale(),
+  synth: synthTypes.SAWTOOTH,
   tool: toolTypes.DRAW,
 };
 
 const initialStateWithNotes = _.assign({}, initialState, {
   notes: [
-    {
-      frequency: 130.8,
+    createNote({
       length: '32n',
       octave: 3,
       pitch: 0,
       time: 0,
-    },
-    {
-      frequency: 146.8,
+    }),
+    createNote({
       length: '32n',
       octave: 3,
       pitch: 2,
       time: 2,
-    },
-    {
-      frequency: 164.8,
+    }),
+    createNote({
       length: '32n',
       octave: 3,
       pitch: 4,
       time: 4,
-    },
-    {
-      frequency: 196,
+    }),
+    createNote({
       length: '32n',
       octave: 3,
       pitch: 7,
       time: 6,
-    },
+    }),
   ],
 });
 
@@ -56,8 +53,11 @@ export default function reducer(state = initialStateWithNotes, action) {
         selectedNotes: [],
       });
     case actionTypes.DRAW_NOTE:
+      console.log(_.assign({}, state, {
+        notes: state.notes.concat(createNote(action.note)),
+      }));
       return _.assign({}, state, {
-        notes: state.notes.concat(action.note),
+        notes: state.notes.concat(createNote(action.note)),
       });
     case actionTypes.SELECT_NOTES:
       return _.assign({}, state, {
@@ -73,7 +73,7 @@ export default function reducer(state = initialStateWithNotes, action) {
       });
     case actionTypes.SET_SYNTH:
       return _.assign({}, state, {
-        synth: createSynth(action.synthType),
+        synth: action.synth,
       });
     case actionTypes.SET_TOOL:
       return _.assign({}, state, {

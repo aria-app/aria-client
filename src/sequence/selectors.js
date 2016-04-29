@@ -1,10 +1,22 @@
 import { NAME } from './constants';
 
-const get = state => state[NAME];
+const getAll = state => state[NAME];
 
-export const getMeasureCount = state => get(state).measureCount;
-export const getNotes = state => get(state).notes;
-export const getSelectedNotes = state => get(state).selectedNotes;
-export const getPosition = state => get(state).position;
-export const getSynth = state => get(state).synth;
-export const getTool = state => get(state).tool;
+const getMeasureCount = state => getAll(state).measureCount;
+const getNotes = state => getAll(state).notes;
+const getSelectedNotes = state => getAll(state).selectedNotes;
+const getPosition = state => getAll(state).position;
+const getScale = state => getAll(state).scale;
+const getSynth = state => getAll(state).synth;
+const getTool = state => getAll(state).tool;
+
+export default {
+  getAll,
+  getMeasureCount,
+  getNotes,
+  getSelectedNotes,
+  getPosition,
+  getScale,
+  getSynth,
+  getTool,
+};

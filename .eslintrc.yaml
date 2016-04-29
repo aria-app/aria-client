@@ -5,7 +5,6 @@ parserOptions:
     experimentalObjectRestSpread: true
 
 rules:
-  arrow-body-style: 0
   new-cap: 0
   no-use-before-define: ["error", { "functions": false, "classes": true }]
 

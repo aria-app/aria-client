@@ -42,10 +42,10 @@ export function setPosition(position) {
   };
 }
 
-export function setSynth(synthType) {
+export function setSynth(synth) {
   return {
     type: actionTypes.SET_SYNTH,
-    synthType,
+    synth,
   };
 }
 

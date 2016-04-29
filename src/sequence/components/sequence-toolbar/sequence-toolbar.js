@@ -2,12 +2,11 @@ import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
 import { compose, mapProps, pure, setPropTypes } from 'recompose';
-import { toolTypes } from '../../constants';
 import sound from 'sound';
+import { toolTypes } from '../../constants';
 import './sequence-toolbar.scss';
 
 const { synthTypes } = sound.constants;
-const { getType } = sound.model;
 
 const component = ({
   synthButtons,
@@ -37,31 +36,30 @@ export const SequenceToolbar = compose([
   setPropTypes({
     requestSetSynth: PropTypes.func,
     requestSetTool: PropTypes.func,
-    currentSynth: PropTypes.object,
-    currentTool: PropTypes.string,
+    synth: PropTypes.string,
+    tool: PropTypes.string,
   }),
   mapProps(({
     requestSetSynth,
     requestSetTool,
-    currentSynth,
-    currentTool,
+    synth,
+    tool,
     ...rest,
   }) => ({
-    synthButtons: Object.keys(synthTypes).map((synth, index) => button({
-      key: index,
-      className: classnames(),
-      isActive: synthTypes[synth] === getType(currentSynth),
+    synthButtons: Object.keys(synthTypes).map((synthType, key) => h(button, {
+      isActive: synthTypes[synthType] === synth,
       onPress: requestSetSynth,
-      text: synthTypes[synth],
+      text: synthTypes[synthType],
+      key,
     })),
-    toolButtons: Object.keys(toolTypes).map((tool, index) => button({
-      key: index,
-      isActive: toolTypes[tool] === currentTool,
+    toolButtons: Object.keys(toolTypes).map((toolType, key) => h(button, {
+      isActive: toolTypes[toolType] === tool,
       onPress: requestSetTool,
-      text: toolTypes[tool],
+      text: toolTypes[toolType],
+      key,
     })),
-    currentSynth,
-    currentTool,
+    synth,
+    tool,
     ...rest,
   })),
   pure,

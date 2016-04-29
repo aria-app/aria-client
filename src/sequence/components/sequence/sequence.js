@@ -4,57 +4,50 @@ import h from 'react-hyperscript';
 import _ from 'lodash';
 import Mousetrap from 'mousetrap';
 import Tone from 'tone';
-import { compose, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
+import { compose, pure, setPropTypes, withHandlers } from 'recompose';
 import sound from 'sound';
 import { Grid } from '../grid/grid';
 import { Keys } from '../keys/keys';
-import { deleteNotes, drawNote, setPosition, setSynth, setTool } from '../../actions';
-import {
-  getMeasureCount,
-  getNotes,
-  getSelectedNotes,
-  getSynth,
-  getTool,
-} from '../../selectors';
+import { deleteNotes, setPosition, setSynth, setTool } from '../../actions';
+import selectors from '../../selectors';
 import { SequenceToolbar } from '../sequence-toolbar/sequence-toolbar';
 import './sequence.scss';
 
-const { getFrequency } = sound.model;
+const { playNote } = sound.model;
 
 const component = ({
-  requestDrawNote,
   requestSetSynth,
   requestSetTool,
+  scale,
   synth,
   tool,
 }) => h('.sequence', [
   h(SequenceToolbar, {
     requestSetSynth,
     requestSetTool,
-    currentSynth: synth,
-    currentTool: tool,
+    synth,
+    tool,
   }),
   h('.sequence__content', {
     // scrollTop: 2 * (40 * 12),
   }, [
     h('.sequence__wrapper', [
       h(Keys, {
+        scale,
         synth,
       }),
-      h(Grid, {
-        onSlotPress: requestDrawNote,
-      }),
+      h(Grid),
     ]),
   ]),
 ]);
 
 const composed = compose([
-  setDisplayName('Sequence'),
   setPropTypes({
     measureCount: React.PropTypes.number,
     notes: React.PropTypes.array,
     selectedNotes: React.PropTypes.array,
-    synth: React.PropTypes.object,
+    scale: React.PropTypes.array,
+    synth: React.PropTypes.string,
     tool: React.PropTypes.string,
     requestDrawNote: React.PropTypes.func,
     requestDeleteNotes: React.PropTypes.func,
@@ -84,15 +77,11 @@ const classified = React.createClass({
       this.props.requestSetPosition(step);
       _.filter(this.props.notes, note => note.time === step)
         .forEach(note => {
-          this.props.synth.triggerAttackRelease(
-            getFrequency(note),
-            note.length,
-            time
-          );
+          playNote(note.frequency, note.length, time);
         });
     }, _.range(this.props.measureCount * 32), '32n').start();
 
-    Mousetrap.bind('backspace', this.deleteNotes);
+    Mousetrap.bind(['backspace', 'del'], this.deleteNotes);
   },
   render() {
     return h(composed, {
@@ -106,11 +95,12 @@ const classified = React.createClass({
 
 function mapStateToProps(state) {
   return {
-    measureCount: getMeasureCount(state),
-    notes: getNotes(state),
-    selectedNotes: getSelectedNotes(state),
-    synth: getSynth(state),
-    tool: getTool(state),
+    measureCount: selectors.getMeasureCount(state),
+    notes: selectors.getNotes(state),
+    selectedNotes: selectors.getSelectedNotes(state),
+    scale: selectors.getScale(state),
+    synth: selectors.getSynth(state),
+    tool: selectors.getTool(state),
   };
 }
 
@@ -119,9 +109,6 @@ export const Sequence = connect(
   (dispatch) => ({
     requestDeleteNotes: notes => {
       dispatch(deleteNotes(notes));
-    },
-    requestDrawNote: note => {
-      dispatch(drawNote(note));
     },
     requestSetPosition: position => {
       dispatch(setPosition(position));

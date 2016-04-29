@@ -4,38 +4,39 @@ import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
 import sound from 'sound';
 import './keys.scss';
 
-const { getFrequency, getLetter, scale } = sound.model;
+const { playNote } = sound.model;
 
-const component = ({ keys }) =>
-  h('.keys', keys);
+const component = ({ keys }) => h('.keys', keys);
 
-const key = ({ note, playNote }) =>
-  h('.keys__key', {
-    className: `keys__key--${getLetter(note.pitch)}`,
-    onMouseUp: () => playNote(note),
-  }, [
-    h('.keys__key__label', [
-      getLabel(note),
-    ]),
-  ]);
+const keyComponent = ({
+  handleKeyPress,
+  scaleStep,
+}) => h('.keys__key', {
+  className: `keys__key--${scaleStep.letter}`,
+  onMouseUp: () => handleKeyPress(scaleStep),
+}, [
+  h('.keys__key__label', [
+    getLabel(scaleStep),
+  ]),
+]);
 
-export const Keys = compose([
+const composed = compose([
   setPropTypes({
-    synth: PropTypes.object,
+    scale: PropTypes.array,
+    synth: PropTypes.string,
   }),
   withHandlers({
-    playNote: ({ synth }) => note => synth.triggerAttackRelease(
-      getFrequency(note),
-      '8n'
-    ),
+    handleKeyPress: () => scaleStep => playNote(scaleStep.frequency, '8n'),
   }),
-  mapProps(({ playNote, ...rest }) => ({
-    keys: scale.map(note => key({ note, playNote })),
+  mapProps(({ handleKeyPress, scale, ...rest }) => ({
+    keys: scale.map(scaleStep => h(keyComponent, { scaleStep, handleKeyPress })),
     ...rest,
   })),
   pure,
 ])(component);
 
-function getLabel(note) {
-  return getLetter(note.pitch).toUpperCase() + String(note.octave);
+export const Keys = composed;
+
+function getLabel(scaleStep) {
+  return scaleStep.letter.toUpperCase() + String(scaleStep.octave);
 }

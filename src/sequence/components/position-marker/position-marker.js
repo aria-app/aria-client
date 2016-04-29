@@ -1,7 +1,7 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setPropTypes } from 'recompose';
-import { getPosition } from '../../selectors';
+import selectors from '../../selectors';
 import './position-marker.scss';
 
 const component = ({ left }) =>
@@ -21,7 +21,7 @@ import { connect } from 'react-redux';
 
 function mapStateToProps(state) {
   return {
-    position: getPosition(state),
+    position: selectors.getPosition(state),
   };
 }
 

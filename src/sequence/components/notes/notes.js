@@ -4,7 +4,7 @@ import h from 'react-hyperscript';
 import _ from 'lodash';
 import { compose, pure, setPropTypes, withHandlers } from 'recompose';
 import { selectNotes } from '../../actions';
-import { getNotes, getSelectedNotes } from '../../selectors';
+import selectors from '../../selectors';
 import { Note } from '../note/note';
 import './notes.scss';
 
@@ -47,8 +47,8 @@ const composed = compose([
 
 function mapStateToProps(state) {
   return {
-    notes: getNotes(state),
-    selectedNotes: getSelectedNotes(state),
+    notes: selectors.getNotes(state),
+    selectedNotes: selectors.getSelectedNotes(state),
   };
 }
 
