@@ -1,15 +1,37 @@
+import { PropTypes } from 'react';
 import h from 'react-hyperscript';
-import { Notes } from '../notes/notes';
-import { PositionMarker } from '../position-marker/position-marker';
-import { Slots } from '../slots/slots';
+import { compose, setPropTypes } from 'recompose';
+import { NotesContainer } from '../notes-container/notes-container';
+import {
+  PositionMarkerContainer,
+} from '../position-marker-container/position-marker-container';
+import { SlotsContainer } from '../slots-container/slots-container';
 import './grid.scss';
 
-const component = () => h('.grid', [
+const component = ({
+  playNote,
+  scale,
+  tool,
+}) => h('.grid', [
   h('.grid__wrapper', [
-    h(Slots),
-    h(Notes),
-    h(PositionMarker),
+    h(SlotsContainer, {
+      playNote,
+      scale,
+      tool,
+    }),
+    h(NotesContainer, {
+      playNote,
+    }),
+    h(PositionMarkerContainer),
   ]),
 ]);
 
-export const Grid = component;
+const composed = compose([
+  setPropTypes({
+    playNote: PropTypes.func,
+    scale: PropTypes.array,
+    tool: PropTypes.string,
+  }),
+])(component);
+
+export const Grid = composed;

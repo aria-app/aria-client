@@ -1,10 +1,7 @@
 import { PropTypes } from 'react';
-import { connect } from 'react-redux';
 import h from 'react-hyperscript';
 import _ from 'lodash';
 import { compose, pure, setPropTypes, withHandlers } from 'recompose';
-import { selectNotes } from '../../actions';
-import selectors from '../../selectors';
 import { Note } from '../note/note';
 import './notes.scss';
 
@@ -24,43 +21,30 @@ const component = ({
 const composed = compose([
   setPropTypes({
     notes: PropTypes.array,
-    requestSelectNotes: PropTypes.func,
+    playNote: PropTypes.func,
+    selectNotes: PropTypes.func,
     selectedNotes: PropTypes.array,
   }),
   withHandlers({
     onPress: ({
-      requestSelectNotes,
+      playNote,
+      selectNotes,
       selectedNotes,
     }) => (note, isCtrlPressed) => {
-      if (!isCtrlPressed) requestSelectNotes([note]);
+      playNote(note.frequency);
+      if (!isCtrlPressed) {
+        selectNotes([note]);
+        return;
+      }
 
       if (_.includes(selectedNotes, note)) {
-        requestSelectNotes(_.without(selectedNotes, note));
+        selectNotes(_.without(selectedNotes, note));
       } else {
-        requestSelectNotes(selectedNotes.concat([note]));
+        selectNotes(selectedNotes.concat([note]));
       }
     },
   }),
   pure,
 ])(component);
 
-
-function mapStateToProps(state) {
-  return {
-    notes: selectors.getNotes(state),
-    selectedNotes: selectors.getSelectedNotes(state),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    requestSelectNotes: notes => {
-      dispatch(selectNotes(notes));
-    },
-  };
-}
-
-export const Notes = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(composed);
+export const Notes = composed;

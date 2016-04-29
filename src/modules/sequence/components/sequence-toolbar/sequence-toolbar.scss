@@ -36,6 +36,7 @@ $sequence-toolbar__button--active__background-color: $neutral-10;
     padding-left: $sequence-toolbar__button__padding;
     padding-right: $sequence-toolbar__button__padding;
     color: $sequence-toolbar__button__color;
+    text-transform: uppercase;
     border-radius: $sequence-toolbar__button__border-radius;
     cursor: pointer;
     &--active {

@@ -1,26 +1,21 @@
 import { PropTypes } from 'react';
-import { connect } from 'react-redux';
 import h from 'react-hyperscript';
 import _ from 'lodash';
 import { compose, mapProps, onlyUpdateForKeys, setPropTypes, withHandlers } from 'recompose';
-import sound from 'modules/sound';
-import { drawNote } from '../../actions';
-import selectors from '../../selectors';
 import './slots.scss';
-
-const { playNote } = sound.model;
 
 const component = ({ rows }) => h('.slots', rows);
 
 const composed = compose([
   setPropTypes({
     measureCount: PropTypes.number,
-    requestDrawNote: PropTypes.func,
+    drawNote: PropTypes.func,
+    playNote: PropTypes.func,
   }),
   withHandlers({
-    handleSlotPress: ({ requestDrawNote }) => (slot, time) => {
+    handleSlotPress: ({ drawNote, playNote }) => (slot, time) => {
       playNote(slot.frequency);
-      requestDrawNote({
+      drawNote({
         octave: slot.octave,
         pitch: slot.pitch,
         length: '32n',
@@ -39,23 +34,7 @@ const composed = compose([
   onlyUpdateForKeys(['measureCount']),
 ])(component);
 
-export const Slots = connect(mapState, mapDispatch)(composed);
-
-function mapState(state) {
-  return {
-    measureCount: selectors.getMeasureCount(state),
-    scale: selectors.getScale(state),
-    tool: selectors.getTool(state),
-  };
-}
-
-function mapDispatch(dispatch) {
-  return {
-    requestDrawNote: note => {
-      dispatch(drawNote(note));
-    },
-  };
-}
+export const Slots = composed;
 
 function getRows(handleSlotPress, measureCount, scale) {
   return scale.map(scaleStep => h('.slots__row', {

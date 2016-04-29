@@ -19,13 +19,13 @@ const keyComponent = ({
 
 const composed = compose([
   setPropTypes({
-    requestPlayNote: PropTypes.func,
+    playNote: PropTypes.func,
     scale: PropTypes.array,
     synth: PropTypes.string,
   }),
   withHandlers({
-    handleKeyPress: ({ requestPlayNote }) => scaleStep =>
-      requestPlayNote(scaleStep.frequency, '8n'),
+    handleKeyPress: ({ playNote }) => scaleStep =>
+      playNote(scaleStep.frequency, '8n'),
   }),
   mapProps(({ handleKeyPress, scale, ...rest }) => ({
     keys: scale.map(scaleStep => h(keyComponent, { scaleStep, handleKeyPress })),

@@ -6,48 +6,7 @@ import { toolTypes } from './constants';
 const { synthTypes } = sound.constants;
 const { createNote, getScale } = sound.helpers;
 
-const initialState = {
-  bpm: 120,
-  measureCount: 1,
-  notes: [],
-  playbackState: 'stopped',
-  selectedNotes: [],
-  position: 0,
-  scale: getScale(),
-  synth: synthTypes.SAWTOOTH,
-  tool: toolTypes.DRAW,
-};
-
-const initialStateWithNotes = _.assign({}, initialState, {
-  notes: [
-    createNote({
-      length: '32n',
-      octave: 3,
-      pitch: 0,
-      time: 0,
-    }),
-    createNote({
-      length: '32n',
-      octave: 3,
-      pitch: 2,
-      time: 2,
-    }),
-    createNote({
-      length: '32n',
-      octave: 3,
-      pitch: 4,
-      time: 4,
-    }),
-    createNote({
-      length: '32n',
-      octave: 3,
-      pitch: 7,
-      time: 6,
-    }),
-  ],
-});
-
-export default function reducer(state = initialStateWithNotes, action) {
+export default function reducer(state = getInitialStateWithNotes(), action) {
   switch (action.type) {
     case actionTypes.DELETE_NOTES:
       return _.assign({}, state, {
@@ -81,4 +40,49 @@ export default function reducer(state = initialStateWithNotes, action) {
     default:
       return state;
   }
+}
+
+function getInitialStateWithNotes() {
+  return _.assign({}, getInitialState(), {
+    notes: [
+      createNote({
+        length: '32n',
+        octave: 3,
+        pitch: 0,
+        time: 0,
+      }),
+      createNote({
+        length: '32n',
+        octave: 3,
+        pitch: 2,
+        time: 2,
+      }),
+      createNote({
+        length: '32n',
+        octave: 3,
+        pitch: 4,
+        time: 4,
+      }),
+      createNote({
+        length: '32n',
+        octave: 3,
+        pitch: 7,
+        time: 6,
+      }),
+    ],
+  });
+}
+
+function getInitialState() {
+  return {
+    bpm: 120,
+    measureCount: 1,
+    notes: [],
+    playbackState: 'stopped',
+    selectedNotes: [],
+    position: 0,
+    scale: getScale(),
+    synth: synthTypes.SQUARE,
+    tool: toolTypes.DRAW,
+  };
 }
