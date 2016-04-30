@@ -1,8 +1,7 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
-import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
-import { toolTypes } from '../../constants';
+import { compose, mapProps, pure, setPropTypes } from 'recompose';
 import './slots.scss';
 
 const component = ({ rows }) => h('.slots', rows);
@@ -14,29 +13,11 @@ const composed = compose([
     playNote: PropTypes.func,
     toolType: PropTypes.string,
   }),
-  withHandlers({
-    handleSlotPress: ({
-      drawNote,
-      playNote,
-      toolType,
-    }) => (slot, time) => {
-      if (toolType !== toolTypes.DRAW) return;
-
-      playNote(slot.frequency);
-      drawNote({
-        octave: slot.octave,
-        pitch: slot.pitch,
-        length: '32n',
-        time,
-      });
-    },
-  }),
   mapProps(({
-    handleSlotPress,
     measureCount,
     scale,
     }) => ({
-      rows: getRows(handleSlotPress, measureCount, scale),
+      rows: getRows(scale, measureCount),
     })
   ),
   pure,
@@ -44,14 +25,24 @@ const composed = compose([
 
 export const Slots = composed;
 
-function getRows(handleSlotPress, measureCount, scale) {
-  return scale.map(scaleStep => h('.slots__row', {
+function getRows(scale, measureCount) {
+  return scale.map((scaleStep) => h('.slots__row', {
     className: `slots__row--${scaleStep.letter}`,
-  }, _.times(4 * measureCount, sectionNumber =>
-    h('.slots__row__section', _.times(8, n =>
-      h('.slots__slot', {
-        onClick: () => handleSlotPress(scaleStep, n + sectionNumber * 8),
-      }, h('.slots__slot__fill'))
-    ))
-  )));
+  }, getSections(measureCount * 4)));
+}
+
+function getSections(count) {
+  return _.times(count, sectionNumber =>
+    h('.slots__row__section', {
+      key: sectionNumber,
+    }, getSlots(8))
+  );
+}
+
+function getSlots(count) {
+  return _.times(count, n =>
+    h('.slots__slot', {
+      key: n,
+    }, h('.slots__slot__fill'))
+  );
 }

@@ -1,15 +1,16 @@
 import _ from 'lodash';
 import Tone from 'tone';
+import notes from 'modules/notes';
+import sequence from 'modules/sequence';
 import actionTypes from './actionTypes';
 import * as constants from './constants';
 import selectors from './selectors';
-import sequence from 'modules/sequence';
 
 export function createSequence() {
   return (dispatch, getState) => {
     const toneSequence = new Tone.Sequence((time, step) => {
       dispatch(setPosition(step));
-      _.filter(sequence.selectors.getNotes(getState()), note => note.time === step)
+      _.filter(notes.selectors.getNotes(getState()), note => note.time === step)
         .forEach(note => dispatch(playNote(note.frequency, note.length, time)));
     }, _.range(sequence.selectors.getMeasureCount(getState()) * 32), '32n');
 

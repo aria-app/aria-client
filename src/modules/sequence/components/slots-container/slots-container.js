@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { Slots } from '../slots/slots';
-import * as actions from '../../actions';
 import selectors from '../../selectors';
 
 export const SlotsContainer = connect(
@@ -14,10 +13,6 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    drawNote: note => {
-      dispatch(actions.drawNote(note));
-    },
-  };
+function mapDispatchToProps() {
+  return {};
 }

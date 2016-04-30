@@ -1,5 +1,7 @@
-import * as model from './model';
+import * as actions from './actions';
+import * as actionTypes from './actionTypes';
 
 export default {
-  model,
+  actions,
+  actionTypes,
 };

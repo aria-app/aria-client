@@ -27,7 +27,10 @@ const composed = compose([
       playNote(scaleStep.frequency, '8n'),
   }),
   mapProps(({ handleKeyPress, scale, ...rest }) => ({
-    keys: scale.map(scaleStep => h(keyComponent, { scaleStep, handleKeyPress })),
+    keys: scale.map(scaleStep => h(keyComponent, {
+      handleKeyPress,
+      scaleStep,
+    })),
     ...rest,
   })),
   pure,

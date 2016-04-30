@@ -11,12 +11,14 @@ export const NotesContainer = connect(
 function mapStateToProps(state) {
   return {
     notes: selectors.getNotes(state),
-    selectedNotes: selectors.getSelectedNotes(state),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    drawNote: note => {
+      dispatch(actions.drawNote(note));
+    },
     eraseNote: note => {
       dispatch(actions.eraseNote(note));
     },

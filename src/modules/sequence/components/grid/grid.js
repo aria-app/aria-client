@@ -1,12 +1,14 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import { compose, pure, setPropTypes } from 'recompose';
-import { NotesContainer } from '../notes-container/notes-container';
+import notes from 'modules/notes';
+import { SlotsContainer } from '../slots-container/slots-container';
 import {
   PositionMarkerContainer,
 } from '../position-marker-container/position-marker-container';
-import { SlotsContainer } from '../slots-container/slots-container';
 import './grid.scss';
+
+const { NotesContainer } = notes.components;
 
 const component = ({
   playNote,

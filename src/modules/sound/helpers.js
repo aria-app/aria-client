@@ -16,14 +16,6 @@ export const pitches = {
   C: 0,
 };
 
-export function createNote(options) {
-  return {
-    ...options,
-    frequency: getFrequency(options.pitch, options.octave),
-    letter: getLetter(options.pitch),
-  };
-}
-
 export function createSynth(type) {
   return new Tone.PolySynth(4, Tone.SimpleSynth, {
     oscillator: { type },
@@ -31,18 +23,7 @@ export function createSynth(type) {
   }).toMaster();
 }
 
-export function getScale() {
-  return _([0, 1, 2, 3, 4, 5, 6])
-    .reverse()
-    .flatMap(getScaleOctave)
-    .value();
-}
-
-export function getType(synth) {
-  return synth.voices[0].oscillator.type;
-}
-
-function getFrequency(pitch, octave) {
+export function getFrequency(pitch, octave) {
   return {
     [pitches.B]: 30.87,
     [pitches.BFLAT]: 29.14,
@@ -59,7 +40,7 @@ function getFrequency(pitch, octave) {
   }[pitch] * Math.pow(2, octave);
 }
 
-function getLetter(pitch) {
+export function getLetter(pitch) {
   return [
     'c',
     'csharp',
@@ -74,6 +55,17 @@ function getLetter(pitch) {
     'bflat',
     'b',
   ][pitch];
+}
+
+export function getScale() {
+  return _([0, 1, 2, 3, 4, 5, 6])
+    .reverse()
+    .flatMap(getScaleOctave)
+    .value();
+}
+
+export function getType(synth) {
+  return synth.voices[0].oscillator.type;
 }
 
 function getScaleOctave(octave) {
