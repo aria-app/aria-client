@@ -16,6 +16,10 @@ export default function reducer(state = getInitialStateWithNotes(), action) {
       return _.assign({}, state, {
         notes: state.notes.concat(createNote(action.note)),
       });
+    case actionTypes.ERASE_NOTE:
+      return _.assign({}, state, {
+        notes: _.without(state.notes, action.note),
+      });
     case actionTypes.SELECT_NOTES:
       return _.assign({}, state, {
         selectedNotes: action.notes,
@@ -28,9 +32,9 @@ export default function reducer(state = getInitialStateWithNotes(), action) {
       return _.assign({}, state, {
         synthType: action.synthType,
       });
-    case actionTypes.SET_TOOL:
+    case actionTypes.SET_TOOL_TYPE:
       return _.assign({}, state, {
-        tool: action.tool,
+        toolType: action.toolType,
       });
     default:
       return state;
@@ -70,14 +74,11 @@ function getInitialStateWithNotes() {
 
 function getInitialState() {
   return {
-    bpm: 120,
     measureCount: 1,
     notes: [],
-    playbackState: 'stopped',
     selectedNotes: [],
-    position: 0,
     scale: getScale(),
     synthType: defaultSynthType,
-    tool: defaultToolType,
+    toolType: defaultToolType,
   };
 }

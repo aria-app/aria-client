@@ -13,7 +13,7 @@ function mapStateToProps(state) {
   return {
     selectedNotes: selectors.getSelectedNotes(state),
     scale: selectors.getScale(state),
-    tool: selectors.getTool(state),
+    toolType: selectors.getToolType(state),
   };
 }
 

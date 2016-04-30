@@ -57,9 +57,9 @@ export function setSynthType(synthType) {
   };
 }
 
-export function setTool(tool) {
+export function setToolType(toolType) {
   return {
-    type: actionTypes.SET_TOOL,
-    tool,
+    type: actionTypes.SET_TOOL_TYPE,
+    toolType,
   };
 }

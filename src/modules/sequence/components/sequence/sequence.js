@@ -12,11 +12,11 @@ import './sequence.scss';
 const component = ({
   playNote,
   scale,
-  tool,
+  toolType,
 }) => h('.sequence', [
-  h(SequenceToolbarContainer, { tool }),
+  h(SequenceToolbarContainer, { toolType }),
   h(ScrollTo, {
-    centered: true,
+    center: true,
   }, h('.sequence__content', [
     h('.sequence__wrapper', [
       h(Keys, {
@@ -26,7 +26,7 @@ const component = ({
       h(Grid, {
         playNote,
         scale,
-        tool,
+        toolType,
       }),
     ]),
   ])),
@@ -36,7 +36,7 @@ const composed = compose([
   setPropTypes({
     selectedNotes: React.PropTypes.array,
     scale: React.PropTypes.array,
-    tool: React.PropTypes.string,
+    toolType: React.PropTypes.string,
   }),
   pure,
 ])(component);

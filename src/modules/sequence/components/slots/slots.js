@@ -1,7 +1,8 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
-import { compose, mapProps, onlyUpdateForKeys, setPropTypes, withHandlers } from 'recompose';
+import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
+import { toolTypes } from '../../constants';
 import './slots.scss';
 
 const component = ({ rows }) => h('.slots', rows);
@@ -11,9 +12,16 @@ const composed = compose([
     measureCount: PropTypes.number,
     drawNote: PropTypes.func,
     playNote: PropTypes.func,
+    toolType: PropTypes.string,
   }),
   withHandlers({
-    handleSlotPress: ({ drawNote, playNote }) => (slot, time) => {
+    handleSlotPress: ({
+      drawNote,
+      playNote,
+      toolType,
+    }) => (slot, time) => {
+      if (toolType !== toolTypes.DRAW) return;
+
       playNote(slot.frequency);
       drawNote({
         octave: slot.octave,
@@ -31,7 +39,7 @@ const composed = compose([
       rows: getRows(handleSlotPress, measureCount, scale),
     })
   ),
-  onlyUpdateForKeys(['measureCount']),
+  pure,
 ])(component);
 
 export const Slots = composed;

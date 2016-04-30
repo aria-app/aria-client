@@ -1,9 +1,10 @@
-const initialState = {
-};
-
-export function reducer(state = initialState, action) {
+export function reducer(state = getInitialState(), action) {
   switch (action.type) {
     default:
       return state;
   }
+}
+
+function getInitialState() {
+  return {};
 }

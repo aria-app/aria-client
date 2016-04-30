@@ -2,6 +2,7 @@ import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
 import { compose, pure, setPropTypes, withHandlers } from 'recompose';
+import { toolTypes } from '../../constants';
 import { Note } from '../note/note';
 import './notes.scss';
 
@@ -22,15 +23,24 @@ const composed = compose([
   setPropTypes({
     notes: PropTypes.array,
     playNote: PropTypes.func,
+    eraseNote: PropTypes.func,
     selectNotes: PropTypes.func,
     selectedNotes: PropTypes.array,
+    toolType: PropTypes.string,
   }),
   withHandlers({
     onPress: ({
       playNote,
+      eraseNote,
       selectNotes,
       selectedNotes,
+      toolType,
     }) => (note, isCtrlPressed) => {
+      if (toolType === toolTypes.ERASE) {
+        eraseNote(note);
+        return;
+      }
+
       playNote(note.frequency);
       if (!isCtrlPressed) {
         selectNotes([note]);

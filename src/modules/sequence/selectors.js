@@ -10,7 +10,7 @@ const getPosition = state => get(state).position;
 const getScale = state => get(state).scale;
 const getSelectedNotes = state => get(state).selectedNotes;
 const getSynthType = state => get(state).synthType;
-const getTool = state => get(state).tool;
+const getToolType = state => get(state).toolType;
 
 export default {
   get,
@@ -22,5 +22,5 @@ export default {
   getPosition,
   getScale,
   getSynthType,
-  getTool,
+  getToolType,
 };

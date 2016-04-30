@@ -19,8 +19,8 @@ function mapDispatchToProps(dispatch) {
     changeSynthType: synthType => {
       dispatch(actions.changeSynthType(synthType));
     },
-    setTool: tool => {
-      dispatch(actions.setTool(tool));
+    setToolType: toolType => {
+      dispatch(actions.setToolType(toolType));
     },
   };
 }

@@ -7,5 +7,5 @@ export default {
   SET_MEASURE_COUNT: 'sequence/SET_MEASURE_COUNT',
   SET_POSITION: 'sequence/SET_POSITION',
   SET_SYNTH_TYPE: 'sequence/SET_SYNTH_TYPE',
-  SET_TOOL: 'sequence/SET_TOOL',
+  SET_TOOL_TYPE: 'sequence/SET_TOOL_TYPE',
 };

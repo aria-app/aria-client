@@ -17,6 +17,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    eraseNote: note => {
+      dispatch(actions.eraseNote(note));
+    },
     selectNotes: notes => {
       dispatch(actions.selectNotes(notes));
     },
