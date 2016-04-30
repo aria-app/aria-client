@@ -1,9 +1,8 @@
 import _ from 'lodash';
 import actionTypes from './actionTypes';
 import sound from 'modules/sound';
-import { toolTypes } from './constants';
+import { defaultSynthType, defaultToolType } from './constants';
 
-const { synthTypes } = sound.constants;
 const { createNote, getScale } = sound.helpers;
 
 export default function reducer(state = getInitialStateWithNotes(), action) {
@@ -25,13 +24,9 @@ export default function reducer(state = getInitialStateWithNotes(), action) {
       return _.assign({}, state, {
         measureCount: action.measureCount,
       });
-    case actionTypes.SET_POSITION:
+    case actionTypes.SET_SYNTH_TYPE:
       return _.assign({}, state, {
-        position: action.position,
-      });
-    case actionTypes.SET_SYNTH:
-      return _.assign({}, state, {
-        synth: action.synth,
+        synthType: action.synthType,
       });
     case actionTypes.SET_TOOL:
       return _.assign({}, state, {
@@ -82,7 +77,7 @@ function getInitialState() {
     selectedNotes: [],
     position: 0,
     scale: getScale(),
-    synth: synthTypes.SQUARE,
-    tool: toolTypes.DRAW,
+    synthType: defaultSynthType,
+    tool: defaultToolType,
   };
 }

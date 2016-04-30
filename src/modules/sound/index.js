@@ -1,9 +1,13 @@
+import * as actions from './actions';
 import * as constants from './constants';
 import * as helpers from './helpers';
-import * as model from './model';
+import reducer from './reducer';
+import selectors from './selectors';
 
 export default {
+  actions,
   constants,
   helpers,
-  model,
+  reducer,
+  selectors,
 };

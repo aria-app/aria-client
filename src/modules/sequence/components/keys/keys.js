@@ -21,7 +21,6 @@ const composed = compose([
   setPropTypes({
     playNote: PropTypes.func,
     scale: PropTypes.array,
-    synth: PropTypes.string,
   }),
   withHandlers({
     handleKeyPress: ({ playNote }) => scaleStep =>

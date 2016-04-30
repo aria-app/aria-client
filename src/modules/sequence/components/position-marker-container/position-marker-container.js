@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { PositionMarker } from '../position-marker/position-marker';
-import selectors from '../../selectors';
+import sound from 'modules/sound';
 
 export const PositionMarkerContainer = connect(
   mapStateToProps,
@@ -9,7 +9,8 @@ export const PositionMarkerContainer = connect(
 
 function mapStateToProps(state) {
   return {
-    position: selectors.getPosition(state),
+    playbackState: sound.selectors.getPlaybackState(state),
+    position: sound.selectors.getPosition(state),
   };
 }
 

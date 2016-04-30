@@ -1,5 +1,5 @@
-import sound from 'modules/sound';
 import actionTypes from './actionTypes';
+import sound from 'modules/sound';
 
 export function deleteNotes(notes) {
   return {
@@ -29,12 +29,6 @@ export function moveNotes(notes) {
   };
 }
 
-export function playNote(...options) {
-  return () => {
-    sound.model.playNote(...options);
-  };
-}
-
 export function selectNotes(notes) {
   return {
     type: actionTypes.SELECT_NOTES,
@@ -49,10 +43,17 @@ export function setPosition(position) {
   };
 }
 
-export function setSynth(synth) {
+export function changeSynthType(synthType) {
+  return (dispatch) => {
+    dispatch(setSynthType(synthType));
+    dispatch(sound.actions.setSynth(synthType));
+  };
+}
+
+export function setSynthType(synthType) {
   return {
-    type: actionTypes.SET_SYNTH,
-    synth,
+    type: actionTypes.SET_SYNTH_TYPE,
+    synthType,
   };
 }
 

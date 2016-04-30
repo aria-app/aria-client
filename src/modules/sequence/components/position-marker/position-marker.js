@@ -1,35 +1,29 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setPropTypes } from 'recompose';
-import selectors from '../../selectors';
+import sound from 'modules/sound';
 import './position-marker.scss';
 
-const component = ({ left }) =>
-  h('.position-marker', { style: { left } });
+const component = ({ display, left }) =>
+  h('.position-marker', {
+    style: {
+      display,
+      left,
+    },
+  });
 
 const composed = compose([
   setPropTypes({
+    playbackState: PropTypes.string,
     position: PropTypes.number,
   }),
-  mapProps(({ position }) => ({
+  mapProps(({ playbackState, position }) => ({
+    display: playbackState === sound.constants.playbackStates.STOPPED
+      ? 'none'
+      : 'block',
     left: position * 40,
   })),
   pure,
 ])(component);
 
-import { connect } from 'react-redux';
-
-function mapStateToProps(state) {
-  return {
-    position: selectors.getPosition(state),
-  };
-}
-
-function mapDispatchToProps() {
-  return {};
-}
-
-export const PositionMarker = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(composed);
+export const PositionMarker = composed;

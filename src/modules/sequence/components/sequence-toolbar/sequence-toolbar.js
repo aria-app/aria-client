@@ -34,31 +34,31 @@ const button = ({
 
 export const SequenceToolbar = compose([
   setPropTypes({
-    requestSetSynth: PropTypes.func,
+    changeSynthType: PropTypes.func,
     requestSetTool: PropTypes.func,
-    synth: PropTypes.string,
+    synthType: PropTypes.string,
     tool: PropTypes.string,
   }),
   mapProps(({
-    requestSetSynth,
+    changeSynthType,
     requestSetTool,
-    synth,
+    synthType,
     tool,
     ...rest,
   }) => ({
-    synthButtons: Object.keys(synthTypes).map((synthType, key) => h(button, {
-      isActive: synthTypes[synthType] === synth,
-      onPress: requestSetSynth,
-      text: synthTypes[synthType],
+    synthButtons: Object.keys(synthTypes).map((s, key) => h(button, {
+      isActive: synthTypes[s] === synthType,
+      onPress: changeSynthType,
+      text: synthTypes[s],
       key,
     })),
-    toolButtons: Object.keys(toolTypes).map((toolType, key) => h(button, {
-      isActive: toolTypes[toolType] === tool,
+    toolButtons: Object.keys(toolTypes).map((t, key) => h(button, {
+      isActive: toolTypes[t] === tool,
       onPress: requestSetTool,
-      text: toolTypes[toolType],
+      text: toolTypes[t],
       key,
     })),
-    synth,
+    synthType,
     tool,
     ...rest,
   })),

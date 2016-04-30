@@ -10,14 +10,14 @@ export const SequenceToolbarContainer = connect(
 
 function mapStateToProps(state) {
   return {
-    synth: selectors.getSynth(state),
+    synthType: selectors.getSynthType(state),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setSynth: synth => {
-      dispatch(actions.setSynth(synth));
+    changeSynthType: synthType => {
+      dispatch(actions.changeSynthType(synthType));
     },
     setTool: tool => {
       dispatch(actions.setTool(tool));

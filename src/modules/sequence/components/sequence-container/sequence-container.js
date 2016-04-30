@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { Sequence } from '../sequence/sequence';
+import sound from 'modules/sound';
 import * as actions from '../../actions';
 import selectors from '../../selectors';
 
@@ -19,7 +20,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     playNote: (...options) => {
-      dispatch(actions.playNote(...options));
+      dispatch(sound.actions.playNote(...options));
     },
     requestNotes: notes => {
       dispatch(actions.deleteNotes(notes));

@@ -9,14 +9,12 @@ import reducer from './reducer';
 import './styles/resets.scss';
 
 const { App } = app.components;
-const { initializeState, updateState } = sound.model;
 
 const middleware = applyMiddleware(thunkMiddleware);
+
 const store = createStore(reducer, middleware);
 
-initializeState(store.getState(), store.dispatch);
-
-store.subscribe(() => updateState(store.getState()));
+store.dispatch(sound.actions.initialize());
 
 render(
   createElement(Provider, {

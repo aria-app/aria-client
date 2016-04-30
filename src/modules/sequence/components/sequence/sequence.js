@@ -3,6 +3,7 @@ import h from 'react-hyperscript';
 import { compose, pure, setPropTypes } from 'recompose';
 import { Grid } from '../grid/grid';
 import { Keys } from '../keys/keys';
+import { ScrollTo } from '../scroll-to/scroll-to';
 import {
   SequenceToolbarContainer,
 } from '../sequence-toolbar-container/sequence-toolbar-container';
@@ -13,10 +14,10 @@ const component = ({
   scale,
   tool,
 }) => h('.sequence', [
-  h(SequenceToolbarContainer, {
-    tool,
-  }),
-  h('.sequence__content', [
+  h(SequenceToolbarContainer, { tool }),
+  h(ScrollTo, {
+    centered: true,
+  }, h('.sequence__content', [
     h('.sequence__wrapper', [
       h(Keys, {
         playNote,
@@ -28,7 +29,7 @@ const component = ({
         tool,
       }),
     ]),
-  ]),
+  ])),
 ]);
 
 const composed = compose([

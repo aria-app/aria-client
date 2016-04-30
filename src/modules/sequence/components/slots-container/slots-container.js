@@ -16,9 +16,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    playNote: (...options) => {
-      dispatch(actions.playNote(...options));
-    },
     drawNote: note => {
       dispatch(actions.drawNote(note));
     },

@@ -9,7 +9,7 @@ const getPlaybackState = state => get(state).playbackState;
 const getPosition = state => get(state).position;
 const getScale = state => get(state).scale;
 const getSelectedNotes = state => get(state).selectedNotes;
-const getSynth = state => get(state).synth;
+const getSynthType = state => get(state).synthType;
 const getTool = state => get(state).tool;
 
 export default {
@@ -21,6 +21,6 @@ export default {
   getPlaybackState,
   getPosition,
   getScale,
-  getSynth,
+  getSynthType,
   getTool,
 };
