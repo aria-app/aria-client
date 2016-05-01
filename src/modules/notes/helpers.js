@@ -8,9 +8,9 @@ export function addPositions(a, b) {
   };
 }
 
-export function createNote({ position }) {
+export function createNote({ id, position }) {
   return {
-    id: _.uniqueId('note'),
+    id: id || _.uniqueId('note'),
     name: sound.helpers.getNoteName(position.y),
     position,
   };

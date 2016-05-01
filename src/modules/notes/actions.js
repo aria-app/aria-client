@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import sound from 'modules/sound';
 import actionTypes from './actionTypes';
 import * as helpers from './helpers';
 import selectors from './selectors';
@@ -21,12 +22,15 @@ export function drag(newPosition) {
   return (dispatch, getState) => {
     const dragEvent = selectors.getDragEvent(getState());
     const offset = helpers.getPositionOffset(dragEvent.startPosition, newPosition);
+
+    if (dragEvent.offset) {
+      dispatch(moveNote(dragEvent.note, newPosition));
+    }
+
     dispatch(setDragEvent({
       ...dragEvent,
       offset,
     }));
-
-    dispatch(moveNote(dragEvent.note, newPosition));
   };
 }
 
@@ -39,10 +43,12 @@ export function eraseNote(note) {
 
 export function moveNote(note, newPosition) {
   return (dispatch) => {
-    dispatch(updateNote({
-      ...note,
+    const updatedNote = helpers.createNote({
+      id: note.id,
       position: newPosition,
-    }));
+    });
+    dispatch(sound.actions.playNote(updatedNote.name));
+    dispatch(updateNote(updatedNote));
     // Calculate new note position.
     // const movedNote = helpers.createNote({
     //   length: '32n',
