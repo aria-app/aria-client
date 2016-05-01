@@ -1,5 +1,6 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
+import _ from 'lodash';
 import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
 import './keys.scss';
 
@@ -7,13 +8,13 @@ const component = ({ keys }) => h('.keys', keys);
 
 const keyComponent = ({
   handleKeyPress,
-  scaleStep,
+  step,
 }) => h('.keys__key', {
-  className: `keys__key--${scaleStep.letter}`,
-  onMouseUp: () => handleKeyPress(scaleStep),
+  className: getKeyClasses(step),
+  onMouseUp: () => handleKeyPress(step),
 }, [
   h('.keys__key__label', [
-    getLabel(scaleStep),
+    step.name,
   ]),
 ]);
 
@@ -23,13 +24,13 @@ const composed = compose([
     scale: PropTypes.array,
   }),
   withHandlers({
-    handleKeyPress: ({ playNote }) => scaleStep =>
-      playNote(scaleStep.frequency, '8n'),
+    handleKeyPress: ({ playNote }) => step =>
+      playNote(step.name, '8n'),
   }),
   mapProps(({ handleKeyPress, scale, ...rest }) => ({
-    keys: scale.map(scaleStep => h(keyComponent, {
+    keys: scale.map(step => h(keyComponent, {
       handleKeyPress,
-      scaleStep,
+      step,
     })),
     ...rest,
   })),
@@ -38,6 +39,10 @@ const composed = compose([
 
 export const Keys = composed;
 
-function getLabel(scaleStep) {
-  return scaleStep.letter.toUpperCase() + String(scaleStep.octave);
+function getKeyClasses(step) {
+  const letter = step.name.slice(0, 1).toLowerCase();
+  const suffix = _.includes(step.name, '#')
+    ? 'sharp'
+    : '';
+  return `keys__key--${letter}${suffix}`;
 }

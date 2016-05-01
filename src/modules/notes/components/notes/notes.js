@@ -1,52 +1,60 @@
-import { PropTypes } from 'react';
+import React from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
 import { compose, pure, setPropTypes, withHandlers } from 'recompose';
 import sequence from 'modules/sequence';
+import * as helpers from '../../helpers';
 import { Note } from '../note/note';
 import './notes.scss';
 
 const component = ({
   notes,
-  onNotesPress,
-  onPress,
+  onMouseDown,
+  onMouseUp,
+  onBackgroundMove,
+  onBackgroundMouseUp,
+  // onPress,
   selectedNotes,
+  setElementRef,
 }) => h('.notes', {
-  onClick: onNotesPress,
+  onMouseMove: onBackgroundMove,
+  onMouseUp: onBackgroundMouseUp,
+  ref: setElementRef,
 }, notes.map((note, index) =>
   h(Note, {
     key: index,
     isSelected: _.includes(selectedNotes, note),
     note,
-    onPress,
+    onMouseDown,
+    onMouseUp,
+    // onPress,
   })
 ));
 
 const composed = compose([
   setPropTypes({
-    notes: PropTypes.array,
-    drawNote: PropTypes.func,
-    eraseNote: PropTypes.func,
-    playNote: PropTypes.func,
-    selectNotes: PropTypes.func,
-    selectedNotes: PropTypes.array,
-    toolType: PropTypes.string,
+    dragEvent: React.PropTypes.object,
+    drawNote: React.PropTypes.func,
+    notes: React.PropTypes.array,
+    eraseNote: React.PropTypes.func,
+    onBackgroundMouseUp: React.PropTypes.func,
+    onBackgroundMove: React.PropTypes.func,
+    playNote: React.PropTypes.func,
+    selectNotes: React.PropTypes.func,
+    selectedNotes: React.PropTypes.array,
+    setElementRef: React.PropTypes.func,
+    startDragging: React.PropTypes.func,
+    stopDragging: React.PropTypes.func,
+    toolType: React.PropTypes.string,
   }),
   withHandlers({
-    onNotesPress: ({ drawNote, toolType }) => e => {
-      if (toolType !== sequence.constants.toolTypes.DRAW) return;
-
-      const mousePosition = getMousePosition(e);
-
-      drawNote({
-        octave: 6 - Math.floor(mousePosition.y / 12),
-        pitch: 11 - mousePosition.y % 12,
-        length: '32n',
-        time: mousePosition.x,
-      });
+    onMouseDown: ({ startDragging }) => note => {
+      startDragging(note);
+    },
+    onMouseUp: ({ stopDragging }) => () => {
+      stopDragging();
     },
     onPress: ({
-      playNote,
       eraseNote,
       selectNotes,
       selectedNotes,
@@ -57,7 +65,8 @@ const composed = compose([
         return;
       }
 
-      playNote(note.frequency);
+      if (toolType !== sequence.constants.toolTypes.SELECT) return;
+
       if (!isCtrlPressed) {
         selectNotes([note]);
         return;
@@ -73,20 +82,45 @@ const composed = compose([
   pure,
 ])(component);
 
-export const Notes = composed;
+const classified = React.createClass({
+  render() {
+    return h(composed, {
+      onBackgroundMouseUp: this.onBackgroundMouseUp,
+      onBackgroundMove: this.onBackgroundMove,
+      setElementRef: this.setElementRef,
+      ...this.props,
+    });
+  },
+  onBackgroundMouseUp(e) {
+    if (this.props.dragEvent) {
+      this.props.stopDragging();
+      return;
+    }
 
-function getMousePosition(e) {
-  const offsetLeft = e.target.parentElement.parentElement.offsetLeft;
-  const offsetTop = e.target.parentElement.parentElement.offsetTop;
-  const scrollTop = e.target
-    .parentElement
-    .parentElement
-    .parentElement
-    .parentElement
-    .scrollTop;
-  const toSlotNumber = num => Math.floor(num / 40);
-  return {
-    x: toSlotNumber(e.pageX - offsetLeft),
-    y: toSlotNumber(e.pageY - offsetTop + scrollTop),
-  };
-}
+    if (this.props.toolType !== sequence.constants.toolTypes.DRAW) return;
+
+    const position = helpers.getMousePosition(e);
+
+    this.props.drawNote({
+      length: '32n',
+      position,
+    });
+  },
+  onBackgroundMove(e) {
+    if (!this.props.dragEvent) return;
+
+    const newPosition = helpers.getMousePosition(this.elementRef, e.pageX, e.pageY);
+    const prevOffset = this.props.dragEvent.offset;
+    const newOffset = helpers.getPositionOffset(this.props.dragEvent.startPosition, newPosition);
+
+    if (!prevOffset || !_.isEqual(prevOffset, newOffset)) {
+      this.props.drag(newPosition);
+    }
+  },
+  setElementRef(ref) {
+    this.elementRef = ref;
+  },
+});
+
+
+export const Notes = classified;

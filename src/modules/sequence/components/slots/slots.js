@@ -25,9 +25,17 @@ const composed = compose([
 
 export const Slots = composed;
 
+function getRowClasses(step) {
+  const letter = step.name.slice(0, 1).toLowerCase();
+  const suffix = _.includes(step.name, '#')
+    ? 'sharp'
+    : '';
+  return `slots__slot--${letter}${suffix}`;
+}
+
 function getRows(scale, measureCount) {
-  return scale.map((scaleStep) => h('.slots__row', {
-    className: `slots__row--${scaleStep.letter}`,
+  return scale.map((row) => h('.slots__row', {
+    className: getRowClasses(row),
   }, getSections(measureCount * 4)));
 }
 

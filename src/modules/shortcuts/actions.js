@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import Mousetrap from 'mousetrap';
+import notes from 'modules/notes';
 import sequence from 'modules/sequence';
 import sound from 'modules/sound';
 
@@ -73,11 +74,11 @@ function activateSelectTool() {
 
 function deleteNotes() {
   return (dispatch, getState) => {
-    const selectedNotes = sequence.selectors.getSelectedNotes(getState());
+    const selectedNotes = notes.selectors.getSelectedNotes(getState());
 
     if (_.isEmpty(selectedNotes)) return;
 
-    dispatch(sequence.actions.deleteNotes(selectedNotes));
+    dispatch(notes.actions.deleteNotes(selectedNotes));
   };
 }
 

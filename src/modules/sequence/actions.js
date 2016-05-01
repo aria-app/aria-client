@@ -1,4 +1,5 @@
 import actionTypes from './actionTypes';
+import notes from 'modules/notes';
 import sound from 'modules/sound';
 
 export function changeSynthType(synthType) {
@@ -16,6 +17,13 @@ export function setSynthType(synthType) {
 }
 
 export function setToolType(toolType) {
+  return (dispatch) => {
+    dispatch(notes.actions.selectNotes([]));
+    dispatch(setToolTypeInner(toolType));
+  };
+}
+
+export function setToolTypeInner(toolType) {
   return {
     type: actionTypes.SET_TOOL_TYPE,
     toolType,

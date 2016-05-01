@@ -21,6 +21,19 @@ export default function reducer(state = getInitialStateWithNotes(), action) {
       return _.assign({}, state, {
         selectedNotes: action.notes,
       });
+    case actionTypes.SET_DRAG_EVENT:
+      return _.assign({}, state, {
+        dragEvent: action.dragEvent,
+      });
+    case actionTypes.UPDATE_DRAG_EVENT:
+      return _.assign({}, state, {
+        dragEvent: action.dragEvent,
+      });
+    case actionTypes.UPDATE_NOTE:
+      return {
+        ...state,
+        notes: replaceItemById(state.notes, action.note),
+      };
     default:
       return state;
   }
@@ -31,27 +44,31 @@ function getInitialStateWithNotes() {
     notes: [
       createNote({
         length: '32n',
-        octave: 3,
-        pitch: 0,
-        time: 0,
+        position: {
+          x: 0,
+          y: 47,
+        },
       }),
       createNote({
         length: '32n',
-        octave: 3,
-        pitch: 2,
-        time: 2,
+        position: {
+          x: 2,
+          y: 45,
+        },
       }),
       createNote({
         length: '32n',
-        octave: 3,
-        pitch: 4,
-        time: 4,
+        position: {
+          x: 4,
+          y: 43,
+        },
       }),
       createNote({
         length: '32n',
-        octave: 3,
-        pitch: 7,
-        time: 6,
+        position: {
+          x: 6,
+          y: 40,
+        },
       }),
     ],
   });
@@ -59,7 +76,17 @@ function getInitialStateWithNotes() {
 
 function getInitialState() {
   return {
+    dragEvent: undefined,
     notes: [],
     selectedNotes: [],
   };
+}
+
+function replaceItemById(list, item) {
+  const index = _.findIndex(list, i => i.id === item.id);
+  return [
+    ...list.slice(0, index),
+    item,
+    ...list.slice(index + 1),
+  ];
 }

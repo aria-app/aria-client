@@ -1,7 +1,8 @@
 export default {
-  DELETE_NOTES: 'sequence/DELETE_NOTES',
-  DRAW_NOTE: 'sequence/DRAW_NOTE',
-  ERASE_NOTE: 'sequence/ERASE_NOTE',
-  MOVE_NOTES: 'sequence/MOVE_NOTES',
-  SELECT_NOTES: 'sequence/SELECT_NOTES',
+  DELETE_NOTES: 'notes/DELETE_NOTES',
+  DRAW_NOTE: 'notes/DRAW_NOTE',
+  ERASE_NOTE: 'notes/ERASE_NOTE',
+  SELECT_NOTES: 'notes/SELECT_NOTES',
+  SET_DRAG_EVENT: 'notes/SET_DRAG_EVENT',
+  UPDATE_NOTE: 'notes/UPDATE_NOTE',
 };

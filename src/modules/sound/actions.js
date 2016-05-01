@@ -10,8 +10,8 @@ export function createSequence() {
   return (dispatch, getState) => {
     const toneSequence = new Tone.Sequence((time, step) => {
       dispatch(setPosition(step));
-      _.filter(notes.selectors.getNotes(getState()), note => note.time === step)
-        .forEach(note => dispatch(playNote(note.frequency, note.length, time)));
+      _.filter(notes.selectors.getNotes(getState()), note => note.position.x === step)
+        .forEach(note => dispatch(playNote(note.name, note.length, time)));
     }, _.range(sequence.selectors.getMeasureCount(getState()) * 32), '32n');
 
     toneSequence.start();
@@ -25,10 +25,10 @@ export function initialize() {
   };
 }
 
-export function playNote(frequency, length = '32n', time) {
+export function playNote(name, length = '32n', time) {
   return (dispatch, getState) => {
     selectors.getSynth(getState())
-      .triggerAttackRelease(frequency, length, time);
+      .triggerAttackRelease(name, length, time);
   };
 }
 

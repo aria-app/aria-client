@@ -10,12 +10,17 @@ export const NotesContainer = connect(
 
 function mapStateToProps(state) {
   return {
+    dragEvent: selectors.getDragEvent(state),
     notes: selectors.getNotes(state),
+    selectedNotes: selectors.getSelectedNotes(state),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    drag: newPosition => {
+      dispatch(actions.drag(newPosition));
+    },
     drawNote: note => {
       dispatch(actions.drawNote(note));
     },
@@ -24,6 +29,12 @@ function mapDispatchToProps(dispatch) {
     },
     selectNotes: notes => {
       dispatch(actions.selectNotes(notes));
+    },
+    startDragging: options => {
+      dispatch(actions.startDragging(options));
+    },
+    stopDragging: () => {
+      dispatch(actions.stopDragging());
     },
   };
 }
