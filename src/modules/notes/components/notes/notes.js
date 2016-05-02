@@ -106,6 +106,9 @@ const classified = React.createClass({
     switch (this.props.toolType) {
       case toolTypes.DRAW:
         this.props.draw(helpers.getMousePosition(this.elementRef, e.pageX, e.pageY));
+        if (!_.isEmpty(this.props.selectedNotes)) {
+          this.props.select([]);
+        }
         break;
       case toolTypes.ERASE:
         break;
@@ -139,8 +142,6 @@ const classified = React.createClass({
   onMouseDown(note, e) {
     const { toolTypes } = sequence.constants;
     switch (this.props.toolType) {
-      case toolTypes.DRAW:
-        return e.stopPropagation();
       case toolTypes.ERASE:
         return e.stopPropagation();
       case toolTypes.MOVE:
@@ -148,6 +149,7 @@ const classified = React.createClass({
         return e.stopPropagation();
       case toolTypes.PAN:
         return e.stopPropagation();
+      case toolTypes.DRAW:
       case toolTypes.SELECT:
         this.props.playNote(note.name);
         if (e.ctrlKey || e.metaKey) {
@@ -171,7 +173,6 @@ const classified = React.createClass({
     const { toolTypes } = sequence.constants;
     switch (this.props.toolType) {
       case toolTypes.DRAW:
-        this.props.playNote(note.name);
         break;
       case toolTypes.ERASE:
         this.props.eraseNote(note);

@@ -65,6 +65,14 @@ export function select(notes) {
   };
 }
 
+export function selectAll() {
+  return (dispatch, getState) => {
+    const notes = selectors.getNotes(getState());
+
+    dispatch(select(notes));
+  };
+}
+
 export function setSelectedNoteIds(selectedNoteIds) {
   return {
     type: actionTypes.SET_SELECTED_NOTE_IDS,

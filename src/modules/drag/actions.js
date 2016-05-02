@@ -16,7 +16,6 @@ export function drag(newPosition) {
     if (_.isEqual(previousPosition, newPosition)) return;
 
     const selectedNotes = notes.selectors.getSelectedNotes(getState());
-    console.log(selectedNotes);
     const offset = helpers.getPositionOffset(previousPosition, newPosition);
 
     dispatch(notes.actions.move(

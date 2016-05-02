@@ -20,7 +20,6 @@ export function initialize() {
     // Playback
     Mousetrap.bind('enter', () => dispatch(togglePlayPause()));
     Mousetrap.bind('escape', () => dispatch(stop()));
-    Mousetrap.bind(['backspace', 'del'], () => dispatch(removeSelectedNotes()));
 
     // Nudge
     Mousetrap.bind('up', e => dispatch(nudgeSelectedNotes({ x: 0, y: -1 }, e)));
@@ -29,7 +28,18 @@ export function initialize() {
     Mousetrap.bind('right', e => dispatch(nudgeSelectedNotes({ x: 1, y: 0 }, e)));
 
     // Note Actions
-    Mousetrap.bind('ctrl+d', e => dispatch(duplicateSelectedNotes(e)));
+    // Mousetrap.bind(['ctrl+a', 'meta+a'], () => dispatch(notes.actions.selectAll()));
+    Mousetrap.bind(['ctrl+a', 'meta+a'], e => dispatch(safelyPerform(notes.actions.selectAll, e)));
+    Mousetrap.bind(['backspace', 'del'], () => dispatch(removeSelectedNotes()));
+    Mousetrap.bind(['ctrl+d', 'meta+d'], () => dispatch(notes.actions.deselect()));
+    Mousetrap.bind(['ctrl+shift+d', 'meta+shift+d'], e => dispatch(notes.actions.duplicate(e)));
+  };
+}
+
+function safelyPerform(action, e) {
+  return (dispatch) => {
+    e.preventDefault();
+    dispatch(action());
   };
 }
 
