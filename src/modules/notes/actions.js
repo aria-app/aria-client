@@ -10,7 +10,7 @@ export function add(note) {
   };
 }
 
-export function drawNote(position) {
+export function draw(position) {
   return (dispatch) => {
     const note = helpers.createNote({ position });
     dispatch(sound.actions.playNote(note.name));
@@ -35,7 +35,7 @@ export function drag(newPosition) {
   };
 }
 
-export function eraseNote(note) {
+export function erase(note) {
   return (dispatch) => {
     dispatch(remove(note));
   };

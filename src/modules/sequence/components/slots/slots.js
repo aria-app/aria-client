@@ -16,9 +16,6 @@ const component = ({
 const composed = compose([
   setPropTypes({
     measureCount: PropTypes.number.isRequired,
-    drawNote: PropTypes.func,
-    playNote: PropTypes.func,
-    toolType: PropTypes.string,
   }),
   mapProps(({
     measureCount,

@@ -4,11 +4,11 @@ import { compose, mapProps, pure, setPropTypes } from 'recompose';
 import sound from 'modules/sound';
 import './position-marker.scss';
 
-const component = ({ display, left }) =>
+const component = ({ display, transform }) =>
   h('.position-marker', {
     style: {
       display,
-      left,
+      transform,
     },
   });
 
@@ -21,7 +21,7 @@ const composed = compose([
     display: playbackState === sound.constants.playbackStates.STOPPED
       ? 'none'
       : 'block',
-    left: position * 40,
+    transform: `translateX(${position * 40}px)`,
   })),
   pure,
 ])(component);

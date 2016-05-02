@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import sequence from 'modules/sequence';
 import { playbackStates } from './constants';
 import { createSynth } from './helpers';
@@ -7,21 +6,25 @@ import actionTypes from './actionTypes';
 export default function reducer(state = getInitialState(), action) {
   switch (action.type) {
     case actionTypes.SET_BPM:
-      return _.assign({}, state, {
+      return {
+        ...state,
         bpm: action.bpm,
-      });
+      };
     case actionTypes.SET_PLAYBACK_STATE:
-      return _.assign({}, state, {
+      return {
+        ...state,
         playbackState: action.playbackState,
-      });
+      };
     case actionTypes.SET_POSITION:
-      return _.assign({}, state, {
+      return {
+        ...state,
         position: action.position,
-      });
+      };
     case actionTypes.SET_SYNTH:
-      return _.assign({}, state, {
+      return {
+        ...state,
         synth: createSynth(action.synthType),
-      });
+      };
     default:
       return state;
   }

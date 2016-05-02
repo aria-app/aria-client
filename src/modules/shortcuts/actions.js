@@ -6,18 +6,18 @@ import sound from 'modules/sound';
 
 export function initialize() {
   return (dispatch) => {
-    Mousetrap.bind('d', () => dispatch(activateDrawTool()));
-    Mousetrap.bind('e', () => dispatch(activateEraseTool()));
-    Mousetrap.bind('m', () => dispatch(activateMoveTool()));
-    Mousetrap.bind('p', () => dispatch(activatePanTool()));
-    Mousetrap.bind('s', () => dispatch(activateSelectTool()));
+    Mousetrap.bind('d', () => dispatch(activateDraw()));
+    Mousetrap.bind('e', () => dispatch(activateErase()));
+    Mousetrap.bind('m', () => dispatch(activateMove()));
+    Mousetrap.bind('p', () => dispatch(activatePan()));
+    Mousetrap.bind('s', () => dispatch(activateSelect()));
     Mousetrap.bind('enter', () => dispatch(togglePlayPause()));
     Mousetrap.bind('escape', () => dispatch(stop()));
     Mousetrap.bind(['backspace', 'del'], () => dispatch(removeSelectedNote()));
   };
 }
 
-function activateDrawTool() {
+function activateDraw() {
   return (dispatch, getState) => {
     const toolType = sequence.constants.toolTypes.DRAW;
     const currentToolType = sequence.selectors.getToolType(getState());
@@ -28,7 +28,7 @@ function activateDrawTool() {
   };
 }
 
-function activateEraseTool() {
+function activateErase() {
   return (dispatch, getState) => {
     const toolType = sequence.constants.toolTypes.ERASE;
     const currentToolType = sequence.selectors.getToolType(getState());
@@ -39,7 +39,7 @@ function activateEraseTool() {
   };
 }
 
-function activateMoveTool() {
+function activateMove() {
   return (dispatch, getState) => {
     const toolType = sequence.constants.toolTypes.MOVE;
     const currentToolType = sequence.selectors.getToolType(getState());
@@ -50,7 +50,7 @@ function activateMoveTool() {
   };
 }
 
-function activatePanTool() {
+function activatePan() {
   return (dispatch, getState) => {
     const toolType = sequence.constants.toolTypes.PAN;
     const currentToolType = sequence.selectors.getToolType(getState());
@@ -61,7 +61,7 @@ function activatePanTool() {
   };
 }
 
-function activateSelectTool() {
+function activateSelect() {
   return (dispatch, getState) => {
     const toolType = sequence.constants.toolTypes.SELECT;
     const currentToolType = sequence.selectors.getToolType(getState());

@@ -5,14 +5,13 @@ import { compose, mapProps, setPropTypes, pure, withHandlers } from 'recompose';
 import './note.scss';
 
 const component = ({
-  top,
   className,
-  left,
   handleMouseDown,
   handleMouseUp,
+  transform,
 }) => h('.note', {
   className,
-  style: { top, left },
+  style: { transform },
 }, [
   h('.note__point', {
     onMouseDown: handleMouseDown,
@@ -38,8 +37,7 @@ export const Note = compose([
     },
   }),
   mapProps(({ isSelected, note, ...rest }) => ({
-    top: note.position.y * 40,
-    left: note.position.x * 40,
+    transform: `translate(${note.position.x * 40}px, ${note.position.y * 40}px)`,
     className: classnames({
       'note--active': isSelected,
     }),

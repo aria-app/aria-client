@@ -26,8 +26,8 @@ function mapDispatchToProps(dispatch) {
     drag: newPosition => {
       dispatch(actions.drag(newPosition));
     },
-    drawNote: note => {
-      dispatch(actions.drawNote(note));
+    draw: note => {
+      dispatch(actions.draw(note));
     },
     eraseNote: note => {
       dispatch(actions.eraseNote(note));
