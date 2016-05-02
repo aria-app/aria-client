@@ -35,8 +35,8 @@ function mapDispatchToProps(dispatch) {
     playNote: name => {
       dispatch(sound.actions.playNote(name));
     },
-    selectNote: note => {
-      dispatch(actions.selectNote(note));
+    select: note => {
+      dispatch(actions.select(note));
     },
     startDragging: options => {
       dispatch(actions.startDragging(options));

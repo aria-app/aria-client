@@ -13,7 +13,7 @@ export function initialize() {
     Mousetrap.bind('s', () => dispatch(activateSelectTool()));
     Mousetrap.bind('enter', () => dispatch(togglePlayPause()));
     Mousetrap.bind('escape', () => dispatch(stop()));
-    Mousetrap.bind(['backspace', 'del'], () => dispatch(deleteSelectedNote()));
+    Mousetrap.bind(['backspace', 'del'], () => dispatch(removeSelectedNote()));
   };
 }
 
@@ -72,13 +72,13 @@ function activateSelectTool() {
   };
 }
 
-function deleteSelectedNote() {
+function removeSelectedNote() {
   return (dispatch, getState) => {
     const selectedNote = notes.selectors.getSelectedNote(getState());
 
     if (!selectedNote) return;
 
-    dispatch(notes.actions.deleteNote(selectedNote));
+    dispatch(notes.actions.remove(selectedNote));
   };
 }
 

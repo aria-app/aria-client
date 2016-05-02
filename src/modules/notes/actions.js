@@ -3,16 +3,9 @@ import actionTypes from './actionTypes';
 import * as helpers from './helpers';
 import selectors from './selectors';
 
-export function addNotes(notes) {
+export function add(note) {
   return {
-    type: actionTypes.ADD_NOTES,
-    notes,
-  };
-}
-
-export function deleteNote(note) {
-  return {
-    type: actionTypes.DELETE_NOTE,
+    type: actionTypes.ADD,
     note,
   };
 }
@@ -21,7 +14,7 @@ export function drawNote(position) {
   return (dispatch) => {
     const note = helpers.createNote({ position });
     dispatch(sound.actions.playNote(note.name));
-    dispatch(addNotes([note]));
+    dispatch(add(note));
   };
 }
 
@@ -33,11 +26,7 @@ export function drag(newPosition) {
     const draggedNote = selectors.getDraggedNote(getState());
     const offset = helpers.getPositionOffset(dragStartPosition, newPosition);
     if (dragOffset) {
-      console.log('Note Position', draggedNote.position);
-      console.log('Offset', offset);
-      console.log('Next Position', helpers.addPositions(draggedNote.position, offset));
-
-      dispatch(moveNote(
+      dispatch(move(
         selectedNote,
         helpers.addPositions(draggedNote.position, offset)
       ));
@@ -47,45 +36,33 @@ export function drag(newPosition) {
 }
 
 export function eraseNote(note) {
-  return {
-    type: actionTypes.ERASE_NOTE,
-    note,
+  return (dispatch) => {
+    dispatch(remove(note));
   };
 }
 
-export function moveNote(note, newPosition) {
+export function move(note, newPosition) {
   return (dispatch) => {
     const updatedNote = helpers.createNote({
       id: note.id,
       position: newPosition,
     });
     dispatch(sound.actions.playNote(updatedNote.name));
-    dispatch(updateNote(updatedNote));
+    dispatch(update(updatedNote));
   };
 }
 
-export function selectNote(note) {
+export function remove(note) {
   return {
-    type: actionTypes.SELECT_NOTE,
+    type: actionTypes.REMOVE,
     note,
   };
 }
 
-export function startDragging(startPosition) {
-  return (dispatch, getState) => {
-    const selectedNote = selectors.getSelectedNote(getState());
-
-    if (!selectedNote) return;
-
-    dispatch(setIsDragging(true));
-    dispatch(setDraggedNote(selectedNote));
-    dispatch(setDragStartPosition(startPosition));
-  };
-}
-
-export function stopDragging() {
-  return (dispatch) => {
-    dispatch(setIsDragging(false));
+export function select(note) {
+  return {
+    type: actionTypes.SELECT,
+    note,
   };
 }
 
@@ -117,9 +94,27 @@ export function setIsDragging(isDragging) {
   };
 }
 
-export function updateNote(note) {
+export function startDragging(startPosition) {
+  return (dispatch, getState) => {
+    const selectedNote = selectors.getSelectedNote(getState());
+
+    if (!selectedNote) return;
+
+    dispatch(setIsDragging(true));
+    dispatch(setDraggedNote(selectedNote));
+    dispatch(setDragStartPosition(startPosition));
+  };
+}
+
+export function stopDragging() {
+  return (dispatch) => {
+    dispatch(setIsDragging(false));
+  };
+}
+
+export function update(note) {
   return {
-    type: actionTypes.UPDATE_NOTE,
+    type: actionTypes.UPDATE,
     note,
   };
 }

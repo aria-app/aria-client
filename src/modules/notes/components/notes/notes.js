@@ -49,7 +49,7 @@ const classified = React.createClass({
     notes: React.PropTypes.array,
     eraseNote: React.PropTypes.func,
     playNote: React.PropTypes.func,
-    selectNote: React.PropTypes.func,
+    select: React.PropTypes.func,
     selectedNote: React.PropTypes.object,
     setElementRef: React.PropTypes.func,
     startDragging: React.PropTypes.func,
@@ -97,7 +97,7 @@ const classified = React.createClass({
       case toolTypes.PAN:
         break;
       case toolTypes.SELECT:
-        this.props.selectNote(undefined);
+        this.props.select(undefined);
         break;
       default:
     }
@@ -133,11 +133,8 @@ const classified = React.createClass({
       case toolTypes.SELECT:
         this.props.playNote(note.name);
         if (!this.props.selectedNote || this.props.selectedNote.id !== note.id) {
-          this.props.selectNote(note);
+          this.props.select(note);
         }
-        // if (this.props.selectedNote && this.props.selectedNote.id === note.id) {
-        //   this.props.selectNote(undefined);
-        // }
         this.props.startDragging(helpers.getMousePosition(this.elementRef, e.pageX, e.pageY));
         return e.stopPropagation();
       default:
