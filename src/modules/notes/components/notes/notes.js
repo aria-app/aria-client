@@ -1,14 +1,15 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
-import { compose, pure } from 'recompose';
-import dragModule from 'modules/drag';
+import classnames from 'classnames';
+import { compose, mapProps, pure } from 'recompose';
 import sequence from 'modules/sequence';
 import * as helpers from '../../helpers';
 import { Note } from '../note/note';
 import './notes.scss';
 
 const component = ({
+  cursorClasses,
   measureCount,
   notes,
   onMouseDown,
@@ -22,6 +23,7 @@ const component = ({
   style: {
     width: measureCount * 4 * 8 * 40,
   },
+  className: cursorClasses,
   onMouseMove: onBackgroundMouseMove,
   onMouseDown: onBackgroundMouseDown,
   onMouseUp: onBackgroundMouseUp,
@@ -37,6 +39,12 @@ const component = ({
 ));
 
 const composed = compose([
+  mapProps(props => ({
+    ...props,
+    cursorClasses: classnames({
+      'notes--grab': props.toolType === sequence.constants.toolTypes.PAN,
+    }),
+  })),
   pure,
 ])(component);
 
@@ -47,15 +55,19 @@ const classified = React.createClass({
     dragStartPosition: React.PropTypes.object,
     draw: React.PropTypes.func,
     isDragging: React.PropTypes.bool,
+    isPanning: React.PropTypes.bool,
     measureCount: React.PropTypes.number.isRequired,
     notes: React.PropTypes.array,
     eraseNote: React.PropTypes.func,
+    panStart: React.PropTypes.object,
     playNote: React.PropTypes.func,
     select: React.PropTypes.func,
     selectedNotes: React.PropTypes.array,
     setElementRef: React.PropTypes.func,
     startDragging: React.PropTypes.func,
     stopDragging: React.PropTypes.func,
+    startPanning: React.PropTypes.func,
+    stopPanning: React.PropTypes.func,
     toolType: React.PropTypes.string,
   },
   render() {
@@ -80,11 +92,14 @@ const classified = React.createClass({
         this.props.startDragging(helpers.getMousePosition(this.elementRef, e.pageX, e.pageY));
         break;
       case toolTypes.PAN:
+        this.props.startPanning(helpers.getPanStart(this.elementRef, e));
         break;
       case toolTypes.SELECT:
         break;
       default:
     }
+
+    return false;
   },
   onBackgroundMouseUp(e) {
     const { toolTypes } = sequence.constants;
@@ -106,13 +121,20 @@ const classified = React.createClass({
 
     if (this.props.isDragging) {
       this.props.stopDragging();
-      return;
+    }
+
+    if (this.props.isPanning) {
+      this.props.stopPanning();
     }
   },
   onBackgroundMouseMove(e) {
-    if (!this.props.isDragging) return;
+    if (this.props.isDragging) {
+      this.props.drag(helpers.getMousePosition(this.elementRef, e.pageX, e.pageY));
+    }
 
-    this.props.drag(helpers.getMousePosition(this.elementRef, e.pageX, e.pageY));
+    if (this.props.isPanning) {
+      helpers.panScrollContainer(this.elementRef, e, this.props.panStart);
+    }
   },
   onMouseDown(note, e) {
     const { toolTypes } = sequence.constants;
@@ -165,6 +187,10 @@ const classified = React.createClass({
 
     if (this.props.isDragging) {
       this.props.stopDragging();
+    }
+
+    if (this.props.isPanning) {
+      this.props.stopPanning();
     }
 
     e.stopPropagation();

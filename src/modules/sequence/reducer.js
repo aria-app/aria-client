@@ -6,6 +6,16 @@ const { getScale } = sound.helpers;
 
 export default function reducer(state = getInitialState(), action) {
   switch (action.type) {
+    case actionTypes.SET_IS_PANNING:
+      return {
+        ...state,
+        isPanning: action.isPanning,
+      };
+    case actionTypes.SET_PAN_START:
+      return {
+        ...state,
+        panStart: action.panStart,
+      };
     case actionTypes.SET_MEASURE_COUNT:
       return {
         ...state,
@@ -30,6 +40,8 @@ export default function reducer(state = getInitialState(), action) {
 function getInitialState() {
   return {
     id: 0,
+    panStart: undefined,
+    isPanning: false,
     measureCount: 2,
     previousToolType: undefined,
     scale: getScale(),

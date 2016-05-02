@@ -11,6 +11,13 @@ export function changeSynthType(synthType) {
   };
 }
 
+export function setIsPanning(isPanning) {
+  return {
+    type: actionTypes.SET_IS_PANNING,
+    isPanning,
+  };
+}
+
 export function setSynthType(synthType) {
   return {
     type: actionTypes.SET_SYNTH_TYPE,
@@ -31,5 +38,25 @@ export function setToolTypeInner(toolType) {
   return {
     type: actionTypes.SET_TOOL_TYPE,
     toolType,
+  };
+}
+
+export function setPanStart(panStart) {
+  return {
+    type: actionTypes.SET_PAN_START,
+    panStart,
+  };
+}
+
+export function startPanning(panStart) {
+  return (dispatch) => {
+    dispatch(setIsPanning(true));
+    dispatch(setPanStart(panStart));
+  };
+}
+
+export function stopPanning() {
+  return (dispatch) => {
+    dispatch(setIsPanning(false));
   };
 }

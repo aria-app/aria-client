@@ -78,13 +78,14 @@ function activatePanTool() {
 }
 
 function holdPan(e) {
+  e.preventDefault();
   return (dispatch, getState) => {
     const heldKeys = selectors.getHeldKeys(getState());
+
     if (_.includes(heldKeys, e.keyCode)) return;
+
     const toolType = sequence.constants.toolTypes.PAN;
     const currentToolType = sequence.selectors.getToolType(getState());
-
-    console.log(toolType);
 
     if (currentToolType === toolType) return;
 
@@ -97,9 +98,7 @@ function revertPan() {
   return (dispatch, getState) => {
     const previousToolType = sequence.selectors.getPreviousToolType(getState());
 
-    if (previousToolType === sequence.constants.toolTypes.PAN) return;
-
-    console.log(previousToolType);
+    if (!previousToolType || previousToolType === sequence.constants.toolTypes.PAN) return;
 
     dispatch(sequence.actions.setToolType(previousToolType));
     dispatch(setHeldKeys([]));

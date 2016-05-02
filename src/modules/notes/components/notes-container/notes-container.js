@@ -16,7 +16,9 @@ function mapStateToProps(state) {
     dragOffset: drag.selectors.getOffset(state),
     dragStartPosition: drag.selectors.getStartPosition(state),
     isDragging: drag.selectors.getIsDragging(state),
+    isPanning: sequence.selectors.getIsPanning(state),
     measureCount: sequence.selectors.getMeasureCount(state),
+    panStart: sequence.selectors.getPanStart(state),
     notes: selectors.getNotes(state),
     selectedNotes: selectors.getSelectedNotes(state),
   };
@@ -44,6 +46,12 @@ function mapDispatchToProps(dispatch) {
     },
     stopDragging: () => {
       dispatch(drag.actions.stopDragging());
+    },
+    startPanning: options => {
+      dispatch(sequence.actions.startPanning(options));
+    },
+    stopPanning: () => {
+      dispatch(sequence.actions.stopPanning());
     },
   };
 }
