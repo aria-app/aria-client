@@ -19,9 +19,7 @@ export function createNote({ id, position }) {
 export function getMousePosition(el, pageX, pageY) {
   const offsetLeft = el.parentElement.parentElement.offsetLeft;
   const offsetTop = el.parentElement.parentElement.offsetTop;
-  const scrollLeft = el.parentElement
-    .parentElement
-    .parentElement.scrollLeft;
+  const scrollLeft = el.parentElement.parentElement.scrollLeft;
   const scrollTop = el.parentElement
     .parentElement
     .parentElement

@@ -43,6 +43,7 @@ const classified = React.createClass({
   propTypes: {
     dragEvent: React.PropTypes.object,
     drawNote: React.PropTypes.func,
+    measureCount: React.PropTypes.number.isRequired,
     notes: React.PropTypes.array,
     eraseNote: React.PropTypes.func,
     playNote: React.PropTypes.func,
@@ -85,7 +86,9 @@ const classified = React.createClass({
     const { toolTypes } = sequence.constants;
     switch (this.props.toolType) {
       case toolTypes.DRAW:
-        this.props.drawNote(helpers.getMousePosition(this.elementRef, e.pageX, e.pageY));
+        const position = helpers.getMousePosition(this.elementRef, e.pageX, e.pageY);
+        console.log(position);
+        this.props.drawNote(position);
         break;
       case toolTypes.ERASE:
         break;

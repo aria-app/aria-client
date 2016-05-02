@@ -4,7 +4,10 @@ import _ from 'lodash';
 import { compose, mapProps, pure, setPropTypes } from 'recompose';
 import './slots.scss';
 
-const component = ({ measureCount, rows }) => h('.slots', {
+const component = ({
+  measureCount,
+  rows,
+}) => h('.slots', {
   style: {
     width: measureCount * 4 * 8 * 40,
   },
@@ -12,7 +15,7 @@ const component = ({ measureCount, rows }) => h('.slots', {
 
 const composed = compose([
   setPropTypes({
-    measureCount: PropTypes.number,
+    measureCount: PropTypes.number.isRequired,
     drawNote: PropTypes.func,
     playNote: PropTypes.func,
     toolType: PropTypes.string,
@@ -22,6 +25,7 @@ const composed = compose([
     scale,
     }) => ({
       rows: getRows(scale, measureCount),
+      measureCount,
     })
   ),
   pure,
