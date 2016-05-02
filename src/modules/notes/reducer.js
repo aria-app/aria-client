@@ -33,6 +33,7 @@ export default function reducer(state = getInitialStateWithNotes(), action) {
       return {
         ...state,
         notes: replaceItemById(state.notes, action.note),
+        selectedNote: action.note,
       };
     default:
       return state;

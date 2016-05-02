@@ -71,7 +71,6 @@ export function selectNote(note) {
 
 export function startDragging(startPosition) {
   return (dispatch, getState) => {
-    console.log(startPosition);
     const selectedNote = selectors.getSelectedNote(getState());
 
     if (!selectedNote) return;
@@ -90,7 +89,6 @@ export function stopDragging() {
 }
 
 export function setDragEvent(dragEvent) {
-  console.log('DragEvent', dragEvent)
   return {
     type: actionTypes.SET_DRAG_EVENT,
     dragEvent,

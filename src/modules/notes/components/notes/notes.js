@@ -86,9 +86,7 @@ const classified = React.createClass({
     const { toolTypes } = sequence.constants;
     switch (this.props.toolType) {
       case toolTypes.DRAW:
-        const position = helpers.getMousePosition(this.elementRef, e.pageX, e.pageY);
-        console.log(position);
-        this.props.drawNote(position);
+        this.props.drawNote(helpers.getMousePosition(this.elementRef, e.pageX, e.pageY));
         break;
       case toolTypes.ERASE:
         break;
