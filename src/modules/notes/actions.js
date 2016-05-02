@@ -1,12 +1,11 @@
 import sound from 'modules/sound';
 import actionTypes from './actionTypes';
 import * as helpers from './helpers';
-import selectors from './selectors';
 
-export function add(note) {
+export function add(notes) {
   return {
     type: actionTypes.ADD,
-    note,
+    notes,
   };
 }
 
@@ -14,7 +13,7 @@ export function draw(position) {
   return (dispatch) => {
     const note = helpers.createNote({ position });
     dispatch(sound.actions.playNote(note.name));
-    dispatch(add(note));
+    dispatch(add([note]));
   };
 }
 

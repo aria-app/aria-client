@@ -8,7 +8,7 @@ export default function reducer(state = getInitialStateWithNotes(), action) {
         ...state,
         notes: [
           ...state.notes,
-          action.note,
+          ...action.notes,
         ],
       };
     case actionTypes.REMOVE:

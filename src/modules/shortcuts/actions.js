@@ -23,6 +23,9 @@ export function initialize() {
     Mousetrap.bind('down', e => dispatch(nudgeSelectedNotes({ x: 0, y: 1 }, e)));
     Mousetrap.bind('left', e => dispatch(nudgeSelectedNotes({ x: -1, y: 0 }, e)));
     Mousetrap.bind('right', e => dispatch(nudgeSelectedNotes({ x: 1, y: 0 }, e)));
+
+    // Note Actions
+    Mousetrap.bind('ctrl+d', e => dispatch(duplicateSelectedNotes(e)));
   };
 }
 
@@ -78,6 +81,22 @@ function activateSelect() {
     if (currentToolType === toolType) return;
 
     dispatch(sequence.actions.setToolType(toolType));
+  };
+}
+
+function duplicateSelectedNotes(e) {
+  e.preventDefault();
+  return (dispatch, getState) => {
+    const selectedNotes = notes.selectors.getSelectedNotes(getState());
+
+    if (_.isEmpty(selectedNotes)) return;
+
+    const duplicatedNotes = selectedNotes.map(note => notes.helpers.createNote({
+      position: note.position,
+    }));
+
+    dispatch(notes.actions.add(duplicatedNotes));
+    dispatch(notes.actions.select(duplicatedNotes));
   };
 }
 
