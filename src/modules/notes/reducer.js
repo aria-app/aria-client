@@ -11,7 +11,7 @@ export default function reducer(state = getInitialStateWithNotes(), action) {
     case actionTypes.DELETE_NOTE:
       return _.assign({}, state, {
         notes: _.without(state.notes, action.note),
-        selectedNote: undefined,
+        selectedNoteId: undefined,
       });
     case actionTypes.ERASE_NOTE:
       return _.assign({}, state, {
@@ -19,21 +19,30 @@ export default function reducer(state = getInitialStateWithNotes(), action) {
       });
     case actionTypes.SELECT_NOTE:
       return _.assign({}, state, {
-        selectedNote: action.note,
+        selectedNoteId: action.note
+          ? action.note.id
+          : undefined,
       });
-    case actionTypes.SET_DRAG_EVENT:
+    case actionTypes.SET_DRAGGED_NOTE:
       return _.assign({}, state, {
-        dragEvent: action.dragEvent,
+        draggedNote: action.draggedNote,
       });
-    case actionTypes.UPDATE_DRAG_EVENT:
+    case actionTypes.SET_DRAG_OFFSET:
       return _.assign({}, state, {
-        dragEvent: action.dragEvent,
+        dragOffset: action.dragOffset,
+      });
+    case actionTypes.SET_DRAG_START_POSITION:
+      return _.assign({}, state, {
+        dragStartPosition: action.dragStartPosition,
+      });
+    case actionTypes.SET_IS_DRAGGING:
+      return _.assign({}, state, {
+        isDragging: action.isDragging,
       });
     case actionTypes.UPDATE_NOTE:
       return {
         ...state,
         notes: replaceItemById(state.notes, action.note),
-        selectedNote: action.note,
       };
     default:
       return state;
@@ -77,9 +86,12 @@ function getInitialStateWithNotes() {
 
 function getInitialState() {
   return {
-    dragEvent: undefined,
+    draggedNote: undefined,
+    dragOffset: undefined,
+    dragStartPosition: undefined,
+    isDragging: false,
     notes: [],
-    selectedNote: undefined,
+    selectedNoteId: undefined,
   };
 }
 

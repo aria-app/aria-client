@@ -41,8 +41,10 @@ const composed = compose([
 
 const classified = React.createClass({
   propTypes: {
-    dragEvent: React.PropTypes.object,
+    dragOffset: React.PropTypes.object,
+    dragStartPosition: React.PropTypes.object,
     drawNote: React.PropTypes.func,
+    isDragging: React.PropTypes.bool,
     measureCount: React.PropTypes.number.isRequired,
     notes: React.PropTypes.array,
     eraseNote: React.PropTypes.func,
@@ -95,21 +97,22 @@ const classified = React.createClass({
       case toolTypes.PAN:
         break;
       case toolTypes.SELECT:
+        this.props.selectNote(undefined);
         break;
       default:
     }
 
-    if (this.props.dragEvent) {
+    if (this.props.isDragging) {
       this.props.stopDragging();
       return;
     }
   },
   onBackgroundMouseMove(e) {
-    if (!this.props.dragEvent) return;
+    if (!this.props.isDragging) return;
 
     const newPosition = helpers.getMousePosition(this.elementRef, e.pageX, e.pageY);
-    const prevOffset = this.props.dragEvent.offset;
-    const newOffset = helpers.getPositionOffset(this.props.dragEvent.startPosition, newPosition);
+    const prevOffset = this.props.dragOffset;
+    const newOffset = helpers.getPositionOffset(this.props.dragStartPosition, newPosition);
 
     if (!prevOffset || !_.isEqual(prevOffset, newOffset)) {
       this.props.drag(newPosition);
@@ -128,6 +131,14 @@ const classified = React.createClass({
       case toolTypes.PAN:
         return e.stopPropagation();
       case toolTypes.SELECT:
+        this.props.playNote(note.name);
+        if (!this.props.selectedNote || this.props.selectedNote.id !== note.id) {
+          this.props.selectNote(note);
+        }
+        // if (this.props.selectedNote && this.props.selectedNote.id === note.id) {
+        //   this.props.selectNote(undefined);
+        // }
+        this.props.startDragging(helpers.getMousePosition(this.elementRef, e.pageX, e.pageY));
         return e.stopPropagation();
       default:
         return true;
@@ -147,16 +158,11 @@ const classified = React.createClass({
       case toolTypes.PAN:
         break;
       case toolTypes.SELECT:
-        if (this.props.selectedNote && this.props.selectedNote.id === note.id) {
-          this.props.selectNote(undefined);
-        } else {
-          this.props.selectNote(note);
-        }
         break;
       default:
     }
 
-    if (this.props.dragEvent) {
+    if (this.props.isDragging) {
       this.props.stopDragging();
     }
 

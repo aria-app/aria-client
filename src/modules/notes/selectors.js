@@ -1,16 +1,25 @@
+import _ from 'lodash';
 import { NAME } from './constants';
 
 const get = state => state[NAME];
 
-const getDragEvent = state => get(state).dragEvent;
-const getDragEventStartPosition = state => get(state).dragEvent.startPosition;
+const getDraggedNote = state => get(state).draggedNote;
+const getDragOffset = state => get(state).dragOffset;
+const getDragStartPosition = state => get(state).dragStartPosition;
+const getIsDragging = state => get(state).isDragging;
 const getNotes = state => get(state).notes;
-const getSelectedNote = state => get(state).selectedNote;
+const getSelectedNoteId = state => get(state).selectedNoteId;
+const getSelectedNote = state => _.find(get(state).notes, {
+  id: get(state).selectedNoteId,
+});
 
 export default {
   get,
-  getDragEvent,
-  getDragEventStartPosition,
+  getDraggedNote,
+  getDragOffset,
+  getDragStartPosition,
+  getIsDragging,
   getNotes,
   getSelectedNote,
+  getSelectedNoteId,
 };

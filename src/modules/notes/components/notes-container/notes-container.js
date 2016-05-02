@@ -12,7 +12,9 @@ export const NotesContainer = connect(
 
 function mapStateToProps(state) {
   return {
-    dragEvent: selectors.getDragEvent(state),
+    dragOffset: selectors.getDragOffset(state),
+    dragStartPosition: selectors.getDragStartPosition(state),
+    isDragging: selectors.getIsDragging(state),
     measureCount: sequence.selectors.getMeasureCount(state),
     notes: selectors.getNotes(state),
     selectedNote: selectors.getSelectedNote(state),

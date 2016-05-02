@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import sound from 'modules/sound';
 import actionTypes from './actionTypes';
 import * as helpers from './helpers';
@@ -28,19 +27,22 @@ export function drawNote(position) {
 
 export function drag(newPosition) {
   return (dispatch, getState) => {
-    const dragEvent = selectors.getDragEvent(getState());
-    const offset = helpers.getPositionOffset(dragEvent.startPosition, newPosition);
-    if (dragEvent.offset) {
+    const dragOffset = selectors.getDragOffset(getState());
+    const dragStartPosition = selectors.getDragStartPosition(getState());
+    const selectedNote = selectors.getSelectedNote(getState());
+    const draggedNote = selectors.getDraggedNote(getState());
+    const offset = helpers.getPositionOffset(dragStartPosition, newPosition);
+    if (dragOffset) {
+      console.log('Note Position', draggedNote.position);
+      console.log('Offset', offset);
+      console.log('Next Position', helpers.addPositions(draggedNote.position, offset));
+
       dispatch(moveNote(
-        dragEvent.note,
-        helpers.addPositions(dragEvent.note.position, offset)
+        selectedNote,
+        helpers.addPositions(draggedNote.position, offset)
       ));
     }
-
-    dispatch(setDragEvent({
-      ...dragEvent,
-      offset,
-    }));
+    dispatch(setDragOffset(offset));
   };
 }
 
@@ -75,23 +77,43 @@ export function startDragging(startPosition) {
 
     if (!selectedNote) return;
 
-    dispatch(setDragEvent({
-      note: selectedNote,
-      startPosition,
-    }));
+    dispatch(setIsDragging(true));
+    dispatch(setDraggedNote(selectedNote));
+    dispatch(setDragStartPosition(startPosition));
   };
 }
 
 export function stopDragging() {
   return (dispatch) => {
-    dispatch(setDragEvent(undefined));
+    dispatch(setIsDragging(false));
   };
 }
 
-export function setDragEvent(dragEvent) {
+export function setDraggedNote(draggedNote) {
   return {
-    type: actionTypes.SET_DRAG_EVENT,
-    dragEvent,
+    type: actionTypes.SET_DRAGGED_NOTE,
+    draggedNote,
+  };
+}
+
+export function setDragOffset(dragOffset) {
+  return {
+    type: actionTypes.SET_DRAG_OFFSET,
+    dragOffset,
+  };
+}
+
+export function setDragStartPosition(dragStartPosition) {
+  return {
+    type: actionTypes.SET_DRAG_START_POSITION,
+    dragStartPosition,
+  };
+}
+
+export function setIsDragging(isDragging) {
+  return {
+    type: actionTypes.SET_IS_DRAGGING,
+    isDragging,
   };
 }
 
