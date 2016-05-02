@@ -2,9 +2,5 @@ export default {
   ADD: 'notes/ADD',
   REMOVE: 'notes/REMOVE',
   SELECT: 'notes/SELECT',
-  SET_IS_DRAGGING: 'notes/SET_IS_DRAGGING',
-  SET_DRAGGED_NOTE: 'notes/SET_DRAGGED_NOTE',
-  SET_DRAG_OFFSET: 'notes/SET_DRAG_OFFSET',
-  SET_DRAG_START_POSITION: 'notes/SET_DRAG_START_POSITION',
   UPDATE: 'notes/UPDATE',
 };

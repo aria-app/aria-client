@@ -2,6 +2,7 @@ import React from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
 import { compose, pure } from 'recompose';
+import dragModule from 'modules/drag';
 import sequence from 'modules/sequence';
 import * as helpers from '../../helpers';
 import { Note } from '../note/note';
@@ -112,7 +113,10 @@ const classified = React.createClass({
 
     const newPosition = helpers.getMousePosition(this.elementRef, e.pageX, e.pageY);
     const prevOffset = this.props.dragOffset;
-    const newOffset = helpers.getPositionOffset(this.props.dragStartPosition, newPosition);
+    const newOffset = dragModule.helpers.getPositionOffset(
+      this.props.dragStartPosition,
+      newPosition
+    );
 
     if (!prevOffset || !_.isEqual(prevOffset, newOffset)) {
       this.props.drag(newPosition);

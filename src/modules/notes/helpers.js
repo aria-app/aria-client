@@ -1,13 +1,6 @@
 import _ from 'lodash';
 import sound from 'modules/sound';
 
-export function addPositions(a, b) {
-  return {
-    x: a.x + b.x,
-    y: a.y + b.y,
-  };
-}
-
 export function createNote({ id, position }) {
   return {
     id: id || _.uniqueId('note'),
@@ -28,12 +21,5 @@ export function getMousePosition(el, pageX, pageY) {
   return {
     x: toSlotNumber(pageX - offsetLeft + scrollLeft),
     y: toSlotNumber(pageY - offsetTop + scrollTop),
-  };
-}
-
-export function getPositionOffset(start, end) {
-  return {
-    x: end.x - start.x,
-    y: end.y - start.y,
   };
 }

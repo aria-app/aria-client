@@ -1,0 +1,6 @@
+export default {
+  SET_IS_DRAGGING: 'notes/SET_IS_DRAGGING',
+  SET_NOTE: 'notes/SET_NOTE',
+  SET_OFFSET: 'notes/SET_OFFSET',
+  SET_START_POSITION: 'notes/SET_START_POSITION',
+};

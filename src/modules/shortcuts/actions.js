@@ -1,19 +1,28 @@
-import _ from 'lodash';
 import Mousetrap from 'mousetrap';
+import drag from 'modules/drag';
 import notes from 'modules/notes';
 import sequence from 'modules/sequence';
 import sound from 'modules/sound';
 
 export function initialize() {
   return (dispatch) => {
+    // Tools
     Mousetrap.bind('d', () => dispatch(activateDraw()));
     Mousetrap.bind('e', () => dispatch(activateErase()));
     Mousetrap.bind('m', () => dispatch(activateMove()));
     Mousetrap.bind('p', () => dispatch(activatePan()));
     Mousetrap.bind('s', () => dispatch(activateSelect()));
+
+    // Playback
     Mousetrap.bind('enter', () => dispatch(togglePlayPause()));
     Mousetrap.bind('escape', () => dispatch(stop()));
     Mousetrap.bind(['backspace', 'del'], () => dispatch(removeSelectedNote()));
+
+    // Nudge
+    Mousetrap.bind('up', e => dispatch(nudgeSelectedNote({ x: 0, y: -1 }, e)));
+    Mousetrap.bind('down', e => dispatch(nudgeSelectedNote({ x: 0, y: 1 }, e)));
+    Mousetrap.bind('left', e => dispatch(nudgeSelectedNote({ x: -1, y: 0 }, e)));
+    Mousetrap.bind('right', e => dispatch(nudgeSelectedNote({ x: 1, y: 0 }, e)));
   };
 }
 
@@ -69,6 +78,22 @@ function activateSelect() {
     if (currentToolType === toolType) return;
 
     dispatch(sequence.actions.setToolType(toolType));
+  };
+}
+
+function nudgeSelectedNote(offset, e) {
+  e.preventDefault();
+  return (dispatch, getState) => {
+    const selectedNote = notes.selectors.getSelectedNote(getState());
+
+    if (!selectedNote) return;
+
+    const newPosition = drag.helpers.addPositions(
+      selectedNote.position,
+      offset
+    );
+
+    dispatch(notes.actions.move(selectedNote, newPosition));
   };
 }
 

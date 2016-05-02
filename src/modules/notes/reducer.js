@@ -29,41 +29,6 @@ export default function reducer(state = getInitialStateWithNotes(), action) {
         ...state,
         notes: replaceItemById(state.notes, action.note),
       };
-    case actionTypes.SET_DRAGGED_NOTE:
-    case actionTypes.SET_DRAG_OFFSET:
-    case actionTypes.SET_DRAG_START_POSITION:
-    case actionTypes.SET_IS_DRAGGING:
-      return {
-        ...state,
-        drag: drag(state.drag, action),
-      };
-    default:
-      return state;
-  }
-}
-
-function drag(state, action) {
-  switch (action.type) {
-    case actionTypes.SET_DRAGGED_NOTE:
-      return {
-        ...state,
-        draggedNote: action.draggedNote,
-      };
-    case actionTypes.SET_DRAG_OFFSET:
-      return {
-        ...state,
-        dragOffset: action.dragOffset,
-      };
-    case actionTypes.SET_DRAG_START_POSITION:
-      return {
-        ...state,
-        dragStartPosition: action.dragStartPosition,
-      };
-    case actionTypes.SET_IS_DRAGGING:
-      return {
-        ...state,
-        isDragging: action.isDragging,
-      };
     default:
       return state;
   }
@@ -80,18 +45,8 @@ function getInitialStateWithNotes() {
 
 function getInitialState() {
   return {
-    drag: getInitialDragState(),
     notes: [],
     selectedNoteId: undefined,
-  };
-}
-
-function getInitialDragState() {
-  return {
-    draggedNote: undefined,
-    dragOffset: undefined,
-    dragStartPosition: undefined,
-    isDragging: false,
   };
 }
 
