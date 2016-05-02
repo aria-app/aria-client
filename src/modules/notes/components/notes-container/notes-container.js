@@ -1,5 +1,7 @@
 import { connect } from 'react-redux';
 import { Notes } from '../notes/notes';
+import sequence from 'modules/sequence';
+import sound from 'modules/sound';
 import * as actions from '../../actions';
 import selectors from '../../selectors';
 
@@ -11,8 +13,9 @@ export const NotesContainer = connect(
 function mapStateToProps(state) {
   return {
     dragEvent: selectors.getDragEvent(state),
+    measureCount: sequence.selectors.getMeasureCount(state),
     notes: selectors.getNotes(state),
-    selectedNotes: selectors.getSelectedNotes(state),
+    selectedNote: selectors.getSelectedNote(state),
   };
 }
 
@@ -27,8 +30,11 @@ function mapDispatchToProps(dispatch) {
     eraseNote: note => {
       dispatch(actions.eraseNote(note));
     },
-    selectNotes: notes => {
-      dispatch(actions.selectNotes(notes));
+    playNote: name => {
+      dispatch(sound.actions.playNote(name));
+    },
+    selectNote: note => {
+      dispatch(actions.selectNote(note));
     },
     startDragging: options => {
       dispatch(actions.startDragging(options));

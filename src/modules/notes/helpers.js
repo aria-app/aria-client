@@ -19,14 +19,16 @@ export function createNote({ id, position }) {
 export function getMousePosition(el, pageX, pageY) {
   const offsetLeft = el.parentElement.parentElement.offsetLeft;
   const offsetTop = el.parentElement.parentElement.offsetTop;
+  const scrollLeft = el.parentElement
+    .parentElement
+    .parentElement.scrollLeft;
   const scrollTop = el.parentElement
     .parentElement
     .parentElement
-    .parentElement
-    .scrollTop;
+    .parentElement.scrollTop;
   const toSlotNumber = num => Math.floor(num / 40);
   return {
-    x: toSlotNumber(pageX - offsetLeft),
+    x: toSlotNumber(pageX - offsetLeft + scrollLeft),
     y: toSlotNumber(pageY - offsetTop + scrollTop),
   };
 }

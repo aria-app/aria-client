@@ -4,22 +4,22 @@ import { createNote } from './helpers';
 
 export default function reducer(state = getInitialStateWithNotes(), action) {
   switch (action.type) {
-    case actionTypes.DELETE_NOTES:
+    case actionTypes.ADD_NOTES:
       return _.assign({}, state, {
-        notes: _.difference(state.notes, action.notes),
-        selectedNotes: [],
+        notes: state.notes.concat(action.notes),
       });
-    case actionTypes.DRAW_NOTE:
+    case actionTypes.DELETE_NOTE:
       return _.assign({}, state, {
-        notes: state.notes.concat(createNote(action.note)),
+        notes: _.without(state.notes, action.note),
+        selectedNote: undefined,
       });
     case actionTypes.ERASE_NOTE:
       return _.assign({}, state, {
         notes: _.without(state.notes, action.note),
       });
-    case actionTypes.SELECT_NOTES:
+    case actionTypes.SELECT_NOTE:
       return _.assign({}, state, {
-        selectedNotes: action.notes,
+        selectedNote: action.note,
       });
     case actionTypes.SET_DRAG_EVENT:
       return _.assign({}, state, {
@@ -78,7 +78,7 @@ function getInitialState() {
   return {
     dragEvent: undefined,
     notes: [],
-    selectedNotes: [],
+    selectedNote: undefined,
   };
 }
 

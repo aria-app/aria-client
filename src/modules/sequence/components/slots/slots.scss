@@ -10,10 +10,7 @@ $slots__row__section__background-color--even: $neutral-3;
 $slots__section__slot__background-color: $neutral-2;
 
 .slots {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  flex-shrink: 1;
+  overflow: visible;
   &__row {
     display: flex;
     flex-shrink: 0;

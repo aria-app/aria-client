@@ -27,7 +27,7 @@ export default function reducer(state = getInitialState(), action) {
 function getInitialState() {
   return {
     id: 0,
-    measureCount: 1,
+    measureCount: 2,
     scale: getScale(),
     synthType: defaultSynthType,
     toolType: defaultToolType,

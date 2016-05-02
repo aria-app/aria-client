@@ -4,17 +4,25 @@ import actionTypes from './actionTypes';
 import * as helpers from './helpers';
 import selectors from './selectors';
 
-export function deleteNotes(notes) {
+export function addNotes(notes) {
   return {
-    type: actionTypes.DELETE_NOTES,
+    type: actionTypes.ADD_NOTES,
     notes,
   };
 }
 
-export function drawNote(note) {
+export function deleteNote(note) {
   return {
-    type: actionTypes.DRAW_NOTE,
+    type: actionTypes.DELETE_NOTE,
     note,
+  };
+}
+
+export function drawNote(position) {
+  return (dispatch) => {
+    const note = helpers.createNote({ position });
+    dispatch(sound.actions.playNote(note.name));
+    dispatch(addNotes([note]));
   };
 }
 
@@ -22,9 +30,11 @@ export function drag(newPosition) {
   return (dispatch, getState) => {
     const dragEvent = selectors.getDragEvent(getState());
     const offset = helpers.getPositionOffset(dragEvent.startPosition, newPosition);
-
     if (dragEvent.offset) {
-      dispatch(moveNote(dragEvent.note, newPosition));
+      dispatch(moveNote(
+        dragEvent.note,
+        helpers.addPositions(dragEvent.note.position, offset)
+      ));
     }
 
     dispatch(setDragEvent({
@@ -49,29 +59,26 @@ export function moveNote(note, newPosition) {
     });
     dispatch(sound.actions.playNote(updatedNote.name));
     dispatch(updateNote(updatedNote));
-    // Calculate new note position.
-    // const movedNote = helpers.createNote({
-    //   length: '32n',
-    //   octave: 3,
-    //   pitch: 0,
-    //   time: note.time + positionDelta.y,
-    // })
-    // dispatch(updateNote(note, movedNote));
   };
 }
 
-export function selectNotes(notes) {
+export function selectNote(note) {
   return {
-    type: actionTypes.SELECT_NOTES,
-    notes,
+    type: actionTypes.SELECT_NOTE,
+    note,
   };
 }
 
-export function startDragging(note) {
-  return (dispatch) => {
+export function startDragging(startPosition) {
+  return (dispatch, getState) => {
+    console.log(startPosition);
+    const selectedNote = selectors.getSelectedNote(getState());
+
+    if (!selectedNote) return;
+
     dispatch(setDragEvent({
-      startPosition: note.position,
-      note,
+      note: selectedNote,
+      startPosition,
     }));
   };
 }
@@ -83,6 +90,7 @@ export function stopDragging() {
 }
 
 export function setDragEvent(dragEvent) {
+  console.log('DragEvent', dragEvent)
   return {
     type: actionTypes.SET_DRAG_EVENT,
     dragEvent,

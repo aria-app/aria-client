@@ -10,7 +10,6 @@ const component = ({
   left,
   handleMouseDown,
   handleMouseUp,
-  handlePress,
 }) => h('.note', {
   className,
   style: { top, left },
@@ -18,7 +17,6 @@ const component = ({
   h('.note__point', {
     onMouseDown: handleMouseDown,
     onMouseUp: handleMouseUp,
-    onClick: handlePress,
   }, [
     h('.note__point__fill'),
   ]),
@@ -30,17 +28,13 @@ export const Note = compose([
     isSelected: PropTypes.bool,
     onMouseDown: PropTypes.func,
     onMouseUp: PropTypes.func,
-    onPress: PropTypes.func,
   }),
   withHandlers({
-    handleMouseDown: ({ onMouseDown, note }) => e => {
+    handleMouseDown: ({ onMouseDown, note }) => (e) => {
       onMouseDown(note, e);
     },
-    handleMouseUp: ({ onMouseUp, note }) => e => {
+    handleMouseUp: ({ onMouseUp, note }) => (e) => {
       onMouseUp(note, e);
-    },
-    handlePress: ({ onPress, note }) => e => {
-      onPress(note, e.metaKey || e.ctrlKey);
     },
   }),
   mapProps(({ isSelected, note, ...rest }) => ({

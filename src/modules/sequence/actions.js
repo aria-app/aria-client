@@ -1,6 +1,8 @@
-import actionTypes from './actionTypes';
+import _ from 'lodash';
 import notes from 'modules/notes';
 import sound from 'modules/sound';
+import actionTypes from './actionTypes';
+import { toolTypes } from './constants';
 
 export function changeSynthType(synthType) {
   return (dispatch) => {
@@ -18,7 +20,9 @@ export function setSynthType(synthType) {
 
 export function setToolType(toolType) {
   return (dispatch) => {
-    dispatch(notes.actions.selectNotes([]));
+    if (_.includes([toolTypes.DRAW, toolTypes.ERASE], toolType)) {
+      dispatch(notes.actions.selectNote(undefined));
+    }
     dispatch(setToolTypeInner(toolType));
   };
 }

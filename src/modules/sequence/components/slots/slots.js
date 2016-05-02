@@ -4,7 +4,11 @@ import _ from 'lodash';
 import { compose, mapProps, pure, setPropTypes } from 'recompose';
 import './slots.scss';
 
-const component = ({ rows }) => h('.slots', rows);
+const component = ({ measureCount, rows }) => h('.slots', {
+  style: {
+    width: measureCount * 4 * 8 * 40,
+  },
+}, rows);
 
 const composed = compose([
   setPropTypes({
