@@ -10,8 +10,15 @@ export function createSequence() {
   return (dispatch, getState) => {
     const toneSequence = new Tone.Sequence((time, step) => {
       dispatch(setPosition(step));
-      _.filter(notes.selectors.getNotes(getState()), note => note.position.x === step)
-        .forEach(note => dispatch(playNote(note.name, note.length, time)));
+
+      const notesAtStep = _.filter(
+        notes.selectors.getNotes(getState()),
+        note => note.position.x === step
+      );
+
+      _.uniqBy(notesAtStep, 'name').forEach(
+        note => dispatch(playNote(note.name, note.length, time))
+      );
     }, _.range(sequence.selectors.getMeasureCount(getState()) * 32), '32n');
 
     toneSequence.start();

@@ -24,34 +24,41 @@ export function erase(note) {
   };
 }
 
-export function move(note, offset) {
+export function move(notes, offset) {
   return (dispatch) => {
-    const updatedNote = helpers.createNote({
+    const updatedNotes = notes.map(note => helpers.createNote({
       id: note.id,
       position: helpers.addPositions(note.position, offset),
-    });
-    dispatch(sound.actions.playNote(updatedNote.name));
-    dispatch(update(updatedNote));
+    }));
+
+    dispatch(sound.actions.playNote(updatedNotes[0].name));
+    dispatch(update(updatedNotes));
   };
 }
 
-export function remove(note) {
+export function remove(notes) {
   return {
     type: actionTypes.REMOVE,
-    note,
+    notes,
   };
 }
 
-export function select(note) {
+export function select(notes) {
+  return (dispatch) => {
+    dispatch(setSelectedNoteIds(notes.map(n => n.id)));
+  };
+}
+
+export function setSelectedNoteIds(selectedNoteIds) {
   return {
-    type: actionTypes.SELECT,
-    note,
+    type: actionTypes.SET_SELECTED_NOTE_IDS,
+    selectedNoteIds,
   };
 }
 
-export function update(note) {
+export function update(notes) {
   return {
     type: actionTypes.UPDATE,
-    note,
+    notes,
   };
 }

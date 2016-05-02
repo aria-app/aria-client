@@ -14,20 +14,18 @@ export default function reducer(state = getInitialStateWithNotes(), action) {
     case actionTypes.REMOVE:
       return {
         ...state,
-        notes: _.without(state.notes, action.note),
-        selectedNoteId: undefined,
+        notes: _.difference(state.notes, action.notes),
+        selectedNoteIds: [],
       };
-    case actionTypes.SELECT:
+    case actionTypes.SET_SELECTED_NOTE_IDS:
       return {
         ...state,
-        selectedNoteId: action.note
-          ? action.note.id
-          : undefined,
+        selectedNoteIds: action.selectedNoteIds,
       };
     case actionTypes.UPDATE:
       return {
         ...state,
-        notes: replaceItemById(state.notes, action.note),
+        notes: replaceItemsById(state.notes, action.notes),
       };
     default:
       return state;
@@ -46,15 +44,13 @@ function getInitialStateWithNotes() {
 function getInitialState() {
   return {
     notes: [],
-    selectedNoteId: undefined,
+    selectedNoteIds: [],
   };
 }
 
-function replaceItemById(list, item) {
-  const index = _.findIndex(list, i => i.id === item.id);
-  return [
-    ...list.slice(0, index),
-    item,
-    ...list.slice(index + 1),
-  ];
+function replaceItemsById(list, items) {
+  return list.map(i => {
+    const newItem = _.find(items, { id: i.id });
+    return newItem || i;
+  });
 }

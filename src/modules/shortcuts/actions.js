@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import Mousetrap from 'mousetrap';
 import notes from 'modules/notes';
 import sequence from 'modules/sequence';
@@ -15,13 +16,13 @@ export function initialize() {
     // Playback
     Mousetrap.bind('enter', () => dispatch(togglePlayPause()));
     Mousetrap.bind('escape', () => dispatch(stop()));
-    Mousetrap.bind(['backspace', 'del'], () => dispatch(removeSelectedNote()));
+    Mousetrap.bind(['backspace', 'del'], () => dispatch(removeSelectedNotes()));
 
     // Nudge
-    Mousetrap.bind('up', e => dispatch(nudgeSelectedNote({ x: 0, y: -1 }, e)));
-    Mousetrap.bind('down', e => dispatch(nudgeSelectedNote({ x: 0, y: 1 }, e)));
-    Mousetrap.bind('left', e => dispatch(nudgeSelectedNote({ x: -1, y: 0 }, e)));
-    Mousetrap.bind('right', e => dispatch(nudgeSelectedNote({ x: 1, y: 0 }, e)));
+    Mousetrap.bind('up', e => dispatch(nudgeSelectedNotes({ x: 0, y: -1 }, e)));
+    Mousetrap.bind('down', e => dispatch(nudgeSelectedNotes({ x: 0, y: 1 }, e)));
+    Mousetrap.bind('left', e => dispatch(nudgeSelectedNotes({ x: -1, y: 0 }, e)));
+    Mousetrap.bind('right', e => dispatch(nudgeSelectedNotes({ x: 1, y: 0 }, e)));
   };
 }
 
@@ -80,24 +81,24 @@ function activateSelect() {
   };
 }
 
-function nudgeSelectedNote(offset, e) {
+function nudgeSelectedNotes(offset, e) {
   e.preventDefault();
   return (dispatch, getState) => {
-    const selectedNote = notes.selectors.getSelectedNote(getState());
+    const selectedNotes = notes.selectors.getSelectedNotes(getState());
 
-    if (!selectedNote) return;
+    if (_.isEmpty(selectedNotes)) return;
 
-    dispatch(notes.actions.move(selectedNote, offset));
+    dispatch(notes.actions.move(selectedNotes, offset));
   };
 }
 
-function removeSelectedNote() {
+function removeSelectedNotes() {
   return (dispatch, getState) => {
-    const selectedNote = notes.selectors.getSelectedNote(getState());
+    const selectedNotes = notes.selectors.getSelectedNotes(getState());
 
-    if (!selectedNote) return;
+    if (_.isEmpty(selectedNotes)) return;
 
-    dispatch(notes.actions.remove(selectedNote));
+    dispatch(notes.actions.remove(selectedNotes));
   };
 }
 

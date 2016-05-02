@@ -16,7 +16,7 @@ const component = ({
   onBackgroundMouseDown,
   onBackgroundMouseUp,
   onBackgroundMouseMove,
-  selectedNote,
+  selectedNotes,
   setElementRef,
 }) => h('.notes', {
   style: {
@@ -29,7 +29,7 @@ const component = ({
 }, notes.map((note, index) =>
   h(Note, {
     key: index,
-    isSelected: selectedNote && selectedNote.id === note.id,
+    isSelected: !!_.find(selectedNotes, { id: note.id }),
     note,
     onMouseDown,
     onMouseUp,
@@ -52,7 +52,7 @@ const classified = React.createClass({
     eraseNote: React.PropTypes.func,
     playNote: React.PropTypes.func,
     select: React.PropTypes.func,
-    selectedNote: React.PropTypes.object,
+    selectedNotes: React.PropTypes.array,
     setElementRef: React.PropTypes.func,
     startDragging: React.PropTypes.func,
     stopDragging: React.PropTypes.func,
@@ -99,7 +99,7 @@ const classified = React.createClass({
       case toolTypes.PAN:
         break;
       case toolTypes.SELECT:
-        this.props.select(undefined);
+        this.props.select([]);
         break;
       default:
     }
@@ -128,8 +128,16 @@ const classified = React.createClass({
         return e.stopPropagation();
       case toolTypes.SELECT:
         this.props.playNote(note.name);
-        if (!this.props.selectedNote || this.props.selectedNote.id !== note.id) {
-          this.props.select(note);
+        if (e.ctrlKey || e.metaKey) {
+          if (_.includes(this.props.selectedNotes, note)) {
+            this.props.select(_.without(this.props.selectedNotes, note));
+          } else {
+            this.props.select([...this.props.selectedNotes, note]);
+          }
+        } else {
+          if (!_.includes(this.props.selectedNotes, note)) {
+            this.props.select([note]);
+          }
         }
         this.props.startDragging(helpers.getMousePosition(this.elementRef, e.pageX, e.pageY));
         return e.stopPropagation();

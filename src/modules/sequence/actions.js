@@ -21,7 +21,7 @@ export function setSynthType(synthType) {
 export function setToolType(toolType) {
   return (dispatch) => {
     if (_.includes([toolTypes.DRAW, toolTypes.ERASE], toolType)) {
-      dispatch(notes.actions.select(undefined));
+      dispatch(notes.actions.select([]));
     }
     dispatch(setToolTypeInner(toolType));
   };

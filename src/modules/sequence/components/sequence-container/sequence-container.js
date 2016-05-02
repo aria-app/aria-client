@@ -11,7 +11,7 @@ export const SequenceContainer = connect(
 
 function mapStateToProps(state) {
   return {
-    selectedNote: notes.selectors.getSelectedNote(state),
+    selectedNotes: notes.selectors.getSelectedNotes(state),
     scale: selectors.getScale(state),
     toolType: selectors.getToolType(state),
   };

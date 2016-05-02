@@ -1,6 +1,6 @@
 export default {
   ADD: 'notes/ADD',
   REMOVE: 'notes/REMOVE',
-  SELECT: 'notes/SELECT',
+  SET_SELECTED_NOTE_IDS: 'notes/SET_SELECTED_NOTE_IDS',
   UPDATE: 'notes/UPDATE',
 };

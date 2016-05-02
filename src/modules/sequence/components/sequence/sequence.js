@@ -34,7 +34,7 @@ const component = ({
 
 const composed = compose([
   setPropTypes({
-    selectedNote: React.PropTypes.object,
+    selectedNotes: React.PropTypes.array,
     scale: React.PropTypes.array,
     toolType: React.PropTypes.string,
   }),

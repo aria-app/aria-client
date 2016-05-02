@@ -18,7 +18,7 @@ function mapStateToProps(state) {
     isDragging: drag.selectors.getIsDragging(state),
     measureCount: sequence.selectors.getMeasureCount(state),
     notes: selectors.getNotes(state),
-    selectedNote: selectors.getSelectedNote(state),
+    selectedNotes: selectors.getSelectedNotes(state),
   };
 }
 
@@ -36,8 +36,8 @@ function mapDispatchToProps(dispatch) {
     playNote: name => {
       dispatch(sound.actions.playNote(name));
     },
-    select: note => {
-      dispatch(actions.select(note));
+    select: notes => {
+      dispatch(actions.select(notes));
     },
     startDragging: options => {
       dispatch(drag.actions.startDragging(options));

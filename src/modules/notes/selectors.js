@@ -8,10 +8,10 @@ const getDragOffset = state => get(state).drag.dragOffset;
 const getDragStartPosition = state => get(state).drag.dragStartPosition;
 const getIsDragging = state => get(state).drag.isDragging;
 const getNotes = state => get(state).notes;
-const getSelectedNoteId = state => get(state).selectedNoteId;
-const getSelectedNote = state => _.find(get(state).notes, {
-  id: get(state).selectedNoteId,
-});
+const getSelectedNoteIds = state => get(state).selectedNoteIds;
+const getSelectedNotes = state => _.filter(get(state).notes,
+  n => _.includes(get(state).selectedNoteIds, n.id)
+);
 
 export default {
   get,
@@ -20,6 +20,6 @@ export default {
   getDragStartPosition,
   getIsDragging,
   getNotes,
-  getSelectedNote,
-  getSelectedNoteId,
+  getSelectedNotes,
+  getSelectedNoteIds,
 };
