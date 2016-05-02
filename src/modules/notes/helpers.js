@@ -1,6 +1,13 @@
 import _ from 'lodash';
 import sound from 'modules/sound';
 
+export function addPositions(a, b) {
+  return {
+    x: a.x + b.x,
+    y: a.y + b.y,
+  };
+}
+
 export function createNote({ id, position }) {
   return {
     id: id || _.uniqueId('note'),

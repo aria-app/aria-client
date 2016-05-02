@@ -42,6 +42,7 @@ const composed = compose([
 
 const classified = React.createClass({
   propTypes: {
+    drag: React.PropTypes.func,
     dragOffset: React.PropTypes.object,
     dragStartPosition: React.PropTypes.object,
     draw: React.PropTypes.func,
@@ -111,16 +112,7 @@ const classified = React.createClass({
   onBackgroundMouseMove(e) {
     if (!this.props.isDragging) return;
 
-    const newPosition = helpers.getMousePosition(this.elementRef, e.pageX, e.pageY);
-    const prevOffset = this.props.dragOffset;
-    const newOffset = dragModule.helpers.getPositionOffset(
-      this.props.dragStartPosition,
-      newPosition
-    );
-
-    if (!prevOffset || !_.isEqual(prevOffset, newOffset)) {
-      this.props.drag(newPosition);
-    }
+    this.props.drag(helpers.getMousePosition(this.elementRef, e.pageX, e.pageY));
   },
   onMouseDown(note, e) {
     const { toolTypes } = sequence.constants;

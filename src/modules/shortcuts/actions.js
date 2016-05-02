@@ -1,5 +1,4 @@
 import Mousetrap from 'mousetrap';
-import drag from 'modules/drag';
 import notes from 'modules/notes';
 import sequence from 'modules/sequence';
 import sound from 'modules/sound';
@@ -88,12 +87,7 @@ function nudgeSelectedNote(offset, e) {
 
     if (!selectedNote) return;
 
-    const newPosition = drag.helpers.addPositions(
-      selectedNote.position,
-      offset
-    );
-
-    dispatch(notes.actions.move(selectedNote, newPosition));
+    dispatch(notes.actions.move(selectedNote, offset));
   };
 }
 
