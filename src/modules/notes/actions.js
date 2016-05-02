@@ -1,6 +1,8 @@
+import _ from 'lodash';
 import sound from 'modules/sound';
 import actionTypes from './actionTypes';
 import * as helpers from './helpers';
+import selectors from './selectors';
 
 export function add(notes) {
   return {
@@ -14,6 +16,21 @@ export function draw(position) {
     const note = helpers.createNote({ position });
     dispatch(sound.actions.playNote(note.name));
     dispatch(add([note]));
+  };
+}
+
+export function duplicate() {
+  return (dispatch, getState) => {
+    const selectedNotes = selectors.getSelectedNotes(getState());
+
+    if (_.isEmpty(selectedNotes)) return;
+
+    const duplicatedNotes = selectedNotes.map(note => helpers.createNote({
+      position: note.position,
+    }));
+
+    dispatch(add(duplicatedNotes));
+    dispatch(select(duplicatedNotes));
   };
 }
 

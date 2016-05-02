@@ -19,6 +19,7 @@ export default function reducer(state = getInitialState(), action) {
     case actionTypes.SET_TOOL_TYPE:
       return {
         ...state,
+        previousToolType: state.toolType,
         toolType: action.toolType,
       };
     default:
@@ -30,6 +31,7 @@ function getInitialState() {
   return {
     id: 0,
     measureCount: 2,
+    previousToolType: undefined,
     scale: getScale(),
     synthType: defaultSynthType,
     toolType: defaultToolType,

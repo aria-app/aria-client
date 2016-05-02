@@ -3,15 +3,19 @@ import Mousetrap from 'mousetrap';
 import notes from 'modules/notes';
 import sequence from 'modules/sequence';
 import sound from 'modules/sound';
+import actionTypes from './actionTypes';
+import selectors from './selectors';
 
 export function initialize() {
   return (dispatch) => {
     // Tools
-    Mousetrap.bind('d', () => dispatch(activateDraw()));
-    Mousetrap.bind('e', () => dispatch(activateErase()));
-    Mousetrap.bind('m', () => dispatch(activateMove()));
-    Mousetrap.bind('p', () => dispatch(activatePan()));
-    Mousetrap.bind('s', () => dispatch(activateSelect()));
+    Mousetrap.bind('d', () => dispatch(activateDrawTool()));
+    Mousetrap.bind('e', () => dispatch(activateEraseTool()));
+    Mousetrap.bind('m', () => dispatch(activateMoveTool()));
+    Mousetrap.bind('p', () => dispatch(activatePanTool()));
+    Mousetrap.bind('s', () => dispatch(activateSelectTool()));
+    Mousetrap.bind('space', (e) => dispatch(holdPan(e)), 'keydown');
+    Mousetrap.bind('space', () => dispatch(revertPan()), 'keyup');
 
     // Playback
     Mousetrap.bind('enter', () => dispatch(togglePlayPause()));
@@ -29,7 +33,7 @@ export function initialize() {
   };
 }
 
-function activateDraw() {
+function activateDrawTool() {
   return (dispatch, getState) => {
     const toolType = sequence.constants.toolTypes.DRAW;
     const currentToolType = sequence.selectors.getToolType(getState());
@@ -40,7 +44,7 @@ function activateDraw() {
   };
 }
 
-function activateErase() {
+function activateEraseTool() {
   return (dispatch, getState) => {
     const toolType = sequence.constants.toolTypes.ERASE;
     const currentToolType = sequence.selectors.getToolType(getState());
@@ -51,7 +55,7 @@ function activateErase() {
   };
 }
 
-function activateMove() {
+function activateMoveTool() {
   return (dispatch, getState) => {
     const toolType = sequence.constants.toolTypes.MOVE;
     const currentToolType = sequence.selectors.getToolType(getState());
@@ -62,7 +66,7 @@ function activateMove() {
   };
 }
 
-function activatePan() {
+function activatePanTool() {
   return (dispatch, getState) => {
     const toolType = sequence.constants.toolTypes.PAN;
     const currentToolType = sequence.selectors.getToolType(getState());
@@ -73,7 +77,36 @@ function activatePan() {
   };
 }
 
-function activateSelect() {
+function holdPan(e) {
+  return (dispatch, getState) => {
+    const heldKeys = selectors.getHeldKeys(getState());
+    if (_.includes(heldKeys, e.keyCode)) return;
+    const toolType = sequence.constants.toolTypes.PAN;
+    const currentToolType = sequence.selectors.getToolType(getState());
+
+    console.log(toolType);
+
+    if (currentToolType === toolType) return;
+
+    dispatch(sequence.actions.setToolType(toolType));
+    dispatch(setHeldKeys([e.keyCode]));
+  };
+}
+
+function revertPan() {
+  return (dispatch, getState) => {
+    const previousToolType = sequence.selectors.getPreviousToolType(getState());
+
+    if (previousToolType === sequence.constants.toolTypes.PAN) return;
+
+    console.log(previousToolType);
+
+    dispatch(sequence.actions.setToolType(previousToolType));
+    dispatch(setHeldKeys([]));
+  };
+}
+
+function activateSelectTool() {
   return (dispatch, getState) => {
     const toolType = sequence.constants.toolTypes.SELECT;
     const currentToolType = sequence.selectors.getToolType(getState());
@@ -86,17 +119,8 @@ function activateSelect() {
 
 function duplicateSelectedNotes(e) {
   e.preventDefault();
-  return (dispatch, getState) => {
-    const selectedNotes = notes.selectors.getSelectedNotes(getState());
-
-    if (_.isEmpty(selectedNotes)) return;
-
-    const duplicatedNotes = selectedNotes.map(note => notes.helpers.createNote({
-      position: note.position,
-    }));
-
-    dispatch(notes.actions.add(duplicatedNotes));
-    dispatch(notes.actions.select(duplicatedNotes));
+  return (dispatch) => {
+    dispatch(notes.actions.duplicate());
   };
 }
 
@@ -118,6 +142,13 @@ function removeSelectedNotes() {
     if (_.isEmpty(selectedNotes)) return;
 
     dispatch(notes.actions.remove(selectedNotes));
+  };
+}
+
+function setHeldKeys(heldKeys) {
+  return {
+    type: actionTypes.SET_HELD_KEYS,
+    heldKeys,
   };
 }
 
