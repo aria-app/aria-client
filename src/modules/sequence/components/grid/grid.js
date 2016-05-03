@@ -3,6 +3,7 @@ import h from 'react-hyperscript';
 import { compose, pure, setPropTypes } from 'recompose';
 import notes from 'modules/notes';
 import { SlotsContainer } from '../slots-container/slots-container';
+import { ElementRefProvider } from '../element-ref-provider/element-ref-provider';
 import {
   PositionMarkerContainer,
 } from '../position-marker-container/position-marker-container';
@@ -21,10 +22,12 @@ const component = ({
       scale,
       toolType,
     }),
-    h(NotesContainer, {
-      playNote,
-      toolType,
-    }),
+    h(ElementRefProvider, {},
+      h(NotesContainer, {
+        playNote,
+        toolType,
+      })
+    ),
     h(PositionMarkerContainer),
   ]),
 ]);
