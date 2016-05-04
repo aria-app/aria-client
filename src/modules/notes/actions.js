@@ -19,6 +19,12 @@ export function draw(position) {
   };
 }
 
+export function deselect() {
+  return (dispatch) => {
+    dispatch(setSelectedNoteIds([]));
+  };
+}
+
 export function duplicate() {
   return (dispatch, getState) => {
     const selectedNotes = selectors.getSelectedNotes(getState());
@@ -56,6 +62,14 @@ export function remove(notes) {
   return {
     type: actionTypes.REMOVE,
     notes,
+  };
+}
+
+export function removeSelected() {
+  return (dispatch, getState) => {
+    const selectedNotes = selectors.getSelectedNotes(getState());
+
+    dispatch(remove(selectedNotes));
   };
 }
 

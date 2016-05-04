@@ -8,31 +8,41 @@ import selectors from './selectors';
 
 export function initialize() {
   return (dispatch) => {
-    // Tools
-    Mousetrap.bind('d', () => dispatch(activateDrawTool()));
-    Mousetrap.bind('e', () => dispatch(activateEraseTool()));
-    Mousetrap.bind('m', () => dispatch(activateMoveTool()));
-    Mousetrap.bind('p', () => dispatch(activatePanTool()));
-    Mousetrap.bind('s', () => dispatch(activateSelectTool()));
+    dispatch(registerShortcuts([
+      // Tools
+      [activateDrawTool, ['d']],
+      [activateEraseTool, ['e']],
+      [activateMoveTool, ['m']],
+      [activatePanTool, ['p']],
+      [activateSelectTool, ['s']],
+
+      // Playback
+      [togglePlayPause, ['enter']],
+      [stop, ['escape']],
+
+      // Notes
+      [notes.actions.deselect, ['ctrl+d', 'meta+d']],
+      [notes.actions.duplicate, ['ctrl+shift+d', 'meta+shift+d']],
+      [notes.actions.removeSelected, ['backspace', 'del']],
+      [notes.actions.selectAll, ['ctrl+a', 'meta+a']],
+      [nudgeSelectedNotes({ x: 0, y: -1 }), ['up']],
+      [nudgeSelectedNotes({ x: 0, y: 1 }), ['down']],
+      [nudgeSelectedNotes({ x: -1, y: 0 }), ['left']],
+      [nudgeSelectedNotes({ x: 1, y: 0 }), ['right']],
+    ]));
+
+
+    // Held Key Shortcuts
     Mousetrap.bind('space', (e) => dispatch(holdPan(e)), 'keydown');
     Mousetrap.bind('space', () => dispatch(revertPan()), 'keyup');
+  };
+}
 
-    // Playback
-    Mousetrap.bind('enter', () => dispatch(togglePlayPause()));
-    Mousetrap.bind('escape', () => dispatch(stop()));
-
-    // Nudge
-    Mousetrap.bind('up', e => dispatch(nudgeSelectedNotes({ x: 0, y: -1 }, e)));
-    Mousetrap.bind('down', e => dispatch(nudgeSelectedNotes({ x: 0, y: 1 }, e)));
-    Mousetrap.bind('left', e => dispatch(nudgeSelectedNotes({ x: -1, y: 0 }, e)));
-    Mousetrap.bind('right', e => dispatch(nudgeSelectedNotes({ x: 1, y: 0 }, e)));
-
-    // Note Actions
-    // Mousetrap.bind(['ctrl+a', 'meta+a'], () => dispatch(notes.actions.selectAll()));
-    Mousetrap.bind(['ctrl+a', 'meta+a'], e => dispatch(safelyPerform(notes.actions.selectAll, e)));
-    Mousetrap.bind(['backspace', 'del'], () => dispatch(removeSelectedNotes()));
-    Mousetrap.bind(['ctrl+d', 'meta+d'], () => dispatch(notes.actions.deselect()));
-    Mousetrap.bind(['ctrl+shift+d', 'meta+shift+d'], e => dispatch(notes.actions.duplicate(e)));
+function registerShortcuts(shortcuts) {
+  return (dispatch) => {
+    shortcuts.forEach(shortcut => {
+      Mousetrap.bind(shortcut[1], e => dispatch(safelyPerform(shortcut[0], e)), shortcut[2]);
+    });
   };
 }
 
@@ -126,31 +136,13 @@ function activateSelectTool() {
   };
 }
 
-function duplicateSelectedNotes(e) {
-  e.preventDefault();
-  return (dispatch) => {
-    dispatch(notes.actions.duplicate());
-  };
-}
-
-function nudgeSelectedNotes(offset, e) {
-  e.preventDefault();
-  return (dispatch, getState) => {
+function nudgeSelectedNotes(offset) {
+  return () => (dispatch, getState) => {
     const selectedNotes = notes.selectors.getSelectedNotes(getState());
 
     if (_.isEmpty(selectedNotes)) return;
 
     dispatch(notes.actions.move(selectedNotes, offset));
-  };
-}
-
-function removeSelectedNotes() {
-  return (dispatch, getState) => {
-    const selectedNotes = notes.selectors.getSelectedNotes(getState());
-
-    if (_.isEmpty(selectedNotes)) return;
-
-    dispatch(notes.actions.remove(selectedNotes));
   };
 }
 
