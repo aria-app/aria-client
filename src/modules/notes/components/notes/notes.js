@@ -39,8 +39,6 @@ const component = ({
 const composed = compose([
   setPropTypes({
     drag: React.PropTypes.func,
-    dragOffset: React.PropTypes.object,
-    dragStartPosition: React.PropTypes.object,
     draw: React.PropTypes.func,
     isDragging: React.PropTypes.bool,
     isPanning: React.PropTypes.bool,
@@ -56,6 +54,7 @@ const composed = compose([
     startPanning: React.PropTypes.func,
     stopPanning: React.PropTypes.func,
     toolType: React.PropTypes.string,
+    updateFence: React.PropTypes.func,
   }),
   mapProps(props => ({
     ...props,
@@ -78,6 +77,7 @@ const composed = compose([
           props.startPanning(helpers.getPanStart(props.elementRef, e));
           break;
         case toolTypes.SELECT:
+          props.startSelecting(helpers.getMousePosition(props.elementRef, e.pageX, e.pageY));
           break;
         default:
       }
@@ -91,6 +91,10 @@ const composed = compose([
 
       if (props.isPanning) {
         helpers.panScrollContainer(props.elementRef, e, props.panStart);
+      }
+
+      if (props.isSelecting) {
+        props.updateFence(helpers.getMousePosition(props.elementRef, e.pageX, e.pageY));
       }
     },
     onBackgroundMouseUp: props => e => {
@@ -109,7 +113,6 @@ const composed = compose([
         case toolTypes.PAN:
           break;
         case toolTypes.SELECT:
-          props.select([]);
           break;
         default:
       }
@@ -120,6 +123,10 @@ const composed = compose([
 
       if (props.isPanning) {
         props.stopPanning();
+      }
+
+      if (props.isSelecting) {
+        props.stopSelecting();
       }
     },
     onNoteMouseDown: props => (note, e) => {
@@ -175,6 +182,10 @@ const composed = compose([
 
       if (props.isPanning) {
         props.stopPanning();
+      }
+
+      if (props.isSelecting) {
+        props.stopSelecting();
       }
 
       e.stopPropagation();

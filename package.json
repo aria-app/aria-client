@@ -8,7 +8,7 @@
     "start": "webpack-dev-server --hot --inline"
   },
   "keywords": [],
-  "author": "",
+  "author": "Nick Johnson",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "6.3.6",

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import actionTypes from './actionTypes';
+import actionTypes from './action-types';
 
 export default function reducer(state = getInitialStateWithNotes(), action) {
   switch (action.type) {

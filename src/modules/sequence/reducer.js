@@ -1,4 +1,4 @@
-import actionTypes from './actionTypes';
+import actionTypes from './action-types';
 import sound from 'modules/sound';
 import { defaultSynthType, defaultToolType } from './constants';
 

@@ -1,5 +1,5 @@
 import * as actions from './actions';
-import * as actionTypes from './actionTypes';
+import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as components from './components';
 import * as constants from './constants';

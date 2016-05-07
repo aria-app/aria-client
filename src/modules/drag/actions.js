@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import notes from 'modules/notes';
-import actionTypes from './actionTypes';
+import actionTypes from './action-types';
 import * as helpers from './helpers';
 import selectors from './selectors';
 
@@ -34,24 +34,10 @@ export function setIsDragging(isDragging) {
   };
 }
 
-export function setNote(note) {
-  return {
-    type: actionTypes.SET_NOTE,
-    note,
-  };
-}
-
 export function setOffset(offset) {
   return {
     type: actionTypes.SET_OFFSET,
     offset,
-  };
-}
-
-export function setStartPosition(startPosition) {
-  return {
-    type: actionTypes.SET_START_POSITION,
-    startPosition,
   };
 }
 

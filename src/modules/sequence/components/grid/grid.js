@@ -1,6 +1,7 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import { compose, pure, setPropTypes } from 'recompose';
+import fence from 'modules/fence';
 import notes from 'modules/notes';
 import { SlotsContainer } from '../slots-container/slots-container';
 import { ElementRefProvider } from '../element-ref-provider/element-ref-provider';
@@ -9,6 +10,7 @@ import {
 } from '../position-marker-container/position-marker-container';
 import './grid.scss';
 
+const { FenceContainer } = fence.components;
 const { NotesContainer } = notes.components;
 
 const component = ({
@@ -28,6 +30,7 @@ const component = ({
         toolType,
       })
     ),
+    h(FenceContainer),
     h(PositionMarkerContainer),
   ]),
 ]);

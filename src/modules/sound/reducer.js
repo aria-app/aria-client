@@ -1,7 +1,7 @@
 import sequence from 'modules/sequence';
 import { playbackStates } from './constants';
 import { createSynth } from './helpers';
-import actionTypes from './actionTypes';
+import actionTypes from './action-types';
 
 export default function reducer(state = getInitialState(), action) {
   switch (action.type) {

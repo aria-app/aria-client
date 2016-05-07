@@ -3,7 +3,7 @@ import Mousetrap from 'mousetrap';
 import notes from 'modules/notes';
 import sequence from 'modules/sequence';
 import sound from 'modules/sound';
-import actionTypes from './actionTypes';
+import actionTypes from './action-types';
 import selectors from './selectors';
 
 export function initialize() {

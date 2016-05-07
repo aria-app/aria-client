@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { Notes } from '../notes/notes';
 import drag from 'modules/drag';
+import fence from 'modules/fence';
 import sequence from 'modules/sequence';
 import sound from 'modules/sound';
 import * as actions from '../../actions';
@@ -13,10 +14,9 @@ export const NotesContainer = connect(
 
 function mapStateToProps(state) {
   return {
-    dragOffset: drag.selectors.getOffset(state),
-    dragStartPosition: drag.selectors.getStartPosition(state),
     isDragging: drag.selectors.getIsDragging(state),
     isPanning: sequence.selectors.getIsPanning(state),
+    isSelecting: fence.selectors.getIsSelecting(state),
     measureCount: sequence.selectors.getMeasureCount(state),
     panStart: sequence.selectors.getPanStart(state),
     notes: selectors.getNotes(state),
@@ -41,17 +41,26 @@ function mapDispatchToProps(dispatch) {
     select: notes => {
       dispatch(actions.select(notes));
     },
-    startDragging: options => {
-      dispatch(drag.actions.startDragging(options));
+    startDragging: () => {
+      dispatch(drag.actions.startDragging());
     },
     stopDragging: () => {
       dispatch(drag.actions.stopDragging());
     },
-    startPanning: options => {
-      dispatch(sequence.actions.startPanning(options));
+    startPanning: (startPosition) => {
+      dispatch(sequence.actions.startPanning(startPosition));
+    },
+    startSelecting: (startPosition) => {
+      dispatch(fence.actions.startSelecting(startPosition));
+    },
+    stopSelecting: () => {
+      dispatch(fence.actions.stopSelecting());
     },
     stopPanning: () => {
       dispatch(sequence.actions.stopPanning());
+    },
+    updateFence: (newPosition) => {
+      dispatch(fence.actions.updateFence(newPosition));
     },
   };
 }

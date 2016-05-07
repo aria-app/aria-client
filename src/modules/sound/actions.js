@@ -2,7 +2,7 @@ import _ from 'lodash';
 import Tone from 'tone';
 import notes from 'modules/notes';
 import sequence from 'modules/sequence';
-import actionTypes from './actionTypes';
+import actionTypes from './action-types';
 import * as constants from './constants';
 import selectors from './selectors';
 

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import sound from 'modules/sound';
-import actionTypes from './actionTypes';
+import actionTypes from './action-types';
 import * as helpers from './helpers';
 import selectors from './selectors';
 
@@ -11,17 +11,17 @@ export function add(notes) {
   };
 }
 
+export function deselect() {
+  return (dispatch) => {
+    dispatch(setSelectedNoteIds([]));
+  };
+}
+
 export function draw(position) {
   return (dispatch) => {
     const note = helpers.createNote({ position });
     dispatch(sound.actions.playNote(note.name));
     dispatch(add([note]));
-  };
-}
-
-export function deselect() {
-  return (dispatch) => {
-    dispatch(setSelectedNoteIds([]));
   };
 }
 
