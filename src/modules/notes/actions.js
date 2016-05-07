@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import sequence from 'modules/sequence';
 import sound from 'modules/sound';
 import actionTypes from './action-types';
 import * as helpers from './helpers';
@@ -47,7 +48,11 @@ export function erase(note) {
 }
 
 export function move(notes, offset) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const measureCount = sequence.selectors.getMeasureCount(getState());
+
+    if (helpers.someNoteWillMoveOutside(notes, offset, measureCount)) return;
+
     const updatedNotes = notes.map(note => helpers.createNote({
       id: note.id,
       position: helpers.addPositions(note.position, offset),

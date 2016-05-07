@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import sequence from 'modules/sequence';
 import sound from 'modules/sound';
 
 export function addPositions(a, b) {
@@ -38,6 +39,21 @@ export function getMousePosition(el, pageX, pageY) {
 
 export function lengthToSlots(length) {
   return parseInt(length.split(':')[2], 10) / 0.5;
+}
+
+export function someNoteWillMoveOutside(notes, offset, measureCount) {
+  const totalSlotsX = measureCount * 8 * 4 - 1;
+  const totalSlotsY = sound.constants.octaveRange.length * 12 - 1;
+  if (offset.x === -1) {
+    return _.some(notes, note => note.position.x <= 0);
+  } else if (offset.x === 1) {
+    return _.some(notes, note => note.position.x >= totalSlotsX);
+  } else if (offset.y === -1) {
+    return _.some(notes, note => note.position.y <= 0);
+  } else if (offset.y === 1) {
+    return _.some(notes, note => note.position.y >= totalSlotsY);
+  }
+  return false;
 }
 
 export function slotsToLength(slots) {
