@@ -9,17 +9,6 @@ import selectors from './selectors';
 export function initialize() {
   return (dispatch) => {
     dispatch(registerShortcuts([
-      // Tools
-      [activateDrawTool, ['d']],
-      [activateEraseTool, ['e']],
-      [activateMoveTool, ['m']],
-      [activatePanTool, ['p']],
-      [activateSelectTool, ['s']],
-
-      // Playback
-      [togglePlayPause, ['enter']],
-      [stop, ['escape']],
-
       // Notes
       [notes.actions.deselect, ['ctrl+d', 'meta+d']],
       [notes.actions.duplicate, ['ctrl+shift+d', 'meta+shift+d']],
@@ -29,27 +18,22 @@ export function initialize() {
       [nudgeSelectedNotes({ x: 0, y: 1 }), ['down']],
       [nudgeSelectedNotes({ x: -1, y: 0 }), ['left']],
       [nudgeSelectedNotes({ x: 1, y: 0 }), ['right']],
+
+      // Playback
+      [togglePlayPause, ['enter']],
+      [stop, ['escape']],
+
+      // Tools
+      [activateDrawTool, ['d']],
+      [activateEraseTool, ['e']],
+      [activateMoveTool, ['m']],
+      [activatePanTool, ['p']],
+      [activateSelectTool, ['s']],
     ]));
 
-
-    // Held Key Shortcuts
+    // Held Keys
     Mousetrap.bind('space', (e) => dispatch(holdPan(e)), 'keydown');
     Mousetrap.bind('space', () => dispatch(revertPan()), 'keyup');
-  };
-}
-
-function registerShortcuts(shortcuts) {
-  return (dispatch) => {
-    shortcuts.forEach(shortcut => {
-      Mousetrap.bind(shortcut[1], e => dispatch(safelyPerform(shortcut[0], e)), shortcut[2]);
-    });
-  };
-}
-
-function safelyPerform(action, e) {
-  return (dispatch) => {
-    e.preventDefault();
-    dispatch(action());
   };
 }
 
@@ -97,6 +81,17 @@ function activatePanTool() {
   };
 }
 
+function activateSelectTool() {
+  return (dispatch, getState) => {
+    const toolType = sequence.constants.toolTypes.SELECT;
+    const currentToolType = sequence.selectors.getToolType(getState());
+
+    if (currentToolType === toolType) return;
+
+    dispatch(sequence.actions.setToolType(toolType));
+  };
+}
+
 function holdPan(e) {
   e.preventDefault();
   return (dispatch, getState) => {
@@ -114,6 +109,24 @@ function holdPan(e) {
   };
 }
 
+function nudgeSelectedNotes(offset) {
+  return () => (dispatch, getState) => {
+    const selectedNotes = notes.selectors.getSelectedNotes(getState());
+
+    if (_.isEmpty(selectedNotes)) return;
+
+    dispatch(notes.actions.move(selectedNotes, offset));
+  };
+}
+
+function registerShortcuts(shortcuts) {
+  return (dispatch) => {
+    shortcuts.forEach(shortcut => {
+      Mousetrap.bind(shortcut[1], e => dispatch(safelyPerform(shortcut[0], e)), shortcut[2]);
+    });
+  };
+}
+
 function revertPan() {
   return (dispatch, getState) => {
     const previousToolType = sequence.selectors.getPreviousToolType(getState());
@@ -125,24 +138,10 @@ function revertPan() {
   };
 }
 
-function activateSelectTool() {
-  return (dispatch, getState) => {
-    const toolType = sequence.constants.toolTypes.SELECT;
-    const currentToolType = sequence.selectors.getToolType(getState());
-
-    if (currentToolType === toolType) return;
-
-    dispatch(sequence.actions.setToolType(toolType));
-  };
-}
-
-function nudgeSelectedNotes(offset) {
-  return () => (dispatch, getState) => {
-    const selectedNotes = notes.selectors.getSelectedNotes(getState());
-
-    if (_.isEmpty(selectedNotes)) return;
-
-    dispatch(notes.actions.move(selectedNotes, offset));
+function safelyPerform(action, e) {
+  return (dispatch) => {
+    e.preventDefault();
+    dispatch(action());
   };
 }
 
