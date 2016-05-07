@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, setPropTypes, pure } from 'recompose';
@@ -19,20 +20,26 @@ const component = ({
 
 const composed = compose([
   setPropTypes({
-    offset: PropTypes.object,
+    newPosition: PropTypes.object,
     startPosition: PropTypes.object,
     isSelecting: PropTypes.bool,
   }),
   mapProps(props => ({
-    display: props.isSelecting ? 'block' : 'none',
-    height: getHeight(props.startPosition, props.offset),
-    transform: getTransform(props.startPosition, props.offset),
-    width: getWidth(props.startPosition, props.offset),
+    display: getDisplay(props.isSelecting, props.startPosition, props.newPosition),
+    height: getHeight(props.startPosition, props.newPosition),
+    transform: getTransform(props.startPosition, props.newPosition),
+    width: getWidth(props.startPosition, props.newPosition),
   })),
   pure,
 ])(component);
 
 export const Fence = composed;
+
+function getDisplay(isSelecting, start, end) {
+  return isSelecting && !_.isEqual(start, end)
+    ? 'block'
+    : 'none';
+}
 
 function getHeight(start, end) {
   if (!start || !end) return 0;

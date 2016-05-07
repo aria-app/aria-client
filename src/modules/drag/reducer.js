@@ -2,10 +2,10 @@ import actionTypes from './action-types';
 
 export default function reducer(state = getInitialState(), action) {
   switch (action.type) {
-    case actionTypes.SET_OFFSET:
+    case actionTypes.SET_NEW_POSITION:
       return {
         ...state,
-        offset: action.offset,
+        newPosition: action.newPosition,
       };
     case actionTypes.SET_IS_DRAGGING:
       return {
@@ -20,6 +20,6 @@ export default function reducer(state = getInitialState(), action) {
 function getInitialState() {
   return {
     isDragging: false,
-    offset: undefined,
+    newPosition: undefined,
   };
 }

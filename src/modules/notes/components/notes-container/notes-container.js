@@ -18,7 +18,6 @@ function mapStateToProps(state) {
     isPanning: sequence.selectors.getIsPanning(state),
     isSelecting: fence.selectors.getIsSelecting(state),
     measureCount: sequence.selectors.getMeasureCount(state),
-    panStart: sequence.selectors.getPanStart(state),
     notes: selectors.getNotes(state),
     selectedNotes: selectors.getSelectedNotes(state),
   };
@@ -26,20 +25,23 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    drag: newPosition => {
-      dispatch(drag.actions.drag(newPosition));
+    drag: (...args) => {
+      dispatch(drag.actions.drag(...args));
     },
-    draw: note => {
-      dispatch(actions.draw(note));
+    draw: (...args) => {
+      dispatch(actions.draw(...args));
     },
-    eraseNote: note => {
-      dispatch(actions.eraseNote(note));
+    eraseNote: (...args) => {
+      dispatch(actions.eraseNote(...args));
     },
-    playNote: name => {
-      dispatch(sound.actions.playNote(name));
+    pan: (...args) => {
+      dispatch(sequence.actions.pan(...args));
     },
-    select: notes => {
-      dispatch(actions.select(notes));
+    playNote: (...args) => {
+      dispatch(sound.actions.playNote(...args));
+    },
+    select: (...args) => {
+      dispatch(actions.select(...args));
     },
     startDragging: () => {
       dispatch(drag.actions.startDragging());
@@ -47,11 +49,11 @@ function mapDispatchToProps(dispatch) {
     stopDragging: () => {
       dispatch(drag.actions.stopDragging());
     },
-    startPanning: (startPosition) => {
-      dispatch(sequence.actions.startPanning(startPosition));
+    startPanning: (...args) => {
+      dispatch(sequence.actions.startPanning(...args));
     },
-    startSelecting: (startPosition) => {
-      dispatch(fence.actions.startSelecting(startPosition));
+    startSelecting: (...args) => {
+      dispatch(fence.actions.startSelecting(...args));
     },
     stopSelecting: () => {
       dispatch(fence.actions.stopSelecting());

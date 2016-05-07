@@ -10,7 +10,7 @@ export const FenceContainer = connect(
 function mapStateToProps(state) {
   return {
     isSelecting: selectors.getIsSelecting(state),
-    offset: selectors.getOffset(state),
+    newPosition: selectors.getNewPosition(state),
     startPosition: selectors.getStartPosition(state),
   };
 }

@@ -7,10 +7,10 @@ export default function reducer(state = getInitialState(), action) {
         ...state,
         isSelecting: action.isSelecting,
       };
-    case actionTypes.SET_OFFSET:
+    case actionTypes.SET_NEW_POSITION:
       return {
         ...state,
-        offset: action.offset,
+        newPosition: action.newPosition,
       };
     case actionTypes.SET_START_POSITION:
       return {
@@ -25,7 +25,7 @@ export default function reducer(state = getInitialState(), action) {
 function getInitialState() {
   return {
     isSelecting: false,
-    offset: undefined,
+    newPosition: undefined,
     startPosition: undefined,
   };
 }

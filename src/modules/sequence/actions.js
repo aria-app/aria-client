@@ -3,11 +3,20 @@ import notes from 'modules/notes';
 import sound from 'modules/sound';
 import actionTypes from './action-types';
 import { toolTypes } from './constants';
+import * as helpers from './helpers';
+import selectors from './selectors';
 
 export function changeSynthType(synthType) {
   return (dispatch) => {
     dispatch(setSynthType(synthType));
     dispatch(sound.actions.setSynth(synthType));
+  };
+}
+
+export function pan(elementRef, e) {
+  return (dispatch, getState) => {
+    const panStart = selectors.getPanStart(getState());
+    helpers.panScrollContainer(elementRef, e, panStart);
   };
 }
 
@@ -48,8 +57,9 @@ export function setPanStart(panStart) {
   };
 }
 
-export function startPanning(panStart) {
+export function startPanning(elementRef, e) {
   return (dispatch) => {
+    const panStart = helpers.getPanStart(elementRef, e);
     dispatch(setIsPanning(true));
     dispatch(setPanStart(panStart));
   };

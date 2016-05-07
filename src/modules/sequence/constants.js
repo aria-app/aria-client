@@ -10,6 +10,6 @@ export const toolTypes = {
 
 export const defaultSynthType = sound.constants.synthTypes.SQUARE;
 
-export const defaultToolType = toolTypes.SELECT;
+export const defaultToolType = toolTypes.DRAW;
 
 export const NAME = 'sequence';

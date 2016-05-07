@@ -45,7 +45,7 @@ const composed = compose([
     measureCount: React.PropTypes.number.isRequired,
     notes: React.PropTypes.array,
     eraseNote: React.PropTypes.func,
-    panStart: React.PropTypes.object,
+    pan: React.PropTypes.func,
     playNote: React.PropTypes.func,
     select: React.PropTypes.func,
     selectedNotes: React.PropTypes.array,
@@ -71,10 +71,10 @@ const composed = compose([
         case toolTypes.ERASE:
           break;
         case toolTypes.MOVE:
-          props.startDragging(helpers.getMousePosition(props.elementRef, e.pageX, e.pageY));
+          props.startDragging();
           break;
         case toolTypes.PAN:
-          props.startPanning(helpers.getPanStart(props.elementRef, e));
+          props.startPanning(props.elementRef, e);
           break;
         case toolTypes.SELECT:
           props.startSelecting(helpers.getMousePosition(props.elementRef, e.pageX, e.pageY));
@@ -90,7 +90,7 @@ const composed = compose([
       }
 
       if (props.isPanning) {
-        helpers.panScrollContainer(props.elementRef, e, props.panStart);
+        props.pan(props.elementRef, e);
       }
 
       if (props.isSelecting) {
@@ -135,7 +135,7 @@ const composed = compose([
         case toolTypes.ERASE:
           return e.stopPropagation();
         case toolTypes.MOVE:
-          props.startDragging(helpers.getMousePosition(props.elementRef, e.pageX, e.pageY));
+          props.startDragging();
           return e.stopPropagation();
         case toolTypes.PAN:
           return e.stopPropagation();

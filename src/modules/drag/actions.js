@@ -6,10 +6,10 @@ import selectors from './selectors';
 
 export function drag(newPosition) {
   return (dispatch, getState) => {
-    const previousPosition = selectors.getOffset(getState());
+    const previousPosition = selectors.getNewPosition(getState());
 
     if (!previousPosition) {
-      dispatch(setOffset(newPosition));
+      dispatch(setNewPosition(newPosition));
       return;
     }
 
@@ -23,7 +23,7 @@ export function drag(newPosition) {
       offset
     ));
 
-    dispatch(setOffset(newPosition));
+    dispatch(setNewPosition(newPosition));
   };
 }
 
@@ -34,10 +34,10 @@ export function setIsDragging(isDragging) {
   };
 }
 
-export function setOffset(offset) {
+export function setNewPosition(newPosition) {
   return {
-    type: actionTypes.SET_OFFSET,
-    offset,
+    type: actionTypes.SET_NEW_POSITION,
+    newPosition,
   };
 }
 
@@ -50,6 +50,6 @@ export function startDragging() {
 export function stopDragging() {
   return (dispatch) => {
     dispatch(setIsDragging(false));
-    dispatch(setOffset(undefined));
+    dispatch(setNewPosition(undefined));
   };
 }

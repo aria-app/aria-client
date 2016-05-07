@@ -8,10 +8,15 @@ export function addPositions(a, b) {
   };
 }
 
-export function createNote({ id, position }) {
+export function createNote({
+  id = _.uniqueId('note'),
+  length = slotsToLength(1),
+  position,
+}) {
   return {
-    id: id || _.uniqueId('note'),
     name: sound.helpers.getNoteName(position.y),
+    id,
+    length,
     position,
   };
 }
@@ -31,24 +36,10 @@ export function getMousePosition(el, pageX, pageY) {
   };
 }
 
-export function getPanStart(el, e) {
-  return {
-    scrollLeft: el.parentElement.parentElement.scrollLeft,
-    scrollTop: el.parentElement.parentElement.parentElement.parentElement.scrollTop,
-    x: e.pageX,
-    y: e.pageY,
-  };
+export function lengthToSlots(length) {
+  return parseInt(length.split(':')[2], 10) / 0.5;
 }
 
-export function panScrollContainer(el, e, start) {
-  const dx = e.pageX - start.x;
-  const dy = e.pageY - start.y;
-  const scrollLeftElement = el.parentElement.parentElement;
-  const scrollTopElement = el.parentElement
-    .parentElement
-    .parentElement
-    .parentElement;
-
-  scrollLeftElement.scrollLeft = start.scrollLeft - dx;
-  scrollTopElement.scrollTop = start.scrollTop - dy;
+export function slotsToLength(slots) {
+  return `0:0:${slots * 0.5}`;
 }

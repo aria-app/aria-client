@@ -7,7 +7,7 @@ import * as selectors from './selectors';
 
 export function updateFence(newPosition) {
   return (dispatch, getState) => {
-    const previousPosition = selectors.getOffset(getState());
+    const previousPosition = selectors.getNewPosition(getState());
 
     if (_.isEqual(previousPosition, newPosition)) return;
 
@@ -17,7 +17,7 @@ export function updateFence(newPosition) {
 
     dispatch(notes.actions.select(notesToSelect));
 
-    dispatch(setOffset(newPosition));
+    dispatch(setNewPosition(newPosition));
   };
 }
 
@@ -28,10 +28,10 @@ export function setIsSelecting(isSelecting) {
   };
 }
 
-export function setOffset(offset) {
+export function setNewPosition(newPosition) {
   return {
-    type: actionTypes.SET_OFFSET,
-    offset,
+    type: actionTypes.SET_NEW_POSITION,
+    newPosition,
   };
 }
 
@@ -46,7 +46,7 @@ export function startSelecting(startPosition) {
   return (dispatch) => {
     dispatch(setIsSelecting(true));
     dispatch(setStartPosition(startPosition));
-    dispatch(setOffset(startPosition));
+    dispatch(setNewPosition(startPosition));
     dispatch(notes.actions.select([]));
   };
 }
@@ -54,6 +54,6 @@ export function startSelecting(startPosition) {
 export function stopSelecting() {
   return (dispatch) => {
     dispatch(setIsSelecting(false));
-    dispatch(setOffset(undefined));
+    dispatch(setNewPosition(undefined));
   };
 }
