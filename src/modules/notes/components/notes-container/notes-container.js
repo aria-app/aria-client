@@ -72,8 +72,8 @@ function mapDispatchToProps(dispatch) {
     stopPanning: () => {
       dispatch(sequence.actions.stopPanning());
     },
-    updateFence: (newPosition) => {
-      dispatch(fence.actions.updateFence(newPosition));
+    updateFence: (...args) => {
+      dispatch(fence.actions.updateFence(...args));
     },
   };
 }

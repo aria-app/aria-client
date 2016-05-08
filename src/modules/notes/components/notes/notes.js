@@ -84,7 +84,10 @@ const composed = compose([
           props.startPanning(props.elementRef, e);
           break;
         case toolTypes.SELECT:
-          props.startSelecting(helpers.getMousePosition(props.elementRef, e.pageX, e.pageY));
+          props.startSelecting(
+            helpers.getMousePosition(props.elementRef, e.pageX, e.pageY),
+            e.ctrlKey || e.metaKey
+          );
           break;
         default:
       }
@@ -105,7 +108,10 @@ const composed = compose([
       }
 
       if (props.isSelecting) {
-        props.updateFence(helpers.getMousePosition(props.elementRef, e.pageX, e.pageY));
+        props.updateFence(
+          helpers.getMousePosition(props.elementRef, e.pageX, e.pageY),
+          e.ctrlKey || e.metaKey
+        );
       }
     },
     onBackgroundMouseUp: props => e => {

@@ -5,7 +5,7 @@ import actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
-export function updateFence(newPosition) {
+export function updateFence(newPosition, isAdding) {
   return (dispatch, getState) => {
     const previousPosition = selectors.getNewPosition(getState());
 
@@ -13,9 +13,22 @@ export function updateFence(newPosition) {
 
     const startPosition = selectors.getStartPosition(getState());
     const allNotes = notes.selectors.getNotes(getState());
+    const selectedNotes = notes.selectors.getSelectedNotes(getState());
     const notesToSelect = helpers.getNotesInFence(startPosition, newPosition, allNotes);
 
-    dispatch(notes.actions.select(notesToSelect));
+    if (_.isEqual(notesToSelect, selectedNotes)) {
+      dispatch(setNewPosition(newPosition));
+      return;
+    }
+
+    if (isAdding) {
+      dispatch(notes.actions.select([
+        ...selectedNotes,
+        ...notesToSelect,
+      ]));
+    } else {
+      dispatch(notes.actions.select(notesToSelect));
+    }
 
     dispatch(setNewPosition(newPosition));
   };
@@ -42,12 +55,14 @@ export function setStartPosition(startPosition) {
   };
 }
 
-export function startSelecting(startPosition) {
+export function startSelecting(startPosition, isAdding) {
   return (dispatch) => {
     dispatch(setIsSelecting(true));
     dispatch(setStartPosition(startPosition));
     dispatch(setNewPosition(startPosition));
-    dispatch(notes.actions.select([]));
+    if (!isAdding) {
+      dispatch(notes.actions.select([]));
+    }
   };
 }
 
