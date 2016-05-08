@@ -10,7 +10,7 @@ export function addPositions(a, b) {
 
 export function createNote({
   id = _.uniqueId('note'),
-  length = 1,
+  length = 2,
   position,
 }) {
   return {

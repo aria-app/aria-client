@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "eslint src",
     "build": "webpack --progress --colors",
+    "predeploy": "npm run build -s",
     "deploy": "surge ./public zen-sequencer.surge.sh",
     "start": "webpack-dev-server --hot --inline"
   },

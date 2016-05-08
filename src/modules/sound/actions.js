@@ -77,12 +77,14 @@ export function setTransportBPM(bpm) {
 export function stop() {
   return (dispatch, getState) => {
     const playbackState = selectors.getPlaybackState(getState());
+    const synth = selectors.getSynth(getState());
 
     if (playbackState === constants.playbackStates.STOPPED) return;
 
     dispatch(setPlaybackState(constants.playbackStates.STOPPED));
     dispatch(setPosition(0));
 
+    synth.releaseAll();
     Tone.Transport.stop();
   };
 }
