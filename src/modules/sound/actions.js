@@ -32,10 +32,10 @@ export function initialize() {
   };
 }
 
-export function playNote(name, length = '32n', time) {
+export function playNote(name, length = 1, time) {
   return (dispatch, getState) => {
     selectors.getSynth(getState())
-      .triggerAttackRelease(name, length, time);
+      .triggerAttackRelease(name, notes.helpers.slotsToLength(length), time);
   };
 }
 

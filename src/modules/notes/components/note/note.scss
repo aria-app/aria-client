@@ -6,6 +6,10 @@ $note__point__fill__background-color: $color-primary;
 $note__point__fill__border-radius: 20%;
 $note__point__fill__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 $note__point__fill--active__background-color: $accent-6;
+$note__point__fill--z-index: 150;
+$note__point-connector__background-color: $color-primary;
+$note__point-connector--active__background-color: $accent-6;
+$note__point-connector--z-index: 100;
 
 .note {
   position: absolute;
@@ -19,6 +23,10 @@ $note__point__fill--active__background-color: $accent-6;
     flex-shrink: 0;
     width: $note__point__size;
     height: $note__point__size;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: $note__point__fill--z-index;
     pointer-events: all;
     &__fill {
       width: $note__point__fill__size;
@@ -28,7 +36,20 @@ $note__point__fill--active__background-color: $accent-6;
       box-shadow: $note__point__fill__box-shadow;
     }
   }
+  &__point-connector {
+    width: 1px;
+    height: 12px;
+    position: absolute;
+    top: 14px;
+    left: 8px;
+    z-index: $note__point-connector--z-index;
+    background-color: $note__point-connector__background-color;
+    transform-origin: left;
+  }
   &--active &__point__fill {
     background-color: $note__point__fill--active__background-color;
+  }
+  &--active &__point-connector {
+    background-color: $note__point-connector--active__background-color;
   }
 }

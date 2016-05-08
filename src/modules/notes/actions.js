@@ -33,6 +33,7 @@ export function duplicate() {
     if (_.isEmpty(selectedNotes)) return;
 
     const duplicatedNotes = selectedNotes.map(note => helpers.createNote({
+      length: note.length,
       position: note.position,
     }));
 
@@ -55,6 +56,7 @@ export function move(notes, offset) {
 
     const updatedNotes = notes.map(note => helpers.createNote({
       id: note.id,
+      length: note.length,
       position: helpers.addPositions(note.position, offset),
     }));
 
@@ -67,6 +69,18 @@ export function remove(notes) {
   return {
     type: actionTypes.REMOVE,
     notes,
+  };
+}
+
+export function resize(notes, change) {
+  return (dispatch) => {
+    const updatedNotes = notes.map(note => helpers.createNote({
+      id: note.id,
+      length: note.length + change !== 0 ? note.length + change : 1,
+      position: note.position,
+    }));
+
+    dispatch(update(updatedNotes));
   };
 }
 

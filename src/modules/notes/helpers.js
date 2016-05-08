@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import sequence from 'modules/sequence';
 import sound from 'modules/sound';
 
 export function addPositions(a, b) {
@@ -11,7 +10,7 @@ export function addPositions(a, b) {
 
 export function createNote({
   id = _.uniqueId('note'),
-  length = slotsToLength(1),
+  length = 1,
   position,
 }) {
   return {
@@ -35,10 +34,6 @@ export function getMousePosition(el, pageX, pageY) {
     x: toSlotNumber(pageX - offsetLeft + scrollLeft),
     y: toSlotNumber(pageY - offsetTop + scrollTop),
   };
-}
-
-export function lengthToSlots(length) {
-  return parseInt(length.split(':')[2], 10) / 0.5;
 }
 
 export function someNoteWillMoveOutside(notes, offset, measureCount) {

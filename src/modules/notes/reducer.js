@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import actionTypes from './action-types';
+import * as helpers from './helpers';
 
 export default function reducer(state = getInitialStateWithNotes(), action) {
   switch (action.type) {
@@ -37,7 +38,17 @@ function getInitialStateWithNotes() {
   // const notes = JSON.parse(notesStr);
   return {
     ...getInitialState(),
-    notes: [],
+    // notes: [],
+    notes: [
+      helpers.createNote({
+        length: 8,
+        position: {
+          x: 0,
+          y: 47,
+        },
+      }),
+    ],
+    // notes,
   };
 }
 

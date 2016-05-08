@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { Notes } from '../notes/notes';
 import drag from 'modules/drag';
 import fence from 'modules/fence';
+import resize from 'modules/resize';
 import sequence from 'modules/sequence';
 import sound from 'modules/sound';
 import * as actions from '../../actions';
@@ -16,6 +17,7 @@ function mapStateToProps(state) {
   return {
     isDragging: drag.selectors.getIsDragging(state),
     isPanning: sequence.selectors.getIsPanning(state),
+    isResizing: resize.selectors.getIsResizing(state),
     isSelecting: fence.selectors.getIsSelecting(state),
     measureCount: sequence.selectors.getMeasureCount(state),
     notes: selectors.getNotes(state),
@@ -40,6 +42,9 @@ function mapDispatchToProps(dispatch) {
     playNote: (...args) => {
       dispatch(sound.actions.playNote(...args));
     },
+    resize: (...args) => {
+      dispatch(resize.actions.resize(...args));
+    },
     select: (...args) => {
       dispatch(actions.select(...args));
     },
@@ -51,6 +56,12 @@ function mapDispatchToProps(dispatch) {
     },
     startPanning: (...args) => {
       dispatch(sequence.actions.startPanning(...args));
+    },
+    startResizing: (...args) => {
+      dispatch(resize.actions.startResizing(...args));
+    },
+    stopResizing: () => {
+      dispatch(resize.actions.stopResizing());
     },
     startSelecting: (...args) => {
       dispatch(fence.actions.startSelecting(...args));

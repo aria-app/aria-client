@@ -15,6 +15,8 @@ const component = ({
   onBackgroundMouseDown,
   onBackgroundMouseMove,
   onBackgroundMouseUp,
+  onEndpointMouseDown,
+  onEndpointMouseUp,
   onNoteMouseDown,
   onNoteMouseUp,
   selectedNotes,
@@ -31,6 +33,8 @@ const component = ({
     key: index,
     isSelected: !!_.find(selectedNotes, { id: note.id }),
     note,
+    onEndpointMouseDown,
+    onEndpointMouseUp,
     onMouseDown: onNoteMouseDown,
     onMouseUp: onNoteMouseUp,
   })
@@ -47,12 +51,15 @@ const composed = compose([
     eraseNote: React.PropTypes.func,
     pan: React.PropTypes.func,
     playNote: React.PropTypes.func,
+    resize: React.PropTypes.func,
     select: React.PropTypes.func,
     selectedNotes: React.PropTypes.array,
     startDragging: React.PropTypes.func,
-    stopDragging: React.PropTypes.func,
     startPanning: React.PropTypes.func,
+    startResizing: React.PropTypes.func,
+    stopDragging: React.PropTypes.func,
     stopPanning: React.PropTypes.func,
+    stopResizing: React.PropTypes.func,
     toolType: React.PropTypes.string,
     updateFence: React.PropTypes.func,
   }),
@@ -93,6 +100,10 @@ const composed = compose([
         props.pan(props.elementRef, e);
       }
 
+      if (props.isResizing) {
+        props.resize(helpers.getMousePosition(props.elementRef, e.pageX, e.pageY));
+      }
+
       if (props.isSelecting) {
         props.updateFence(helpers.getMousePosition(props.elementRef, e.pageX, e.pageY));
       }
@@ -125,9 +136,77 @@ const composed = compose([
         props.stopPanning();
       }
 
+      if (props.isResizing) {
+        props.stopResizing();
+      }
+
       if (props.isSelecting) {
         props.stopSelecting();
       }
+    },
+    onEndpointMouseDown: props => (note, e) => {
+      const { toolTypes } = sequence.constants;
+      switch (props.toolType) {
+        case toolTypes.ERASE:
+          return e.stopPropagation();
+        case toolTypes.MOVE:
+          props.startDragging();
+          return e.stopPropagation();
+        case toolTypes.PAN:
+          return e.stopPropagation();
+        case toolTypes.DRAW:
+        case toolTypes.SELECT:
+          props.playNote(note.name);
+          if (e.ctrlKey || e.metaKey) {
+            if (_.includes(props.selectedNotes, note)) {
+              props.select(_.without(props.selectedNotes, note));
+            } else {
+              props.select([...props.selectedNotes, note]);
+            }
+          } else {
+            if (!_.includes(props.selectedNotes, note)) {
+              props.select([note]);
+            }
+          }
+          props.startResizing();
+          return e.stopPropagation();
+        default:
+          return true;
+      }
+    },
+    onEndpointMouseUp: props => (note, e) => {
+      const { toolTypes } = sequence.constants;
+      switch (props.toolType) {
+        case toolTypes.DRAW:
+          break;
+        case toolTypes.ERASE:
+          break;
+        case toolTypes.MOVE:
+          break;
+        case toolTypes.PAN:
+          break;
+        case toolTypes.SELECT:
+          break;
+        default:
+      }
+
+      if (props.isDragging) {
+        props.stopDragging();
+      }
+
+      if (props.isPanning) {
+        props.stopPanning();
+      }
+
+      if (props.isResizing) {
+        props.stopResizing();
+      }
+
+      if (props.isSelecting) {
+        props.stopSelecting();
+      }
+
+      e.stopPropagation();
     },
     onNoteMouseDown: props => (note, e) => {
       const { toolTypes } = sequence.constants;
@@ -182,6 +261,10 @@ const composed = compose([
 
       if (props.isPanning) {
         props.stopPanning();
+      }
+
+      if (props.isResizing) {
+        props.stopResizing();
       }
 
       if (props.isSelecting) {
