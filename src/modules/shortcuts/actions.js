@@ -14,6 +14,8 @@ export function initialize() {
       [notes.actions.duplicate, ['ctrl+shift+d', 'meta+shift+d']],
       [notes.actions.removeSelected, ['backspace', 'del']],
       [notes.actions.selectAll, ['ctrl+a', 'meta+a']],
+      [notes.actions.resizeSelected(1), ['ctrl+right', 'meta+right']],
+      [notes.actions.resizeSelected(-1), ['ctrl+left', 'meta+left']],
       [nudgeSelectedNotes({ x: 0, y: -1 }), ['up']],
       [nudgeSelectedNotes({ x: 0, y: 1 }), ['down']],
       [nudgeSelectedNotes({ x: -1, y: 0 }), ['left']],

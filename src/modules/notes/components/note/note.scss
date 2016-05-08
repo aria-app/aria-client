@@ -28,6 +28,7 @@ $note__point-connector--z-index: 100;
     left: 0;
     z-index: $note__point__fill--z-index;
     pointer-events: all;
+    overflow: hidden;
     &__fill {
       width: $note__point__fill__size;
       height: $note__point__fill__size;

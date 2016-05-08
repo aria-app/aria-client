@@ -84,6 +84,14 @@ export function resize(notes, change) {
   };
 }
 
+export function resizeSelected(change) {
+  return () => (dispatch, getState) => {
+    const selectedNotes = selectors.getSelectedNotes(getState());
+
+    dispatch(resize(selectedNotes, change));
+  };
+}
+
 export function removeSelected() {
   return (dispatch, getState) => {
     const selectedNotes = selectors.getSelectedNotes(getState());

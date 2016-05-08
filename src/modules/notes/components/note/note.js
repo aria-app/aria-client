@@ -8,6 +8,7 @@ import './note.scss';
 const component = ({
   className,
   connectorTransform,
+  endPointDisplay,
   endPointTransform,
   handleEndpointMouseDown,
   handleEndpointMouseUp,
@@ -28,7 +29,10 @@ const component = ({
     style: { transform: connectorTransform },
   }),
   h('.note__point', {
-    style: { transform: endPointTransform },
+    style: {
+      display: endPointDisplay,
+      transform: endPointTransform,
+    },
     onMouseDown: handleEndpointMouseDown,
     onMouseUp: handleEndpointMouseUp,
   }, [
@@ -62,6 +66,7 @@ export const Note = compose([
   mapProps(({ isSelected, note, ...rest }) => ({
     transform: `translate(${note.position.x * 40}px, ${note.position.y * 40}px)`,
     connectorTransform: getConnectorTransform(note.length),
+    endPointDisplay: note.length === 1 ? 'none' : 'flex',
     endPointTransform: getEndPointTransform(note.length),
     className: classnames({
       'note--active': isSelected,

@@ -17,8 +17,6 @@ export function resize(newPosition) {
     const selectedNotes = notes.selectors.getSelectedNotes(getState());
     const change = newPosition.x - previousPosition.x;
 
-    console.log(change);
-
     dispatch(notes.actions.resize(
       selectedNotes,
       change

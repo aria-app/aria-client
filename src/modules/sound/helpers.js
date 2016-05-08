@@ -3,7 +3,7 @@ import Tone from 'tone';
 import * as constants from './constants';
 
 export function createSynth(type) {
-  return new Tone.PolySynth(4, Tone.SimpleSynth, {
+  return new Tone.PolySynth(24, Tone.SimpleSynth, {
     oscillator: { type },
     volume: -20,
   }).toMaster();
