@@ -16,8 +16,16 @@ export function createSequence() {
         note => note.position.x === step
       );
 
-      _.uniqBy(notesAtStep, 'name').forEach(
-        note => dispatch(playNote(note.name, note.length, time))
+      const synth = selectors.getSynth(getState());
+
+      _.uniqBy(notesAtStep, 'name').forEach(note => {
+        console.log(time);
+        const length = notes.helpers.slotsToLength(note.length);
+        synth.triggerAttack(note.name);
+        synth.triggerRelease(note.name, `+${length}`);
+        // dispatch(playNote(note.name, note.length, time));
+        // dispatch(playNote(note.name, note.length, time));
+      }
       );
     }, _.range(sequence.selectors.getMeasureCount(getState()) * 32), '32n');
 
@@ -34,8 +42,9 @@ export function initialize() {
 
 export function playNote(name, length = 1, time) {
   return (dispatch, getState) => {
-    selectors.getSynth(getState())
-      .triggerAttackRelease(name, notes.helpers.slotsToLength(length), time);
+    const synth = selectors.getSynth(getState());
+
+    synth.triggerAttackRelease(name, notes.helpers.slotsToLength(length), time);
   };
 }
 
