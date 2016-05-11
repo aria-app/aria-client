@@ -19,12 +19,9 @@ export function createSequence() {
       const synth = selectors.getSynth(getState());
 
       _.uniqBy(notesAtStep, 'name').forEach(note => {
-        console.log(time);
         const length = notes.helpers.slotsToLength(note.length);
-        synth.triggerAttack(note.name);
+        synth.triggerAttack(note.name, time);
         synth.triggerRelease(note.name, `+${length}`);
-        // dispatch(playNote(note.name, note.length, time));
-        // dispatch(playNote(note.name, note.length, time));
       }
       );
     }, _.range(sequence.selectors.getMeasureCount(getState()) * 32), '32n');
@@ -101,12 +98,14 @@ export function stop() {
 export function togglePlayPause() {
   return (dispatch, getState) => {
     const playbackState = selectors.getPlaybackState(getState());
+    const synth = selectors.getSynth(getState());
 
     if (playbackState !== constants.playbackStates.STARTED) {
       dispatch(setPlaybackState(constants.playbackStates.STARTED));
       Tone.Transport.start();
     } else {
       dispatch(setPlaybackState(constants.playbackStates.PAUSED));
+      synth.releaseAll();
       Tone.Transport.pause();
     }
   };
