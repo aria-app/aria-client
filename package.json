@@ -8,7 +8,8 @@
     "build": "webpack --progress --colors",
     "predeploy": "npm run build -s",
     "deploy": "surge ./public zen-sequencer.surge.sh",
-    "start": "webpack-dev-server --hot --inline"
+    "start": "webpack-dev-server --hot --inline",
+    "test": "ava src/**/*.test.js --require babel-register"
   },
   "keywords": [],
   "author": "Nick Johnson",
@@ -16,6 +17,7 @@
   "devDependencies": {
     "autoprefixer": "6.3.6",
     "autoprefixer-core": "6.0.1",
+    "ava": "^0.14.0",
     "babel-core": "6.7.4",
     "babel-loader": "6.2.4",
     "babel-plugin-transform-object-rest-spread": "6.6.5",

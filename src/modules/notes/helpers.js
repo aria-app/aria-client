@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import sound from 'modules/sound';
+import * as constants from './constants';
 
 export function addPositions(a, b) {
   return {
@@ -14,7 +14,7 @@ export function createNote({
   position,
 }) {
   return {
-    name: sound.helpers.getNoteName(position.y),
+    name: getNoteName(position.y),
     id,
     length,
     position,
@@ -36,6 +36,28 @@ export function getMousePosition(el, pageX, pageY) {
   };
 }
 
+export function getNoteName(yPosition) {
+  const octaveNumber = ((constants.octaveRange.length - 1) - Math.floor(yPosition / 12));
+  const letter = getLetter(yPosition);
+  return `${letter}${octaveNumber}`;
+}
+
+export function getScale() {
+  return _(constants.octaveRange)
+    .flatMap(octave => _.range(12).map(step => {
+      const yPosition = (octave * 12) + step;
+      return {
+        name: getNoteName(yPosition),
+        yPosition,
+      };
+    }))
+    .value();
+}
+
+export function getType(synth) {
+  return synth.voices[0].oscillator.type;
+}
+
 export function someNoteWillMoveOutside(notes, offset, measureCount) {
   const totalSlotsX = measureCount * 8 * 4 - 1;
   const totalSlotsY = sound.constants.octaveRange.length * 12 - 1;
@@ -53,4 +75,21 @@ export function someNoteWillMoveOutside(notes, offset, measureCount) {
 
 export function slotsToLength(slots) {
   return `0:0:${slots * 0.5}`;
+}
+
+function getLetter(position) {
+  return [
+    'B',
+    'A#',
+    'A',
+    'G#',
+    'G',
+    'F#',
+    'F',
+    'E',
+    'D#',
+    'D',
+    'C#',
+    'C',
+  ][position % 12];
 }

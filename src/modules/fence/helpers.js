@@ -2,7 +2,7 @@ export function getNotesInFence(start, end, allNotes) {
   return allNotes.filter(n => isInside(start, end, n.position));
 }
 
-function isInside(start, end, target) {
+export function isInside(start, end, target) {
   const tx = target.x;
   const ty = target.y;
   const x1 = Math.min(start.x, end.x);

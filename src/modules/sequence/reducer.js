@@ -1,8 +1,8 @@
 import actionTypes from './action-types';
-import sound from 'modules/sound';
+import notes from 'modules/notes';
 import { defaultSynthType, defaultToolType } from './constants';
 
-const { getScale } = sound.helpers;
+const { getScale } = notes.helpers;
 
 export default function reducer(state = getInitialState(), action) {
   switch (action.type) {
