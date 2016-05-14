@@ -10,13 +10,13 @@ export function addPositions(a, b) {
 
 export function createNote({
   id = _.uniqueId('note'),
-  length = 2,
+  slots = 2,
   position,
 }) {
   return {
     name: getNoteName(position.y),
     id,
-    length,
+    slots,
     position,
   };
 }
@@ -58,6 +58,10 @@ export function getType(synth) {
   return synth.voices[0].oscillator.type;
 }
 
+export function slotsToLength(slots) {
+  return `0:0:${slots * 0.5}`;
+}
+
 export function someNoteWillMoveOutside(notes, offset, measureCount) {
   const totalSlotsX = measureCount * 8 * 4 - 1;
   const totalSlotsY = constants.octaveRange.length * 12 - 1;
@@ -71,10 +75,6 @@ export function someNoteWillMoveOutside(notes, offset, measureCount) {
     return _.some(notes, note => note.position.y >= totalSlotsY);
   }
   return false;
-}
-
-export function slotsToLength(slots) {
-  return `0:0:${slots * 0.5}`;
 }
 
 function getLetter(position) {

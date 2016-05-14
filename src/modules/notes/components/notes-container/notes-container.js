@@ -4,7 +4,6 @@ import drag from 'modules/drag';
 import fence from 'modules/fence';
 import resize from 'modules/resize';
 import sequence from 'modules/sequence';
-import sound from 'modules/sound';
 import * as actions from '../../actions';
 import selectors from '../../selectors';
 
@@ -39,14 +38,14 @@ function mapDispatchToProps(dispatch) {
     pan: (...args) => {
       dispatch(sequence.actions.pan(...args));
     },
-    playNote: (...args) => {
-      dispatch(sound.actions.playNote(...args));
-    },
     resize: (...args) => {
       dispatch(resize.actions.resize(...args));
     },
-    select: (...args) => {
-      dispatch(actions.select(...args));
+    selectInFence: (...args) => {
+      dispatch(fence.actions.selectInFence(...args));
+    },
+    selectNote: (...args) => {
+      dispatch(actions.selectNote(...args));
     },
     startDragging: () => {
       dispatch(drag.actions.startDragging());
@@ -59,15 +58,6 @@ function mapDispatchToProps(dispatch) {
     },
     startSelecting: (...args) => {
       dispatch(fence.actions.startSelecting(...args));
-    },
-    stopHeldActions: () => {
-      dispatch(drag.actions.stopDragging());
-      dispatch(sequence.actions.stopPanning());
-      dispatch(resize.actions.stopResizing());
-      dispatch(fence.actions.stopSelecting());
-    },
-    updateFence: (...args) => {
-      dispatch(fence.actions.updateFence(...args));
     },
   };
 }

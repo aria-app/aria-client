@@ -11,7 +11,6 @@ const component = ({
   endPointDisplay,
   endPointTransform,
   handleEndpointMouseDown,
-  handleEndpointMouseUp,
   handleMouseDown,
   handleMouseUp,
   transform,
@@ -34,7 +33,6 @@ const component = ({
       transform: endPointTransform,
     },
     onMouseDown: handleEndpointMouseDown,
-    onMouseUp: handleEndpointMouseUp,
   }, [
     h('.note__point__fill'),
   ]),
@@ -65,9 +63,9 @@ export const Note = compose([
   }),
   mapProps(({ isSelected, note, ...rest }) => ({
     transform: `translate(${note.position.x * 40}px, ${note.position.y * 40}px)`,
-    connectorTransform: getConnectorTransform(note.length),
-    endPointDisplay: note.length === 1 ? 'none' : 'flex',
-    endPointTransform: getEndPointTransform(note.length),
+    connectorTransform: getConnectorTransform(note.slots),
+    endPointDisplay: note.slots === 1 ? 'none' : 'flex',
+    endPointTransform: getEndPointTransform(note.slots),
     className: classnames({
       'note--active': isSelected,
     }),
@@ -76,12 +74,12 @@ export const Note = compose([
   pure,
 ])(component);
 
-function getConnectorTransform(length) {
-  const x = (length * 40) - 16;
+function getConnectorTransform(slots) {
+  const x = (slots * 40) - 16;
   return `scaleX(${x})`;
 }
 
-function getEndPointTransform(length) {
-  const x = (length - 1) * 40;
+function getEndPointTransform(slots) {
+  const x = (slots - 1) * 40;
   return `translate(${x}px, ${0}px)`;
 }

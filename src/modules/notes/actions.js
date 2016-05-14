@@ -33,12 +33,12 @@ export function duplicate() {
     if (_.isEmpty(selectedNotes)) return;
 
     const duplicatedNotes = selectedNotes.map(note => helpers.createNote({
-      length: note.length,
+      slots: note.slots,
       position: note.position,
     }));
 
     dispatch(add(duplicatedNotes));
-    dispatch(select(duplicatedNotes));
+    dispatch(selectNotes(duplicatedNotes));
   };
 }
 
@@ -56,7 +56,7 @@ export function move(notes, offset) {
 
     const updatedNotes = notes.map(note => helpers.createNote({
       id: note.id,
-      length: note.length,
+      slots: note.slots,
       position: helpers.addPositions(note.position, offset),
     }));
 
@@ -76,7 +76,7 @@ export function resize(notes, change) {
   return (dispatch) => {
     const updatedNotes = notes.map(note => helpers.createNote({
       id: note.id,
-      length: note.length + change !== 0 ? note.length + change : 1,
+      slots: note.slots + change !== 0 ? note.slots + change : 1,
       position: note.position,
     }));
 
@@ -100,7 +100,26 @@ export function removeSelected() {
   };
 }
 
-export function select(notes) {
+export function selectNote(note, isAdditive) {
+  return (dispatch, getState) => {
+    const selectedNotes = selectors.getSelectedNotes(getState());
+
+    dispatch(sound.actions.playNote(note.name));
+    if (isAdditive) {
+      if (_.includes(selectedNotes, note)) {
+        dispatch(selectNotes(_.without(selectedNotes, note)));
+      } else {
+        dispatch(selectNotes([...selectedNotes, note]));
+      }
+    } else {
+      if (!_.includes(selectedNotes, note)) {
+        dispatch(selectNotes([note]));
+      }
+    }
+  };
+}
+
+export function selectNotes(notes) {
   return (dispatch) => {
     dispatch(setSelectedNoteIds(notes.map(n => n.id)));
   };
@@ -110,7 +129,7 @@ export function selectAll() {
   return (dispatch, getState) => {
     const notes = selectors.getNotes(getState());
 
-    dispatch(select(notes));
+    dispatch(selectNotes(notes));
   };
 }
 

@@ -5,7 +5,7 @@ import actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
-export function updateFence(newPosition, isAdditive) {
+export function selectInFence(newPosition, isAdditive) {
   return (dispatch, getState) => {
     const previousPosition = selectors.getNewPosition(getState());
 
@@ -22,12 +22,12 @@ export function updateFence(newPosition, isAdditive) {
     }
 
     if (isAdditive) {
-      dispatch(notes.actions.select([
+      dispatch(notes.actions.selectNotes([
         ...selectedNotes,
         ...notesToSelect,
       ]));
     } else {
-      dispatch(notes.actions.select(notesToSelect));
+      dispatch(notes.actions.selectNotes(notesToSelect));
     }
 
     dispatch(setNewPosition(newPosition));
@@ -56,13 +56,19 @@ export function setStartPosition(startPosition) {
 }
 
 export function startSelecting(startPosition, isAdditive) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(setIsSelecting(true));
     dispatch(setStartPosition(startPosition));
     dispatch(setNewPosition(startPosition));
     if (!isAdditive) {
-      dispatch(notes.actions.select([]));
+      dispatch(notes.actions.selectNotes([]));
     }
+    window.addEventListener('mouseup', () => {
+      const isSelecting = selectors.getIsSelecting(getState());
+      if (isSelecting) {
+        dispatch(stopSelecting());
+      }
+    });
   };
 }
 

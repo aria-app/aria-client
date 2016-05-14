@@ -19,24 +19,23 @@ const component = (props) => h('.notes', {
 
 const composed = compose([
   setPropTypes({
-    drag: React.PropTypes.func,
-    draw: React.PropTypes.func,
-    isDragging: React.PropTypes.bool,
-    isPanning: React.PropTypes.bool,
+    drag: React.PropTypes.func.isRequired,
+    draw: React.PropTypes.func.isRequired,
+    eraseNote: React.PropTypes.func.isRequired,
+    isDragging: React.PropTypes.bool.isRequired,
+    isPanning: React.PropTypes.bool.isRequired,
     measureCount: React.PropTypes.number.isRequired,
-    notes: React.PropTypes.array,
-    eraseNote: React.PropTypes.func,
-    pan: React.PropTypes.func,
-    playNote: React.PropTypes.func,
+    notes: React.PropTypes.array.isRequired,
+    pan: React.PropTypes.func.isRequired,
     resize: React.PropTypes.func,
-    select: React.PropTypes.func,
     selectedNotes: React.PropTypes.array,
-    startDragging: React.PropTypes.func,
-    startPanning: React.PropTypes.func,
-    startResizing: React.PropTypes.func,
-    stopHeldActions: React.PropTypes.func,
-    toolType: React.PropTypes.string,
-    updateFence: React.PropTypes.func,
+    selectNote: React.PropTypes.func,
+    startDragging: React.PropTypes.func.isRequired,
+    startPanning: React.PropTypes.func.isRequired,
+    startResizing: React.PropTypes.func.isRequired,
+    toolType: React.PropTypes.string.isRequired,
+    toolTypes: React.PropTypes.object.isRequired,
+    selectInFence: React.PropTypes.func.isRequired,
   }),
   withHandlers({
     onMouseDown,
@@ -45,7 +44,6 @@ const composed = compose([
     onNoteMouseDown,
     onNoteMouseUp,
     onNoteEndpointMouseDown,
-    onNoteEndpointMouseUp,
   }),
   mapProps(props => ({
     ...props,
@@ -72,7 +70,7 @@ const composed = compose([
 
 export const Notes = composed;
 
-export function onMouseDown(props) {
+function onMouseDown(props) {
   return (e) => {
     const { MOVE, PAN, SELECT } = props.toolTypes;
 
@@ -91,7 +89,7 @@ export function onMouseDown(props) {
   };
 }
 
-export function onMouseMove(props) {
+function onMouseMove(props) {
   return (e) => {
     const { isDragging, isPanning, isResizing, isSelecting } = props;
 
@@ -102,7 +100,7 @@ export function onMouseMove(props) {
     } else if (isResizing) {
       props.resize(helpers.getMousePosition(props.elementRef, e.pageX, e.pageY));
     } else if (isSelecting) {
-      props.updateFence(
+      props.selectInFence(
         helpers.getMousePosition(props.elementRef, e.pageX, e.pageY),
         e.ctrlKey || e.metaKey
       );
@@ -110,36 +108,25 @@ export function onMouseMove(props) {
   };
 }
 
-export function onMouseUp(props) {
+function onMouseUp(props) {
   return (e) => {
+    const { isDragging, isPanning, isResizing, isSelecting } = props;
+
+    if (isDragging || isPanning || isResizing || isSelecting) return;
+
     if (props.toolType === props.toolTypes.DRAW) {
       props.draw(helpers.getMousePosition(props.elementRef, e.pageX, e.pageY));
-      if (!_.isEmpty(props.selectedNotes)) {
-        props.select([]);
-      }
     }
-    props.stopHeldActions();
   };
 }
 
-export function onNoteMouseDown(props) {
+function onNoteMouseDown(props) {
   return (note, e) => {
     const { toolType, toolTypes } = props;
     const { DRAW, SELECT } = toolTypes;
 
     if (toolType === DRAW || toolType === SELECT) {
-      props.playNote(note.name);
-      if (e.ctrlKey || e.metaKey) {
-        if (_.includes(props.selectedNotes, note)) {
-          props.select(_.without(props.selectedNotes, note));
-        } else {
-          props.select([...props.selectedNotes, note]);
-        }
-      } else {
-        if (!_.includes(props.selectedNotes, note)) {
-          props.select([note]);
-        }
-      }
+      props.selectNote(note, e.ctrlKey || e.metaKey);
       props.startDragging(helpers.getMousePosition(props.elementRef, e.pageX, e.pageY));
       e.stopPropagation();
       return false;
@@ -149,21 +136,20 @@ export function onNoteMouseDown(props) {
   };
 }
 
-export function onNoteMouseUp(props) {
+function onNoteMouseUp(props) {
   return (note, e) => {
     const { toolType, toolTypes } = props;
     const { DRAW, ERASE } = toolTypes;
 
     if (toolType === DRAW) {
       e.stopPropagation();
-      props.stopHeldActions();
     } else if (toolType === ERASE) {
       props.eraseNote(note);
     }
   };
 }
 
-export function onNoteEndpointMouseDown(props) {
+function onNoteEndpointMouseDown(props) {
   return (note, e) => {
     const { toolType, toolTypes } = props;
     const { DRAW, MOVE, SELECT } = toolTypes;
@@ -171,28 +157,10 @@ export function onNoteEndpointMouseDown(props) {
     if (toolType === MOVE) {
       props.startDragging();
     } else if (toolType === DRAW || toolType === SELECT) {
-      props.playNote(note.name);
-      if (e.ctrlKey || e.metaKey) {
-        if (_.includes(props.selectedNotes, note)) {
-          props.select(_.without(props.selectedNotes, note));
-        } else {
-          props.select([...props.selectedNotes, note]);
-        }
-      } else {
-        if (!_.includes(props.selectedNotes, note)) {
-          props.select([note]);
-        }
-      }
+      props.selectNote(note, e.ctrlKey || e.metaKey);
       props.startResizing();
     }
 
-    e.stopPropagation();
-  };
-}
-
-export function onNoteEndpointMouseUp(props) {
-  return (note, e) => {
-    props.stopHeldActions();
     e.stopPropagation();
   };
 }

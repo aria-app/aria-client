@@ -41,14 +41,14 @@ function getInitialStateWithNotes() {
     // notes: [],
     notes: [
       helpers.createNote({
-        length: 2,
+        slots: 2,
         position: {
           x: 2,
           y: 35,
         },
       }),
       helpers.createNote({
-        length: 2,
+        slots: 2,
         position: {
           x: 8,
           y: 37,

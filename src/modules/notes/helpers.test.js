@@ -19,7 +19,7 @@ test('createNote returns properly formatted note', t => {
   const expected = {
     id: 1,
     name: 'C4',
-    length: 2,
+    slots: 2,
     position: {
       x: 2,
       y: 35,

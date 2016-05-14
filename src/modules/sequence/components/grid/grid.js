@@ -27,7 +27,6 @@ const component = ({
     }),
     h(ElementRefProvider, {},
       h(NotesContainer, {
-        playNote,
         toolType,
         toolTypes: constants.toolTypes,
       })

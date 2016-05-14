@@ -37,7 +37,7 @@ export function setSynthType(synthType) {
 export function setToolType(toolType) {
   return (dispatch) => {
     if (_.includes([toolTypes.DRAW, toolTypes.ERASE], toolType)) {
-      dispatch(notes.actions.select([]));
+      dispatch(notes.actions.selectNotes([]));
     }
     dispatch(setToolTypeInner(toolType));
   };
@@ -58,10 +58,16 @@ export function setPanStart(panStart) {
 }
 
 export function startPanning(elementRef, e) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     const panStart = helpers.getPanStart(elementRef, e);
     dispatch(setIsPanning(true));
     dispatch(setPanStart(panStart));
+    window.addEventListener('mouseup', () => {
+      const isPanning = selectors.getIsPanning(getState());
+      if (isPanning) {
+        dispatch(stopPanning());
+      }
+    });
   };
 }
 

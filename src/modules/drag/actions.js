@@ -42,8 +42,14 @@ export function setNewPosition(newPosition) {
 }
 
 export function startDragging() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(setIsDragging(true));
+    window.addEventListener('mouseup', () => {
+      const isDragging = selectors.getIsDragging(getState());
+      if (isDragging) {
+        dispatch(stopDragging());
+      }
+    });
   };
 }
 

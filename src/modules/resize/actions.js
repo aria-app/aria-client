@@ -41,9 +41,15 @@ export function setNewPosition(newPosition) {
 }
 
 export function startResizing(startPosition) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(setIsResizing(true));
     dispatch(setNewPosition(startPosition));
+    window.addEventListener('mouseup', () => {
+      const isResizing = selectors.getIsResizing(getState());
+      if (isResizing) {
+        dispatch(stopResizing());
+      }
+    });
   };
 }
 
