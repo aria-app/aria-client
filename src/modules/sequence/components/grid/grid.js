@@ -3,6 +3,7 @@ import h from 'react-hyperscript';
 import { compose, pure, setPropTypes } from 'recompose';
 import fence from 'modules/fence';
 import notes from 'modules/notes';
+import * as constants from '../../constants';
 import { SlotsContainer } from '../slots-container/slots-container';
 import { ElementRefProvider } from '../element-ref-provider/element-ref-provider';
 import {
@@ -28,6 +29,7 @@ const component = ({
       h(NotesContainer, {
         playNote,
         toolType,
+        toolTypes: constants.toolTypes,
       })
     ),
     h(FenceContainer),

@@ -48,7 +48,8 @@ export function startDragging() {
 }
 
 export function stopDragging() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (!selectors.getIsDragging(getState())) return;
     dispatch(setIsDragging(false));
     dispatch(setNewPosition(undefined));
   };

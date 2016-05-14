@@ -66,7 +66,8 @@ export function startPanning(elementRef, e) {
 }
 
 export function stopPanning() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (!selectors.getIsPanning(getState())) return;
     dispatch(setIsPanning(false));
   };
 }

@@ -48,7 +48,8 @@ export function startResizing(startPosition) {
 }
 
 export function stopResizing() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (!selectors.getIsResizing(getState())) return;
     dispatch(setIsResizing(false));
     dispatch(setNewPosition(undefined));
   };

@@ -51,26 +51,20 @@ function mapDispatchToProps(dispatch) {
     startDragging: () => {
       dispatch(drag.actions.startDragging());
     },
-    stopDragging: () => {
-      dispatch(drag.actions.stopDragging());
-    },
     startPanning: (...args) => {
       dispatch(sequence.actions.startPanning(...args));
     },
     startResizing: (...args) => {
       dispatch(resize.actions.startResizing(...args));
     },
-    stopResizing: () => {
-      dispatch(resize.actions.stopResizing());
-    },
     startSelecting: (...args) => {
       dispatch(fence.actions.startSelecting(...args));
     },
-    stopSelecting: () => {
-      dispatch(fence.actions.stopSelecting());
-    },
-    stopPanning: () => {
+    stopHeldActions: () => {
+      dispatch(drag.actions.stopDragging());
       dispatch(sequence.actions.stopPanning());
+      dispatch(resize.actions.stopResizing());
+      dispatch(fence.actions.stopSelecting());
     },
     updateFence: (...args) => {
       dispatch(fence.actions.updateFence(...args));

@@ -67,7 +67,8 @@ export function startSelecting(startPosition, isAdditive) {
 }
 
 export function stopSelecting() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (!selectors.getIsSelecting(getState())) return;
     dispatch(setIsSelecting(false));
     dispatch(setNewPosition(undefined));
   };
