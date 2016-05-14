@@ -60,7 +60,7 @@ export function getType(synth) {
 
 export function someNoteWillMoveOutside(notes, offset, measureCount) {
   const totalSlotsX = measureCount * 8 * 4 - 1;
-  const totalSlotsY = sound.constants.octaveRange.length * 12 - 1;
+  const totalSlotsY = constants.octaveRange.length * 12 - 1;
   if (offset.x === -1) {
     return _.some(notes, note => note.position.x <= 0);
   } else if (offset.x === 1) {
