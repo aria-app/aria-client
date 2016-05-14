@@ -13,10 +13,10 @@ export function changeSynthType(synthType) {
   };
 }
 
-export function pan(elementRef, e) {
+export function panUpdate(elementRef, e) {
   return (dispatch, getState) => {
-    const panStart = selectors.getPanStart(getState());
-    helpers.panScrollContainer(elementRef, e, panStart);
+    const panStartPosition = selectors.getPanStartPosition(getState());
+    helpers.panScrollContainer(elementRef, e, panStartPosition);
   };
 }
 
@@ -50,28 +50,28 @@ export function setToolTypeInner(toolType) {
   };
 }
 
-export function setPanStart(panStart) {
+export function setPanStartPosition(panStartPosition) {
   return {
-    type: actionTypes.SET_PAN_START,
-    panStart,
+    type: actionTypes.SET_PAN_START_POSITION,
+    panStartPosition,
   };
 }
 
-export function startPanning(elementRef, e) {
+export function panStart(elementRef, e) {
   return (dispatch, getState) => {
-    const panStart = helpers.getPanStart(elementRef, e);
+    const panStartPosition = helpers.getPanStartPosition(elementRef, e);
     dispatch(setIsPanning(true));
-    dispatch(setPanStart(panStart));
+    dispatch(setPanStartPosition(panStartPosition));
     window.addEventListener('mouseup', () => {
       const isPanning = selectors.getIsPanning(getState());
       if (isPanning) {
-        dispatch(stopPanning());
+        dispatch(panEnd());
       }
     });
   };
 }
 
-export function stopPanning() {
+export function panEnd() {
   return (dispatch, getState) => {
     if (!selectors.getIsPanning(getState())) return;
     dispatch(setIsPanning(false));

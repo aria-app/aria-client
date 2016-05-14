@@ -4,7 +4,7 @@ import actionTypes from './action-types';
 import * as helpers from './helpers';
 import selectors from './selectors';
 
-export function drag(newPosition) {
+export function moveUpdate(newPosition) {
   return (dispatch, getState) => {
     const previousPosition = selectors.getNewPosition(getState());
 
@@ -27,10 +27,10 @@ export function drag(newPosition) {
   };
 }
 
-export function setIsDragging(isDragging) {
+export function setIsMoving(isMoving) {
   return {
-    type: actionTypes.SET_IS_DRAGGING,
-    isDragging,
+    type: actionTypes.SET_IS_MOVING,
+    isMoving,
   };
 }
 
@@ -41,22 +41,22 @@ export function setNewPosition(newPosition) {
   };
 }
 
-export function startDragging() {
+export function moveStart() {
   return (dispatch, getState) => {
-    dispatch(setIsDragging(true));
+    dispatch(setIsMoving(true));
     window.addEventListener('mouseup', () => {
-      const isDragging = selectors.getIsDragging(getState());
-      if (isDragging) {
-        dispatch(stopDragging());
+      const isMoving = selectors.getIsMoving(getState());
+      if (isMoving) {
+        dispatch(moveEnd());
       }
     });
   };
 }
 
-export function stopDragging() {
+export function moveEnd() {
   return (dispatch, getState) => {
-    if (!selectors.getIsDragging(getState())) return;
-    dispatch(setIsDragging(false));
+    if (!selectors.getIsMoving(getState())) return;
+    dispatch(setIsMoving(false));
     dispatch(setNewPosition(undefined));
   };
 }

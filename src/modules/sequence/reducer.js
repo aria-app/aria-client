@@ -11,10 +11,10 @@ export default function reducer(state = getInitialState(), action) {
         ...state,
         isPanning: action.isPanning,
       };
-    case actionTypes.SET_PAN_START:
+    case actionTypes.SET_PAN_START_POSITION:
       return {
         ...state,
-        panStart: action.panStart,
+        panStartPosition: action.panStartPosition,
       };
     case actionTypes.SET_MEASURE_COUNT:
       return {
@@ -40,7 +40,7 @@ export default function reducer(state = getInitialState(), action) {
 function getInitialState() {
   return {
     id: 0,
-    panStart: undefined,
+    panStartPosition: undefined,
     isPanning: false,
     measureCount: 2,
     previousToolType: undefined,

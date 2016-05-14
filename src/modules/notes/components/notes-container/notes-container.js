@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { Notes } from '../notes/notes';
-import drag from 'modules/drag';
+import move from 'modules/move';
 import fence from 'modules/fence';
 import resize from 'modules/resize';
 import sequence from 'modules/sequence';
@@ -14,7 +14,7 @@ export const NotesContainer = connect(
 
 function mapStateToProps(state) {
   return {
-    isDragging: drag.selectors.getIsDragging(state),
+    isMoving: move.selectors.getIsMoving(state),
     isPanning: sequence.selectors.getIsPanning(state),
     isResizing: resize.selectors.getIsResizing(state),
     isSelecting: fence.selectors.getIsSelecting(state),
@@ -26,38 +26,38 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    drag: (...args) => {
-      dispatch(drag.actions.drag(...args));
-    },
     draw: (...args) => {
       dispatch(actions.draw(...args));
     },
-    eraseNote: (...args) => {
-      dispatch(actions.eraseNote(...args));
+    erase: (...args) => {
+      dispatch(actions.erase(...args));
     },
-    pan: (...args) => {
-      dispatch(sequence.actions.pan(...args));
+    fenceSelectStart: (...args) => {
+      dispatch(fence.actions.fenceSelectStart(...args));
     },
-    resize: (...args) => {
-      dispatch(resize.actions.resize(...args));
+    fenceSelectUpdate: (...args) => {
+      dispatch(fence.actions.fenceSelectUpdate(...args));
     },
-    selectInFence: (...args) => {
-      dispatch(fence.actions.selectInFence(...args));
+    moveStart: () => {
+      dispatch(move.actions.moveStart());
+    },
+    moveUpdate: (...args) => {
+      dispatch(move.actions.moveUpdate(...args));
+    },
+    resizeStart: (...args) => {
+      dispatch(resize.actions.resizeStart(...args));
+    },
+    resizeUpdate: (...args) => {
+      dispatch(resize.actions.resizeUpdate(...args));
     },
     selectNote: (...args) => {
       dispatch(actions.selectNote(...args));
     },
-    startDragging: () => {
-      dispatch(drag.actions.startDragging());
+    panStart: (...args) => {
+      dispatch(sequence.actions.panStart(...args));
     },
-    startPanning: (...args) => {
-      dispatch(sequence.actions.startPanning(...args));
-    },
-    startResizing: (...args) => {
-      dispatch(resize.actions.startResizing(...args));
-    },
-    startSelecting: (...args) => {
-      dispatch(fence.actions.startSelecting(...args));
+    panUpdate: (...args) => {
+      dispatch(sequence.actions.panUpdate(...args));
     },
   };
 }

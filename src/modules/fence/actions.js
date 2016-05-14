@@ -1,11 +1,10 @@
 import _ from 'lodash';
-// import drag from 'modules/drag';
 import notes from 'modules/notes';
 import actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
-export function selectInFence(newPosition, isAdditive) {
+export function fenceSelectUpdate(newPosition, isAdditive) {
   return (dispatch, getState) => {
     const previousPosition = selectors.getNewPosition(getState());
 
@@ -55,7 +54,7 @@ export function setStartPosition(startPosition) {
   };
 }
 
-export function startSelecting(startPosition, isAdditive) {
+export function fenceSelectStart(startPosition, isAdditive) {
   return (dispatch, getState) => {
     dispatch(setIsSelecting(true));
     dispatch(setStartPosition(startPosition));
@@ -66,13 +65,13 @@ export function startSelecting(startPosition, isAdditive) {
     window.addEventListener('mouseup', () => {
       const isSelecting = selectors.getIsSelecting(getState());
       if (isSelecting) {
-        dispatch(stopSelecting());
+        dispatch(fenceSelectEnd());
       }
     });
   };
 }
 
-export function stopSelecting() {
+export function fenceSelectEnd() {
   return (dispatch, getState) => {
     if (!selectors.getIsSelecting(getState())) return;
     dispatch(setIsSelecting(false));

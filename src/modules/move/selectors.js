@@ -2,11 +2,11 @@ import { NAME } from './constants';
 
 const get = state => state[NAME];
 
-const getIsDragging = state => get(state).isDragging;
+const getIsMoving = state => get(state).isMoving;
 const getNewPosition = state => get(state).newPosition;
 
 export default {
   get,
   getNewPosition,
-  getIsDragging,
+  getIsMoving,
 };

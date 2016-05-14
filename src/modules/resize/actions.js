@@ -3,7 +3,7 @@ import notes from 'modules/notes';
 import actionTypes from './action-types';
 import * as selectors from './selectors';
 
-export function resize(newPosition) {
+export function resizeUpdate(newPosition) {
   return (dispatch, getState) => {
     const previousPosition = selectors.getNewPosition(getState());
 
@@ -17,7 +17,7 @@ export function resize(newPosition) {
     const selectedNotes = notes.selectors.getSelectedNotes(getState());
     const change = newPosition.x - previousPosition.x;
 
-    dispatch(notes.actions.resize(
+    dispatch(notes.actions.resizeUpdate(
       selectedNotes,
       change
     ));
@@ -40,20 +40,20 @@ export function setNewPosition(newPosition) {
   };
 }
 
-export function startResizing(startPosition) {
+export function resizeStart(startPosition) {
   return (dispatch, getState) => {
     dispatch(setIsResizing(true));
     dispatch(setNewPosition(startPosition));
     window.addEventListener('mouseup', () => {
       const isResizing = selectors.getIsResizing(getState());
       if (isResizing) {
-        dispatch(stopResizing());
+        dispatch(resizeEnd());
       }
     });
   };
 }
 
-export function stopResizing() {
+export function resizeEnd() {
   return (dispatch, getState) => {
     if (!selectors.getIsResizing(getState())) return;
     dispatch(setIsResizing(false));

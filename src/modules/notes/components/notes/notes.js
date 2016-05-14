@@ -19,23 +19,24 @@ const component = (props) => h('.notes', {
 
 const composed = compose([
   setPropTypes({
-    drag: React.PropTypes.func.isRequired,
+    moveUpdate: React.PropTypes.func.isRequired,
     draw: React.PropTypes.func.isRequired,
-    eraseNote: React.PropTypes.func.isRequired,
-    isDragging: React.PropTypes.bool.isRequired,
+    erase: React.PropTypes.func.isRequired,
+    fenceSelectStart: React.PropTypes.func.isRequired,
+    fenceSelectUpdate: React.PropTypes.func.isRequired,
+    isMoving: React.PropTypes.bool.isRequired,
     isPanning: React.PropTypes.bool.isRequired,
     measureCount: React.PropTypes.number.isRequired,
     notes: React.PropTypes.array.isRequired,
-    pan: React.PropTypes.func.isRequired,
-    resize: React.PropTypes.func,
+    resizeStart: React.PropTypes.func.isRequired,
+    resizeUpdate: React.PropTypes.func,
     selectedNotes: React.PropTypes.array,
     selectNote: React.PropTypes.func,
-    startDragging: React.PropTypes.func.isRequired,
-    startPanning: React.PropTypes.func.isRequired,
-    startResizing: React.PropTypes.func.isRequired,
+    moveStart: React.PropTypes.func.isRequired,
+    panStart: React.PropTypes.func.isRequired,
+    panUpdate: React.PropTypes.func.isRequired,
     toolType: React.PropTypes.string.isRequired,
     toolTypes: React.PropTypes.object.isRequired,
-    selectInFence: React.PropTypes.func.isRequired,
   }),
   withHandlers({
     onMouseDown,
@@ -75,12 +76,12 @@ function onMouseDown(props) {
     const { MOVE, PAN, SELECT } = props.toolTypes;
 
     if (props.toolType === MOVE) {
-      props.startDragging();
+      props.moveStart();
     } else if (props.toolType === PAN) {
-      props.startPanning(props.elementRef, e);
+      props.panStart(props.elementRef, e);
     } else if (props.toolType === SELECT) {
-      props.startSelecting(
-        helpers.getMousePosition(props.elementRef, e.pageX, e.pageY),
+      props.fenceSelectStart(
+        helpers.getMousePosition(props.elementRef, e),
         e.ctrlKey || e.metaKey
       );
     }
@@ -91,17 +92,17 @@ function onMouseDown(props) {
 
 function onMouseMove(props) {
   return (e) => {
-    const { isDragging, isPanning, isResizing, isSelecting } = props;
+    const { isMoving, isPanning, isResizing, isSelecting } = props;
 
-    if (isDragging) {
-      props.drag(helpers.getMousePosition(props.elementRef, e.pageX, e.pageY));
+    if (isMoving) {
+      props.moveUpdate(helpers.getMousePosition(props.elementRef, e));
     } else if (isPanning) {
-      props.pan(props.elementRef, e);
+      props.panUpdate(props.elementRef, e);
     } else if (isResizing) {
-      props.resize(helpers.getMousePosition(props.elementRef, e.pageX, e.pageY));
+      props.resizeUpdate(helpers.getMousePosition(props.elementRef, e));
     } else if (isSelecting) {
-      props.selectInFence(
-        helpers.getMousePosition(props.elementRef, e.pageX, e.pageY),
+      props.fenceSelectUpdate(
+        helpers.getMousePosition(props.elementRef, e),
         e.ctrlKey || e.metaKey
       );
     }
@@ -110,12 +111,12 @@ function onMouseMove(props) {
 
 function onMouseUp(props) {
   return (e) => {
-    const { isDragging, isPanning, isResizing, isSelecting } = props;
+    const { isMoving, isPanning, isResizing, isSelecting } = props;
 
-    if (isDragging || isPanning || isResizing || isSelecting) return;
+    if (isMoving || isPanning || isResizing || isSelecting) return;
 
     if (props.toolType === props.toolTypes.DRAW) {
-      props.draw(helpers.getMousePosition(props.elementRef, e.pageX, e.pageY));
+      props.draw(helpers.getMousePosition(props.elementRef, e));
     }
   };
 }
@@ -127,7 +128,7 @@ function onNoteMouseDown(props) {
 
     if (toolType === DRAW || toolType === SELECT) {
       props.selectNote(note, e.ctrlKey || e.metaKey);
-      props.startDragging(helpers.getMousePosition(props.elementRef, e.pageX, e.pageY));
+      props.moveStart(helpers.getMousePosition(props.elementRef, e));
       e.stopPropagation();
       return false;
     }
@@ -137,14 +138,12 @@ function onNoteMouseDown(props) {
 }
 
 function onNoteMouseUp(props) {
-  return (note, e) => {
+  return (note) => {
     const { toolType, toolTypes } = props;
-    const { DRAW, ERASE } = toolTypes;
+    const { ERASE } = toolTypes;
 
-    if (toolType === DRAW) {
-      e.stopPropagation();
-    } else if (toolType === ERASE) {
-      props.eraseNote(note);
+    if (toolType === ERASE) {
+      props.erase(note);
     }
   };
 }
@@ -155,10 +154,10 @@ function onNoteEndpointMouseDown(props) {
     const { DRAW, MOVE, SELECT } = toolTypes;
 
     if (toolType === MOVE) {
-      props.startDragging();
+      props.moveStart();
     } else if (toolType === DRAW || toolType === SELECT) {
       props.selectNote(note, e.ctrlKey || e.metaKey);
-      props.startResizing();
+      props.resizeStart();
     }
 
     e.stopPropagation();

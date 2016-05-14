@@ -44,7 +44,7 @@ export function duplicate() {
 
 export function erase(note) {
   return (dispatch) => {
-    dispatch(remove(note));
+    dispatch(remove([note]));
   };
 }
 

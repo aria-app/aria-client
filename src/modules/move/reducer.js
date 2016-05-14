@@ -7,10 +7,10 @@ export default function reducer(state = getInitialState(), action) {
         ...state,
         newPosition: action.newPosition,
       };
-    case actionTypes.SET_IS_DRAGGING:
+    case actionTypes.SET_IS_MOVING:
       return {
         ...state,
-        isDragging: action.isDragging,
+        isMoving: action.isMoving,
       };
     default:
       return state;
@@ -19,7 +19,7 @@ export default function reducer(state = getInitialState(), action) {
 
 function getInitialState() {
   return {
-    isDragging: false,
+    isMoving: false,
     newPosition: undefined,
   };
 }

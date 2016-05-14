@@ -21,7 +21,7 @@ export function createNote({
   };
 }
 
-export function getMousePosition(el, pageX, pageY) {
+export function getMousePosition(el, e) {
   const offsetLeft = el.parentElement.parentElement.offsetLeft;
   const offsetTop = el.parentElement.parentElement.offsetTop;
   const scrollLeft = el.parentElement.parentElement.scrollLeft;
@@ -31,8 +31,8 @@ export function getMousePosition(el, pageX, pageY) {
     .parentElement.scrollTop;
   const toSlotNumber = num => Math.floor(num / 40);
   return {
-    x: toSlotNumber(pageX - offsetLeft + scrollLeft),
-    y: toSlotNumber(pageY - offsetTop + scrollTop),
+    x: toSlotNumber(e.pageX - offsetLeft + scrollLeft),
+    y: toSlotNumber(e.pageY - offsetTop + scrollTop),
   };
 }
 
