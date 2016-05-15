@@ -25,15 +25,11 @@ export function createNote({
 }
 
 export function getMousePosition(gridRef, sequenceContentRef, e) {
-  const offsetLeft = gridRef.offsetLeft;
-  const offsetTop = gridRef.offsetTop;
-  const scrollLeft = gridRef.scrollLeft;
-  const scrollTop = sequenceContentRef.scrollTop;
   const toSlotNumber = num => Math.floor(num / 40);
 
   return {
-    x: toSlotNumber(e.pageX - offsetLeft + scrollLeft),
-    y: toSlotNumber(e.pageY - offsetTop + scrollTop),
+    x: toSlotNumber(e.pageX - gridRef.offsetLeft + gridRef.scrollLeft),
+    y: toSlotNumber(e.pageY - gridRef.offsetTop + sequenceContentRef.scrollTop),
   };
 }
 

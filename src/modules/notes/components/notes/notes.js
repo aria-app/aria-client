@@ -41,13 +41,21 @@ const composed = compose([
     toolTypes: React.PropTypes.object.isRequired,
   }),
   shared.helpers.getElementRef(),
+  mapProps(props => ({
+    ...props,
+    getMousePosition: (e) => helpers.getMousePosition(
+      props.gridRef,
+      props.sequenceContentRef,
+      e
+    ),
+  })),
   withHandlers({
     onMouseDown,
     onMouseMove,
     onMouseUp,
+    onNoteEndpointMouseDown,
     onNoteMouseDown,
     onNoteMouseUp,
-    onNoteEndpointMouseDown,
   }),
   mapProps(props => ({
     ...props,
@@ -84,7 +92,7 @@ function onMouseDown(props) {
       props.panStart(props.elementRef, e);
     } else if (props.toolType === SELECT) {
       props.fenceSelectStart(
-        helpers.getMousePosition(props.gridRef, props.sequenceContentRef, e),
+        props.getMousePosition(e),
         e.ctrlKey || e.metaKey
       );
     }
@@ -98,14 +106,14 @@ function onMouseMove(props) {
     const { isMoving, isPanning, isResizing, isSelecting } = props;
 
     if (isMoving) {
-      props.moveUpdate(helpers.getMousePosition(props.gridRef, props.sequenceContentRef, e));
+      props.moveUpdate(props.getMousePosition(e));
     } else if (isPanning) {
       props.panUpdate(props.elementRef, e);
     } else if (isResizing) {
-      props.resizeUpdate(helpers.getMousePosition(props.gridRef, props.sequenceContentRef, e));
+      props.resizeUpdate(props.getMousePosition(e));
     } else if (isSelecting) {
       props.fenceSelectUpdate(
-        helpers.getMousePosition(props.gridRef, props.sequenceContentRef, e),
+        props.getMousePosition(e),
         e.ctrlKey || e.metaKey
       );
     }
@@ -119,7 +127,7 @@ function onMouseUp(props) {
     if (isMoving || isPanning || isResizing || isSelecting) return;
 
     if (props.toolType === props.toolTypes.DRAW) {
-      props.draw(helpers.getMousePosition(props.gridRef, props.sequenceContentRef, e));
+      props.draw(props.getMousePosition(e));
     }
   };
 }
@@ -132,7 +140,7 @@ function onNoteMouseDown(props) {
     if (toolType === DRAW || toolType === SELECT) {
       props.playNote(note.name);
       props.selectNote(note, e.ctrlKey || e.metaKey);
-      props.moveStart(helpers.getMousePosition(props.gridRef, props.sequenceContentRef, e));
+      props.moveStart(props.getMousePosition(e));
       e.stopPropagation();
       return false;
     }

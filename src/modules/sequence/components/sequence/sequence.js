@@ -10,7 +10,7 @@ import {
 } from '../sequence-toolbar-container/sequence-toolbar-container';
 import './sequence.scss';
 
-const { getChildRef } = shared.helpers;
+const { getChildRef, scrollTo } = shared.helpers;
 
 const component = ({
   sequenceContentRef,
@@ -19,9 +19,7 @@ const component = ({
   toolType,
 }) => h('.sequence', [
   h(SequenceToolbarContainer, { toolType }),
-  h(ScrollTo, {
-    center: true,
-  }, h('.sequence__content', [
+  h('.sequence__content', [
     h('.sequence__wrapper', [
       h(Keys, {
         playNote,
@@ -34,7 +32,7 @@ const component = ({
         toolType,
       }),
     ]),
-  ])),
+  ]),
 ]);
 
 const composed = compose([
@@ -44,6 +42,10 @@ const composed = compose([
     toolType: React.PropTypes.string,
   }),
   getChildRef('.sequence__content'),
+  scrollTo({
+    scrollTop: 'center',
+    selector: '.sequence__content',
+  }),
   mapProps(props => ({
     ...props,
     sequenceContentRef: props.childRef,
