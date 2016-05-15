@@ -11,6 +11,7 @@ export const SequenceToolbarContainer = connect(
 function mapStateToProps(state) {
   return {
     synthType: selectors.getSynthType(state),
+    toolType: selectors.getToolType(state),
   };
 }
 

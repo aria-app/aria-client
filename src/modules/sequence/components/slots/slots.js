@@ -14,6 +14,7 @@ const component = ({
 }, rows);
 
 const composed = compose([
+  pure,
   setPropTypes({
     measureCount: PropTypes.number.isRequired,
   }),
@@ -25,7 +26,6 @@ const composed = compose([
       measureCount,
     })
   ),
-  pure,
 ])(component);
 
 export const Slots = composed;

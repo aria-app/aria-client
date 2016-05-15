@@ -35,7 +35,8 @@
     "style-loader": "0.13.1",
     "surge": "^0.18.0",
     "webpack": "1.12.14",
-    "webpack-dev-server": "1.14.1"
+    "webpack-dev-server": "1.14.1",
+    "why-did-you-update": "0.0.8"
   },
   "dependencies": {
     "classnames": "2.2.3",
@@ -50,6 +51,7 @@
     "recompose": "0.17.0",
     "redux": "3.4.0",
     "redux-thunk": "2.0.1",
+    "reselect": "^2.5.1",
     "tone": "0.6.1"
   }
 }

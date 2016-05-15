@@ -33,6 +33,7 @@ const button = ({
 }, text);
 
 export const SequenceToolbar = compose([
+  pure,
   setPropTypes({
     changeSynthType: PropTypes.func,
     setToolType: PropTypes.func,
@@ -62,5 +63,4 @@ export const SequenceToolbar = compose([
     toolType,
     ...rest,
   })),
-  pure,
 ])(component);

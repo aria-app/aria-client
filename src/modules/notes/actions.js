@@ -82,12 +82,20 @@ export function remove(notes) {
 
 export function resize(notes, change) {
   return (dispatch) => {
+    if (change.x < 0
+      && !_.some(notes, n => (n.endPosition.y - n.position.y) === 0)
+      && _.some(notes, n => (n.endPosition.x - n.position.x) === 2)) {
+      return;
+    }
+
     const updatedNotes = notes.map(note => helpers.createNote({
+      endPosition: helpers.addPositions(note.endPosition, change),
       id: note.id,
       slots: note.slots + change.x !== 0 ? note.slots + change.x : 1,
       position: note.position,
-      endPosition: helpers.addPositions(note.endPosition, change),
     }));
+
+    console.log(updatedNotes[0]);
 
     dispatch(sound.actions.playNote(updatedNotes[0].endName));
 
@@ -147,6 +155,24 @@ export function setSelectedNoteIds(selectedNoteIds) {
   return {
     type: actionTypes.SET_SELECTED_NOTE_IDS,
     selectedNoteIds,
+  };
+}
+
+export function setSelectedNoteSizes(slots) {
+  return () => (dispatch, getState) => {
+    const selectedNotes = selectors.getSelectedNotes(getState());
+
+    const updatedNotes = selectedNotes.map(note => helpers.createNote({
+      id: note.id,
+      position: note.position,
+      endPosition: {
+        x: note.endPosition.x + slots,
+        y: note.endPosition.y,
+      },
+      slots,
+    }));
+
+    dispatch(update(updatedNotes));
   };
 }
 

@@ -13,17 +13,19 @@ const component = ({ display, transform }) =>
   });
 
 const composed = compose([
+  pure,
   setPropTypes({
     playbackState: PropTypes.string,
     position: PropTypes.number,
   }),
-  mapProps(({ playbackState, position }) => ({
-    display: playbackState === sound.constants.playbackStates.STOPPED
-      ? 'none'
-      : 'block',
-    transform: `translateX(${position * 40}px)`,
-  })),
-  pure,
+  mapProps(({ playbackState, position }) => {
+    return {
+      display: playbackState === sound.constants.playbackStates.STOPPED
+        ? 'none'
+        : 'block',
+      transform: `translateX(${position * 40}px)`,
+    };
+  }),
 ])(component);
 
 export const PositionMarker = composed;

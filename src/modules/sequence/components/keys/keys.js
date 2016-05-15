@@ -19,6 +19,7 @@ const keyComponent = ({
 ]);
 
 const composed = compose([
+  pure,
   setPropTypes({
     playNote: PropTypes.func,
     scale: PropTypes.array,
@@ -34,7 +35,6 @@ const composed = compose([
     })),
     ...rest,
   })),
-  pure,
 ])(component);
 
 export const Keys = composed;

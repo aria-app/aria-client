@@ -19,6 +19,7 @@ const component = ({
 });
 
 const composed = compose([
+  pure,
   setPropTypes({
     newPosition: PropTypes.object,
     startPosition: PropTypes.object,
@@ -30,7 +31,6 @@ const composed = compose([
     transform: getTransform(props.startPosition, props.newPosition),
     width: getWidth(props.startPosition, props.newPosition),
   })),
-  pure,
 ])(component);
 
 export const Fence = composed;

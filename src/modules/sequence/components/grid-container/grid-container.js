@@ -1,17 +1,15 @@
 import { connect } from 'react-redux';
-import { Sequence } from '../sequence/sequence';
-import notes from 'modules/notes';
+import { Grid } from '../grid/grid';
 import sound from 'modules/sound';
 import selectors from '../../selectors';
 
-export const SequenceContainer = connect(
+export const GridContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Sequence);
+)(Grid);
 
 function mapStateToProps(state) {
   return {
-    selectedNotes: notes.selectors.getSelectedNotes(state),
     scale: selectors.getScale(state),
     toolType: selectors.getToolType(state),
   };
@@ -19,8 +17,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    playNote: (...options) => {
-      dispatch(sound.actions.playNote(...options));
-    },
+    playNote: (...args) => dispatch(sound.actions.playNote(...args)),
   };
 }

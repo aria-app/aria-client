@@ -1,9 +1,8 @@
-import React from 'react';
 import h from 'react-hyperscript';
-import { compose, mapProps, pure, setPropTypes } from 'recompose';
+import { compose, pure } from 'recompose';
 import shared from 'modules/shared';
-import { Grid } from '../grid/grid';
-import { Keys } from '../keys/keys';
+import { GridContainer } from '../grid-container/grid-container';
+import { KeysContainer } from '../keys-container/keys-container';
 import {
   SequenceToolbarContainer,
 } from '../sequence-toolbar-container/sequence-toolbar-container';
@@ -12,43 +11,25 @@ import './sequence.scss';
 const { getChildRef, scrollTo } = shared.helpers;
 
 const component = ({
-  sequenceContentRef,
-  playNote,
-  scale,
-  toolType,
+  childRef,
 }) => h('.sequence', [
-  h(SequenceToolbarContainer, { toolType }),
+  h(SequenceToolbarContainer),
   h('.sequence__content', [
     h('.sequence__wrapper', [
-      h(Keys, {
-        playNote,
-        scale,
-      }),
-      h(Grid, {
-        playNote,
-        scale,
-        sequenceContentRef,
-        toolType,
+      h(KeysContainer),
+      h(GridContainer, {
+        sequenceContentRef: childRef,
       }),
     ]),
   ]),
 ]);
 
 const composed = compose([
-  setPropTypes({
-    selectedNotes: React.PropTypes.array,
-    scale: React.PropTypes.array,
-    toolType: React.PropTypes.string,
-  }),
   getChildRef('.sequence__content'),
   scrollTo({
     scrollTop: 'center',
     selector: '.sequence__content',
   }),
-  mapProps(props => ({
-    ...props,
-    sequenceContentRef: props.childRef,
-  })),
   pure,
 ])(component);
 

@@ -41,14 +41,14 @@ const component = ({
 ]);
 
 const composed = compose([
+  getElementRef(),
+  pure,
   setPropTypes({
     playNote: PropTypes.func,
     scale: PropTypes.array,
     sequenceContentRef: PropTypes.object,
     toolType: PropTypes.string,
   }),
-  getElementRef(),
-  pure,
 ])(component);
 
 export const Grid = composed;

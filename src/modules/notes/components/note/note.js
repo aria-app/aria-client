@@ -39,6 +39,7 @@ const component = ({
 ]);
 
 export const Note = compose([
+  pure,
   setPropTypes({
     note: PropTypes.object,
     isSelected: PropTypes.bool,
@@ -71,12 +72,11 @@ export const Note = compose([
     }),
     ...rest,
   })),
-  pure,
 ])(component);
 
 function getConnectorTransform(slots, startPosition, endPosition) {
   const { asin, abs, PI, pow, sign, sqrt } = Math;
-  const x = (slots * 40) - 40;
+  const x = (slots * 40 - 1) - 40;
   const y = (endPosition.y - startPosition.y) * 40;
   const length = sqrt(abs(pow(x, 2) + pow(y, 2)));
   const rotation = asin(abs(y / length)) * (180 / PI) * sign(y);

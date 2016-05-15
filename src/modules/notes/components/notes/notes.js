@@ -8,6 +8,8 @@ import * as helpers from '../../helpers';
 import { Note } from '../note/note';
 import './notes.scss';
 
+const { getElementRef } = shared.helpers;
+
 const component = (props) => h('.notes', {
   className: props.cursorClasses,
   onMouseDown: props.onMouseDown,
@@ -19,6 +21,8 @@ const component = (props) => h('.notes', {
 ]);
 
 const composed = compose([
+  getElementRef(),
+  pure,
   setPropTypes({
     draw: React.PropTypes.func.isRequired,
     erase: React.PropTypes.func.isRequired,
@@ -42,7 +46,6 @@ const composed = compose([
     updateResizing: React.PropTypes.func.isRequired,
     updateSelection: React.PropTypes.func.isRequired,
   }),
-  shared.helpers.getElementRef(),
   mapProps(props => ({
     ...props,
     getMousePosition: (e) => helpers.getMousePosition(
@@ -89,7 +92,6 @@ const composed = compose([
       width: props.measureCount * 4 * 8 * 40,
     },
   })),
-  pure,
 ])(component);
 
 export const Notes = composed;
