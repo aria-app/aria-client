@@ -24,12 +24,12 @@ export function createNote({
   };
 }
 
-export function getMousePosition(gridRef, sequenceContentRef, e) {
+export function getMousePosition(scrollLeftEl, scrollTopEl, e) {
   const toSlotNumber = num => Math.floor(num / 40);
 
   return {
-    x: toSlotNumber(e.pageX - gridRef.offsetLeft + gridRef.scrollLeft),
-    y: toSlotNumber(e.pageY - gridRef.offsetTop + sequenceContentRef.scrollTop),
+    x: toSlotNumber(e.pageX - scrollLeftEl.offsetLeft + scrollLeftEl.scrollLeft),
+    y: toSlotNumber(e.pageY - scrollLeftEl.offsetTop + scrollTopEl.scrollTop),
   };
 }
 

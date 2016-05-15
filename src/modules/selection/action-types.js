@@ -1,0 +1,6 @@
+import { NAME } from './constants';
+export default {
+  SET_IS_SELECTING: `${NAME}/SET_IS_SELECTING`,
+  SET_NEW_POSITION: `${NAME}/SET_NEW_POSITION`,
+  SET_START_POSITION: `${NAME}/SET_START_POSITION`,
+};

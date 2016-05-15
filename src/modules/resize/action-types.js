@@ -1,5 +1,0 @@
-export default {
-  SET_IS_RESIZING: 'resize/SET_IS_RESIZING',
-  SET_NEW_POSITION: 'resize/SET_NEW_POSITION',
-  SET_START_POSITION: 'resize/SET_START_POSITION',
-};

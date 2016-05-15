@@ -6,16 +6,6 @@ const { getScale } = notes.helpers;
 
 export default function reducer(state = getInitialState(), action) {
   switch (action.type) {
-    case actionTypes.SET_IS_PANNING:
-      return {
-        ...state,
-        isPanning: action.isPanning,
-      };
-    case actionTypes.SET_PAN_START_POSITION:
-      return {
-        ...state,
-        panStartPosition: action.panStartPosition,
-      };
     case actionTypes.SET_MEASURE_COUNT:
       return {
         ...state,
@@ -40,8 +30,6 @@ export default function reducer(state = getInitialState(), action) {
 function getInitialState() {
   return {
     id: 0,
-    panStartPosition: undefined,
-    isPanning: false,
     measureCount: 2,
     previousToolType: undefined,
     scale: getScale(),

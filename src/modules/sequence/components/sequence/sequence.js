@@ -4,7 +4,6 @@ import { compose, mapProps, pure, setPropTypes } from 'recompose';
 import shared from 'modules/shared';
 import { Grid } from '../grid/grid';
 import { Keys } from '../keys/keys';
-import { ScrollTo } from '../scroll-to/scroll-to';
 import {
   SequenceToolbarContainer,
 } from '../sequence-toolbar-container/sequence-toolbar-container';

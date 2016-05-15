@@ -1,7 +1,7 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import { compose, pure, setPropTypes } from 'recompose';
-import fence from 'modules/fence';
+import selection from 'modules/selection';
 import notes from 'modules/notes';
 import shared from 'modules/shared';
 import * as constants from '../../constants';
@@ -11,7 +11,7 @@ import {
 } from '../position-marker-container/position-marker-container';
 import './grid.scss';
 
-const { FenceContainer } = fence.components;
+const { FenceContainer } = selection.components;
 const { NotesContainer } = notes.components;
 const { getElementRef } = shared.helpers;
 
@@ -29,10 +29,10 @@ const component = ({
       toolType,
     }),
     h(NotesContainer, {
-      gridRef: elementRef,
+      scrollLeftElement: elementRef,
+      scrollTopElement: sequenceContentRef,
       toolTypes: constants.toolTypes,
       playNote,
-      sequenceContentRef,
       toolType,
     }),
     h(FenceContainer),

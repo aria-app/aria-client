@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import { Notes } from '../notes/notes';
-import move from 'modules/move';
-import fence from 'modules/fence';
-import resize from 'modules/resize';
+import moving from 'modules/moving';
+import panning from 'modules/panning';
+import resizing from 'modules/resizing';
+import selection from 'modules/selection';
 import sequence from 'modules/sequence';
 import * as actions from '../../actions';
 import selectors from '../../selectors';
@@ -14,10 +15,10 @@ export const NotesContainer = connect(
 
 function mapStateToProps(state) {
   return {
-    isMoving: move.selectors.getIsMoving(state),
-    isPanning: sequence.selectors.getIsPanning(state),
-    isResizing: resize.selectors.getIsResizing(state),
-    isSelecting: fence.selectors.getIsSelecting(state),
+    isMoving: moving.selectors.getIsMoving(state),
+    isPanning: panning.selectors.getIsPanning(state),
+    isResizing: resizing.selectors.getIsResizing(state),
+    isSelecting: selection.selectors.getIsSelecting(state),
     measureCount: sequence.selectors.getMeasureCount(state),
     notes: selectors.getNotes(state),
     selectedNotes: selectors.getSelectedNotes(state),
@@ -26,38 +27,16 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    draw: (...args) => {
-      dispatch(actions.draw(...args));
-    },
-    erase: (...args) => {
-      dispatch(actions.erase(...args));
-    },
-    fenceSelectStart: (...args) => {
-      dispatch(fence.actions.fenceSelectStart(...args));
-    },
-    fenceSelectUpdate: (...args) => {
-      dispatch(fence.actions.fenceSelectUpdate(...args));
-    },
-    moveStart: () => {
-      dispatch(move.actions.moveStart());
-    },
-    moveUpdate: (...args) => {
-      dispatch(move.actions.moveUpdate(...args));
-    },
-    resizeStart: (...args) => {
-      dispatch(resize.actions.resizeStart(...args));
-    },
-    resizeUpdate: (...args) => {
-      dispatch(resize.actions.resizeUpdate(...args));
-    },
-    selectNote: (...args) => {
-      dispatch(actions.selectNote(...args));
-    },
-    panStart: (...args) => {
-      dispatch(sequence.actions.panStart(...args));
-    },
-    panUpdate: (...args) => {
-      dispatch(sequence.actions.panUpdate(...args));
-    },
+    draw: (...args) => dispatch(actions.draw(...args)),
+    erase: (...args) => dispatch(actions.erase(...args)),
+    selectNote: (...args) => dispatch(actions.selectNote(...args)),
+    startMoving: () => dispatch(moving.actions.start()),
+    startPanning: (...args) => dispatch(panning.actions.start(...args)),
+    startResizing: (...args) => dispatch(resizing.actions.start(...args)),
+    startSelection: (...args) => dispatch(selection.actions.start(...args)),
+    updateMoving: (...args) => dispatch(moving.actions.update(...args)),
+    updateResizing: (...args) => dispatch(resizing.actions.update(...args)),
+    updatePanning: (...args) => dispatch(panning.actions.update(...args)),
+    updateSelection: (...args) => dispatch(selection.actions.update(...args)),
   };
 }

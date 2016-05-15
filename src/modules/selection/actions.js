@@ -4,7 +4,53 @@ import actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
-export function fenceSelectUpdate(newPosition, isAdditive) {
+export function setIsSelecting(isSelecting) {
+  return {
+    type: actionTypes.SET_IS_SELECTING,
+    isSelecting,
+  };
+}
+
+export function setNewPosition(newPosition) {
+  return {
+    type: actionTypes.SET_NEW_POSITION,
+    newPosition,
+  };
+}
+
+export function setStartPosition(startPosition) {
+  return {
+    type: actionTypes.SET_START_POSITION,
+    startPosition,
+  };
+}
+
+export function start(startPosition, isAdditive) {
+  return (dispatch, getState) => {
+    dispatch(setIsSelecting(true));
+    dispatch(setStartPosition(startPosition));
+    dispatch(setNewPosition(startPosition));
+    if (!isAdditive) {
+      dispatch(notes.actions.selectNotes([]));
+    }
+    window.addEventListener('mouseup', () => {
+      const isSelecting = selectors.getIsSelecting(getState());
+      if (isSelecting) {
+        dispatch(stop());
+      }
+    });
+  };
+}
+
+export function stop() {
+  return (dispatch, getState) => {
+    if (!selectors.getIsSelecting(getState())) return;
+    dispatch(setIsSelecting(false));
+    dispatch(setNewPosition(undefined));
+  };
+}
+
+export function update(newPosition, isAdditive) {
   return (dispatch, getState) => {
     const previousPosition = selectors.getNewPosition(getState());
 
@@ -30,51 +76,5 @@ export function fenceSelectUpdate(newPosition, isAdditive) {
     }
 
     dispatch(setNewPosition(newPosition));
-  };
-}
-
-export function setIsSelecting(isSelecting) {
-  return {
-    type: actionTypes.SET_IS_SELECTING,
-    isSelecting,
-  };
-}
-
-export function setNewPosition(newPosition) {
-  return {
-    type: actionTypes.SET_NEW_POSITION,
-    newPosition,
-  };
-}
-
-export function setStartPosition(startPosition) {
-  return {
-    type: actionTypes.SET_START_POSITION,
-    startPosition,
-  };
-}
-
-export function fenceSelectStart(startPosition, isAdditive) {
-  return (dispatch, getState) => {
-    dispatch(setIsSelecting(true));
-    dispatch(setStartPosition(startPosition));
-    dispatch(setNewPosition(startPosition));
-    if (!isAdditive) {
-      dispatch(notes.actions.selectNotes([]));
-    }
-    window.addEventListener('mouseup', () => {
-      const isSelecting = selectors.getIsSelecting(getState());
-      if (isSelecting) {
-        dispatch(fenceSelectEnd());
-      }
-    });
-  };
-}
-
-export function fenceSelectEnd() {
-  return (dispatch, getState) => {
-    if (!selectors.getIsSelecting(getState())) return;
-    dispatch(setIsSelecting(false));
-    dispatch(setNewPosition(undefined));
   };
 }

@@ -4,7 +4,41 @@ import actionTypes from './action-types';
 import * as helpers from './helpers';
 import selectors from './selectors';
 
-export function moveUpdate(newPosition) {
+export function setIsMoving(isMoving) {
+  return {
+    type: actionTypes.SET_IS_MOVING,
+    isMoving,
+  };
+}
+
+export function setNewPosition(newPosition) {
+  return {
+    type: actionTypes.SET_NEW_POSITION,
+    newPosition,
+  };
+}
+
+export function start() {
+  return (dispatch, getState) => {
+    dispatch(setIsMoving(true));
+    window.addEventListener('mouseup', () => {
+      const isMoving = selectors.getIsMoving(getState());
+      if (isMoving) {
+        dispatch(stop());
+      }
+    });
+  };
+}
+
+export function stop() {
+  return (dispatch, getState) => {
+    if (!selectors.getIsMoving(getState())) return;
+    dispatch(setIsMoving(false));
+    dispatch(setNewPosition(undefined));
+  };
+}
+
+export function update(newPosition) {
   return (dispatch, getState) => {
     const previousPosition = selectors.getNewPosition(getState());
 
@@ -24,39 +58,5 @@ export function moveUpdate(newPosition) {
     ));
 
     dispatch(setNewPosition(newPosition));
-  };
-}
-
-export function setIsMoving(isMoving) {
-  return {
-    type: actionTypes.SET_IS_MOVING,
-    isMoving,
-  };
-}
-
-export function setNewPosition(newPosition) {
-  return {
-    type: actionTypes.SET_NEW_POSITION,
-    newPosition,
-  };
-}
-
-export function moveStart() {
-  return (dispatch, getState) => {
-    dispatch(setIsMoving(true));
-    window.addEventListener('mouseup', () => {
-      const isMoving = selectors.getIsMoving(getState());
-      if (isMoving) {
-        dispatch(moveEnd());
-      }
-    });
-  };
-}
-
-export function moveEnd() {
-  return (dispatch, getState) => {
-    if (!selectors.getIsMoving(getState())) return;
-    dispatch(setIsMoving(false));
-    dispatch(setNewPosition(undefined));
   };
 }
