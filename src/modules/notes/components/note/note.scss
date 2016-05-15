@@ -42,10 +42,10 @@ $note__point-connector--z-index: 100;
     height: 12px;
     position: absolute;
     top: 14px;
-    left: 8px;
+    left: 20px;
     z-index: $note__point-connector--z-index;
     background-color: $note__point-connector__background-color;
-    transform-origin: left;
+    transform-origin: left center;
   }
   &--active &__point__fill {
     background-color: $note__point__fill--active__background-color;

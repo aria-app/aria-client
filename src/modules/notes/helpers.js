@@ -9,27 +9,28 @@ export function addPositions(a, b) {
 }
 
 export function createNote({
+  endPosition,
   id = _.uniqueId('note'),
   slots = 2,
   position,
 }) {
   return {
     name: getNoteName(position.y),
+    endName: endPosition ? getNoteName(endPosition.y) : undefined,
+    endPosition,
     id,
     slots,
     position,
   };
 }
 
-export function getMousePosition(el, e) {
-  const offsetLeft = el.parentElement.parentElement.offsetLeft;
-  const offsetTop = el.parentElement.parentElement.offsetTop;
-  const scrollLeft = el.parentElement.parentElement.scrollLeft;
-  const scrollTop = el.parentElement
-    .parentElement
-    .parentElement
-    .parentElement.scrollTop;
+export function getMousePosition(gridRef, sequenceContentRef, e) {
+  const offsetLeft = gridRef.offsetLeft;
+  const offsetTop = gridRef.offsetTop;
+  const scrollLeft = gridRef.scrollLeft;
+  const scrollTop = sequenceContentRef.scrollTop;
   const toSlotNumber = num => Math.floor(num / 40);
+
   return {
     x: toSlotNumber(e.pageX - offsetLeft + scrollLeft),
     y: toSlotNumber(e.pageY - offsetTop + scrollTop),
@@ -58,13 +59,14 @@ export function getType(synth) {
   return synth.voices[0].oscillator.type;
 }
 
-export function slotsToLength(slots) {
-  return `0:0:${slots * 0.5}`;
+export function slotsToSeconds(slots, bpm) {
+  return ((60 / bpm) / 8) * slots;
 }
 
 export function someNoteWillMoveOutside(notes, offset, measureCount) {
   const totalSlotsX = measureCount * 8 * 4 - 1;
   const totalSlotsY = constants.octaveRange.length * 12 - 1;
+
   if (offset.x === -1) {
     return _.some(notes, note => note.position.x <= 0);
   } else if (offset.x === 1) {
@@ -74,6 +76,7 @@ export function someNoteWillMoveOutside(notes, offset, measureCount) {
   } else if (offset.y === 1) {
     return _.some(notes, note => note.position.y >= totalSlotsY);
   }
+
   return false;
 }
 

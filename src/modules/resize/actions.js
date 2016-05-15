@@ -15,9 +15,12 @@ export function resizeUpdate(newPosition) {
     if (_.isEqual(previousPosition, newPosition)) return;
 
     const selectedNotes = notes.selectors.getSelectedNotes(getState());
-    const change = newPosition.x - previousPosition.x;
+    const change = {
+      x: newPosition.x - previousPosition.x,
+      y: newPosition.y - previousPosition.y,
+    };
 
-    dispatch(notes.actions.resizeUpdate(
+    dispatch(notes.actions.resize(
       selectedNotes,
       change
     ));

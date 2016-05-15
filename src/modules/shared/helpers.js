@@ -11,8 +11,6 @@ export const getElementRef = createHelper(() => BaseComponent =>
       };
     },
     componentDidMount() {
-      debugger;
-      // console.log(this.refs[0]);
       this.setState({
         childRef: findDOMNode(this.refs[0]),
       });
@@ -26,3 +24,25 @@ export const getElementRef = createHelper(() => BaseComponent =>
     },
   })
 , 'getElementRef');
+
+export const getChildRef = createHelper((selector) => BaseComponent =>
+  React.createClass({
+    getInitialState() {
+      return {
+        childRef: undefined,
+      };
+    },
+    componentDidMount() {
+      this.setState({
+        childRef: findDOMNode(this.refs[0]).querySelector(selector),
+      });
+    },
+    render() {
+      return createElement(BaseComponent, {
+        ...this.props,
+        ref: 0,
+        childRef: this.state.childRef,
+      });
+    },
+  })
+, 'getChildRef');

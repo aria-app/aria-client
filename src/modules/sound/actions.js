@@ -9,21 +9,26 @@ import selectors from './selectors';
 export function createSequence() {
   return (dispatch, getState) => {
     const toneSequence = new Tone.Sequence((time, step) => {
-      dispatch(setPosition(step));
-
-      const notesAtStep = _.filter(
-        notes.selectors.getNotes(getState()),
-        note => note.position.x === step
-      );
-
       const synth = selectors.getSynth(getState());
+      const bpm = selectors.getBpm(getState());
+      const allNotes = notes.selectors.getNotes(getState());
+      const notesAtStep = _(allNotes)
+        .filter(note => note.position.x === step)
+        .uniqBy('name')
+        .value();
 
-      _.uniqBy(notesAtStep, 'name').forEach(note => {
-        const length = notes.helpers.slotsToLength(note.slots);
-        synth.triggerAttack(note.name, time);
-        synth.triggerRelease(note.name, `+${length}`);
-      }
-      );
+      notesAtStep.forEach((note, index) => {
+        const length = notes.helpers.slotsToSeconds(note.slots, bpm);
+        synth.voices[index].triggerAttack(note.name, time);
+        if (note.endName) {
+          synth.voices[index].frequency.setValueAtTime(note.name, time);
+          synth.voices[index].frequency.linearRampToValueAtTime(note.endName, time + length);
+          synth.voices[index].frequency.setValueAtTime(note.endName, time + length);
+        }
+        synth.voices[index].triggerRelease(time + length);
+      });
+
+      dispatch(setPosition(step));
     }, _.range(sequence.selectors.getMeasureCount(getState()) * 32), '32n');
 
     toneSequence.start();
@@ -40,8 +45,9 @@ export function initialize() {
 export function playNote(name, slots = 1, time) {
   return (dispatch, getState) => {
     const synth = selectors.getSynth(getState());
+    const bpm = selectors.getBpm(getState());
 
-    synth.triggerAttackRelease(name, notes.helpers.slotsToLength(slots), time);
+    synth.triggerAttackRelease(name, notes.helpers.slotsToSeconds(slots, bpm), time);
   };
 }
 

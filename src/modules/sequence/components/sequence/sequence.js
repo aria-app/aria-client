@@ -1,6 +1,7 @@
 import React from 'react';
 import h from 'react-hyperscript';
-import { compose, pure, setPropTypes } from 'recompose';
+import { compose, mapProps, pure, setPropTypes } from 'recompose';
+import shared from 'modules/shared';
 import { Grid } from '../grid/grid';
 import { Keys } from '../keys/keys';
 import { ScrollTo } from '../scroll-to/scroll-to';
@@ -9,7 +10,10 @@ import {
 } from '../sequence-toolbar-container/sequence-toolbar-container';
 import './sequence.scss';
 
+const { getChildRef } = shared.helpers;
+
 const component = ({
+  sequenceContentRef,
   playNote,
   scale,
   toolType,
@@ -26,6 +30,7 @@ const component = ({
       h(Grid, {
         playNote,
         scale,
+        sequenceContentRef,
         toolType,
       }),
     ]),
@@ -38,6 +43,11 @@ const composed = compose([
     scale: React.PropTypes.array,
     toolType: React.PropTypes.string,
   }),
+  getChildRef('.sequence__content'),
+  mapProps(props => ({
+    ...props,
+    sequenceContentRef: props.childRef,
+  })),
   pure,
 ])(component);
 

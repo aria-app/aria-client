@@ -63,9 +63,9 @@ export const Note = compose([
   }),
   mapProps(({ isSelected, note, ...rest }) => ({
     transform: `translate(${note.position.x * 40}px, ${note.position.y * 40}px)`,
-    connectorTransform: getConnectorTransform(note.slots),
+    connectorTransform: getConnectorTransform(note.slots, note.position, note.endPosition),
     endPointDisplay: note.slots === 1 ? 'none' : 'flex',
-    endPointTransform: getEndPointTransform(note.slots),
+    endPointTransform: getEndPointTransform(note.slots, note.position, note.endPosition),
     className: classnames({
       'note--active': isSelected,
     }),
@@ -74,12 +74,17 @@ export const Note = compose([
   pure,
 ])(component);
 
-function getConnectorTransform(slots) {
-  const x = (slots * 40) - 16;
-  return `scaleX(${x})`;
+function getConnectorTransform(slots, startPosition, endPosition) {
+  const { asin, abs, PI, pow, sign, sqrt } = Math;
+  const x = (slots * 40) - 40;
+  const y = (endPosition.y - startPosition.y) * 40;
+  const length = sqrt(abs(pow(x, 2) + pow(y, 2)));
+  const rotation = asin(abs(y / length)) * (180 / PI) * sign(y);
+  return `rotate(${rotation}deg) scaleX(${length})`;
 }
 
-function getEndPointTransform(slots) {
+function getEndPointTransform(slots, startPosition, endPosition) {
   const x = (slots - 1) * 40;
-  return `translate(${x}px, ${0}px)`;
+  const y = (endPosition.y - startPosition.y) * 40;
+  return `translate(${x}px, ${y}px)`;
 }

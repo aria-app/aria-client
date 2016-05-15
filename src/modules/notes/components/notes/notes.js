@@ -3,6 +3,7 @@ import h from 'react-hyperscript';
 import _ from 'lodash';
 import classnames from 'classnames';
 import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
+import shared from 'modules/shared';
 import * as helpers from '../../helpers';
 import { Note } from '../note/note';
 import './notes.scss';
@@ -35,9 +36,11 @@ const composed = compose([
     moveStart: React.PropTypes.func.isRequired,
     panStart: React.PropTypes.func.isRequired,
     panUpdate: React.PropTypes.func.isRequired,
+    playNote: React.PropTypes.func.isRequired,
     toolType: React.PropTypes.string.isRequired,
     toolTypes: React.PropTypes.object.isRequired,
   }),
+  shared.helpers.getElementRef(),
   withHandlers({
     onMouseDown,
     onMouseMove,
@@ -81,7 +84,7 @@ function onMouseDown(props) {
       props.panStart(props.elementRef, e);
     } else if (props.toolType === SELECT) {
       props.fenceSelectStart(
-        helpers.getMousePosition(props.elementRef, e),
+        helpers.getMousePosition(props.gridRef, props.sequenceContentRef, e),
         e.ctrlKey || e.metaKey
       );
     }
@@ -95,14 +98,14 @@ function onMouseMove(props) {
     const { isMoving, isPanning, isResizing, isSelecting } = props;
 
     if (isMoving) {
-      props.moveUpdate(helpers.getMousePosition(props.elementRef, e));
+      props.moveUpdate(helpers.getMousePosition(props.gridRef, props.sequenceContentRef, e));
     } else if (isPanning) {
       props.panUpdate(props.elementRef, e);
     } else if (isResizing) {
-      props.resizeUpdate(helpers.getMousePosition(props.elementRef, e));
+      props.resizeUpdate(helpers.getMousePosition(props.gridRef, props.sequenceContentRef, e));
     } else if (isSelecting) {
       props.fenceSelectUpdate(
-        helpers.getMousePosition(props.elementRef, e),
+        helpers.getMousePosition(props.gridRef, props.sequenceContentRef, e),
         e.ctrlKey || e.metaKey
       );
     }
@@ -116,7 +119,7 @@ function onMouseUp(props) {
     if (isMoving || isPanning || isResizing || isSelecting) return;
 
     if (props.toolType === props.toolTypes.DRAW) {
-      props.draw(helpers.getMousePosition(props.elementRef, e));
+      props.draw(helpers.getMousePosition(props.gridRef, props.sequenceContentRef, e));
     }
   };
 }
@@ -127,8 +130,9 @@ function onNoteMouseDown(props) {
     const { DRAW, SELECT } = toolTypes;
 
     if (toolType === DRAW || toolType === SELECT) {
+      props.playNote(note.name);
       props.selectNote(note, e.ctrlKey || e.metaKey);
-      props.moveStart(helpers.getMousePosition(props.elementRef, e));
+      props.moveStart(helpers.getMousePosition(props.gridRef, props.sequenceContentRef, e));
       e.stopPropagation();
       return false;
     }
@@ -156,6 +160,7 @@ function onNoteEndpointMouseDown(props) {
     if (toolType === MOVE) {
       props.moveStart();
     } else if (toolType === DRAW || toolType === SELECT) {
+      props.playNote(note.endName);
       props.selectNote(note, e.ctrlKey || e.metaKey);
       props.resizeStart();
     }

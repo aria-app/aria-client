@@ -20,7 +20,13 @@ export function deselect() {
 
 export function draw(position) {
   return (dispatch) => {
-    const note = helpers.createNote({ position });
+    const note = helpers.createNote({
+      endPosition: {
+        x: position.x + 1,
+        y: position.y,
+      },
+      position,
+    });
     dispatch(sound.actions.playNote(note.name));
     dispatch(add([note]));
   };
@@ -35,6 +41,7 @@ export function duplicate() {
     const duplicatedNotes = selectedNotes.map(note => helpers.createNote({
       slots: note.slots,
       position: note.position,
+      endPosition: note.endPosition,
     }));
 
     dispatch(add(duplicatedNotes));
@@ -58,6 +65,7 @@ export function move(notes, offset) {
       id: note.id,
       slots: note.slots,
       position: helpers.addPositions(note.position, offset),
+      endPosition: helpers.addPositions(note.endPosition, offset),
     }));
 
     dispatch(sound.actions.playNote(updatedNotes[0].name));
@@ -76,9 +84,12 @@ export function resize(notes, change) {
   return (dispatch) => {
     const updatedNotes = notes.map(note => helpers.createNote({
       id: note.id,
-      slots: note.slots + change !== 0 ? note.slots + change : 1,
+      slots: note.slots + change.x !== 0 ? note.slots + change.x : 1,
       position: note.position,
+      endPosition: helpers.addPositions(note.endPosition, change),
     }));
+
+    dispatch(sound.actions.playNote(updatedNotes[0].endName));
 
     dispatch(update(updatedNotes));
   };
@@ -104,7 +115,6 @@ export function selectNote(note, isAdditive) {
   return (dispatch, getState) => {
     const selectedNotes = selectors.getSelectedNotes(getState());
 
-    dispatch(sound.actions.playNote(note.name));
     if (isAdditive) {
       if (_.includes(selectedNotes, note)) {
         dispatch(selectNotes(_.without(selectedNotes, note)));
