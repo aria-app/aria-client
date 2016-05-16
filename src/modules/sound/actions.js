@@ -18,10 +18,10 @@ export function createSequence() {
         .value();
 
       notesAtStep.forEach((note, index) => {
-        const length = notes.helpers.slotsToSeconds(note.slots, bpm);
+        const length = notes.helpers.sizeToSeconds(note.endPosition.x - note.position.x, bpm);
         synth.voices[index].triggerAttack(note.name, time);
-        if (note.endName) {
-          synth.voices[index].frequency.setValueAtTime(note.name, time);
+        if (note.endPosition.y !== note.position.y) {
+          // synth.voices[index].frequency.setValueAtTime(note.name, time);
           synth.voices[index].frequency.linearRampToValueAtTime(note.endName, time + length);
           synth.voices[index].frequency.setValueAtTime(note.endName, time + length);
         }
@@ -42,12 +42,12 @@ export function initialize() {
   };
 }
 
-export function playNote(name, slots = 1, time) {
+export function playNote(name, size = 1, time) {
   return (dispatch, getState) => {
     const synth = selectors.getSynth(getState());
     const bpm = selectors.getBpm(getState());
 
-    synth.triggerAttackRelease(name, notes.helpers.slotsToSeconds(slots, bpm), time);
+    synth.triggerAttackRelease(name, notes.helpers.sizeToSeconds(size, bpm), time);
   };
 }
 

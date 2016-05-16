@@ -53,4 +53,7 @@ $note__point-connector--z-index: 100;
   &--active &__point-connector {
     background-color: $note__point-connector--active__background-color;
   }
+  &.ghost {
+    opacity: 0.4;
+  }
 }

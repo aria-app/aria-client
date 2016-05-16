@@ -20,10 +20,10 @@ export function panUpdate(elementRef, e) {
   };
 }
 
-export function setIsPanning(isPanning) {
+export function setMousePosition(mousePosition) {
   return {
-    type: actionTypes.SET_IS_PANNING,
-    isPanning,
+    type: actionTypes.SET_MOUSE_POSITION,
+    mousePosition,
   };
 }
 
@@ -47,33 +47,5 @@ export function setToolTypeInner(toolType) {
   return {
     type: actionTypes.SET_TOOL_TYPE,
     toolType,
-  };
-}
-
-export function setPanStartPosition(panStartPosition) {
-  return {
-    type: actionTypes.SET_PAN_START_POSITION,
-    panStartPosition,
-  };
-}
-
-export function panStart(elementRef, e) {
-  return (dispatch, getState) => {
-    const panStartPosition = helpers.getPanStartPosition(elementRef, e);
-    dispatch(setIsPanning(true));
-    dispatch(setPanStartPosition(panStartPosition));
-    window.addEventListener('mouseup', () => {
-      const isPanning = selectors.getIsPanning(getState());
-      if (isPanning) {
-        dispatch(panEnd());
-      }
-    });
-  };
-}
-
-export function panEnd() {
-  return (dispatch, getState) => {
-    if (!selectors.getIsPanning(getState())) return;
-    dispatch(setIsPanning(false));
   };
 }

@@ -17,6 +17,7 @@ const component = (props) => h('.notes', {
   onMouseUp: props.onMouseUp,
   style: props.style,
 }, [
+  // props.ghostNote,
   ...props.noteComponents,
 ]);
 
@@ -29,12 +30,14 @@ const composed = compose([
     isMoving: React.PropTypes.bool.isRequired,
     isPanning: React.PropTypes.bool.isRequired,
     measureCount: React.PropTypes.number.isRequired,
+    mousePosition: React.PropTypes.object,
     notes: React.PropTypes.array.isRequired,
     playNote: React.PropTypes.func.isRequired,
     scrollLeftElement: React.PropTypes.object,
     scrollTopElement: React.PropTypes.object,
     selectedNotes: React.PropTypes.array.isRequired,
     selectNote: React.PropTypes.func.isRequired,
+    setMousePosition: React.PropTypes.func.isRequired,
     startMoving: React.PropTypes.func.isRequired,
     startPanning: React.PropTypes.func.isRequired,
     startResizing: React.PropTypes.func.isRequired,
@@ -77,6 +80,25 @@ const composed = compose([
     cursorClasses: classnames({
       'notes--grab': props.toolType === props.toolTypes.PAN,
     }),
+    // ghostNote: props.toolType === props.toolTypes.DRAW
+    //   ? h(Note, {
+    //     note: {
+    //       endPosition: {
+    //         x: props.mousePosition ? props.mousePosition.x + 1 : 0,
+    //         y: props.mousePosition ? props.mousePosition.y : 0,
+    //       },
+    //       position: {
+    //         x: props.mousePosition ? props.mousePosition.x : 0,
+    //         y: props.mousePosition ? props.mousePosition.y : 0,
+    //       },
+    //     },
+    //     className: 'ghost',
+    //     onEndpointMouseDown: () => {},
+    //     onEndpointMouseUp: () => {},
+    //     onMouseDown: () => {},
+    //     onMouseUp: () => {},
+    //   })
+    //   : null,
     noteComponents: props.notes.map((note, index) =>
       h(Note, {
         key: index,
@@ -116,6 +138,12 @@ function onMouseDown(props) {
 function onMouseMove(props) {
   return (e) => {
     const { isMoving, isPanning, isResizing, isSelecting } = props;
+
+    const mousePosition = props.getMousePosition(e);
+
+    if (!_.isEqual(props.mousePosition, mousePosition)) {
+      props.setMousePosition(mousePosition);
+    }
 
     if (isMoving) {
       props.updateMoving(props.getMousePosition(e));

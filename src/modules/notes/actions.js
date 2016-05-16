@@ -39,7 +39,6 @@ export function duplicate() {
     if (_.isEmpty(selectedNotes)) return;
 
     const duplicatedNotes = selectedNotes.map(note => helpers.createNote({
-      slots: note.slots,
       position: note.position,
       endPosition: note.endPosition,
     }));
@@ -63,7 +62,6 @@ export function move(notes, offset) {
 
     const updatedNotes = notes.map(note => helpers.createNote({
       id: note.id,
-      slots: note.slots,
       position: helpers.addPositions(note.position, offset),
       endPosition: helpers.addPositions(note.endPosition, offset),
     }));
@@ -82,20 +80,28 @@ export function remove(notes) {
 
 export function resize(notes, change) {
   return (dispatch) => {
-    if (change.x < 0
-      && !_.some(notes, n => (n.endPosition.y - n.position.y) === 0)
-      && _.some(notes, n => (n.endPosition.x - n.position.x) === 2)) {
+    const movingLeft = change.x < 0;
+    const anyNoteBent = _.some(notes, n => (n.endPosition.y - n.position.y) !== 0);
+    const willBeMinLength = _.some(notes, n => (n.endPosition.x - n.position.x) <= 1);
+    const willBeNegative = _.some(notes, n => (n.endPosition.x - n.position.x) <= 0);
+
+    if (movingLeft && anyNoteBent && willBeMinLength) {
+      return;
+    }
+
+    if (movingLeft && willBeNegative) {
+      return;
+    }
+
+    if (change.y !== 0 && _.some(notes, n => (n.endPosition.x - n.position.x) === 0)) {
       return;
     }
 
     const updatedNotes = notes.map(note => helpers.createNote({
       endPosition: helpers.addPositions(note.endPosition, change),
       id: note.id,
-      slots: note.slots + change.x !== 0 ? note.slots + change.x : 1,
       position: note.position,
     }));
-
-    console.log(updatedNotes[0]);
 
     dispatch(sound.actions.playNote(updatedNotes[0].endName));
 
@@ -158,7 +164,7 @@ export function setSelectedNoteIds(selectedNoteIds) {
   };
 }
 
-export function setSelectedNoteSizes(slots) {
+export function setSelectedNoteSizes(size) {
   return () => (dispatch, getState) => {
     const selectedNotes = selectors.getSelectedNotes(getState());
 
@@ -166,10 +172,9 @@ export function setSelectedNoteSizes(slots) {
       id: note.id,
       position: note.position,
       endPosition: {
-        x: note.endPosition.x + slots,
-        y: note.endPosition.y,
+        x: note.position.x + size,
+        y: note.position.y,
       },
-      slots,
     }));
 
     dispatch(update(updatedNotes));

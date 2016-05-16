@@ -11,15 +11,13 @@ export function addPositions(a, b) {
 export function createNote({
   endPosition,
   id = _.uniqueId('note'),
-  slots = 2,
   position,
 }) {
   return {
     name: getNoteName(position.y),
     endName: endPosition ? getNoteName(endPosition.y) : undefined,
-    endPosition,
+    endPosition: endPosition || { x: position.x + 1, y: position.y },
     id,
-    slots,
     position,
   };
 }
@@ -55,8 +53,8 @@ export function getType(synth) {
   return synth.voices[0].oscillator.type;
 }
 
-export function slotsToSeconds(slots, bpm) {
-  return ((60 / bpm) / 8) * slots;
+export function sizeToSeconds(size, bpm) {
+  return ((60 / bpm) / 8) * size;
 }
 
 export function someNoteWillMoveOutside(notes, offset, measureCount) {
