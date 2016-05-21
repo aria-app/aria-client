@@ -6,11 +6,4 @@ export const playbackStates = {
   STOPPED: 'STOPPED',
 };
 
-export const synthTypes = {
-  PWM: 'pwm',
-  SAWTOOTH: 'sawtooth',
-  SINE: 'sine',
-  SQUARE: 'square',
-};
-
 export const NAME = 'sound';

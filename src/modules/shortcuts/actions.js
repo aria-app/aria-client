@@ -2,6 +2,7 @@ import _ from 'lodash';
 import Mousetrap from 'mousetrap';
 import notes from 'modules/notes';
 import sequence from 'modules/sequence';
+import shared from 'modules/shared';
 import sound from 'modules/sound';
 import actionTypes from './action-types';
 import selectors from './selectors';
@@ -26,6 +27,8 @@ export function initialize() {
       [nudgeSelectedNotes({ x: 0, y: 1 }), ['down']],
       [nudgeSelectedNotes({ x: -1, y: 0 }), ['left']],
       [nudgeSelectedNotes({ x: 1, y: 0 }), ['right']],
+      [redo, ['ctrl+y', 'meta+y']],
+      [undo, ['ctrl+z', 'meta+z']],
 
       // Playback
       [togglePlayPause, ['enter']],
@@ -47,7 +50,7 @@ export function initialize() {
 
 function activateDrawTool() {
   return (dispatch, getState) => {
-    const toolType = sequence.constants.toolTypes.DRAW;
+    const toolType = shared.constants.toolTypes.DRAW;
     const currentToolType = sequence.selectors.getToolType(getState());
 
     if (currentToolType === toolType) return;
@@ -58,7 +61,7 @@ function activateDrawTool() {
 
 function activateEraseTool() {
   return (dispatch, getState) => {
-    const toolType = sequence.constants.toolTypes.ERASE;
+    const toolType = shared.constants.toolTypes.ERASE;
     const currentToolType = sequence.selectors.getToolType(getState());
 
     if (currentToolType === toolType) return;
@@ -69,7 +72,7 @@ function activateEraseTool() {
 
 function activateMoveTool() {
   return (dispatch, getState) => {
-    const toolType = sequence.constants.toolTypes.MOVE;
+    const toolType = shared.constants.toolTypes.MOVE;
     const currentToolType = sequence.selectors.getToolType(getState());
 
     if (currentToolType === toolType) return;
@@ -80,7 +83,7 @@ function activateMoveTool() {
 
 function activatePanTool() {
   return (dispatch, getState) => {
-    const toolType = sequence.constants.toolTypes.PAN;
+    const toolType = shared.constants.toolTypes.PAN;
     const currentToolType = sequence.selectors.getToolType(getState());
 
     if (currentToolType === toolType) return;
@@ -91,7 +94,7 @@ function activatePanTool() {
 
 function activateSelectTool() {
   return (dispatch, getState) => {
-    const toolType = sequence.constants.toolTypes.SELECT;
+    const toolType = shared.constants.toolTypes.SELECT;
     const currentToolType = sequence.selectors.getToolType(getState());
 
     if (currentToolType === toolType) return;
@@ -107,7 +110,7 @@ function holdPan(e) {
 
     if (_.includes(heldKeys, e.keyCode)) return;
 
-    const toolType = sequence.constants.toolTypes.PAN;
+    const toolType = shared.constants.toolTypes.PAN;
     const currentToolType = sequence.selectors.getToolType(getState());
 
     if (currentToolType === toolType) return;
@@ -139,7 +142,7 @@ function revertPan() {
   return (dispatch, getState) => {
     const previousToolType = sequence.selectors.getPreviousToolType(getState());
 
-    if (!previousToolType || previousToolType === sequence.constants.toolTypes.PAN) return;
+    if (!previousToolType || previousToolType === shared.constants.toolTypes.PAN) return;
 
     dispatch(sequence.actions.setToolType(previousToolType));
     dispatch(setHeldKeys([]));
@@ -169,5 +172,17 @@ function stop() {
 function togglePlayPause() {
   return (dispatch) => {
     dispatch(sound.actions.togglePlayPause());
+  };
+}
+
+function redo() {
+  return (dispatch) => {
+    dispatch(notes.actions.popNoteRedos());
+  };
+}
+
+function undo() {
+  return (dispatch) => {
+    dispatch(notes.actions.popNoteUndos());
   };
 }

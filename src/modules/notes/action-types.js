@@ -1,6 +1,8 @@
+import { NAME } from './constants';
+
 export default {
-  ADD: 'notes/ADD',
-  REMOVE: 'notes/REMOVE',
-  SET_SELECTED_NOTE_IDS: 'notes/SET_SELECTED_NOTE_IDS',
-  UPDATE: 'notes/UPDATE',
+  SET_NOTES: `${NAME}/SET_NOTES`,
+  SET_NOTE_REDOS: `${NAME}/SET_NOTE_REDOS`,
+  SET_NOTE_UNDOS: `${NAME}/SET_NOTE_UNDOS`,
+  SET_SELECTED_NOTE_IDS: `${NAME}/SET_SELECTED_NOTE_IDS`,
 };

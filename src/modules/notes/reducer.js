@@ -1,32 +1,29 @@
-import _ from 'lodash';
 import actionTypes from './action-types';
 import * as helpers from './helpers';
 
-export default function reducer(state = getInitialStateWithNotes(), action) {
+const initialState = getInitialStateWithNotes();
+
+export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case actionTypes.ADD:
+    case actionTypes.SET_NOTES:
       return {
         ...state,
-        notes: [
-          ...state.notes,
-          ...action.notes,
-        ],
+        notes: action.notes,
       };
-    case actionTypes.REMOVE:
+    case actionTypes.SET_NOTE_REDOS:
       return {
         ...state,
-        notes: _.difference(state.notes, action.notes),
-        selectedNoteIds: [],
+        noteRedos: action.noteRedos,
+      };
+    case actionTypes.SET_NOTE_UNDOS:
+      return {
+        ...state,
+        noteUndos: action.noteUndos,
       };
     case actionTypes.SET_SELECTED_NOTE_IDS:
       return {
         ...state,
         selectedNoteIds: action.selectedNoteIds,
-      };
-    case actionTypes.UPDATE:
-      return {
-        ...state,
-        notes: replaceItemsById(state.notes, action.notes),
       };
     default:
       return state;
@@ -39,12 +36,12 @@ function getInitialStateWithNotes() {
     notes: [
       helpers.createNote({
         position: {
-          x: 0,
-          y: 47,
+          x: 25,
+          y: 40,
         },
         endPosition: {
-          x: 2,
-          y: 47,
+          x: 28,
+          y: 40,
         },
       }),
     ],
@@ -54,13 +51,8 @@ function getInitialStateWithNotes() {
 function getInitialState() {
   return {
     notes: [],
+    noteRedos: [],
+    noteUndos: [],
     selectedNoteIds: [],
   };
-}
-
-function replaceItemsById(list, items) {
-  return list.map(i => {
-    const newItem = _.find(items, { id: i.id });
-    return newItem || i;
-  });
 }

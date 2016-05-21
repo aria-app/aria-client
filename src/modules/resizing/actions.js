@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import notes from 'modules/notes';
+import sequence from 'modules/sequence';
 import actionTypes from './action-types';
 import * as selectors from './selectors';
 
@@ -17,8 +18,9 @@ export function setNewPosition(newPosition) {
   };
 }
 
-export function start(startPosition) {
+export function start() {
   return (dispatch, getState) => {
+    const startPosition = sequence.selectors.getMousePosition(getState());
     dispatch(setIsResizing(true));
     dispatch(setNewPosition(startPosition));
     window.addEventListener('mouseup', () => {
@@ -38,8 +40,9 @@ export function stop() {
   };
 }
 
-export function update(newPosition) {
+export function update() {
   return (dispatch, getState) => {
+    const newPosition = sequence.selectors.getMousePosition(getState());
     const previousPosition = selectors.getNewPosition(getState());
 
     if (!previousPosition) {

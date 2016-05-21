@@ -1,7 +1,8 @@
-import actionTypes from './action-types';
 import notes from 'modules/notes';
-import { defaultSynthType, defaultToolType } from './constants';
+import shared from 'modules/shared';
+import actionTypes from './action-types';
 
+const { defaultSynthType, defaultToolType } = shared.constants;
 const { getScale } = notes.helpers;
 
 export default function reducer(state = getInitialState(), action) {
@@ -35,7 +36,7 @@ export default function reducer(state = getInitialState(), action) {
 function getInitialState() {
   return {
     id: 0,
-    measureCount: 2,
+    measureCount: 1,
     mousePosition: undefined,
     previousToolType: undefined,
     scale: getScale(),

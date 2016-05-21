@@ -31,7 +31,7 @@ function mapDispatchToProps(dispatch) {
     draw: (...args) => dispatch(actions.draw(...args)),
     erase: (...args) => dispatch(actions.erase(...args)),
     selectNote: (...args) => dispatch(actions.selectNote(...args)),
-    setMousePosition: (...args) => dispatch(sequence.actions.setMousePosition(...args)),
+    updateMousePosition: (...args) => dispatch(sequence.actions.updateMousePosition(...args)),
     startMoving: () => dispatch(moving.actions.start()),
     startPanning: (...args) => dispatch(panning.actions.start(...args)),
     startResizing: (...args) => dispatch(resizing.actions.start(...args)),

@@ -1,9 +1,11 @@
-import sequence from 'modules/sequence';
+import shared from 'modules/shared';
 import { playbackStates } from './constants';
 import { createSynth } from './helpers';
 import actionTypes from './action-types';
 
-export default function reducer(state = getInitialState(), action) {
+const initialState = getInitialState();
+
+export default function reducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.SET_BPM:
       return {
@@ -21,6 +23,7 @@ export default function reducer(state = getInitialState(), action) {
         position: action.position,
       };
     case actionTypes.SET_SYNTH:
+      state.synth.dispose();
       return {
         ...state,
         synth: createSynth(action.synthType),
@@ -35,6 +38,6 @@ function getInitialState() {
     bpm: undefined,
     playbackState: playbackStates.STOPPED,
     position: 0,
-    synth: createSynth(sequence.constants.defaultSynthType),
+    synth: createSynth(shared.constants.defaultSynthType),
   };
 }

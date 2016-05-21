@@ -2,11 +2,10 @@ import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
 import { compose, mapProps, pure, setPropTypes } from 'recompose';
-import sound from 'modules/sound';
-import { toolTypes } from '../../constants';
+import shared from 'modules/shared';
 import './sequence-toolbar.scss';
 
-const { synthTypes } = sound.constants;
+const { synthTypes, toolTypes } = shared.constants;
 
 const component = ({
   synthButtons,

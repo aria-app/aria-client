@@ -42,7 +42,7 @@ test('getNoteName return correct note name when given Y position', t => {
   t.deepEqual(result, expected);
 });
 
-test('someNoteWillMoveOutside returns true if any note is at x=0 and offset x=-1', t => {
+test('somePointWillMoveOutside returns true if any note is at x=0 and offset x=-1', t => {
   const notes = [helpers.createNote({
     position: {
       x: 0,
@@ -54,12 +54,12 @@ test('someNoteWillMoveOutside returns true if any note is at x=0 and offset x=-1
     y: 0,
   };
   const measureCount = 1;
-  const result = helpers.someNoteWillMoveOutside(notes, offset, measureCount);
+  const result = helpers.somePointWillMoveOutside(notes, offset, measureCount);
 
   t.truthy(result);
 });
 
-test('someNoteWillMoveOutside returns true if any note is at x=(measureCount * 8 * 4) and offset x=1', t => {
+test('somePointWillMoveOutside returns true if any note is at x=(measureCount * 8 * 4) and offset x=1', t => {
   const measureCount = 1;
   const notes = [helpers.createNote({
     position: {
@@ -71,12 +71,12 @@ test('someNoteWillMoveOutside returns true if any note is at x=(measureCount * 8
     x: 1,
     y: 0,
   };
-  const result = helpers.someNoteWillMoveOutside(notes, offset, measureCount);
+  const result = helpers.somePointWillMoveOutside(notes, offset, measureCount);
 
   t.truthy(result);
 });
 
-test('someNoteWillMoveOutside returns true if any note is at y=0 and offset y=-1', t => {
+test('somePointWillMoveOutside returns true if any note is at y=0 and offset y=-1', t => {
   const measureCount = 1;
   const notes = [helpers.createNote({
     position: {
@@ -88,12 +88,12 @@ test('someNoteWillMoveOutside returns true if any note is at y=0 and offset y=-1
     x: 0,
     y: -1,
   };
-  const result = helpers.someNoteWillMoveOutside(notes, offset, measureCount);
+  const result = helpers.somePointWillMoveOutside(notes, offset, measureCount);
 
   t.truthy(result);
 });
 
-test('someNoteWillMoveOutside returns true if any note is at y=(constants.octaveRange.length * 12 - 1) and offset y=1', t => {
+test('somePointWillMoveOutside returns true if any note is at y=(constants.octaveRange.length * 12 - 1) and offset y=1', t => {
   const measureCount = 1;
   const notes = [helpers.createNote({
     position: {
@@ -105,7 +105,7 @@ test('someNoteWillMoveOutside returns true if any note is at y=(constants.octave
     x: 0,
     y: 1,
   };
-  const result = helpers.someNoteWillMoveOutside(notes, offset, measureCount);
+  const result = helpers.somePointWillMoveOutside(notes, offset, measureCount);
 
   t.truthy(result);
 });

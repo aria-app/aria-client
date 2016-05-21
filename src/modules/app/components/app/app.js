@@ -1,4 +1,5 @@
 import h from 'react-hyperscript';
+import { compose, setDisplayName } from 'recompose';
 import sequence from 'modules/sequence';
 import './app.scss';
 
@@ -8,4 +9,8 @@ const component = () => h('.app', [
   h(Sequence),
 ]);
 
-export const App = component;
+const composed = compose([
+  setDisplayName('App'),
+])(component);
+
+export const App = composed;

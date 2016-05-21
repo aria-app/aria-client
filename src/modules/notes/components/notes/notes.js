@@ -37,13 +37,13 @@ const composed = compose([
     scrollTopElement: React.PropTypes.object,
     selectedNotes: React.PropTypes.array.isRequired,
     selectNote: React.PropTypes.func.isRequired,
-    setMousePosition: React.PropTypes.func.isRequired,
     startMoving: React.PropTypes.func.isRequired,
     startPanning: React.PropTypes.func.isRequired,
     startResizing: React.PropTypes.func.isRequired,
     startSelection: React.PropTypes.func.isRequired,
     toolType: React.PropTypes.string.isRequired,
     toolTypes: React.PropTypes.object.isRequired,
+    updateMousePosition: React.PropTypes.func.isRequired,
     updateMoving: React.PropTypes.func.isRequired,
     updatePanning: React.PropTypes.func.isRequired,
     updateResizing: React.PropTypes.func.isRequired,
@@ -128,7 +128,7 @@ function onMouseDown(props) {
       props.startPanningWithElements(e);
     } else if (props.toolType === SELECT) {
       const isAdditive = e.ctrlKey || e.metaKey;
-      props.startSelection(props.getMousePosition(e), isAdditive);
+      props.startSelection(isAdditive);
     }
 
     return false;
@@ -139,33 +139,29 @@ function onMouseMove(props) {
   return (e) => {
     const { isMoving, isPanning, isResizing, isSelecting } = props;
 
-    const mousePosition = props.getMousePosition(e);
-
-    if (!_.isEqual(props.mousePosition, mousePosition)) {
-      props.setMousePosition(mousePosition);
-    }
+    props.updateMousePosition(props.getMousePosition(e));
 
     if (isMoving) {
-      props.updateMoving(props.getMousePosition(e));
+      props.updateMoving();
     } else if (isPanning) {
       props.updatePanningWithElements(e);
     } else if (isResizing) {
-      props.updateResizing(props.getMousePosition(e));
+      props.updateResizing();
     } else if (isSelecting) {
       const isAdditive = e.ctrlKey || e.metaKey;
-      props.updateSelection(props.getMousePosition(e), isAdditive);
+      props.updateSelection(isAdditive);
     }
   };
 }
 
 function onMouseUp(props) {
-  return (e) => {
+  return () => {
     const { isMoving, isPanning, isResizing, isSelecting } = props;
 
     if (isMoving || isPanning || isResizing || isSelecting) return;
 
     if (props.toolType === props.toolTypes.DRAW) {
-      props.draw(props.getMousePosition(e));
+      props.draw();
     }
   };
 }
@@ -179,7 +175,7 @@ function onNoteMouseDown(props) {
       const isAdditive = e.ctrlKey || e.metaKey;
       props.playNote(note.name);
       props.selectNote(note, isAdditive);
-      props.startMoving(props.getMousePosition(e));
+      props.startMoving();
       e.stopPropagation();
       return false;
     }

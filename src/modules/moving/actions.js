@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import notes from 'modules/notes';
+import sequence from 'modules/sequence';
 import actionTypes from './action-types';
 import * as helpers from './helpers';
 import selectors from './selectors';
@@ -38,8 +39,9 @@ export function stop() {
   };
 }
 
-export function update(newPosition) {
+export function update() {
   return (dispatch, getState) => {
+    const newPosition = sequence.selectors.getMousePosition(getState());
     const previousPosition = selectors.getNewPosition(getState());
 
     if (!previousPosition) {
