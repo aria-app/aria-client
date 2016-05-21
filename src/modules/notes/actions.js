@@ -76,6 +76,12 @@ export function move(notes, offset) {
   };
 }
 
+export function paste() {
+  return (dispatch, getState) => {
+
+  };
+}
+
 export function popNoteRedos() {
   return (dispatch, getState) => {
     const noteRedos = selectors.getNoteRedos(getState());
@@ -88,18 +94,6 @@ export function popNoteRedos() {
   };
 }
 
-export function pushNoteRedos() {
-  return (dispatch, getState) => {
-    const allNotes = selectors.getNotes(getState());
-    const noteRedos = selectors.getNoteRedos(getState());
-
-    dispatch(setNoteRedos([
-      ...noteRedos,
-      allNotes,
-    ]));
-  };
-}
-
 export function popNoteUndos() {
   return (dispatch, getState) => {
     const noteUndos = selectors.getNoteUndos(getState());
@@ -109,6 +103,18 @@ export function popNoteUndos() {
     dispatch(pushNoteRedos());
     dispatch(setNotes(_.last(noteUndos)));
     dispatch(setNoteUndos(noteUndos.slice(0, noteUndos.length - 1)));
+  };
+}
+
+export function pushNoteRedos() {
+  return (dispatch, getState) => {
+    const allNotes = selectors.getNotes(getState());
+    const noteRedos = selectors.getNoteRedos(getState());
+
+    dispatch(setNoteRedos([
+      ...noteRedos,
+      allNotes,
+    ]));
   };
 }
 
@@ -133,7 +139,8 @@ export function remove(notesToRemove) {
 }
 
 export function resize(notes, change) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const measureCount = sequence.selectors.getMeasureCount(getState());
     const movingLeft = change.x < 0;
     const anyNoteBent = _.some(notes, n => (n.endPosition.y - n.position.y) !== 0);
     const willBeMinLength = _.some(notes, n => (n.endPosition.x - n.position.x) <= 1);
@@ -150,6 +157,8 @@ export function resize(notes, change) {
     if (change.y !== 0 && _.some(notes, n => (n.endPosition.x - n.position.x) === 0)) {
       return;
     }
+
+    if (helpers.somePointWillMoveOutside(notes, change, measureCount)) return;
 
     const updatedNotes = notes.map(note => helpers.createNote({
       endPosition: helpers.addPositions(note.endPosition, change),

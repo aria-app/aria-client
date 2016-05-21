@@ -2,6 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import createHelper from 'recompose/createHelper';
 import createElement from 'recompose/createElement';
+import { createEagerFactory } from 'recompose';
 
 export const getElementRef = createHelper(() => BaseComponent =>
   React.createClass({
@@ -64,6 +65,10 @@ export const scrollTo = createHelper((props) => BaseComponent =>
       } else {
         this.target.scrollTop = props.scrollTop;
       }
+
+      this.target.addEventListener('scroll', (e) => {
+        props.onScroll(this.props, e.target.scrollTop);
+      });
     },
     render() {
       return createElement(BaseComponent, {

@@ -3,10 +3,10 @@ import { compose, setDisplayName } from 'recompose';
 import sequence from 'modules/sequence';
 import './app.scss';
 
-const { Sequence } = sequence.components;
+const { SequenceContainer } = sequence.components;
 
 const component = () => h('.app', [
-  h(Sequence),
+  h(SequenceContainer),
 ]);
 
 const composed = compose([

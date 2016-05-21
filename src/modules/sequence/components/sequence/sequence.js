@@ -29,6 +29,9 @@ const composed = compose([
   scrollTo({
     scrollTop: 'center',
     selector: '.sequence__content',
+    onScroll: (props, scrollTop) => {
+      props.setScrollTop(scrollTop);
+    },
   }),
   pure,
 ])(component);

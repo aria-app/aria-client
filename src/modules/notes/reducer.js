@@ -36,11 +36,11 @@ function getInitialStateWithNotes() {
     notes: [
       helpers.createNote({
         position: {
-          x: 25,
+          x: 0,
           y: 40,
         },
         endPosition: {
-          x: 28,
+          x: 3,
           y: 40,
         },
       }),

@@ -1,1 +1,1 @@
-export { Sequence } from './sequence/sequence';
+export { SequenceContainer } from './sequence-container/sequence-container';

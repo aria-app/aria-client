@@ -30,6 +30,14 @@ export function setMousePosition(mousePosition) {
   };
 }
 
+export function setScrollTop(scrollTop) {
+  console.log(scrollTop);
+  return {
+    type: actionTypes.SET_SCROLL_TOP,
+    scrollTop,
+  };
+}
+
 export function setSynthType(synthType) {
   return {
     type: actionTypes.SET_SYNTH_TYPE,

@@ -18,6 +18,11 @@ test('addPositions returns position with x values added and y values added', t =
 test('createNote returns properly formatted note', t => {
   const expected = {
     id: 1,
+    endName: 'C4',
+    endPosition: {
+      x: 3,
+      y: 35,
+    },
     name: 'C4',
     position: {
       x: 2,

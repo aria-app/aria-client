@@ -13,10 +13,13 @@ export function createNote({
   id = _.uniqueId('note'),
   position,
 }) {
+  const safeEndPosition = endPosition
+    || { x: position.x + 1, y: position.y };
+
   return {
     name: getNoteName(position.y),
-    endName: endPosition ? getNoteName(endPosition.y) : undefined,
-    endPosition: endPosition || { x: position.x + 1, y: position.y },
+    endName: getNoteName(safeEndPosition.y),
+    endPosition: safeEndPosition,
     id,
     position,
   };
@@ -62,13 +65,13 @@ export function somePointWillMoveOutside(notes, offset, measureCount) {
   const totalSlotsY = constants.octaveRange.length * 12 - 1;
 
   if (offset.x === -1) {
-    return _.some(notes, note => note.position.x <= 0);
+    return _.some(notes, isAtLeft);
   } else if (offset.x === 1) {
-    return _.some(notes, note => note.position.x >= totalSlotsX);
+    return _.some(notes, isAtRight(totalSlotsX));
   } else if (offset.y === -1) {
-    return _.some(notes, note => note.position.y <= 0);
+    return _.some(notes, isAtTop);
   } else if (offset.y === 1) {
-    return _.some(notes, note => note.position.y >= totalSlotsY);
+    return _.some(notes, isAtBottom(totalSlotsY));
   }
 
   return false;
@@ -89,4 +92,24 @@ function getLetter(position) {
     'C#',
     'C',
   ][position % 12];
+}
+
+function isAtBottom(totalSlotsY) {
+  return (note) => note.position.y >= totalSlotsY
+    || note.endPosition.y >= totalSlotsY;
+}
+
+function isAtLeft(note) {
+  return note.position.x <= 0
+    || note.endPosition.x <= 0;
+}
+
+function isAtRight(totalSlotsX) {
+  return (note) => note.position.x >= totalSlotsX
+    || note.endPosition.x >= totalSlotsX;
+}
+
+function isAtTop(note) {
+  return note.position.y <= 0
+    || note.endPosition.y <= 0;
 }
