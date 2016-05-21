@@ -21,6 +21,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     playNote: (...args) => dispatch(sound.actions.playNote(...args)),
+    setScrollLeftIfChanged: (...args) => dispatch(actions.setScrollLeftIfChanged(...args)),
     startPanning: (...args) => dispatch(panning.actions.start(...args)),
     updateMousePosition: (...args) => dispatch(actions.updateMousePosition(...args)),
     updatePanning: (...args) => dispatch(panning.actions.update(...args)),

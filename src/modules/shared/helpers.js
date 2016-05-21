@@ -65,10 +65,6 @@ export const scrollTo = createHelper((props) => BaseComponent =>
       } else {
         this.target.scrollTop = props.scrollTop;
       }
-
-      this.target.addEventListener('scroll', (e) => {
-        props.onScroll(this.props, e.target.scrollTop);
-      });
     },
     render() {
       return createElement(BaseComponent, {

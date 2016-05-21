@@ -20,6 +20,7 @@ const component = (props) => h('.grid', {
   onMouseDown: props.onMouseDown,
   onMouseMove: props.onMouseMove,
   onMouseUp: props.onMouseUp,
+  onScroll: props.onScroll,
 }, [
   h('.grid__wrapper', [
     h(SlotsContainer, {
@@ -71,6 +72,7 @@ const composed = compose([
   withHandlers({
     onMouseDown,
     onMouseMove,
+    onScroll,
   }),
 ])(component);
 
@@ -93,5 +95,11 @@ function onMouseMove(props) {
     if (props.isPanning) {
       props.updatePanningWithElements(e);
     }
+  };
+}
+
+function onScroll(props) {
+  return (e) => {
+    props.setScrollLeftIfChanged(Math.floor(e.target.scrollLeft / 40));
   };
 }

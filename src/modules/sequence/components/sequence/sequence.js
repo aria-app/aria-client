@@ -1,6 +1,6 @@
 import React from 'react';
 import h from 'react-hyperscript';
-import { compose, pure, setPropTypes } from 'recompose';
+import { compose, pure, setPropTypes, withHandlers } from 'recompose';
 import shared from 'modules/shared';
 import { GridContainer } from '../grid-container/grid-container';
 import { KeysContainer } from '../keys-container/keys-container';
@@ -11,15 +11,15 @@ import './sequence.scss';
 
 const { getChildRef, scrollTo } = shared.helpers;
 
-const component = ({
-  childRef,
-}) => h('.sequence', [
+const component = (props) => h('.sequence', [
   h(SequenceToolbarContainer),
-  h('.sequence__content', [
+  h('.sequence__content', {
+    onScroll: props.onContentScroll,
+  }, [
     h('.sequence__wrapper', [
       h(KeysContainer),
       h(GridContainer, {
-        sequenceContentRef: childRef,
+        sequenceContentRef: props.childRef,
       }),
     ]),
   ]),
@@ -33,11 +33,17 @@ const composed = compose([
   scrollTo({
     scrollTop: 'center',
     selector: '.sequence__content',
-    onScroll: (props, scrollTop) => {
-      props.setScrollTopIfChanged(Math.floor(scrollTop / 40));
-    },
   }),
   pure,
+  withHandlers({
+    onContentScroll,
+  }),
 ])(component);
 
 export const Sequence = composed;
+
+function onContentScroll(props) {
+  return (e) => {
+    props.setScrollTopIfChanged(Math.floor(e.target.scrollTop / 40));
+  };
+}

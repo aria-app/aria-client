@@ -50,8 +50,8 @@ function getInitialState() {
     mousePosition: undefined,
     previousToolType: undefined,
     scale: getScale(),
-    scrollLeft: -1,
-    scrollTop: -1,
+    scrollLeft: 0,
+    scrollTop: 0,
     synthType: defaultSynthType,
     toolType: defaultToolType,
   };
