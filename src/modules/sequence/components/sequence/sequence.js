@@ -1,5 +1,6 @@
+import React from 'react';
 import h from 'react-hyperscript';
-import { compose, pure } from 'recompose';
+import { compose, pure, setPropTypes } from 'recompose';
 import shared from 'modules/shared';
 import { GridContainer } from '../grid-container/grid-container';
 import { KeysContainer } from '../keys-container/keys-container';
@@ -25,12 +26,15 @@ const component = ({
 ]);
 
 const composed = compose([
+  setPropTypes({
+    setScrollTopIfChanged: React.PropTypes.func,
+  }),
   getChildRef('.sequence__content'),
   scrollTo({
     scrollTop: 'center',
     selector: '.sequence__content',
     onScroll: (props, scrollTop) => {
-      props.setScrollTop(scrollTop);
+      props.setScrollTopIfChanged(Math.floor(scrollTop / 40));
     },
   }),
   pure,

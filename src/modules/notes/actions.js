@@ -22,8 +22,9 @@ export function deselect() {
   };
 }
 
-export function draw(position) {
-  return (dispatch) => {
+export function draw() {
+  return (dispatch, getState) => {
+    const position = sequence.selectors.getMousePosition(getState());
     const note = helpers.createNote({
       endPosition: {
         x: position.x + 1,
@@ -158,7 +159,7 @@ export function resize(notes, change) {
       return;
     }
 
-    if (helpers.somePointWillMoveOutside(notes, change, measureCount)) return;
+    // if (helpers.somePointWillMoveOutside(notes, change, measureCount)) return;
 
     const updatedNotes = notes.map(note => helpers.createNote({
       endPosition: helpers.addPositions(note.endPosition, change),

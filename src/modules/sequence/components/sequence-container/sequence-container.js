@@ -13,6 +13,6 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setScrollTop: (...args) => dispatch(actions.setScrollTop(...args)),
+    setScrollTopIfChanged: (...args) => dispatch(actions.setScrollTopIfChanged(...args)),
   };
 }

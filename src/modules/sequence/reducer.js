@@ -17,6 +17,16 @@ export default function reducer(state = getInitialState(), action) {
         ...state,
         mousePosition: action.mousePosition,
       };
+    case actionTypes.SET_SCROLL_LEFT:
+      return {
+        ...state,
+        scrollLeft: action.scrollLeft,
+      };
+    case actionTypes.SET_SCROLL_TOP:
+      return {
+        ...state,
+        scrollTop: action.scrollTop,
+      };
     case actionTypes.SET_SYNTH_TYPE:
       return {
         ...state,
@@ -40,6 +50,8 @@ function getInitialState() {
     mousePosition: undefined,
     previousToolType: undefined,
     scale: getScale(),
+    scrollLeft: -1,
+    scrollTop: -1,
     synthType: defaultSynthType,
     toolType: defaultToolType,
   };

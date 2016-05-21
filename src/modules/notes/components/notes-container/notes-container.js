@@ -31,14 +31,11 @@ function mapDispatchToProps(dispatch) {
     draw: (...args) => dispatch(actions.draw(...args)),
     erase: (...args) => dispatch(actions.erase(...args)),
     selectNote: (...args) => dispatch(actions.selectNote(...args)),
-    updateMousePosition: (...args) => dispatch(sequence.actions.updateMousePosition(...args)),
     startMoving: () => dispatch(moving.actions.start()),
-    startPanning: (...args) => dispatch(panning.actions.start(...args)),
     startResizing: (...args) => dispatch(resizing.actions.start(...args)),
     startSelection: (...args) => dispatch(selection.actions.start(...args)),
     updateMoving: (...args) => dispatch(moving.actions.update(...args)),
     updateResizing: (...args) => dispatch(resizing.actions.update(...args)),
-    updatePanning: (...args) => dispatch(panning.actions.update(...args)),
     updateSelection: (...args) => dispatch(selection.actions.update(...args)),
   };
 }

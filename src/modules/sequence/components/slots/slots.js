@@ -17,6 +17,7 @@ const composed = compose([
   pure,
   setPropTypes({
     measureCount: PropTypes.number.isRequired,
+    scale: PropTypes.array.isRequired,
   }),
   mapProps(({
     measureCount,

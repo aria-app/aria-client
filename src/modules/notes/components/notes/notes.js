@@ -4,7 +4,6 @@ import _ from 'lodash';
 import classnames from 'classnames';
 import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
 import shared from 'modules/shared';
-import * as helpers from '../../helpers';
 import { Note } from '../note/note';
 import './notes.scss';
 
@@ -17,7 +16,7 @@ const component = (props) => h('.notes', {
   onMouseUp: props.onMouseUp,
   style: props.style,
 }, [
-  // props.ghostNote,
+  props.ghostNote,
   ...props.noteComponents,
 ]);
 
@@ -33,39 +32,19 @@ const composed = compose([
     mousePosition: React.PropTypes.object,
     notes: React.PropTypes.array.isRequired,
     playNote: React.PropTypes.func.isRequired,
-    scrollLeftElement: React.PropTypes.object,
-    scrollTopElement: React.PropTypes.object,
     selectedNotes: React.PropTypes.array.isRequired,
     selectNote: React.PropTypes.func.isRequired,
     startMoving: React.PropTypes.func.isRequired,
-    startPanning: React.PropTypes.func.isRequired,
     startResizing: React.PropTypes.func.isRequired,
     startSelection: React.PropTypes.func.isRequired,
     toolType: React.PropTypes.string.isRequired,
     toolTypes: React.PropTypes.object.isRequired,
-    updateMousePosition: React.PropTypes.func.isRequired,
     updateMoving: React.PropTypes.func.isRequired,
-    updatePanning: React.PropTypes.func.isRequired,
     updateResizing: React.PropTypes.func.isRequired,
     updateSelection: React.PropTypes.func.isRequired,
   }),
   mapProps(props => ({
     ...props,
-    getMousePosition: (e) => helpers.getMousePosition(
-      props.scrollLeftElement,
-      props.scrollTopElement,
-      e
-    ),
-    startPanningWithElements: e => props.startPanning(
-      props.scrollLeftElement,
-      props.scrollTopElement,
-      e
-    ),
-    updatePanningWithElements: e => props.updatePanning(
-      props.scrollLeftElement,
-      props.scrollTopElement,
-      e
-    ),
   })),
   withHandlers({
     onMouseDown,
@@ -80,25 +59,25 @@ const composed = compose([
     cursorClasses: classnames({
       'notes--grab': props.toolType === props.toolTypes.PAN,
     }),
-    // ghostNote: props.toolType === props.toolTypes.DRAW
-    //   ? h(Note, {
-    //     note: {
-    //       endPosition: {
-    //         x: props.mousePosition ? props.mousePosition.x + 1 : 0,
-    //         y: props.mousePosition ? props.mousePosition.y : 0,
-    //       },
-    //       position: {
-    //         x: props.mousePosition ? props.mousePosition.x : 0,
-    //         y: props.mousePosition ? props.mousePosition.y : 0,
-    //       },
-    //     },
-    //     className: 'ghost',
-    //     onEndpointMouseDown: () => {},
-    //     onEndpointMouseUp: () => {},
-    //     onMouseDown: () => {},
-    //     onMouseUp: () => {},
-    //   })
-    //   : null,
+    ghostNote: props.toolType === props.toolTypes.DRAW
+      ? h(Note, {
+        note: {
+          endPosition: {
+            x: props.mousePosition ? props.mousePosition.x + 1 : 0,
+            y: props.mousePosition ? props.mousePosition.y : 0,
+          },
+          position: {
+            x: props.mousePosition ? props.mousePosition.x : 0,
+            y: props.mousePosition ? props.mousePosition.y : 0,
+          },
+        },
+        className: 'ghost',
+        onEndpointMouseDown: () => {},
+        onEndpointMouseUp: () => {},
+        onMouseDown: () => {},
+        onMouseUp: () => {},
+      })
+      : null,
     noteComponents: props.notes.map((note, index) =>
       h(Note, {
         key: index,
@@ -120,12 +99,10 @@ export const Notes = composed;
 
 function onMouseDown(props) {
   return (e) => {
-    const { MOVE, PAN, SELECT } = props.toolTypes;
+    const { MOVE, SELECT } = props.toolTypes;
 
     if (props.toolType === MOVE) {
       props.startMoving();
-    } else if (props.toolType === PAN) {
-      props.startPanningWithElements(e);
     } else if (props.toolType === SELECT) {
       const isAdditive = e.ctrlKey || e.metaKey;
       props.startSelection(isAdditive);
@@ -137,14 +114,10 @@ function onMouseDown(props) {
 
 function onMouseMove(props) {
   return (e) => {
-    const { isMoving, isPanning, isResizing, isSelecting } = props;
-
-    props.updateMousePosition(props.getMousePosition(e));
+    const { isMoving, isResizing, isSelecting } = props;
 
     if (isMoving) {
       props.updateMoving();
-    } else if (isPanning) {
-      props.updatePanningWithElements(e);
     } else if (isResizing) {
       props.updateResizing();
     } else if (isSelecting) {

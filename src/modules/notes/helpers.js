@@ -25,15 +25,6 @@ export function createNote({
   };
 }
 
-export function getMousePosition(scrollLeftEl, scrollTopEl, e) {
-  const toSlotNumber = num => Math.floor(num / 40);
-
-  return {
-    x: toSlotNumber(e.pageX - scrollLeftEl.offsetLeft + scrollLeftEl.scrollLeft),
-    y: toSlotNumber(e.pageY - scrollLeftEl.offsetTop + scrollTopEl.scrollTop),
-  };
-}
-
 export function getNoteName(yPosition) {
   const octaveNumber = ((constants.octaveRange.length - 1) - Math.floor(yPosition / 12));
   const letter = getLetter(yPosition);

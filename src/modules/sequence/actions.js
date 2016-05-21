@@ -30,11 +30,37 @@ export function setMousePosition(mousePosition) {
   };
 }
 
+export function setScrollLeft(scrollLeft) {
+  return {
+    type: actionTypes.SET_SCROLL_LEFT,
+    scrollLeft,
+  };
+}
+
+export function setScrollLeftIfChanged(scrollLeft) {
+  return (dispatch, getState) => {
+    const prevScrollLeft = selectors.getScrollLeft(getState());
+
+    if (prevScrollLeft === scrollLeft) return;
+
+    dispatch(setScrollLeft(scrollLeft));
+  };
+}
+
 export function setScrollTop(scrollTop) {
-  console.log(scrollTop);
   return {
     type: actionTypes.SET_SCROLL_TOP,
     scrollTop,
+  };
+}
+
+export function setScrollTopIfChanged(scrollTop) {
+  return (dispatch, getState) => {
+    const prevScrollTop = selectors.getScrollTop(getState());
+
+    if (prevScrollTop === scrollTop) return;
+
+    dispatch(setScrollTop(scrollTop));
   };
 }
 
