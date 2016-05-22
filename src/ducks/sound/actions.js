@@ -159,16 +159,52 @@ export function setTransportBPM(bpm) {
   };
 }
 
+export function pause() {
+  return (dispatch, getState) => {
+    const activeSynths = selectors.getActiveSynths(getState());
+    const synths = selectors.getSynths(getState());
+    dispatch(setPlaybackState(constants.playbackStates.PAUSED));
+    activeSynths.forEach(s => s.triggerRelease());
+    synths.forEach(s => s.triggerRelease());
+    Tone.Transport.pause();
+  };
+}
+
+export function play() {
+  return (dispatch) => {
+    dispatch(setPlaybackState(constants.playbackStates.STARTED));
+    Tone.Transport.start();
+  };
+}
+
+export function releaseAll() {
+  return (dispatch, getState) => {
+    const activeSynths = selectors.getActiveSynths(getState());
+    const synths = selectors.getSynths(getState());
+    activeSynths.forEach(s => {
+      s.triggerRelease();
+    });
+    synths.forEach(s => {
+      s.triggerRelease();
+    });
+    dispatch(setSynths([
+      ...activeSynths,
+      ...synths,
+    ]));
+    dispatch(setActiveSynths([]));
+    console.log(activeSynths.map(s => s.oscillator));
+  };
+}
+
 export function stop() {
   return (dispatch, getState) => {
     const playbackState = selectors.getPlaybackState(getState());
-    const activeSynths = selectors.getActiveSynths(getState());
 
     if (playbackState === constants.playbackStates.STOPPED) return;
 
     dispatch(setPlaybackState(constants.playbackStates.STOPPED));
     dispatch(setPosition(0));
-    activeSynths.forEach(s => s.triggerRelease());
+    dispatch(releaseAll());
     Tone.Transport.stop();
   };
 }
@@ -176,15 +212,11 @@ export function stop() {
 export function togglePlayPause() {
   return (dispatch, getState) => {
     const playbackState = selectors.getPlaybackState(getState());
-    const activeSynths = selectors.getActiveSynths(getState());
 
     if (playbackState !== constants.playbackStates.STARTED) {
-      dispatch(setPlaybackState(constants.playbackStates.STARTED));
-      Tone.Transport.start();
+      dispatch(play());
     } else {
-      dispatch(setPlaybackState(constants.playbackStates.PAUSED));
-      activeSynths.forEach(s => s.triggerRelease());
-      Tone.Transport.pause();
+      dispatch(pause());
     }
   };
 }
@@ -192,10 +224,23 @@ export function togglePlayPause() {
 export function updateSynths(synthType) {
   return (dispatch, getState) => {
     const activeSynths = selectors.getActiveSynths(getState());
-    const synths = helpers.createSynths(synthType);
+    const playbackState = selectors.getPlaybackState(getState());
+    const synths = selectors.getSynths(getState());
 
-    activeSynths.forEach(s => s.dispose());
+    const newSynths = helpers.createSynths(synthType);
 
-    dispatch(setSynths(synths));
+    if (playbackState === constants.playbackStates.STARTED) {
+      dispatch(pause());
+      activeSynths.forEach(s => s.dispose());
+      synths.forEach(s => s.dispose());
+      dispatch(setActiveSynths([]));
+      dispatch(setSynths(newSynths));
+      dispatch(play());
+    } else {
+      activeSynths.forEach(s => s.dispose());
+      synths.forEach(s => s.dispose());
+      dispatch(setActiveSynths([]));
+      dispatch(setSynths(newSynths));
+    }
   };
 }

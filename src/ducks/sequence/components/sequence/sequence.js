@@ -4,15 +4,18 @@ import { compose, pure, setPropTypes, withHandlers } from 'recompose';
 import shared from 'ducks/shared';
 import { GridContainer } from '../grid-container/grid-container';
 import { KeysContainer } from '../keys-container/keys-container';
-import {
-  SequenceToolbarContainer,
-} from '../sequence-toolbar-container/sequence-toolbar-container';
+import { Toolbar } from '../toolbar/toolbar';
 import './sequence.scss';
 
 const { getChildRef, scrollTo } = shared.helpers;
 
 const component = (props) => h('.sequence', [
-  h(SequenceToolbarContainer),
+  h(Toolbar, {
+    changeSynthType: props.changeSynthType,
+    setToolType: props.setToolType,
+    synthType: props.synthType,
+    toolType: props.toolType,
+  }),
   h('.sequence__content', {
     onScroll: props.onContentScroll,
   }, [
@@ -27,6 +30,10 @@ const component = (props) => h('.sequence', [
 
 const composed = compose([
   setPropTypes({
+    changeSynthType: React.PropTypes.func,
+    setToolType: React.PropTypes.func,
+    synthType: React.PropTypes.string.isRequired,
+    toolType: React.PropTypes.string.isRequired,
     setScrollTopIfChanged: React.PropTypes.func,
   }),
   getChildRef('.sequence__content'),

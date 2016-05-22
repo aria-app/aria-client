@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
-import { SequenceToolbar } from '../sequence-toolbar/sequence-toolbar';
+import { Toolbar } from '../toolbar/toolbar';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 
-export const SequenceToolbarContainer = connect(
+export const ToolbarContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(SequenceToolbar);
+)(Toolbar);
 
 function mapStateToProps(state) {
   return {

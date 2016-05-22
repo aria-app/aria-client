@@ -26,7 +26,7 @@ const composed = compose([
   }),
   withHandlers({
     handleKeyPress: ({ playNote }) => step =>
-      playNote({ y: step.yPoint }),
+      playNote({ y: step.y }),
   }),
   mapProps(({ handleKeyPress, scale, ...rest }) => ({
     keys: scale.map(step => h(keyComponent, {

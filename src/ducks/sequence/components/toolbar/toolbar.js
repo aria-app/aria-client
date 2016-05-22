@@ -3,7 +3,7 @@ import h from 'react-hyperscript';
 import classnames from 'classnames';
 import { compose, mapProps, pure, setPropTypes } from 'recompose';
 import shared from 'ducks/shared';
-import './sequence-toolbar.scss';
+import './toolbar.scss';
 
 const { synthTypes, toolTypes } = shared.constants;
 
@@ -11,9 +11,9 @@ const component = ({
   synthButtons,
   toolButtons,
 }) =>
-  h('.sequence-toolbar', [
+  h('.toolbar', [
     ...toolButtons,
-    h('.sequence-toolbar__right', [
+    h('.toolbar__right', [
       ...synthButtons,
     ]),
   ]);
@@ -23,15 +23,15 @@ const button = ({
   key,
   onPress,
   text,
-}) => h('.sequence-toolbar__button', {
+}) => h('.toolbar__button', {
   className: classnames({
-    'sequence-toolbar__button--active': isActive,
+    'toolbar__button--active': isActive,
   }),
   key,
   onClick: () => onPress(text),
 }, text);
 
-export const SequenceToolbar = compose([
+export const Toolbar = compose([
   pure,
   setPropTypes({
     changeSynthType: PropTypes.func,
