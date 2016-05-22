@@ -8,6 +8,10 @@ export const getNotes = state => get(state).notes;
 export const getRedos = state => get(state).redos;
 export const getSelectedNoteIds = state => get(state).selectedNoteIds;
 export const getUndos = state => get(state).undos;
+export const getIsSelectionActive = createSelector(
+  getSelectedNoteIds,
+  (selectedNoteIds) => !_.isEmpty(selectedNoteIds)
+);
 export const getSelectedNotes = createSelector(
   getNotes,
   getSelectedNoteIds,

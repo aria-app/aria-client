@@ -28,20 +28,4 @@ $toolbar__button--active__background-color: $neutral-10;
     height: $toolbar__height;
     margin-left: auto;
   }
-  &__button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: $toolbar__button__height;
-    padding-left: $toolbar__button__padding;
-    padding-right: $toolbar__button__padding;
-    color: $toolbar__button__color;
-    text-transform: uppercase;
-    border-radius: $toolbar__button__border-radius;
-    cursor: pointer;
-    &--active {
-      color: $toolbar__button--active__color;
-      background-color: $toolbar__button--active__background-color;
-    }
-  }
 }

@@ -141,6 +141,7 @@ export function remove(notesToRemove) {
     const notes = selectors.getNotes(getState());
 
     dispatch(pushUndo());
+    dispatch(setSelectedNoteIds([]));
     dispatch(setNotes(_.difference(notes, notesToRemove)));
   };
 }
