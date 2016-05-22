@@ -6,7 +6,7 @@ import resizing from 'modules/resizing';
 import selection from 'modules/selection';
 import sequence from 'modules/sequence';
 import * as actions from '../../actions';
-import selectors from '../../selectors';
+import * as selectors from '../../selectors';
 
 export const NotesContainer = connect(
   mapStateToProps,

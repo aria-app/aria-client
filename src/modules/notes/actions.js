@@ -3,7 +3,7 @@ import sequence from 'modules/sequence';
 import sound from 'modules/sound';
 import actionTypes from './action-types';
 import * as helpers from './helpers';
-import selectors from './selectors';
+import * as selectors from './selectors';
 
 export function add(newNotes) {
   return (dispatch, getState) => {

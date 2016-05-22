@@ -3,7 +3,7 @@ import notes from 'modules/notes';
 import sequence from 'modules/sequence';
 import actionTypes from './action-types';
 import * as helpers from './helpers';
-import selectors from './selectors';
+import * as selectors from './selectors';
 
 export function setIsMoving(isMoving) {
   return {

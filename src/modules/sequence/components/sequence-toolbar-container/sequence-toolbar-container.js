@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { SequenceToolbar } from '../sequence-toolbar/sequence-toolbar';
 import * as actions from '../../actions';
-import selectors from '../../selectors';
+import * as selectors from '../../selectors';
 
 export const SequenceToolbarContainer = connect(
   mapStateToProps,

@@ -5,7 +5,7 @@ import sequence from 'modules/sequence';
 import actionTypes from './action-types';
 import * as constants from './constants';
 import * as helpers from './helpers';
-import selectors from './selectors';
+import * as selectors from './selectors';
 
 export function createSequence() {
   return (dispatch, getState) => {
@@ -54,7 +54,6 @@ export function playNote(name) {
     const synth = synths[0];
 
     if (!synth) {
-      console.log('All synths are used up!');
       return;
     }
 
@@ -80,7 +79,6 @@ export function popSynth() {
     const synth = synths[0];
 
     if (!synth) {
-      console.log('All synths are used up!');
       return undefined;
     }
 

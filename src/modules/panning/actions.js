@@ -1,6 +1,6 @@
 import actionTypes from './action-types';
 import * as helpers from './helpers';
-import selectors from './selectors';
+import * as selectors from './selectors';
 
 export function setIsPanning(isPanning) {
   return {

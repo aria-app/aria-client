@@ -4,11 +4,11 @@ import { NAME } from './constants';
 
 const get = state => state[NAME];
 
-const getNotes = state => get(state).notes;
-const getRedos = state => get(state).redos;
-const getSelectedNoteIds = state => get(state).selectedNoteIds;
-const getUndos = state => get(state).undos;
-const getSelectedNotes = createSelector(
+export const getNotes = state => get(state).notes;
+export const getRedos = state => get(state).redos;
+export const getSelectedNoteIds = state => get(state).selectedNoteIds;
+export const getUndos = state => get(state).undos;
+export const getSelectedNotes = createSelector(
   getNotes,
   getSelectedNoteIds,
   (notes, selectedNoteIds) => _.filter(
@@ -16,12 +16,3 @@ const getSelectedNotes = createSelector(
     n => _.includes(selectedNoteIds, n.id)
   )
 );
-
-export default {
-  get,
-  getNotes,
-  getRedos,
-  getUndos,
-  getSelectedNotes,
-  getSelectedNoteIds,
-};

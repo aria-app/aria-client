@@ -4,7 +4,7 @@ import * as components from './components';
 import * as constants from './constants';
 import * as helpers from './helpers';
 import reducer from './reducer';
-import selectors from './selectors';
+import * as selectors from './selectors';
 
 export default {
   actions,

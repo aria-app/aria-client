@@ -3,7 +3,7 @@ import notes from 'modules/notes';
 import shared from 'modules/shared';
 import sound from 'modules/sound';
 import actionTypes from './action-types';
-import selectors from './selectors';
+import * as selectors from './selectors';
 
 const { toolTypes } = shared.constants;
 

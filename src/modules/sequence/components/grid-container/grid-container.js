@@ -3,7 +3,7 @@ import { Grid } from '../grid/grid';
 import panning from 'modules/panning';
 import sound from 'modules/sound';
 import * as actions from '../../actions';
-import selectors from '../../selectors';
+import * as selectors from '../../selectors';
 
 export const GridContainer = connect(
   mapStateToProps,

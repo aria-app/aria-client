@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { Keys } from '../keys/keys';
 import sound from 'modules/sound';
-import selectors from '../../selectors';
+import * as selectors from '../../selectors';
 
 export const KeysContainer = connect(
   mapStateToProps,

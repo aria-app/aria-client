@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { Slots } from '../slots/slots';
-import selectors from '../../selectors';
+import * as selectors from '../../selectors';
 
 export const SlotsContainer = connect(
   mapStateToProps,
