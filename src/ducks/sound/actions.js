@@ -26,10 +26,37 @@ export function createSequence() {
   };
 }
 
+export function disposeAll() {
+  return (dispatch, getState) => {
+    const activeSynths = selectors.getActiveSynths(getState());
+    const synths = selectors.getSynths(getState());
+
+    const allSynths = [...activeSynths, ...synths];
+
+    dispatch(setActiveSynths([]));
+    allSynths.forEach(s => s.dispose());
+  };
+}
+
 export function initialize() {
   return (dispatch) => {
     dispatch(createSequence());
     dispatch(setTransportBPM(constants.defaultBPM));
+  };
+}
+
+export function pause() {
+  return (dispatch) => {
+    dispatch(setPlaybackState(constants.playbackStates.PAUSED));
+    dispatch(releaseAll());
+    Tone.Transport.pause();
+  };
+}
+
+export function play() {
+  return (dispatch) => {
+    dispatch(setPlaybackState(constants.playbackStates.STARTED));
+    Tone.Transport.start();
   };
 }
 
@@ -107,6 +134,9 @@ export function popSynth() {
 export function pushSynth(synth) {
   return (dispatch, getState) => {
     const activeSynths = selectors.getActiveSynths(getState());
+
+    if (!_.includes(activeSynths, synth)) return;
+
     const synths = selectors.getSynths(getState());
 
     dispatch(setActiveSynths(_.without(activeSynths, synth)));
@@ -114,6 +144,24 @@ export function pushSynth(synth) {
       ...synths,
       synth,
     ]));
+  };
+}
+
+export function releaseAll() {
+  return (dispatch, getState) => {
+    const activeSynths = selectors.getActiveSynths(getState());
+    const synths = selectors.getSynths(getState());
+    activeSynths.forEach(s => {
+      s.triggerRelease();
+    });
+    synths.forEach(s => {
+      s.triggerRelease();
+    });
+    dispatch(setSynths([
+      ...activeSynths,
+      ...synths,
+    ]));
+    dispatch(setActiveSynths([]));
   };
 }
 
@@ -159,43 +207,6 @@ export function setTransportBPM(bpm) {
   };
 }
 
-export function pause() {
-  return (dispatch, getState) => {
-    const activeSynths = selectors.getActiveSynths(getState());
-    const synths = selectors.getSynths(getState());
-    dispatch(setPlaybackState(constants.playbackStates.PAUSED));
-    activeSynths.forEach(s => s.triggerRelease());
-    synths.forEach(s => s.triggerRelease());
-    Tone.Transport.pause();
-  };
-}
-
-export function play() {
-  return (dispatch) => {
-    dispatch(setPlaybackState(constants.playbackStates.STARTED));
-    Tone.Transport.start();
-  };
-}
-
-export function releaseAll() {
-  return (dispatch, getState) => {
-    const activeSynths = selectors.getActiveSynths(getState());
-    const synths = selectors.getSynths(getState());
-    activeSynths.forEach(s => {
-      s.triggerRelease();
-    });
-    synths.forEach(s => {
-      s.triggerRelease();
-    });
-    dispatch(setSynths([
-      ...activeSynths,
-      ...synths,
-    ]));
-    dispatch(setActiveSynths([]));
-    console.log(activeSynths.map(s => s.oscillator));
-  };
-}
-
 export function stop() {
   return (dispatch, getState) => {
     const playbackState = selectors.getPlaybackState(getState());
@@ -222,25 +233,10 @@ export function togglePlayPause() {
 }
 
 export function updateSynths(synthType) {
-  return (dispatch, getState) => {
-    const activeSynths = selectors.getActiveSynths(getState());
-    const playbackState = selectors.getPlaybackState(getState());
-    const synths = selectors.getSynths(getState());
-
+  return (dispatch) => {
     const newSynths = helpers.createSynths(synthType);
 
-    if (playbackState === constants.playbackStates.STARTED) {
-      dispatch(pause());
-      activeSynths.forEach(s => s.dispose());
-      synths.forEach(s => s.dispose());
-      dispatch(setActiveSynths([]));
-      dispatch(setSynths(newSynths));
-      dispatch(play());
-    } else {
-      activeSynths.forEach(s => s.dispose());
-      synths.forEach(s => s.dispose());
-      dispatch(setActiveSynths([]));
-      dispatch(setSynths(newSynths));
-    }
+    dispatch(disposeAll());
+    dispatch(setSynths(newSynths));
   };
 }
