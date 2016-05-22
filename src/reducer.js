@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
-import app from 'modules/app';
-import moving from 'modules/moving';
-import notes from 'modules/notes';
-import panning from 'modules/panning';
-import resizing from 'modules/resizing';
-import selection from 'modules/selection';
-import sequence from 'modules/sequence';
-import shortcuts from 'modules/shortcuts';
-import sound from 'modules/sound';
+import app from 'ducks/app';
+import moving from 'ducks/moving';
+import notes from 'ducks/notes';
+import panning from 'ducks/panning';
+import resizing from 'ducks/resizing';
+import selection from 'ducks/selection';
+import sequence from 'ducks/sequence';
+import shortcuts from 'ducks/shortcuts';
+import sound from 'ducks/sound';
 
 export default combineReducers({
   [app.constants.NAME]: app.reducer,

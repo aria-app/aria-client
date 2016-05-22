@@ -4,9 +4,9 @@ import { render } from 'react-dom';
 import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
-import app from 'modules/app';
-import shortcuts from 'modules/shortcuts';
-import sound from 'modules/sound';
+import app from 'ducks/app';
+import shortcuts from 'ducks/shortcuts';
+import sound from 'ducks/sound';
 import reducer from './reducer';
 import './styles/resets.scss';
 
