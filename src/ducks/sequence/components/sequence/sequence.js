@@ -7,7 +7,7 @@ import { KeysContainer } from '../keys-container/keys-container';
 import './sequence.scss';
 
 const { Button, ToggleButton, Toolbar } = shared.components;
-const { PWM, SAWTOOTH, SINE, SQUARE } = shared.constants.synthTypes;
+// const { PWM, SAWTOOTH, SINE, SQUARE } = shared.constants.synthTypes;
 const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
 const { getChildRef, scrollTo } = shared.helpers;
 
@@ -27,13 +27,17 @@ const component = (props) => h('.sequence', [
 
 const composed = compose([
   setPropTypes({
-    changeSynthType: React.PropTypes.func,
-    duplicate: React.PropTypes.func,
+    changeSynthType: React.PropTypes.func.isRequired,
+    removeSelected: React.PropTypes.func.isRequired,
+    duplicate: React.PropTypes.func.isRequired,
     isSelectionActive: React.PropTypes.bool,
-    setToolType: React.PropTypes.func,
+    setSelectedNoteSizes: React.PropTypes.func.isRequired,
+    setToolType: React.PropTypes.func.isRequired,
+    shiftDownOctave: React.PropTypes.func.isRequired,
+    shiftUpOctave: React.PropTypes.func.isRequired,
     synthType: React.PropTypes.string.isRequired,
     toolType: React.PropTypes.string.isRequired,
-    setScrollTopIfChanged: React.PropTypes.func,
+    setScrollTopIfChanged: React.PropTypes.func.isRequired,
   }),
   getChildRef('.sequence__content'),
   scrollTo({
@@ -46,11 +50,9 @@ const composed = compose([
     toolbar: props.isSelectionActive
       ? h(Toolbar, {
         leftItems: getSelectionCommands(props),
-        // rightItems: getSynthButtons(props),
       })
       : h(Toolbar, {
         leftItems: getToolButtons(props),
-        // rightItems: getSynthButtons(props),
       }),
   })),
   withHandlers({
@@ -63,36 +65,72 @@ export const Sequence = composed;
 function getSelectionCommands(props) {
   return [
     h(Button, {
+      text: 'DELETE',
+      onPress: () => props.removeSelected(),
+    }),
+    h(Button, {
       text: 'DUPLICATE',
       onPress: () => props.duplicate(),
+    }),
+    h(Button, {
+      text: 'UP OCTAVE',
+      onPress: () => props.shiftUpOctave(),
+    }),
+    h(Button, {
+      text: 'DOWN OCTAVE',
+      onPress: () => props.shiftDownOctave(),
+    }),
+    h(Button, {
+      text: '1/32',
+      onPress: () => props.setSelectedNoteSizes(1),
+    }),
+    h(Button, {
+      text: '1/16',
+      onPress: () => props.setSelectedNoteSizes(2),
+    }),
+    h(Button, {
+      text: '1/8',
+      onPress: () => props.setSelectedNoteSizes(4),
+    }),
+    h(Button, {
+      text: '1/4',
+      onPress: () => props.setSelectedNoteSizes(8),
+    }),
+    h(Button, {
+      text: '1/2',
+      onPress: () => props.setSelectedNoteSizes(16),
+    }),
+    h(Button, {
+      text: '1',
+      onPress: () => props.setSelectedNoteSizes(32),
     }),
   ];
 }
 
-function getSynthButtons(props) {
-  return [
-    h(ToggleButton, {
-      isActive: props.synthType === SQUARE,
-      text: 'SQUARE',
-      onPress: () => props.setSynthType(SQUARE),
-    }),
-    h(ToggleButton, {
-      isActive: props.synthType === SAWTOOTH,
-      text: 'SAWTOOTH',
-      onPress: () => props.setSynthType(SAWTOOTH),
-    }),
-    h(ToggleButton, {
-      isActive: props.synthType === PWM,
-      text: 'PWM',
-      onPress: () => props.setSynthType(PWM),
-    }),
-    h(ToggleButton, {
-      isActive: props.synthType === SINE,
-      text: 'SINE',
-      onPress: () => props.setSynthType(SINE),
-    }),
-  ];
-}
+// function getSynthButtons(props) {
+//   return [
+//     h(ToggleButton, {
+//       isActive: props.synthType === SQUARE,
+//       text: 'SQUARE',
+//       onPress: () => props.setSynthType(SQUARE),
+//     }),
+//     h(ToggleButton, {
+//       isActive: props.synthType === SAWTOOTH,
+//       text: 'SAWTOOTH',
+//       onPress: () => props.setSynthType(SAWTOOTH),
+//     }),
+//     h(ToggleButton, {
+//       isActive: props.synthType === PWM,
+//       text: 'PWM',
+//       onPress: () => props.setSynthType(PWM),
+//     }),
+//     h(ToggleButton, {
+//       isActive: props.synthType === SINE,
+//       text: 'SINE',
+//       onPress: () => props.setSynthType(SINE),
+//     }),
+//   ];
+// }
 
 function getToolButtons(props) {
   return [

@@ -28,7 +28,7 @@ export function getType(synth) {
 }
 
 export function sizeToSeconds(size, bpm) {
-  return ((60 / bpm) / 8) * size;
+  return ((60 / bpm) / 8) * (size + 1);
 }
 
 export function somePointOutside(points, measureCount) {

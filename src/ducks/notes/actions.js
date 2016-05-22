@@ -262,20 +262,41 @@ export function setSelectedNoteIds(selectedNoteIds) {
 export function setSelectedNoteSizes(size) {
   return () => (dispatch, getState) => {
     const selectedNotes = selectors.getSelectedNotes(getState());
-
     const updatedNotes = selectedNotes.map(note => helpers.createNote({
       id: note.id,
       points: [
         ...note.points.slice(0, note.points.length - 1),
         {
-          x: _.last(note.points).x + size,
-          y: _.last(note.points).y,
+          x: _.first(note.points).x + size - 1,
+          y: _.first(note.points).y,
         },
       ],
     }));
 
     dispatch(pushUndo());
     dispatch(update(updatedNotes));
+  };
+}
+
+export function shiftDownOctave() {
+  return (dispatch, getState) => {
+    const selectedNotes = selectors.getSelectedNotes(getState());
+
+    dispatch(move(selectedNotes, {
+      x: 0,
+      y: 12,
+    }));
+  };
+}
+
+export function shiftUpOctave() {
+  return (dispatch, getState) => {
+    const selectedNotes = selectors.getSelectedNotes(getState());
+
+    dispatch(move(selectedNotes, {
+      x: 0,
+      y: -12,
+    }));
   };
 }
 

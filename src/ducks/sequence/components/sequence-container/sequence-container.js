@@ -21,7 +21,11 @@ function mapDispatchToProps(dispatch) {
   return {
     changeSynthType: (...args) => dispatch(actions.changeSynthType(...args)),
     duplicate: (...args) => dispatch(notes.actions.duplicate(...args)),
+    removeSelected: (...args) => dispatch(notes.actions.removeSelected(...args)),
     setScrollTopIfChanged: (...args) => dispatch(actions.setScrollTopIfChanged(...args)),
+    setSelectedNoteSizes: (...args) => dispatch(notes.actions.setSelectedNoteSizes(...args)()),
+    shiftDownOctave: (...args) => dispatch(notes.actions.shiftDownOctave(...args)),
+    shiftUpOctave: (...args) => dispatch(notes.actions.shiftUpOctave(...args)),
     setToolType: (...args) => dispatch(actions.setToolType(...args)),
   };
 }
