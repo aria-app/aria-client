@@ -45,6 +45,7 @@ export function update() {
     const previousPosition = selectors.getNewPosition(getState());
 
     if (!previousPosition) {
+      dispatch(notes.actions.pushUndo());
       dispatch(setNewPosition(newPosition));
       return;
     }

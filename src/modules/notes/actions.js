@@ -9,7 +9,8 @@ export function add(newNotes) {
   return (dispatch, getState) => {
     const oldNotes = selectors.getNotes(getState());
 
-    dispatch(setNotesWithUndo([
+    dispatch(pushUndo());
+    dispatch(setNotes([
       ...oldNotes,
       ...newNotes,
     ]));
@@ -49,6 +50,7 @@ export function duplicate() {
       endPosition: note.endPosition,
     }));
 
+    dispatch(pushUndo());
     dispatch(add(duplicatedNotes));
     dispatch(selectNotes(duplicatedNotes));
   };
@@ -64,70 +66,73 @@ export function move(notes, offset) {
   return (dispatch, getState) => {
     const measureCount = sequence.selectors.getMeasureCount(getState());
 
-    if (helpers.somePointWillMoveOutside(notes, offset, measureCount)) return;
-
     const updatedNotes = notes.map(note => helpers.createNote({
       id: note.id,
       position: helpers.addPositions(note.position, offset),
       endPosition: helpers.addPositions(note.endPosition, offset),
     }));
 
+    if (helpers.somePointOutside(_.map(updatedNotes, 'endPosition'), measureCount)
+      || helpers.somePointOutside(_.map(updatedNotes, 'position'), measureCount)) return;
+
     dispatch(sound.actions.playNote(updatedNotes[0].name));
     dispatch(update(updatedNotes));
   };
 }
 
-export function paste() {
-  return (dispatch, getState) => {
+export function nudgeSelectedNotes(offset) {
+  return () => (dispatch, getState) => {
+    const selectedNotes = selectors.getSelectedNotes(getState());
 
+    if (_.isEmpty(selectedNotes)) return;
+
+    dispatch(pushUndo());
+    dispatch(move(selectedNotes, offset));
   };
 }
 
-export function popNoteRedos() {
-  return (dispatch, getState) => {
-    const noteRedos = selectors.getNoteRedos(getState());
-
-    if (_.isEmpty(noteRedos)) return;
-
-    dispatch(pushNoteUndos());
-    dispatch(setNotes(_.last(noteRedos)));
-    dispatch(setNoteRedos(noteRedos.slice(0, noteRedos.length - 1)));
-  };
-}
-
-export function popNoteUndos() {
-  return (dispatch, getState) => {
-    const noteUndos = selectors.getNoteUndos(getState());
-
-    if (_.isEmpty(noteUndos)) return;
-
-    dispatch(pushNoteRedos());
-    dispatch(setNotes(_.last(noteUndos)));
-    dispatch(setNoteUndos(noteUndos.slice(0, noteUndos.length - 1)));
-  };
-}
-
-export function pushNoteRedos() {
+export function pushRedo() {
   return (dispatch, getState) => {
     const allNotes = selectors.getNotes(getState());
-    const noteRedos = selectors.getNoteRedos(getState());
+    const redos = selectors.getRedos(getState());
 
-    dispatch(setNoteRedos([
-      ...noteRedos,
+    dispatch(setRedos([
+      ...redos,
       allNotes,
     ]));
   };
 }
 
-export function pushNoteUndos() {
+export function pushUndo() {
   return (dispatch, getState) => {
     const allNotes = selectors.getNotes(getState());
-    const noteUndos = selectors.getNoteUndos(getState());
+    const undos = selectors.getUndos(getState());
 
-    dispatch(setNoteUndos([
-      ...noteUndos,
+    if (_.isEqual(_.last(undos), allNotes)) return;
+
+    dispatch(setUndos([
+      ...undos,
       allNotes,
     ]));
+    dispatch(setRedos([]));
+  };
+}
+
+export function redo() {
+  return (dispatch, getState) => {
+    const redos = selectors.getRedos(getState());
+
+    if (_.isEmpty(redos)) return;
+
+    const allNotes = selectors.getNotes(getState());
+    const undos = selectors.getUndos(getState());
+
+    dispatch(setUndos([
+      ...undos,
+      allNotes,
+    ]));
+    dispatch(setNotes(_.last(redos)));
+    dispatch(setRedos(redos.slice(0, redos.length - 1)));
   };
 }
 
@@ -135,7 +140,8 @@ export function remove(notesToRemove) {
   return (dispatch, getState) => {
     const notes = selectors.getNotes(getState());
 
-    dispatch(setNotesWithUndo(_.difference(notes, notesToRemove)));
+    dispatch(pushUndo());
+    dispatch(setNotes(_.difference(notes, notesToRemove)));
   };
 }
 
@@ -159,13 +165,13 @@ export function resize(notes, change) {
       return;
     }
 
-    // if (helpers.somePointWillMoveOutside(notes, change, measureCount)) return;
-
     const updatedNotes = notes.map(note => helpers.createNote({
       endPosition: helpers.addPositions(note.endPosition, change),
       id: note.id,
       position: note.position,
     }));
+
+    if (helpers.somePointOutside(_.map(updatedNotes, 'endPosition'), measureCount)) return;
 
     dispatch(sound.actions.playNote(updatedNotes[0].endName));
 
@@ -177,6 +183,7 @@ export function resizeSelected(change) {
   return () => (dispatch, getState) => {
     const selectedNotes = selectors.getSelectedNotes(getState());
 
+    dispatch(pushUndo());
     dispatch(resize(selectedNotes, change));
   };
 }
@@ -221,32 +228,24 @@ export function selectAll() {
   };
 }
 
-export function setNotesWithUndo(notes) {
-  return dispatch => {
-    dispatch(pushNoteUndos());
-    dispatch(setNoteRedos([]));
-    dispatch(setNotes(notes));
-  };
-}
-
-function setNotes(notes) {
+export function setNotes(notes) {
   return {
     type: actionTypes.SET_NOTES,
     notes,
   };
 }
 
-export function setNoteRedos(noteRedos) {
+export function setRedos(redos) {
   return {
-    type: actionTypes.SET_NOTE_REDOS,
-    noteRedos,
+    type: actionTypes.SET_REDOS,
+    redos,
   };
 }
 
-export function setNoteUndos(noteUndos) {
+export function setUndos(undos) {
   return {
-    type: actionTypes.SET_NOTE_UNDOS,
-    noteUndos,
+    type: actionTypes.SET_UNDOS,
+    undos,
   };
 }
 
@@ -270,7 +269,20 @@ export function setSelectedNoteSizes(size) {
       },
     }));
 
+    dispatch(pushUndo());
     dispatch(update(updatedNotes));
+  };
+}
+
+export function undo() {
+  return (dispatch, getState) => {
+    const undos = selectors.getUndos(getState());
+
+    if (_.isEmpty(undos)) return;
+
+    dispatch(pushRedo());
+    dispatch(setNotes(_.last(undos)));
+    dispatch(setUndos(undos.slice(0, undos.length - 1)));
   };
 }
 
@@ -278,7 +290,7 @@ export function update(items) {
   return (dispatch, getState) => {
     const allNotes = selectors.getNotes(getState());
 
-    dispatch(setNotesWithUndo(replaceItemsById(allNotes, items)));
+    dispatch(setNotes(replaceItemsById(allNotes, items)));
   };
 }
 

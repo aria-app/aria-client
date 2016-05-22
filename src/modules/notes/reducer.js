@@ -10,20 +10,20 @@ export default function reducer(state = initialState, action) {
         ...state,
         notes: action.notes,
       };
-    case actionTypes.SET_NOTE_REDOS:
+    case actionTypes.SET_REDOS:
       return {
         ...state,
-        noteRedos: action.noteRedos,
-      };
-    case actionTypes.SET_NOTE_UNDOS:
-      return {
-        ...state,
-        noteUndos: action.noteUndos,
+        redos: action.redos,
       };
     case actionTypes.SET_SELECTED_NOTE_IDS:
       return {
         ...state,
         selectedNoteIds: action.selectedNoteIds,
+      };
+    case actionTypes.SET_UNDOS:
+      return {
+        ...state,
+        undos: action.undos,
       };
     default:
       return state;
@@ -40,8 +40,18 @@ function getInitialStateWithNotes() {
           y: 40,
         },
         endPosition: {
+          x: 15,
+          y: 35,
+        },
+      }),
+      helpers.createNote({
+        position: {
           x: 3,
-          y: 40,
+          y: 42,
+        },
+        endPosition: {
+          x: 15,
+          y: 42,
         },
       }),
     ],
@@ -51,8 +61,8 @@ function getInitialStateWithNotes() {
 function getInitialState() {
   return {
     notes: [],
-    noteRedos: [],
-    noteUndos: [],
+    redos: [],
+    undos: [],
     selectedNoteIds: [],
   };
 }

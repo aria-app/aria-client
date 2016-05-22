@@ -1,12 +1,17 @@
 import shared from 'modules/shared';
 import { playbackStates } from './constants';
-import { createSynth } from './helpers';
 import actionTypes from './action-types';
+import * as helpers from './helpers';
 
 const initialState = getInitialState();
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case actionTypes.SET_ACTIVE_SYNTHS:
+      return {
+        ...state,
+        activeSynths: action.activeSynths,
+      };
     case actionTypes.SET_BPM:
       return {
         ...state,
@@ -22,11 +27,10 @@ export default function reducer(state = initialState, action) {
         ...state,
         position: action.position,
       };
-    case actionTypes.SET_SYNTH:
-      state.synth.dispose();
+    case actionTypes.SET_SYNTHS:
       return {
         ...state,
-        synth: createSynth(action.synthType),
+        synths: action.synths,
       };
     default:
       return state;
@@ -35,9 +39,10 @@ export default function reducer(state = initialState, action) {
 
 function getInitialState() {
   return {
+    activeSynths: [],
     bpm: undefined,
     playbackState: playbackStates.STOPPED,
     position: 0,
-    synth: createSynth(shared.constants.defaultSynthType),
+    synths: helpers.createSynths(shared.constants.defaultSynthType),
   };
 }

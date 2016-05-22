@@ -51,21 +51,16 @@ export function sizeToSeconds(size, bpm) {
   return ((60 / bpm) / 8) * size;
 }
 
-export function somePointWillMoveOutside(notes, offset, measureCount) {
+export function somePointOutside(points, measureCount) {
   const totalSlotsX = measureCount * 8 * 4 - 1;
   const totalSlotsY = constants.octaveRange.length * 12 - 1;
 
-  if (offset.x === -1) {
-    return _.some(notes, isAtLeft);
-  } else if (offset.x === 1) {
-    return _.some(notes, isAtRight(totalSlotsX));
-  } else if (offset.y === -1) {
-    return _.some(notes, isAtTop);
-  } else if (offset.y === 1) {
-    return _.some(notes, isAtBottom(totalSlotsY));
-  }
-
-  return false;
+  return _.some(points, point =>
+    point.x < 0
+    || point.x > totalSlotsX
+    || point.y < 0
+    || point.y > totalSlotsY
+  );
 }
 
 function getLetter(position) {
@@ -83,24 +78,4 @@ function getLetter(position) {
     'C#',
     'C',
   ][position % 12];
-}
-
-function isAtBottom(totalSlotsY) {
-  return (note) => note.position.y >= totalSlotsY
-    || note.endPosition.y >= totalSlotsY;
-}
-
-function isAtLeft(note) {
-  return note.position.x <= 0
-    || note.endPosition.x <= 0;
-}
-
-function isAtRight(totalSlotsX) {
-  return (note) => note.position.x >= totalSlotsX
-    || note.endPosition.x >= totalSlotsX;
-}
-
-function isAtTop(note) {
-  return note.position.y <= 0
-    || note.endPosition.y <= 0;
 }

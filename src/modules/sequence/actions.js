@@ -3,7 +3,6 @@ import notes from 'modules/notes';
 import shared from 'modules/shared';
 import sound from 'modules/sound';
 import actionTypes from './action-types';
-import * as helpers from './helpers';
 import selectors from './selectors';
 
 const { toolTypes } = shared.constants;
@@ -12,14 +11,7 @@ export function changeSynthType(synthType) {
   return (dispatch, getState) => {
     if (synthType === selectors.getSynthType(getState())) return;
     dispatch(setSynthType(synthType));
-    dispatch(sound.actions.setSynth(synthType));
-  };
-}
-
-export function panUpdate(elementRef, e) {
-  return (dispatch, getState) => {
-    const panStartPosition = selectors.getPanStartPosition(getState());
-    helpers.panScrollContainer(elementRef, e, panStartPosition);
+    dispatch(sound.actions.updateSynths(synthType));
   };
 }
 

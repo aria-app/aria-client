@@ -5,9 +5,9 @@ import { NAME } from './constants';
 const get = state => state[NAME];
 
 const getNotes = state => get(state).notes;
-const getNoteRedos = state => get(state).noteRedos;
-const getNoteUndos = state => get(state).noteUndos;
+const getRedos = state => get(state).redos;
 const getSelectedNoteIds = state => get(state).selectedNoteIds;
+const getUndos = state => get(state).undos;
 const getSelectedNotes = createSelector(
   getNotes,
   getSelectedNoteIds,
@@ -20,8 +20,8 @@ const getSelectedNotes = createSelector(
 export default {
   get,
   getNotes,
-  getNoteRedos,
-  getNoteUndos,
+  getRedos,
+  getUndos,
   getSelectedNotes,
   getSelectedNoteIds,
 };

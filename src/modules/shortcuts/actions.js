@@ -23,23 +23,23 @@ export function initialize() {
       [notes.actions.resizeSelected({ x: 1, y: 0 }), ['ctrl+right', 'meta+right']],
       [notes.actions.resizeSelected({ x: 0, y: 1 }), ['ctrl+down', 'meta+down']],
       [notes.actions.resizeSelected({ x: -1, y: 0 }), ['ctrl+left', 'meta+left']],
-      [nudgeSelectedNotes({ x: 0, y: -1 }), ['up']],
-      [nudgeSelectedNotes({ x: 0, y: 1 }), ['down']],
-      [nudgeSelectedNotes({ x: -1, y: 0 }), ['left']],
-      [nudgeSelectedNotes({ x: 1, y: 0 }), ['right']],
-      [redo, ['ctrl+y', 'meta+y']],
-      [undo, ['ctrl+z', 'meta+z']],
+      [notes.actions.nudgeSelectedNotes({ x: 0, y: -1 }), ['up']],
+      [notes.actions.nudgeSelectedNotes({ x: 0, y: 1 }), ['down']],
+      [notes.actions.nudgeSelectedNotes({ x: -1, y: 0 }), ['left']],
+      [notes.actions.nudgeSelectedNotes({ x: 1, y: 0 }), ['right']],
+      [notes.actions.redo, ['ctrl+y', 'meta+y']],
+      [notes.actions.undo, ['ctrl+z', 'meta+z']],
 
       // Playback
-      [togglePlayPause, ['enter']],
-      [stop, ['escape']],
+      [sound.actions.togglePlayPause, ['enter']],
+      [sound.actions.stop, ['escape']],
 
       // Tools
-      [activateDrawTool, ['d']],
-      [activateEraseTool, ['e']],
-      [activateMoveTool, ['m']],
-      [activatePanTool, ['p']],
-      [activateSelectTool, ['s']],
+      [activateTool(shared.constants.toolTypes.DRAW), ['d']],
+      [activateTool(shared.constants.toolTypes.ERASE), ['e']],
+      [activateTool(shared.constants.toolTypes.MOVE), ['m']],
+      [activateTool(shared.constants.toolTypes.PAN), ['p']],
+      [activateTool(shared.constants.toolTypes.SELECT), ['s']],
     ]));
 
     // Held Keys
@@ -48,53 +48,8 @@ export function initialize() {
   };
 }
 
-function activateDrawTool() {
-  return (dispatch, getState) => {
-    const toolType = shared.constants.toolTypes.DRAW;
-    const currentToolType = sequence.selectors.getToolType(getState());
-
-    if (currentToolType === toolType) return;
-
-    dispatch(sequence.actions.setToolType(toolType));
-  };
-}
-
-function activateEraseTool() {
-  return (dispatch, getState) => {
-    const toolType = shared.constants.toolTypes.ERASE;
-    const currentToolType = sequence.selectors.getToolType(getState());
-
-    if (currentToolType === toolType) return;
-
-    dispatch(sequence.actions.setToolType(toolType));
-  };
-}
-
-function activateMoveTool() {
-  return (dispatch, getState) => {
-    const toolType = shared.constants.toolTypes.MOVE;
-    const currentToolType = sequence.selectors.getToolType(getState());
-
-    if (currentToolType === toolType) return;
-
-    dispatch(sequence.actions.setToolType(toolType));
-  };
-}
-
-function activatePanTool() {
-  return (dispatch, getState) => {
-    const toolType = shared.constants.toolTypes.PAN;
-    const currentToolType = sequence.selectors.getToolType(getState());
-
-    if (currentToolType === toolType) return;
-
-    dispatch(sequence.actions.setToolType(toolType));
-  };
-}
-
-function activateSelectTool() {
-  return (dispatch, getState) => {
-    const toolType = shared.constants.toolTypes.SELECT;
+function activateTool(toolType) {
+  return () => (dispatch, getState) => {
     const currentToolType = sequence.selectors.getToolType(getState());
 
     if (currentToolType === toolType) return;
@@ -117,16 +72,6 @@ function holdPan(e) {
 
     dispatch(sequence.actions.setToolType(toolType));
     dispatch(setHeldKeys([e.keyCode]));
-  };
-}
-
-function nudgeSelectedNotes(offset) {
-  return () => (dispatch, getState) => {
-    const selectedNotes = notes.selectors.getSelectedNotes(getState());
-
-    if (_.isEmpty(selectedNotes)) return;
-
-    dispatch(notes.actions.move(selectedNotes, offset));
   };
 }
 
@@ -160,29 +105,5 @@ function setHeldKeys(heldKeys) {
   return {
     type: actionTypes.SET_HELD_KEYS,
     heldKeys,
-  };
-}
-
-function stop() {
-  return (dispatch) => {
-    dispatch(sound.actions.stop());
-  };
-}
-
-function togglePlayPause() {
-  return (dispatch) => {
-    dispatch(sound.actions.togglePlayPause());
-  };
-}
-
-function redo() {
-  return (dispatch) => {
-    dispatch(notes.actions.popNoteRedos());
-  };
-}
-
-function undo() {
-  return (dispatch) => {
-    dispatch(notes.actions.popNoteUndos());
   };
 }
