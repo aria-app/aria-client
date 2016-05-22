@@ -114,3 +114,15 @@ function getLetter(point) {
     'C',
   ][point % 12];
 }
+
+export function getScale() {
+  return _(constants.octaveRange)
+  .flatMap(octave => _.range(12).map(step => {
+    const yPoint = (octave * 12) + step;
+    return {
+      name: getNoteName(yPoint),
+      yPoint,
+    };
+  }))
+  .value();
+}

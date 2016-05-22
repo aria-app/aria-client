@@ -41,20 +41,8 @@ function getInitialStateWithNotes() {
             y: 40,
           },
           {
-            x: 15,
-            y: 35,
-          },
-        ],
-      }),
-      helpers.createNote({
-        points: [
-          {
-            x: 3,
-            y: 42,
-          },
-          {
-            x: 15,
-            y: 42,
+            x: 7,
+            y: 40,
           },
         ],
       }),

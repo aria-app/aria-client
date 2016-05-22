@@ -23,18 +23,6 @@ export function createNote({
   };
 }
 
-export function getScale() {
-  return _(shared.constants.octaveRange)
-    .flatMap(octave => _.range(12).map(step => {
-      const yPoint = (octave * 12) + step;
-      return {
-        name: shared.helpers.getNoteName(yPoint),
-        yPoint,
-      };
-    }))
-    .value();
-}
-
 export function getType(synth) {
   return synth.voices[0].oscillator.type;
 }

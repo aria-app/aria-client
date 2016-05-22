@@ -190,10 +190,11 @@ export function togglePlayPause() {
 }
 
 export function updateSynths(synthType) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const activeSynths = selectors.getActiveSynths(getState());
     const synths = helpers.createSynths(synthType);
 
-    synths.forEach(s => s.dispose());
+    activeSynths.forEach(s => s.dispose());
 
     dispatch(setSynths(synths));
   };

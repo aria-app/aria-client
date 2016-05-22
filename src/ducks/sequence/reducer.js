@@ -1,9 +1,7 @@
-import notes from 'ducks/notes';
 import shared from 'ducks/shared';
 import actionTypes from './action-types';
 
 const { defaultSynthType, defaultToolType } = shared.constants;
-const { getScale } = notes.helpers;
 
 export default function reducer(state = getInitialState(), action) {
   switch (action.type) {
@@ -49,7 +47,7 @@ function getInitialState() {
     measureCount: 1,
     mousePoint: undefined,
     previousToolType: undefined,
-    scale: getScale(),
+    scale: shared.helpers.getScale(),
     scrollLeft: 0,
     scrollTop: 0,
     synthType: defaultSynthType,
