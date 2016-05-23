@@ -1,18 +1,20 @@
+import _ from 'lodash';
 import React from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
 import shared from 'ducks/shared';
+import sound from 'ducks/sound';
 import { GridContainer } from '../grid-container/grid-container';
 import { KeysContainer } from '../keys-container/keys-container';
 import './sequence.scss';
 
-const { Button, ToggleButton, Toolbar } = shared.components;
-// const { PWM, SAWTOOTH, SINE, SQUARE } = shared.constants.synthTypes;
+const { Button, DropdownList, ToggleButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
+const { PAUSED, STARTED, STOPPED } = sound.constants.playbackStates;
 const { getChildRef, scrollTo } = shared.helpers;
 
 const component = (props) => h('.sequence', [
-  props.toolbar,
+  props.actionsToolbar,
   h('.sequence__content', {
     onScroll: props.onContentScroll,
   }, [
@@ -23,6 +25,25 @@ const component = (props) => h('.sequence', [
       }),
     ]),
   ]),
+  h(Toolbar, {
+    leftItems: [
+      h(ToggleButton, {
+        isActive: props.playbackState === STARTED,
+        text: 'PLAY',
+        onPress: () => props.play(),
+      }),
+      h(ToggleButton, {
+        isActive: props.playbackState === PAUSED,
+        text: 'PAUSE',
+        onPress: () => props.pause(),
+      }),
+      h(ToggleButton, {
+        isActive: props.playbackState === STOPPED,
+        text: 'STOP',
+        onPress: () => props.stop(),
+      }),
+    ],
+  }),
 ]);
 
 const composed = compose([
@@ -31,8 +52,12 @@ const composed = compose([
     removeSelected: React.PropTypes.func.isRequired,
     duplicate: React.PropTypes.func.isRequired,
     isSelectionActive: React.PropTypes.bool,
+    playbackState: React.PropTypes.string.isRequired,
     setSelectedNoteSizes: React.PropTypes.func.isRequired,
     setToolType: React.PropTypes.func.isRequired,
+    pause: React.PropTypes.func.isRequired,
+    play: React.PropTypes.func.isRequired,
+    stop: React.PropTypes.func.isRequired,
     shiftDownOctave: React.PropTypes.func.isRequired,
     shiftUpOctave: React.PropTypes.func.isRequired,
     synthType: React.PropTypes.string.isRequired,
@@ -45,19 +70,59 @@ const composed = compose([
     selector: '.sequence__content',
   }),
   pure,
-  mapProps(props => ({
-    ...props,
-    toolbar: props.isSelectionActive
-      ? h(Toolbar, {
-        leftItems: getSelectionCommands(props),
-      })
-      : h(Toolbar, {
-        leftItems: getToolButtons(props),
-      }),
-  })),
   withHandlers({
     onContentScroll,
+    onSelect: (props) => (item) => {
+      props.changeSynthType(item.id);
+    },
   }),
+  mapProps(props => ({
+    ...props,
+    actionsToolbar: props.isSelectionActive
+      ? h(Toolbar, {
+        leftItems: [
+          ...getSelectionCommands(props),
+        ],
+        rightItems: [
+          h(DropdownList, {
+            items: [
+              {
+                text: '1/32',
+                value: 1,
+              },
+              {
+                text: '1/16',
+                value: 2,
+              },
+              {
+                text: '1/8',
+                value: 4,
+              },
+              {
+                text: '1/4',
+                value: 8,
+              },
+              {
+                text: '1/2',
+                value: 16,
+              },
+              {
+                text: '1',
+                value: 32,
+              },
+            ],
+            onSelect: (item) => props.setSelectedNoteSizes(item.value),
+            text: 'SET LENGTH',
+          }),
+
+        ],
+      })
+      : h(Toolbar, {
+        leftItems: [
+          ...getToolButtons(props),
+        ],
+      }),
+  })),
 ])(component);
 
 export const Sequence = composed;
@@ -80,57 +145,8 @@ function getSelectionCommands(props) {
       text: 'DOWN OCTAVE',
       onPress: () => props.shiftDownOctave(),
     }),
-    h(Button, {
-      text: '1/32',
-      onPress: () => props.setSelectedNoteSizes(1),
-    }),
-    h(Button, {
-      text: '1/16',
-      onPress: () => props.setSelectedNoteSizes(2),
-    }),
-    h(Button, {
-      text: '1/8',
-      onPress: () => props.setSelectedNoteSizes(4),
-    }),
-    h(Button, {
-      text: '1/4',
-      onPress: () => props.setSelectedNoteSizes(8),
-    }),
-    h(Button, {
-      text: '1/2',
-      onPress: () => props.setSelectedNoteSizes(16),
-    }),
-    h(Button, {
-      text: '1',
-      onPress: () => props.setSelectedNoteSizes(32),
-    }),
   ];
 }
-
-// function getSynthButtons(props) {
-//   return [
-//     h(ToggleButton, {
-//       isActive: props.synthType === SQUARE,
-//       text: 'SQUARE',
-//       onPress: () => props.setSynthType(SQUARE),
-//     }),
-//     h(ToggleButton, {
-//       isActive: props.synthType === SAWTOOTH,
-//       text: 'SAWTOOTH',
-//       onPress: () => props.setSynthType(SAWTOOTH),
-//     }),
-//     h(ToggleButton, {
-//       isActive: props.synthType === PWM,
-//       text: 'PWM',
-//       onPress: () => props.setSynthType(PWM),
-//     }),
-//     h(ToggleButton, {
-//       isActive: props.synthType === SINE,
-//       text: 'SINE',
-//       onPress: () => props.setSynthType(SINE),
-//     }),
-//   ];
-// }
 
 function getToolButtons(props) {
   return [

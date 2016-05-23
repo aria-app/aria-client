@@ -4,9 +4,11 @@ import { compose, pure, setPropTypes } from 'recompose';
 import './button.scss';
 
 const component = ({
+  className,
   onPress,
   text,
 }) => h('.button', {
+  className,
   onClick: () => onPress(),
 }, text);
 
