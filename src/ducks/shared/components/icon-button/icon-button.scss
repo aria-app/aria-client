@@ -1,0 +1,39 @@
+@import '../../../../styles/palette';
+
+$icon-button__fill: $neutral-10;
+$icon-button__fill--active: $neutral-2;
+$icon-button__content__background-color--active: $neutral-10;
+$icon-button__content__border-radius: 2px;
+
+.icon-button {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  &__background {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+    height: 100%;
+    border-radius: $icon-button__content__border-radius;
+  }
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    svg * {
+      fill: $icon-button__fill;
+    }
+  }
+  &--active {
+    .icon-button__background {
+      background-color: $icon-button__content__background-color--active;
+    }
+    .icon-button__icon  svg * {
+      fill: $icon-button__fill--active;
+    }
+  }
+}

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
@@ -8,7 +7,7 @@ import { GridContainer } from '../grid-container/grid-container';
 import { KeysContainer } from '../keys-container/keys-container';
 import './sequence.scss';
 
-const { Button, DropdownList, ToggleButton, Toolbar } = shared.components;
+const { Button, DropdownList, IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
 const { PAUSED, STARTED, STOPPED } = sound.constants.playbackStates;
 const { getChildRef, scrollTo } = shared.helpers;
@@ -25,25 +24,7 @@ const component = (props) => h('.sequence', [
       }),
     ]),
   ]),
-  h(Toolbar, {
-    leftItems: [
-      h(ToggleButton, {
-        isActive: props.playbackState === STARTED,
-        text: 'PLAY',
-        onPress: () => props.play(),
-      }),
-      h(ToggleButton, {
-        isActive: props.playbackState === PAUSED,
-        text: 'PAUSE',
-        onPress: () => props.pause(),
-      }),
-      h(ToggleButton, {
-        isActive: props.playbackState === STOPPED,
-        text: 'STOP',
-        onPress: () => props.stop(),
-      }),
-    ],
-  }),
+  props.playbackToolbar,
 ]);
 
 const composed = compose([
@@ -122,6 +103,26 @@ const composed = compose([
           ...getToolButtons(props),
         ],
       }),
+    playbackToolbar: h(Toolbar, {
+      position: 'bottom',
+      leftItems: [
+        h(IconButton, {
+          isActive: props.playbackState === STARTED,
+          icon: 'play',
+          onPress: () => props.play(),
+        }),
+        h(IconButton, {
+          isActive: props.playbackState === PAUSED,
+          icon: 'pause',
+          onPress: () => props.pause(),
+        }),
+        h(IconButton, {
+          isActive: props.playbackState === STOPPED,
+          icon: 'stop',
+          onPress: () => props.stop(),
+        }),
+      ],
+    }),
   })),
 ])(component);
 
@@ -150,24 +151,24 @@ function getSelectionCommands(props) {
 
 function getToolButtons(props) {
   return [
-    h(ToggleButton, {
+    h(IconButton, {
       isActive: props.toolType === SELECT,
-      text: 'SELECT',
+      icon: 'mouse-pointer',
       onPress: () => props.setToolType(SELECT),
     }),
-    h(ToggleButton, {
+    h(IconButton, {
       isActive: props.toolType === DRAW,
-      text: 'DRAW',
+      icon: 'pencil',
       onPress: () => props.setToolType(DRAW),
     }),
-    h(ToggleButton, {
+    h(IconButton, {
       isActive: props.toolType === ERASE,
-      text: 'ERASE',
+      icon: 'eraser',
       onPress: () => props.setToolType(ERASE),
     }),
-    h(ToggleButton, {
+    h(IconButton, {
       isActive: props.toolType === PAN,
-      text: 'PAN',
+      icon: 'hand-paper-o',
       onPress: () => props.setToolType(PAN),
     }),
   ];

@@ -1,9 +1,11 @@
+@import '../../../../styles/constants';
 @import '../../../../styles/palette';
 
 $toolbar__height: 56px;
 $toolbar__padding: 16px;
 $toolbar__background-color: $neutral-2;
 $toolbar__border: none;
+$toolbar__item__spacing: $margin-s;
 $toolbar__button__height: 36px;
 $toolbar__button__padding: 16px;
 $toolbar__button__color: $neutral-10;
@@ -20,8 +22,16 @@ $toolbar__button--active__background-color: $neutral-10;
   padding-right: $toolbar__padding;
   background-color: $toolbar__background-color;
   border-bottom: $toolbar__border;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   z-index: 100;
+  &--top {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  }
+  &--bottom {
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.25);
+  }
+  .icon-button + .icon-button {
+    margin-left: $toolbar__item__spacing;
+  }
   &__right {
     display: flex;
     align-items: center;

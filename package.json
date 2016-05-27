@@ -46,7 +46,7 @@
     "react": "15.0.0",
     "react-dom": "15.0.0",
     "react-hyperscript": "2.3.0",
-    "react-icons": "1.0.5",
+    "react-icons": "^1.0.5",
     "react-redux": "4.4.4",
     "recompose": "0.17.0",
     "redux": "3.4.0",
