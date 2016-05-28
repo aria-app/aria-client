@@ -7,7 +7,7 @@ import { GridContainer } from '../grid-container/grid-container';
 import { KeysContainer } from '../keys-container/keys-container';
 import './sequence.scss';
 
-const { Button, DropdownList, IconButton, Toolbar } = shared.components;
+const { DropdownList, IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
 const { PAUSED, STARTED, STOPPED } = sound.constants.playbackStates;
 const { getChildRef, scrollTo } = shared.helpers;

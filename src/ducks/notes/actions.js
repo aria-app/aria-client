@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import sequence from 'ducks/sequence';
 import sound from 'ducks/sound';
-import actionTypes from './action-types';
+import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 

@@ -4,7 +4,6 @@ const get = state => state[NAME];
 
 export const getMeasureCount = state => get(state).measureCount;
 export const getMousePoint = state => get(state).mousePoint;
-export const getNotes = state => get(state).notes;
 export const getScale = state => get(state).scale;
 export const getScrollLeft = state => get(state).scrollLeft;
 export const getScrollTop = state => get(state).scrollTop;

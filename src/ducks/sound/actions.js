@@ -3,7 +3,7 @@ import Tone from 'tone';
 import notes from 'ducks/notes';
 import sequence from 'ducks/sequence';
 import shared from 'ducks/shared';
-import actionTypes from './action-types';
+import * as actionTypes from './action-types';
 import * as constants from './constants';
 import * as helpers from './helpers';
 import * as selectors from './selectors';

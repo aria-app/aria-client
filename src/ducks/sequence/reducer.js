@@ -1,16 +1,18 @@
 import shared from 'ducks/shared';
-import actionTypes from './action-types';
+import * as actionTypes from './action-types';
 
 const { defaultSynthType, defaultToolType } = shared.constants;
 
-export default function reducer(state = getInitialState(), action) {
+const initialState = getInitialState();
+
+export default function reducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.SET_MEASURE_COUNT:
       return {
         ...state,
         measureCount: action.measureCount,
       };
-    case actionTypes.SET_MOUSE_POSITION:
+    case actionTypes.SET_MOUSE_POINT:
       return {
         ...state,
         mousePoint: action.mousePoint,

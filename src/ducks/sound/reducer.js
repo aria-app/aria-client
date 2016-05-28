@@ -1,6 +1,6 @@
 import shared from 'ducks/shared';
 import { playbackStates } from './constants';
-import actionTypes from './action-types';
+import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 
 const initialState = getInitialState();

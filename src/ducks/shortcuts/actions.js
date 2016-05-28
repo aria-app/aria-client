@@ -4,7 +4,7 @@ import notes from 'ducks/notes';
 import sequence from 'ducks/sequence';
 import shared from 'ducks/shared';
 import sound from 'ducks/sound';
-import actionTypes from './action-types';
+import * as actionTypes from './action-types';
 import * as selectors from './selectors';
 
 export function initialize() {

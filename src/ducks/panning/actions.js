@@ -1,4 +1,4 @@
-import actionTypes from './action-types';
+import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 

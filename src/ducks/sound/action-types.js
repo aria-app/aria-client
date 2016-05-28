@@ -1,8 +1,8 @@
-export default {
-  SET_ACTIVE_SYNTHS: 'sound/SET_ACTIVE_SYNTHS',
-  SET_BPM: 'sound/SET_BPM',
-  SET_MEASURE_COUNT: 'sound/SET_MEASURE_COUNT',
-  SET_PLAYBACK_STATE: 'sound/SET_PLAYBACK_STATE',
-  SET_POSITION: 'sound/SET_POSITION',
-  SET_SYNTHS: 'sound/SET_SYNTHS',
-};
+import { NAME } from './constants';
+
+export const SET_ACTIVE_SYNTHS = `${NAME}/SET_ACTIVE_SYNTHS`;
+export const SET_BPM = `${NAME}/SET_BPM`;
+export const SET_MEASURE_COUNT = `${NAME}/SET_MEASURE_COUNT`;
+export const SET_PLAYBACK_STATE = `${NAME}/SET_PLAYBACK_STATE`;
+export const SET_POSITION = `${NAME}/SET_POSITION`;
+export const SET_SYNTHS = `${NAME}/SET_SYNTHS`;

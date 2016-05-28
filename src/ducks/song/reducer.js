@@ -2,15 +2,10 @@ import * as actionTypes from './action-types';
 
 export default function reducer(state = getInitialState(), action) {
   switch (action.type) {
-    case actionTypes.SET_IS_RESIZING:
+    case actionTypes.SET_SONG:
       return {
         ...state,
-        isResizing: action.isResizing,
-      };
-    case actionTypes.SET_NEW_POSITION:
-      return {
-        ...state,
-        newPoint: action.newPoint,
+        song: action.song,
       };
     default:
       return state;
@@ -19,7 +14,6 @@ export default function reducer(state = getInitialState(), action) {
 
 function getInitialState() {
   return {
-    isResizing: false,
-    newPoint: undefined,
+    song: undefined,
   };
 }
