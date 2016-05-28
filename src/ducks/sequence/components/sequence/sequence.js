@@ -66,6 +66,7 @@ const composed = compose([
         ],
         rightItems: [
           h(DropdownList, {
+            icon: 'long-arrow-right',
             items: [
               {
                 text: '1/32',
@@ -93,7 +94,6 @@ const composed = compose([
               },
             ],
             onSelect: (item) => props.setSelectedNoteSizes(item.value),
-            text: 'SET LENGTH',
           }),
 
         ],
@@ -130,20 +130,24 @@ export const Sequence = composed;
 
 function getSelectionCommands(props) {
   return [
-    h(Button, {
-      text: 'DELETE',
+    h(IconButton, {
+      icon: 'trash',
+      toolTip: 'Delete',
       onPress: () => props.removeSelected(),
     }),
-    h(Button, {
-      text: 'DUPLICATE',
+    h(IconButton, {
+      icon: 'clone',
+      toolTip: 'Duplicate',
       onPress: () => props.duplicate(),
     }),
-    h(Button, {
-      text: 'UP OCTAVE',
+    h(IconButton, {
+      icon: 'arrow-up',
+      toolTip: 'Up Octave',
       onPress: () => props.shiftUpOctave(),
     }),
-    h(Button, {
-      text: 'DOWN OCTAVE',
+    h(IconButton, {
+      icon: 'arrow-down',
+      toolTip: 'Down Octave',
       onPress: () => props.shiftDownOctave(),
     }),
   ];

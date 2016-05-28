@@ -2,8 +2,9 @@
 
 $icon-button__fill: $neutral-10;
 $icon-button__fill--active: $neutral-2;
-$icon-button__content__background-color--active: $neutral-10;
-$icon-button__content__border-radius: 2px;
+$icon-button__background__background-color--active: $neutral-10;
+$icon-button__background__border-radius: 2px;
+$icon-button__background__background-color--press: transparentize($neutral-10, 0.75);
 
 .icon-button {
   display: flex;
@@ -12,12 +13,14 @@ $icon-button__content__border-radius: 2px;
   width: 40px;
   height: 40px;
   position: relative;
+  transition: background-color 0.4s ease-in;
+  cursor: pointer;
   &__background {
     display: flex;
     flex-grow: 1;
     flex-shrink: 0;
     height: 100%;
-    border-radius: $icon-button__content__border-radius;
+    border-radius: $icon-button__background__border-radius;
   }
   &__icon {
     position: absolute;
@@ -30,10 +33,16 @@ $icon-button__content__border-radius: 2px;
   }
   &--active {
     .icon-button__background {
-      background-color: $icon-button__content__background-color--active;
+      background-color: $icon-button__background__background-color--active;
     }
     .icon-button__icon  svg * {
       fill: $icon-button__fill--active;
+    }
+  }
+  &:active {
+    .icon-button__background {
+      background-color: $icon-button__background__background-color--press;
+      transition: background-color 0s ease;
     }
   }
 }

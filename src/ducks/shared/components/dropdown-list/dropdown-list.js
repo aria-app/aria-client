@@ -4,18 +4,24 @@ import classnames from 'classnames';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setPropTypes, withHandlers, withState } from 'recompose';
 import { Button } from '../button/button';
+import { IconButton } from '../icon-button/icon-button';
 import './dropdown-list.scss';
 
 const component = ({
   closePopup,
   isOpen,
   openPopup,
+  icon,
   items,
   selectedItem,
   select,
   text,
 }) => h('.dropdown-list', [
-  h(Button, {
+  icon ? h(IconButton, {
+    className: 'dropdown-list__button',
+    onPress: () => openPopup(),
+    icon,
+  }) : h(Button, {
     className: 'dropdown-list__button',
     onPress: () => openPopup(),
     text: text || selectedItem.text || '',
@@ -44,6 +50,7 @@ const component = ({
 export const DropdownList = compose([
   pure,
   setPropTypes({
+    icon: React.PropTypes.string,
     items: React.PropTypes.array.isRequired,
     onSelect: React.PropTypes.func,
     selectedId: React.PropTypes.oneOfType([
@@ -55,11 +62,7 @@ export const DropdownList = compose([
   }),
   mapProps(props => ({
     ...props,
-    selectedItem: (() => {
-      const sel = getSelectedItem(props);
-      console.log(sel);
-      return sel;
-    })(),
+    selectedItem: getSelectedItem(props),
   })),
   withState('isOpen', 'setIsOpen', false),
   withHandlers({

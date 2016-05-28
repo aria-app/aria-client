@@ -31,12 +31,19 @@ export const Icon = compose([
   }),
   mapProps(props => ({
     ...props,
-    iconComponent: FAIcons[getModuleName(props.icon)],
+    iconComponent: loadIcon(props.icon),
   })),
 ])(component);
 
-function getModuleName(iconName) {
-  return `Fa${_.startCase(iconName).replace(/\s/g, '')}`;
+function loadIcon(name) {
+  const moduleName = `Fa${_.startCase(name).replace(/\s/g, '')}`;
+  const icon = FAIcons[moduleName];
+
+  if (!icon) {
+    throw new Error(`No icon exists for name ${moduleName}`);
+  }
+
+  return icon;
 }
 
 function getSizePixels(size) {

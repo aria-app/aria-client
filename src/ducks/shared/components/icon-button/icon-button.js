@@ -10,11 +10,13 @@ const component = ({
   icon,
   isActive,
   onPress,
+  toolTip,
 }) => h('.icon-button', {
   className: classnames({
     'icon-button--active': isActive,
   }, className),
   onClick: onPress,
+  title: toolTip,
 }, [
   h('.icon-button__background'),
   h(Icon, {
@@ -29,5 +31,6 @@ export const IconButton = compose([
     icon: PropTypes.string,
     isActive: PropTypes.bool,
     onPress: PropTypes.func,
+    toolTip: PropTypes.string,
   }),
 ])(component);
