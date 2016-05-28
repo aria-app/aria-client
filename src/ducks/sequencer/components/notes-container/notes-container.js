@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { Notes } from '../notes/notes';
 import moving from 'ducks/moving';
+import notes from 'ducks/notes';
 import panning from 'ducks/panning';
 import resizing from 'ducks/resizing';
 import selection from 'ducks/selection';
-import sequencer from 'ducks/sequencer';
-import * as actions from '../../actions';
+import song from 'ducks/song';
 import * as selectors from '../../selectors';
 
 export const NotesContainer = connect(
@@ -19,18 +19,18 @@ function mapStateToProps(state) {
     isPanning: panning.selectors.getIsPanning(state),
     isResizing: resizing.selectors.getIsResizing(state),
     isSelecting: selection.selectors.getIsSelecting(state),
-    measureCount: sequencer.selectors.getMeasureCount(state),
-    mousePoint: sequencer.selectors.getMousePoint(state),
-    notes: selectors.getNotes(state),
-    selectedNotes: selectors.getSelectedNotes(state),
+    measureCount: selectors.getMeasureCount(state),
+    mousePoint: selectors.getMousePoint(state),
+    notes: song.selectors.getNotes(state),
+    selectedNotes: notes.selectors.getSelectedNotes(state),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    draw: (...args) => dispatch(actions.draw(...args)),
-    erase: (...args) => dispatch(actions.erase(...args)),
-    selectNote: (...args) => dispatch(actions.selectNote(...args)),
+    draw: (...args) => dispatch(notes.actions.draw(...args)),
+    erase: (...args) => dispatch(notes.actions.erase(...args)),
+    selectNote: (...args) => dispatch(notes.actions.selectNote(...args)),
     startMoving: () => dispatch(moving.actions.start()),
     startResizing: (...args) => dispatch(resizing.actions.start(...args)),
     startSelection: (...args) => dispatch(selection.actions.start(...args)),

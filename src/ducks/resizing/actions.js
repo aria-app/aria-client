@@ -52,16 +52,12 @@ export function update() {
 
     if (_.isEqual(previousPoint, newPoint)) return;
 
-    const selectedNotes = notes.selectors.getSelectedNotes(getState());
     const change = {
       x: newPoint.x - previousPoint.x,
       y: newPoint.y - previousPoint.y,
     };
 
-    dispatch(notes.actions.resize(
-      selectedNotes,
-      change
-    ));
+    dispatch(notes.actions.resizeSelectedNotes(change));
 
     dispatch(setNewPoint(newPoint));
   };

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import notes from 'ducks/notes';
 import sequencer from 'ducks/sequencer';
+import song from 'ducks/song';
 import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
@@ -60,7 +61,7 @@ export function update(isAdditive) {
     if (_.isEqual(previousPoint, newPoint)) return;
 
     const startPoint = selectors.getStartPoint(getState());
-    const allNotes = notes.selectors.getNotes(getState());
+    const allNotes = song.selectors.getNotes(getState());
     const selectedNotes = notes.selectors.getSelectedNotes(getState());
     const notesToSelect = helpers.getNotesInFence(startPoint, newPoint, allNotes);
 

@@ -2,17 +2,16 @@ import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
 import selection from 'ducks/selection';
-import notes from 'ducks/notes';
 import shared from 'ducks/shared';
 import {
   PositionMarkerContainer,
 } from '../position-marker-container/position-marker-container';
+import { NotesContainer } from '../notes-container/notes-container';
 import { SlotsContainer } from '../slots-container/slots-container';
 import * as helpers from '../../helpers';
 import './grid.scss';
 
 const { FenceContainer } = selection.components;
-const { NotesContainer } = notes.components;
 const { getElementRef } = shared.helpers;
 const { toolTypes } = shared.constants;
 

@@ -1,25 +1,10 @@
 import _ from 'lodash';
 import shared from 'ducks/shared';
-import * as constants from './constants';
 
 export function addPoints(a, b) {
   return {
     x: a.x + b.x,
     y: a.y + b.y,
-  };
-}
-
-export function createNote({
-  id = _.uniqueId('note'),
-  points,
-}) {
-  if (points.length < 2) {
-    throw new Error('No points supplied to createNote');
-  }
-
-  return {
-    id,
-    points,
   };
 }
 

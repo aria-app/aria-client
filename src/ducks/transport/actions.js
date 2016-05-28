@@ -2,6 +2,7 @@ import _ from 'lodash';
 import Tone from 'tone';
 import notes from 'ducks/notes';
 import sequencer from 'ducks/sequencer';
+import song from 'ducks/song';
 import shared from 'ducks/shared';
 import * as actionTypes from './action-types';
 import * as constants from './constants';
@@ -11,7 +12,7 @@ import * as selectors from './selectors';
 export function createSequence() {
   return (dispatch, getState) => {
     const toneSequence = new Tone.Sequence((time, step) => {
-      const allNotes = notes.selectors.getNotes(getState());
+      const allNotes = song.selectors.getNotes(getState());
       const notesAtStep = _(allNotes)
         .filter(note => _.first(note.points).x === step)
         .uniqBy(note => _.first(note.points).y)

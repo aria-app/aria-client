@@ -1,15 +1,10 @@
+import shared from 'ducks/shared';
 import * as actionTypes from './action-types';
-import * as helpers from './helpers';
 
-const initialState = getInitialStateWithNotes();
+const initialState = getInitialState();
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case actionTypes.SET_NOTES:
-      return {
-        ...state,
-        notes: action.notes,
-      };
     case actionTypes.SET_REDOS:
       return {
         ...state,
@@ -30,29 +25,8 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-function getInitialStateWithNotes() {
-  return {
-    ...getInitialState(),
-    notes: [
-      helpers.createNote({
-        points: [
-          {
-            x: 0,
-            y: 40,
-          },
-          {
-            x: 7,
-            y: 40,
-          },
-        ],
-      }),
-    ],
-  };
-}
-
 function getInitialState() {
   return {
-    notes: [],
     redos: [],
     selectedNoteIds: [],
     undos: [],

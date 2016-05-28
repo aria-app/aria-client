@@ -1,31 +1,15 @@
 import _ from 'lodash';
 import notes from 'ducks/notes';
 import shared from 'ducks/shared';
-import transport from 'ducks/transport';
 import * as actionTypes from './action-types';
 import * as selectors from './selectors';
 
 const { toolTypes } = shared.constants;
 
-export function changeSynthType(synthType) {
-  return (dispatch, getState) => {
-    if (synthType === selectors.getSynthType(getState())) return;
-    dispatch(setSynthType(synthType));
-    dispatch(transport.actions.updateSynths(synthType));
-  };
-}
-
 export function setMousePoint(mousePoint) {
   return {
     type: actionTypes.SET_MOUSE_POINT,
     mousePoint,
-  };
-}
-
-export function setNotes(notesToSet) {
-  return {
-    type: actionTypes.SET_NOTES,
-    notes: notesToSet,
   };
 }
 

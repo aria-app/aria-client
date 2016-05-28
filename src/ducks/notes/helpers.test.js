@@ -15,37 +15,6 @@ test('addPoints returns point with x values added and y values added', t => {
   t.deepEqual(result, expected);
 });
 
-test('createNote returns properly formatted note', t => {
-  const expected = {
-    id: 1,
-    points: [
-      {
-        x: 2,
-        y: 35,
-      },
-      {
-        x: 3,
-        y: 35,
-      },
-    ],
-  };
-  const result = helpers.createNote({
-    id: 1,
-    points: [
-      {
-        x: 2,
-        y: 35,
-      },
-      {
-        x: 3,
-        y: 35,
-      },
-    ],
-  });
-
-  t.deepEqual(result, expected);
-});
-
 test('getNoteName return correct note name when given Y position', t => {
   const expected = 'C3';
   const result = helpers.getNoteName(47);

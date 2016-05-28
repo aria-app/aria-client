@@ -5,6 +5,20 @@ import createHelper from 'recompose/createHelper';
 import createElement from 'recompose/createElement';
 import * as constants from './constants';
 
+export function createNote({
+  id = _.uniqueId('note'),
+  points,
+}) {
+  if (points.length < 2) {
+    throw new Error('No points supplied to createNote');
+  }
+
+  return {
+    id,
+    points,
+  };
+}
+
 export const getElementRef = createHelper(() => BaseComponent =>
   React.createClass({
     getInitialState() {

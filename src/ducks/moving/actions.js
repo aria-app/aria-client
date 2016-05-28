@@ -52,13 +52,9 @@ export function update() {
 
     if (_.isEqual(previousPoint, newPoint)) return;
 
-    const selectedNotes = notes.selectors.getSelectedNotes(getState());
     const offset = helpers.getPointOffset(previousPoint, newPoint);
 
-    dispatch(notes.actions.move(
-      selectedNotes,
-      offset
-    ));
+    dispatch(notes.actions.moveSelected(offset));
 
     dispatch(setNewPoint(newPoint));
   };
