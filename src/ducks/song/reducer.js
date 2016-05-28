@@ -31,12 +31,14 @@ export default function reducer(state = initialState, action) {
 }
 
 function getInitialState() {
-  const sequence = getSequence();
+  const sequence1 = getSequence1();
+  const sequence2 = getSequence2();
   return {
     activeSequenceId: 0,
     id: 0,
     sequences: [
-      sequence,
+      sequence1,
+      sequence2,
     ],
     tracks: [{
       id: 0,
@@ -45,7 +47,7 @@ function getInitialState() {
   };
 }
 
-function getSequence() {
+function getSequence1() {
   return {
     id: 0,
     trackId: 0,
@@ -59,6 +61,27 @@ function getSequence() {
           {
             x: 7,
             y: 40,
+          },
+        ],
+      }),
+    ],
+  };
+}
+
+function getSequence2() {
+  return {
+    id: 1,
+    trackId: 0,
+    notes: [
+      shared.helpers.createNote({
+        points: [
+          {
+            x: 0,
+            y: 32,
+          },
+          {
+            x: 3,
+            y: 32,
           },
         ],
       }),

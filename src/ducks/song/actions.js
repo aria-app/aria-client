@@ -3,9 +3,15 @@ import * as actionTypes from './action-types';
 import * as selectors from './selectors';
 
 export function setActiveSequenceId(activeSequenceId) {
-  return {
-    type: actionTypes.SET_ACTIVE_SEQUENCE_ID,
-    activeSequenceId,
+  return (dispatch, getState) => {
+    const oldActiveSequenceId = selectors.getActiveSequenceId(getState());
+
+    if (activeSequenceId === oldActiveSequenceId) return;
+
+    dispatch({
+      type: actionTypes.SET_ACTIVE_SEQUENCE_ID,
+      activeSequenceId,
+    });
   };
 }
 

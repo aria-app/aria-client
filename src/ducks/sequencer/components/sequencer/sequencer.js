@@ -91,6 +91,14 @@ const composed = compose([
           icon: 'stop',
           onPress: () => props.stop(),
         }),
+        h(IconButton, {
+          icon: 'star',
+          onPress: () => props.setActiveSequenceId(0),
+        }),
+        h(IconButton, {
+          icon: 'user',
+          onPress: () => props.setActiveSequenceId(1),
+        }),
       ],
     }),
   })),

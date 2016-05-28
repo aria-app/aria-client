@@ -50,6 +50,7 @@ export function update() {
       return;
     }
 
+
     if (_.isEqual(previousPoint, newPoint)) return;
 
     const change = {
@@ -57,7 +58,7 @@ export function update() {
       y: newPoint.y - previousPoint.y,
     };
 
-    dispatch(notes.actions.resizeSelectedNotes(change));
+    dispatch(notes.actions.resizeSelected(change)());
 
     dispatch(setNewPoint(newPoint));
   };
