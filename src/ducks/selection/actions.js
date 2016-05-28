@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import notes from 'ducks/notes';
-import sequence from 'ducks/sequence';
+import sequencer from 'ducks/sequencer';
 import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
@@ -28,7 +28,7 @@ export function setStartPoint(startPoint) {
 
 export function start(isAdditive) {
   return (dispatch, getState) => {
-    const startPoint = sequence.selectors.getMousePoint(getState());
+    const startPoint = sequencer.selectors.getMousePoint(getState());
     dispatch(setIsSelecting(true));
     dispatch(setStartPoint(startPoint));
     dispatch(setNewPoint(startPoint));
@@ -54,7 +54,7 @@ export function stop() {
 
 export function update(isAdditive) {
   return (dispatch, getState) => {
-    const newPoint = sequence.selectors.getMousePoint(getState());
+    const newPoint = sequencer.selectors.getMousePoint(getState());
     const previousPoint = selectors.getNewPoint(getState());
 
     if (_.isEqual(previousPoint, newPoint)) return;

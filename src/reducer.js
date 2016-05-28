@@ -4,10 +4,10 @@ import notes from 'ducks/notes';
 import panning from 'ducks/panning';
 import resizing from 'ducks/resizing';
 import selection from 'ducks/selection';
-import sequence from 'ducks/sequence';
+import sequencer from 'ducks/sequencer';
 import shortcuts from 'ducks/shortcuts';
 import song from 'ducks/song';
-import sound from 'ducks/sound';
+import transport from 'ducks/transport';
 
 export default combineReducers({
   [moving.constants.NAME]: moving.reducer,
@@ -15,8 +15,8 @@ export default combineReducers({
   [panning.constants.NAME]: panning.reducer,
   [resizing.constants.NAME]: resizing.reducer,
   [selection.constants.NAME]: selection.reducer,
-  [sequence.constants.NAME]: sequence.reducer,
+  [sequencer.constants.NAME]: sequencer.reducer,
   [shortcuts.constants.NAME]: shortcuts.reducer,
   [song.constants.NAME]: song.reducer,
-  [sound.constants.NAME]: sound.reducer,
+  [transport.constants.NAME]: transport.reducer,
 });

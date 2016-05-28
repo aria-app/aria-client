@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Tone from 'tone';
 import notes from 'ducks/notes';
-import sequence from 'ducks/sequence';
+import sequencer from 'ducks/sequencer';
 import shared from 'ducks/shared';
 import * as actionTypes from './action-types';
 import * as constants from './constants';
@@ -20,7 +20,7 @@ export function createSequence() {
       notesAtStep.forEach((note) => dispatch(playNoteAtStep(note, time)));
 
       dispatch(setPosition(step));
-    }, _.range(sequence.selectors.getMeasureCount(getState()) * 32), '32n');
+    }, _.range(sequencer.selectors.getMeasureCount(getState()) * 32), '32n');
 
     toneSequence.start();
   };

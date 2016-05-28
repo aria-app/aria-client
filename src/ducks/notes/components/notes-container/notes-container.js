@@ -4,7 +4,7 @@ import moving from 'ducks/moving';
 import panning from 'ducks/panning';
 import resizing from 'ducks/resizing';
 import selection from 'ducks/selection';
-import sequence from 'ducks/sequence';
+import sequencer from 'ducks/sequencer';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 
@@ -19,8 +19,8 @@ function mapStateToProps(state) {
     isPanning: panning.selectors.getIsPanning(state),
     isResizing: resizing.selectors.getIsResizing(state),
     isSelecting: selection.selectors.getIsSelecting(state),
-    measureCount: sequence.selectors.getMeasureCount(state),
-    mousePoint: sequence.selectors.getMousePoint(state),
+    measureCount: sequencer.selectors.getMeasureCount(state),
+    mousePoint: sequencer.selectors.getMousePoint(state),
     notes: selectors.getNotes(state),
     selectedNotes: selectors.getSelectedNotes(state),
   };

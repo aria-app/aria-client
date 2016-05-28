@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import Mousetrap from 'mousetrap';
 import notes from 'ducks/notes';
-import sequence from 'ducks/sequence';
+import sequencer from 'ducks/sequencer';
 import shared from 'ducks/shared';
-import sound from 'ducks/sound';
+import transport from 'ducks/transport';
 import * as actionTypes from './action-types';
 import * as selectors from './selectors';
 
@@ -31,8 +31,8 @@ export function initialize() {
       [notes.actions.undo, ['ctrl+z', 'meta+z']],
 
       // Playback
-      [sound.actions.togglePlayPause, ['enter']],
-      [sound.actions.stop, ['escape']],
+      [transport.actions.togglePlayPause, ['enter']],
+      [transport.actions.stop, ['escape']],
 
       // Tools
       [activateTool(shared.constants.toolTypes.DRAW), ['d']],
@@ -50,11 +50,11 @@ export function initialize() {
 
 function activateTool(toolType) {
   return () => (dispatch, getState) => {
-    const currentToolType = sequence.selectors.getToolType(getState());
+    const currentToolType = sequencer.selectors.getToolType(getState());
 
     if (currentToolType === toolType) return;
 
-    dispatch(sequence.actions.setToolType(toolType));
+    dispatch(sequencer.actions.setToolType(toolType));
   };
 }
 
@@ -66,11 +66,11 @@ function holdPan(e) {
     if (_.includes(heldKeys, e.keyCode)) return;
 
     const toolType = shared.constants.toolTypes.PAN;
-    const currentToolType = sequence.selectors.getToolType(getState());
+    const currentToolType = sequencer.selectors.getToolType(getState());
 
     if (currentToolType === toolType) return;
 
-    dispatch(sequence.actions.setToolType(toolType));
+    dispatch(sequencer.actions.setToolType(toolType));
     dispatch(setHeldKeys([e.keyCode]));
   };
 }
@@ -85,11 +85,11 @@ function registerShortcuts(shortcuts) {
 
 function revertPan() {
   return (dispatch, getState) => {
-    const previousToolType = sequence.selectors.getPreviousToolType(getState());
+    const previousToolType = sequencer.selectors.getPreviousToolType(getState());
 
     if (!previousToolType || previousToolType === shared.constants.toolTypes.PAN) return;
 
-    dispatch(sequence.actions.setToolType(previousToolType));
+    dispatch(sequencer.actions.setToolType(previousToolType));
     dispatch(setHeldKeys([]));
   };
 }

@@ -1,19 +1,19 @@
 import { connect } from 'react-redux';
-import { Sequence } from '../sequence/sequence';
+import { Sequencer } from '../sequencer/sequencer';
 import notes from 'ducks/notes';
-import sound from 'ducks/sound';
+import transport from 'ducks/transport';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 
-export const SequenceContainer = connect(
+export const SequencerContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Sequence);
+)(Sequencer);
 
 function mapStateToProps(state) {
   return {
     isSelectionActive: notes.selectors.getIsSelectionActive(state),
-    playbackState: sound.selectors.getPlaybackState(state),
+    playbackState: transport.selectors.getPlaybackState(state),
     synthType: selectors.getSynthType(state),
     toolType: selectors.getToolType(state),
   };
@@ -23,14 +23,14 @@ function mapDispatchToProps(dispatch) {
   return {
     changeSynthType: (...args) => dispatch(actions.changeSynthType(...args)),
     duplicate: (...args) => dispatch(notes.actions.duplicate(...args)),
-    pause: (...args) => dispatch(sound.actions.pause(...args)),
-    play: (...args) => dispatch(sound.actions.play(...args)),
+    pause: (...args) => dispatch(transport.actions.pause(...args)),
+    play: (...args) => dispatch(transport.actions.play(...args)),
     removeSelected: (...args) => dispatch(notes.actions.removeSelected(...args)),
     setScrollTopIfChanged: (...args) => dispatch(actions.setScrollTopIfChanged(...args)),
     setSelectedNoteSizes: (...args) => dispatch(notes.actions.setSelectedNoteSizes(...args)()),
     shiftDownOctave: (...args) => dispatch(notes.actions.shiftDownOctave(...args)),
     shiftUpOctave: (...args) => dispatch(notes.actions.shiftUpOctave(...args)),
     setToolType: (...args) => dispatch(actions.setToolType(...args)),
-    stop: (...args) => dispatch(sound.actions.stop(...args)),
+    stop: (...args) => dispatch(transport.actions.stop(...args)),
   };
 }

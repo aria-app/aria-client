@@ -45,7 +45,7 @@ const composed = compose([
     isPanning: PropTypes.bool,
     playNote: PropTypes.func,
     scale: PropTypes.array,
-    sequenceContentRef: PropTypes.object,
+    sequencerContentRef: PropTypes.object,
     toolType: PropTypes.string,
     startPanning: PropTypes.func.isRequired,
     updateMousePoint: PropTypes.func.isRequired,
@@ -55,17 +55,17 @@ const composed = compose([
     ...props,
     getMousePoint: (e) => helpers.getMousePoint(
       props.elementRef,
-      props.sequenceContentRef,
+      props.sequencerContentRef,
       e
     ),
     startPanningWithElements: e => props.startPanning(
       props.elementRef,
-      props.sequenceContentRef,
+      props.sequencerContentRef,
       e
     ),
     updatePanningWithElements: e => props.updatePanning(
       props.elementRef,
-      props.sequenceContentRef,
+      props.sequencerContentRef,
       e
     ),
   })),

@@ -54,7 +54,7 @@ function getInitialState() {
   return {
     notes: [],
     redos: [],
-    undos: [],
     selectedNoteIds: [],
+    undos: [],
   };
 }

@@ -1,12 +1,24 @@
+import _ from 'lodash';
 import { NAME } from './constants';
 
 const get = state => state[NAME];
 
-export const getMeasureCount = state => get(state).measureCount;
-export const getMousePoint = state => get(state).mousePoint;
-export const getScale = state => get(state).scale;
-export const getScrollLeft = state => get(state).scrollLeft;
-export const getScrollTop = state => get(state).scrollTop;
-export const getSynthType = state => get(state).synthType;
-export const getToolType = state => get(state).toolType;
-export const getPreviousToolType = state => get(state).previousToolType;
+export const getActiveSequence = (state) => get(state).activeSequence;
+export const getSong = (state) => get(state).song;
+
+export const getTracks = (state) => getSong(state).tracks;
+
+export const getTrackById = (state, trackId) =>
+  _.find(
+    getTracks(state),
+    { id: trackId },
+  );
+
+export const getSequenceById = (state, trackId, sequenceId) =>
+  _.find(
+    getTrackById(state, trackId).sequences,
+    { id: sequenceId },
+  );
+
+export const getNotes = (state, trackId, sequenceId) =>
+  getSequenceById(state, trackId, sequenceId).notes;

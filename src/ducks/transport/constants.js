@@ -6,4 +6,4 @@ export const playbackStates = {
   STOPPED: 'STOPPED',
 };
 
-export const NAME = 'sound';
+export const NAME = 'transport';

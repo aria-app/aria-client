@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { Grid } from '../grid/grid';
 import panning from 'ducks/panning';
-import sound from 'ducks/sound';
+import transport from 'ducks/transport';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 
@@ -20,7 +20,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    playNote: (...args) => dispatch(sound.actions.playNote(...args)),
+    playNote: (...args) => dispatch(transport.actions.playNote(...args)),
     setScrollLeftIfChanged: (...args) => dispatch(actions.setScrollLeftIfChanged(...args)),
     startPanning: (...args) => dispatch(panning.actions.start(...args)),
     updateMousePoint: (...args) => dispatch(actions.updateMousePoint(...args)),

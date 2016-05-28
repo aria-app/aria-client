@@ -2,25 +2,25 @@ import React from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
 import shared from 'ducks/shared';
-import sound from 'ducks/sound';
+import transport from 'ducks/transport';
 import { GridContainer } from '../grid-container/grid-container';
 import { KeysContainer } from '../keys-container/keys-container';
-import './sequence.scss';
+import './sequencer.scss';
 
 const { DropdownList, IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
-const { PAUSED, STARTED, STOPPED } = sound.constants.playbackStates;
+const { PAUSED, STARTED, STOPPED } = transport.constants.playbackStates;
 const { getChildRef, scrollTo } = shared.helpers;
 
-const component = (props) => h('.sequence', [
+const component = (props) => h('.sequencer', [
   props.actionsToolbar,
-  h('.sequence__content', {
+  h('.sequencer__content', {
     onScroll: props.onContentScroll,
   }, [
-    h('.sequence__wrapper', [
+    h('.sequencer__wrapper', [
       h(KeysContainer),
       h(GridContainer, {
-        sequenceContentRef: props.childRef,
+        sequencerContentRef: props.childRef,
       }),
     ]),
   ]),
@@ -45,10 +45,10 @@ const composed = compose([
     toolType: React.PropTypes.string.isRequired,
     setScrollTopIfChanged: React.PropTypes.func.isRequired,
   }),
-  getChildRef('.sequence__content'),
+  getChildRef('.sequencer__content'),
   scrollTo({
     scrollTop: 'center',
-    selector: '.sequence__content',
+    selector: '.sequencer__content',
   }),
   pure,
   withHandlers({
@@ -65,37 +65,7 @@ const composed = compose([
           ...getSelectionCommands(props),
         ],
         rightItems: [
-          h(DropdownList, {
-            icon: 'long-arrow-right',
-            items: [
-              {
-                text: '1/32',
-                value: 1,
-              },
-              {
-                text: '1/16',
-                value: 2,
-              },
-              {
-                text: '1/8',
-                value: 4,
-              },
-              {
-                text: '1/4',
-                value: 8,
-              },
-              {
-                text: '1/2',
-                value: 16,
-              },
-              {
-                text: '1',
-                value: 32,
-              },
-            ],
-            onSelect: (item) => props.setSelectedNoteSizes(item.value),
-          }),
-
+          getSizingDropdown(props),
         ],
       })
       : h(Toolbar, {
@@ -126,7 +96,7 @@ const composed = compose([
   })),
 ])(component);
 
-export const Sequence = composed;
+export const Sequencer = composed;
 
 function getSelectionCommands(props) {
   return [
@@ -151,6 +121,39 @@ function getSelectionCommands(props) {
       onPress: () => props.shiftDownOctave(),
     }),
   ];
+}
+
+function getSizingDropdown(props) {
+  return h(DropdownList, {
+    icon: 'long-arrow-right',
+    items: [
+      {
+        text: '1/32',
+        value: 1,
+      },
+      {
+        text: '1/16',
+        value: 2,
+      },
+      {
+        text: '1/8',
+        value: 4,
+      },
+      {
+        text: '1/4',
+        value: 8,
+      },
+      {
+        text: '1/2',
+        value: 16,
+      },
+      {
+        text: '1',
+        value: 32,
+      },
+    ],
+    onSelect: (item) => props.setSelectedNoteSizes(item.value),
+  });
 }
 
 function getToolButtons(props) {

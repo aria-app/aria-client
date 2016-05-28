@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import notes from 'ducks/notes';
-import sequence from 'ducks/sequence';
+import sequencer from 'ducks/sequencer';
 import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
@@ -41,7 +41,7 @@ export function stop() {
 
 export function update() {
   return (dispatch, getState) => {
-    const newPoint = sequence.selectors.getMousePoint(getState());
+    const newPoint = sequencer.selectors.getMousePoint(getState());
     const previousPoint = selectors.getNewPoint(getState());
 
     if (!previousPoint) {

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import notes from 'ducks/notes';
 import shared from 'ducks/shared';
-import sound from 'ducks/sound';
+import transport from 'ducks/transport';
 import * as actionTypes from './action-types';
 import * as selectors from './selectors';
 
@@ -11,7 +11,7 @@ export function changeSynthType(synthType) {
   return (dispatch, getState) => {
     if (synthType === selectors.getSynthType(getState())) return;
     dispatch(setSynthType(synthType));
-    dispatch(sound.actions.updateSynths(synthType));
+    dispatch(transport.actions.updateSynths(synthType));
   };
 }
 
@@ -63,10 +63,10 @@ export function setScrollTopIfChanged(scrollTop) {
   };
 }
 
-export function setSynthType(synthType) {
+export function setSynths(synths) {
   return {
-    type: actionTypes.SET_SYNTH_TYPE,
-    synthType,
+    type: actionTypes.SET_SYNTHS,
+    synths,
   };
 }
 

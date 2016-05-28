@@ -1,12 +1,12 @@
 import h from 'react-hyperscript';
 import { compose, setDisplayName } from 'recompose';
-import sequence from 'ducks/sequence';
+import sequencer from 'ducks/sequencer';
 import './app.scss';
 
-const { SequenceContainer } = sequence.components;
+const { SequencerContainer } = sequencer.components;
 
 const component = () => h('.app', [
-  h(SequenceContainer),
+  h(SequencerContainer),
 ]);
 
 const composed = compose([

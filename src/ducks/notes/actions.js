@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import sequence from 'ducks/sequence';
-import sound from 'ducks/sound';
+import sequencer from 'ducks/sequencer';
+import transport from 'ducks/transport';
 import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
@@ -25,7 +25,7 @@ export function deselect() {
 
 export function draw() {
   return (dispatch, getState) => {
-    const point = sequence.selectors.getMousePoint(getState());
+    const point = sequencer.selectors.getMousePoint(getState());
     const note = helpers.createNote({
       points: [
         point,
@@ -36,7 +36,7 @@ export function draw() {
       ],
     });
 
-    dispatch(sound.actions.playNote(_.first(note.points)));
+    dispatch(transport.actions.playNote(_.first(note.points)));
     dispatch(add([note]));
   };
 }
@@ -65,7 +65,7 @@ export function erase(note) {
 
 export function move(notes, offset) {
   return (dispatch, getState) => {
-    const measureCount = sequence.selectors.getMeasureCount(getState());
+    const measureCount = sequencer.selectors.getMeasureCount(getState());
 
     const updatedNotes = notes.map(note => helpers.createNote({
       id: note.id,
@@ -75,7 +75,7 @@ export function move(notes, offset) {
     if (helpers.somePointOutside(_.map(updatedNotes, n => n.points[0]), measureCount)
       || helpers.somePointOutside(_.map(updatedNotes, n => n.points[1]), measureCount)) return;
 
-    dispatch(sound.actions.playNote(_.first(updatedNotes[0].points)));
+    dispatch(transport.actions.playNote(_.first(updatedNotes[0].points)));
     dispatch(update(updatedNotes));
   };
 }
@@ -148,7 +148,7 @@ export function remove(notesToRemove) {
 
 export function resize(notes, change) {
   return (dispatch, getState) => {
-    const measureCount = sequence.selectors.getMeasureCount(getState());
+    const measureCount = sequencer.selectors.getMeasureCount(getState());
     const movingLeft = change.x < 0;
     const anyNoteBent = _.some(notes, n => (_.last(n.points).y - _.first(n.points).y) !== 0);
     const willBeMinLength = _.some(notes, n => (_.last(n.points).x - _.first(n.points).x) <= 1);
@@ -176,7 +176,7 @@ export function resize(notes, change) {
 
     if (helpers.somePointOutside(_.map(updatedNotes, n => n.points[1]), measureCount)) return;
 
-    dispatch(sound.actions.playNote(_.last(updatedNotes[0].points)));
+    dispatch(transport.actions.playNote(_.last(updatedNotes[0].points)));
 
     dispatch(update(updatedNotes));
   };
