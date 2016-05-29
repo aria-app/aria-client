@@ -43,13 +43,11 @@ export function playNote(point) {
   };
 }
 
-export function playNoteAtStep(note, time) {
-  return (dispatch, getState) => {
+export function playNoteAtStep(note, time, length) {
+  return (dispatch) => {
     const synth = dispatch(popSynth());
     if (!synth) return;
 
-    const bpm = selectors.getBpm(getState());
-    const length = helpers.sizeToSeconds(_.last(note.points).x - _.first(note.points).x, bpm);
     const name = shared.helpers.getNoteName(_.first(note.points).y);
 
     synth.triggerAttack(name, time);

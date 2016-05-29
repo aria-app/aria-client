@@ -11,7 +11,3 @@ export function createSynth(type) {
     volume: -20,
   }).toMaster();
 }
-
-export function sizeToSeconds(size, bpm) {
-  return ((60 / bpm) / 8) * (size + 1);
-}

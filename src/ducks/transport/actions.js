@@ -5,6 +5,7 @@ import sequencer from 'ducks/sequencer';
 import song from 'ducks/song';
 import * as actionTypes from './action-types';
 import * as constants from './constants';
+import * as helpers from './helpers';
 import * as selectors from './selectors';
 
 export function createSequences() {
@@ -18,9 +19,11 @@ export function createSequences() {
         .uniqBy(note => _.first(note.points).y)
         .value();
 
-      notesAtStep.forEach((note) =>
-        dispatch(playing.actions.playNoteAtStep(note, time))
-      );
+      notesAtStep.forEach((note) => {
+        const bpm = selectors.getBpm(getState());
+        const length = helpers.sizeToSeconds(_.last(note.points).x - _.first(note.points).x, bpm);
+        dispatch(playing.actions.playNoteAtStep(note, time, length));
+      });
 
       dispatch(setPosition(step));
     }, _.range(sequencer.selectors.getMeasureCount(getState()) * 32), '32n').start());
