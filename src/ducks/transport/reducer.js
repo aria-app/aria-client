@@ -1,5 +1,5 @@
-import { playbackStates } from './constants';
 import * as actionTypes from './action-types';
+import * as constants from './constants';
 
 const initialState = getInitialState();
 
@@ -32,8 +32,8 @@ export default function reducer(state = initialState, action) {
 
 function getInitialState() {
   return {
-    bpm: undefined,
-    playbackState: playbackStates.STOPPED,
+    bpm: constants.defaultBPM,
+    playbackState: constants.playbackStates.STOPPED,
     position: 0,
     sequences: [],
   };

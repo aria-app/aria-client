@@ -139,3 +139,10 @@ export function getScale() {
   }))
   .value();
 }
+
+export function replaceItemsById(list, items) {
+  return list.map(i => {
+    const newItem = _.find(items, { id: i.id });
+    return newItem || i;
+  });
+}

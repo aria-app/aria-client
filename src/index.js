@@ -5,8 +5,6 @@ import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import app from 'ducks/app';
-import shortcuts from 'ducks/shortcuts';
-import transport from 'ducks/transport';
 import reducer from './reducer';
 import './styles/resets.scss';
 
@@ -15,9 +13,6 @@ const { AppContainer } = app.components;
 const middleware = applyMiddleware(thunkMiddleware);
 
 const store = createStore(reducer, middleware);
-
-store.dispatch(shortcuts.actions.initialize());
-store.dispatch(transport.actions.initialize());
 
 whyDidYouUpdate(React, { exclude: /^(Connect|pure|withHandlers|withState)/ });
 

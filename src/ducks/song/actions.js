@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import notes from 'ducks/notes';
+import shared from 'ducks/shared';
 import transport from 'ducks/transport';
 import * as actionTypes from './action-types';
 import * as selectors from './selectors';
@@ -14,7 +16,7 @@ export function loadSong() {
     if (!previousSong) return;
 
     dispatch(setSong(JSON.parse(previousSong)));
-    dispatch(transport.actions.updateSequences());
+    dispatch(transport.effects.updateSequences());
   };
 }
 
@@ -24,6 +26,7 @@ export function setActiveSequenceId(activeSequenceId) {
 
     if (activeSequenceId === oldActiveSequenceId) return;
 
+    dispatch(notes.actions.setSelectedNoteIds([]));
     dispatch({
       type: actionTypes.SET_ACTIVE_SEQUENCE_ID,
       activeSequenceId,
@@ -84,15 +87,11 @@ export function setTracks(tracks) {
 export function updateSequence(sequence) {
   return (dispatch, getState) => {
     const sequences = selectors.getSequences(getState());
-    const updatedSequences = replaceItemsById(sequences, [sequence]);
+    const updatedSequences = shared.helpers.replaceItemsById(
+      sequences,
+      [sequence],
+    );
 
     dispatch(setSequences(updatedSequences));
   };
-}
-
-function replaceItemsById(list, items) {
-  return list.map(i => {
-    const newItem = _.find(items, { id: i.id });
-    return newItem || i;
-  });
 }

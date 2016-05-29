@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { App } from '../app/app';
+import shortcuts from 'ducks/shortcuts';
 import song from 'ducks/song';
 
 export const AppContainer = connect(
@@ -13,6 +14,7 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return {
+    initializeShortcuts: (...args) => dispatch(shortcuts.actions.initialize(...args)),
     loadSong: (...args) => dispatch(song.actions.loadSong(...args)),
   };
 }

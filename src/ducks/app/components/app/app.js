@@ -16,9 +16,11 @@ const composed = compose([
   pure,
   setDisplayName('App'),
   setPropTypes({
+    initializeShortcuts: React.PropTypes.func,
     loadSong: React.PropTypes.func,
   }),
   doOnMount((props) => {
+    props.initializeShortcuts();
     props.loadSong();
   }),
 ])(component);

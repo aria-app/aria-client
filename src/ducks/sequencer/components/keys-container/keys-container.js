@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { Keys } from '../keys/keys';
-import transport from 'ducks/transport';
+import playing from 'ducks/playing';
 import * as selectors from '../../selectors';
 
 export const KeysContainer = connect(
@@ -16,6 +16,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    playNote: (...args) => dispatch(transport.actions.playNote(...args)),
+    playNote: (...args) => dispatch(playing.effects.playNote(...args)),
   };
 }

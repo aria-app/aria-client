@@ -33,8 +33,8 @@ const composed = compose([
     removeSelected: React.PropTypes.func.isRequired,
     duplicate: React.PropTypes.func.isRequired,
     isSelectionActive: React.PropTypes.bool,
+    openSequence: React.PropTypes.func.isRequired,
     playbackState: React.PropTypes.string.isRequired,
-    setActiveSequenceId: React.PropTypes.func.isRequired,
     setSelectedNoteSizes: React.PropTypes.func.isRequired,
     setToolType: React.PropTypes.func.isRequired,
     pause: React.PropTypes.func.isRequired,
@@ -133,19 +133,23 @@ function getSequenceDropdown(props) {
     icon: 'music',
     items: [
       {
-        text: 'One',
+        id: 0,
+        text: 'Square',
         value: 0,
       },
       {
-        text: 'Two',
+        id: 1,
+        text: 'Saw',
         value: 1,
       },
       {
-        text: 'Three',
+        id: 2,
+        text: 'PWM',
         value: 2,
       },
     ],
-    onSelect: (item) => props.setActiveSequenceId(item.value),
+    selectedId: props.activeSequenceId,
+    onSelect: (item) => props.openSequence(item.value),
   });
 }
 

@@ -13,6 +13,7 @@ export const SequencerContainer = connect(
 
 function mapStateToProps(state) {
   return {
+    activeSequenceId: song.selectors.getActiveSequenceId(state),
     isSelectionActive: notes.selectors.getIsSelectionActive(state),
     playbackState: transport.selectors.getPlaybackState(state),
     synthType: selectors.getSynthType(state),
@@ -24,15 +25,15 @@ function mapDispatchToProps(dispatch) {
   return {
     changeSynthType: (...args) => dispatch(actions.changeSynthType(...args)),
     duplicate: (...args) => dispatch(notes.actions.duplicate(...args)),
-    pause: (...args) => dispatch(transport.actions.pause(...args)),
-    play: (...args) => dispatch(transport.actions.play(...args)),
+    pause: (...args) => dispatch(transport.effects.pause(...args)),
+    openSequence: (...args) => dispatch(song.actions.setActiveSequenceId(...args)),
+    play: (...args) => dispatch(transport.effects.play(...args)),
     removeSelected: (...args) => dispatch(notes.actions.removeSelected(...args)),
-    setActiveSequenceId: (...args) => dispatch(song.actions.setActiveSequenceId(...args)),
     setScrollTopIfChanged: (...args) => dispatch(actions.setScrollTopIfChanged(...args)),
     setSelectedNoteSizes: (...args) => dispatch(notes.actions.setSelectedNoteSizes(...args)()),
     shiftDownOctave: (...args) => dispatch(notes.actions.shiftDownOctave(...args)),
     shiftUpOctave: (...args) => dispatch(notes.actions.shiftUpOctave(...args)),
     setToolType: (...args) => dispatch(actions.setToolType(...args)),
-    stop: (...args) => dispatch(transport.actions.stop(...args)),
+    stop: (...args) => dispatch(transport.effects.stop(...args)),
   };
 }

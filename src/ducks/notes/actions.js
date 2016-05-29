@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import sequencer from 'ducks/sequencer';
+import shared from 'ducks/shared';
 import song from 'ducks/song';
-import transport from 'ducks/transport';
+import playing from 'ducks/playing';
 import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
@@ -36,7 +37,7 @@ export function draw() {
       },
     ]));
 
-    dispatch(transport.actions.playNote(_.first(note.points)));
+    dispatch(playing.effects.playNote(_.first(note.points)));
     dispatch(add([note]));
   };
 }
@@ -73,7 +74,7 @@ export function move(notes, offset) {
     if (helpers.somePointOutside(_.map(updatedNotes, n => n.points[0]), measureCount)
       || helpers.somePointOutside(_.map(updatedNotes, n => n.points[1]), measureCount)) return;
 
-    dispatch(transport.actions.playNote(_.first(updatedNotes[0].points)));
+    dispatch(playing.effects.playNote(_.first(updatedNotes[0].points)));
     dispatch(update(updatedNotes));
   };
 }
@@ -185,7 +186,7 @@ export function resize(notes, change) {
 
     if (helpers.somePointOutside(_.map(updatedNotes, n => n.points[1]), measureCount)) return;
 
-    dispatch(transport.actions.playNote(_.last(updatedNotes[0].points)));
+    dispatch(playing.effects.playNote(_.last(updatedNotes[0].points)));
 
     dispatch(update(updatedNotes));
   };
@@ -210,6 +211,7 @@ export function removeSelected() {
 
 export function selectNote(note, isAdditive) {
   return (dispatch, getState) => {
+    const activeSequence = song.selectors.getActiveSequence(getState());
     const selectedNotes = selectors.getSelectedNotes(getState());
 
     if (isAdditive) {
@@ -317,8 +319,9 @@ export function undo() {
 export function update(items) {
   return (dispatch, getState) => {
     const allNotes = song.selectors.getActiveNotes(getState());
+    const updatedNotes = shared.helpers.replaceItemsById(allNotes, items);
 
-    dispatch(song.actions.setNotes(replaceItemsById(allNotes, items)));
+    dispatch(song.actions.setNotes(updatedNotes));
   };
 }
 
@@ -370,11 +373,4 @@ function getIds(notes, count) {
     notes.length,
     notes.length + count - ids.length,
   ));
-}
-
-function replaceItemsById(list, items) {
-  return list.map(i => {
-    const newItem = _.find(items, { id: i.id });
-    return newItem || i;
-  });
 }

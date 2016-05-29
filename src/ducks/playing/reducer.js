@@ -25,5 +25,22 @@ function getInitialState() {
   return {
     activeSynths: [],
     synths: helpers.createSynths(shared.constants.defaultSynthType),
+    tracks: [
+      {
+        id: 0,
+        activeSynths: [],
+        synths: helpers.createSynths(shared.constants.synthTypes.SQUARE),
+      },
+      {
+        id: 1,
+        activeSynths: [],
+        synths: helpers.createSynths(shared.constants.synthTypes.SAWTOOTH),
+      },
+      {
+        id: 2,
+        activeSynths: [],
+        synths: helpers.createSynths(shared.constants.synthTypes.PWM),
+      },
+    ],
   };
 }

@@ -3,6 +3,7 @@ import { Notes } from '../notes/notes';
 import moving from 'ducks/moving';
 import notes from 'ducks/notes';
 import panning from 'ducks/panning';
+import playing from 'ducks/playing';
 import resizing from 'ducks/resizing';
 import selection from 'ducks/selection';
 import song from 'ducks/song';
@@ -30,6 +31,7 @@ function mapDispatchToProps(dispatch) {
   return {
     draw: (...args) => dispatch(notes.actions.draw(...args)),
     erase: (...args) => dispatch(notes.actions.erase(...args)),
+    playNote: (...args) => dispatch(playing.effects.playNote(...args)),
     selectNote: (...args) => dispatch(notes.actions.selectNote(...args)),
     startMoving: () => dispatch(moving.actions.start()),
     startResizing: (...args) => dispatch(resizing.actions.start(...args)),

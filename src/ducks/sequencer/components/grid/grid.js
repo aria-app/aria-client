@@ -23,12 +23,10 @@ const component = (props) => h('.grid', {
 }, [
   h('.grid__wrapper', [
     h(SlotsContainer, {
-      playNote: props.playNote,
       scale: props.scale,
       toolType: props.toolType,
     }),
     h(NotesContainer, {
-      playNote: props.playNote,
       toolType: props.toolType,
       toolTypes,
     }),
@@ -42,7 +40,6 @@ const composed = compose([
   pure,
   setPropTypes({
     isPanning: PropTypes.bool,
-    playNote: PropTypes.func,
     scale: PropTypes.array,
     sequencerContentRef: PropTypes.object,
     toolType: PropTypes.string,
