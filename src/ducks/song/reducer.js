@@ -10,20 +10,10 @@ export default function reducer(state = initialState, action) {
         ...state,
         activeSequenceId: action.activeSequenceId,
       };
-    case actionTypes.SET_ID:
+    case actionTypes.SET_SONG:
       return {
         ...state,
-        id: action.id,
-      };
-    case actionTypes.SET_SEQUENCES:
-      return {
-        ...state,
-        sequences: action.sequences,
-      };
-    case actionTypes.SET_TRACKS:
-      return {
-        ...state,
-        tracks: action.tracks,
+        song: action.song,
       };
     default:
       return state;
@@ -31,60 +21,41 @@ export default function reducer(state = initialState, action) {
 }
 
 function getInitialState() {
-  const sequence1 = getSequence1();
-  const sequence2 = getSequence2();
   return {
     activeSequenceId: 0,
-    id: 0,
-    sequences: [
-      sequence1,
-      sequence2,
-    ],
-    tracks: [{
+    song: {
       id: 0,
-      synthType: shared.constants.synthTypes.SQUARE,
-    }],
-  };
-}
-
-function getSequence1() {
-  return {
-    id: 0,
-    trackId: 0,
-    notes: [
-      shared.helpers.createNote({
-        points: [
-          {
-            x: 0,
-            y: 40,
-          },
-          {
-            x: 7,
-            y: 40,
-          },
-        ],
-      }),
-    ],
-  };
-}
-
-function getSequence2() {
-  return {
-    id: 1,
-    trackId: 0,
-    notes: [
-      shared.helpers.createNote({
-        points: [
-          {
-            x: 0,
-            y: 32,
-          },
-          {
-            x: 3,
-            y: 32,
-          },
-        ],
-      }),
-    ],
+      sequences: [
+        {
+          id: 0,
+          trackId: 0,
+          notes: [],
+        },
+        {
+          id: 1,
+          trackId: 1,
+          notes: [],
+        },
+        {
+          id: 2,
+          trackId: 2,
+          notes: [],
+        },
+      ],
+      tracks: [
+        {
+          id: 0,
+          synthType: shared.constants.synthTypes.SQUARE,
+        },
+        {
+          id: 1,
+          synthType: shared.constants.synthTypes.SAWTOOTH,
+        },
+        {
+          id: 2,
+          synthType: shared.constants.synthTypes.PWM,
+        },
+      ],
+    },
   };
 }

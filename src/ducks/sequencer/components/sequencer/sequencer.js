@@ -34,6 +34,7 @@ const composed = compose([
     duplicate: React.PropTypes.func.isRequired,
     isSelectionActive: React.PropTypes.bool,
     playbackState: React.PropTypes.string.isRequired,
+    setActiveSequenceId: React.PropTypes.func.isRequired,
     setSelectedNoteSizes: React.PropTypes.func.isRequired,
     setToolType: React.PropTypes.func.isRequired,
     pause: React.PropTypes.func.isRequired,
@@ -66,11 +67,15 @@ const composed = compose([
         ],
         rightItems: [
           getSizingDropdown(props),
+          getSequenceDropdown(props),
         ],
       })
       : h(Toolbar, {
         leftItems: [
           ...getToolButtons(props),
+        ],
+        rightItems: [
+          getSequenceDropdown(props),
         ],
       }),
     playbackToolbar: h(Toolbar, {
@@ -90,14 +95,6 @@ const composed = compose([
           isActive: props.playbackState === STOPPED,
           icon: 'stop',
           onPress: () => props.stop(),
-        }),
-        h(IconButton, {
-          icon: 'star',
-          onPress: () => props.setActiveSequenceId(0),
-        }),
-        h(IconButton, {
-          icon: 'user',
-          onPress: () => props.setActiveSequenceId(1),
         }),
       ],
     }),
@@ -129,6 +126,27 @@ function getSelectionCommands(props) {
       onPress: () => props.shiftDownOctave(),
     }),
   ];
+}
+
+function getSequenceDropdown(props) {
+  return h(DropdownList, {
+    icon: 'music',
+    items: [
+      {
+        text: 'One',
+        value: 0,
+      },
+      {
+        text: 'Two',
+        value: 1,
+      },
+      {
+        text: 'Three',
+        value: 2,
+      },
+    ],
+    onSelect: (item) => props.setActiveSequenceId(item.value),
+  });
 }
 
 function getSizingDropdown(props) {

@@ -21,7 +21,7 @@ function mapStateToProps(state) {
     isSelecting: selection.selectors.getIsSelecting(state),
     measureCount: selectors.getMeasureCount(state),
     mousePoint: selectors.getMousePoint(state),
-    notes: song.selectors.getNotes(state),
+    notes: song.selectors.getActiveNotes(state),
     selectedNotes: notes.selectors.getSelectedNotes(state),
   };
 }

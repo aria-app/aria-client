@@ -1,6 +1,22 @@
 import _ from 'lodash';
+import transport from 'ducks/transport';
 import * as actionTypes from './action-types';
 import * as selectors from './selectors';
+
+const throttledSave = _.throttle((song) => {
+  localStorage.setItem('zenAppSong', JSON.stringify(song));
+}, 2000);
+
+export function loadSong() {
+  return (dispatch) => {
+    const previousSong = localStorage.getItem('zenAppSong');
+
+    if (!previousSong) return;
+
+    dispatch(setSong(JSON.parse(previousSong)));
+    dispatch(transport.actions.updateSequences());
+  };
+}
 
 export function setActiveSequenceId(activeSequenceId) {
   return (dispatch, getState) => {
@@ -12,13 +28,6 @@ export function setActiveSequenceId(activeSequenceId) {
       type: actionTypes.SET_ACTIVE_SEQUENCE_ID,
       activeSequenceId,
     });
-  };
-}
-
-export function setId(id) {
-  return {
-    type: actionTypes.SET_ID,
-    id,
   };
 }
 
@@ -35,16 +44,40 @@ export function setNotes(notes) {
 }
 
 export function setSequences(sequences) {
+  return (dispatch, getState) => {
+    const song = selectors.getSong(getState());
+    const updatedSong = {
+      ...song,
+      sequences,
+    };
+
+    dispatch(setSongWithSave(updatedSong));
+  };
+}
+
+export function setSong(song) {
   return {
-    type: actionTypes.SET_SEQUENCES,
-    sequences,
+    type: actionTypes.SET_SONG,
+    song,
+  };
+}
+
+export function setSongWithSave(song) {
+  return (dispatch) => {
+    throttledSave(song);
+    dispatch(setSong(song));
   };
 }
 
 export function setTracks(tracks) {
-  return {
-    type: actionTypes.SET_TRACKS,
-    tracks,
+  return (dispatch, getState) => {
+    const song = selectors.getSong(getState());
+    const updatedSong = {
+      ...song,
+      tracks,
+    };
+
+    dispatch(setSongWithSave(updatedSong));
   };
 }
 

@@ -5,8 +5,10 @@ import { NAME } from './constants';
 const get = state => state[NAME];
 
 export const getActiveSequenceId = (state) => get(state).activeSequenceId;
-export const getSequences = (state) => get(state).sequences;
-export const getTracks = (state) => get(state).tracks;
+export const getId = (state) => get(state).id;
+export const getSong = (state) => get(state).song;
+export const getSequences = (state) => getSong(state).sequences;
+export const getTracks = (state) => getSong(state).tracks;
 
 export const getActiveSequence = createSelector(
   getSequences,
@@ -16,7 +18,21 @@ export const getActiveSequence = createSelector(
   }),
 );
 
-export const getNotes = createSelector(
+export const getActiveNotes = createSelector(
   getActiveSequence,
   (activeSequence) => activeSequence.notes,
+);
+
+export const createGetNotesById = (id) => createSelector(
+  getSequences,
+  (sequences) => _.find(sequences, { id }).notes,
+);
+
+export const createGetTrackById = (id) => createSelector(
+  getSequences,
+  getTracks,
+  (sequences, tracks) => {
+    const trackId = _.find(sequences, { id }).trackId;
+    return _.find(tracks, { id: trackId });
+  },
 );

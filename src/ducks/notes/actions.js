@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import sequencer from 'ducks/sequencer';
-import shared from 'ducks/shared';
 import song from 'ducks/song';
 import transport from 'ducks/transport';
 import * as actionTypes from './action-types';
@@ -9,7 +8,7 @@ import * as selectors from './selectors';
 
 export function add(newNotes) {
   return (dispatch, getState) => {
-    const oldNotes = song.selectors.getNotes(getState());
+    const oldNotes = song.selectors.getActiveNotes(getState());
 
     dispatch(pushUndo());
     dispatch(song.actions.setNotes([
@@ -28,15 +27,14 @@ export function deselect() {
 export function draw() {
   return (dispatch, getState) => {
     const point = sequencer.selectors.getMousePoint(getState());
-    const note = shared.helpers.createNote({
-      points: [
-        point,
-        {
-          x: point.x + 1,
-          y: point.y,
-        },
-      ],
-    });
+
+    const note = dispatch(createNote([
+      point,
+      {
+        x: point.x + 1,
+        y: point.y,
+      },
+    ]));
 
     dispatch(transport.actions.playNote(_.first(note.points)));
     dispatch(add([note]));
@@ -49,9 +47,7 @@ export function duplicate() {
 
     if (_.isEmpty(selectedNotes)) return;
 
-    const duplicatedNotes = selectedNotes.map(note => shared.helpers.createNote({
-      points: note.points,
-    }));
+    const duplicatedNotes = dispatch(createNotes(_.map(selectedNotes, 'points')));
 
     dispatch(pushUndo());
     dispatch(add(duplicatedNotes));
@@ -69,8 +65,8 @@ export function move(notes, offset) {
   return (dispatch, getState) => {
     const measureCount = sequencer.selectors.getMeasureCount(getState());
 
-    const updatedNotes = notes.map(note => shared.helpers.createNote({
-      id: note.id,
+    const updatedNotes = notes.map(note => ({
+      ...note,
       points: note.points.map(point => helpers.addPoints(point, offset)),
     }));
 
@@ -105,7 +101,7 @@ export function nudgeSelectedNotes(offset) {
 
 export function pushRedo() {
   return (dispatch, getState) => {
-    const allNotes = song.selectors.getNotes(getState());
+    const allNotes = song.selectors.getActiveNotes(getState());
     const redos = selectors.getRedos(getState());
 
     dispatch(setRedos([
@@ -117,7 +113,7 @@ export function pushRedo() {
 
 export function pushUndo() {
   return (dispatch, getState) => {
-    const allNotes = song.selectors.getNotes(getState());
+    const allNotes = song.selectors.getActiveNotes(getState());
     const undos = selectors.getUndos(getState());
 
     if (_.isEqual(_.last(undos), allNotes)) return;
@@ -136,7 +132,7 @@ export function redo() {
 
     if (_.isEmpty(redos)) return;
 
-    const allNotes = song.selectors.getNotes(getState());
+    const allNotes = song.selectors.getActiveNotes(getState());
     const undos = selectors.getUndos(getState());
 
     dispatch(setUndos([
@@ -150,7 +146,7 @@ export function redo() {
 
 export function remove(notesToRemove) {
   return (dispatch, getState) => {
-    const notes = song.selectors.getNotes(getState());
+    const notes = song.selectors.getActiveNotes(getState());
 
     dispatch(pushUndo());
     dispatch(setSelectedNoteIds([]));
@@ -178,13 +174,14 @@ export function resize(notes, change) {
       return;
     }
 
-    const updatedNotes = notes.map(note => shared.helpers.createNote({
-      id: note.id,
-      points: [
-        ...note.points.slice(0, note.points.length - 1),
-        helpers.addPoints(_.last(note.points), change),
-      ],
-    }));
+    const updatedNotes = notes
+      .map(note => ({
+        ...note,
+        points: [
+          ...note.points.slice(0, note.points.length - 1),
+          helpers.addPoints(_.last(note.points), change),
+        ],
+      }));
 
     if (helpers.somePointOutside(_.map(updatedNotes, n => n.points[1]), measureCount)) return;
 
@@ -237,7 +234,7 @@ export function selectNotes(notes) {
 
 export function selectAll() {
   return (dispatch, getState) => {
-    const notes = song.selectors.getNotes(getState());
+    const notes = song.selectors.getActiveNotes(getState());
 
     dispatch(selectNotes(notes));
   };
@@ -267,8 +264,8 @@ export function setSelectedNoteIds(selectedNoteIds) {
 export function setSelectedNoteSizes(size) {
   return () => (dispatch, getState) => {
     const selectedNotes = selectors.getSelectedNotes(getState());
-    const updatedNotes = selectedNotes.map(note => shared.helpers.createNote({
-      id: note.id,
+    const updatedNotes = selectedNotes.map(note => ({
+      ...note,
       points: [
         ...note.points.slice(0, note.points.length - 1),
         {
@@ -319,10 +316,60 @@ export function undo() {
 
 export function update(items) {
   return (dispatch, getState) => {
-    const allNotes = song.selectors.getNotes(getState());
+    const allNotes = song.selectors.getActiveNotes(getState());
 
     dispatch(song.actions.setNotes(replaceItemsById(allNotes, items)));
   };
+}
+
+function createNote(points) {
+  return (dispatch, getState) => {
+    const notes = song.selectors.getActiveNotes(getState());
+    const id = getId(notes);
+
+    return {
+      id,
+      points,
+    };
+  };
+}
+
+function createNotes(pointSets) {
+  return (dispatch, getState) => {
+    const notes = song.selectors.getActiveNotes(getState());
+    const ids = getIds(notes, pointSets.length);
+    return _.zipWith(ids, pointSets, (id, points) => ({
+      id,
+      points,
+    }));
+  };
+}
+
+function getId(notes) {
+  for (let i = 0; i < notes.length; i++) {
+    const noteHasId = _.some(notes, { id: i });
+    if (!noteHasId) return i;
+  }
+
+  return notes.length;
+}
+
+function getIds(notes, count) {
+  const ids = [];
+
+  for (let i = 0; i < notes.length; i++) {
+    const idTaken = _.some(notes, { id: i })
+      || _.includes(ids, i);
+
+    if (!idTaken) ids.push(i);
+
+    if (ids.length === count) return ids;
+  }
+
+  return ids.concat(_.range(
+    notes.length,
+    notes.length + count - ids.length,
+  ));
 }
 
 function replaceItemsById(list, items) {

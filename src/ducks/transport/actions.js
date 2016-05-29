@@ -1,47 +1,37 @@
 import _ from 'lodash';
 import Tone from 'tone';
-import notes from 'ducks/notes';
+import playing from 'ducks/playing';
 import sequencer from 'ducks/sequencer';
 import song from 'ducks/song';
-import shared from 'ducks/shared';
 import * as actionTypes from './action-types';
 import * as constants from './constants';
-import * as helpers from './helpers';
 import * as selectors from './selectors';
 
-export function createSequence() {
+export function createSequences() {
   return (dispatch, getState) => {
-    const toneSequence = new Tone.Sequence((time, step) => {
-      const allNotes = song.selectors.getNotes(getState());
+    const songSequences = song.selectors.getSequences(getState());
+    const toneSequences = songSequences.map(s => new Tone.Sequence((time, step) => {
+      const getNotes = song.selectors.createGetNotesById(s.id);
+      const allNotes = getNotes(getState());
       const notesAtStep = _(allNotes)
         .filter(note => _.first(note.points).x === step)
         .uniqBy(note => _.first(note.points).y)
         .value();
 
-      notesAtStep.forEach((note) => dispatch(playNoteAtStep(note, time)));
+      notesAtStep.forEach((note) =>
+        dispatch(playing.actions.playNoteAtStep(note, time))
+      );
 
       dispatch(setPosition(step));
-    }, _.range(sequencer.selectors.getMeasureCount(getState()) * 32), '32n');
+    }, _.range(sequencer.selectors.getMeasureCount(getState()) * 32), '32n').start());
 
-    toneSequence.start();
-  };
-}
-
-export function disposeAll() {
-  return (dispatch, getState) => {
-    const activeSynths = selectors.getActiveSynths(getState());
-    const synths = selectors.getSynths(getState());
-
-    const allSynths = [...activeSynths, ...synths];
-
-    dispatch(setActiveSynths([]));
-    allSynths.forEach(s => s.dispose());
+    dispatch(setSequences(toneSequences));
   };
 }
 
 export function initialize() {
   return (dispatch) => {
-    dispatch(createSequence());
+    dispatch(createSequences());
     dispatch(setTransportBPM(constants.defaultBPM));
   };
 }
@@ -49,7 +39,7 @@ export function initialize() {
 export function pause() {
   return (dispatch) => {
     dispatch(setPlaybackState(constants.playbackStates.PAUSED));
-    dispatch(releaseAll());
+    dispatch(playing.actions.releaseAll());
     Tone.Transport.pause();
   };
 }
@@ -58,118 +48,6 @@ export function play() {
   return (dispatch) => {
     dispatch(setPlaybackState(constants.playbackStates.STARTED));
     Tone.Transport.start();
-  };
-}
-
-export function playNote(point) {
-  return (dispatch, getState) => {
-    const activeSynths = selectors.getActiveSynths(getState());
-    const synths = selectors.getSynths(getState());
-    const synth = synths[0];
-    const name = shared.helpers.getNoteName(point.y);
-
-    if (!synth) {
-      return;
-    }
-
-    dispatch(setActiveSynths([
-      ...activeSynths,
-      synth,
-    ]));
-    dispatch(setSynths(_.without(synths, synth)));
-
-    synth.triggerAttack(name);
-    synth.triggerRelease('+0.15');
-
-    setTimeout(() => {
-      dispatch(pushSynth(synth));
-    }, 150);
-  };
-}
-
-export function playNoteAtStep(note, time) {
-  return (dispatch, getState) => {
-    const synth = dispatch(popSynth());
-    if (!synth) return;
-
-    const bpm = selectors.getBpm(getState());
-    const length = notes.helpers.sizeToSeconds(_.last(note.points).x - _.first(note.points).x, bpm);
-    const name = shared.helpers.getNoteName(_.first(note.points).y);
-
-    synth.triggerAttack(name, time);
-
-    if (_.last(note.points).y !== _.first(note.points).y) {
-      const endName = shared.helpers.getNoteName(_.last(note.points).y);
-      synth.frequency.linearRampToValueAtTime(endName, `+${length}`);
-      synth.frequency.setValueAtTime(endName, `+${length}`);
-    }
-
-    synth.triggerRelease(`+${length}`);
-
-    Tone.Transport.scheduleOnce(() => {
-      dispatch(pushSynth(synth));
-    }, `+${length}`);
-  };
-}
-
-export function popSynth() {
-  return (dispatch, getState) => {
-    const activeSynths = selectors.getActiveSynths(getState());
-    const synths = selectors.getSynths(getState());
-    const synth = synths[0];
-
-    if (!synth) {
-      return undefined;
-    }
-
-    dispatch(setActiveSynths([
-      ...activeSynths,
-      synth,
-    ]));
-    dispatch(setSynths(_.without(synths, synth)));
-
-    return synth;
-  };
-}
-
-export function pushSynth(synth) {
-  return (dispatch, getState) => {
-    const activeSynths = selectors.getActiveSynths(getState());
-
-    if (!_.includes(activeSynths, synth)) return;
-
-    const synths = selectors.getSynths(getState());
-
-    dispatch(setActiveSynths(_.without(activeSynths, synth)));
-    dispatch(setSynths([
-      ...synths,
-      synth,
-    ]));
-  };
-}
-
-export function releaseAll() {
-  return (dispatch, getState) => {
-    const activeSynths = selectors.getActiveSynths(getState());
-    const synths = selectors.getSynths(getState());
-    activeSynths.forEach(s => {
-      s.triggerRelease();
-    });
-    synths.forEach(s => {
-      s.triggerRelease();
-    });
-    dispatch(setSynths([
-      ...activeSynths,
-      ...synths,
-    ]));
-    dispatch(setActiveSynths([]));
-  };
-}
-
-export function setActiveSynths(activeSynths) {
-  return {
-    type: actionTypes.SET_ACTIVE_SYNTHS,
-    activeSynths,
   };
 }
 
@@ -194,10 +72,10 @@ export function setPosition(position) {
   };
 }
 
-export function setSynths(synths) {
+export function setSequences(sequences) {
   return {
-    type: actionTypes.SET_SYNTHS,
-    synths,
+    type: actionTypes.SET_SEQUENCES,
+    sequences,
   };
 }
 
@@ -216,7 +94,7 @@ export function stop() {
 
     dispatch(setPlaybackState(constants.playbackStates.STOPPED));
     dispatch(setPosition(0));
-    dispatch(releaseAll());
+    dispatch(playing.actions.releaseAll());
     Tone.Transport.stop();
   };
 }
@@ -233,11 +111,12 @@ export function togglePlayPause() {
   };
 }
 
-export function updateSynths(synthType) {
-  return (dispatch) => {
-    const newSynths = helpers.createSynths(synthType);
+export function updateSequences() {
+  return (dispatch, getState) => {
+    const sequences = selectors.getSequences(getState());
 
-    dispatch(disposeAll());
-    dispatch(setSynths(newSynths));
+    sequences.forEach(s => s.dispose());
+
+    dispatch(createSequences());
   };
 }

@@ -10,7 +10,7 @@ import transport from 'ducks/transport';
 import reducer from './reducer';
 import './styles/resets.scss';
 
-const { App } = app.components;
+const { AppContainer } = app.components;
 
 const middleware = applyMiddleware(thunkMiddleware);
 
@@ -24,6 +24,6 @@ whyDidYouUpdate(React, { exclude: /^(Connect|pure|withHandlers|withState)/ });
 render(
   createElement(Provider, {
     store,
-  }, createElement(App)),
+  }, createElement(AppContainer)),
   document.querySelector('#zen-app-root')
 );

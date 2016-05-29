@@ -1,17 +1,10 @@
-import shared from 'ducks/shared';
 import { playbackStates } from './constants';
 import * as actionTypes from './action-types';
-import * as helpers from './helpers';
 
 const initialState = getInitialState();
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case actionTypes.SET_ACTIVE_SYNTHS:
-      return {
-        ...state,
-        activeSynths: action.activeSynths,
-      };
     case actionTypes.SET_BPM:
       return {
         ...state,
@@ -27,10 +20,10 @@ export default function reducer(state = initialState, action) {
         ...state,
         position: action.position,
       };
-    case actionTypes.SET_SYNTHS:
+    case actionTypes.SET_SEQUENCES:
       return {
         ...state,
-        synths: action.synths,
+        sequences: action.sequences,
       };
     default:
       return state;
@@ -39,10 +32,9 @@ export default function reducer(state = initialState, action) {
 
 function getInitialState() {
   return {
-    activeSynths: [],
     bpm: undefined,
     playbackState: playbackStates.STOPPED,
     position: 0,
-    synths: helpers.createSynths(shared.constants.defaultSynthType),
+    sequences: [],
   };
 }

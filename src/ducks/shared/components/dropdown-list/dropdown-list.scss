@@ -2,6 +2,7 @@
 @import '../../../../styles/palette';
 
 $dropdown-list__background-color: $neutral-9;
+$dropdown-list__z-index: 500;
 $dropdown-list__popup__list__padding: $margin-s;
 $dropdown-list__popup__item__height: 48px;
 $dropdown-list__popup__item__padding: $margin-m;
@@ -17,6 +18,7 @@ $dropdown-list__popup__item__background-color--active: $accent-3;
     right: 0;
     bottom: 0;
     left: 0;
+    z-index: $dropdown-list__z-index;
     overflow: hidden;
   }
   &__popup {
@@ -24,6 +26,7 @@ $dropdown-list__popup__item__background-color--active: $accent-3;
     position: absolute;
     top: 0;
     right: 0;
+    z-index: $dropdown-list__z-index;
     background-color: $dropdown-list__background-color;
     border-radius: 2px;
     &__list {
