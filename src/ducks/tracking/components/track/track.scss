@@ -1,0 +1,19 @@
+@import '../../../../styles/constants';
+@import '../../../../styles/palette';
+
+$track__height: 64px;
+$track__padding: $margin-m;
+$track__color: $neutral-10;
+
+.track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  height: $track__height;
+  padding-left: $track__padding;
+  padding-right: $track__padding;
+  color: $track__color;
+  text-transform: uppercase;
+  overflow: hidden;
+  cursor: pointer;
+}

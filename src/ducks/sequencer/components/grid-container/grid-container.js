@@ -13,6 +13,7 @@ export const GridContainer = connect(
 function mapStateToProps(state) {
   return {
     isPanning: panning.selectors.getIsPanning(state),
+    measureCount: selectors.getMeasureCount(state),
     scale: selectors.getScale(state),
     toolType: selectors.getToolType(state),
   };

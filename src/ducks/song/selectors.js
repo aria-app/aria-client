@@ -20,7 +20,16 @@ export const getActiveSequence = createSelector(
 
 export const getActiveNotes = createSelector(
   getActiveSequence,
-  (activeSequence) => activeSequence.notes,
+  (activeSequence) => (activeSequence ? activeSequence.notes : []),
+);
+
+export const getTracksWithSequences = createSelector(
+  getTracks,
+  getSequences,
+  (tracks, sequences) => tracks.map(t => ({
+    ...t,
+    sequences: sequences.filter(s => s.trackId === t.id),
+  })),
 );
 
 export const createGetNotesById = (id) => createSelector(

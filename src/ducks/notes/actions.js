@@ -148,10 +148,11 @@ export function redo() {
 export function remove(notesToRemove) {
   return (dispatch, getState) => {
     const notes = song.selectors.getActiveNotes(getState());
+    const updatedNotes = _.difference(notes, notesToRemove);
 
     dispatch(pushUndo());
     dispatch(setSelectedNoteIds([]));
-    dispatch(song.actions.setNotes(_.difference(notes, notesToRemove)));
+    dispatch(song.actions.setNotes(updatedNotes));
   };
 }
 
@@ -211,7 +212,6 @@ export function removeSelected() {
 
 export function selectNote(note, isAdditive) {
   return (dispatch, getState) => {
-    const activeSequence = song.selectors.getActiveSequence(getState());
     const selectedNotes = selectors.getSelectedNotes(getState());
 
     if (isAdditive) {

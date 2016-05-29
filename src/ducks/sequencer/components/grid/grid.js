@@ -21,7 +21,11 @@ const component = (props) => h('.grid', {
   onMouseUp: props.onMouseUp,
   onScroll: props.onScroll,
 }, [
-  h('.grid__wrapper', [
+  h('.grid__wrapper', {
+    style: {
+      width: props.measureCount * 4 * 8 * 40,
+    },
+  }, [
     h(SlotsContainer, {
       scale: props.scale,
       toolType: props.toolType,
@@ -40,6 +44,7 @@ const composed = compose([
   pure,
   setPropTypes({
     isPanning: PropTypes.bool,
+    measureCount: PropTypes.number,
     scale: PropTypes.array,
     sequencerContentRef: PropTypes.object,
     toolType: PropTypes.string,

@@ -2,17 +2,17 @@ import React from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
 import shared from 'ducks/shared';
-import transport from 'ducks/transport';
 import { GridContainer } from '../grid-container/grid-container';
 import { KeysContainer } from '../keys-container/keys-container';
 import './sequencer.scss';
 
 const { DropdownList, IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
-const { PAUSED, STARTED, STOPPED } = transport.constants.playbackStates;
 const { getChildRef, scrollTo } = shared.helpers;
 
-const component = (props) => h('.sequencer', [
+const component = (props) => h('.sequencer', {
+  style: props.style,
+}, [
   props.actionsToolbar,
   h('.sequencer__content', {
     onScroll: props.onContentScroll,
@@ -24,7 +24,6 @@ const component = (props) => h('.sequencer', [
       }),
     ]),
   ]),
-  props.playbackToolbar,
 ]);
 
 const composed = compose([
@@ -33,13 +32,9 @@ const composed = compose([
     removeSelected: React.PropTypes.func.isRequired,
     duplicate: React.PropTypes.func.isRequired,
     isSelectionActive: React.PropTypes.bool,
-    openSequence: React.PropTypes.func.isRequired,
-    playbackState: React.PropTypes.string.isRequired,
+    setActiveSequenceId: React.PropTypes.func.isRequired,
     setSelectedNoteSizes: React.PropTypes.func.isRequired,
     setToolType: React.PropTypes.func.isRequired,
-    pause: React.PropTypes.func.isRequired,
-    play: React.PropTypes.func.isRequired,
-    stop: React.PropTypes.func.isRequired,
     shiftDownOctave: React.PropTypes.func.isRequired,
     shiftUpOctave: React.PropTypes.func.isRequired,
     synthType: React.PropTypes.string.isRequired,
@@ -53,6 +48,9 @@ const composed = compose([
   }),
   pure,
   withHandlers({
+    close: (props) => () => {
+      props.setActiveSequenceId(undefined);
+    },
     onContentScroll,
     onSelect: (props) => (item) => {
       props.changeSynthType(item.id);
@@ -67,7 +65,10 @@ const composed = compose([
         ],
         rightItems: [
           getSizingDropdown(props),
-          getSequenceDropdown(props),
+          h(IconButton, {
+            icon: 'close',
+            onPress: props.close,
+          }),
         ],
       })
       : h(Toolbar, {
@@ -75,29 +76,12 @@ const composed = compose([
           ...getToolButtons(props),
         ],
         rightItems: [
-          getSequenceDropdown(props),
+          h(IconButton, {
+            icon: 'close',
+            onPress: props.close,
+          }),
         ],
       }),
-    playbackToolbar: h(Toolbar, {
-      position: 'bottom',
-      leftItems: [
-        h(IconButton, {
-          isActive: props.playbackState === STARTED,
-          icon: 'play',
-          onPress: () => props.play(),
-        }),
-        h(IconButton, {
-          isActive: props.playbackState === PAUSED,
-          icon: 'pause',
-          onPress: () => props.pause(),
-        }),
-        h(IconButton, {
-          isActive: props.playbackState === STOPPED,
-          icon: 'stop',
-          onPress: () => props.stop(),
-        }),
-      ],
-    }),
   })),
 ])(component);
 
@@ -126,31 +110,6 @@ function getSelectionCommands(props) {
       onPress: () => props.shiftDownOctave(),
     }),
   ];
-}
-
-function getSequenceDropdown(props) {
-  return h(DropdownList, {
-    icon: 'music',
-    items: [
-      {
-        id: 0,
-        text: 'Square',
-        value: 0,
-      },
-      {
-        id: 1,
-        text: 'Saw',
-        value: 1,
-      },
-      {
-        id: 2,
-        text: 'PWM',
-        value: 2,
-      },
-    ],
-    selectedId: props.activeSequenceId,
-    onSelect: (item) => props.openSequence(item.value),
-  });
 }
 
 function getSizingDropdown(props) {

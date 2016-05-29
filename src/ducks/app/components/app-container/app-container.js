@@ -1,22 +1,26 @@
 import { connect } from 'react-redux';
 import { App } from '../app/app';
-import playing from 'ducks/playing';
-import shortcuts from 'ducks/shortcuts';
 import song from 'ducks/song';
+import transport from 'ducks/transport';
+import * as effects from '../../effects';
 
 export const AppContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(App);
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  return {
+    activeSequenceId: song.selectors.getActiveSequenceId(state),
+    playbackState: transport.selectors.getPlaybackState(state),
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    initializeShortcuts: (...args) => dispatch(shortcuts.actions.initialize(...args)),
-    initializeSynths: (...args) => dispatch(playing.effects.initialize(...args)),
-    loadSong: (...args) => dispatch(song.actions.loadSong(...args)),
+    initialize: (...args) => dispatch(effects.initialize(...args)),
+    pause: (...args) => dispatch(transport.effects.pause(...args)),
+    play: (...args) => dispatch(transport.effects.play(...args)),
+    stop: (...args) => dispatch(transport.effects.stop(...args)),
   };
 }

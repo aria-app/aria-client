@@ -1,8 +1,6 @@
 import _ from 'lodash';
 import notes from 'ducks/notes';
-import playing from 'ducks/playing';
 import shared from 'ducks/shared';
-import transport from 'ducks/transport';
 import * as actionTypes from './action-types';
 import * as selectors from './selectors';
 
@@ -11,15 +9,15 @@ const throttledSave = _.throttle((song) => {
 }, 2000);
 
 export function loadSong() {
-  return (dispatch) => {
+  return (dispatch) => new Promise(resolve => {
     const previousSong = localStorage.getItem('zenAppSong');
 
-    if (!previousSong) return;
+    if (!previousSong) resolve();
 
     dispatch(setSong(JSON.parse(previousSong)));
-    dispatch(transport.effects.updateSequences());
-    dispatch(playing.effects.initialize());
-  };
+
+    resolve();
+  });
 }
 
 export function setActiveSequenceId(activeSequenceId) {
@@ -36,12 +34,12 @@ export function setActiveSequenceId(activeSequenceId) {
   };
 }
 
-export function setNotes(notes) {
+export function setNotes(newNotes) {
   return (dispatch, getState) => {
     const activeSequence = selectors.getActiveSequence(getState());
     const updatedSequence = {
       ...activeSequence,
-      notes,
+      notes: newNotes,
     };
 
     dispatch(updateSequence(updatedSequence));

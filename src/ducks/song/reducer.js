@@ -22,7 +22,7 @@ export default function reducer(state = initialState, action) {
 
 function getInitialState() {
   return {
-    activeSequenceId: 0,
+    activeSequenceId: undefined,
     song: {
       id: 0,
       sequences: [

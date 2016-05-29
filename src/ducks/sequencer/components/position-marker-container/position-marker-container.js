@@ -10,7 +10,7 @@ export const PositionMarkerContainer = connect(
 function mapStateToProps(state) {
   return {
     playbackState: transport.selectors.getPlaybackState(state),
-    position: transport.selectors.getPosition(state),
+    offset: transport.selectors.getPosition(state) * 40,
   };
 }
 

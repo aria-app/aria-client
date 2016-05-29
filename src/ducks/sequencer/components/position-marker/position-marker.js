@@ -16,16 +16,14 @@ const composed = compose([
   pure,
   setPropTypes({
     playbackState: PropTypes.string,
-    position: PropTypes.number,
+    offset: PropTypes.number,
   }),
-  mapProps(({ playbackState, position }) => {
-    return {
-      display: playbackState === transport.constants.playbackStates.STOPPED
-        ? 'none'
-        : 'block',
-      transform: `translateX(${position * 40}px)`,
-    };
-  }),
+  mapProps(({ playbackState, offset }) => ({
+    display: playbackState === transport.constants.playbackStates.STOPPED
+      ? 'none'
+      : 'block',
+    transform: `translateX(${offset}px)`,
+  })),
 ])(component);
 
 export const PositionMarker = composed;
