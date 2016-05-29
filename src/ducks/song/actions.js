@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import notes from 'ducks/notes';
+import playing from 'ducks/playing';
 import shared from 'ducks/shared';
 import transport from 'ducks/transport';
 import * as actionTypes from './action-types';
@@ -17,6 +18,7 @@ export function loadSong() {
 
     dispatch(setSong(JSON.parse(previousSong)));
     dispatch(transport.effects.updateSequences());
+    dispatch(playing.effects.initialize());
   };
 }
 

@@ -1,22 +1,8 @@
 import * as actionTypes from './action-types';
 
-export function setActiveSynths(activeSynths) {
+export function setTracks(tracks) {
   return {
-    type: actionTypes.SET_ACTIVE_SYNTHS,
-    activeSynths,
-  };
-}
-
-export function setSynths(synths) {
-  return {
-    type: actionTypes.SET_SYNTHS,
-    synths,
-  };
-}
-
-export function setTracks(synths) {
-  return {
-    type: actionTypes.SET_SYNTHS,
-    synths,
+    type: actionTypes.SET_TRACKS,
+    tracks,
   };
 }

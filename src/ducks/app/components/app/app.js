@@ -21,6 +21,7 @@ const composed = compose([
   }),
   doOnMount((props) => {
     props.initializeShortcuts();
+    props.initializeSynths();
     props.loadSong();
   }),
 ])(component);

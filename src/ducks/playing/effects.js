@@ -3,6 +3,7 @@ import Tone from 'tone';
 import shared from 'ducks/shared';
 import song from 'ducks/song';
 import * as actions from './actions';
+import * as helpers from './helpers';
 import * as selectors from './selectors';
 
 export function clearActiveSynths() {
@@ -26,6 +27,19 @@ export function disposeAll() {
 
     dispatch(clearActiveSynths());
     allSynths.forEach(s => s.dispose());
+  };
+}
+
+export function initialize() {
+  return (dispatch, getState) => {
+    const songTracks = song.selectors.getTracks(getState());
+    const tracks = songTracks.map(songTrack => ({
+      id: songTrack.id,
+      activeSynths: [],
+      synths: helpers.createSynths(songTrack.synthType),
+    }));
+
+    dispatch(actions.setTracks(tracks));
   };
 }
 
