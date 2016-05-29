@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import Tone from 'tone';
 import playing from 'ducks/playing';
-import sequencer from 'ducks/sequencer';
 import song from 'ducks/song';
 import * as actions from './actions';
 import * as constants from './constants';
@@ -26,7 +25,7 @@ export function createSequences() {
       });
 
       dispatch(actions.setPosition(step));
-    }, _.range(sequencer.selectors.getMeasureCount(getState()) * 32), '32n').start());
+    }, _.range(song.selectors.getMeasureCount(getState()) * 32), '32n').start());
 
     dispatch(actions.setSequences(toneSequences));
   };

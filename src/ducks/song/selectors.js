@@ -6,6 +6,7 @@ const get = state => state[NAME];
 
 export const getActiveSequenceId = (state) => get(state).activeSequenceId;
 export const getId = (state) => get(state).id;
+export const getMeasureCount = (state) => get(state).measureCount;
 export const getSong = (state) => get(state).song;
 export const getSequences = (state) => getSong(state).sequences;
 export const getTracks = (state) => getSong(state).tracks;

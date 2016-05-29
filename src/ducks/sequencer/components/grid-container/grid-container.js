@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { Grid } from '../grid/grid';
 import panning from 'ducks/panning';
 import playing from 'ducks/playing';
+import song from 'ducks/song';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 
@@ -13,7 +14,7 @@ export const GridContainer = connect(
 function mapStateToProps(state) {
   return {
     isPanning: panning.selectors.getIsPanning(state),
-    measureCount: selectors.getMeasureCount(state),
+    measureCount: song.selectors.getMeasureCount(state),
     scale: selectors.getScale(state),
     toolType: selectors.getToolType(state),
   };

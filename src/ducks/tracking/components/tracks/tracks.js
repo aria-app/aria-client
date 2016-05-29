@@ -5,24 +5,27 @@ import { Track } from '../track/track';
 import './tracks.scss';
 
 const component = ({
-  onSelect,
+  onSequenceSelect,
+  selectedSequenceIds,
   tracks,
 }) => h('.tracks', [
   ...tracks.map(track => h(Track, {
     track,
-    onSelect,
+    onSequenceSelect,
+    selectedSequenceIds,
   })),
 ]);
 
 const composed = compose([
   pure,
   setPropTypes({
-    openSequence: React.PropTypes.func.isRequired,
+    selectedSequenceIds: React.PropTypes.array.isRequired,
+    setSelectedSequenceIds: React.PropTypes.func.isRequired,
     tracks: React.PropTypes.array.isRequired,
   }),
   withHandlers({
-    onSelect: (props) => (track) => {
-      props.openSequence(track.sequences[0].id);
+    onSequenceSelect: (props) => (id) => {
+      props.setSelectedSequenceIds([id]);
     },
   }),
 ])(component);

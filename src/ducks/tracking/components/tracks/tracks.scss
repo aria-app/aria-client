@@ -1,9 +1,15 @@
+@import '../../../../styles/constants';
 @import '../../../../styles/palette';
+
+$tracks__background-color: $neutral-3;
+$tracks__padding: 0;
 
 .tracks {
   display: flex;
   flex-direction: column;
   flex-shrink: 1;
   flex-grow: 1;
+  padding: $tracks__padding;
+  background-color: $tracks__background-color;
   overflow: hidden;
 }

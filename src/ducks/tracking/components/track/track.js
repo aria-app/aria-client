@@ -1,47 +1,31 @@
 import React from 'react';
 import h from 'react-hyperscript';
-import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
-import shared from 'ducks/shared';
+import { compose, pure, setPropTypes, withHandlers } from 'recompose';
 import './track.scss';
 
-const { synthTypes } = shared.constants;
-
 const component = ({
-  backgroundColor,
-  onClick,
+  onSequenceSelect,
   track,
-}) => h('.track', {
-  style: {
-    backgroundColor,
-  },
-  onClick,
-}, [
-  track.synthType,
+}) => h('.track', [
+  ...track.sequences.map(s => h('.sequence', {
+    onClick: () => onSequenceSelect(s.id),
+  }, [
+    `${track.synthType} ${s.notes.length}`,
+  ])),
 ]);
 
 const composed = compose([
   pure,
   setPropTypes({
-    onSelect: React.PropTypes.func.isRequired,
+    onSequenceSelect: React.PropTypes.func.isRequired,
+    selectedSequenceIds: React.PropTypes.array.isRequired,
     track: React.PropTypes.object.isRequired,
   }),
-  mapProps(props => ({
-    ...props,
-    backgroundColor: getBackgroundColor(props.track.synthType),
-  })),
   withHandlers({
-    onClick: (props) => () => {
-      props.onSelect(props.track);
+    onSequenceSelect: (props) => (id) => {
+      props.onSequenceSelect(id);
     },
   }),
 ])(component);
 
 export const Track = composed;
-
-function getBackgroundColor(synthType) {
-  return {
-    [synthTypes.SQUARE]: 'darkslateblue',
-    [synthTypes.SAWTOOTH]: 'royalblue',
-    [synthTypes.PWM]: 'mediumpurple',
-  }[synthType] || 'royalblue';
-}

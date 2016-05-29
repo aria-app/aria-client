@@ -1,19 +1,40 @@
 @import '../../../../styles/constants';
 @import '../../../../styles/palette';
 
-$track__height: 64px;
-$track__padding: $margin-m;
+$track__height: 96px;
+$track__padding--horizontal: 0;
+$track__padding--vertical: 0;
+$track__spacing: $margin-s;
 $track__color: $neutral-10;
+$track__background-color: $neutral-2;
+$track__border: 4px solid $neutral-5;
+$track__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 
 .track {
   display: flex;
   flex-shrink: 0;
-  align-items: center;
+  align-items: stretch;
   height: $track__height;
-  padding-left: $track__padding;
-  padding-right: $track__padding;
+  padding-top: $track__padding--vertical;
+  padding-bottom: $track__padding--vertical;
+  padding-left: $track__padding--horizontal;
+  padding-right: $track__padding--horizontal;
   color: $track__color;
+  background-color: $track__background-color;
+  border-bottom: $track__border;
   text-transform: uppercase;
   overflow: hidden;
   cursor: pointer;
+  .sequence {
+    display: flex;
+    align-items: center;
+    padding-left: $margin-m;
+    padding-right: $margin-m;
+    color: $neutral-10;
+    background-color: $primary-6;
+    transition: background-color 0.1s ease;
+    &:hover {
+      background-color: $primary-7;
+    }
+  }
 }

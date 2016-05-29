@@ -8,6 +8,7 @@ import selection from 'ducks/selection';
 import sequencer from 'ducks/sequencer';
 import shortcuts from 'ducks/shortcuts';
 import song from 'ducks/song';
+import tracking from 'ducks/tracking';
 import transport from 'ducks/transport';
 
 export default combineReducers({
@@ -20,5 +21,6 @@ export default combineReducers({
   [sequencer.constants.NAME]: sequencer.reducer,
   [shortcuts.constants.NAME]: shortcuts.reducer,
   [song.constants.NAME]: song.reducer,
+  [tracking.constants.NAME]: tracking.reducer,
   [transport.constants.NAME]: transport.reducer,
 });

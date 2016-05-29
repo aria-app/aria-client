@@ -5,13 +5,8 @@ import { compose, mapProps, pure, setPropTypes } from 'recompose';
 import './slots.scss';
 
 const component = ({
-  measureCount,
   rows,
-}) => h('.slots', {
-  style: {
-    width: measureCount * 4 * 8 * 40,
-  },
-}, rows);
+}) => h('.slots', rows);
 
 const composed = compose([
   pure,
@@ -19,14 +14,9 @@ const composed = compose([
     measureCount: PropTypes.number.isRequired,
     scale: PropTypes.array.isRequired,
   }),
-  mapProps(({
-    measureCount,
-    scale,
-    }) => ({
-      rows: getRows(scale, measureCount),
-      measureCount,
-    })
-  ),
+  mapProps((props) => ({
+    rows: getRows(props.scale, props.measureCount),
+  })),
 ])(component);
 
 export const Slots = composed;

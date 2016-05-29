@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { Slots } from '../slots/slots';
-import * as selectors from '../../selectors';
+import song from 'ducks/song';
 
 export const SlotsContainer = connect(
   mapStateToProps,
@@ -9,7 +9,7 @@ export const SlotsContainer = connect(
 
 function mapStateToProps(state) {
   return {
-    measureCount: selectors.getMeasureCount(state),
+    measureCount: song.selectors.getMeasureCount(state),
   };
 }
 

@@ -4,8 +4,8 @@ import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
 import selection from 'ducks/selection';
 import shared from 'ducks/shared';
 import {
-  PositionMarkerContainer,
-} from '../position-marker-container/position-marker-container';
+  SequencerTimelineContainer,
+} from '../sequencer-timeline-container/sequencer-timeline-container';
 import { NotesContainer } from '../notes-container/notes-container';
 import { SlotsContainer } from '../slots-container/slots-container';
 import * as helpers from '../../helpers';
@@ -28,14 +28,13 @@ const component = (props) => h('.grid', {
   }, [
     h(SlotsContainer, {
       scale: props.scale,
-      toolType: props.toolType,
     }),
     h(NotesContainer, {
       toolType: props.toolType,
       toolTypes,
     }),
     h(FenceContainer),
-    h(PositionMarkerContainer),
+    h(SequencerTimelineContainer),
   ]),
 ]);
 

@@ -64,7 +64,7 @@ export function erase(note) {
 
 export function move(notes, offset) {
   return (dispatch, getState) => {
-    const measureCount = sequencer.selectors.getMeasureCount(getState());
+    const measureCount = song.selectors.getMeasureCount(getState());
 
     const updatedNotes = notes.map(note => ({
       ...note,
@@ -158,7 +158,7 @@ export function remove(notesToRemove) {
 
 export function resize(notes, change) {
   return (dispatch, getState) => {
-    const measureCount = sequencer.selectors.getMeasureCount(getState());
+    const measureCount = song.selectors.getMeasureCount(getState());
     const movingLeft = change.x < 0;
     const anyNoteBent = _.some(notes, n => (_.last(n.points).y - _.first(n.points).y) !== 0);
     const willBeMinLength = _.some(notes, n => (_.last(n.points).x - _.first(n.points).x) <= 1);
