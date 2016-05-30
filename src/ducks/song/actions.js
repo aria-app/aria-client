@@ -12,11 +12,11 @@ export function loadSong() {
   return (dispatch) => new Promise(resolve => {
     const previousSong = localStorage.getItem('zenAppSong');
 
-    if (!previousSong) resolve();
+    if (!previousSong) return resolve();
 
     dispatch(setSong(JSON.parse(previousSong)));
 
-    resolve();
+    return resolve();
   });
 }
 

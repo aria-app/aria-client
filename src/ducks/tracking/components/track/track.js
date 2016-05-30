@@ -1,17 +1,23 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import { compose, pure, setPropTypes, withHandlers } from 'recompose';
+import { Sequence } from '../sequence/sequence';
 import './track.scss';
 
 const component = ({
   onSequenceSelect,
   track,
 }) => h('.track', [
-  ...track.sequences.map(s => h('.sequence', {
-    onClick: () => onSequenceSelect(s.id),
-  }, [
-    `${track.synthType} ${s.notes.length}`,
-  ])),
+  h('.track__header', [
+    track.synthType,
+  ]),
+  h('.track__sequences', [
+    ...track.sequences.map(sequence => h(Sequence, {
+      isSelected: false,
+      onSelect: onSequenceSelect,
+      sequence,
+    })),
+  ]),
 ]);
 
 const composed = compose([

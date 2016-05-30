@@ -29,18 +29,21 @@ function getInitialState() {
       sequences: [
         {
           id: 0,
-          trackId: 0,
+          measureCount: 1,
           notes: [],
+          trackId: 0,
         },
         {
           id: 1,
-          trackId: 1,
+          measureCount: 2,
           notes: [],
+          trackId: 1,
         },
         {
           id: 2,
-          trackId: 2,
+          measureCount: 1,
           notes: [],
+          trackId: 2,
         },
       ],
       tracks: [

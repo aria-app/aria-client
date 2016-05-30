@@ -1,0 +1,37 @@
+@import '../../../../styles/constants';
+@import '../../../../styles/palette';
+
+$sequence__height: 96px;
+$sequence__background-color: $primary-5;
+$sequence__background-color--active: $accent-5;
+$sequence__background-color--hover: $primary-6;
+$sequence__border: 1px solid $primary-6;
+$sequence__border-color--active: $accent-6;
+$sequence__border-color--hover: $primary-8;
+$sequence__padding: $margin-s;
+
+.sequence {
+  display: flex;
+  height: $sequence__height;
+  position: relative;
+  padding: $sequence__padding;
+  background-color: $sequence__background-color;
+  border: $sequence__border;
+  border-right-width: 1px;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+  overflow: hidden;
+  &__note {
+    width: 2px;
+    height: 2px;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background-color: $primary-8;
+  }
+  &:hover:not(.sequence--active) {
+    background-color: $sequence__background-color--hover;
+    border-color: $sequence__border-color--hover;
+  }
+}

@@ -1,8 +1,8 @@
 @import '../../../../styles/constants';
 @import '../../../../styles/palette';
 
-$tracks__background-color: $neutral-3;
-$tracks__padding: 0;
+$tracks__background-color: $neutral-2;
+$tracks__padding: $margin-m;
 
 .tracks {
   display: flex;

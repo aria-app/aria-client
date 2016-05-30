@@ -9,6 +9,7 @@ import * as selectors from './selectors';
 
 export function createSequences() {
   return (dispatch, getState) => {
+    console.log(song.selectors.getSong(getState()));
     const songSequences = song.selectors.getSequences(getState());
     const toneSequences = songSequences.map(s => new Tone.Sequence((time, step) => {
       const getNotes = song.selectors.createGetNotesById(s.id);
