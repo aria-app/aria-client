@@ -89,7 +89,9 @@ const composed = compose([
       })
     ),
     style: {
-      width: props.measureCount * 4 * 8 * 40,
+      width: props.measureCount !== undefined
+        ? props.measureCount * 4 * 8 * 40
+        : 0,
     },
   })),
 ])(component);

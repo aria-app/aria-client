@@ -72,10 +72,18 @@ export function setActiveSequenceId(activeSequenceId) {
       activeSequenceId,
     });
 
+    const playbackState = transport.selectors.getPlaybackState(getState());
+
     if (activeSequenceId !== undefined) {
       dispatch(transport.effects.loopActiveSequence());
     } else {
       dispatch(transport.effects.loopSong());
+    }
+
+    dispatch(transport.effects.stop());
+
+    if (playbackState === transport.constants.playbackStates.STARTED) {
+      setTimeout(() => dispatch(transport.effects.play()), 500);
     }
   };
 }

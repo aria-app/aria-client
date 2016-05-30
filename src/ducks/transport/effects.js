@@ -10,7 +10,6 @@ import * as selectors from './selectors';
 export function createSequences() {
   return (dispatch, getState) => {
     const songSequences = song.selectors.getSequences(getState());
-    const maxMeasureCount = _.max(_.map(songSequences, 'measureCount'));
     const toneSequences = songSequences.map(sequence => {
       const toneSequence = new Tone.Sequence((time, step) => {
         const getNotes = song.selectors.createGetNotesById(sequence.id);
@@ -36,9 +35,7 @@ export function createSequences() {
     });
 
     if (!Tone.Transport.loop) {
-      const endTime = helpers.measuresToSeconds(maxMeasureCount);
-      Tone.Transport.loop = true;
-      Tone.Transport.setLoopPoints(0, `+${endTime}`);
+      dispatch(loopSong());
     }
 
     dispatch(actions.setSequences(toneSequences));
@@ -50,8 +47,6 @@ export function loopActiveSequence() {
     const { measureCount, position } = song.selectors.getActiveSequence(getState());
     const start = helpers.measuresToSeconds(position);
     const end = helpers.measuresToSeconds(position + measureCount);
-    console.log('start', start);
-    console.log('end', end);
     dispatch(actions.setStartPoint(`+${start}`));
     Tone.Transport.setLoopPoints(start, end);
     Tone.Transport.loop = true;
@@ -62,9 +57,10 @@ export function loopSong() {
   return (dispatch, getState) => {
     const sequences = song.selectors.getSequences(getState());
     const maxMeasureCount = _.max(_.map(sequences, 'measureCount'));
-    const start = 0;
     const end = helpers.measuresToSeconds(maxMeasureCount);
-    Tone.Transport.setLoopPoints(start, end);
+    dispatch(actions.setStartPoint(0));
+    Tone.Transport.setLoopPoints(0, end);
+    Tone.Transport.loop = true;
   };
 }
 
@@ -85,9 +81,9 @@ export function play() {
     if (playbackState === constants.playbackStates.STOPPED) {
       const startPoint = selectors.getStartPoint(getState());
       console.log('Start Point', startPoint);
-      Tone.Transport.start(0, startPoint);
+      Tone.Transport.start(null, startPoint);
     } else {
-      Tone.Transport.start(0, 0);
+      Tone.Transport.start(null);
     }
   };
 }

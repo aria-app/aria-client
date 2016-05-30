@@ -23,7 +23,9 @@ const component = (props) => h('.grid', {
 }, [
   h('.grid__wrapper', {
     style: {
-      width: props.measureCount * 4 * 8 * 40,
+      width: props.measureCount !== undefined
+        ? props.measureCount * 4 * 8 * 40
+        : 0,
     },
   }, [
     h(SlotsContainer, {
