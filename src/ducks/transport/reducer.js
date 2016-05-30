@@ -25,6 +25,11 @@ export default function reducer(state = initialState, action) {
         ...state,
         sequences: action.sequences,
       };
+    case actionTypes.SET_START_POINT:
+      return {
+        ...state,
+        startPoint: action.startPoint,
+      };
     default:
       return state;
   }
@@ -36,5 +41,6 @@ function getInitialState() {
     playbackState: constants.playbackStates.STOPPED,
     position: 0,
     sequences: [],
+    startPoint: '0',
   };
 }

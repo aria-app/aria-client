@@ -1,6 +1,6 @@
 import React from 'react';
 import h from 'react-hyperscript';
-import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
+import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import shared from 'ducks/shared';
 import { GridContainer } from '../grid-container/grid-container';
 import { KeysContainer } from '../keys-container/keys-container';
@@ -27,6 +27,8 @@ const component = (props) => h('.sequencer', {
 ]);
 
 const composed = compose([
+  setDisplayName('Sequencer'),
+  pure,
   setPropTypes({
     changeSynthType: React.PropTypes.func.isRequired,
     removeSelected: React.PropTypes.func.isRequired,

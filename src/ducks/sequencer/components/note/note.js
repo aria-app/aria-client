@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
-import { compose, mapProps, setPropTypes, pure, withHandlers } from 'recompose';
+import { compose, mapProps, setDisplayName, setPropTypes, pure, withHandlers } from 'recompose';
 import './note.scss';
 
 const component = ({
@@ -39,6 +39,7 @@ const component = ({
 ]);
 
 export const Note = compose([
+  setDisplayName('Note'),
   pure,
   setPropTypes({
     note: PropTypes.object,
@@ -50,15 +51,19 @@ export const Note = compose([
   }),
   withHandlers({
     handleMouseDown: ({ onMouseDown, note }) => (e) => {
+      if (!onMouseDown) return;
       onMouseDown(note, e);
     },
     handleMouseUp: ({ onMouseUp, note }) => (e) => {
+      if (!onMouseUp) return;
       onMouseUp(note, e);
     },
     handleEndpointMouseDown: props => (e) => {
+      if (!props.onEndPointMouseDown) return;
       props.onEndpointMouseDown(props.note, e);
     },
     handleEndpointMouseUp: props => (e) => {
+      if (!props.onEndPointMouseUp) return;
       props.onEndpointMouseUp(props.note, e);
     },
   }),

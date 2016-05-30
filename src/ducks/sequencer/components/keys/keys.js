@@ -1,7 +1,7 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
-import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
+import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import './keys.scss';
 
 const component = ({ keys }) => h('.keys', keys);
@@ -19,6 +19,7 @@ const keyComponent = ({
 ]);
 
 const composed = compose([
+  setDisplayName('Keys'),
   pure,
   setPropTypes({
     playNote: PropTypes.func,

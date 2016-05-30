@@ -9,7 +9,7 @@ export const SlotsContainer = connect(
 
 function mapStateToProps(state) {
   return {
-    measureCount: song.selectors.getMeasureCount(state),
+    measureCount: song.selectors.getActiveMeasureCount(state),
   };
 }
 

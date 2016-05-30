@@ -2,22 +2,25 @@
 @import '../../../../styles/palette';
 
 $sequence__height: 96px;
+$sequence__padding: $margin-s;
 $sequence__background-color: $primary-5;
 $sequence__background-color--active: $accent-5;
 $sequence__background-color--hover: $primary-6;
 $sequence__border: 1px solid $primary-6;
 $sequence__border-color--active: $accent-6;
 $sequence__border-color--hover: $primary-8;
-$sequence__padding: $margin-s;
+$sequence__note__background-color: $primary-8;
+$sequence__note__background-color--active: $accent-8;
 
 .sequence {
   display: flex;
   height: $sequence__height;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   padding: $sequence__padding;
   background-color: $sequence__background-color;
-  border: $sequence__border;
-  border-right-width: 1px;
+  border-right: $sequence__border;
   transition:
     background-color 0.25s ease,
     border-color 0.25s ease;
@@ -28,7 +31,14 @@ $sequence__padding: $margin-s;
     position: absolute;
     top: 8px;
     left: 8px;
-    background-color: $primary-8;
+    background-color: $sequence__note__background-color;
+  }
+  &--active {
+    background-color: $sequence__background-color--active;
+    border-color: $sequence__border-color--active;
+    .sequence__note {
+      background-color: $sequence__note__background-color--active;
+    }
   }
   &:hover:not(.sequence--active) {
     background-color: $sequence__background-color--hover;

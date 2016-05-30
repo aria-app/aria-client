@@ -1,8 +1,48 @@
 import _ from 'lodash';
 import notes from 'ducks/notes';
+import playing from 'ducks/playing';
 import shared from 'ducks/shared';
+import transport from 'ducks/transport';
 import * as actionTypes from './action-types';
 import * as selectors from './selectors';
+
+export function addSequence(options) {
+  return (dispatch, getState) => {
+    const sequences = selectors.getSequences(getState());
+    const newSequence = {
+      id: shared.helpers.getId(sequences),
+      notes: [],
+      measureCount: options.measureCount,
+      trackId: options.trackId,
+    };
+    const updatedSequences = [
+      ...sequences,
+      newSequence,
+    ];
+
+    dispatch(setSequences(updatedSequences));
+  };
+}
+
+export function addTrack(options) {
+  return (dispatch, getState) => {
+    const tracks = selectors.getTracks(getState());
+    const newTrack = {
+      id: shared.helpers.getId(tracks),
+      synthType: options.synthType,
+    };
+    const updatedTracks = [
+      ...tracks,
+      newTrack,
+    ];
+
+    dispatch(setTracks(updatedTracks));
+    dispatch(addSequence({
+      measureCount: 1,
+      trackId: newTrack.id,
+    }));
+  };
+}
 
 const throttledSave = _.throttle((song) => {
   localStorage.setItem('zenAppSong', JSON.stringify(song));
@@ -31,6 +71,12 @@ export function setActiveSequenceId(activeSequenceId) {
       type: actionTypes.SET_ACTIVE_SEQUENCE_ID,
       activeSequenceId,
     });
+
+    if (activeSequenceId !== undefined) {
+      dispatch(transport.effects.loopActiveSequence());
+    } else {
+      dispatch(transport.effects.loopSong());
+    }
   };
 }
 
@@ -81,6 +127,7 @@ export function setTracks(tracks) {
     };
 
     dispatch(setSongWithSave(updatedSong));
+    dispatch(playing.effects.updateTracks());
   };
 }
 

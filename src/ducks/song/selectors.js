@@ -6,7 +6,6 @@ const get = state => state[NAME];
 
 export const getActiveSequenceId = (state) => get(state).activeSequenceId;
 export const getId = (state) => get(state).id;
-export const getMeasureCount = (state) => get(state).measureCount;
 export const getSong = (state) => get(state).song;
 
 export const getSequences = (state) =>
@@ -21,6 +20,11 @@ export const getActiveSequence = createSelector(
   (sequences, activeSequenceId) => _.find(sequences, {
     id: activeSequenceId,
   }),
+);
+
+export const getActiveMeasureCount = createSelector(
+  getActiveSequence,
+  (activeSequence) => (activeSequence ? activeSequence.measureCount : 0),
 );
 
 export const getActiveNotes = createSelector(

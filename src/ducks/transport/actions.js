@@ -27,3 +27,10 @@ export function setSequences(sequences) {
     sequences,
   };
 }
+
+export function setStartPoint(startPoint) {
+  return {
+    type: actionTypes.SET_START_POINT,
+    startPoint,
+  };
+}

@@ -31,15 +31,8 @@ export function disposeAll() {
 }
 
 export function initialize() {
-  return (dispatch, getState) => {
-    const songTracks = song.selectors.getTracks(getState());
-    const tracks = songTracks.map(songTrack => ({
-      id: songTrack.id,
-      activeSynths: [],
-      synths: helpers.createSynths(songTrack.synthType),
-    }));
-
-    dispatch(actions.setTracks(tracks));
+  return (dispatch) => {
+    dispatch(updateTracks());
   };
 }
 
@@ -60,7 +53,7 @@ export function playNote(point) {
       ...activeSynths,
       synth,
     ], trackId));
-    dispatch(setTrackSynths(_.without(synths, synth), trackId));
+    dispatch(setSynths(_.without(synths, synth), trackId));
 
     synth.triggerAttack(name);
     synth.triggerRelease('+0.15');
@@ -74,7 +67,10 @@ export function playNote(point) {
 export function playNoteOnSequence(note, time, length, trackId) {
   return (dispatch) => {
     const synth = dispatch(popSynth(trackId));
-    if (!synth) return;
+    if (!synth) {
+      console.log(`Track ${trackId} synths unavailable`);
+      return;
+    }
 
     const name = shared.helpers.getNoteName(_.first(note.points).y);
 
@@ -108,7 +104,7 @@ export function popSynth(trackId) {
       ...activeSynths,
       synth,
     ], trackId));
-    dispatch(setTrackSynths(_.without(synths, synth), trackId));
+    dispatch(setSynths(_.without(synths, synth), trackId));
 
     return synth;
   };
@@ -123,7 +119,7 @@ export function pushSynth(synth, trackId) {
     const synths = selectors.getSynthsByTrackId(trackId)(getState());
 
     dispatch(setTrackActiveSynths(_.without(activeSynths, synth), trackId));
-    dispatch(setTrackSynths([
+    dispatch(setSynths([
       ...synths,
       synth,
     ], trackId));
@@ -170,7 +166,7 @@ export function setTrackActiveSynths(activeSynths, trackId) {
   };
 }
 
-export function setTrackSynths(synths, trackId) {
+export function setSynths(synths, trackId) {
   return (dispatch, getState) => {
     const track = selectors.getTrackById(trackId)(getState());
     const updatedTrack = {
@@ -191,5 +187,18 @@ export function updateTrack(track) {
     );
 
     dispatch(actions.setTracks(updatedTracks));
+  };
+}
+
+export function updateTracks() {
+  return (dispatch, getState) => {
+    const songTracks = song.selectors.getTracks(getState());
+    const tracks = songTracks.map(songTrack => ({
+      id: songTrack.id,
+      activeSynths: [],
+      synths: helpers.createSynths(songTrack.synthType),
+    }));
+
+    dispatch(actions.setTracks(tracks));
   };
 }

@@ -1,7 +1,7 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
-import { compose, mapProps, pure, setPropTypes } from 'recompose';
+import { compose, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
 import './slots.scss';
 
 const component = ({
@@ -9,6 +9,7 @@ const component = ({
 }) => h('.slots', rows);
 
 const composed = compose([
+  setDisplayName('Slots'),
   pure,
   setPropTypes({
     measureCount: PropTypes.number.isRequired,

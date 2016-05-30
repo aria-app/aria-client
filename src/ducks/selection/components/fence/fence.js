@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
-import { compose, mapProps, setPropTypes, pure } from 'recompose';
+import { compose, mapProps, setDisplayName, setPropTypes, pure } from 'recompose';
 import './fence.scss';
 
 const component = ({
@@ -19,6 +19,7 @@ const component = ({
 });
 
 const composed = compose([
+  setDisplayName('Fence'),
   pure,
   setPropTypes({
     newPoint: PropTypes.object,

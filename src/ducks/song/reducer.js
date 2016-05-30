@@ -23,7 +23,6 @@ export default function reducer(state = initialState, action) {
 function getInitialState() {
   return {
     activeSequenceId: undefined,
-    measureCount: 1,
     song: {
       id: 0,
       sequences: [
@@ -31,18 +30,21 @@ function getInitialState() {
           id: 0,
           measureCount: 1,
           notes: [],
+          position: 1,
           trackId: 0,
         },
         {
           id: 1,
           measureCount: 2,
           notes: [],
+          position: 0,
           trackId: 1,
         },
         {
           id: 2,
           measureCount: 1,
           notes: [],
+          position: 0,
           trackId: 2,
         },
       ],

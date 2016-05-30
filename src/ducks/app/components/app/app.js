@@ -46,8 +46,8 @@ const component = ({
 ]);
 
 const composed = compose([
-  pure,
   setDisplayName('App'),
+  pure,
   setPropTypes({
     activeSequenceId: React.PropTypes.number,
     initialize: React.PropTypes.func.isRequired,

@@ -4,10 +4,10 @@ const initialState = getInitialState();
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case actionTypes.SET_SELECTED_SEQUENCE_IDS:
+    case actionTypes.SET_SELECTED_SEQUENCE_ID:
       return {
         ...state,
-        selectedSequence_ids: action.selectedSequences,
+        selectedSequenceId: action.selectedSequenceId,
       };
     default:
       return state;
@@ -16,6 +16,6 @@ export default function reducer(state = initialState, action) {
 
 function getInitialState() {
   return {
-    selectedSequenceIds: [],
+    selectedSequenceId: -1,
   };
 }

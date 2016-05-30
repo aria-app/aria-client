@@ -1,5 +1,5 @@
-import React, { createElement } from 'react';
-import whyDidYouUpdate from 'why-did-you-update';
+import React from 'react';
+// import whyDidYouUpdate from 'why-did-you-update';
 import { render } from 'react-dom';
 import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -14,11 +14,11 @@ const middleware = applyMiddleware(thunkMiddleware);
 
 const store = createStore(reducer, middleware);
 
-whyDidYouUpdate(React, { exclude: /^(Connect|pure|withHandlers|withState)/ });
+// whyDidYouUpdate(React, { exclude: /^(Connect|pure|withHandlers|withState)/ });
 
 render(
-  createElement(Provider, {
+  React.createElement(Provider, {
     store,
-  }, createElement(AppContainer)),
+  }, React.createElement(AppContainer)),
   document.querySelector('#zen-app-root')
 );

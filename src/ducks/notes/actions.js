@@ -64,7 +64,7 @@ export function erase(note) {
 
 export function move(notes, offset) {
   return (dispatch, getState) => {
-    const measureCount = song.selectors.getMeasureCount(getState());
+    const measureCount = song.selectors.getActiveMeasureCount(getState());
 
     const updatedNotes = notes.map(note => ({
       ...note,
@@ -158,7 +158,7 @@ export function remove(notesToRemove) {
 
 export function resize(notes, change) {
   return (dispatch, getState) => {
-    const measureCount = song.selectors.getMeasureCount(getState());
+    const measureCount = song.selectors.getActiveMeasureCount(getState());
     const movingLeft = change.x < 0;
     const anyNoteBent = _.some(notes, n => (_.last(n.points).y - _.first(n.points).y) !== 0);
     const willBeMinLength = _.some(notes, n => (_.last(n.points).x - _.first(n.points).x) <= 1);
@@ -328,7 +328,7 @@ export function update(items) {
 function createNote(points) {
   return (dispatch, getState) => {
     const notes = song.selectors.getActiveNotes(getState());
-    const id = getId(notes);
+    const id = shared.helpers.getId(notes);
 
     return {
       id,
@@ -340,37 +340,10 @@ function createNote(points) {
 function createNotes(pointSets) {
   return (dispatch, getState) => {
     const notes = song.selectors.getActiveNotes(getState());
-    const ids = getIds(notes, pointSets.length);
+    const ids = shared.helpers.getIds(notes, pointSets.length);
     return _.zipWith(ids, pointSets, (id, points) => ({
       id,
       points,
     }));
   };
-}
-
-function getId(notes) {
-  for (let i = 0; i < notes.length; i++) {
-    const noteHasId = _.some(notes, { id: i });
-    if (!noteHasId) return i;
-  }
-
-  return notes.length;
-}
-
-function getIds(notes, count) {
-  const ids = [];
-
-  for (let i = 0; i < notes.length; i++) {
-    const idTaken = _.some(notes, { id: i })
-      || _.includes(ids, i);
-
-    if (!idTaken) ids.push(i);
-
-    if (ids.length === count) return ids;
-  }
-
-  return ids.concat(_.range(
-    notes.length,
-    notes.length + count - ids.length,
-  ));
 }

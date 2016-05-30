@@ -7,10 +7,11 @@ $track__border-radius: 2px;
 $track__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 $track__header__width: 96px;
 $track__header__padding: $margin-xs $margin-s;
-$track__header__color: $color;
-$track__header__background-color: $neutral-3;
+$track__header__color: $neutral-3;
+$track__header__background-color: $neutral-8;
 $track__header__font-size: 0.75em;
-$track__sequences__padding--vertical: $margin-xs;
+$track__sequences__height: 96px;
+$track__sequences__padding--vertical: 0;
 
 .track {
   display: flex;
@@ -32,6 +33,8 @@ $track__sequences__padding--vertical: $margin-xs;
     display: flex;
     align-items: stretch;
     flex-grow: 1;
+    height: $track__sequences__height;
+    position: relative;
     padding-top: $track__sequences__padding--vertical;
     padding-bottom: $track__sequences__padding--vertical;
   }

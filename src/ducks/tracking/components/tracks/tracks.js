@@ -1,31 +1,39 @@
 import React from 'react';
 import h from 'react-hyperscript';
-import { compose, pure, setPropTypes, withHandlers } from 'recompose';
+import { compose, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import { Track } from '../track/track';
 import './tracks.scss';
 
 const component = ({
   onSequenceSelect,
-  selectedSequenceIds,
+  onTracksPress,
+  selectedSequenceId,
   tracks,
-}) => h('.tracks', [
+}) => h('.tracks', {
+  onClick: onTracksPress,
+}, [
   ...tracks.map(track => h(Track, {
     track,
     onSequenceSelect,
-    selectedSequenceIds,
+    selectedSequenceId,
   })),
 ]);
 
 const composed = compose([
+  setDisplayName('Tracks'),
   pure,
   setPropTypes({
-    selectedSequenceIds: React.PropTypes.array.isRequired,
-    setSelectedSequenceIds: React.PropTypes.func.isRequired,
+    selectedSequenceId: React.PropTypes.number.isRequired,
+    setSelectedSequenceId: React.PropTypes.func.isRequired,
     tracks: React.PropTypes.array.isRequired,
   }),
   withHandlers({
     onSequenceSelect: (props) => (id) => {
-      props.setSelectedSequenceIds([id]);
+      props.setSelectedSequenceId(id);
+    },
+    onTracksPress: (props) => (e) => {
+      props.setSelectedSequenceId(-1);
+      e.stopPropagation();
     },
   }),
 ])(component);

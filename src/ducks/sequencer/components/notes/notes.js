@@ -2,7 +2,7 @@ import React from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
 import classnames from 'classnames';
-import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
+import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import shared from 'ducks/shared';
 import { Note } from '../note/note';
 import './notes.scss';
@@ -21,6 +21,7 @@ const component = (props) => h('.notes', {
 ]);
 
 const composed = compose([
+  setDisplayName('Notes'),
   getElementRef(),
   pure,
   setPropTypes({
@@ -74,10 +75,6 @@ const composed = compose([
             },
           ],
         },
-        onEndpointMouseDown: () => {},
-        onEndpointMouseUp: () => {},
-        onMouseDown: () => {},
-        onMouseUp: () => {},
       })
       : null,
     noteComponents: props.notes.map((note, index) =>

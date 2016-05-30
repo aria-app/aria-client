@@ -6,14 +6,14 @@ import * as selectors from '../../selectors';
 
 function mapStateToProps(state) {
   return {
-    selectedSequenceIds: selectors.getSelectedSequenceIds(state),
+    selectedSequenceId: selectors.getSelectedSequenceId(state),
     tracks: song.selectors.getTracksWithSequences(state),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setSelectedSequenceIds: (...args) => dispatch(actions.setSelectedSequenceIds(...args)),
+    setSelectedSequenceId: (...args) => dispatch(actions.setSelectedSequenceId(...args)),
   };
 }
 

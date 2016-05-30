@@ -1,6 +1,6 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
-import { compose, mapProps, pure, setPropTypes, withHandlers } from 'recompose';
+import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import selection from 'ducks/selection';
 import shared from 'ducks/shared';
 import {
@@ -39,6 +39,7 @@ const component = (props) => h('.grid', {
 ]);
 
 const composed = compose([
+  setDisplayName('Sequencer'),
   getElementRef(),
   pure,
   setPropTypes({
