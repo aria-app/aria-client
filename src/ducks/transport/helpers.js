@@ -1,7 +1,7 @@
 export function measuresToSeconds(measures) {
-  return measures > 0 ? sizeToSeconds(measures * 32) : '0';
+  return `(${measures * 32} * 32n)`;
 }
 
 export function sizeToSeconds(size) {
-  return `(${size} * 32n)`;
+  return `(${size + 1} * 32n)`;
 }

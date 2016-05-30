@@ -8,6 +8,9 @@ export const getActiveSequenceId = (state) => get(state).activeSequenceId;
 export const getId = (state) => get(state).id;
 export const getSong = (state) => get(state).song;
 
+export const getBPM = (state) =>
+  (getSong(state).bpm);
+
 export const getSequences = (state) =>
   (getSong(state).sequences);
 

@@ -24,6 +24,7 @@ function getInitialState() {
   return {
     activeSequenceId: undefined,
     song: {
+      bpm: 120,
       id: 0,
       sequences: [
         {
@@ -46,6 +47,13 @@ function getInitialState() {
           notes: [],
           position: 0,
           trackId: 2,
+        },
+        {
+          id: 4,
+          measureCount: 1,
+          notes: [],
+          position: 0,
+          trackId: 0,
         },
       ],
       tracks: [

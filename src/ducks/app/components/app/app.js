@@ -15,9 +15,11 @@ const { PAUSED, STARTED, STOPPED } = transport.constants.playbackStates;
 
 const component = ({
   activeSequenceId,
+  bpm,
   pause,
   play,
   playbackState,
+  setBPM,
   stop,
 }) => h('.app', [
   activeSequenceId !== undefined
@@ -41,6 +43,13 @@ const component = ({
         icon: 'stop',
         onPress: () => stop(),
       }),
+      h('input', {
+        type: 'number',
+        value: bpm,
+        min: shared.constants.minBPM,
+        max: shared.constants.maxBPM,
+        onChange: (e) => setBPM(e.target.value),
+      }),
     ],
   }),
 ]);
@@ -50,10 +59,12 @@ const composed = compose([
   pure,
   setPropTypes({
     activeSequenceId: React.PropTypes.number,
+    bpm: React.PropTypes.number,
     initialize: React.PropTypes.func.isRequired,
     pause: React.PropTypes.func.isRequired,
     play: React.PropTypes.func.isRequired,
     playbackState: React.PropTypes.string,
+    setBPM: React.PropTypes.func.isRequired,
     stop: React.PropTypes.func.isRequired,
   }),
   doOnMount((props) => {

@@ -5,11 +5,6 @@ const initialState = getInitialState();
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case actionTypes.SET_BPM:
-      return {
-        ...state,
-        bpm: action.bpm,
-      };
     case actionTypes.SET_PLAYBACK_STATE:
       return {
         ...state,
@@ -37,7 +32,6 @@ export default function reducer(state = initialState, action) {
 
 function getInitialState() {
   return {
-    bpm: constants.defaultBPM,
     playbackState: constants.playbackStates.STOPPED,
     position: 0,
     sequences: [],

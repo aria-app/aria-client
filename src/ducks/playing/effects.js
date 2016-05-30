@@ -46,6 +46,7 @@ export function playNote(point) {
     const name = shared.helpers.getNoteName(point.y);
 
     if (!synth) {
+      console.log(`Track ${trackId} synths unavailable`);
       return;
     }
 
@@ -67,6 +68,7 @@ export function playNote(point) {
 export function playNoteOnSequence(note, time, length, trackId) {
   return (dispatch) => {
     const synth = dispatch(popSynth(trackId));
+
     if (!synth) {
       console.log(`Track ${trackId} synths unavailable`);
       return;

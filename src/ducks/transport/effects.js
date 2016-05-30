@@ -12,6 +12,7 @@ export function createSequences() {
     const songSequences = song.selectors.getSequences(getState());
     const toneSequences = songSequences.map(sequence => {
       const toneSequence = new Tone.Sequence((time, step) => {
+        const activeSequenceId = song.selectors.getActiveSequenceId(getState());
         const getNotes = song.selectors.createGetNotesById(sequence.id);
         const allNotes = getNotes(getState());
         const notesAtStep = _(allNotes)
@@ -23,6 +24,8 @@ export function createSequences() {
           const length = helpers.sizeToSeconds(_.last(note.points).x - _.first(note.points).x);
           dispatch(playing.effects.playNoteOnSequence(note, time, length, sequence.trackId));
         });
+
+        if (activeSequenceId !== sequence.id) return;
 
         dispatch(actions.setPosition(step));
       }, _.range(sequence.measureCount * 32), '32n');
@@ -39,6 +42,13 @@ export function createSequences() {
     }
 
     dispatch(actions.setSequences(toneSequences));
+  };
+}
+
+export function initialize() {
+  return (dispatch) => {
+    dispatch(updateSequences());
+    dispatch(updateBPM());
   };
 }
 
@@ -80,11 +90,18 @@ export function play() {
 
     if (playbackState === constants.playbackStates.STOPPED) {
       const startPoint = selectors.getStartPoint(getState());
-      console.log('Start Point', startPoint);
       Tone.Transport.start(null, startPoint);
     } else {
       Tone.Transport.start(null);
     }
+  };
+}
+
+export function updateBPM() {
+  return (dispatch, getState) => {
+    const bpm = song.selectors.getBPM(getState());
+
+    Tone.Transport.bpm.value = bpm;
   };
 }
 

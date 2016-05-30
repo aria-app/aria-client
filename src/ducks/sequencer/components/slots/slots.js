@@ -31,12 +31,9 @@ function getRowClasses(step) {
 }
 
 function getRows(scale, measureCount) {
-  return scale.map((row, index) => {
-    console.log(index);
-    return h('.slots__row', {
-      className: getRowClasses(row),
-    }, getSections(measureCount * 4))
-  });
+  return scale.map((row) => h('.slots__row', {
+    className: getRowClasses(row),
+  }, getSections(measureCount * 4)));
 }
 
 function getSections(count) {

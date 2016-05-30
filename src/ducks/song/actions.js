@@ -46,7 +46,7 @@ export function addTrack(options) {
 
 const throttledSave = _.throttle((song) => {
   localStorage.setItem('zenAppSong', JSON.stringify(song));
-}, 2000);
+}, 500);
 
 export function loadSong() {
   return (dispatch) => new Promise(resolve => {
@@ -85,6 +85,20 @@ export function setActiveSequenceId(activeSequenceId) {
     if (playbackState === transport.constants.playbackStates.STARTED) {
       setTimeout(() => dispatch(transport.effects.play()), 500);
     }
+  };
+}
+
+export function setBPM(bpm) {
+  return (dispatch, getState) => {
+    const song = selectors.getSong(getState());
+    const safeBpm = _.clamp(bpm, shared.constants.minBPM, shared.constants.maxBPM);
+    const updatedSong = {
+      ...song,
+      bpm: safeBpm,
+    };
+
+    dispatch(setSongWithSave(updatedSong));
+    dispatch(transport.effects.updateBPM());
   };
 }
 
