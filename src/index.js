@@ -1,4 +1,5 @@
 import React from 'react';
+import Tone from 'tone';
 // import whyDidYouUpdate from 'why-did-you-update';
 import { render } from 'react-dom';
 import { applyMiddleware, createStore } from 'redux';

@@ -32,14 +32,10 @@ export function createSequences() {
 
       toneSequence.loop = false;
 
-      toneSequence.start(`+${helpers.measuresToSeconds(sequence.position)}`);
+      toneSequence.start(`${helpers.measuresToSeconds(sequence.position)}`);
 
       return toneSequence;
     });
-
-    if (!Tone.Transport.loop) {
-      dispatch(loopSong());
-    }
 
     dispatch(actions.setSequences(toneSequences));
   };
@@ -49,6 +45,7 @@ export function initialize() {
   return (dispatch) => {
     dispatch(updateSequences());
     dispatch(updateBPM());
+    dispatch(updateLooping());
   };
 }
 
@@ -155,5 +152,6 @@ export function updateSequences() {
     sequences.forEach(s => s.dispose());
 
     dispatch(createSequences());
+    dispatch(updateLooping());
   };
 }

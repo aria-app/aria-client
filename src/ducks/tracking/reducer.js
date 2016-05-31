@@ -16,6 +16,6 @@ export default function reducer(state = initialState, action) {
 
 function getInitialState() {
   return {
-    selectedSequenceId: -1,
+    selectedSequenceId: 0,
   };
 }

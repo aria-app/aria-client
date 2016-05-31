@@ -45,6 +45,11 @@ const composed = compose([
     incrementSequenceLength: React.PropTypes.func.isRequired,
     incrementSequencePosition: React.PropTypes.func.isRequired,
   }),
+  withHandlers({
+    editSequence: (props) => () => {
+      props.setActiveSequenceId(props.selectedSequenceId);
+    },
+  }),
   mapProps((props) => ({
     ...props,
     selectedSequenceItems: [
@@ -54,27 +59,22 @@ const composed = compose([
       }),
       h(IconButton, {
         icon: 'arrow-left',
-        onPress: props.decrementSequencePosition,
+        onPress: () => props.decrementSequencePosition(props.selectedSequenceId),
       }),
       h(IconButton, {
         icon: 'arrow-right',
-        onPress: props.incrementSequencePosition,
+        onPress: () => props.incrementSequencePosition(props.selectedSequenceId),
       }),
       h(IconButton, {
         icon: 'long-arrow-left',
-        onPress: props.decrementSequenceLength,
+        onPress: () => props.decrementSequenceLength(props.selectedSequenceId),
       }),
       h(IconButton, {
         icon: 'long-arrow-right',
-        onPress: props.incrementSequenceLength,
+        onPress: () => props.incrementSequenceLength(props.selectedSequenceId),
       }),
     ],
   })),
-  withHandlers({
-    editSequence: (props) => () => {
-      props.setActiveSequenceId(props.selectedSequenceId);
-    },
-  }),
 ])(component);
 
 export const Tracker = composed;

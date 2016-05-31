@@ -152,27 +152,70 @@ export function updateSequence(sequence) {
   };
 }
 
-export function decrementSequenceLength() {
-  return () => {
-    console.log('decrementSequenceLength');
+export function decrementSequenceLength(id) {
+  return (dispatch, getState) => {
+    const sequence = selectors.getSequenceById(getState(), id);
+    const newMeasureCount = sequence.measureCount - 1;
+
+    if (newMeasureCount < 1) return;
+
+    const updatedSequence = {
+      ...sequence,
+      measureCount: newMeasureCount,
+    };
+
+    dispatch(updateSequence(updatedSequence));
+    dispatch(transport.effects.updateSequences());
   };
 }
 
-export function incrementSequenceLength() {
-  return () => {
-    console.log('incrementSequenceLength');
+export function incrementSequenceLength(id) {
+  return (dispatch, getState) => {
+    const sequence = selectors.getSequenceById(getState(), id);
+    const newMeasureCount = sequence.measureCount + 1;
+
+    const updatedSequence = {
+      ...sequence,
+      measureCount: newMeasureCount,
+    };
+
+    dispatch(updateSequence(updatedSequence));
+    dispatch(transport.effects.updateSequences());
   };
 }
 
-export function decrementSequencePosition() {
-  return () => {
-    console.log('decrementSequencePosition');
+export function decrementSequencePosition(id) {
+  return (dispatch, getState) => {
+    const sequence = selectors.getSequenceById(getState(), id);
+    const newPosition = sequence.position - 1;
+
+    if (newPosition < 0) return;
+
+    const updatedSequence = {
+      ...sequence,
+      position: newPosition,
+    };
+
+    dispatch(updateSequence(updatedSequence));
+    dispatch(transport.effects.updateSequences());
   };
 }
 
-export function incrementSequencePosition() {
-  return () => {
-    console.log('incrementSequencePosition');
+export function incrementSequencePosition(id) {
+  return (dispatch, getState) => {
+    const songMeasureCount = selectors.getMeasureCount(getState());
+    const sequence = selectors.getSequenceById(getState(), id);
+    const newPosition = sequence.position + 1;
+
+    if (newPosition > songMeasureCount - 1) return;
+
+    const updatedSequence = {
+      ...sequence,
+      position: newPosition,
+    };
+
+    dispatch(updateSequence(updatedSequence));
+    dispatch(transport.effects.updateSequences());
   };
 }
 

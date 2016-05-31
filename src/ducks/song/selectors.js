@@ -38,12 +38,15 @@ export const getActiveNotes = createSelector(
   (activeSequence) => (activeSequence ? activeSequence.notes : []),
 );
 
+export const getSequenceById = (state, id) =>
+  _.find(getSequences(state), { id });
+
 export const getTracksWithSequences = createSelector(
   getTracks,
   getSequences,
-  (tracks, sequences) => tracks.map(t => ({
-    ...t,
-    sequences: sequences.filter(s => s.trackId === t.id),
+  (tracks, sequences) => tracks.map(track => ({
+    ...track,
+    sequences: sequences.filter(s => s.trackId === track.id),
   })),
 );
 
