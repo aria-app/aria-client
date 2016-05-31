@@ -21,9 +21,6 @@ $sequence__note__background-color--active: $accent-8;
   padding: $sequence__padding;
   background-color: $sequence__background-color;
   border-right: $sequence__border;
-  transition:
-    background-color 0.25s ease,
-    border-color 0.25s ease;
   overflow: hidden;
   &__note {
     width: 2px;

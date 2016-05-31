@@ -7,6 +7,7 @@ import * as selectors from '../../selectors';
 function mapStateToProps(state) {
   return {
     selectedSequenceId: selectors.getSelectedSequenceId(state),
+    songMeasureCount: song.selectors.getMeasureCount(state),
     tracks: song.selectors.getTracksWithSequences(state),
   };
 }

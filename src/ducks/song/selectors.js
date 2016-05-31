@@ -11,6 +11,9 @@ export const getSong = (state) => get(state).song;
 export const getBPM = (state) =>
   (getSong(state).bpm);
 
+export const getMeasureCount = (state) =>
+  (getSong(state).measureCount);
+
 export const getSequences = (state) =>
   (getSong(state).sequences);
 

@@ -71,20 +71,7 @@ export function setActiveSequenceId(activeSequenceId) {
       type: actionTypes.SET_ACTIVE_SEQUENCE_ID,
       activeSequenceId,
     });
-
-    const playbackState = transport.selectors.getPlaybackState(getState());
-
-    if (activeSequenceId !== undefined) {
-      dispatch(transport.effects.loopActiveSequence());
-    } else {
-      dispatch(transport.effects.loopSong());
-    }
-
-    dispatch(transport.effects.stop());
-
-    if (playbackState === transport.constants.playbackStates.STARTED) {
-      setTimeout(() => dispatch(transport.effects.play()), 500);
-    }
+    dispatch(transport.effects.updateLooping());
   };
 }
 
@@ -162,5 +149,61 @@ export function updateSequence(sequence) {
     );
 
     dispatch(setSequences(updatedSequences));
+  };
+}
+
+export function decrementSequenceLength() {
+  return () => {
+    console.log('decrementSequenceLength');
+  };
+}
+
+export function incrementSequenceLength() {
+  return () => {
+    console.log('incrementSequenceLength');
+  };
+}
+
+export function decrementSequencePosition() {
+  return () => {
+    console.log('decrementSequencePosition');
+  };
+}
+
+export function incrementSequencePosition() {
+  return () => {
+    console.log('incrementSequencePosition');
+  };
+}
+
+export function decrementSongLength() {
+  return (dispatch, getState) => {
+    const song = selectors.getSong(getState());
+    const newMeasureCount = song.measureCount - 1;
+
+    if (newMeasureCount < 1) return;
+
+    const updatedSong = {
+      ...song,
+      measureCount: newMeasureCount,
+    };
+
+    dispatch(setSongWithSave(updatedSong));
+    dispatch(transport.effects.updateLooping());
+  };
+}
+
+export function incrementSongLength() {
+  return (dispatch, getState) => {
+    const song = selectors.getSong(getState());
+    const newMeasureCount = song.measureCount + 1;
+
+    const updatedSong = {
+      ...song,
+      measureCount: newMeasureCount,
+    };
+
+    dispatch(setSongWithSave(updatedSong));
+    dispatch(transport.effects.updateLooping());
   };
 }

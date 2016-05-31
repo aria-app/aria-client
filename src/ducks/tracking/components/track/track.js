@@ -8,6 +8,7 @@ const component = ({
   onSequenceSelect,
   onTrackPress,
   selectedSequenceId,
+  songMeasureCount,
   track,
 }) => h('.track', {
   onClick: onTrackPress,
@@ -15,7 +16,11 @@ const component = ({
   h('.track__header', [
     track.synthType,
   ]),
-  h('.track__sequences', [
+  h('.track__sequences', {
+    style: {
+      width: songMeasureCount * 4 * 8 * 2,
+    },
+  }, [
     ...track.sequences.map(sequence => h(Sequence, {
       isSelected: sequence.id === selectedSequenceId,
       onSelect: onSequenceSelect,
@@ -30,6 +35,7 @@ const composed = compose([
   setPropTypes({
     onSequenceSelect: React.PropTypes.func.isRequired,
     selectedSequenceId: React.PropTypes.number.isRequired,
+    songMeasureCount: React.PropTypes.number.isRequired,
     track: React.PropTypes.object.isRequired,
   }),
   withHandlers({

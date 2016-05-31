@@ -21,6 +21,8 @@ const component = ({
   playbackState,
   setBPM,
   stop,
+  decrementSongLength,
+  incrementSongLength,
 }) => h('.app', [
   activeSequenceId !== undefined
     ? h(SequencerContainer)
@@ -43,12 +45,22 @@ const component = ({
         icon: 'stop',
         onPress: () => stop(),
       }),
+    ],
+    rightItems: [
       h('input', {
         type: 'number',
         value: bpm,
         min: shared.constants.minBPM,
         max: shared.constants.maxBPM,
         onChange: (e) => setBPM(e.target.value),
+      }),
+      h(IconButton, {
+        icon: 'long-arrow-left',
+        onPress: decrementSongLength,
+      }),
+      h(IconButton, {
+        icon: 'long-arrow-right',
+        onPress: incrementSongLength,
       }),
     ],
   }),
@@ -66,6 +78,8 @@ const composed = compose([
     playbackState: React.PropTypes.string,
     setBPM: React.PropTypes.func.isRequired,
     stop: React.PropTypes.func.isRequired,
+    decrementSongLength: React.PropTypes.func.isRequired,
+    incrementSongLength: React.PropTypes.func.isRequired,
   }),
   doOnMount((props) => {
     props.initialize();

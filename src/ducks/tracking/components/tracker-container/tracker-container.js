@@ -13,6 +13,12 @@ function mapDispatchToProps(dispatch) {
   return {
     addTrack: (...args) => dispatch(song.actions.addTrack(...args)),
     setActiveSequenceId: (...args) => dispatch(song.actions.setActiveSequenceId(...args)),
+    decrementSequenceLength: (...args) => dispatch(song.actions.decrementSequenceLength(...args)),
+    incrementSequenceLength: (...args) => dispatch(song.actions.incrementSequenceLength(...args)),
+    decrementSequencePosition: (...args) =>
+      dispatch(song.actions.decrementSequencePosition(...args)),
+    incrementSequencePosition: (...args) =>
+      dispatch(song.actions.incrementSequencePosition(...args)),
   };
 }
 

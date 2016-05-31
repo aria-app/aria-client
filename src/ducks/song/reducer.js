@@ -26,6 +26,7 @@ function getInitialState() {
     song: {
       bpm: 120,
       id: 0,
+      measureCount: 2,
       sequences: [
         {
           id: 0,

@@ -8,6 +8,7 @@ const component = ({
   onSequenceSelect,
   onTracksPress,
   selectedSequenceId,
+  songMeasureCount,
   tracks,
 }) => h('.tracks', {
   onClick: onTracksPress,
@@ -16,6 +17,7 @@ const component = ({
     track,
     onSequenceSelect,
     selectedSequenceId,
+    songMeasureCount,
   })),
 ]);
 
@@ -25,6 +27,7 @@ const composed = compose([
   setPropTypes({
     selectedSequenceId: React.PropTypes.number.isRequired,
     setSelectedSequenceId: React.PropTypes.func.isRequired,
+    songMeasureCount: React.PropTypes.number.isRequired,
     tracks: React.PropTypes.array.isRequired,
   }),
   withHandlers({

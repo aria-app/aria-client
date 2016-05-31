@@ -1,6 +1,6 @@
 import React from 'react';
 import h from 'react-hyperscript';
-import { compose, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
+import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import shared from 'ducks/shared';
 import { TracksContainer } from '../tracks-container/tracks-container';
 import './tracker.scss';
@@ -13,20 +13,19 @@ const component = (props) =>
   }, [
     h(Toolbar, {
       leftItems: [
-        h(IconButton, {
-          icon: 'plus',
-          onPress: () => props.addTrack({
-            synthType: shared.constants.synthTypes.SAWTOOTH,
-          }),
-        }),
-        h(IconButton, {
-          icon: 'pencil',
-          onPress: props.editSequence,
-        }),
-        h(IconButton, {
-          icon: 'trash',
-          onPress: () => console.log('Delete!'),
-        }),
+        // h(IconButton, {
+        //   icon: 'plus',
+        //   onPress: () => props.addTrack({
+        //     synthType: shared.constants.synthTypes.SAWTOOTH,
+        //   }),
+        // }),
+        // h(IconButton, {
+        //   icon: 'trash',
+        //   onPress: () => console.log('Delete!'),
+        // }),
+        ...(props.selectedSequenceId !== -1
+          ? props.selectedSequenceItems
+          : []),
       ],
     }),
     h(TracksContainer),
@@ -39,7 +38,36 @@ const composed = compose([
     addTrack: React.PropTypes.func.isRequired,
     selectedSequenceId: React.PropTypes.number.isRequired,
     setActiveSequenceId: React.PropTypes.func.isRequired,
+    decrementSequenceLength: React.PropTypes.func.isRequired,
+    decrementSequencePosition: React.PropTypes.func.isRequired,
+    incrementSequenceLength: React.PropTypes.func.isRequired,
+    incrementSequencePosition: React.PropTypes.func.isRequired,
   }),
+  mapProps((props) => ({
+    ...props,
+    selectedSequenceItems: [
+      h(IconButton, {
+        icon: 'pencil',
+        onPress: props.editSequence,
+      }),
+      h(IconButton, {
+        icon: 'arrow-left',
+        onPress: props.decrementSequencePosition,
+      }),
+      h(IconButton, {
+        icon: 'arrow-right',
+        onPress: props.incrementSequencePosition,
+      }),
+      h(IconButton, {
+        icon: 'long-arrow-left',
+        onPress: props.decrementSequenceLength,
+      }),
+      h(IconButton, {
+        icon: 'long-arrow-right',
+        onPress: props.incrementSequenceLength,
+      }),
+    ],
+  })),
   withHandlers({
     editSequence: (props) => () => {
       props.setActiveSequenceId(props.selectedSequenceId);

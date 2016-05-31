@@ -65,9 +65,8 @@ export function loopActiveSequence() {
 
 export function loopSong() {
   return (dispatch, getState) => {
-    const sequences = song.selectors.getSequences(getState());
-    const maxMeasureCount = _.max(_.map(sequences, 'measureCount'));
-    const end = helpers.measuresToSeconds(maxMeasureCount);
+    const songMeasureCount = song.selectors.getMeasureCount(getState());
+    const end = helpers.measuresToSeconds(songMeasureCount);
     dispatch(actions.setStartPoint(0));
     Tone.Transport.setLoopPoints(0, end);
     Tone.Transport.loop = true;
@@ -126,6 +125,25 @@ export function togglePlayPause() {
       dispatch(play());
     } else {
       dispatch(pause());
+    }
+  };
+}
+
+export function updateLooping() {
+  return (dispatch, getState) => {
+    const activeSequenceId = song.selectors.getActiveSequenceId(getState());
+    const playbackState = selectors.getPlaybackState(getState());
+
+    if (activeSequenceId !== undefined) {
+      dispatch(loopActiveSequence());
+    } else {
+      dispatch(loopSong());
+    }
+
+    dispatch(stop());
+
+    if (playbackState === constants.playbackStates.STARTED) {
+      setTimeout(() => dispatch(play()), 500);
     }
   };
 }
