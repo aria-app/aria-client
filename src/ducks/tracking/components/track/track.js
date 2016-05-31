@@ -5,6 +5,7 @@ import { Sequence } from '../sequence/sequence';
 import './track.scss';
 
 const component = ({
+  editSequence,
   onSequenceSelect,
   onTrackPress,
   selectedSequenceId,
@@ -24,6 +25,7 @@ const component = ({
     ...track.sequences.map(sequence => h(Sequence, {
       isSelected: sequence.id === selectedSequenceId,
       onSelect: onSequenceSelect,
+      editSequence,
       sequence,
     })),
   ]),
@@ -33,6 +35,7 @@ const composed = compose([
   setDisplayName('Track'),
   pure,
   setPropTypes({
+    editSequence: React.PropTypes.func.isRequired,
     onSequenceSelect: React.PropTypes.func.isRequired,
     selectedSequenceId: React.PropTypes.number.isRequired,
     songMeasureCount: React.PropTypes.number.isRequired,

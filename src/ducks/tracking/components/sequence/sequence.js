@@ -7,6 +7,7 @@ import './sequence.scss';
 const component = ({
   isSelected,
   onClick,
+  onDoubleClick,
   transform,
   width,
 }) => h('.sequence', {
@@ -18,6 +19,7 @@ const component = ({
     width,
   },
   onClick,
+  onDoubleClick,
 }, [
   h('.sequence__note'),
 ]);
@@ -26,6 +28,7 @@ const composed = compose([
   setDisplayName('Sequence'),
   pure,
   setPropTypes({
+    editSequence: React.PropTypes.func.isRequired,
     isSelected: React.PropTypes.bool.isRequired,
     onSelect: React.PropTypes.func.isRequired,
     sequence: React.PropTypes.object.isRequired,
@@ -38,6 +41,10 @@ const composed = compose([
   withHandlers({
     onClick: (props) => (e) => {
       props.onSelect(props.sequence.id);
+      e.stopPropagation();
+    },
+    onDoubleClick: (props) => (e) => {
+      props.editSequence(props.sequence.id);
       e.stopPropagation();
     },
   }),

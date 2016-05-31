@@ -28,7 +28,9 @@ const component = (props) =>
           : []),
       ],
     }),
-    h(TracksContainer),
+    h(TracksContainer, {
+      editSequence: props.editSequence,
+    }),
   ]);
 
 const composed = compose([
