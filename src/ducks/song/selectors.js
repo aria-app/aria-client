@@ -41,6 +41,9 @@ export const getActiveNotes = createSelector(
 export const getSequenceById = (state, id) =>
   _.find(getSequences(state), { id });
 
+export const getTrackById = (state, id) =>
+  _.find(getTracks(state), { id });
+
 export const getTracksWithSequences = createSelector(
   getTracks,
   getSequences,
@@ -53,13 +56,4 @@ export const getTracksWithSequences = createSelector(
 export const createGetNotesById = (id) => createSelector(
   getSequences,
   (sequences) => _.find(sequences, { id }).notes,
-);
-
-export const createGetTrackById = (id) => createSelector(
-  getSequences,
-  getTracks,
-  (sequences, tracks) => {
-    const trackId = _.find(sequences, { id }).trackId;
-    return _.find(tracks, { id: trackId });
-  },
 );

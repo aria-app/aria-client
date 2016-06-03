@@ -3,15 +3,37 @@
 
 $dropdown-list__background-color: $neutral-9;
 $dropdown-list__z-index: 500;
+$dropdown-list__input__height: 48px;
+$dropdown-list__input__padding-left: $margin-s;
+$dropdown-list__input__padding-right: 0;
+$dropdown-list__input__border: 1px solid $color;
 $dropdown-list__popup__list__padding: $margin-s;
 $dropdown-list__popup__item__height: 48px;
 $dropdown-list__popup__item__padding: $margin-m;
+$dropdown-list__popup__item__color: $color-inverted;
 $dropdown-list__popup__item__background-color--hover: $neutral-8;
 $dropdown-list__popup__item__color--active: $accent-9;
 $dropdown-list__popup__item__background-color--active: $accent-3;
 
 .dropdown-list {
+  flex-shrink: 0;
   position: relative;
+  &__input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    width: 100%;
+    height: $dropdown-list__input__height;
+    padding-left: $dropdown-list__input__padding-left;
+    padding-right: $dropdown-list__input__padding-right;
+    border-bottom: $dropdown-list__input__border;
+    cursor: pointer;
+    overflow: hidden;
+    .icon {
+      margin-right: -4px;
+    }
+  }
   &__overlay {
     position: fixed;
     top: 0;
@@ -39,11 +61,12 @@ $dropdown-list__popup__item__background-color--active: $accent-3;
       height: $dropdown-list__popup__item__height;
       padding-left: $dropdown-list__popup__item__padding;
       padding-right: $dropdown-list__popup__item__padding;
-      overflow: hidden;
+      color: $dropdown-list__popup__item__color;
       white-space: nowrap;
       text-overflow: ellipsis;
       cursor: pointer;
-      &:hover {
+      overflow: hidden;
+      &:hover:not(.dropdown-list__popup__item--active) {
         background-color: $dropdown-list__popup__item__background-color--hover;
       }
       &--active {

@@ -79,7 +79,7 @@ export function getIds(items, count) {
       || _.includes(ids, i);
 
     if (!idTaken) ids.push(i);
-
+    console.log(ids.length === count);
     if (ids.length === count) return ids;
   }
 

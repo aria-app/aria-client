@@ -118,30 +118,12 @@ function getSizingDropdown(props) {
   return h(DropdownList, {
     icon: 'long-arrow-right',
     items: [
-      {
-        text: '1/32',
-        value: 1,
-      },
-      {
-        text: '1/16',
-        value: 2,
-      },
-      {
-        text: '1/8',
-        value: 4,
-      },
-      {
-        text: '1/4',
-        value: 8,
-      },
-      {
-        text: '1/2',
-        value: 16,
-      },
-      {
-        text: '1',
-        value: 32,
-      },
+      { text: '1/32', value: 1 },
+      { text: '1/16', value: 2 },
+      { text: '1/8', value: 4 },
+      { text: '1/4', value: 8 },
+      { text: '1/2', value: 16 },
+      { text: '1', value: 32 },
     ],
     onSelect: (item) => props.setSelectedNoteSizes(item.value),
   });

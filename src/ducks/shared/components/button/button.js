@@ -6,10 +6,12 @@ import './button.scss';
 const component = ({
   className,
   onPress,
+  style,
   text,
 }) => h('.button', {
-  className,
   onClick: () => onPress(),
+  className,
+  style,
 }, text);
 
 export const Button = compose([

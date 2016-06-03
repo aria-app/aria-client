@@ -15,6 +15,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setSelectedSequenceId: (...args) => dispatch(actions.setSelectedSequenceId(...args)),
+    stageTrackForEditing: (...args) => dispatch(actions.stageTrackForEditing(...args)),
   };
 }
 

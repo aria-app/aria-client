@@ -1,3 +1,5 @@
+@import './palette';
+
 * {
   margin: 0;
   padding: 0;
@@ -17,6 +19,7 @@ body {
   font-family: 'Open Sans', Helvetica, sans-serif;
   font-size: 16px;
   user-select: none;
+  color: $color;
 }
 
 ::-webkit-scrollbar {

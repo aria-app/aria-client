@@ -59,11 +59,11 @@ export const Note = compose([
       onMouseUp(note, e);
     },
     handleEndpointMouseDown: props => (e) => {
-      if (!props.onEndPointMouseDown) return;
+      if (!props.onEndpointMouseDown) return;
       props.onEndpointMouseDown(props.note, e);
     },
     handleEndpointMouseUp: props => (e) => {
-      if (!props.onEndPointMouseUp) return;
+      if (!props.onEndpointMouseUp) return;
       props.onEndpointMouseUp(props.note, e);
     },
   }),

@@ -8,6 +8,6 @@ export function createSynths(type) {
 export function createSynth(type) {
   return new Tone.SimpleSynth({
     oscillator: { type },
-    volume: -10,
+    volume: -20,
   }).toMaster();
 }

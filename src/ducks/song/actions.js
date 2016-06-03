@@ -61,11 +61,7 @@ export function loadSong() {
 }
 
 export function setActiveSequenceId(activeSequenceId) {
-  return (dispatch, getState) => {
-    const oldActiveSequenceId = selectors.getActiveSequenceId(getState());
-
-    if (activeSequenceId === oldActiveSequenceId) return;
-
+  return (dispatch) => {
     dispatch(notes.actions.setSelectedNoteIds([]));
     dispatch({
       type: actionTypes.SET_ACTIVE_SEQUENCE_ID,
@@ -149,6 +145,18 @@ export function updateSequence(sequence) {
     );
 
     dispatch(setSequences(updatedSequences));
+  };
+}
+
+export function updateTrack(track) {
+  return (dispatch, getState) => {
+    const tracks = selectors.getTracks(getState());
+    const updatedTracks = shared.helpers.replaceItemsById(
+      tracks,
+      [track],
+    );
+
+    dispatch(setTracks(updatedTracks));
   };
 }
 

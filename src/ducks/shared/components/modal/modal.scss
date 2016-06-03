@@ -1,0 +1,66 @@
+@import '../../../../styles/constants';
+@import '../../../../styles/palette';
+
+$modal__z-index: 300;
+$modal__overlay__background-color: rgba(0, 0, 0, 0.50);
+$modal__window__max-width: 640px;
+$modal__window__max-height: 480px;
+$modal__window__padding: 0;
+$modal__window__background-color: $neutral-3;
+$modal__window__border-radius: 2px;
+$modal__title__padding: $margin-m;
+$modal__title__font-size: 1.25em;
+$modal__content__padding: $margin-m;
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $modal__z-index;
+  overflow: hidden;
+  &__header {
+    padding: $modal__title__padding;
+    font-size: $modal__title__font-size;
+    background-color: $neutral-2;
+  }
+  &__overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: $modal__overlay__background-color;
+    overflow: hidden;
+  }
+  &__window {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    max-width: $modal__window__max-width;
+    max-height: $modal__window__max-height;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding-top: $modal__window__padding;
+    padding-bottom: $modal__window__padding;
+    transform: translate(-50%, -50%);
+    background-color: $modal__window__background-color;
+    border-radius: $modal__window__border-radius;
+  }
+  &__content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    padding: $modal__content__padding;
+  }
+  &__actions {
+    background-color: $neutral-2;
+    box-shadow: none;
+  }
+  &__action {
+  }
+}

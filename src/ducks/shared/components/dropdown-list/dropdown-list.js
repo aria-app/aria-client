@@ -3,7 +3,7 @@ import React from 'react';
 import classnames from 'classnames';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setPropTypes, withHandlers, withState } from 'recompose';
-import { Button } from '../button/button';
+import { Icon } from '../icon/icon';
 import { IconButton } from '../icon-button/icon-button';
 import './dropdown-list.scss';
 
@@ -15,17 +15,24 @@ const component = ({
   items,
   selectedItem,
   select,
+  style,
   text,
-}) => h('.dropdown-list', [
+}) => h('.dropdown-list', {
+  style,
+}, [
   icon ? h(IconButton, {
     className: 'dropdown-list__button',
     onPress: () => openPopup(),
     icon,
-  }) : h(Button, {
-    className: 'dropdown-list__button',
-    onPress: () => openPopup(),
-    text: text || selectedItem.text || '',
-  }),
+  }) : h('.dropdown-list__input', {
+    onClick: () => openPopup(),
+  }, [
+    selectedItem ? selectedItem.text : text,
+    h(Icon, {
+      icon: 'caret-down',
+      size: 'small',
+    }),
+  ]),
   !isOpen ? null : h('.dropdown-list__overlay', {
     onClick: () => closePopup(),
   }),
@@ -58,11 +65,11 @@ export const DropdownList = compose([
       React.PropTypes.string,
     ]),
     selectedItem: React.PropTypes.object,
-    text: React.PropTypes.string,
   }),
   mapProps(props => ({
     ...props,
     selectedItem: getSelectedItem(props),
+    text: props.text || '',
   })),
   withState('isOpen', 'setIsOpen', false),
   withHandlers({
@@ -86,5 +93,5 @@ function getSelectedItem(props) {
     return _.find(props.items, { id: props.selectedId });
   }
 
-  return undefined;
+  return { text: props.text };
 }

@@ -33,6 +33,17 @@ $accent-7: lighten($accent-base, 22.50%);
 $accent-8: lighten($accent-base, 33.75%);
 $accent-9: lighten($accent-base, 45.00%);
 
+$error-base: #DF5920;
+$error-1: darken($error-base, 45.00%);
+$error-2: darken($error-base, 33.75%);
+$error-3: darken($error-base, 22.50%);
+$error-4: darken($error-base, 11.25%);
+$error-5: lighten($error-base, 00.00%);
+$error-6: lighten($error-base, 11.25%);
+$error-7: lighten($error-base, 22.50%);
+$error-8: lighten($error-base, 33.75%);
+$error-9: lighten($error-base, 45.00%);
+
 $color: $neutral-9;
 $color-inverted: $neutral-2;
 $color-primary: $primary-6;
