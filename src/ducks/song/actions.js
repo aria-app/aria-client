@@ -24,12 +24,12 @@ export function addSequence(options) {
   };
 }
 
-export function addTrack(options) {
+export function addTrack() {
   return (dispatch, getState) => {
     const tracks = selectors.getTracks(getState());
     const newTrack = {
       id: shared.helpers.getId(tracks),
-      synthType: options.synthType,
+      synthType: shared.constants.defaultSynthType,
     };
     const updatedTracks = [
       ...tracks,
@@ -44,8 +44,17 @@ export function addTrack(options) {
   };
 }
 
+export function deleteTrackById(trackId) {
+  return (dispatch, getState) => {
+    const tracks = selectors.getTracks(getState());
+    const updatedTracks = _.reject(tracks, { id: trackId });
+
+    dispatch(setTracks(updatedTracks));
+  };
+}
+
 const throttledSave = _.throttle((song) => {
-  localStorage.setItem('zenAppSong', JSON.stringify(song));
+  // localStorage.setItem('zenAppSong', JSON.stringify(song));
 }, 500);
 
 export function loadSong() {

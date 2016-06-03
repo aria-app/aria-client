@@ -21,15 +21,11 @@ const component = (props) =>
   }, [
     h(Toolbar, {
       leftItems: [
-        // h(IconButton, {
-        //   icon: 'plus',
-        //   onPress: props.addTrack,
-        // }),
         h(IconButton, {
-          icon: 'pencil',
-          onPress: props.editTrack,
+          icon: 'plus',
+          onPress: props.addTrack,
         }),
-        ...(props.selectedSequenceId !== -1
+        ...(!props.selectedSequenceId
           ? props.selectedSequenceItems
           : []),
       ],
@@ -75,7 +71,7 @@ const component = (props) =>
           style: {
             backgroundColor: '#d63',
           },
-          onPress: props.deleteTrack,
+          onPress: props.deleteStagedTrack,
           text: 'Delete',
         }),
       ]),
@@ -87,31 +83,24 @@ const composed = compose([
   pure,
   setPropTypes({
     addTrack: React.PropTypes.func.isRequired,
+    applyStagedTrack: React.PropTypes.func.isRequired,
+    clearStagedTrack: React.PropTypes.func.isRequired,
+    deleteStagedTrack: React.PropTypes.func.isRequired,
     selectedSequenceId: React.PropTypes.number.isRequired,
     setActiveSequenceId: React.PropTypes.func.isRequired,
     setStagedTrack: React.PropTypes.func.isRequired,
-    updateTrack: React.PropTypes.func.isRequired,
     updateStagedTrackSynthType: React.PropTypes.func.isRequired,
     stagedTrack: React.PropTypes.object,
-    decrementSequenceLength: React.PropTypes.func.isRequired,
-    decrementSequencePosition: React.PropTypes.func.isRequired,
-    incrementSequenceLength: React.PropTypes.func.isRequired,
-    incrementSequencePosition: React.PropTypes.func.isRequired,
   }),
   withHandlers({
-    deleteTrack: (props) => () => {
-      console.log('Deleting Track');
-      props.setStagedTrack(undefined);
-    },
     editSequence: (props) => () => {
       props.setActiveSequenceId(props.selectedSequenceId);
     },
     onModalCancel: (props) => () => {
-      props.setStagedTrack(undefined);
+      props.clearStagedTrack();
     },
     onModalConfirm: (props) => () => {
-      props.updateTrack(props.stagedTrack);
-      props.setStagedTrack(undefined);
+      props.applyStagedTrack();
     },
     updateStagedTrackSynthType: (props) => (synthType) => {
       props.updateStagedTrackSynthType(synthType);
@@ -123,22 +112,6 @@ const composed = compose([
       h(IconButton, {
         icon: 'pencil',
         onPress: props.editSequence,
-      }),
-      h(IconButton, {
-        icon: 'arrow-left',
-        onPress: () => props.decrementSequencePosition(props.selectedSequenceId),
-      }),
-      h(IconButton, {
-        icon: 'arrow-right',
-        onPress: () => props.incrementSequencePosition(props.selectedSequenceId),
-      }),
-      h(IconButton, {
-        icon: 'long-arrow-left',
-        onPress: () => props.decrementSequenceLength(props.selectedSequenceId),
-      }),
-      h(IconButton, {
-        icon: 'long-arrow-right',
-        onPress: () => props.incrementSequenceLength(props.selectedSequenceId),
       }),
     ],
   })),

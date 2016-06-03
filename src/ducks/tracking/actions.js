@@ -2,6 +2,29 @@ import song from 'ducks/song';
 import * as actionTypes from './action-types';
 import * as selectors from './selectors';
 
+export function applyStagedTrack() {
+  return (dispatch, getState) => {
+    const stagedTrack = selectors.getStagedTrack(getState());
+    dispatch(song.actions.updateTrack(stagedTrack));
+    dispatch(clearStagedTrack());
+  };
+}
+
+export function clearStagedTrack() {
+  return (dispatch) => {
+    dispatch(setStagedTrack(undefined));
+  };
+}
+
+export function deleteStagedTrack() {
+  return (dispatch, getState) => {
+    const stagedTrack = selectors.getStagedTrack(getState());
+
+    dispatch(song.actions.deleteTrackById(stagedTrack.id));
+    dispatch(clearStagedTrack());
+  };
+}
+
 export function setSelectedSequenceId(selectedSequenceId) {
   return {
     type: actionTypes.SET_SELECTED_SEQUENCE_ID,
