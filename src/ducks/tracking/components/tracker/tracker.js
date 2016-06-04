@@ -23,7 +23,7 @@ const component = (props) =>
       leftItems: [
         h(IconButton, {
           icon: 'plus',
-          onPress: props.addTrack,
+          onPress: props.addNewTrack,
         }),
         ...(props.selectedSequenceId
           ? props.selectedSequenceItems
@@ -82,7 +82,7 @@ const composed = compose([
   setDisplayName('Tracker'),
   pure,
   setPropTypes({
-    addTrack: React.PropTypes.func.isRequired,
+    addNewTrack: React.PropTypes.func.isRequired,
     applyStagedTrack: React.PropTypes.func.isRequired,
     clearStagedTrack: React.PropTypes.func.isRequired,
     deleteStagedTrack: React.PropTypes.func.isRequired,

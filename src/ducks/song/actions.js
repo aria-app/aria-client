@@ -6,20 +6,22 @@ import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
-export function addNotes(notes) {
-  return {
-    type: actionTypes.ADD_NOTES,
-    notes,
+export function addNewTrack() {
+  return (dispatch) => {
+    const track = helpers.createTrack();
+    const sequence = helpers.createSequence({
+      measureCount: 1,
+      position: 0,
+      trackId: track.id,
+    });
+
+    dispatch(addTracks([track]));
+    dispatch(addSequences([sequence]));
+    dispatch(playing.effects.updateTracks());
   };
 }
 
-export function closeSequence() {
-  return {
-    type: actionTypes.CLOSE_SEQUENCE,
-  };
-}
-
-export function createNotesInActiveSequence(pointSets) {
+export function addNotesToActiveSequence(pointSets) {
   return (dispatch, getState) => {
     const sequenceId = selectors.getActiveSequenceId(getState());
     const notes = pointSets.map(points => helpers.createNote({
@@ -32,35 +34,30 @@ export function createNotesInActiveSequence(pointSets) {
   };
 }
 
-export function addSequence(options) {
-  return (dispatch, getState) => {
-    const sequences = selectors.getSequences(getState());
-    const newSequence = helpers.createSequence({
-      ...options,
-    });
-    const updatedSequences = [
-      ...sequences,
-      newSequence,
-    ];
-
-    dispatch(setSequences(updatedSequences));
+export function addNotes(notes) {
+  return {
+    type: actionTypes.ADD_NOTES,
+    notes,
   };
 }
 
-export function addTrack() {
-  return (dispatch, getState) => {
-    const tracks = selectors.getTracks(getState());
-    const newTrack = helpers.createTrack();
-    const updatedTracks = [
-      ...tracks,
-      newTrack,
-    ];
+export function addSequences(sequences) {
+  return {
+    type: actionTypes.ADD_SEQUENCES,
+    sequences,
+  };
+}
 
-    dispatch(setTracks(updatedTracks));
-    dispatch(addSequence({
-      measureCount: 1,
-      trackId: newTrack.id,
-    }));
+export function addTracks(tracks) {
+  return {
+    type: actionTypes.ADD_TRACKS,
+    tracks,
+  };
+}
+
+export function closeSequence() {
+  return {
+    type: actionTypes.CLOSE_SEQUENCE,
   };
 }
 
@@ -68,6 +65,20 @@ export function deleteNotes(notes) {
   return {
     type: actionTypes.DELETE_NOTES,
     notes,
+  };
+}
+
+export function deleteSequences(sequences) {
+  return {
+    type: actionTypes.DELETE_SEQUENCES,
+    sequences,
+  };
+}
+
+export function deleteTracks(tracks) {
+  return {
+    type: actionTypes.DELETE_TRACKS,
+    tracks,
   };
 }
 
@@ -90,7 +101,8 @@ export function openSequence(id) {
   };
 }
 
-export function setBPM(bpm) {
+
+export function safeSetBPM(bpm) {
   return (dispatch, getState) => {
     const song = selectors.getSong(getState());
     const safeBpm = _.clamp(bpm, shared.constants.minBPM, shared.constants.maxBPM);
@@ -104,6 +116,13 @@ export function setBPM(bpm) {
   };
 }
 
+export function setBPM(bpm) {
+  return {
+    type: actionTypes.SET_BPM,
+    bpm,
+  };
+}
+
 export function setNotes(notes) {
   return {
     type: actionTypes.SET_NOTES,
@@ -112,14 +131,9 @@ export function setNotes(notes) {
 }
 
 export function setSequences(sequences) {
-  return (dispatch, getState) => {
-    const song = selectors.getSong(getState());
-    const updatedSong = {
-      ...song,
-      sequences,
-    };
-
-    dispatch(setSong(updatedSong));
+  return {
+    type: actionTypes.SET_SEQUENCES,
+    sequences,
   };
 }
 
@@ -131,39 +145,30 @@ export function setSong(song) {
 }
 
 export function setTracks(tracks) {
-  return (dispatch, getState) => {
-    const song = selectors.getSong(getState());
-    const updatedSong = {
-      ...song,
-      tracks,
-    };
-
-    dispatch(setSong(updatedSong));
-    dispatch(playing.effects.updateTracks());
+  return {
+    type: actionTypes.SET_TRACKS,
+    tracks,
   };
 }
 
-export function updateSequence(sequence) {
-  return (dispatch, getState) => {
-    const sequences = selectors.getSequences(getState());
-    const updatedSequences = shared.helpers.replaceItemsById(
-      sequences,
-      [sequence],
-    );
-
-    dispatch(setSequences(updatedSequences));
+export function updateNotes(notes) {
+  return {
+    type: actionTypes.UPDATE_NOTES,
+    notes,
   };
 }
 
-export function updateTrack(track) {
-  return (dispatch, getState) => {
-    const tracks = selectors.getTracks(getState());
-    const updatedTracks = shared.helpers.replaceItemsById(
-      tracks,
-      [track],
-    );
+export function updateSequences(sequences) {
+  return {
+    type: actionTypes.UPDATE_SEQUENCES,
+    sequences,
+  };
+}
 
-    dispatch(setTracks(updatedTracks));
+export function updateTracks(tracks) {
+  return {
+    type: actionTypes.UPDATE_TRACKS,
+    tracks,
   };
 }
 

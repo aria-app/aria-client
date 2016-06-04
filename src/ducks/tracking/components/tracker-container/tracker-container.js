@@ -8,7 +8,7 @@ export const TrackerContainer = connect((state) => ({
   selectedSequenceId: selectors.getSelectedSequenceId(state),
   stagedTrack: selectors.getStagedTrack(state),
 }), {
-  addTrack: song.actions.addTrack,
+  addNewTrack: song.actions.addNewTrack,
   applyStagedTrack: actions.applyStagedTrack,
   clearStagedTrack: actions.clearStagedTrack,
   deleteStagedTrack: actions.deleteStagedTrack,

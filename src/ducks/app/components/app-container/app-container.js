@@ -22,7 +22,7 @@ function mapDispatchToProps(dispatch) {
     initialize: (...args) => dispatch(effects.initialize(...args)),
     pause: (...args) => dispatch(transport.effects.pause(...args)),
     play: (...args) => dispatch(transport.effects.play(...args)),
-    setBPM: (...args) => dispatch(song.actions.setBPM(...args)),
+    safeSetBPM: (...args) => dispatch(song.actions.safeSetBPM(...args)),
     stop: (...args) => dispatch(transport.effects.stop(...args)),
     decrementSongLength: (...args) => dispatch(song.actions.decrementSongLength(...args)),
     incrementSongLength: (...args) => dispatch(song.actions.incrementSongLength(...args)),

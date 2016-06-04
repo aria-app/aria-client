@@ -6,6 +6,7 @@ import initialState from './initial-state';
 const dict = (state = initialState.notes.dict, action) => {
   switch (action.type) {
     case actionTypes.ADD_NOTES:
+    case actionTypes.UPDATE_NOTES:
       return action.notes.reduce((acc, cur) => ({
         ...acc,
         [cur.id]: cur,
