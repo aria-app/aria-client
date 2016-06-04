@@ -29,13 +29,13 @@ export function draw() {
   return (dispatch, getState) => {
     const point = sequencer.selectors.getMousePoint(getState());
 
-    const note = dispatch(createNote([
+    const note = helpers.createNote([
       point,
       {
         x: point.x + 1,
         y: point.y,
       },
-    ]));
+    ]);
 
     dispatch(playing.effects.playNote(_.first(note.points)));
     dispatch(add([note]));
@@ -48,7 +48,9 @@ export function duplicate() {
 
     if (_.isEmpty(selectedNotes)) return;
 
-    const duplicatedNotes = dispatch(createNotes(_.map(selectedNotes, 'points')));
+    const duplicatedNotes = selectedNotes.map(note =>
+      helpers.createNote(note.points)
+    );
 
     dispatch(pushUndo());
     dispatch(add(duplicatedNotes));
@@ -322,28 +324,5 @@ export function update(items) {
     const updatedNotes = shared.helpers.replaceItemsById(allNotes, items);
 
     dispatch(song.actions.setNotes(updatedNotes));
-  };
-}
-
-function createNote(points) {
-  return (dispatch, getState) => {
-    const notes = song.selectors.getActiveNotes(getState());
-    const id = shared.helpers.getId(notes);
-
-    return {
-      id,
-      points,
-    };
-  };
-}
-
-function createNotes(pointSets) {
-  return (dispatch, getState) => {
-    const notes = song.selectors.getActiveNotes(getState());
-    const ids = shared.helpers.getIds(notes, pointSets.length);
-    return _.zipWith(ids, pointSets, (id, points) => ({
-      id,
-      points,
-    }));
   };
 }

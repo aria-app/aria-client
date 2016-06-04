@@ -5,7 +5,6 @@ import { NAME } from './constants';
 const get = state => state[NAME];
 
 export const getActiveSequenceId = (state) => get(state).activeSequenceId;
-export const getId = (state) => get(state).id;
 export const getSong = (state) => get(state).song;
 
 export const getBPM = (state) =>

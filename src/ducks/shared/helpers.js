@@ -62,33 +62,6 @@ export const getChildRef = createHelper((selector) => BaseComponent =>
   })
 , 'getChildRef');
 
-export function getId(items) {
-  for (let i = 0; i < items.length; i++) {
-    const itemHasId = _.some(items, { id: i });
-    if (!itemHasId) return i;
-  }
-
-  return items.length;
-}
-
-export function getIds(items, count) {
-  const ids = [];
-
-  for (let i = 0; i < items.length; i++) {
-    const idTaken = _.some(items, { id: i })
-      || _.includes(ids, i);
-
-    if (!idTaken) ids.push(i);
-    console.log(ids.length === count);
-    if (ids.length === count) return ids;
-  }
-
-  return ids.concat(_.range(
-    items.length,
-    items.length + count - ids.length,
-  ));
-}
-
 export function getNoteName(y) {
   const octaveNumber = ((constants.octaveRange.length - 1) - Math.floor(y / 12));
   const letter = getLetter(y);

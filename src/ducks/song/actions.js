@@ -4,17 +4,15 @@ import playing from 'ducks/playing';
 import shared from 'ducks/shared';
 import transport from 'ducks/transport';
 import * as actionTypes from './action-types';
+import * as helpers from './helpers';
 import * as selectors from './selectors';
 
 export function addSequence(options) {
   return (dispatch, getState) => {
     const sequences = selectors.getSequences(getState());
-    const newSequence = {
-      id: shared.helpers.getId(sequences),
-      notes: [],
-      measureCount: options.measureCount,
-      trackId: options.trackId,
-    };
+    const newSequence = helpers.createSequence({
+      ...options,
+    });
     const updatedSequences = [
       ...sequences,
       newSequence,
@@ -27,10 +25,7 @@ export function addSequence(options) {
 export function addTrack() {
   return (dispatch, getState) => {
     const tracks = selectors.getTracks(getState());
-    const newTrack = {
-      id: shared.helpers.getId(tracks),
-      synthType: shared.constants.defaultSynthType,
-    };
+    const newTrack = helpers.createTrack();
     const updatedTracks = [
       ...tracks,
       newTrack,

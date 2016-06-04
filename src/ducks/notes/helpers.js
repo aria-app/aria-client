@@ -1,10 +1,18 @@
 import _ from 'lodash';
+import { v4 } from 'node-uuid';
 import shared from 'ducks/shared';
 
 export function addPoints(a, b) {
   return {
     x: a.x + b.x,
     y: a.y + b.y,
+  };
+}
+
+export function createNote(points) {
+  return {
+    id: v4(),
+    points,
   };
 }
 
