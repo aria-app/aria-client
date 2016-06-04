@@ -1,23 +1,20 @@
 import _ from 'lodash';
 import { combineReducers } from 'redux';
+import shared from 'ducks/shared';
 import * as actionTypes from '../action-types';
 import initialState from './initial-state';
+
+const { setAtIds } = shared.helpers;
 
 const dict = (state = initialState.sequences.dict, action) => {
   switch (action.type) {
     case actionTypes.ADD_SEQUENCES:
     case actionTypes.UPDATE_SEQUENCES:
-      return action.sequences.reduce((acc, cur) => ({
-        ...acc,
-        [cur.id]: cur,
-      }), state);
+      return setAtIds(action.sequences, state);
     case actionTypes.DELETE_SEQUENCES:
       return _.omit(state, _.map(action.sequences, 'id'));
     case actionTypes.SET_SEQUENCES:
-      return action.sequences.reduce((acc, cur) => ({
-        ...acc,
-        [cur.id]: cur,
-      }), {});
+      return setAtIds(action.sequences, state);
     default:
       return state;
   }

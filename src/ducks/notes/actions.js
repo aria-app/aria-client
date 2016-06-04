@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import sequencer from 'ducks/sequencer';
-import shared from 'ducks/shared';
 import song from 'ducks/song';
 import playing from 'ducks/playing';
 import * as actionTypes from './action-types';

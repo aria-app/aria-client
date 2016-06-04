@@ -123,6 +123,13 @@ export function setBPM(bpm) {
   };
 }
 
+export function setMeasureCount(measureCount) {
+  return {
+    type: actionTypes.SET_MEASURE_COUNT,
+    measureCount,
+  };
+}
+
 export function setNotes(notes) {
   return {
     type: actionTypes.SET_NOTES,
