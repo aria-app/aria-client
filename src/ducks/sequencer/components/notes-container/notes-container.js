@@ -20,9 +20,9 @@ function mapStateToProps(state) {
     isPanning: panning.selectors.getIsPanning(state),
     isResizing: resizing.selectors.getIsResizing(state),
     isSelecting: selection.selectors.getIsSelecting(state),
-    measureCount: song.selectors.getActiveMeasureCount(state),
+    measureCount: song.selectors.getActiveSequenceMeasureCount(state),
     mousePoint: selectors.getMousePoint(state),
-    notes: song.selectors.getActiveNotes(state),
+    notes: song.selectors.getActiveSequenceNotes(state),
     selectedNotes: notes.selectors.getSelectedNotes(state),
   };
 }

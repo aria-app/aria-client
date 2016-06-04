@@ -89,7 +89,7 @@ export const DropdownList = compose([
 function getSelectedItem(props) {
   if (props.selectedItem) {
     return props.selectedItem;
-  } else if (props.selectedId !== undefined) {
+  } else if (props.selectedId || props.selectedId === 0) {
     return _.find(props.items, { id: props.selectedId });
   }
 

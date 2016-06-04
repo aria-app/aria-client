@@ -12,7 +12,7 @@ export const AppContainer = connect(
 function mapStateToProps(state) {
   return {
     activeSequenceId: song.selectors.getActiveSequenceId(state),
-    bpm: song.selectors.getBPM(state),
+    bpm: song.selectors.getSongBPM(state),
     playbackState: transport.selectors.getPlaybackState(state),
   };
 }

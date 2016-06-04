@@ -25,7 +25,7 @@ const component = (props) =>
           icon: 'plus',
           onPress: props.addTrack,
         }),
-        ...(!props.selectedSequenceId
+        ...(props.selectedSequenceId
           ? props.selectedSequenceItems
           : []),
       ],
@@ -86,15 +86,15 @@ const composed = compose([
     applyStagedTrack: React.PropTypes.func.isRequired,
     clearStagedTrack: React.PropTypes.func.isRequired,
     deleteStagedTrack: React.PropTypes.func.isRequired,
-    selectedSequenceId: React.PropTypes.number.isRequired,
-    setActiveSequenceId: React.PropTypes.func.isRequired,
+    openSequence: React.PropTypes.func.isRequired,
+    selectedSequenceId: React.PropTypes.string,
     setStagedTrack: React.PropTypes.func.isRequired,
     updateStagedTrackSynthType: React.PropTypes.func.isRequired,
     stagedTrack: React.PropTypes.object,
   }),
   withHandlers({
     editSequence: (props) => () => {
-      props.setActiveSequenceId(props.selectedSequenceId);
+      props.openSequence(props.selectedSequenceId);
     },
     onModalCancel: (props) => () => {
       props.clearStagedTrack();

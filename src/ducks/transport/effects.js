@@ -13,9 +13,8 @@ export function createSequences() {
     const toneSequences = songSequences.map(sequence => {
       const toneSequence = new Tone.Sequence((time, step) => {
         const activeSequenceId = song.selectors.getActiveSequenceId(getState());
-        const getNotes = song.selectors.createGetNotesById(sequence.id);
-        const allNotes = getNotes(getState());
-        const notesAtStep = _(allNotes)
+        const notes = song.selectors.getNotesBySequenceId(sequence.id)(getState());
+        const notesAtStep = _(notes)
           .filter(note => _.first(note.points).x === step)
           .uniqBy(note => _.first(note.points).y)
           .value();
@@ -62,7 +61,7 @@ export function loopActiveSequence() {
 
 export function loopSong() {
   return (dispatch, getState) => {
-    const songMeasureCount = song.selectors.getMeasureCount(getState());
+    const songMeasureCount = song.selectors.getSongMeasureCount(getState());
     const end = helpers.measuresToSeconds(songMeasureCount);
     dispatch(actions.setStartPoint(0));
     Tone.Transport.setLoopPoints(0, end);
@@ -95,7 +94,7 @@ export function play() {
 
 export function updateBPM() {
   return (dispatch, getState) => {
-    const bpm = song.selectors.getBPM(getState());
+    const bpm = song.selectors.getSongBPM(getState());
 
     Tone.Transport.bpm.value = bpm;
   };
@@ -131,7 +130,7 @@ export function updateLooping() {
     const activeSequenceId = song.selectors.getActiveSequenceId(getState());
     const playbackState = selectors.getPlaybackState(getState());
 
-    if (activeSequenceId !== undefined) {
+    if (activeSequenceId) {
       dispatch(loopActiveSequence());
     } else {
       dispatch(loopSong());

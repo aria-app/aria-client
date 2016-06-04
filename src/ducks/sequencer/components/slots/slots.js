@@ -27,7 +27,7 @@ function getRowClasses(step) {
   const suffix = _.includes(step.name, '#')
     ? 'sharp'
     : '';
-  return `slots__slot--${letter}${suffix}`;
+  return `slots__row--${letter}${suffix}`;
 }
 
 function getRows(scale, measureCount) {

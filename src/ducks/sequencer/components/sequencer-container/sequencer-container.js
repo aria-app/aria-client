@@ -23,9 +23,10 @@ function mapDispatchToProps(dispatch) {
   return {
     changeSynthType: (...args) => dispatch(actions.changeSynthType(...args)),
     duplicate: (...args) => dispatch(notes.actions.duplicate(...args)),
-    setActiveSequenceId: (...args) => dispatch(song.actions.setActiveSequenceId(...args)),
+    closeSequence: (...args) => dispatch(song.actions.closeSequence(...args)),
     removeSelected: (...args) => dispatch(notes.actions.removeSelected(...args)),
     setScrollTopIfChanged: (...args) => dispatch(actions.setScrollTopIfChanged(...args)),
+    setSelectedNoteIds: (...args) => dispatch(notes.actions.setSelectedNoteIds(...args)),
     setSelectedNoteSizes: (...args) => dispatch(notes.actions.setSelectedNoteSizes(...args)()),
     shiftDownOctave: (...args) => dispatch(notes.actions.shiftDownOctave(...args)),
     shiftUpOctave: (...args) => dispatch(notes.actions.shiftUpOctave(...args)),

@@ -9,13 +9,6 @@ export function addPoints(a, b) {
   };
 }
 
-export function createNote(points) {
-  return {
-    id: v4(),
-    points,
-  };
-}
-
 export function getType(synth) {
   return synth.voices[0].oscillator.type;
 }

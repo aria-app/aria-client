@@ -1,3 +1,4 @@
+import notes from 'ducks/notes';
 import song from 'ducks/song';
 import * as actionTypes from './action-types';
 import * as selectors from './selectors';
@@ -22,6 +23,13 @@ export function deleteStagedTrack() {
 
     dispatch(song.actions.deleteTrackById(stagedTrack.id));
     dispatch(clearStagedTrack());
+  };
+}
+
+export function openSequence(sequenceId) {
+  return (dispatch) => {
+    dispatch(notes.actions.setSelectedNoteIds([]));
+    dispatch(song.actions.openSequence(sequenceId));
   };
 }
 

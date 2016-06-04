@@ -31,17 +31,18 @@ const composed = compose([
   pure,
   setPropTypes({
     changeSynthType: React.PropTypes.func.isRequired,
-    removeSelected: React.PropTypes.func.isRequired,
+    closeSequence: React.PropTypes.func.isRequired,
     duplicate: React.PropTypes.func.isRequired,
     isSelectionActive: React.PropTypes.bool,
-    setActiveSequenceId: React.PropTypes.func.isRequired,
+    removeSelected: React.PropTypes.func.isRequired,
+    setScrollTopIfChanged: React.PropTypes.func.isRequired,
+    setSelectedNoteIds: React.PropTypes.func.isRequired,
     setSelectedNoteSizes: React.PropTypes.func.isRequired,
     setToolType: React.PropTypes.func.isRequired,
     shiftDownOctave: React.PropTypes.func.isRequired,
     shiftUpOctave: React.PropTypes.func.isRequired,
     synthType: React.PropTypes.string.isRequired,
     toolType: React.PropTypes.string.isRequired,
-    setScrollTopIfChanged: React.PropTypes.func.isRequired,
   }),
   getChildRef('.sequencer__content'),
   scrollTo({
@@ -51,7 +52,8 @@ const composed = compose([
   pure,
   withHandlers({
     close: (props) => () => {
-      props.setActiveSequenceId(undefined);
+      props.setSelectedNoteIds([]);
+      props.closeSequence();
     },
     onContentScroll,
     onSelect: (props) => (item) => {

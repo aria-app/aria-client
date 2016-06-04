@@ -41,7 +41,7 @@ const composed = compose([
     editSequence: React.PropTypes.func.isRequired,
     onSequenceSelect: React.PropTypes.func.isRequired,
     onTrackSelect: React.PropTypes.func.isRequired,
-    selectedSequenceId: React.PropTypes.number.isRequired,
+    selectedSequenceId: React.PropTypes.string,
     songMeasureCount: React.PropTypes.number.isRequired,
     track: React.PropTypes.object.isRequired,
   }),
@@ -53,7 +53,7 @@ const composed = compose([
       props.onTrackSelect(props.track.id);
     },
     onTrackPress: (props) => (e) => {
-      props.onSequenceSelect(-1);
+      props.onSequenceSelect('');
       e.stopPropagation();
     },
   }),

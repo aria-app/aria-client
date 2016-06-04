@@ -61,7 +61,7 @@ export function update(isAdditive) {
     if (_.isEqual(previousPoint, newPoint)) return;
 
     const startPoint = selectors.getStartPoint(getState());
-    const allNotes = song.selectors.getActiveNotes(getState());
+    const allNotes = song.selectors.getActiveSequenceNotes(getState());
     const selectedNotes = notes.selectors.getSelectedNotes(getState());
     const notesToSelect = helpers.getNotesInFence(startPoint, newPoint, allNotes);
 

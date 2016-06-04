@@ -13,7 +13,7 @@ export const getIsSelectionActive = createSelector(
   (selectedNoteIds) => !_.isEmpty(selectedNoteIds)
 );
 export const getSelectedNotes = createSelector(
-  song.selectors.getActiveNotes,
+  song.selectors.getActiveSequenceNotes,
   getSelectedNoteIds,
   (notes, selectedNoteIds) => _.filter(
     notes,

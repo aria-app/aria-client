@@ -9,7 +9,7 @@ import * as selectors from './selectors';
 
 export function add(newNotes) {
   return (dispatch, getState) => {
-    const oldNotes = song.selectors.getActiveNotes(getState());
+    const oldNotes = song.selectors.getActiveSequenceNotes(getState());
 
     dispatch(pushUndo());
     dispatch(song.actions.setNotes([
@@ -29,16 +29,14 @@ export function draw() {
   return (dispatch, getState) => {
     const point = sequencer.selectors.getMousePoint(getState());
 
-    const note = helpers.createNote([
+    dispatch(playing.effects.playNote(point));
+    dispatch(song.actions.createNotesInActiveSequence([[
       point,
       {
         x: point.x + 1,
         y: point.y,
       },
-    ]);
-
-    dispatch(playing.effects.playNote(_.first(note.points)));
-    dispatch(add([note]));
+    ]]));
   };
 }
 
@@ -48,13 +46,9 @@ export function duplicate() {
 
     if (_.isEmpty(selectedNotes)) return;
 
-    const duplicatedNotes = selectedNotes.map(note =>
-      helpers.createNote(note.points)
-    );
-
     dispatch(pushUndo());
-    dispatch(add(duplicatedNotes));
-    dispatch(selectNotes(duplicatedNotes));
+    const newNotes = dispatch(song.actions.createNotesInActiveSequence(_.map(selectedNotes, 'points')));
+    dispatch(selectNotes(newNotes));
   };
 }
 
@@ -66,7 +60,7 @@ export function erase(note) {
 
 export function move(notes, offset) {
   return (dispatch, getState) => {
-    const measureCount = song.selectors.getActiveMeasureCount(getState());
+    const measureCount = song.selectors.getActiveSequenceMeasureCount(getState());
 
     const updatedNotes = notes.map(note => ({
       ...note,
@@ -104,7 +98,7 @@ export function nudgeSelectedNotes(offset) {
 
 export function pushRedo() {
   return (dispatch, getState) => {
-    const allNotes = song.selectors.getActiveNotes(getState());
+    const allNotes = song.selectors.getActiveSequenceNotes(getState());
     const redos = selectors.getRedos(getState());
 
     dispatch(setRedos([
@@ -116,7 +110,7 @@ export function pushRedo() {
 
 export function pushUndo() {
   return (dispatch, getState) => {
-    const allNotes = song.selectors.getActiveNotes(getState());
+    const allNotes = song.selectors.getActiveSequenceNotes(getState());
     const undos = selectors.getUndos(getState());
 
     if (_.isEqual(_.last(undos), allNotes)) return;
@@ -135,7 +129,7 @@ export function redo() {
 
     if (_.isEmpty(redos)) return;
 
-    const allNotes = song.selectors.getActiveNotes(getState());
+    const allNotes = song.selectors.getActiveSequenceNotes(getState());
     const undos = selectors.getUndos(getState());
 
     dispatch(setUndos([
@@ -149,7 +143,7 @@ export function redo() {
 
 export function remove(notesToRemove) {
   return (dispatch, getState) => {
-    const notes = song.selectors.getActiveNotes(getState());
+    const notes = song.selectors.getActiveSequenceNotes(getState());
     const updatedNotes = _.difference(notes, notesToRemove);
 
     dispatch(pushUndo());
@@ -160,7 +154,7 @@ export function remove(notesToRemove) {
 
 export function resize(notes, change) {
   return (dispatch, getState) => {
-    const measureCount = song.selectors.getActiveMeasureCount(getState());
+    const measureCount = song.selectors.getActiveSequenceMeasureCount(getState());
     const movingLeft = change.x < 0;
     const anyNoteBent = _.some(notes, n => (_.last(n.points).y - _.first(n.points).y) !== 0);
     const willBeMinLength = _.some(notes, n => (_.last(n.points).x - _.first(n.points).x) <= 1);
@@ -238,7 +232,7 @@ export function selectNotes(notes) {
 
 export function selectAll() {
   return (dispatch, getState) => {
-    const notes = song.selectors.getActiveNotes(getState());
+    const notes = song.selectors.getActiveSequenceNotes(getState());
 
     dispatch(selectNotes(notes));
   };
@@ -320,7 +314,7 @@ export function undo() {
 
 export function update(items) {
   return (dispatch, getState) => {
-    const allNotes = song.selectors.getActiveNotes(getState());
+    const allNotes = song.selectors.getActiveSequenceNotes(getState());
     const updatedNotes = shared.helpers.replaceItemsById(allNotes, items);
 
     dispatch(song.actions.setNotes(updatedNotes));

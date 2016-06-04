@@ -24,7 +24,7 @@ const component = ({
   decrementSongLength,
   incrementSongLength,
 }) => h('.app', [
-  activeSequenceId !== undefined
+  activeSequenceId
     ? h(SequencerContainer)
     : h(TrackerContainer),
   h(Toolbar, {
@@ -70,7 +70,7 @@ const composed = compose([
   setDisplayName('App'),
   pure,
   setPropTypes({
-    activeSequenceId: React.PropTypes.number,
+    activeSequenceId: React.PropTypes.string,
     bpm: React.PropTypes.number,
     initialize: React.PropTypes.func.isRequired,
     pause: React.PropTypes.func.isRequired,
