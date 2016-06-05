@@ -56,8 +56,11 @@ export function addTracks(tracks) {
 }
 
 export function closeSequence() {
-  return {
-    type: actionTypes.CLOSE_SEQUENCE,
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.CLOSE_SEQUENCE,
+    });
+    dispatch(transport.effects.updateLooping());
   };
 }
 
@@ -103,15 +106,10 @@ export function openSequence(id) {
 
 
 export function safeSetBPM(bpm) {
-  return (dispatch, getState) => {
-    const song = selectors.getSong(getState());
-    const safeBpm = _.clamp(bpm, shared.constants.minBPM, shared.constants.maxBPM);
-    const updatedSong = {
-      ...song,
-      bpm: safeBpm,
-    };
+  return (dispatch) => {
+    const safeBPM = _.clamp(bpm, shared.constants.minBPM, shared.constants.maxBPM);
 
-    dispatch(setSong(updatedSong));
+    dispatch(setBPM(safeBPM));
     dispatch(transport.effects.updateBPM());
   };
 }
@@ -169,6 +167,13 @@ export function updateSequences(sequences) {
   return {
     type: actionTypes.UPDATE_SEQUENCES,
     sequences,
+  };
+}
+
+export function updateTrack(track) {
+  return {
+    type: actionTypes.UPDATE_TRACK,
+    track,
   };
 }
 

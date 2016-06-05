@@ -1,4 +1,3 @@
-import notes from 'ducks/notes';
 import song from 'ducks/song';
 import * as actionTypes from './action-types';
 import * as selectors from './selectors';
@@ -12,8 +11,8 @@ export function applyStagedTrack() {
 }
 
 export function clearStagedTrack() {
-  return (dispatch) => {
-    dispatch(setStagedTrack(undefined));
+  return {
+    type: actionTypes.CLEAR_STAGED_TRACK,
   };
 }
 
@@ -26,10 +25,10 @@ export function deleteStagedTrack() {
   };
 }
 
-export function openSequence(sequenceId) {
-  return (dispatch) => {
-    dispatch(notes.actions.setSelectedNoteIds([]));
-    dispatch(song.actions.openSequence(sequenceId));
+export function openSequence(id) {
+  return {
+    type: actionTypes.OPEN_SEQUENCE,
+    id,
   };
 }
 
@@ -40,18 +39,10 @@ export function setSelectedSequenceId(selectedSequenceId) {
   };
 }
 
-export function setStagedTrack(stagedTrack) {
+export function stageTrack(track) {
   return {
-    type: actionTypes.SET_STAGED_TRACK,
-    stagedTrack,
-  };
-}
-
-export function stageTrackForEditing(trackId) {
-  return (dispatch, getState) => {
-    const track = song.selectors.getTrackById(getState(), trackId);
-
-    dispatch(setStagedTrack(track));
+    type: actionTypes.STAGE_TRACK,
+    track,
   };
 }
 
@@ -63,6 +54,6 @@ export function updateStagedTrackSynthType(synthType) {
       synthType,
     };
 
-    dispatch(setStagedTrack(updatedStagedTrack));
+    dispatch(stageTrack(updatedStagedTrack));
   };
 }

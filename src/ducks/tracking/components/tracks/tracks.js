@@ -33,15 +33,15 @@ const composed = compose([
     selectedSequenceId: React.PropTypes.string,
     setSelectedSequenceId: React.PropTypes.func.isRequired,
     songMeasureCount: React.PropTypes.number.isRequired,
-    stageTrackForEditing: React.PropTypes.func.isRequired,
+    stageTrack: React.PropTypes.func.isRequired,
     tracks: React.PropTypes.array.isRequired,
   }),
   withHandlers({
     onSequenceSelect: (props) => (id) => {
       props.setSelectedSequenceId(id);
     },
-    onTrackSelect: (props) => (trackId) => {
-      props.stageTrackForEditing(trackId);
+    onTrackSelect: (props) => (track) => {
+      props.stageTrack(track);
     },
     onTracksPress: (props) => (e) => {
       props.setSelectedSequenceId('');

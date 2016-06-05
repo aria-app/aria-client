@@ -6,17 +6,17 @@ import { NAME } from './constants';
 const get = state => state[NAME];
 
 export const getRedos = state => get(state).redos;
-export const getSelectedNoteIds = state => get(state).selectedNoteIds;
+export const getSelectedIds = state => get(state).selectedIds;
 export const getUndos = state => get(state).undos;
 export const getIsSelectionActive = createSelector(
-  getSelectedNoteIds,
-  (selectedNoteIds) => !_.isEmpty(selectedNoteIds)
+  getSelectedIds,
+  (selectedIds) => !_.isEmpty(selectedIds)
 );
 export const getSelectedNotes = createSelector(
   song.selectors.getActiveSequenceNotes,
-  getSelectedNoteIds,
-  (notes, selectedNoteIds) => _.filter(
+  getSelectedIds,
+  (notes, selectedIds) => _.filter(
     notes,
-    n => _.includes(selectedNoteIds, n.id)
+    n => _.includes(selectedIds, n.id)
   )
 );

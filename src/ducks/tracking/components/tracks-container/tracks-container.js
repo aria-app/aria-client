@@ -10,5 +10,5 @@ export const TracksContainer = connect((state) => ({
   tracks: song.selectors.getTracksWithSequences(state),
 }), {
   setSelectedSequenceId: actions.setSelectedSequenceId,
-  stageTrackForEditing: actions.stageTrackForEditing,
+  stageTrack: actions.stageTrack,
 })(Tracks);

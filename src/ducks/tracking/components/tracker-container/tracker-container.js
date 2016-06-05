@@ -12,7 +12,7 @@ export const TrackerContainer = connect((state) => ({
   applyStagedTrack: actions.applyStagedTrack,
   clearStagedTrack: actions.clearStagedTrack,
   deleteStagedTrack: actions.deleteStagedTrack,
-  openSequence: actions.openSequence,
-  setStagedTrack: actions.setStagedTrack,
+  openSequence: song.actions.openSequence,
+  stageTrack: actions.stageTrack,
   updateStagedTrackSynthType: actions.updateStagedTrackSynthType,
 })(Tracker);

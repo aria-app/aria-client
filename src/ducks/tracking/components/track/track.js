@@ -50,7 +50,7 @@ const composed = compose([
       props.onSequenceSelect(id);
     },
     onTrackSelect: (props) => () => {
-      props.onTrackSelect(props.track.id);
+      props.onTrackSelect(props.track);
     },
     onTrackPress: (props) => (e) => {
       props.onSequenceSelect('');

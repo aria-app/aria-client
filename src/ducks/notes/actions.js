@@ -6,21 +6,18 @@ import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
-export function add(newNotes) {
-  return (dispatch, getState) => {
-    const oldNotes = song.selectors.getActiveSequenceNotes(getState());
+export function changeSelectedSize(change) {
+  return () => (dispatch, getState) => {
+    const selectedNotes = selectors.getSelectedNotes(getState());
 
     dispatch(pushUndo());
-    dispatch(song.actions.setNotes([
-      ...oldNotes,
-      ...newNotes,
-    ]));
+    dispatch(resize(selectedNotes, change));
   };
 }
 
-export function deselect() {
-  return (dispatch) => {
-    dispatch(setSelectedNoteIds([]));
+export function deselectAll() {
+  return {
+    type: actionTypes.deselectAll,
   };
 }
 
@@ -46,7 +43,9 @@ export function duplicate() {
     if (_.isEmpty(selectedNotes)) return;
 
     dispatch(pushUndo());
-    const newNotes = dispatch(song.actions.addNotesToActiveSequence(_.map(selectedNotes, 'points')));
+    const newNotes = dispatch(
+      song.actions.addNotesToActiveSequence(_.map(selectedNotes, 'points'))
+    );
     dispatch(selectNotes(newNotes));
   };
 }
@@ -70,7 +69,7 @@ export function move(notes, offset) {
       || helpers.somePointOutside(_.map(updatedNotes, n => n.points[1]), measureCount)) return;
 
     dispatch(playing.effects.playNote(_.first(updatedNotes[0].points)));
-    dispatch(update(updatedNotes));
+    dispatch(song.actions.updateNotes(updatedNotes));
   };
 }
 
@@ -140,14 +139,17 @@ export function redo() {
   };
 }
 
-export function remove(notesToRemove) {
-  return (dispatch, getState) => {
-    const notes = song.selectors.getActiveSequenceNotes(getState());
-    const updatedNotes = _.difference(notes, notesToRemove);
-
+export function remove(notes) {
+  return (dispatch) => {
     dispatch(pushUndo());
-    dispatch(setSelectedNoteIds([]));
-    dispatch(song.actions.setNotes(updatedNotes));
+    dispatch(song.actions.deleteNotes(notes));
+  };
+}
+
+export function removeSelected() {
+  return (dispatch, getState) => {
+    const selectedNotes = selectors.getSelectedNotes(getState());
+    dispatch(remove(selectedNotes));
   };
 }
 
@@ -184,55 +186,47 @@ export function resize(notes, change) {
 
     dispatch(playing.effects.playNote(_.last(updatedNotes[0].points)));
 
-    dispatch(update(updatedNotes));
+    dispatch(song.actions.updateNotes(updatedNotes));
   };
 }
 
-export function resizeSelected(change) {
+export function resizeSelected(size) {
   return () => (dispatch, getState) => {
     const selectedNotes = selectors.getSelectedNotes(getState());
+    const updatedNotes = selectedNotes.map(note => ({
+      ...note,
+      points: [
+        ...note.points.slice(0, note.points.length - 1),
+        {
+          x: _.first(note.points).x + size - 1,
+          y: _.first(note.points).y,
+        },
+      ],
+    }));
 
     dispatch(pushUndo());
-    dispatch(resize(selectedNotes, change));
-  };
-}
-
-export function removeSelected() {
-  return (dispatch, getState) => {
-    const selectedNotes = selectors.getSelectedNotes(getState());
-
-    dispatch(remove(selectedNotes));
+    dispatch(song.actions.updateNotes(updatedNotes));
   };
 }
 
 export function selectNote(note, isAdditive) {
-  return (dispatch, getState) => {
-    const selectedNotes = selectors.getSelectedNotes(getState());
-
-    if (isAdditive) {
-      if (_.includes(selectedNotes, note)) {
-        dispatch(selectNotes(_.without(selectedNotes, note)));
-      } else {
-        dispatch(selectNotes([...selectedNotes, note]));
-      }
-    } else {
-      if (!_.includes(selectedNotes, note)) {
-        dispatch(selectNotes([note]));
-      }
-    }
+  return {
+    type: actionTypes.SELECT_NOTE,
+    note,
+    isAdditive,
   };
 }
 
 export function selectNotes(notes) {
-  return (dispatch) => {
-    dispatch(setSelectedNoteIds(notes.map(n => n.id)));
+  return {
+    type: actionTypes.SELECT_NOTES,
+    notes,
   };
 }
 
 export function selectAll() {
   return (dispatch, getState) => {
     const notes = song.selectors.getActiveSequenceNotes(getState());
-
     dispatch(selectNotes(notes));
   };
 }
@@ -248,32 +242,6 @@ export function setUndos(undos) {
   return {
     type: actionTypes.SET_UNDOS,
     undos,
-  };
-}
-
-export function setSelectedNoteIds(selectedNoteIds) {
-  return {
-    type: actionTypes.SET_SELECTED_NOTE_IDS,
-    selectedNoteIds,
-  };
-}
-
-export function setSelectedNoteSizes(size) {
-  return () => (dispatch, getState) => {
-    const selectedNotes = selectors.getSelectedNotes(getState());
-    const updatedNotes = selectedNotes.map(note => ({
-      ...note,
-      points: [
-        ...note.points.slice(0, note.points.length - 1),
-        {
-          x: _.first(note.points).x + size - 1,
-          y: _.first(note.points).y,
-        },
-      ],
-    }));
-
-    dispatch(pushUndo());
-    dispatch(update(updatedNotes));
   };
 }
 
@@ -308,11 +276,5 @@ export function undo() {
     dispatch(pushRedo());
     dispatch(song.actions.setNotes(_.last(undos)));
     dispatch(setUndos(undos.slice(0, undos.length - 1)));
-  };
-}
-
-export function update(notes) {
-  return (dispatch) => {
-    dispatch(song.actions.updateNotes(notes));
   };
 }

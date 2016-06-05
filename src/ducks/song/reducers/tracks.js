@@ -11,6 +11,11 @@ const dict = (state = initialState.tracks.dict, action) => {
     case actionTypes.ADD_TRACKS:
     case actionTypes.UPDATE_TRACKS:
       return setAtIds(action.tracks, state);
+    case actionTypes.UPDATE_TRACK:
+      return {
+        ...state,
+        [action.track.id]: action.track,
+      };
     case actionTypes.DELETE_TRACKS:
       return _.omit(state, _.map(action.tracks, 'id'));
     case actionTypes.SET_TRACKS:

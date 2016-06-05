@@ -36,8 +36,7 @@ const composed = compose([
     isSelectionActive: React.PropTypes.bool,
     removeSelected: React.PropTypes.func.isRequired,
     setScrollTopIfChanged: React.PropTypes.func.isRequired,
-    setSelectedNoteIds: React.PropTypes.func.isRequired,
-    setSelectedNoteSizes: React.PropTypes.func.isRequired,
+    resizeSelected: React.PropTypes.func.isRequired,
     setToolType: React.PropTypes.func.isRequired,
     shiftDownOctave: React.PropTypes.func.isRequired,
     shiftUpOctave: React.PropTypes.func.isRequired,
@@ -52,7 +51,6 @@ const composed = compose([
   pure,
   withHandlers({
     close: (props) => () => {
-      props.setSelectedNoteIds([]);
       props.closeSequence();
     },
     onContentScroll,
@@ -127,7 +125,7 @@ function getSizingDropdown(props) {
       { text: '1/2', value: 16 },
       { text: '1', value: 32 },
     ],
-    onSelect: (item) => props.setSelectedNoteSizes(item.value),
+    onSelect: (item) => props.resizeSelected(item.value),
   });
 }
 
