@@ -18,6 +18,7 @@ export function addNewTrack() {
     dispatch(addTracks([track]));
     dispatch(addSequences([sequence]));
     dispatch(playing.effects.updateTracks());
+    dispatch(transport.effects.updateSequences());
   };
 }
 
@@ -60,6 +61,38 @@ export function closeSequence() {
     dispatch({
       type: actionTypes.CLOSE_SEQUENCE,
     });
+    dispatch(transport.effects.updateLooping());
+  };
+}
+
+export function decrementSongLength() {
+  return (dispatch, getState) => {
+    const song = selectors.getSong(getState());
+    const newMeasureCount = song.measureCount - 1;
+
+    if (newMeasureCount < 1) return;
+
+    const updatedSong = {
+      ...song,
+      measureCount: newMeasureCount,
+    };
+
+    dispatch(setSong(updatedSong));
+    dispatch(transport.effects.updateLooping());
+  };
+}
+
+export function incrementSongLength() {
+  return (dispatch, getState) => {
+    const song = selectors.getSong(getState());
+    const newMeasureCount = song.measureCount + 1;
+
+    const updatedSong = {
+      ...song,
+      measureCount: newMeasureCount,
+    };
+
+    dispatch(setSong(updatedSong));
     dispatch(transport.effects.updateLooping());
   };
 }
@@ -110,7 +143,6 @@ export function safeSetBPM(bpm) {
     const safeBPM = _.clamp(bpm, shared.constants.minBPM, shared.constants.maxBPM);
 
     dispatch(setBPM(safeBPM));
-    dispatch(transport.effects.updateBPM());
   };
 }
 
@@ -251,34 +283,3 @@ export function updateTracks(tracks) {
 //   };
 // }
 //
-// export function decrementSongLength() {
-//   return (dispatch, getState) => {
-//     const song = selectors.getSong(getState());
-//     const newMeasureCount = song.measureCount - 1;
-//
-//     if (newMeasureCount < 1) return;
-//
-//     const updatedSong = {
-//       ...song,
-//       measureCount: newMeasureCount,
-//     };
-//
-//     dispatch(setSong(updatedSong));
-//     dispatch(transport.effects.updateLooping());
-//   };
-// }
-//
-// export function incrementSongLength() {
-//   return (dispatch, getState) => {
-//     const song = selectors.getSong(getState());
-//     const newMeasureCount = song.measureCount + 1;
-//
-//     const updatedSong = {
-//       ...song,
-//       measureCount: newMeasureCount,
-//     };
-//
-//     dispatch(setSong(updatedSong));
-//     dispatch(transport.effects.updateLooping());
-//   };
-// }

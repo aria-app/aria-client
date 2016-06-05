@@ -1,6 +1,6 @@
-import { NAME } from './constants';
+import * as constants from './constants';
 
-const get = state => state[NAME];
+const get = state => state[constants.NAME];
 
 export const getActiveSynths = state => get(state).activeSynths;
 export const getPlaybackState = state => get(state).playbackState;
@@ -9,3 +9,6 @@ export const getScale = state => get(state).scale;
 export const getSequences = state => get(state).sequences;
 export const getStartPoint = state => get(state).startPoint;
 export const getSynths = state => get(state).synths;
+
+export const getIsPlaying = state =>
+  getPlaybackState(state) === constants.playbackStates.STARTED;

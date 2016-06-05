@@ -30,7 +30,6 @@ const composed = compose([
   setDisplayName('Sequencer'),
   pure,
   setPropTypes({
-    changeSynthType: React.PropTypes.func.isRequired,
     closeSequence: React.PropTypes.func.isRequired,
     duplicate: React.PropTypes.func.isRequired,
     isSelectionActive: React.PropTypes.bool,
@@ -54,9 +53,6 @@ const composed = compose([
       props.closeSequence();
     },
     onContentScroll,
-    onSelect: (props) => (item) => {
-      props.changeSynthType(item.id);
-    },
   }),
   mapProps(props => ({
     ...props,

@@ -3,6 +3,7 @@ import Tone from 'tone';
 import playing from 'ducks/playing';
 import song from 'ducks/song';
 import * as actions from './actions';
+import * as actionTypes from './action-types';
 import * as constants from './constants';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
@@ -43,7 +44,6 @@ export function createSequences() {
 export function initialize() {
   return (dispatch) => {
     dispatch(updateSequences());
-    dispatch(updateBPM());
     dispatch(updateLooping());
   };
 }
@@ -70,46 +70,20 @@ export function loopSong() {
 }
 
 export function pause() {
-  return (dispatch) => {
-    dispatch(actions.setPlaybackState(constants.playbackStates.PAUSED));
-    dispatch(playing.effects.releaseAll());
-    Tone.Transport.pause();
+  return {
+    type: actionTypes.PAUSE,
   };
 }
 
 export function play() {
-  return (dispatch, getState) => {
-    const playbackState = selectors.getPlaybackState(getState());
-
-    dispatch(actions.setPlaybackState(constants.playbackStates.STARTED));
-
-    if (playbackState === constants.playbackStates.STOPPED) {
-      const startPoint = selectors.getStartPoint(getState());
-      Tone.Transport.start(null, startPoint);
-    } else {
-      Tone.Transport.start(null);
-    }
-  };
-}
-
-export function updateBPM() {
-  return (dispatch, getState) => {
-    const bpm = song.selectors.getSongBPM(getState());
-
-    Tone.Transport.bpm.value = bpm;
+  return {
+    type: actionTypes.PLAY,
   };
 }
 
 export function stop() {
-  return (dispatch, getState) => {
-    const playbackState = selectors.getPlaybackState(getState());
-
-    if (playbackState === constants.playbackStates.STOPPED) return;
-
-    dispatch(actions.setPlaybackState(constants.playbackStates.STOPPED));
-    dispatch(actions.setPosition(0));
-    dispatch(playing.effects.releaseAll());
-    Tone.Transport.stop();
+  return {
+    type: actionTypes.STOP,
   };
 }
 

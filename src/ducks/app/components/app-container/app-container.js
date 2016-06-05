@@ -4,27 +4,16 @@ import song from 'ducks/song';
 import transport from 'ducks/transport';
 import * as effects from '../../effects';
 
-export const AppContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
-
-function mapStateToProps(state) {
-  return {
-    activeSequenceId: song.selectors.getActiveSequenceId(state),
-    bpm: song.selectors.getSongBPM(state),
-    playbackState: transport.selectors.getPlaybackState(state),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    initialize: (...args) => dispatch(effects.initialize(...args)),
-    pause: (...args) => dispatch(transport.effects.pause(...args)),
-    play: (...args) => dispatch(transport.effects.play(...args)),
-    safeSetBPM: (...args) => dispatch(song.actions.safeSetBPM(...args)),
-    stop: (...args) => dispatch(transport.effects.stop(...args)),
-    decrementSongLength: (...args) => dispatch(song.actions.decrementSongLength(...args)),
-    incrementSongLength: (...args) => dispatch(song.actions.incrementSongLength(...args)),
-  };
-}
+export const AppContainer = connect((state) => ({
+  activeSequenceId: song.selectors.getActiveSequenceId(state),
+  bpm: song.selectors.getSongBPM(state),
+  playbackState: transport.selectors.getPlaybackState(state),
+}), {
+  decrementSongLength: song.actions.decrementSongLength,
+  incrementSongLength: song.actions.incrementSongLength,
+  initialize: effects.initialize,
+  pause: transport.effects.pause,
+  play: transport.effects.play,
+  safeSetBPM: song.actions.safeSetBPM,
+  stop: transport.effects.stop,
+})(App);

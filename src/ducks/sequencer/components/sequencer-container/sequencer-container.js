@@ -5,30 +5,18 @@ import song from 'ducks/song';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 
-export const SequencerContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Sequencer);
-
-function mapStateToProps(state) {
-  return {
-    activeSequenceId: song.selectors.getActiveSequenceId(state),
-    isSelectionActive: notes.selectors.getIsSelectionActive(state),
-    synthType: selectors.getSynthType(state),
-    toolType: selectors.getToolType(state),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    changeSynthType: (...args) => dispatch(actions.changeSynthType(...args)),
-    duplicate: (...args) => dispatch(notes.actions.duplicate(...args)),
-    closeSequence: (...args) => dispatch(song.actions.closeSequence(...args)),
-    removeSelected: (...args) => dispatch(notes.actions.removeSelected(...args)),
-    setScrollTopIfChanged: (...args) => dispatch(actions.setScrollTopIfChanged(...args)),
-    resizeSelected: (...args) => dispatch(notes.actions.resizeSelected(...args)()),
-    shiftDownOctave: (...args) => dispatch(notes.actions.shiftDownOctave(...args)),
-    shiftUpOctave: (...args) => dispatch(notes.actions.shiftUpOctave(...args)),
-    setToolType: (...args) => dispatch(actions.setToolType(...args)),
-  };
-}
+export const SequencerContainer = connect((state) => ({
+  activeSequenceId: song.selectors.getActiveSequenceId(state),
+  isSelectionActive: notes.selectors.getIsSelectionActive(state),
+  synthType: selectors.getSynthType(state),
+  toolType: selectors.getToolType(state),
+}), {
+  closeSequence: song.actions.closeSequence,
+  duplicate: notes.actions.duplicate,
+  removeSelected: notes.actions.removeSelected,
+  resizeSelected: notes.actions.resizeSelected,
+  setScrollTopIfChanged: actions.setScrollTopIfChanged,
+  setToolType: actions.setToolType,
+  shiftDownOctave: notes.actions.shiftDownOctave,
+  shiftUpOctave: notes.actions.shiftUpOctave,
+})(Sequencer);

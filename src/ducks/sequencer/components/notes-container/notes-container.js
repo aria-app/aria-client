@@ -9,35 +9,24 @@ import selection from 'ducks/selection';
 import song from 'ducks/song';
 import * as selectors from '../../selectors';
 
-export const NotesContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Notes);
-
-function mapStateToProps(state) {
-  return {
-    isMoving: moving.selectors.getIsMoving(state),
-    isPanning: panning.selectors.getIsPanning(state),
-    isResizing: resizing.selectors.getIsResizing(state),
-    isSelecting: selection.selectors.getIsSelecting(state),
-    measureCount: song.selectors.getActiveSequenceMeasureCount(state),
-    mousePoint: selectors.getMousePoint(state),
-    notes: song.selectors.getActiveSequenceNotes(state),
-    selectedNotes: notes.selectors.getSelectedNotes(state),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    draw: (...args) => dispatch(notes.actions.draw(...args)),
-    erase: (...args) => dispatch(notes.actions.erase(...args)),
-    playNote: (...args) => dispatch(playing.effects.playNote(...args)),
-    selectNote: (...args) => dispatch(notes.actions.selectNote(...args)),
-    startMoving: () => dispatch(moving.actions.start()),
-    startResizing: (...args) => dispatch(resizing.actions.start(...args)),
-    startSelection: (...args) => dispatch(selection.actions.start(...args)),
-    updateMoving: (...args) => dispatch(moving.actions.update(...args)),
-    updateResizing: (...args) => dispatch(resizing.actions.update(...args)),
-    updateSelection: (...args) => dispatch(selection.actions.update(...args)),
-  };
-}
+export const NotesContainer = connect((state) => ({
+  isMoving: moving.selectors.getIsMoving(state),
+  isPanning: panning.selectors.getIsPanning(state),
+  isResizing: resizing.selectors.getIsResizing(state),
+  isSelecting: selection.selectors.getIsSelecting(state),
+  measureCount: song.selectors.getActiveSequenceMeasureCount(state),
+  mousePoint: selectors.getMousePoint(state),
+  notes: song.selectors.getActiveSequenceNotes(state),
+  selectedNotes: notes.selectors.getSelectedNotes(state),
+}), {
+  draw: notes.actions.draw,
+  erase: notes.actions.erase,
+  playNote: playing.effects.playNote,
+  selectNote: notes.actions.selectNote,
+  startMoving: moving.actions.start,
+  startResizing: resizing.actions.start,
+  startSelection: selection.actions.start,
+  updateMoving: moving.actions.update,
+  updateResizing: resizing.actions.update,
+  updateSelection: selection.actions.update,
+})(Notes);

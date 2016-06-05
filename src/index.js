@@ -1,19 +1,28 @@
+import 'babel-polyfill';
 import React from 'react';
-import Tone from 'tone';
 // import whyDidYouUpdate from 'why-did-you-update';
 import { render } from 'react-dom';
 import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
 import thunkMiddleware from 'redux-thunk';
 import app from 'ducks/app';
 import reducer from './reducer';
+import rootSaga from './sagas';
 import './styles/resets.scss';
 
 const { AppContainer } = app.components;
 
-const middleware = applyMiddleware(thunkMiddleware);
+const sagaMiddleware = createSagaMiddleware();
+
+const middleware = applyMiddleware(
+  sagaMiddleware,
+  thunkMiddleware
+);
+
 
 const store = createStore(reducer, middleware);
+sagaMiddleware.run(rootSaga);
 
 // whyDidYouUpdate(React, { exclude: /^(Connect|pure|withHandlers|withState)/ });
 

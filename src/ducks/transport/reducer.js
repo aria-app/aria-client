@@ -5,6 +5,22 @@ const initialState = getInitialState();
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case actionTypes.PAUSE:
+      return {
+        ...state,
+        playbackState: constants.playbackStates.PAUSED,
+      };
+    case actionTypes.PLAY:
+      return {
+        ...state,
+        playbackState: constants.playbackStates.STARTED,
+      };
+    case actionTypes.STOP:
+      return {
+        ...state,
+        playbackState: constants.playbackStates.STOPPED,
+        position: 0,
+      };
     case actionTypes.SET_PLAYBACK_STATE:
       return {
         ...state,

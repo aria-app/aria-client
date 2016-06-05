@@ -40,6 +40,7 @@
     "why-did-you-update": "0.0.8"
   },
   "dependencies": {
+    "babel-polyfill": "^6.9.1",
     "classnames": "2.2.3",
     "immutable": "3.7.6",
     "lodash": "4.8.2",
@@ -52,6 +53,7 @@
     "react-redux": "4.4.4",
     "recompose": "0.17.0",
     "redux": "3.4.0",
+    "redux-saga": "^0.10.4",
     "redux-thunk": "2.0.1",
     "reselect": "^2.5.1",
     "tone": "0.6.1"

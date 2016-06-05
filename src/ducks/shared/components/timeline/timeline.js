@@ -18,7 +18,7 @@ const composed = compose([
     offset: PropTypes.number.isRequired,
   }),
   mapProps((props) => ({
-    display: props.isVisible ? 'none' : 'block',
+    display: props.isVisible ? 'block' : 'none',
     transform: `translateX(${props.offset}px)`,
   })),
 ])(component);

@@ -17,7 +17,7 @@ export function changeSelectedSize(change) {
 
 export function deselectAll() {
   return {
-    type: actionTypes.deselectAll,
+    type: actionTypes.DESELECT_ALL,
   };
 }
 
