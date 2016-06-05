@@ -1,5 +1,6 @@
 import { NAME } from './constants';
 
+export const ADD_TRACK = `${NAME}/ADD_TRACK`;
 export const SET_ACTIVE_SYNTHS = `${NAME}/SET_ACTIVE_SYNTHS`;
 export const SET_SYNTHS = `${NAME}/SET_SYNTHS`;
 export const SET_TRACKS = `${NAME}/SET_TRACKS`;

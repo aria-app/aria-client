@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import playing from 'ducks/playing';
 import shared from 'ducks/shared';
 import transport from 'ducks/transport';
 import * as actionTypes from './action-types';
@@ -7,19 +6,24 @@ import * as helpers from './helpers';
 import * as selectors from './selectors';
 
 export function addNewTrack() {
-  return (dispatch) => {
-    const track = helpers.createTrack();
-    const sequence = helpers.createSequence({
-      measureCount: 1,
-      position: 0,
-      trackId: track.id,
-    });
-
-    dispatch(addTracks([track]));
-    dispatch(addSequences([sequence]));
-    dispatch(playing.effects.updateTracks());
-    dispatch(transport.effects.updateSequences());
+  const track = helpers.createTrack();
+  const sequence = helpers.createSequence({
+    measureCount: 1,
+    position: 0,
+    trackId: track.id,
+  });
+  return {
+    type: actionTypes.ADD_NEW_TRACK,
+    track,
+    sequence,
   };
+  // return (dispatch) => {
+  //
+  //   dispatch(addTracks([track]));
+  //   dispatch(addSequences([sequence]));
+  //   dispatch(playing.effects.updateTracks());
+  //   dispatch(transport.effects.updateSequences());
+  // };
 }
 
 export function addNotesToActiveSequence(pointSets) {
@@ -124,6 +128,15 @@ export function deleteTrackById(trackId) {
     const updatedTracks = _.reject(tracks, { id: trackId });
 
     dispatch(setTracks(updatedTracks));
+  };
+}
+
+export function loadProject({ notes, sequences, song, tracks }) {
+  return (dispatch) => {
+    dispatch(setNotes(notes.ids.map(id => notes.dict[id])));
+    dispatch(setSequences(sequences.ids.map(id => sequences.dict[id])));
+    dispatch(setSong(song));
+    dispatch(setTracks(tracks.ids.map(id => tracks.dict[id])));
   };
 }
 

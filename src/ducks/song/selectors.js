@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { createSelector } from 'reselect';
+import transport from 'ducks/transport';
 import { NAME } from './constants';
 
 const get = state => state[NAME];
@@ -15,9 +16,9 @@ export const getTracksIds = (state) => get(state).tracks.ids;
 
 // --- Song ---
 
-export const getSongBPM = (state) => getSong(state).bpm;
-export const getSongMeasureCount = (state) => getSong(state).measureCount;
-export const getSongName = (state) => getSong(state).name;
+export const getSongBPM = (state) => getSong(state).bpm || transport.constants.defaultBPM;
+export const getSongMeasureCount = (state) => getSong(state).measureCount || 1;
+export const getSongName = (state) => getSong(state).name || '';
 
 // --- Notes ---
 

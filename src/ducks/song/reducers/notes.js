@@ -2,11 +2,10 @@ import _ from 'lodash';
 import { combineReducers } from 'redux';
 import shared from 'ducks/shared';
 import * as actionTypes from '../action-types';
-import initialState from './initial-state';
 
 const { setAtIds } = shared.helpers;
 
-const dict = (state = initialState.notes.dict, action) => {
+const dict = (state = {}, action) => {
   switch (action.type) {
     case actionTypes.ADD_NOTES:
     case actionTypes.UPDATE_NOTES:
@@ -20,7 +19,7 @@ const dict = (state = initialState.notes.dict, action) => {
   }
 };
 
-const ids = (state = initialState.notes.ids, action) => {
+const ids = (state = [], action) => {
   switch (action.type) {
     case actionTypes.ADD_NOTES:
       return [

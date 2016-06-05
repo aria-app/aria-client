@@ -8,7 +8,9 @@ import createSagaMiddleware from 'redux-saga';
 import thunkMiddleware from 'redux-thunk';
 import app from 'ducks/app';
 import reducer from './reducer';
+import song from 'ducks/song';
 import rootSaga from './sagas';
+import sampleProject from './sample-project';
 import './styles/resets.scss';
 
 const { AppContainer } = app.components;
@@ -20,9 +22,9 @@ const middleware = applyMiddleware(
   thunkMiddleware
 );
 
-
 const store = createStore(reducer, middleware);
 sagaMiddleware.run(rootSaga);
+store.dispatch(song.actions.loadProject(sampleProject));
 
 // whyDidYouUpdate(React, { exclude: /^(Connect|pure|withHandlers|withState)/ });
 

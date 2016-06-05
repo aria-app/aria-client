@@ -2,12 +2,13 @@ import _ from 'lodash';
 import { combineReducers } from 'redux';
 import shared from 'ducks/shared';
 import * as actionTypes from '../action-types';
-import initialState from './initial-state';
 
 const { setAtIds } = shared.helpers;
 
-const dict = (state = initialState.tracks.dict, action) => {
+const dict = (state = {}, action) => {
   switch (action.type) {
+    case actionTypes.ADD_NEW_TRACK:
+      return setAtIds([action.track], state);
     case actionTypes.ADD_TRACKS:
     case actionTypes.UPDATE_TRACKS:
       return setAtIds(action.tracks, state);
@@ -25,8 +26,13 @@ const dict = (state = initialState.tracks.dict, action) => {
   }
 };
 
-const ids = (state = initialState.tracks.ids, action) => {
+const ids = (state = [], action) => {
   switch (action.type) {
+    case actionTypes.ADD_NEW_TRACK:
+      return [
+        ...state,
+        action.track.id,
+      ];
     case actionTypes.ADD_TRACKS:
       return [
         ...state,

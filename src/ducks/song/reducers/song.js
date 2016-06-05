@@ -1,7 +1,6 @@
 import * as actionTypes from '../action-types';
-import initialState from './initial-state';
 
-const song = (state = initialState.song, action) => {
+const song = (state = {}, action) => {
   switch (action.type) {
     case actionTypes.SET_BPM:
       return {

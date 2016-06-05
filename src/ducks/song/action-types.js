@@ -1,5 +1,6 @@
 import { NAME } from './constants';
 
+export const ADD_NEW_TRACK = `${NAME}/ADD_NEW_TRACK`;
 export const ADD_NOTES = `${NAME}/ADD_NOTES`;
 export const ADD_SEQUENCES = `${NAME}/ADD_SEQUENCES`;
 export const ADD_TRACKS = `${NAME}/ADD_TRACKS`;

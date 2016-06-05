@@ -5,6 +5,8 @@ import * as actionTypes from './action-types';
 
 const byId = (state = {}, action) => {
   switch (action.type) {
+    case actionTypes.ADD_TRACK:
+      return shared.helpers.setAtIds([action.track], state);
     case actionTypes.SET_TRACKS:
       return shared.helpers.setAtIds(action.tracks, {});
     case actionTypes.UPDATE_TRACK:
@@ -16,6 +18,11 @@ const byId = (state = {}, action) => {
 
 const ids = (state = [], action) => {
   switch (action.type) {
+    case actionTypes.ADD_TRACK:
+      return [
+        ...state,
+        action.track.id,
+      ];
     case actionTypes.SET_TRACKS:
       return _.map(action.tracks, 'id');
     default:
