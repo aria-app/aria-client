@@ -31,7 +31,7 @@ const component = (props) =>
       ],
     }),
     h(TracksContainer, {
-      editSequence: props.editSequence,
+      openSequence: props.openSequence,
     }),
     h(Modal, {
       isOpen: !!props.stagedTrack,
@@ -93,7 +93,7 @@ const composed = compose([
     stagedTrack: React.PropTypes.object,
   }),
   withHandlers({
-    editSequence: (props) => () => {
+    openSequence: (props) => () => {
       props.openSequence(props.selectedSequenceId);
     },
     onModalCancel: (props) => () => {
@@ -111,7 +111,7 @@ const composed = compose([
     selectedSequenceItems: [
       h(IconButton, {
         icon: 'pencil',
-        onPress: props.editSequence,
+        onPress: props.openSequence,
       }),
     ],
   })),

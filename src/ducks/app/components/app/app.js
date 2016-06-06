@@ -21,8 +21,8 @@ const component = ({
   playbackState,
   safeSetBPM,
   stop,
-  decrementSongLength,
-  incrementSongLength,
+  decrementMeasureCount,
+  incrementMeasureCount,
 }) => h('.app', [
   activeSequenceId
     ? h(SequencerContainer)
@@ -56,11 +56,11 @@ const component = ({
       }),
       h(IconButton, {
         icon: 'long-arrow-left',
-        onPress: decrementSongLength,
+        onPress: decrementMeasureCount,
       }),
       h(IconButton, {
         icon: 'long-arrow-right',
-        onPress: incrementSongLength,
+        onPress: incrementMeasureCount,
       }),
     ],
   }),
@@ -78,8 +78,8 @@ const composed = compose([
     playbackState: React.PropTypes.string,
     safeSetBPM: React.PropTypes.func.isRequired,
     stop: React.PropTypes.func.isRequired,
-    decrementSongLength: React.PropTypes.func.isRequired,
-    incrementSongLength: React.PropTypes.func.isRequired,
+    decrementMeasureCount: React.PropTypes.func.isRequired,
+    incrementMeasureCount: React.PropTypes.func.isRequired,
   }),
   doOnMount((props) => {
     props.initialize();

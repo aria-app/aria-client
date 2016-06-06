@@ -14,6 +14,8 @@ const dict = (state = {}, action) => {
       return setAtIds(action.sequences, state);
     case actionTypes.DELETE_SEQUENCES:
       return _.omit(state, _.map(action.sequences, 'id'));
+    case actionTypes.LOAD_SONG:
+      return action.song.sequences.dict;
     case actionTypes.SET_SEQUENCES:
       return setAtIds(action.sequences, state);
     default:
@@ -35,6 +37,8 @@ const ids = (state = [], action) => {
       ];
     case actionTypes.DELETE_SEQUENCES:
       return _.without(state, _.map(action.sequences, 'id'));
+    case actionTypes.LOAD_SONG:
+      return action.song.sequences.ids;
     case actionTypes.SET_SEQUENCES:
       return _.map(action.sequences, 'id');
     default:

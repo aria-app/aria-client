@@ -25,6 +25,16 @@ function* disposeSynths(channel) {
   });
 }
 
+function* initialize(action) {
+  yield setBPM({
+    bpm: action.song.bpm,
+  });
+  yield setChannels({
+    tracks: action.song.tracks.ids
+      .map(id => action.song.tracks.dict[id]),
+  });
+}
+
 function* playNote(action) {
   const { channelId, note, time } = action.payload;
   const channel = yield select(selectors.getChannelById(channelId));
@@ -129,14 +139,15 @@ function* setChannels(action) {
 
 export default function* saga() {
   yield [
+    takeEvery(song.actionTypes.ADD_NEW_TRACK, addNewChannel),
     takeEvery(actionTypes.PLAY_NOTE, playNote),
     takeEvery(actionTypes.POP_SYNTH, popSynth),
     takeEvery(actionTypes.PREVIEW_NOTE, previewNote),
     takeEvery(actionTypes.PUSH_SYNTH, pushSynth),
     takeEvery(actionTypes.RELEASE_ALL, releaseAll),
-    takeEvery(song.actionTypes.ADD_NEW_TRACK, addNewChannel),
-    takeEvery(song.actionTypes.UPDATE_TRACK, receiveTrackUpdate),
     takeEvery(song.actionTypes.SET_BPM, setBPM),
+    takeEvery(song.actionTypes.LOAD_SONG, initialize),
     takeEvery(song.actionTypes.SET_TRACKS, setChannels),
+    takeEvery(song.actionTypes.UPDATE_TRACK, receiveTrackUpdate),
   ];
 }

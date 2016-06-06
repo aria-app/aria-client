@@ -7,16 +7,21 @@ const { setAtIds } = shared.helpers;
 
 const dict = (state = {}, action) => {
   switch (action.type) {
+    case actionTypes.ADD_TRACK:
     case actionTypes.ADD_NEW_TRACK:
       return setAtIds([action.track], state);
     case actionTypes.ADD_TRACKS:
     case actionTypes.UPDATE_TRACKS:
       return setAtIds(action.tracks, state);
+    case actionTypes.LOAD_SONG:
+      return action.song.tracks.dict;
     case actionTypes.UPDATE_TRACK:
       return {
         ...state,
         [action.track.id]: action.track,
       };
+    case actionTypes.DELETE_TRACK_BY_ID:
+      return _.reject(state, { id: action.id });
     case actionTypes.DELETE_TRACKS:
       return _.omit(state, _.map(action.tracks, 'id'));
     case actionTypes.SET_TRACKS:
@@ -40,6 +45,8 @@ const ids = (state = [], action) => {
       ];
     case actionTypes.DELETE_TRACKS:
       return _.without(state, _.map(action.tracks, 'id'));
+    case actionTypes.LOAD_SONG:
+      return action.song.tracks.ids;
     case actionTypes.SET_TRACKS:
       return _.map(action.tracks, 'id');
     default:

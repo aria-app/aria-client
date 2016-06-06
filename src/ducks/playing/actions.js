@@ -1,9 +1,5 @@
-import _ from 'lodash';
-import Tone from 'tone';
 import shared from 'ducks/shared';
 import * as actionTypes from './action-types';
-import * as helpers from './helpers';
-import * as selectors from './selectors';
 
 export function addChannel(channel) {
   return {

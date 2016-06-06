@@ -9,8 +9,8 @@ export const AppContainer = connect((state) => ({
   bpm: song.selectors.getBPM(state),
   playbackState: transport.selectors.getPlaybackState(state),
 }), {
-  decrementSongLength: song.actions.decrementSongLength,
-  incrementSongLength: song.actions.incrementSongLength,
+  decrementMeasureCount: song.actions.decrementMeasureCount,
+  incrementMeasureCount: song.actions.incrementMeasureCount,
   initialize: effects.initialize,
   pause: transport.effects.pause,
   play: transport.effects.play,

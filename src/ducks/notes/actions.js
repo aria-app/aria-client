@@ -23,16 +23,14 @@ export function deselectAll() {
 
 export function draw() {
   return (dispatch, getState) => {
+    const activeSequenceId = song.selectors.getActiveSequenceId(getState());
     const point = sequencer.selectors.getMousePoint(getState());
 
     dispatch(playing.actions.previewNote(point));
-    dispatch(song.actions.addNotesToActiveSequence([[
-      point,
-      {
-        x: point.x + 1,
-        y: point.y,
-      },
-    ]]));
+    dispatch(song.actions.addNote(song.helpers.createNote({
+      points: [point, { x: point.x + 1, y: point.y }],
+      sequenceId: activeSequenceId,
+    })));
   };
 }
 
@@ -42,10 +40,13 @@ export function duplicate() {
 
     if (_.isEmpty(selectedNotes)) return;
 
+    const newNotes = selectedNotes.map(note => song.helpers.createNote({
+      points: note.points,
+      sequenceId: note.sequenceId,
+    }));
+
     dispatch(pushUndo());
-    const newNotes = dispatch(
-      song.actions.addNotesToActiveSequence(_.map(selectedNotes, 'points'))
-    );
+    dispatch(song.actions.addNotes(newNotes));
     dispatch(selectNotes(newNotes));
   };
 }

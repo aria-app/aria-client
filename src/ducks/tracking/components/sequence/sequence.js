@@ -28,7 +28,7 @@ const composed = compose([
   setDisplayName('Sequence'),
   pure,
   setPropTypes({
-    editSequence: React.PropTypes.func.isRequired,
+    openSequence: React.PropTypes.func.isRequired,
     isSelected: React.PropTypes.bool.isRequired,
     onSelect: React.PropTypes.func.isRequired,
     sequence: React.PropTypes.object.isRequired,
@@ -44,7 +44,7 @@ const composed = compose([
       e.stopPropagation();
     },
     onDoubleClick: (props) => (e) => {
-      props.editSequence(props.sequence.id);
+      props.openSequence(props.sequence.id);
       e.stopPropagation();
     },
   }),

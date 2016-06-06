@@ -1,14 +1,19 @@
 import { NAME } from './constants';
 
 export const ADD_NEW_TRACK = `${NAME}/ADD_NEW_TRACK`;
+export const ADD_NOTE = `${NAME}/ADD_NOTE`;
 export const ADD_NOTES = `${NAME}/ADD_NOTES`;
 export const ADD_SEQUENCES = `${NAME}/ADD_SEQUENCES`;
 export const ADD_TRACKS = `${NAME}/ADD_TRACKS`;
 export const CLOSE_SEQUENCE = `${NAME}/CLOSE_SEQUENCE`;
+export const DECREMENT_MEASURE_COUNT = `${NAME}/DECREMENT_MEASURE_COUNT`;
 export const DELETE_NOTES = `${NAME}/DELETE_NOTES`;
 export const DELETE_SEQUENCES = `${NAME}/DELETE_SEQUENCES`;
+export const DELETE_TRACK_BY_ID = `${NAME}/DELETE_TRACK_BY_ID`;
 export const DELETE_TRACKS = `${NAME}/DELETE_TRACKS`;
 export const DUPLICATE_NOTES = `${NAME}/DUPLICATE_NOTES`;
+export const INCREMENT_MEASURE_COUNT = `${NAME}/INCREMENT_MEASURE_COUNT`;
+export const LOAD_SONG = `${NAME}/LOAD_SONG`;
 export const OPEN_SEQUENCE = `${NAME}/OPEN_SEQUENCE`;
 export const SET_BPM = `${NAME}/SET_BPM`;
 export const SET_ID = `${NAME}/SET_ID`;

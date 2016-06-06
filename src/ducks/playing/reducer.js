@@ -7,12 +7,10 @@ const byId = (state = {}, action) => {
   switch (action.type) {
     case actionTypes.ADD_CHANNEL:
     case actionTypes.UPDATE_CHANNEL:
-      console.log('U1 Len', action.channel.synths.length);
       return shared.helpers.setAtIds([action.channel], state);
     case actionTypes.SET_CHANNELS:
       return shared.helpers.setAtIds(action.channels, {});
     case actionTypes.UPDATE_CHANNELS:
-      action.channels.forEach(c => console.log('U2 Len', c.synths.length));
       return shared.helpers.setAtIds(action.channels, state);
     default:
       return state;

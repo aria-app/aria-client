@@ -25,13 +25,6 @@ export function deleteStagedTrack() {
   };
 }
 
-export function openSequence(id) {
-  return {
-    type: actionTypes.OPEN_SEQUENCE,
-    id,
-  };
-}
-
 export function setSelectedSequenceId(selectedSequenceId) {
   return {
     type: actionTypes.SET_SELECTED_SEQUENCE_ID,

@@ -1,33 +1,19 @@
 import _ from 'lodash';
 import shared from 'ducks/shared';
-import transport from 'ducks/transport';
 import * as actionTypes from './action-types';
 import * as helpers from './helpers';
-import * as selectors from './selectors';
 
 export function addNewTrack() {
-  const track = helpers.createTrack();
   return {
     type: actionTypes.ADD_NEW_TRACK,
-    sequence: helpers.createSequence({
-      measureCount: 1,
-      position: 0,
-      trackId: track.id,
-    }),
-    track,
+    track: helpers.createTrack(),
   };
 }
 
-export function addNotesToActiveSequence(pointSets) {
-  return (dispatch, getState) => {
-    const sequenceId = selectors.getActiveSequenceId(getState());
-    const notes = pointSets.map(points => helpers.createNote({
-      points,
-      sequenceId,
-    }));
-
-    dispatch(addNotes(notes));
-    return notes;
+export function addNote(note) {
+  return {
+    type: actionTypes.ADD_NOTE,
+    note,
   };
 }
 
@@ -53,43 +39,14 @@ export function addTracks(tracks) {
 }
 
 export function closeSequence() {
-  return (dispatch) => {
-    dispatch({
-      type: actionTypes.CLOSE_SEQUENCE,
-    });
-    dispatch(transport.effects.updateLooping());
+  return {
+    type: actionTypes.CLOSE_SEQUENCE,
   };
 }
 
-export function decrementSongLength() {
-  return (dispatch, getState) => {
-    const song = selectors.getSong(getState());
-    const newMeasureCount = song.measureCount - 1;
-
-    if (newMeasureCount < 1) return;
-
-    const updatedSong = {
-      ...song,
-      measureCount: newMeasureCount,
-    };
-
-    dispatch(setSong(updatedSong));
-    dispatch(transport.effects.updateLooping());
-  };
-}
-
-export function incrementSongLength() {
-  return (dispatch, getState) => {
-    const song = selectors.getSong(getState());
-    const newMeasureCount = song.measureCount + 1;
-
-    const updatedSong = {
-      ...song,
-      measureCount: newMeasureCount,
-    };
-
-    dispatch(setSong(updatedSong));
-    dispatch(transport.effects.updateLooping());
+export function decrementMeasureCount() {
+  return {
+    type: actionTypes.DECREMENT_MEASURE_COUNT,
   };
 }
 
@@ -114,24 +71,23 @@ export function deleteTracks(tracks) {
   };
 }
 
-export function deleteTrackById(trackId) {
-  return (dispatch, getState) => {
-    const tracks = selectors.getTracks(getState());
-    const updatedTracks = _.reject(tracks, { id: trackId });
+export function deleteTrackById(id) {
+  return {
+    type: actionTypes.DELETE_TRACK_BY_ID,
+    id,
+  };
+}
 
-    dispatch(setTracks(updatedTracks));
+export function incrementMeasureCount() {
+  return {
+    type: actionTypes.INCREMENT_MEASURE_COUNT,
   };
 }
 
 export function loadSong(song) {
-  return (dispatch) => {
-    dispatch(setBPM(song.bpm));
-    dispatch(setID(song.id));
-    dispatch(setMeasureCount(song.measureCount));
-    dispatch(setName(song.name));
-    dispatch(setNotes(song.notes.ids.map(id => song.notes.dict[id])));
-    dispatch(setSequences(song.sequences.ids.map(id => song.sequences.dict[id])));
-    dispatch(setTracks(song.tracks.ids.map(id => song.tracks.dict[id])));
+  return {
+    type: actionTypes.LOAD_SONG,
+    song,
   };
 }
 
@@ -141,7 +97,6 @@ export function openSequence(id) {
       type: actionTypes.OPEN_SEQUENCE,
       id,
     });
-    dispatch(transport.effects.updateLooping());
   };
 }
 
