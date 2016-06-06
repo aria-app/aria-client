@@ -1,15 +1,35 @@
 import * as actionTypes from './action-types';
 
-export function addTrack(track) {
+export function addChannel(channel) {
   return {
-    type: actionTypes.ADD_TRACK,
-    track,
+    type: actionTypes.ADD_CHANNEL,
+    channel,
   };
 }
 
-export function setTracks(tracks) {
+export function releaseAll() {
   return {
-    type: actionTypes.SET_TRACKS,
-    tracks,
+    type: actionTypes.RELEASE_ALL,
+  };
+}
+
+export function setChannels(channels) {
+  return {
+    type: actionTypes.SET_CHANNELS,
+    channels,
+  };
+}
+
+export function updateChannel(channel) {
+  return {
+    type: actionTypes.UPDATE_CHANNEL,
+    channel,
+  };
+}
+
+export function updateChannels(channels) {
+  return {
+    type: actionTypes.UPDATE_CHANNELS,
+    channels,
   };
 }

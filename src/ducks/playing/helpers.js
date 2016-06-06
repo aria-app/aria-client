@@ -1,6 +1,15 @@
 import _ from 'lodash';
 import Tone from 'tone';
 
+export function createChannel(track) {
+  return {
+    id: track.id,
+    activeSynths: [],
+    previewSynth: createSynth(track.synthType),
+    synths: createSynths(track.synthType),
+  };
+}
+
 export function createSynths(type) {
   return _.times(12, () => createSynth(type));
 }

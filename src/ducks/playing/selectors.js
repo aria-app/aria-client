@@ -1,27 +1,34 @@
+import _ from 'lodash';
 import { NAME } from './constants';
 
 const get = state => state[NAME];
 
-export const getTracksById = state => get(state).tracks.byId;
-export const getTracksIds = state => get(state).tracks.ids;
+export const getChannelsById = state => get(state).channels.byId;
+export const getChannelsIds = state => get(state).channels.ids;
 
-export const getTracks = (state) =>
-  getTracksIds(state).map(id => getTracksById(state)[id]);
+export const getChannels = (state) =>
+  getChannelsIds(state).map(id => getChannelsById(state)[id]);
 
-export const getTrackById = (id) => (state) =>
-  getTracksById(state)[id];
+export const getChannelById = (id) => (state) =>
+  getChannelsById(state)[id];
 
-export const getActiveSynthsByTrackId = (id) => (state) => {
-  const track = getTrackById(id)(state);
-  return track ? track.activeSynths : undefined;
+export const getAllSynths = (state) =>
+  _.flatMap(getChannels(state), channel => [
+    ...channel.activeSynths,
+    ...channel.synths,
+  ]);
+
+export const getActiveSynthsByChannelId = (id) => (state) => {
+  const channel = getChannelById(id)(state);
+  return channel ? channel.activeSynths : undefined;
 };
 
-export const getPreviewSynthByTrackId = (id) => (state) => {
-  const track = getTrackById(id)(state);
-  return track ? track.previewSynth : undefined;
+export const getPreviewSynthByChannelId = (id) => (state) => {
+  const channel = getChannelById(id)(state);
+  return channel ? channel.previewSynth : undefined;
 };
 
-export const getSynthsByTrackId = (id) => (state) => {
-  const track = getTrackById(id)(state);
-  return track ? track.synths : undefined;
+export const getSynthsByChannelId = (id) => (state) => {
+  const channel = getChannelById(id)(state);
+  return channel ? channel.synths : undefined;
 };

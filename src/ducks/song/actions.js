@@ -7,23 +7,15 @@ import * as selectors from './selectors';
 
 export function addNewTrack() {
   const track = helpers.createTrack();
-  const sequence = helpers.createSequence({
-    measureCount: 1,
-    position: 0,
-    trackId: track.id,
-  });
   return {
     type: actionTypes.ADD_NEW_TRACK,
+    sequence: helpers.createSequence({
+      measureCount: 1,
+      position: 0,
+      trackId: track.id,
+    }),
     track,
-    sequence,
   };
-  // return (dispatch) => {
-  //
-  //   dispatch(addTracks([track]));
-  //   dispatch(addSequences([sequence]));
-  //   dispatch(playing.effects.updateTracks());
-  //   dispatch(transport.effects.updateSequences());
-  // };
 }
 
 export function addNotesToActiveSequence(pointSets) {

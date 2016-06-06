@@ -3,45 +3,13 @@ import Tone from 'tone';
 import shared from 'ducks/shared';
 import song from 'ducks/song';
 import * as actions from './actions';
-import * as actionTypes from './action-types';
-import * as helpers from './helpers';
 import * as selectors from './selectors';
-
-export function clearActiveSynths() {
-  return (dispatch, getState) => {
-    const tracks = selectors.getTracks(getState());
-    tracks.forEach(t => dispatch(setTrackActiveSynths([], t.id)));
-  };
-}
-
-export function disposeAll() {
-  return (dispatch, getState) => {
-    const tracks = selectors.getTracks(getState());
-
-    const activeSynths = _.flatMap(tracks, 'activeSynths');
-    const synths = _.flatMap(tracks, 'synths');
-
-    const allSynths = [
-      ...activeSynths,
-      ...synths,
-    ];
-
-    dispatch(clearActiveSynths());
-    allSynths.forEach(s => s.dispose());
-  };
-}
-
-export function initialize() {
-  return (dispatch) => {
-    dispatch(updateTracks());
-  };
-}
 
 export function playNote(point) {
   return (dispatch, getState) => {
     const activeSequence = song.selectors.getActiveSequence(getState());
-    const trackId = activeSequence.trackId;
-    const previewSynth = selectors.getPreviewSynthByTrackId(trackId)(getState());
+    const channelId = activeSequence.trackId;
+    const previewSynth = selectors.getPreviewSynthByChannelId(channelId)(getState());
 
     previewSynth.triggerAttackRelease(
       shared.helpers.getNoteName(point.y),
@@ -50,12 +18,12 @@ export function playNote(point) {
   };
 }
 
-export function playNoteOnSequence(note, time, length, trackId) {
+export function playNoteOnSequence(note, time, length, channelId) {
   return (dispatch) => {
-    const synth = dispatch(popSynth(trackId));
+    const synth = dispatch(popSynth(channelId));
 
     if (!synth) {
-      console.log(`Track ${trackId} synths unavailable`);
+      console.log(`Channel ${channelId} synths unavailable`);
       return;
     }
 
@@ -71,117 +39,67 @@ export function playNoteOnSequence(note, time, length, trackId) {
 
 
     Tone.Transport.scheduleOnce(() => {
-      synth.triggerRelease();
-      dispatch(pushSynth(synth, trackId));
+      if (synth) synth.triggerRelease();
+      dispatch(pushSynth(synth, channelId));
     }, `+(${length} - 0:0:0.1)`);
   };
 }
 
-export function popSynth(trackId) {
+export function popSynth(channelId) {
   return (dispatch, getState) => {
-    const activeSynths = selectors.getActiveSynthsByTrackId(trackId)(getState());
-    const synths = selectors.getSynthsByTrackId(trackId)(getState());
-    const synth = synths[0];
+    const channel = selectors.getChannelById(channelId)(getState());
+    const synth = channel.synths[0];
 
     if (!synth) {
       return undefined;
     }
 
-    dispatch(setTrackActiveSynths([
-      ...activeSynths,
-      synth,
-    ], trackId));
-    dispatch(setSynths(_.without(synths, synth), trackId));
+    dispatch(actions.updateChannel({
+      ...channel,
+      activeSynths: _.concat(channel.activeSynths, synth),
+      synths: _.without(channel.synths, synth),
+    }));
 
     return synth;
   };
 }
 
-export function pushSynth(synth, trackId) {
+export function pushSynth(synth, channelId) {
   return (dispatch, getState) => {
-    const activeSynths = selectors.getActiveSynthsByTrackId(trackId)(getState());
+    const activeSynths = selectors.getActiveSynthsByChannelId(channelId)(getState());
 
     if (!_.includes(activeSynths, synth)) return;
 
-    const synths = selectors.getSynthsByTrackId(trackId)(getState());
+    const synths = selectors.getSynthsByChannelId(channelId)(getState());
 
-    dispatch(setTrackActiveSynths(_.without(activeSynths, synth), trackId));
+    dispatch(setChannelActiveSynths(_.without(activeSynths, synth), channelId));
     dispatch(setSynths([
       ...synths,
       synth,
-    ], trackId));
+    ], channelId));
   };
 }
 
-export function releaseAll() {
+export function setChannelActiveSynths(activeSynths, channelId) {
   return (dispatch, getState) => {
-    const tracks = selectors.getTracks(getState());
-
-    tracks.forEach(track => {
-      const activeSynths = track.activeSynths;
-      const synths = track.synths;
-      const updatedTrack = {
-        ...track,
-        activeSynths: [],
-        synths: [
-          ...activeSynths,
-          ...synths,
-        ],
-      };
-
-      activeSynths.forEach(s => {
-        s.triggerRelease();
-      });
-      synths.forEach(s => {
-        s.triggerRelease();
-      });
-
-      dispatch(updateTrack(updatedTrack));
-    });
-  };
-}
-
-export function setTrackActiveSynths(activeSynths, trackId) {
-  return (dispatch, getState) => {
-    const track = selectors.getTrackById(trackId)(getState());
-    const updatedTrack = {
-      ...track,
+    const channel = selectors.getChannelById(channelId)(getState());
+    const updatedChannel = {
+      ...channel,
       activeSynths,
     };
 
-    dispatch(updateTrack(updatedTrack));
+    dispatch(actions.updateChannel(updatedChannel));
   };
 }
 
-export function setSynths(synths, trackId) {
+function setSynths(synths, channelId) {
   return (dispatch, getState) => {
-    const track = selectors.getTrackById(trackId)(getState());
-    const updatedTrack = {
-      ...track,
+    const channel = selectors.getChannelById(channelId)(getState());
+    const updatedChannel = {
+      ...channel,
       synths,
     };
 
-    dispatch(updateTrack(updatedTrack));
-  };
-}
-
-export function updateTrack(track) {
-  return {
-    type: actionTypes.UPDATE_TRACK,
-    track,
-  };
-}
-
-export function updateTracks() {
-  return (dispatch, getState) => {
-    const songTracks = song.selectors.getTracks(getState());
-    const tracks = songTracks.map(songTrack => ({
-      id: songTrack.id,
-      activeSynths: [],
-      previewSynth: helpers.createSynth(songTrack.synthType),
-      synths: helpers.createSynths(songTrack.synthType),
-    }));
-
-    dispatch(actions.setTracks(tracks));
+    dispatch(actions.updateChannel(updatedChannel));
   };
 }

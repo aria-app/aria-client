@@ -7,10 +7,13 @@ import * as actionTypes from './action-types';
 import * as selectors from './selectors';
 
 function* pause() {
-  yield call(() => {
-    Tone.Transport.pause();
-  });
-  yield put(playing.effects.releaseAll());
+  if (Tone.Transport.state !== 'paused') {
+    yield call(() => {
+      Tone.Transport.pause();
+    });
+
+    yield put(playing.actions.releaseAll());
+  }
 }
 
 function* play() {
@@ -19,7 +22,9 @@ function* play() {
     yield call(() => {
       Tone.Transport.start(null, startPoint);
     });
-  } else {
+  }
+
+  if (Tone.Transport.state === 'paused') {
     yield call(() => {
       Tone.Transport.start();
     });
@@ -33,10 +38,13 @@ function* setBPM(action) {
 }
 
 function* stop() {
-  yield call(() => {
-    Tone.Transport.stop();
-  });
-  yield put(playing.effects.releaseAll());
+  if (Tone.Transport.state !== 'stopped') {
+    yield call(() => {
+      Tone.Transport.stop();
+    });
+
+    yield put(playing.actions.releaseAll());
+  }
 }
 
 export default function* saga() {

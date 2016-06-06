@@ -5,12 +5,15 @@ import * as actionTypes from './action-types';
 
 const byId = (state = {}, action) => {
   switch (action.type) {
-    case actionTypes.ADD_TRACK:
-      return shared.helpers.setAtIds([action.track], state);
-    case actionTypes.SET_TRACKS:
-      return shared.helpers.setAtIds(action.tracks, {});
-    case actionTypes.UPDATE_TRACK:
-      return shared.helpers.setAtIds([action.track], state);
+    case actionTypes.ADD_CHANNEL:
+    case actionTypes.UPDATE_CHANNEL:
+      console.log('U1 Len', action.channel.synths.length);
+      return shared.helpers.setAtIds([action.channel], state);
+    case actionTypes.SET_CHANNELS:
+      return shared.helpers.setAtIds(action.channels, {});
+    case actionTypes.UPDATE_CHANNELS:
+      action.channels.forEach(c => console.log('U2 Len', c.synths.length));
+      return shared.helpers.setAtIds(action.channels, state);
     default:
       return state;
   }
@@ -18,23 +21,23 @@ const byId = (state = {}, action) => {
 
 const ids = (state = [], action) => {
   switch (action.type) {
-    case actionTypes.ADD_TRACK:
+    case actionTypes.ADD_CHANNEL:
       return [
         ...state,
-        action.track.id,
+        action.channel.id,
       ];
-    case actionTypes.SET_TRACKS:
-      return _.map(action.tracks, 'id');
+    case actionTypes.SET_CHANNELS:
+      return _.map(action.channels, 'id');
     default:
       return state;
   }
 };
 
-const tracks = combineReducers({
+const channels = combineReducers({
   byId,
   ids,
 });
 
 export default combineReducers({
-  tracks,
+  channels,
 });
