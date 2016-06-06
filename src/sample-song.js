@@ -52,6 +52,10 @@ const initialNotes = [
 ];
 
 export default {
+  bpm: 150,
+  id: v4(),
+  measureCount: 1,
+  name: 'My Song',
   notes: {
     dict: initialNotes.reduce((acc, cur) =>
       ({ ...acc, [cur.id]: cur }),
@@ -65,12 +69,6 @@ export default {
       {}
     ),
     ids: _.map(initialSequences, 'id'),
-  },
-  song: {
-    bpm: 150,
-    id: v4(),
-    measureCount: 1,
-    name: 'My Song',
   },
   tracks: {
     dict: initialTracks.reduce((acc, cur) =>

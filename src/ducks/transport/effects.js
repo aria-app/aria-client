@@ -21,8 +21,11 @@ export function createSequences() {
           .value();
 
         notesAtStep.forEach((note) => {
-          const length = helpers.sizeToSeconds(_.last(note.points).x - _.first(note.points).x);
-          dispatch(playing.effects.playNoteOnSequence(note, time, length, sequence.trackId));
+          dispatch(playing.actions.playNote({
+            channelId: sequence.trackId,
+            note,
+            time,
+          }));
         });
 
         if (activeSequenceId !== sequence.id) return;
@@ -61,7 +64,7 @@ export function loopActiveSequence() {
 
 export function loopSong() {
   return (dispatch, getState) => {
-    const songMeasureCount = song.selectors.getSongMeasureCount(getState());
+    const songMeasureCount = song.selectors.getMeasureCount(getState());
     const end = helpers.measuresToSeconds(songMeasureCount);
     dispatch(actions.setStartPoint(0));
     Tone.Transport.setLoopPoints(0, end);

@@ -6,7 +6,7 @@ import * as effects from '../../effects';
 
 export const AppContainer = connect((state) => ({
   activeSequenceId: song.selectors.getActiveSequenceId(state),
-  bpm: song.selectors.getSongBPM(state),
+  bpm: song.selectors.getBPM(state),
   playbackState: transport.selectors.getPlaybackState(state),
 }), {
   decrementSongLength: song.actions.decrementSongLength,

@@ -6,19 +6,15 @@ import { NAME } from './constants';
 const get = state => state[NAME];
 
 export const getActiveSequenceId = (state) => get(state).activeSequenceId;
+export const getBPM = (state) => get(state).bpm || transport.constants.defaultBPM;
+export const getMeasureCount = (state) => get(state).measureCount || 1;
+export const getName = (state) => get(state).name || '';
 export const getNotesDict = (state) => get(state).notes.dict;
 export const getNotesIds = (state) => get(state).notes.ids;
 export const getSequencesDict = (state) => get(state).sequences.dict;
 export const getSequencesIds = (state) => get(state).sequences.ids;
-export const getSong = (state) => get(state).song;
 export const getTracksDict = (state) => get(state).tracks.dict;
 export const getTracksIds = (state) => get(state).tracks.ids;
-
-// --- Song ---
-
-export const getSongBPM = (state) => getSong(state).bpm || transport.constants.defaultBPM;
-export const getSongMeasureCount = (state) => getSong(state).measureCount || 1;
-export const getSongName = (state) => getSong(state).name || '';
 
 // --- Notes ---
 

@@ -20,3 +20,7 @@ export function createSynth(type) {
     volume: -10,
   }).toMaster();
 }
+
+export function sizeToSeconds(size) {
+  return `(${size + 1} * 32n)`;
+}

@@ -123,12 +123,15 @@ export function deleteTrackById(trackId) {
   };
 }
 
-export function loadProject({ notes, sequences, song, tracks }) {
+export function loadSong(song) {
   return (dispatch) => {
-    dispatch(setNotes(notes.ids.map(id => notes.dict[id])));
-    dispatch(setSequences(sequences.ids.map(id => sequences.dict[id])));
-    dispatch(setSong(song));
-    dispatch(setTracks(tracks.ids.map(id => tracks.dict[id])));
+    dispatch(setBPM(song.bpm));
+    dispatch(setID(song.id));
+    dispatch(setMeasureCount(song.measureCount));
+    dispatch(setName(song.name));
+    dispatch(setNotes(song.notes.ids.map(id => song.notes.dict[id])));
+    dispatch(setSequences(song.sequences.ids.map(id => song.sequences.dict[id])));
+    dispatch(setTracks(song.tracks.ids.map(id => song.tracks.dict[id])));
   };
 }
 
@@ -158,10 +161,24 @@ export function setBPM(bpm) {
   };
 }
 
+export function setID(id) {
+  return {
+    type: actionTypes.SET_ID,
+    id,
+  };
+}
+
 export function setMeasureCount(measureCount) {
   return {
     type: actionTypes.SET_MEASURE_COUNT,
     measureCount,
+  };
+}
+
+export function setName(name) {
+  return {
+    type: actionTypes.SET_NAME,
+    name,
   };
 }
 
@@ -272,7 +289,7 @@ export function updateTracks(tracks) {
 //
 // export function incrementSequencePosition(id) {
 //   return (dispatch, getState) => {
-//     const songMeasureCount = selectors.getSongMeasureCount(getState());
+//     const songMeasureCount = selectors.getMeasureCount(getState());
 //     const sequence = selectors.getSequenceById(getState(), id);
 //     const newPosition = sequence.position + 1;
 //

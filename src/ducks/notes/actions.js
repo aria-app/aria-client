@@ -25,7 +25,7 @@ export function draw() {
   return (dispatch, getState) => {
     const point = sequencer.selectors.getMousePoint(getState());
 
-    dispatch(playing.effects.playNote(point));
+    dispatch(playing.actions.previewNote(point));
     dispatch(song.actions.addNotesToActiveSequence([[
       point,
       {
@@ -68,7 +68,7 @@ export function move(notes, offset) {
     if (helpers.somePointOutside(_.map(updatedNotes, n => n.points[0]), measureCount)
       || helpers.somePointOutside(_.map(updatedNotes, n => n.points[1]), measureCount)) return;
 
-    dispatch(playing.effects.playNote(_.first(updatedNotes[0].points)));
+    dispatch(playing.actions.previewNote(_.first(updatedNotes[0].points)));
     dispatch(song.actions.updateNotes(updatedNotes));
   };
 }
@@ -184,7 +184,7 @@ export function resize(notes, change) {
 
     if (helpers.somePointOutside(_.map(updatedNotes, n => n.points[1]), measureCount)) return;
 
-    dispatch(playing.effects.playNote(_.last(updatedNotes[0].points)));
+    dispatch(playing.actions.previewNote(_.last(updatedNotes[0].points)));
 
     dispatch(song.actions.updateNotes(updatedNotes));
   };

@@ -22,12 +22,12 @@ const composed = compose([
   setDisplayName('Keys'),
   pure,
   setPropTypes({
-    playNote: PropTypes.func,
+    previewNote: PropTypes.func,
     scale: PropTypes.array,
   }),
   withHandlers({
-    handleKeyPress: ({ playNote }) => step =>
-      playNote({ y: step.y }),
+    handleKeyPress: ({ previewNote }) => step =>
+      previewNote({ y: step.y }),
   }),
   mapProps(({ handleKeyPress, scale, ...rest }) => ({
     keys: scale.map(step => h(keyComponent, {

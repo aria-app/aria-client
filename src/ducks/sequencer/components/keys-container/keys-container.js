@@ -6,5 +6,5 @@ import * as selectors from '../../selectors';
 export const KeysContainer = connect((state) => ({
   scale: selectors.getScale(state),
 }), {
-  playNote: playing.effects.playNote,
+  previewNote: playing.actions.previewNote,
 })(Keys);

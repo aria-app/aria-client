@@ -32,7 +32,7 @@ const composed = compose([
     measureCount: React.PropTypes.number.isRequired,
     mousePoint: React.PropTypes.object,
     notes: React.PropTypes.array.isRequired,
-    playNote: React.PropTypes.func.isRequired,
+    previewNote: React.PropTypes.func.isRequired,
     selectedNotes: React.PropTypes.array.isRequired,
     selectNote: React.PropTypes.func.isRequired,
     startMoving: React.PropTypes.func.isRequired,
@@ -147,7 +147,7 @@ function onNoteMouseDown(props) {
 
     if (toolType === DRAW || toolType === SELECT) {
       const isAdditive = e.ctrlKey || e.metaKey;
-      props.playNote(_.first(note.points));
+      props.previewNote(_.first(note.points));
       props.selectNote(note, isAdditive);
       props.startMoving();
       e.stopPropagation();
@@ -178,7 +178,7 @@ function onNoteEndpointMouseDown(props) {
       props.startMoving();
     } else if (toolType === DRAW || toolType === SELECT) {
       const isAdditive = e.ctrlKey || e.metaKey;
-      props.playNote(_.last(note.points));
+      props.previewNote(_.last(note.points));
       props.selectNote(note, isAdditive);
       props.startResizing();
     }

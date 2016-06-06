@@ -21,7 +21,7 @@ export const NotesContainer = connect((state) => ({
 }), {
   draw: notes.actions.draw,
   erase: notes.actions.erase,
-  playNote: playing.effects.playNote,
+  previewNote: playing.actions.previewNote,
   selectNote: notes.actions.selectNote,
   startMoving: moving.actions.start,
   startResizing: resizing.actions.start,

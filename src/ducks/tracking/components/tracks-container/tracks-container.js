@@ -6,7 +6,7 @@ import * as selectors from '../../selectors';
 
 export const TracksContainer = connect((state) => ({
   selectedSequenceId: selectors.getSelectedSequenceId(state),
-  songMeasureCount: song.selectors.getSongMeasureCount(state),
+  songMeasureCount: song.selectors.getMeasureCount(state),
   tracks: song.selectors.getTracksWithSequences(state),
 }), {
   setSelectedSequenceId: actions.setSelectedSequenceId,

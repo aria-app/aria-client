@@ -10,7 +10,7 @@ import app from 'ducks/app';
 import reducer from './reducer';
 import song from 'ducks/song';
 import rootSaga from './sagas';
-import sampleProject from './sample-project';
+import sampleSong from './sample-song';
 import './styles/resets.scss';
 
 const { AppContainer } = app.components;
@@ -24,7 +24,7 @@ const middleware = applyMiddleware(
 
 const store = createStore(reducer, middleware);
 sagaMiddleware.run(rootSaga);
-store.dispatch(song.actions.loadProject(sampleProject));
+store.dispatch(song.actions.loadSong(sampleSong));
 
 // whyDidYouUpdate(React, { exclude: /^(Connect|pure|withHandlers|withState)/ });
 
