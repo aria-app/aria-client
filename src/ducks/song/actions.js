@@ -1,5 +1,3 @@
-import _ from 'lodash';
-import shared from 'ducks/shared';
 import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 
@@ -100,15 +98,6 @@ export function openSequence(id) {
   };
 }
 
-
-export function safeSetBPM(bpm) {
-  return (dispatch) => {
-    const safeBPM = _.clamp(bpm, shared.constants.minBPM, shared.constants.maxBPM);
-
-    dispatch(setBPM(safeBPM));
-  };
-}
-
 export function setBPM(bpm) {
   return {
     type: actionTypes.SET_BPM,
@@ -192,71 +181,3 @@ export function updateTracks(tracks) {
     tracks,
   };
 }
-
-// export function decrementSequenceLength(id) {
-//   return (dispatch, getState) => {
-//     const sequence = selectors.getSequenceById(getState(), id);
-//     const newMeasureCount = sequence.measureCount - 1;
-//
-//     if (newMeasureCount < 1) return;
-//
-//     const updatedSequence = {
-//       ...sequence,
-//       measureCount: newMeasureCount,
-//     };
-//
-//     dispatch(updateSequence(updatedSequence));
-//     dispatch(transport.effects.updateSequences());
-//   };
-// }
-//
-// export function incrementSequenceLength(id) {
-//   return (dispatch, getState) => {
-//     const sequence = selectors.getSequenceById(getState(), id);
-//     const newMeasureCount = sequence.measureCount + 1;
-//
-//     const updatedSequence = {
-//       ...sequence,
-//       measureCount: newMeasureCount,
-//     };
-//
-//     dispatch(updateSequence(updatedSequence));
-//     dispatch(transport.effects.updateSequences());
-//   };
-// }
-//
-// export function decrementSequencePosition(id) {
-//   return (dispatch, getState) => {
-//     const sequence = selectors.getSequenceById(getState(), id);
-//     const newPosition = sequence.position - 1;
-//
-//     if (newPosition < 0) return;
-//
-//     const updatedSequence = {
-//       ...sequence,
-//       position: newPosition,
-//     };
-//
-//     dispatch(updateSequence(updatedSequence));
-//     dispatch(transport.effects.updateSequences());
-//   };
-// }
-//
-// export function incrementSequencePosition(id) {
-//   return (dispatch, getState) => {
-//     const songMeasureCount = selectors.getMeasureCount(getState());
-//     const sequence = selectors.getSequenceById(getState(), id);
-//     const newPosition = sequence.position + 1;
-//
-//     if (newPosition > songMeasureCount - 1) return;
-//
-//     const updatedSequence = {
-//       ...sequence,
-//       position: newPosition,
-//     };
-//
-//     dispatch(updateSequence(updatedSequence));
-//     dispatch(transport.effects.updateSequences());
-//   };
-// }
-//

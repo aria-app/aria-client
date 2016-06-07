@@ -1,5 +1,7 @@
+import _ from 'lodash';
 import { combineReducers } from 'redux';
 import * as actionTypes from '../action-types';
+import shared from 'ducks/shared';
 import notes from './notes';
 import sequences from './sequences';
 import tracks from './tracks';
@@ -20,7 +22,7 @@ const bpm = (state = 0, action) => {
     case actionTypes.LOAD_SONG:
       return action.song.bpm;
     case actionTypes.SET_BPM:
-      return action.bpm;
+      return clampBpm(action.bpm);
     default:
       return state;
   }
@@ -73,3 +75,7 @@ export default combineReducers({
   name,
   tracks,
 });
+
+function clampBpm(bpmValue) {
+  return _.clamp(bpmValue, shared.constants.minBPM, shared.constants.maxBPM);
+}

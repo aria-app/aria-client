@@ -1,9 +1,21 @@
 import * as actionTypes from './action-types';
 
-export function setBPM(bpm) {
+export function pause() {
   return {
-    type: actionTypes.SET_BPM,
-    bpm,
+    type: actionTypes.PAUSE,
+  };
+}
+
+export function play() {
+  return {
+    type: actionTypes.PLAY,
+  };
+}
+
+export function sequenceStep(payload) {
+  return {
+    type: actionTypes.SEQUENCE_STEP,
+    payload,
   };
 }
 
@@ -32,5 +44,17 @@ export function setStartPoint(startPoint) {
   return {
     type: actionTypes.SET_START_POINT,
     startPoint,
+  };
+}
+
+export function stop() {
+  return {
+    type: actionTypes.STOP,
+  };
+}
+
+export function togglePlayPause() {
+  return {
+    type: actionTypes.TOGGLE_PLAY_PAUSE,
   };
 }

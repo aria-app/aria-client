@@ -31,8 +31,8 @@ export function initialize() {
       [notes.actions.undo, ['ctrl+z', 'meta+z']],
 
       // Playback
-      [transport.effects.togglePlayPause, ['enter']],
-      [transport.effects.stop, ['escape']],
+      [transport.actions.togglePlayPause, ['enter']],
+      [transport.actions.stop, ['escape']],
 
       // Tools
       [activateTool(shared.constants.toolTypes.DRAW), ['d']],

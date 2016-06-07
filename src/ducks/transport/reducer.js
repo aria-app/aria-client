@@ -2,23 +2,24 @@ import * as actionTypes from './action-types';
 import * as constants from './constants';
 
 const initialState = getInitialState();
+const { PAUSED, STARTED, STOPPED } = constants.playbackStates;
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.PAUSE:
       return {
         ...state,
-        playbackState: constants.playbackStates.PAUSED,
+        playbackState: PAUSED,
       };
     case actionTypes.PLAY:
       return {
         ...state,
-        playbackState: constants.playbackStates.STARTED,
+        playbackState: STARTED,
       };
     case actionTypes.STOP:
       return {
         ...state,
-        playbackState: constants.playbackStates.STOPPED,
+        playbackState: STOPPED,
         position: 0,
       };
     case actionTypes.SET_PLAYBACK_STATE:
@@ -41,6 +42,13 @@ export default function reducer(state = initialState, action) {
         ...state,
         startPoint: action.startPoint,
       };
+    case actionTypes.TOGGLE_PLAY_PAUSE:
+      return {
+        ...state,
+        playbackState: state.playbackState === STARTED
+          ? PAUSED
+          : STARTED,
+      };
     default:
       return state;
   }
@@ -48,7 +56,7 @@ export default function reducer(state = initialState, action) {
 
 function getInitialState() {
   return {
-    playbackState: constants.playbackStates.STOPPED,
+    playbackState: STOPPED,
     position: 0,
     sequences: [],
     startPoint: '0',

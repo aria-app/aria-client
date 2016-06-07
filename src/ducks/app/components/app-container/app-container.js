@@ -12,8 +12,8 @@ export const AppContainer = connect((state) => ({
   decrementMeasureCount: song.actions.decrementMeasureCount,
   incrementMeasureCount: song.actions.incrementMeasureCount,
   initialize: effects.initialize,
-  pause: transport.effects.pause,
-  play: transport.effects.play,
-  safeSetBPM: song.actions.safeSetBPM,
-  stop: transport.effects.stop,
+  pause: transport.actions.pause,
+  play: transport.actions.play,
+  setBPM: song.actions.setBPM,
+  stop: transport.actions.stop,
 })(App);
