@@ -20,7 +20,8 @@ export function createSequences() {
 
 function createSequence(songSequence, ...rest) {
   const sequence = new Tone.Sequence(...rest);
+  const start = helpers.measuresToSeconds(songSequence.position);
   sequence.loop = false;
-  sequence.start(`${helpers.measuresToSeconds(songSequence.position)}`);
+  sequence.start(start);
   return sequence;
 }
