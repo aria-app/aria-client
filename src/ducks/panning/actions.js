@@ -1,45 +1,24 @@
 import * as actionTypes from './action-types';
-import * as helpers from './helpers';
-import * as selectors from './selectors';
 
-export function setIsPanning(isPanning) {
-  return {
-    type: actionTypes.SET_IS_PANNING,
-    isPanning,
-  };
-}
+export const setStartPoint = (startPoint) => ({
+  type: actionTypes.SET_START_POINT,
+  startPoint,
+});
 
-export function setStartPoint(startPoint) {
-  return {
-    type: actionTypes.SET_START_POSITION,
-    startPoint,
-  };
-}
+export const start = (scrollLeftElement, scrollTopElement, e) => ({
+  type: actionTypes.START,
+  e,
+  scrollLeftElement,
+  scrollTopElement,
+});
 
-export function start(scrollLeftElement, scrollTopElement, e) {
-  return (dispatch, getState) => {
-    const startPoint = helpers.getStartPoint(scrollLeftElement, scrollTopElement, e);
-    dispatch(setIsPanning(true));
-    dispatch(setStartPoint(startPoint));
-    window.addEventListener('mouseup', () => {
-      const isPanning = selectors.getIsPanning(getState());
-      if (isPanning) {
-        dispatch(stop());
-      }
-    });
-  };
-}
+export const stop = () => ({
+  type: actionTypes.STOP,
+});
 
-export function stop() {
-  return (dispatch, getState) => {
-    if (!selectors.getIsPanning(getState())) return;
-    dispatch(setIsPanning(false));
-  };
-}
-
-export function update(scrollLeftElement, scrollTopElement, e) {
-  return (dispatch, getState) => {
-    const startPoint = selectors.getStartPoint(getState());
-    helpers.panScrollContainer(scrollLeftElement, scrollTopElement, e, startPoint);
-  };
-}
+export const update = (scrollLeftElement, scrollTopElement, e) => ({
+  type: actionTypes.UPDATE,
+  e,
+  scrollLeftElement,
+  scrollTopElement,
+});

@@ -3,6 +3,7 @@ import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import notes from 'ducks/notes';
 import sequencer from 'ducks/sequencer';
+import shared from 'ducks/shared';
 import * as actions from './actions';
 import * as actionTypes from './action-types';
 import * as helpers from './helpers';
@@ -11,7 +12,7 @@ import * as selectors from './selectors';
 function* start() {
   //eslint-disable-next-line
   while(true) {
-    yield call(mouseUpPromise);
+    yield call(shared.helpers.resolveOnMouseUp);
     const isMoving = yield select(selectors.getIsMoving);
     if (isMoving) {
       yield put(actions.stop());
@@ -43,14 +44,4 @@ export default function* saga() {
     takeEvery(actionTypes.START, start),
     takeEvery(actionTypes.UPDATE, update),
   ];
-}
-
-function mouseUpPromise() {
-  return new Promise(resolve => {
-    window.addEventListener('mouseup', doResolve, false);
-    function doResolve() {
-      window.removeEventListener('mouseup', doResolve, false);
-      resolve();
-    }
-  });
 }

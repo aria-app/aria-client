@@ -1,10 +1,5 @@
 import * as actionTypes from './action-types';
 
-export const setIsMoving = (isMoving) => ({
-  type: actionTypes.SET_IS_MOVING,
-  isMoving,
-});
-
 export const setNewPoint = (newPoint) => ({
   type: actionTypes.SET_NEW_POINT,
   newPoint,

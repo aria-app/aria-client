@@ -140,6 +140,16 @@ export function getScale() {
   .value();
 }
 
+export function resolveOnMouseUp() {
+  return new Promise(resolve => {
+    window.addEventListener('mouseup', doResolve, false);
+    function doResolve() {
+      window.removeEventListener('mouseup', doResolve, false);
+      resolve();
+    }
+  });
+}
+
 export function replaceItemsById(list, items) {
   return list.map(i => {
     const newItem = _.find(items, { id: i.id });
