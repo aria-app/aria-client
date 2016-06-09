@@ -6,10 +6,10 @@ import './track.scss';
 
 const component = ({
   openSequence,
-  onSequenceSelect,
   onTrackPress,
   onTrackSelect,
   selectedSequenceId,
+  selectSequence,
   songMeasureCount,
   track,
 }) => h('.track', {
@@ -27,7 +27,7 @@ const component = ({
   }, [
     ...track.sequences.map(sequence => h(Sequence, {
       isSelected: sequence.id === selectedSequenceId,
-      onSelect: onSequenceSelect,
+      onSelect: selectSequence,
       openSequence,
       sequence,
     })),
@@ -39,21 +39,22 @@ const composed = compose([
   pure,
   setPropTypes({
     openSequence: React.PropTypes.func.isRequired,
-    onSequenceSelect: React.PropTypes.func.isRequired,
     onTrackSelect: React.PropTypes.func.isRequired,
     selectedSequenceId: React.PropTypes.string,
+    deselectSequence: React.PropTypes.func.isRequired,
+    selectSequence: React.PropTypes.func.isRequired,
     songMeasureCount: React.PropTypes.number.isRequired,
     track: React.PropTypes.object.isRequired,
   }),
   withHandlers({
-    onSequenceSelect: (props) => (id) => {
-      props.onSequenceSelect(id);
+    selectSequence: (props) => (id) => {
+      props.selectSequence(id);
     },
     onTrackSelect: (props) => () => {
       props.onTrackSelect(props.track);
     },
     onTrackPress: (props) => (e) => {
-      props.onSequenceSelect('');
+      props.deselectSequence();
       e.stopPropagation();
     },
   }),

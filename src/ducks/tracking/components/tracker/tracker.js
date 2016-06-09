@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   compose,
   mapProps,
@@ -34,7 +35,7 @@ const component = (props) =>
       openSequence: props.openSequence,
     }),
     h(Modal, {
-      isOpen: !!props.stagedTrack,
+      isOpen: !_.isEmpty(props.stagedTrack),
       onConfirm: props.onModalConfirm,
       onCancel: props.onModalCancel,
       titleText: 'Edit Track',
@@ -64,7 +65,7 @@ const component = (props) =>
               })),
             ],
             selectedId: props.stagedTrack ? props.stagedTrack.synthType : '',
-            onSelect: (item) => props.updateStagedTrackSynthType(item.id),
+            onSelect: (item) => props.updateStagedSynthType(item.id),
           }),
         ]),
         h(Button, {
@@ -89,7 +90,7 @@ const composed = compose([
     openSequence: React.PropTypes.func.isRequired,
     selectedSequenceId: React.PropTypes.string,
     stageTrack: React.PropTypes.func.isRequired,
-    updateStagedTrackSynthType: React.PropTypes.func.isRequired,
+    updateStagedSynthType: React.PropTypes.func.isRequired,
     stagedTrack: React.PropTypes.object,
   }),
   withHandlers({
@@ -102,8 +103,8 @@ const composed = compose([
     onModalConfirm: (props) => () => {
       props.applyStagedTrack();
     },
-    updateStagedTrackSynthType: (props) => (synthType) => {
-      props.updateStagedTrackSynthType(synthType);
+    updateStagedSynthType: (props) => (synthType) => {
+      props.updateStagedSynthType(synthType);
     },
   }),
   mapProps((props) => ({

@@ -1,52 +1,32 @@
-import song from 'ducks/song';
 import * as actionTypes from './action-types';
-import * as selectors from './selectors';
 
-export function applyStagedTrack() {
-  return (dispatch, getState) => {
-    const stagedTrack = selectors.getStagedTrack(getState());
-    dispatch(song.actions.updateTrack(stagedTrack));
-    dispatch(clearStagedTrack());
-  };
-}
+export const applyStagedTrack = () => ({
+  type: actionTypes.APPLY_STAGED_TRACK,
+});
 
-export function clearStagedTrack() {
-  return {
-    type: actionTypes.CLEAR_STAGED_TRACK,
-  };
-}
+export const clearStagedTrack = () => ({
+  type: actionTypes.CLEAR_STAGED_TRACK,
+});
 
-export function deleteStagedTrack() {
-  return (dispatch, getState) => {
-    const stagedTrack = selectors.getStagedTrack(getState());
+export const deleteStagedTrack = () => ({
+  type: actionTypes.DELETE_STAGED_TRACK,
+});
 
-    dispatch(song.actions.deleteTrackById(stagedTrack.id));
-    dispatch(clearStagedTrack());
-  };
-}
+export const deselectSequence = () => ({
+  type: actionTypes.DESELECT_SEQUENCE,
+});
 
-export function setSelectedSequenceId(selectedSequenceId) {
-  return {
-    type: actionTypes.SET_SELECTED_SEQUENCE_ID,
-    selectedSequenceId,
-  };
-}
+export const selectSequence = (id) => ({
+  type: actionTypes.SELECT_SEQUENCE,
+  id,
+});
 
-export function stageTrack(track) {
-  return {
-    type: actionTypes.STAGE_TRACK,
-    track,
-  };
-}
+export const stageTrack = (track) => ({
+  type: actionTypes.STAGE_TRACK,
+  track,
+});
 
-export function updateStagedTrackSynthType(synthType) {
-  return (dispatch, getState) => {
-    const stagedTrack = selectors.getStagedTrack(getState());
-    const updatedStagedTrack = {
-      ...stagedTrack,
-      synthType,
-    };
-
-    dispatch(stageTrack(updatedStagedTrack));
-  };
-}
+export const updateStagedSynthType = (synthType) => ({
+  type: actionTypes.UPDATE_STAGED_SYNTH_TYPE,
+  synthType,
+});
