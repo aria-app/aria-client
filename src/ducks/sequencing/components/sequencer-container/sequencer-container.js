@@ -7,7 +7,7 @@ import * as selectors from '../../selectors';
 
 export const SequencerContainer = connect((state) => ({
   activeSequenceId: song.selectors.getActiveSequenceId(state),
-  isSelectionActive: notes.selectors.getIsSelectionActive(state),
+  isSelectingActive: notes.selectors.getIsSelectingActive(state),
   synthType: selectors.getSynthType(state),
   toolType: selectors.getToolType(state),
 }), {

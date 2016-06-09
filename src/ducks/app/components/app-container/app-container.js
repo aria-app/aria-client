@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { App } from '../app/app';
 import song from 'ducks/song';
 import transport from 'ducks/transport';
-import * as effects from '../../effects';
+import * as actions from '../../actions';
 
 export const AppContainer = connect((state) => ({
   activeSequenceId: song.selectors.getActiveSequenceId(state),
@@ -11,7 +11,7 @@ export const AppContainer = connect((state) => ({
 }), {
   decrementMeasureCount: song.actions.decrementMeasureCount,
   incrementMeasureCount: song.actions.incrementMeasureCount,
-  initialize: effects.initialize,
+  initialize: actions.initialize,
   pause: transport.actions.pause,
   play: transport.actions.play,
   setBPM: song.actions.setBPM,

@@ -4,8 +4,8 @@ import notes from 'ducks/notes';
 import panning from 'ducks/panning';
 import playing from 'ducks/playing';
 import resizing from 'ducks/resizing';
-import selection from 'ducks/selection';
-import sequencer from 'ducks/sequencer';
+import selecting from 'ducks/selecting';
+import sequencing from 'ducks/sequencing';
 import shortcuts from 'ducks/shortcuts';
 import song from 'ducks/song';
 import tracking from 'ducks/tracking';
@@ -17,8 +17,8 @@ export default combineReducers({
   [panning.constants.NAME]: panning.reducer,
   [playing.constants.NAME]: playing.reducer,
   [resizing.constants.NAME]: resizing.reducer,
-  [selection.constants.NAME]: selection.reducer,
-  [sequencer.constants.NAME]: sequencer.reducer,
+  [selecting.constants.NAME]: selecting.reducer,
+  [sequencing.constants.NAME]: sequencing.reducer,
   [shortcuts.constants.NAME]: shortcuts.reducer,
   [song.constants.NAME]: song.reducer,
   [tracking.constants.NAME]: tracking.reducer,

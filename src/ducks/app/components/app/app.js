@@ -1,13 +1,13 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import { compose, pure, setDisplayName, setPropTypes } from 'recompose';
-import sequencer from 'ducks/sequencer';
+import sequencing from 'ducks/sequencing';
 import shared from 'ducks/shared';
 import tracking from 'ducks/tracking';
 import transport from 'ducks/transport';
 import './app.scss';
 
-const { SequencerContainer } = sequencer.components;
+const { SequencerContainer } = sequencing.components;
 const { TrackerContainer } = tracking.components;
 const { IconButton, Toolbar } = shared.components;
 const { doOnMount } = shared.helpers;

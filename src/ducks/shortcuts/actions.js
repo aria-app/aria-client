@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Mousetrap from 'mousetrap';
 import notes from 'ducks/notes';
-import sequencer from 'ducks/sequencer';
+import sequencing from 'ducks/sequencing';
 import shared from 'ducks/shared';
 import transport from 'ducks/transport';
 import * as actionTypes from './action-types';
@@ -50,11 +50,11 @@ export function initialize() {
 
 function activateTool(toolType) {
   return () => (dispatch, getState) => {
-    const currentToolType = sequencer.selectors.getToolType(getState());
+    const currentToolType = sequencing.selectors.getToolType(getState());
 
     if (currentToolType === toolType) return;
 
-    dispatch(sequencer.actions.setToolType(toolType));
+    dispatch(sequencing.actions.setToolType(toolType));
   };
 }
 
@@ -66,11 +66,11 @@ function holdPan(e) {
     if (_.includes(heldKeys, e.keyCode)) return;
 
     const toolType = shared.constants.toolTypes.PAN;
-    const currentToolType = sequencer.selectors.getToolType(getState());
+    const currentToolType = sequencing.selectors.getToolType(getState());
 
     if (currentToolType === toolType) return;
 
-    dispatch(sequencer.actions.setToolType(toolType));
+    dispatch(sequencing.actions.setToolType(toolType));
     dispatch(setHeldKeys([e.keyCode]));
   };
 }
@@ -85,11 +85,11 @@ function registerShortcuts(shortcuts) {
 
 function revertPan() {
   return (dispatch, getState) => {
-    const previousToolType = sequencer.selectors.getPreviousToolType(getState());
+    const previousToolType = sequencing.selectors.getPreviousToolType(getState());
 
     if (!previousToolType || previousToolType === shared.constants.toolTypes.PAN) return;
 
-    dispatch(sequencer.actions.setToolType(previousToolType));
+    dispatch(sequencing.actions.setToolType(previousToolType));
     dispatch(setHeldKeys([]));
   };
 }

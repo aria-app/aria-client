@@ -37,12 +37,12 @@ const composed = compose([
     selectNote: React.PropTypes.func.isRequired,
     startMoving: React.PropTypes.func.isRequired,
     startResizing: React.PropTypes.func.isRequired,
-    startSelection: React.PropTypes.func.isRequired,
+    startSelecting: React.PropTypes.func.isRequired,
     toolType: React.PropTypes.string.isRequired,
     toolTypes: React.PropTypes.object.isRequired,
     updateMoving: React.PropTypes.func.isRequired,
     updateResizing: React.PropTypes.func.isRequired,
-    updateSelection: React.PropTypes.func.isRequired,
+    updateSelecting: React.PropTypes.func.isRequired,
   }),
   mapProps(props => ({
     ...props,
@@ -106,7 +106,7 @@ function onMouseDown(props) {
       props.startMoving();
     } else if (props.toolType === SELECT) {
       const isAdditive = e.ctrlKey || e.metaKey;
-      props.startSelection(isAdditive);
+      props.startSelecting(isAdditive);
     }
 
     return false;
@@ -123,7 +123,7 @@ function onMouseMove(props) {
       props.updateResizing();
     } else if (isSelecting) {
       const isAdditive = e.ctrlKey || e.metaKey;
-      props.updateSelection(isAdditive);
+      props.updateSelecting(isAdditive);
     }
   };
 }

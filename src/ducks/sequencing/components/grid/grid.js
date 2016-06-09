@@ -1,7 +1,7 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
-import selection from 'ducks/selection';
+import selecting from 'ducks/selecting';
 import shared from 'ducks/shared';
 import {
   SequencerTimelineContainer,
@@ -11,7 +11,7 @@ import { SlotsContainer } from '../slots-container/slots-container';
 import * as helpers from '../../helpers';
 import './grid.scss';
 
-const { FenceContainer } = selection.components;
+const { FenceContainer } = selecting.components;
 const { getElementRef } = shared.helpers;
 const { toolTypes } = shared.constants;
 

@@ -43,12 +43,12 @@ function getDisplay(isSelecting, start, end) {
 }
 
 function getHeight(start, end) {
-  if (!start || !end) return 0;
+  if (_.isEmpty(start) || _.isEmpty(end)) return 0;
   return (Math.abs(end.y - start.y) + 1) * 40;
 }
 
 function getTransform(start, end) {
-  if (!start || !end) {
+  if (_.isEmpty(start) || _.isEmpty(end)) {
     return 'translate(0px, 0px)';
   }
   const x = Math.min(start.x, end.x) * 40;
@@ -58,6 +58,6 @@ function getTransform(start, end) {
 }
 
 function getWidth(start, end) {
-  if (!start || !end) return 0;
+  if (_.isEmpty(start) || _.isEmpty(end)) return 0;
   return (Math.abs(end.x - start.x) + 1) * 40;
 }

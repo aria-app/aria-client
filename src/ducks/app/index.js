@@ -1,7 +1,9 @@
+import * as actions from './actions';
 import * as components from './components';
-import * as effects from './effects';
+import sagas from './sagas';
 
 export default {
+  actions,
   components,
-  effects,
+  sagas,
 };

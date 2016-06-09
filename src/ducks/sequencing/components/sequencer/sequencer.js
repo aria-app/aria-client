@@ -32,7 +32,7 @@ const composed = compose([
   setPropTypes({
     closeSequence: React.PropTypes.func.isRequired,
     duplicate: React.PropTypes.func.isRequired,
-    isSelectionActive: React.PropTypes.bool,
+    isSelectingActive: React.PropTypes.bool,
     removeSelected: React.PropTypes.func.isRequired,
     setScrollTopIfChanged: React.PropTypes.func.isRequired,
     resizeSelected: React.PropTypes.func.isRequired,
@@ -56,10 +56,10 @@ const composed = compose([
   }),
   mapProps(props => ({
     ...props,
-    actionsToolbar: props.isSelectionActive
+    actionsToolbar: props.isSelectingActive
       ? h(Toolbar, {
         leftItems: [
-          ...getSelectionCommands(props),
+          ...getSelectingCommands(props),
         ],
         rightItems: [
           getSizingDropdown(props),
@@ -85,7 +85,7 @@ const composed = compose([
 
 export const Sequencer = composed;
 
-function getSelectionCommands(props) {
+function getSelectingCommands(props) {
   return [
     h(IconButton, {
       icon: 'trash',

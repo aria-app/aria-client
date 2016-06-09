@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { takeEvery } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
 import playing from 'ducks/playing';
-import sequencer from 'ducks/sequencer';
+import sequencing from 'ducks/sequencing';
 import song from 'ducks/song';
 import * as actions from './actions';
 import * as actionTypes from './action-types';
@@ -11,7 +11,7 @@ import * as selectors from './selectors';
 
 function* draw() {
   const activeSequenceId = yield select(song.selectors.getActiveSequenceId);
-  const point = yield select(sequencer.selectors.getMousePoint);
+  const point = yield select(sequencing.selectors.getMousePoint);
 
   yield put(playing.actions.previewNote(point));
   yield put(song.actions.addNote(song.helpers.createNote({

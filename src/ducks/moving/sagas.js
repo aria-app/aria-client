@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import notes from 'ducks/notes';
-import sequencer from 'ducks/sequencer';
+import sequencing from 'ducks/sequencing';
 import shared from 'ducks/shared';
 import * as actions from './actions';
 import * as actionTypes from './action-types';
@@ -21,7 +21,7 @@ function* start() {
 }
 
 function* update() {
-  const newPoint = yield select(sequencer.selectors.getMousePoint);
+  const newPoint = yield select(sequencing.selectors.getMousePoint);
   const previousPoint = yield select(selectors.getNewPoint);
 
   if (_.isEmpty(previousPoint)) {
