@@ -74,7 +74,6 @@ function* nudgeSelectedNotesPosition({ change }) {
 
 function* nudgeSelectedNotesSize({ change }) {
   const selectedNotes = yield select(selectors.getSelectedNotes);
-
   yield put(actions.pushUndo());
   yield put(actions.resize(selectedNotes, change));
 }

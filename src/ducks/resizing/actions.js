@@ -1,65 +1,18 @@
-import _ from 'lodash';
-import notes from 'ducks/notes';
-import sequencer from 'ducks/sequencer';
 import * as actionTypes from './action-types';
-import * as selectors from './selectors';
 
-export function setIsResizing(isResizing) {
-  return {
-    type: actionTypes.SET_IS_RESIZING,
-    isResizing,
-  };
-}
+export const setNewPoint = (newPoint) => ({
+  type: actionTypes.SET_NEW_POINT,
+  newPoint,
+});
 
-export function setNewPoint(newPoint) {
-  return {
-    type: actionTypes.SET_NEW_POINT,
-    newPoint,
-  };
-}
+export const start = () => ({
+  type: actionTypes.START,
+});
 
-export function start() {
-  return (dispatch, getState) => {
-    const startPoint = sequencer.selectors.getMousePoint(getState());
-    dispatch(setIsResizing(true));
-    dispatch(setNewPoint(startPoint));
-    window.addEventListener('mouseup', () => {
-      const isResizing = selectors.getIsResizing(getState());
-      if (isResizing) {
-        dispatch(stop());
-      }
-    });
-  };
-}
+export const stop = () => ({
+  type: actionTypes.STOP,
+});
 
-export function stop() {
-  return (dispatch, getState) => {
-    if (!selectors.getIsResizing(getState())) return;
-    dispatch(setIsResizing(false));
-    dispatch(setNewPoint(undefined));
-  };
-}
-
-export function update() {
-  return (dispatch, getState) => {
-    const newPoint = sequencer.selectors.getMousePoint(getState());
-    const previousPoint = selectors.getNewPoint(getState());
-
-    if (!previousPoint) {
-      dispatch(setNewPoint(newPoint));
-      return;
-    }
-
-
-    if (_.isEqual(previousPoint, newPoint)) return;
-
-    const change = {
-      x: newPoint.x - previousPoint.x,
-      y: newPoint.y - previousPoint.y,
-    };
-
-    dispatch(notes.actions.nudgeSelectedNotesSize(change)());
-
-    dispatch(setNewPoint(newPoint));
-  };
-}
+export const update = () => ({
+  type: actionTypes.UPDATE,
+});

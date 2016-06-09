@@ -1,25 +1,29 @@
+import { combineReducers } from 'redux';
 import * as actionTypes from './action-types';
 
-export default function reducer(state = getInitialState(), action) {
+const isResizing = (state = false, action) => {
   switch (action.type) {
-    case actionTypes.SET_IS_RESIZING:
-      return {
-        ...state,
-        isResizing: action.isResizing,
-      };
-    case actionTypes.SET_NEW_POINT:
-      return {
-        ...state,
-        newPoint: action.newPoint,
-      };
+    case actionTypes.START:
+      return true;
+    case actionTypes.STOP:
+      return false;
     default:
       return state;
   }
-}
+};
 
-function getInitialState() {
-  return {
-    isResizing: false,
-    newPoint: undefined,
-  };
-}
+const newPoint = (state = {}, action) => {
+  switch (action.type) {
+    case actionTypes.SET_NEW_POINT:
+      return action.newPoint;
+    case actionTypes.STOP:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({
+  isResizing,
+  newPoint,
+});

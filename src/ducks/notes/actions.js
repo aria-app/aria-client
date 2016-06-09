@@ -28,12 +28,12 @@ export const moveSelected = (offset) => ({
   offset,
 });
 
-export const nudgeSelectedNotesPosition = (change) => ({
+export const nudgeSelectedNotesPosition = (change) => () => ({
   type: actionTypes.NUDGE_SELECTED_NOTES_POSITION,
   change,
 });
 
-export const nudgeSelectedNotesSize = (change) => ({
+export const nudgeSelectedNotesSize = (change) => () => ({
   type: actionTypes.NUDGE_SELECTED_NOTES_SIZE,
   change,
 });
@@ -59,10 +59,10 @@ export const removeSelected = () => ({
   type: actionTypes.REMOVE_SELECTED,
 });
 
-export const resize = (notes, offset) => ({
+export const resize = (notes, change) => ({
   type: actionTypes.RESIZE,
   notes,
-  offset,
+  change,
 });
 
 export const resizeSelected = (size) => ({
