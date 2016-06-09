@@ -58,7 +58,7 @@ export function update() {
       y: newPoint.y - previousPoint.y,
     };
 
-    dispatch(notes.actions.changeSelectedSize(change)());
+    dispatch(notes.actions.nudgeSelectedNotesSize(change)());
 
     dispatch(setNewPoint(newPoint));
   };
