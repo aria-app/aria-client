@@ -59,7 +59,7 @@ function* moveSelected({ offset }) {
 
   if (_.isEmpty(selectedNotes)) return;
 
-  yield put(move(selectedNotes, offset));
+  yield put(actions.move(selectedNotes, offset));
 }
 
 function* nudgeSelectedNotesPosition({ change }) {
@@ -195,7 +195,7 @@ function* undo() {
 
   if (_.isEmpty(undos)) return;
 
-  yield put(pushRedo());
+  yield put(actions.pushRedo());
   yield put(song.actions.setNotes(_.last(undos)));
   yield put(actions.setUndos(undos.slice(0, undos.length - 1)));
 }

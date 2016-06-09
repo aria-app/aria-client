@@ -7,7 +7,7 @@ export default function reducer(state = getInitialState(), action) {
         ...state,
         isSelecting: action.isSelecting,
       };
-    case actionTypes.SET_NEW_POSITION:
+    case actionTypes.SET_NEW_POINT:
       return {
         ...state,
         newPoint: action.newPoint,

@@ -1,8 +1,8 @@
 import * as actionTypes from './action-types';
 import * as constants from './constants';
 
-const initialState = getInitialState();
 const { PAUSED, STARTED, STOPPED } = constants.playbackStates;
+const initialState = getInitialState();
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {

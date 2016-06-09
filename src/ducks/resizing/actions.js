@@ -13,7 +13,7 @@ export function setIsResizing(isResizing) {
 
 export function setNewPoint(newPoint) {
   return {
-    type: actionTypes.SET_NEW_POSITION,
+    type: actionTypes.SET_NEW_POINT,
     newPoint,
   };
 }

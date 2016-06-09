@@ -1,61 +1,23 @@
-import _ from 'lodash';
-import notes from 'ducks/notes';
-import sequencer from 'ducks/sequencer';
 import * as actionTypes from './action-types';
-import * as helpers from './helpers';
-import * as selectors from './selectors';
 
-export function setIsMoving(isMoving) {
-  return {
-    type: actionTypes.SET_IS_MOVING,
-    isMoving,
-  };
-}
+export const setIsMoving = (isMoving) => ({
+  type: actionTypes.SET_IS_MOVING,
+  isMoving,
+});
 
-export function setNewPoint(newPoint) {
-  return {
-    type: actionTypes.SET_NEW_POSITION,
-    newPoint,
-  };
-}
+export const setNewPoint = (newPoint) => ({
+  type: actionTypes.SET_NEW_POINT,
+  newPoint,
+});
 
-export function start() {
-  return (dispatch, getState) => {
-    dispatch(setIsMoving(true));
-    window.addEventListener('mouseup', () => {
-      const isMoving = selectors.getIsMoving(getState());
-      if (isMoving) {
-        dispatch(stop());
-      }
-    });
-  };
-}
+export const start = () => ({
+  type: actionTypes.START,
+});
 
-export function stop() {
-  return (dispatch, getState) => {
-    if (!selectors.getIsMoving(getState())) return;
-    dispatch(setIsMoving(false));
-    dispatch(setNewPoint(undefined));
-  };
-}
+export const stop = () => ({
+  type: actionTypes.STOP,
+});
 
-export function update() {
-  return (dispatch, getState) => {
-    const newPoint = sequencer.selectors.getMousePoint(getState());
-    const previousPoint = selectors.getNewPoint(getState());
-
-    if (!previousPoint) {
-      dispatch(notes.actions.pushUndo());
-      dispatch(setNewPoint(newPoint));
-      return;
-    }
-
-    if (_.isEqual(previousPoint, newPoint)) return;
-
-    const offset = helpers.getPointOffset(previousPoint, newPoint);
-
-    dispatch(notes.actions.moveSelected(offset));
-
-    dispatch(setNewPoint(newPoint));
-  };
-}
+export const update = () => ({
+  type: actionTypes.UPDATE,
+});
