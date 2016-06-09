@@ -41,14 +41,15 @@ function* erase(action) {
 
 function* move({ notes, offset }) {
   const measureCount = yield select(song.selectors.getActiveSequenceMeasureCount);
-
   const updatedNotes = notes.map(note => ({
     ...note,
     points: note.points.map(point => helpers.addPoints(point, offset)),
   }));
 
-  if (helpers.somePointOutside(_.map(updatedNotes, n => n.points[0]), measureCount)
-    || helpers.somePointOutside(_.map(updatedNotes, n => n.points[1]), measureCount)) return;
+  if (
+    (helpers.somePointOutside(_.map(updatedNotes, n => n.points[0]), measureCount)) ||
+    (helpers.somePointOutside(_.map(updatedNotes, n => n.points[1]), measureCount))
+  ) return;
 
   yield put(playing.actions.previewNote(_.first(updatedNotes[0].points)));
   yield put(song.actions.updateNotes(updatedNotes));

@@ -9,7 +9,6 @@ import * as helpers from './helpers';
 import * as selectors from './selectors';
 
 function* start() {
-  yield put(actions.setIsMoving(true));
   //eslint-disable-next-line
   while(true) {
     yield call(mouseUpPromise);
@@ -20,18 +19,11 @@ function* start() {
   }
 }
 
-function* stop() {
-  const isMoving = yield select(selectors.getIsMoving);
-  if (!isMoving) return;
-  yield put(actions.setIsMoving(false));
-  yield put(actions.setNewPoint(undefined));
-}
-
 function* update() {
   const newPoint = yield select(sequencer.selectors.getMousePoint);
   const previousPoint = yield select(selectors.getNewPoint);
 
-  if (!previousPoint) {
+  if (_.isEmpty(previousPoint)) {
     yield put(notes.actions.pushUndo());
     yield put(actions.setNewPoint(newPoint));
     return;
@@ -49,7 +41,6 @@ function* update() {
 export default function* saga() {
   yield [
     takeEvery(actionTypes.START, start),
-    takeEvery(actionTypes.STOP, stop),
     takeEvery(actionTypes.UPDATE, update),
   ];
 }

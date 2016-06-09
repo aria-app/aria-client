@@ -83,7 +83,6 @@ function* popSynth(action) {
 function* previewNote(action) {
   const sequence = yield select(song.selectors.getActiveSequence);
   const previewSynth = yield select(selectors.getPreviewSynthByChannelId(sequence.trackId));
-
   previewSynth.triggerAttackRelease(action.name, '16n');
 }
 
