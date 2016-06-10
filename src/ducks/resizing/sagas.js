@@ -36,7 +36,7 @@ function* update() {
 
   const change = helpers.getPointOffset(previousPoint, newPoint);
 
-  yield put(notes.actions.nudgeSelectedNotesSize(change)());
+  yield put(notes.actions.nudgeSelectedNotesSize(change));
 
   yield put(actions.setNewPoint(newPoint));
 }

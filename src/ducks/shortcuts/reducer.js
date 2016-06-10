@@ -1,19 +1,15 @@
+import { combineReducers } from 'redux';
 import * as actionTypes from './action-types';
 
-export default function reducer(state = getInitialState(), action) {
+const heldKeys = (state = [], action) => {
   switch (action.type) {
     case actionTypes.SET_HELD_KEYS:
-      return {
-        ...state,
-        heldKeys: action.heldKeys,
-      };
+      return action.keys;
     default:
       return state;
   }
-}
+};
 
-function getInitialState() {
-  return {
-    heldKeys: [],
-  };
-}
+export default combineReducers({
+  heldKeys,
+});

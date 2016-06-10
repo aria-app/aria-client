@@ -8,11 +8,10 @@ import * as selectors from '../../selectors';
 export const GridContainer = connect((state) => ({
   isPanning: panning.selectors.getIsPanning(state),
   measureCount: song.selectors.getActiveSequenceMeasureCount(state),
-  scale: selectors.getScale(state),
   toolType: selectors.getToolType(state),
 }), {
-  setScrollLeftIfChanged: actions.setScrollLeftIfChanged,
+  mouseMoved: actions.mouseMoved,
+  scrolledHorizontally: actions.scrolledHorizontally,
   startPanning: panning.actions.start,
-  updateMousePoint: actions.updateMousePoint,
   updatePanning: panning.actions.update,
 })(Grid);

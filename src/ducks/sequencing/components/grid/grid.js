@@ -14,6 +14,7 @@ import './grid.scss';
 const { FenceContainer } = selecting.components;
 const { getElementRef } = shared.helpers;
 const { toolTypes } = shared.constants;
+const scale = shared.helpers.getScale();
 
 const component = (props) => h('.grid', {
   onMouseDown: props.onMouseDown,
@@ -29,7 +30,7 @@ const component = (props) => h('.grid', {
     },
   }, [
     h(SlotsContainer, {
-      scale: props.scale,
+      scale,
     }),
     h(NotesContainer, {
       toolType: props.toolType,
@@ -47,11 +48,11 @@ const composed = compose([
   setPropTypes({
     isPanning: PropTypes.bool,
     measureCount: PropTypes.number,
-    scale: PropTypes.array,
     sequencerContentRef: PropTypes.object,
-    toolType: PropTypes.string,
+    scrolledHorizontally: PropTypes.func.isRequired,
     startPanning: PropTypes.func.isRequired,
-    updateMousePoint: PropTypes.func.isRequired,
+    toolType: PropTypes.string,
+    mouseMoved: PropTypes.func.isRequired,
     updatePanning: PropTypes.func.isRequired,
   }),
   mapProps(props => ({
@@ -93,7 +94,7 @@ function onMouseDown(props) {
 
 function onMouseMove(props) {
   return (e) => {
-    props.updateMousePoint(props.getMousePoint(e));
+    props.mouseMoved(props.getMousePoint(e));
 
     if (props.isPanning) {
       props.updatePanningWithElements(e);
@@ -103,6 +104,6 @@ function onMouseMove(props) {
 
 function onScroll(props) {
   return (e) => {
-    props.setScrollLeftIfChanged(Math.floor(e.target.scrollLeft / 40));
+    props.scrolledHorizontally(Math.floor(e.target.scrollLeft / 40));
   };
 }

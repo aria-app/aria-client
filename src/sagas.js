@@ -5,6 +5,8 @@ import panning from 'ducks/panning';
 import playing from 'ducks/playing';
 import resizing from 'ducks/resizing';
 import selecting from 'ducks/selecting';
+import sequencing from 'ducks/sequencing';
+import shortcuts from 'ducks/shortcuts';
 import song from 'ducks/song';
 import transport from 'ducks/transport';
 
@@ -17,6 +19,8 @@ export default function* rootSaga() {
     playing.sagas(),
     resizing.sagas(),
     selecting.sagas(),
+    sequencing.sagas(),
+    shortcuts.sagas(),
     song.sagas(),
     transport.sagas(),
   ];

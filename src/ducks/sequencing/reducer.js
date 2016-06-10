@@ -1,58 +1,58 @@
+import { combineReducers } from 'redux';
 import shared from 'ducks/shared';
 import * as actionTypes from './action-types';
 
-const { defaultSynthType, defaultToolType } = shared.constants;
+const { defaultToolType } = shared.constants;
 
-const initialState = getInitialState();
-
-export default function reducer(state = initialState, action) {
+const mousePoint = (state = {}, action) => {
   switch (action.type) {
-    case actionTypes.SET_MEASURE_COUNT:
-      return {
-        ...state,
-        measureCount: action.measureCount,
-      };
     case actionTypes.SET_MOUSE_POINT:
-      return {
-        ...state,
-        mousePoint: action.mousePoint,
-      };
-    case actionTypes.SET_SCROLL_LEFT:
-      return {
-        ...state,
-        scrollLeft: action.scrollLeft,
-      };
-    case actionTypes.SET_SCROLL_TOP:
-      return {
-        ...state,
-        scrollTop: action.scrollTop,
-      };
-    case actionTypes.SET_SYNTH_TYPE:
-      return {
-        ...state,
-        synthType: action.synthType,
-      };
-    case actionTypes.SET_TOOL_TYPE:
-      return {
-        ...state,
-        previousToolType: state.toolType,
-        toolType: action.toolType,
-      };
+      return action.point;
     default:
       return state;
   }
-}
+};
 
-function getInitialState() {
-  return {
-    id: 0,
-    measureCount: 1,
-    mousePoint: undefined,
-    previousToolType: undefined,
-    scale: shared.helpers.getScale(),
-    scrollLeft: 0,
-    scrollTop: 0,
-    synthType: defaultSynthType,
-    toolType: defaultToolType,
-  };
-}
+const previousToolType = (state = '', action) => {
+  switch (action.type) {
+    case actionTypes.SET_TOOL_TYPE:
+      return action.previousToolType;
+    default:
+      return state;
+  }
+};
+
+const scrollLeft = (state = 0, action) => {
+  switch (action.type) {
+    case actionTypes.SET_SCROLL_LEFT:
+      return action.scrollLeft;
+    default:
+      return state;
+  }
+};
+
+const scrollTop = (state = 0, action) => {
+  switch (action.type) {
+    case actionTypes.SET_SCROLL_TOP:
+      return action.scrollTop;
+    default:
+      return state;
+  }
+};
+
+const toolType = (state = defaultToolType, action) => {
+  switch (action.type) {
+    case actionTypes.SET_TOOL_TYPE:
+      return action.toolType;
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({
+  mousePoint,
+  previousToolType,
+  scrollLeft,
+  scrollTop,
+  toolType,
+});

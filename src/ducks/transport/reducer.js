@@ -1,64 +1,56 @@
+import { combineReducers } from 'redux';
 import * as actionTypes from './action-types';
 import * as constants from './constants';
 
 const { PAUSED, STARTED, STOPPED } = constants.playbackStates;
-const initialState = getInitialState();
 
-export default function reducer(state = initialState, action) {
+const playbackState = (state = STOPPED, action) => {
   switch (action.type) {
     case actionTypes.PAUSE:
-      return {
-        ...state,
-        playbackState: PAUSED,
-      };
+      return PAUSED;
     case actionTypes.PLAY:
-      return {
-        ...state,
-        playbackState: STARTED,
-      };
+      return STARTED;
     case actionTypes.STOP:
-      return {
-        ...state,
-        playbackState: STOPPED,
-        position: 0,
-      };
-    case actionTypes.SET_PLAYBACK_STATE:
-      return {
-        ...state,
-        playbackState: action.playbackState,
-      };
-    case actionTypes.SET_POSITION:
-      return {
-        ...state,
-        position: action.position,
-      };
-    case actionTypes.SET_SEQUENCES:
-      return {
-        ...state,
-        sequences: action.sequences,
-      };
-    case actionTypes.SET_START_POINT:
-      return {
-        ...state,
-        startPoint: action.startPoint,
-      };
+      return STOPPED;
     case actionTypes.TOGGLE_PLAY_PAUSE:
-      return {
-        ...state,
-        playbackState: state.playbackState === STARTED
-          ? PAUSED
-          : STARTED,
-      };
+      return state.playbackState === STARTED ? PAUSED : STARTED;
     default:
       return state;
   }
-}
+};
 
-function getInitialState() {
-  return {
-    playbackState: STOPPED,
-    position: 0,
-    sequences: [],
-    startPoint: '0',
-  };
-}
+const position = (state = 0, action) => {
+  switch (action.type) {
+    case actionTypes.SET_POSITION:
+      return action.position;
+    case actionTypes.STOP:
+      return '0';
+    default:
+      return state;
+  }
+};
+
+const sequences = (state = [], action) => {
+  switch (action.type) {
+    case actionTypes.SET_SEQUENCES:
+      return action.sequences;
+    default:
+      return state;
+  }
+};
+
+const startPoint = (state = '0', action) => {
+  switch (action.type) {
+    case actionTypes.SET_START_POINT:
+      return action.startPoint;
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({
+  playbackState,
+  position,
+  sequences,
+  startPoint,
+});

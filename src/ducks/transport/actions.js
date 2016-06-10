@@ -19,13 +19,6 @@ export function sequenceStep(payload) {
   };
 }
 
-export function setPlaybackState(playbackState) {
-  return {
-    type: actionTypes.SET_PLAYBACK_STATE,
-    playbackState,
-  };
-}
-
 export function setPosition(position) {
   return {
     type: actionTypes.SET_POSITION,

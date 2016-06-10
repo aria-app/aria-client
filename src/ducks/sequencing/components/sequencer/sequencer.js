@@ -9,6 +9,7 @@ import './sequencer.scss';
 const { DropdownList, IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
 const { getChildRef, scrollTo } = shared.helpers;
+const scale = shared.helpers.getScale();
 
 const component = (props) => h('.sequencer', {
   style: props.style,
@@ -18,7 +19,9 @@ const component = (props) => h('.sequencer', {
     onScroll: props.onContentScroll,
   }, [
     h('.sequencer__wrapper', [
-      h(KeysContainer),
+      h(KeysContainer, {
+        scale,
+      }),
       h(GridContainer, {
         sequencerContentRef: props.childRef,
       }),
@@ -34,12 +37,11 @@ const composed = compose([
     duplicate: React.PropTypes.func.isRequired,
     isSelectingActive: React.PropTypes.bool,
     removeSelected: React.PropTypes.func.isRequired,
-    setScrollTopIfChanged: React.PropTypes.func.isRequired,
+    scrolledVertically: React.PropTypes.func.isRequired,
     resizeSelected: React.PropTypes.func.isRequired,
-    setToolType: React.PropTypes.func.isRequired,
+    selectTool: React.PropTypes.func.isRequired,
     shiftDownOctave: React.PropTypes.func.isRequired,
     shiftUpOctave: React.PropTypes.func.isRequired,
-    synthType: React.PropTypes.string.isRequired,
     toolType: React.PropTypes.string.isRequired,
   }),
   getChildRef('.sequencer__content'),
@@ -130,28 +132,28 @@ function getToolButtons(props) {
     h(IconButton, {
       isActive: props.toolType === SELECT,
       icon: 'mouse-pointer',
-      onPress: () => props.setToolType(SELECT),
+      onPress: () => props.selectTool(SELECT),
     }),
     h(IconButton, {
       isActive: props.toolType === DRAW,
       icon: 'pencil',
-      onPress: () => props.setToolType(DRAW),
+      onPress: () => props.selectTool(DRAW),
     }),
     h(IconButton, {
       isActive: props.toolType === ERASE,
       icon: 'eraser',
-      onPress: () => props.setToolType(ERASE),
+      onPress: () => props.selectTool(ERASE),
     }),
     h(IconButton, {
       isActive: props.toolType === PAN,
       icon: 'hand-paper-o',
-      onPress: () => props.setToolType(PAN),
+      onPress: () => props.selectTool(PAN),
     }),
   ];
 }
 
 function onContentScroll(props) {
   return (e) => {
-    props.setScrollTopIfChanged(Math.floor(e.target.scrollTop / 40));
+    props.scrolledVertically(Math.floor(e.target.scrollTop / 40));
   };
 }
