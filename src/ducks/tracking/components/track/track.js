@@ -38,10 +38,10 @@ const composed = compose([
   setDisplayName('Track'),
   pure,
   setPropTypes({
+    deselectSequence: React.PropTypes.func.isRequired,
     openSequence: React.PropTypes.func.isRequired,
     onTrackSelect: React.PropTypes.func.isRequired,
     selectedSequenceId: React.PropTypes.string,
-    deselectSequence: React.PropTypes.func.isRequired,
     selectSequence: React.PropTypes.func.isRequired,
     songMeasureCount: React.PropTypes.number.isRequired,
     track: React.PropTypes.object.isRequired,

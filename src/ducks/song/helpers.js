@@ -34,7 +34,6 @@ export function createSequence(options) {
     id: v4(),
     measureCount: options.measureCount,
     position: options.position,
-    notes: options.notes || [],
     trackId: options.trackId,
   };
 }

@@ -52,6 +52,15 @@ export const getSequencesByTrackId = (trackId) => createSelector(
   (sequences) => _.filter(sequences, { trackId }),
 );
 
+export const getDeepSequences = createSelector(
+  getSequences,
+  getNotes,
+  (sequences, notes) => sequences.map(sequence => ({
+    ...sequence,
+    notes: _.filter(notes, { sequenceId: sequence.id }),
+  })),
+);
+
 // --- Active Sequence ---
 
 export const getActiveSequence = createSelector(
@@ -84,9 +93,9 @@ export const getTracks = createSelector(
   (ids, dict) => ids.map(id => dict[id]),
 );
 
-export const getTracksWithSequences = createSelector(
+export const getDeepTracks = createSelector(
   getTracks,
-  getSequences,
+  getDeepSequences,
   (tracks, sequences) => tracks.map(track => ({
     ...track,
     sequences: _.filter(sequences, { trackId: track.id }),

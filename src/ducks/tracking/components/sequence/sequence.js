@@ -6,6 +6,7 @@ import './sequence.scss';
 
 const component = ({
   isSelected,
+  notes,
   onClick,
   onDoubleClick,
   transform,
@@ -21,20 +22,21 @@ const component = ({
   onClick,
   onDoubleClick,
 }, [
-  h('.sequence__note'),
+  ...notes,
 ]);
 
 const composed = compose([
   setDisplayName('Sequence'),
   pure,
   setPropTypes({
-    openSequence: React.PropTypes.func.isRequired,
     isSelected: React.PropTypes.bool.isRequired,
     onSelect: React.PropTypes.func.isRequired,
+    openSequence: React.PropTypes.func.isRequired,
     sequence: React.PropTypes.object.isRequired,
   }),
   mapProps(props => ({
     ...props,
+    notes: getNotes(props),
     transform: `translateX(${measureCountToPx(props.sequence.position)}px)`,
     width: measureCountToPx(props.sequence.measureCount),
   })),
@@ -51,6 +53,15 @@ const composed = compose([
 ])(component);
 
 export const Sequence = composed;
+
+function getNotes(props) {
+  return props.sequence.notes.map(note => h('.sequence__note', {
+    style: {
+      transform: `translate(${note.points[0].x * 2}px, ${note.points[0].y}px)`,
+      width: note.points[1].x - note.points[0].x + 1,
+    },
+  }));
+}
 
 function measureCountToPx(count) {
   return count * 4 * 8 * 2;
