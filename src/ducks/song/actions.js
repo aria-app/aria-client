@@ -2,9 +2,15 @@ import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 
 export function addNewTrack() {
+  const track = helpers.createTrack();
   return {
     type: actionTypes.ADD_NEW_TRACK,
-    track: helpers.createTrack(),
+    sequence: helpers.createSequence({
+      measureCount: 1,
+      position: 0,
+      trackId: track.id,
+    }),
+    track,
   };
 }
 

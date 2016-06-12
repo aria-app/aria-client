@@ -9,6 +9,7 @@ const dict = (state = {}, action) => {
   switch (action.type) {
     case actionTypes.ADD_TRACK:
     case actionTypes.ADD_NEW_TRACK:
+      console.log(action.track);
       return setAtIds([action.track], state);
     case actionTypes.ADD_TRACKS:
     case actionTypes.UPDATE_TRACKS:

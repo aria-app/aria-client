@@ -116,10 +116,10 @@ const composed = compose([
       }),
     ],
     trackActions: [
-      h(IconButton, {
-        icon: 'plus',
-        onPress: props.addNewTrack,
-      }),
+      // h(IconButton, {
+      //   icon: 'plus',
+      //   onPress: props.addNewTrack,
+      // }),
     ],
   })),
 ])(component);

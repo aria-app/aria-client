@@ -1,38 +1,46 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import { compose, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
+import shared from 'ducks/shared';
 import { RulerContainer } from '../ruler-container/ruler-container';
 import { Track } from '../track/track';
 import './tracks.scss';
 
-const component = ({
-  deselectSequence,
-  openSequence,
-  onTrackSelect,
-  onTracksPress,
-  selectedSequenceId,
-  selectSequence,
-  songMeasureCount,
-  tracks,
-}) => h('.tracks', {
-  onClick: onTracksPress,
+const { Icon } = shared.components;
+
+const component = (props) => h('.tracks', {
+  onClick: props.onTracksPress,
 }, [
   h(RulerContainer),
-  ...tracks.map(track => h(Track, {
-    deselectSequence,
-    openSequence,
-    onTrackSelect,
-    selectedSequenceId,
-    selectSequence,
-    songMeasureCount,
+  ...props.tracks.map(track => h(Track, {
+    deselectSequence: props.deselectSequence,
+    openSequence: props.openSequence,
+    onTrackSelect: props.onTrackSelect,
+    selectedSequenceId: props.selectedSequenceId,
+    selectSequence: props.selectSequence,
+    songMeasureCount: props.songMeasureCount,
     track,
   })),
+  h('.tracks__add-button', {
+    style: {
+      width: props.songMeasureCount * 64 + 84,
+    },
+    onClick: props.addTrack,
+  }, [
+    h(Icon, {
+      className: 'tracks__add-button__icon',
+      icon: 'plus',
+      size: 'large',
+    }),
+    h('.tracks__add-button__text', 'Add New Track'),
+  ]),
 ]);
 
 const composed = compose([
   setDisplayName('Tracks'),
   pure,
   setPropTypes({
+    addTrack: React.PropTypes.func.isRequired,
     deselectSequence: React.PropTypes.func.isRequired,
     openSequence: React.PropTypes.func.isRequired,
     selectedSequenceId: React.PropTypes.string,

@@ -3,6 +3,14 @@
 
 $tracks__background-color: $neutral-2;
 $tracks__padding: $margin-m;
+$tracks__add-button__height: 84px;
+$tracks__add-button__icon__margin: $margin-m;
+$tracks__add-button__padding: $margin-m;
+$tracks__add-button__color: $neutral-3;
+$tracks__add-button__color--active: $neutral-5;
+$tracks__add-button__border: 1px solid $neutral-3;
+$tracks__add-button__border-color--active: $neutral-4;
+$tracks__add-button__border-radius: 2px;
 
 .tracks {
   display: flex;
@@ -13,4 +21,30 @@ $tracks__padding: $margin-m;
   padding: $tracks__padding;
   background-color: $tracks__background-color;
   overflow: hidden;
+  &__add-button {
+    display: flex;
+    align-items: center;
+    height: $tracks__add-button__height;
+    padding: $tracks__add-button__padding;
+    color: $tracks__add-button__color;
+    border: $tracks__add-button__border;
+    border-radius: $tracks__add-button__border-radius;
+    cursor: pointer;
+    transition:
+      color 0.25s ease,
+      border-color 0.25s ease;
+    &__icon {
+      margin-right: $tracks__add-button__icon__margin;
+      svg * {
+        fill: $tracks__add-button__color;
+      }
+    }
+    &:hover {
+      color: $tracks__add-button__color--active;
+      border-color: $tracks__add-button__border-color--active;
+      svg * {
+        fill: $tracks__add-button__color--active;
+      }
+    }
+  }
 }

@@ -22,6 +22,7 @@ $icon__content__height: 24px;
   }
   svg * {
     fill: $icon__fill;
+    transition: fill 0.25s ease;
   }
   &--inverted {
     svg * {

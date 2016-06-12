@@ -17,6 +17,7 @@ $track__sequences__padding--vertical: 0;
   display: flex;
   flex-shrink: 0;
   align-items: stretch;
+    margin-bottom: $track__spacing;
   background-color: $track__background-color;
   border-radius: $track__border-radius;
   box-shadow: $track__box-shadow;
@@ -37,8 +38,5 @@ $track__sequences__padding--vertical: 0;
     position: relative;
     padding-top: $track__sequences__padding--vertical;
     padding-bottom: $track__sequences__padding--vertical;
-  }
-  & + .track {
-    margin-top: $track__spacing;
   }
 }
