@@ -15,7 +15,7 @@ const { STARTED } = constants.playbackStates;
 
 function* initialize() {
   yield* updateSequences();
-  yield* loopSong();
+  yield* updateSong();
 }
 
 function* loopSequence() {
@@ -79,7 +79,7 @@ function* sequenceStep(action) {
   }
 
   if (activeSequenceId !== sequence.id) return;
-
+  console.log('id', sequence.id);
   yield put(actions.setPosition(step));
 }
 
@@ -87,6 +87,11 @@ function* setBPM(action) {
   yield call(() => {
     Tone.Transport.bpm.value = action.bpm;
   });
+}
+
+function* songSequenceStep(action) {
+  const { step } = action.payload;
+  yield put(actions.setSongPosition(step));
 }
 
 function* stop() {
@@ -110,10 +115,27 @@ function* togglePlayPause() {
 
 function* updateSequences() {
   const sequences = yield select(selectors.getSequences);
-
   sequences.forEach(s => s.dispose());
-
   yield put(effects.createSequences());
+}
+
+function* updateSong() {
+  yield* updateSongSequence();
+  yield* loopSong();
+  const isPlaying = yield select(selectors.getIsPlaying);
+  yield put(actions.stop());
+  if (isPlaying) {
+    yield call(() => new Promise(resolve => setTimeout(resolve, 16)));
+    yield put(actions.play());
+  }
+}
+
+function* updateSongSequence() {
+  const sequence = yield select(selectors.getSongSequence);
+  if (sequence) {
+    sequence.dispose();
+  }
+  yield put(effects.createSongSequence());
 }
 
 export default function* saga() {
@@ -121,11 +143,12 @@ export default function* saga() {
     takeEvery(actionTypes.PLAY, play),
     takeEvery(actionTypes.PAUSE, pause),
     takeEvery(actionTypes.SEQUENCE_STEP, sequenceStep),
+    takeEvery(actionTypes.SONG_SEQUENCE_STEP, songSequenceStep),
     takeEvery(actionTypes.STOP, stop),
     takeEvery(actionTypes.TOGGLE_PLAY_PAUSE, togglePlayPause),
     takeEvery(song.actionTypes.CLOSE_SEQUENCE, loopSong),
-    takeEvery(song.actionTypes.DECREMENT_MEASURE_COUNT, loopSong),
-    takeEvery(song.actionTypes.INCREMENT_MEASURE_COUNT, loopSong),
+    takeEvery(song.actionTypes.DECREMENT_MEASURE_COUNT, updateSong),
+    takeEvery(song.actionTypes.INCREMENT_MEASURE_COUNT, updateSong),
     takeEvery(song.actionTypes.LOAD_SONG, initialize),
     takeEvery(song.actionTypes.OPEN_SEQUENCE, loopSequence),
     takeEvery(song.actionTypes.SET_BPM, setBPM),

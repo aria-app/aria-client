@@ -20,10 +20,7 @@ const byId = (state = {}, action) => {
 const ids = (state = [], action) => {
   switch (action.type) {
     case actionTypes.ADD_CHANNEL:
-      return [
-        ...state,
-        action.channel.id,
-      ];
+      return state.concat(action.channel.id);
     case actionTypes.SET_CHANNELS:
       return _.map(action.channels, 'id');
     default:

@@ -18,6 +18,20 @@ export function createSequences() {
   };
 }
 
+export function createSongSequence() {
+  return (dispatch, getState) => {
+    const measureCount = song.selectors.getMeasureCount(getState());
+    const sequence = new Tone.Sequence(
+      (time, step) => dispatch(actions.songSequenceStep({ step, time })),
+      _.range(measureCount * 32),
+      '32n',
+    );
+    sequence.loop = false;
+    sequence.start('0');
+    dispatch(actions.setSongSequence(sequence));
+  };
+}
+
 function createSequence(songSequence, ...rest) {
   const sequence = new Tone.Sequence(...rest);
   const start = helpers.measuresToSeconds(songSequence.position);

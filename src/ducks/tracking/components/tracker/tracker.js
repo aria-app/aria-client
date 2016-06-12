@@ -11,6 +11,7 @@ import React from 'react';
 import h from 'react-hyperscript';
 import shared from 'ducks/shared';
 import { TracksContainer } from '../tracks-container/tracks-container';
+import { SongTimelineContainer } from '../song-timeline-container/song-timeline-container';
 import './tracker.scss';
 
 const { Button, DropdownList, IconButton, Modal, Toolbar } = shared.components;
@@ -34,6 +35,7 @@ const component = (props) =>
     h(TracksContainer, {
       openSequence: props.openSequence,
     }),
+    h(SongTimelineContainer),
     h(Modal, {
       isOpen: !_.isEmpty(props.stagedTrack),
       onConfirm: props.onModalConfirm,

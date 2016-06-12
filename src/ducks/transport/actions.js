@@ -33,10 +33,31 @@ export function setSequences(sequences) {
   };
 }
 
+export function setSongPosition(position) {
+  return {
+    type: actionTypes.SET_SONG_POSITION,
+    position,
+  };
+}
+
+export function setSongSequence(sequence) {
+  return {
+    type: actionTypes.SET_SONG_SEQUENCE,
+    sequence,
+  };
+}
+
 export function setStartPoint(startPoint) {
   return {
     type: actionTypes.SET_START_POINT,
     startPoint,
+  };
+}
+
+export function songSequenceStep(payload) {
+  return {
+    type: actionTypes.SONG_SEQUENCE_STEP,
+    payload,
   };
 }
 

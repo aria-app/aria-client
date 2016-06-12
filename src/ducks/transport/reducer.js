@@ -22,6 +22,7 @@ const playbackState = (state = STOPPED, action) => {
 const position = (state = 0, action) => {
   switch (action.type) {
     case actionTypes.SET_POSITION:
+      console.log(action);
       return action.position;
     case actionTypes.STOP:
       return '0';
@@ -34,6 +35,26 @@ const sequences = (state = [], action) => {
   switch (action.type) {
     case actionTypes.SET_SEQUENCES:
       return action.sequences;
+    default:
+      return state;
+  }
+};
+
+const songPosition = (state = 0, action) => {
+  switch (action.type) {
+    case actionTypes.SET_SONG_POSITION:
+      return action.position;
+    case actionTypes.STOP:
+      return '0';
+    default:
+      return state;
+  }
+};
+
+const songSequence = (state = 0, action) => {
+  switch (action.type) {
+    case actionTypes.SET_SONG_SEQUENCE:
+      return action.sequence;
     default:
       return state;
   }
@@ -52,5 +73,7 @@ export default combineReducers({
   playbackState,
   position,
   sequences,
+  songPosition,
+  songSequence,
   startPoint,
 });
