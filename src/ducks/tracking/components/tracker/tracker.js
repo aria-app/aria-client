@@ -22,14 +22,12 @@ const component = (props) =>
     style: props.style,
   }, [
     h(Toolbar, {
+      isAlternate: !!props.selectedSequenceId,
+      alternateLeftItems: [
+        ...props.selectedSequenceActions,
+      ],
       leftItems: [
-        h(IconButton, {
-          icon: 'plus',
-          onPress: props.addNewTrack,
-        }),
-        ...(props.selectedSequenceId
-          ? props.selectedSequenceItems
-          : []),
+        ...props.trackActions,
       ],
     }),
     h(TracksContainer, {
@@ -111,10 +109,16 @@ const composed = compose([
   }),
   mapProps((props) => ({
     ...props,
-    selectedSequenceItems: [
+    selectedSequenceActions: [
       h(IconButton, {
         icon: 'pencil',
         onPress: props.openSequence,
+      }),
+    ],
+    trackActions: [
+      h(IconButton, {
+        icon: 'plus',
+        onPress: props.addNewTrack,
       }),
     ],
   })),

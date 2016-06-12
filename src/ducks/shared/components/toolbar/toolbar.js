@@ -7,11 +7,11 @@ import './toolbar.scss';
 const component = ({
   className,
   leftItems,
-  positionClass,
+  modifierClasses,
   rightItems,
 }) =>
   h('.toolbar', {
-    className: classnames(className, positionClass),
+    className: classnames(modifierClasses, className),
   }, [
     ...leftItems,
     h('.toolbar__right', [
@@ -22,6 +22,9 @@ const component = ({
 export const Toolbar = compose([
   pure,
   setPropTypes({
+    alternateLeftItems: PropTypes.array,
+    alternateRightItems: PropTypes.array,
+    isAlternate: PropTypes.bool,
     leftItems: PropTypes.array,
     position: PropTypes.oneOf([
       'top',
@@ -31,17 +34,32 @@ export const Toolbar = compose([
   }),
   mapProps(props => ({
     ...props,
-    leftItems: props.leftItems || [],
-    rightItems: props.rightItems || [],
-    positionClass: getPositionClass(props.position),
+    leftItems: getLeftItems(props),
+    rightItems: getRightItems(props),
+    modifierClasses: getModifierClasses(props),
   })),
 ])(component);
 
-function getPositionClass(position) {
-  switch (position) {
-    case 'bottom':
-      return 'toolbar--bottom';
-    default:
-      return 'toolbar--top';
+function getLeftItems({ alternateLeftItems, isAlternate, leftItems }) {
+  if (isAlternate) {
+    return alternateLeftItems || [];
   }
+
+  return leftItems || [];
+}
+
+function getRightItems({ alternateRightItems, isAlternate, rightItems }) {
+  if (isAlternate) {
+    return alternateRightItems || [];
+  }
+
+  return rightItems || [];
+}
+
+function getModifierClasses({ isAlternate, position }) {
+  return classnames({
+    'toolbar--bottom': position === 'bottom',
+    'toolbar--top': position !== 'bottom',
+    'toolbar--alternate': isAlternate,
+  });
 }

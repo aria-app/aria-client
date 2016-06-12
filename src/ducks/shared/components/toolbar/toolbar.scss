@@ -2,8 +2,9 @@
 @import '../../../../styles/palette';
 
 $toolbar__height: 56px;
-$toolbar__padding: 16px;
+$toolbar__padding: $margin-s;
 $toolbar__background-color: $neutral-3;
+$toolbar__background-color--alternate: $neutral-9;
 $toolbar__border: none;
 $toolbar__item__spacing: $margin-s;
 $toolbar__button__height: 36px;
@@ -12,6 +13,8 @@ $toolbar__button__color: $neutral-10;
 $toolbar__button__border-radius: 2px;
 $toolbar__button--active__color: $neutral-3;
 $toolbar__button--active__background-color: $neutral-10;
+$toolbar__icon__fill--alternate: $neutral-3;
+$toolbar__icon-button__background--active--alternate: rgba(0, 0, 0, 0.25);
 
 .toolbar {
   display: flex;
@@ -23,12 +26,7 @@ $toolbar__button--active__background-color: $neutral-10;
   background-color: $toolbar__background-color;
   border-bottom: $toolbar__border;
   z-index: 100;
-  &--top {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  }
-  &--bottom {
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.25);
-  }
+  transition: background-color 0.25s ease;
   .icon-button + .icon-button {
     margin-left: $toolbar__item__spacing;
   }
@@ -37,5 +35,20 @@ $toolbar__button--active__background-color: $neutral-10;
     align-items: center;
     height: $toolbar__height;
     margin-left: auto;
+  }
+  &--alternate {
+    background-color: $toolbar__background-color--alternate;
+    .icon * {
+      fill: $toolbar__icon__fill--alternate;
+    }
+    .icon-button:active .icon-button__background {
+      background-color: $toolbar__icon-button__background--active--alternate;
+    }
+  }
+  &--top {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  }
+  &--bottom {
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.25);
   }
 }

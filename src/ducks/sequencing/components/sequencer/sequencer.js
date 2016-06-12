@@ -58,30 +58,28 @@ const composed = compose([
   }),
   mapProps(props => ({
     ...props,
-    actionsToolbar: props.isSelectingActive
-      ? h(Toolbar, {
-        leftItems: [
-          ...getSelectingCommands(props),
-        ],
-        rightItems: [
-          getSizingDropdown(props),
-          h(IconButton, {
-            icon: 'close',
-            onPress: props.close,
-          }),
-        ],
-      })
-      : h(Toolbar, {
-        leftItems: [
-          ...getToolButtons(props),
-        ],
-        rightItems: [
-          h(IconButton, {
-            icon: 'close',
-            onPress: props.close,
-          }),
-        ],
-      }),
+    actionsToolbar: h(Toolbar, {
+      isAlternate: props.isSelectingActive,
+      alternateLeftItems: [
+        ...getSelectingCommands(props),
+      ],
+      alternateRightItems: [
+        getSizingDropdown(props),
+        h(IconButton, {
+          icon: 'close',
+          onPress: props.close,
+        }),
+      ],
+      leftItems: [
+        ...getToolButtons(props),
+      ],
+      rightItems: [
+        h(IconButton, {
+          icon: 'close',
+          onPress: props.close,
+        }),
+      ],
+    }),
   })),
 ])(component);
 
