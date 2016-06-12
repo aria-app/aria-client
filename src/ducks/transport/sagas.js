@@ -165,6 +165,7 @@ export default function* saga() {
     takeEvery(actionTypes.STOP, stop),
     takeEvery(actionTypes.TOGGLE_PLAY_PAUSE, togglePlayPause),
     takeEvery(actionTypes.UPDATE_SEQUENCES, updateSequences),
+    takeEvery(song.actionTypes.ADD_SEQUENCE, updateSequences),
     takeEvery(song.actionTypes.CLOSE_SEQUENCE, loopSong),
     takeEvery(song.actionTypes.DECREMENT_MEASURE_COUNT, updateSong),
     takeEvery(song.actionTypes.INCREMENT_MEASURE_COUNT, updateSong),

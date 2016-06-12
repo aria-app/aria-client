@@ -4,7 +4,6 @@ import { call, put, select } from 'redux-saga/effects';
 import Tone from 'tone';
 import shared from 'ducks/shared';
 import song from 'ducks/song';
-import transport from 'ducks/transport';
 import * as actions from './actions';
 import * as actionTypes from './action-types';
 import * as helpers from './helpers';
@@ -14,7 +13,6 @@ import * as selectors from './selectors';
 function* addNewChannel(action) {
   const channel = helpers.createChannel(action.track);
   yield put(actions.addChannel(channel));
-  yield put(transport.actions.updateSequences());
 }
 
 function* disposeSynths(channel) {
