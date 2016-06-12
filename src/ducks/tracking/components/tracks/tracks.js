@@ -1,6 +1,7 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import { compose, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
+import { RulerContainer } from '../ruler-container/ruler-container';
 import { Track } from '../track/track';
 import './tracks.scss';
 
@@ -16,6 +17,7 @@ const component = ({
 }) => h('.tracks', {
   onClick: onTracksPress,
 }, [
+  h(RulerContainer),
   ...tracks.map(track => h(Track, {
     deselectSequence,
     openSequence,

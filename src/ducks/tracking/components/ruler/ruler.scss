@@ -1,0 +1,60 @@
+@import '../../../../styles/constants';
+@import '../../../../styles/palette';
+
+$ruler__height: 42px;
+$ruler__margin-bottom: $margin-s;
+$ruler__time-offset: 84px;
+$ruler__background-color: $neutral-3;
+$ruler__border-radius: 2px;
+$ruler__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+$ruler__header__width: 84px;
+$ruler__header__background-color: $neutral-8;
+$ruler__measure__width: 64px;
+$ruler__measure__padding: 0 4px;
+$ruler__measure__color: $neutral-5;
+$ruler__measure__border-left: 1px solid $neutral-5;
+$ruler__measure__font-size: 0.75em;
+
+.ruler {
+  display: flex;
+  height: $ruler__height;
+  margin-bottom: $ruler__margin-bottom;
+  background-color: $ruler__background-color;
+  box-shadow: $ruler__box-shadow;
+  border-radius: $ruler__border-radius;
+  &__header {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    width: $ruler__header__width;
+    background-color: $ruler__header__background-color;
+    border-top-left-radius: $ruler__border-radius;
+    border-bottom-left-radius: $ruler__border-radius;
+  }
+  &__measures {
+    width: 100%;
+    position: relative;
+  }
+  &__measure {
+    display: flex;
+    align-items: flex-end;
+    width: $ruler__measure__width;
+    padding: $ruler__measure__padding;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: $ruler__measure__width;
+    color: $ruler__measure__color;
+    border-left: $ruler__measure__border-left;
+    font-size: $ruler__measure__font-size;
+    &__eighth {
+      width: 1px;
+      height: 8px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: $neutral-4;
+    }
+  }
+}

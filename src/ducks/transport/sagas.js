@@ -106,9 +106,11 @@ function* stop() {
 
 function* togglePlayPause() {
   const playbackState = yield select(selectors.getPlaybackState);
+  console.log(playbackState);
   if (playbackState === STARTED) {
     yield* play();
   } else {
+    console.log('pause');
     yield* pause();
   }
 }

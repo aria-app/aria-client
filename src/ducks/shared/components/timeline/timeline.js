@@ -14,11 +14,9 @@ const component = ({ display, transform }) =>
 const composed = compose([
   pure,
   setPropTypes({
-    isVisible: PropTypes.bool.isRequired,
     offset: PropTypes.number.isRequired,
   }),
   mapProps((props) => ({
-    display: props.isVisible ? 'block' : 'none',
     transform: `translateX(${props.offset}px)`,
   })),
 ])(component);

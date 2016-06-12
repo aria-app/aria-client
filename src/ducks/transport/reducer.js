@@ -13,7 +13,7 @@ const playbackState = (state = STOPPED, action) => {
     case actionTypes.STOP:
       return STOPPED;
     case actionTypes.TOGGLE_PLAY_PAUSE:
-      return state.playbackState === STARTED ? PAUSED : STARTED;
+      return state === STARTED ? PAUSED : STARTED;
     default:
       return state;
   }

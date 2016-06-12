@@ -1,19 +1,19 @@
 @import '../../../../styles/palette';
 
-$timeline__background-color: $neutral-8;
+$timeline__background-color: $neutral-10;
 $timeline__box-shadow:
-  -1px 0 3px $neutral-8,
-  1px 0 3px $neutral-8;
+  -1px 0 1px rgba(255, 255, 255, 0.5),
+  1px 0 1px rgba(255, 255, 255, 0.5);
 
 .timeline {
   display: block;
-  width: 1px;
+  width: 2px;
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   background-color: $timeline__background-color;
-  box-shadow: $timeline__box-shadow;
+  // box-shadow: $timeline__box-shadow;
   opacity: 0.25;
   pointer-events: none;
 }
