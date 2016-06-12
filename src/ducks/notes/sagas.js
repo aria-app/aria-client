@@ -122,6 +122,11 @@ function* remove({ notes }) {
   yield put(song.actions.deleteNotes(notes));
 }
 
+function* removeSelected() {
+  const selectedNotes = yield select(selectors.getSelectedNotes);
+  yield put(actions.remove(selectedNotes));
+}
+
 function* resize({ notes, change }) {
   const measureCount = yield select(song.selectors.getActiveSequenceMeasureCount);
   const movingLeft = change.x < 0;
@@ -213,6 +218,7 @@ export default function* saga() {
     takeEvery(actionTypes.PUSH_UNDO, pushUndo),
     takeEvery(actionTypes.REDO, redo),
     takeEvery(actionTypes.REMOVE, remove),
+    takeEvery(actionTypes.REMOVE_SELECTED, removeSelected),
     takeEvery(actionTypes.RESIZE, resize),
     takeEvery(actionTypes.RESIZE_SELECTED, resizeSelected),
     takeEvery(actionTypes.SELECT_ALL, selectAll),

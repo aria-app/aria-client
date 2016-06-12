@@ -79,7 +79,7 @@ function* sequenceStep(action) {
   }
 
   if (activeSequenceId !== sequence.id) return;
-  console.log('id', sequence.id);
+
   yield put(actions.setPosition(step));
 }
 

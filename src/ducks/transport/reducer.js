@@ -22,7 +22,6 @@ const playbackState = (state = STOPPED, action) => {
 const position = (state = 0, action) => {
   switch (action.type) {
     case actionTypes.SET_POSITION:
-      console.log(action);
       return action.position;
     case actionTypes.STOP:
       return '0';
