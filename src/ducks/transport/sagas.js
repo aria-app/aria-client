@@ -14,7 +14,7 @@ import * as selectors from './selectors';
 const { STARTED } = constants.playbackStates;
 
 function* initialize() {
-  yield* updateSequences();
+  yield put(actions.updateSequences());
   yield* updateSong();
 }
 
@@ -25,6 +25,12 @@ function* loopSequence() {
   yield put(actions.setStartPoint(`+${start}`));
   Tone.Transport.setLoopPoints(start, end);
   Tone.Transport.loop = true;
+  const playbackState = yield select(selectors.getPlaybackState);
+  yield put(actions.stop());
+  if (playbackState === STARTED) {
+    yield call(() => new Promise(resolve => setTimeout(resolve, 16)));
+    yield put(actions.play());
+  }
 }
 
 function* loopSong() {
@@ -33,6 +39,12 @@ function* loopSong() {
   yield put(actions.setStartPoint(0));
   Tone.Transport.setLoopPoints(0, end);
   Tone.Transport.loop = true;
+  const playbackState = yield select(selectors.getPlaybackState);
+  yield put(actions.stop());
+  if (playbackState === STARTED) {
+    yield call(() => new Promise(resolve => setTimeout(resolve, 16)));
+    yield put(actions.play());
+  }
 }
 
 function* pause() {
@@ -62,23 +74,29 @@ function* play() {
 
 function* sequenceStep(action) {
   const { sequence, step, time } = action.payload;
+  const isAnyTrackSoloing = yield select(song.selectors.getIsAnyTrackSoloing);
+  const track = yield select(song.selectors.getTrackById(sequence.trackId));
   const activeSequenceId = yield select(song.selectors.getActiveSequenceId);
-  const notes = yield select(song.selectors.getNotesBySequenceId(sequence.id));
-  const notesAtStep = _(notes)
-    .filter(note => _.first(note.points).x === step)
-    .uniqBy(note => _.first(note.points).y)
-    .value();
+  const isActiveSequence = activeSequenceId === sequence.id;
 
-  for (let i = 0; i < notesAtStep.length; i++) {
-    const note = notesAtStep[i];
-    yield put(playing.actions.playNote({
-      channelId: sequence.trackId,
-      note,
-      time,
-    }));
+  if (!track.isMuted && !(isAnyTrackSoloing && !track.isSoloing) || isActiveSequence) {
+    const notes = yield select(song.selectors.getNotesBySequenceId(sequence.id));
+    const notesAtStep = _(notes)
+      .filter(note => _.first(note.points).x === step)
+      .uniqBy(note => _.first(note.points).y)
+      .value();
+
+    for (let i = 0; i < notesAtStep.length; i++) {
+      const note = notesAtStep[i];
+      yield put(playing.actions.playNote({
+        channelId: sequence.trackId,
+        note,
+        time,
+      }));
+    }
   }
 
-  if (activeSequenceId !== sequence.id) return;
+  if (!isActiveSequence) return;
 
   yield put(actions.setPosition(step));
 }
@@ -146,6 +164,7 @@ export default function* saga() {
     takeEvery(actionTypes.SONG_SEQUENCE_STEP, songSequenceStep),
     takeEvery(actionTypes.STOP, stop),
     takeEvery(actionTypes.TOGGLE_PLAY_PAUSE, togglePlayPause),
+    takeEvery(actionTypes.UPDATE_SEQUENCES, updateSequences),
     takeEvery(song.actionTypes.CLOSE_SEQUENCE, loopSong),
     takeEvery(song.actionTypes.DECREMENT_MEASURE_COUNT, updateSong),
     takeEvery(song.actionTypes.INCREMENT_MEASURE_COUNT, updateSong),

@@ -44,6 +44,17 @@ $error-7: lighten($error-base, 22.50%);
 $error-8: lighten($error-base, 33.75%);
 $error-9: lighten($error-base, 45.00%);
 
+$success-base: #20DF59;
+$success-1: darken($success-base, 45.00%);
+$success-2: darken($success-base, 33.75%);
+$success-3: darken($success-base, 22.50%);
+$success-4: darken($success-base, 11.25%);
+$success-5: lighten($success-base, 00.00%);
+$success-6: lighten($success-base, 11.25%);
+$success-7: lighten($success-base, 22.50%);
+$success-8: lighten($success-base, 33.75%);
+$success-9: lighten($success-base, 45.00%);
+
 $color: $neutral-9;
 $color-inverted: $neutral-2;
 $color-primary: $primary-6;

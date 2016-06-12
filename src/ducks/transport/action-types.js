@@ -14,3 +14,4 @@ export const SET_SYNTHS = `${NAME}/SET_SYNTHS`;
 export const SONG_SEQUENCE_STEP = `${NAME}/SONG_SEQUENCE_STEP`;
 export const STOP = `${NAME}/STOP`;
 export const TOGGLE_PLAY_PAUSE = `${NAME}/TOGGLE_PLAY_PAUSE`;
+export const UPDATE_SEQUENCES = `${NAME}/UPDATE_SEQUENCES`;

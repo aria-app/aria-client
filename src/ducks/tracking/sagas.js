@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { takeEvery } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
 import song from 'ducks/song';
@@ -7,7 +8,10 @@ import * as selectors from './selectors';
 
 function* applyStagedTrack() {
   const stagedTrack = yield select(selectors.getStagedTrack);
-  yield put(song.actions.updateTrack(stagedTrack));
+  const originalTrack = yield select(song.selectors.getTrackById(stagedTrack.id));
+  if (!_.isEqual(stagedTrack, originalTrack)) {
+    yield put(song.actions.updateTrack(stagedTrack));
+  }
   yield put(actions.clearStagedTrack());
 }
 

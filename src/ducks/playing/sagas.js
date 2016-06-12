@@ -14,7 +14,7 @@ import * as selectors from './selectors';
 function* addNewChannel(action) {
   const channel = helpers.createChannel(action.track);
   yield put(actions.addChannel(channel));
-  yield put(transport.effects.updateSequences());
+  yield put(transport.actions.updateSequences());
 }
 
 function* disposeSynths(channel) {

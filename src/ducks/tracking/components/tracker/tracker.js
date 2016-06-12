@@ -89,7 +89,6 @@ const composed = compose([
     deleteStagedTrack: React.PropTypes.func.isRequired,
     openSequence: React.PropTypes.func.isRequired,
     selectedSequenceId: React.PropTypes.string,
-    stageTrack: React.PropTypes.func.isRequired,
     updateStagedSynthType: React.PropTypes.func.isRequired,
     stagedTrack: React.PropTypes.object,
   }),

@@ -1,10 +1,13 @@
 @import '../../../../styles/palette';
 
+$sequencer__background-color: $neutral-2;
+
 .sequencer {
   display: flex;
   flex-direction: column;
   flex-shrink: 1;
   flex-grow: 1;
+  background-color: $sequencer__background-color;
   overflow: hidden;
   &__content {
     display: flex;

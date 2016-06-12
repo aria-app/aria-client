@@ -101,3 +101,16 @@ export const getDeepTracks = createSelector(
     sequences: _.filter(sequences, { trackId: track.id }),
   })),
 );
+
+export const getMutedTrackIds = (state) => _(getTracks(state))
+.filter({ isMuted: true })
+.map('id')
+.value();
+
+export const getSoloingTrackIds = (state) => _(getTracks(state))
+.filter({ isSoloing: true })
+.map('id')
+.value();
+
+export const getIsAnyTrackSoloing = (state) =>
+_.some(getTracks(state), 'isSoloing');

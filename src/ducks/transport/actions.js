@@ -72,3 +72,9 @@ export function togglePlayPause() {
     type: actionTypes.TOGGLE_PLAY_PAUSE,
   };
 }
+
+export function updateSequences() {
+  return {
+    type: actionTypes.UPDATE_SEQUENCES,
+  };
+}

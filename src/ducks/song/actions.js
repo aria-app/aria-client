@@ -2,15 +2,9 @@ import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 
 export function addNewTrack() {
-  const track = helpers.createTrack();
   return {
     type: actionTypes.ADD_NEW_TRACK,
-    sequence: helpers.createSequence({
-      measureCount: 1,
-      position: 0,
-      trackId: track.id,
-    }),
-    track,
+    track: helpers.createTrack(),
   };
 }
 
@@ -25,6 +19,13 @@ export function addNotes(notes) {
   return {
     type: actionTypes.ADD_NOTES,
     notes,
+  };
+}
+
+export function addSequence(sequence) {
+  return {
+    type: actionTypes.ADD_SEQUENCE,
+    sequence,
   };
 }
 
@@ -157,6 +158,20 @@ export function setTracks(tracks) {
   return {
     type: actionTypes.SET_TRACKS,
     tracks,
+  };
+}
+
+export function toggleTrackIsMuted(id) {
+  return {
+    type: actionTypes.TOGGLE_TRACK_IS_MUTED,
+    id,
+  };
+}
+
+export function toggleTrackIsSoloing(id) {
+  return {
+    type: actionTypes.TOGGLE_TRACK_IS_SOLOING,
+    id,
   };
 }
 

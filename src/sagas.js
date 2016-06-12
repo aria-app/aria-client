@@ -8,6 +8,7 @@ import selecting from 'ducks/selecting';
 import sequencing from 'ducks/sequencing';
 import shortcuts from 'ducks/shortcuts';
 import song from 'ducks/song';
+import tracking from 'ducks/tracking';
 import transport from 'ducks/transport';
 
 export default function* rootSaga() {
@@ -22,6 +23,7 @@ export default function* rootSaga() {
     sequencing.sagas(),
     shortcuts.sagas(),
     song.sagas(),
+    tracking.sagas(),
     transport.sagas(),
   ];
 }

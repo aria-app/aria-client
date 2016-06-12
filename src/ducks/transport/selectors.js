@@ -12,4 +12,4 @@ export const getStartPoint = state => get(state).startPoint;
 export const getSynths = state => get(state).synths;
 
 export const getIsPlaying = state =>
-  getPlaybackState(state) === constants.playbackStates.STARTED;
+  getPlaybackState(state) !== constants.playbackStates.STOPPED;

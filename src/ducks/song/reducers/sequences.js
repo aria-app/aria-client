@@ -7,7 +7,7 @@ const { setAtIds } = shared.helpers;
 
 const dict = (state = {}, action) => {
   switch (action.type) {
-    case actionTypes.ADD_NEW_TRACK:
+    case actionTypes.ADD_SEQUENCE:
       return setAtIds([action.sequence], state);
     case actionTypes.ADD_SEQUENCES:
     case actionTypes.UPDATE_SEQUENCES:
@@ -25,7 +25,7 @@ const dict = (state = {}, action) => {
 
 const ids = (state = [], action) => {
   switch (action.type) {
-    case actionTypes.ADD_NEW_TRACK:
+    case actionTypes.ADD_SEQUENCE:
       return [
         ...state,
         action.sequence.id,

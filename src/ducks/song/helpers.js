@@ -41,6 +41,8 @@ export function createSequence(options) {
 export function createTrack(synthType) {
   return {
     id: v4(),
+    isMuted: false,
+    isSoloing: false,
     synthType: synthType || shared.constants.defaultSynthType,
   };
 }

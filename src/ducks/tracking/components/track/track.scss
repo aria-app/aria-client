@@ -6,10 +6,22 @@ $track__background-color: $neutral-4;
 $track__border-radius: 2px;
 $track__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 $track__header__width: 84px;
-$track__header__padding: $margin-xs $margin-s;
 $track__header__color: $neutral-3;
 $track__header__background-color: $neutral-8;
-$track__header__font-size: 0.75em;
+$track__header__title__padding: $margin-xs $margin-s;
+$track__header__title__font-size: 0.75em;
+$track__header__action__padding: $margin-s;
+$track__header__action__font-size: 0.75em;
+$track__header__action__background-color--hover: $neutral-9;
+$track__header__action__border: 1px solid $neutral-7;
+$track__header__action--mute--active__color: $error-4;
+$track__header__action--mute--active__background-color: $error-6;
+$track__header__action--mute--active__border-color: $error-5;
+$track__header__action--mute--active--hover__background-color: $error-7;
+$track__header__action--solo--active__color: $accent-4;
+$track__header__action--solo--active__background-color: $accent-6;
+$track__header__action--solo--active__border-color: $accent-5;
+$track__header__action--solo--active--hover__background-color: $accent-7;
 $track__sequences__height: 84px;
 $track__sequences__padding--vertical: 0;
 
@@ -17,18 +29,59 @@ $track__sequences__padding--vertical: 0;
   display: flex;
   flex-shrink: 0;
   align-items: stretch;
-    margin-bottom: $track__spacing;
+  margin-bottom: $track__spacing;
   background-color: $track__background-color;
   border-radius: $track__border-radius;
   box-shadow: $track__box-shadow;
   overflow: hidden;
   cursor: pointer;
   &__header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: $track__header__width;
-    padding: $track__header__padding;
     color: $track__header__color;
     background-color: $track__header__background-color;
-    font-size: $track__header__font-size;
+    border-right: 1px solid $neutral-5;
+    &__title {
+      padding: $track__header__title__padding;
+      font-size: $track__header__title__font-size;
+    }
+    &__actions {
+      display: flex;
+    }
+    &__action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+      flex-basis: 50%;
+      padding: $track__header__action__padding;
+      border-top: $track__header__action__border;
+      font-size: $track__header__action__font-size;
+      &:hover {
+        background-color: $track__header__action__background-color--hover;
+      }
+    }
+    &__action + &__action {
+      border-left: $track__header__action__border;
+    }
+    &__action--mute.track__header__action--active {
+      color: $track__header__action--mute--active__color;
+      background-color: $track__header__action--mute--active__background-color;
+      border-color: $track__header__action--mute--active__border-color;
+      &:hover {
+        background-color: $track__header__action--mute--active--hover__background-color;
+      }
+    }
+    &__action--solo.track__header__action--active {
+      color: $track__header__action--solo--active__color;
+      background-color: $track__header__action--solo--active__background-color;
+      border-color: $track__header__action--solo--active__border-color;
+      &:hover {
+        background-color: $track__header__action--solo--active--hover__background-color;
+      }
+    }
   }
   &__sequences {
     display: flex;
