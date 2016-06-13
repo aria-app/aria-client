@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import app from 'ducks/app';
 import moving from 'ducks/moving';
 import notes from 'ducks/notes';
 import panning from 'ducks/panning';
@@ -12,6 +13,7 @@ import tracking from 'ducks/tracking';
 import transport from 'ducks/transport';
 
 export default combineReducers({
+  [app.constants.NAME]: app.reducer,
   [moving.constants.NAME]: moving.reducer,
   [notes.constants.NAME]: notes.reducer,
   [panning.constants.NAME]: panning.reducer,
