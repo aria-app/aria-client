@@ -19,7 +19,7 @@ function* applyStagedTrack() {
 
 function* contextMenuItemSelected({ item }) {
   const { DELETE_SEQUENCE } = constants.contextMenuActions;
-  console.log(item);
+
   switch (item.action) {
     case DELETE_SEQUENCE:
       return yield put(song.actions.deleteSequence(item.sequence));

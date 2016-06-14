@@ -92,18 +92,6 @@ export const scrollTo = createHelper((props) => BaseComponent =>
         ref: 0,
       });
     },
-    // componentWillUpdate(nextProps) {
-    //   const propsChanged = !_.isEqual(nextProps.offset, props.offset)
-    //     || !_.isEqual(nextProps.center, props.center);
-    //
-    //   if (!propsChanged) return;
-    //
-    //   if (nextProps.center) {
-    //     this.child.scrollTop = getCenteredScroll(this.child);
-    //   } else {
-    //     this.child.scrollTop = nextProps.offset;
-    //   }
-    // },
   })
 , 'scrollTo');
 
