@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import h from 'react-hyperscript';
-import { compose, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
+import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import { Icon } from '../icon/icon';
 import './context-menu.scss';
 
@@ -20,12 +20,12 @@ const component = (props) => h('.context-menu', {
     }, [
       h('.context-menu__popup__list', [
         ...props.items.map(item => h('.context-menu__popup__item', {
-          onClick: item.action,
+          onClick: (e) => props.selectItem(item, e),
         }, [
-          h(Icon, {
+          item.icon ? h(Icon, {
             className: 'context-menu__popup__item__icon',
             icon: item.icon,
-          }),
+          }) : null,
           h('.context-menu__popup__item__text', [item.text]),
         ])),
       ]),
@@ -40,6 +40,7 @@ export const ContextMenu = compose([
     isOpen: React.PropTypes.bool.isRequired,
     items: React.PropTypes.array.isRequired,
     onRequestClose: React.PropTypes.func.isRequired,
+    onSelect: React.PropTypes.func.isRequired,
     position: React.PropTypes.shape({
       x: React.PropTypes.number,
       y: React.PropTypes.number,
@@ -49,6 +50,12 @@ export const ContextMenu = compose([
     ...props,
     transform: getTransform(props.items, props.position),
   })),
+  withHandlers({
+    selectItem: (props) => (item, e) => {
+      props.onSelect(item);
+      e.stopPropagation();
+    },
+  }),
 ])(component);
 
 function getTransform(items, position) {

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import h from 'react-hyperscript';
-import { compose, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
+import { compose, pure, setDisplayName, setPropTypes } from 'recompose';
 import sequencing from 'ducks/sequencing';
 import shared from 'ducks/shared';
 import tracking from 'ducks/tracking';
@@ -14,9 +14,7 @@ const { ContextMenu, IconButton, Toolbar } = shared.components;
 const { doOnMount } = shared.helpers;
 const { PAUSED, STARTED, STOPPED } = transport.constants.playbackStates;
 
-const component = (props) => h('.app', {
-  onContextMenu: props.openMenu,
-}, [
+const component = (props) => h('.app', [
   props.activeSequenceId
     ? h(SequencerContainer)
     : h(TrackerContainer),
@@ -62,6 +60,7 @@ const component = (props) => h('.app', {
     isOpen: !_.isEmpty(props.contextMenuItems),
     items: props.contextMenuItems,
     onRequestClose: props.closeContextMenu,
+    onSelect: props.onContextMenuItemSelect,
   }),
 ]);
 
@@ -80,7 +79,7 @@ const composed = compose([
     decrementMeasureCount: React.PropTypes.func.isRequired,
     incrementMeasureCount: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
-    openContextMenu: React.PropTypes.func.isRequired,
+    onContextMenuItemSelect: React.PropTypes.func.isRequired,
     pause: React.PropTypes.func.isRequired,
     play: React.PropTypes.func.isRequired,
     playbackState: React.PropTypes.string.isRequired,
@@ -89,28 +88,6 @@ const composed = compose([
   }),
   doOnMount((props) => {
     props.initialize();
-  }),
-  withHandlers({
-    openMenu: (props) => (e) => {
-      props.openContextMenu([{
-        icon: 'plus',
-        text: 'Item 1',
-        action: () => console.log('1!'),
-      }, {
-        icon: 'plus',
-        text: 'Item 2',
-        action: () => console.log('2!'),
-      }, {
-        icon: 'plus',
-        text: 'Item 3',
-        action: () => console.log('3!'),
-      }], {
-        x: e.pageX,
-        y: e.pageY,
-      });
-      e.stopPropagation();
-      e.preventDefault();
-    },
   }),
 ])(component);
 

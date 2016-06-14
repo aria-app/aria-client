@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import shared from 'ducks/shared';
 import song from 'ducks/song';
 import { Tracks } from '../tracks/tracks';
 import * as actions from '../../actions';
@@ -12,7 +13,9 @@ export const TracksContainer = connect((state) => ({
   tracks: song.selectors.getDeepTracks(state),
 }), {
   addTrack: song.actions.addNewTrack,
+  deleteSequence: song.actions.deleteSequence,
   deselectSequence: actions.deselectSequence,
+  openContextMenu: shared.actions.contextMenuOpened,
   selectSequence: actions.selectSequence,
   stageTrack: actions.stageTrack,
   toggleTrackIsMuted: song.actions.toggleTrackIsMuted,

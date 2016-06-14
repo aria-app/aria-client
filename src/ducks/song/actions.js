@@ -62,6 +62,13 @@ export function deleteNotes(notes) {
   };
 }
 
+export function deleteSequence(sequence) {
+  return {
+    type: actionTypes.DELETE_SEQUENCE,
+    sequence,
+  };
+}
+
 export function deleteSequences(sequences) {
   return {
     type: actionTypes.DELETE_SEQUENCES,

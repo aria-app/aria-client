@@ -2,12 +2,14 @@ import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
 import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
+import * as constants from '../../constants';
 import './sequence.scss';
 
 const component = ({
   isSelected,
   notes,
   onClick,
+  onContextMenu,
   onDoubleClick,
   transform,
   width,
@@ -20,6 +22,7 @@ const component = ({
     width,
   },
   onClick,
+  onContextMenu,
   onDoubleClick,
 }, [
   ...notes,
@@ -43,6 +46,19 @@ const composed = compose([
   withHandlers({
     onClick: (props) => (e) => {
       props.onSelect(props.sequence.id);
+      e.stopPropagation();
+    },
+    onContextMenu: (props) => (e) => {
+      const items = [
+        {
+          text: 'Delete',
+          action: constants.contextMenuActions.DELETE_SEQUENCE,
+          sequence: props.sequence,
+        },
+      ];
+
+      props.onContextMenu(items, { x: e.pageX, y: e.pageY });
+      e.preventDefault();
       e.stopPropagation();
     },
     onDoubleClick: (props) => (e) => {
