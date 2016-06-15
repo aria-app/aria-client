@@ -1,14 +1,15 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
+import contextMenu from 'ducks/context-menu';
 import sequencing from 'ducks/sequencing';
 import shared from 'ducks/shared';
 import tracking from 'ducks/tracking';
-import { ContextMenuContainer } from '../context-menu-container/context-menu-container';
 import { SongToolbarContainer } from '../song-toolbar/song-toolbar-container';
 import './app.scss';
 
 const { SequencerContainer } = sequencing.components;
+const { ContextMenuContainer } = contextMenu.components;
 const { TrackerContainer } = tracking.components;
 const { doOnMount } = shared.helpers;
 

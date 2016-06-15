@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { takeEvery } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
-import shared from 'ducks/shared';
+import contextMenu from 'ducks/context-menu';
 import song from 'ducks/song';
 import * as actions from './actions';
 import * as actionTypes from './action-types';
@@ -37,7 +37,7 @@ function* deleteStagedTrack() {
 export default function* saga() {
   yield [
     takeEvery(actionTypes.APPLY_STAGED_TRACK, applyStagedTrack),
-    takeEvery(shared.actionTypes.CONTEXT_MENU_ITEM_SELECTED, contextMenuItemSelected),
+    takeEvery(contextMenu.actionTypes.CONTEXT_MENU_ITEM_SELECTED, contextMenuItemSelected),
     takeEvery(actionTypes.DELETE_STAGED_TRACK, deleteStagedTrack),
   ];
 }

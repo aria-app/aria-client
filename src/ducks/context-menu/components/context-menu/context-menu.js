@@ -2,9 +2,10 @@ import _ from 'lodash';
 import React from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
-import { Icon } from '../icon/icon';
+import shared from 'ducks/shared';
 import './context-menu.scss';
 
+const { Icon } = shared.components;
 
 const component = (props) => h('.context-menu', {
   className: props.className,

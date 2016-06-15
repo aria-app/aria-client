@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import shared from 'ducks/shared';
+import * as actionTypes from './action-types';
 
 const contextMenuItems = (state = [], action) => {
   switch (action.type) {
-    case shared.actionTypes.CONTEXT_MENU_OPENED:
+    case actionTypes.CONTEXT_MENU_OPENED:
       return action.items;
-    case shared.actionTypes.CONTEXT_MENU_CLOSED:
-    case shared.actionTypes.CONTEXT_MENU_ITEM_SELECTED:
+    case actionTypes.CONTEXT_MENU_CLOSED:
+    case actionTypes.CONTEXT_MENU_ITEM_SELECTED:
       return [];
     default:
       return state;
@@ -15,10 +15,10 @@ const contextMenuItems = (state = [], action) => {
 
 const contextMenuPosition = (state = { x: 0, y: 0 }, action) => {
   switch (action.type) {
-    case shared.actionTypes.CONTEXT_MENU_OPENED:
+    case actionTypes.CONTEXT_MENU_OPENED:
       return action.position;
-    case shared.actionTypes.CONTEXT_MENU_CLOSED:
-    case shared.actionTypes.CONTEXT_MENU_ITEM_SELECTED:
+    case actionTypes.CONTEXT_MENU_CLOSED:
+    case actionTypes.CONTEXT_MENU_ITEM_SELECTED:
       return {};
     default:
       return state;

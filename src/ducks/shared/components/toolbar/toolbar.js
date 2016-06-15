@@ -13,7 +13,9 @@ const component = ({
   h('.toolbar', {
     className: classnames(modifierClasses, className),
   }, [
-    ...leftItems,
+    h('.toolbar__left', [
+      ...leftItems,
+    ]),
     h('.toolbar__right', [
       ...rightItems,
     ]),

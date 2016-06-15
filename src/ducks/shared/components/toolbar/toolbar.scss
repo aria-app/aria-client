@@ -21,6 +21,7 @@ $toolbar__icon-button__background--active--alternate: rgba(0, 0, 0, 0.25);
   align-items: center;
   flex-shrink: 0;
   height: $toolbar__height;
+  position: relative;
   padding-left: $toolbar__padding;
   padding-right: $toolbar__padding;
   background-color: $toolbar__background-color;
@@ -29,6 +30,12 @@ $toolbar__icon-button__background--active--alternate: rgba(0, 0, 0, 0.25);
   transition: background-color 0.25s ease;
   .icon-button + .icon-button {
     margin-left: $toolbar__item__spacing;
+  }
+  &__left {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    height: $toolbar__height;
   }
   &__right {
     display: flex;

@@ -1,4 +1,30 @@
+@import '../../../../styles/constants';
 @import '../../../../styles/palette';
 
+$song-toolbar__playback-buttons__padding-left: $margin-m;
+$song-toolbar__playback-buttons__padding-right: $margin-m;
+$song-toolbar__playback-buttons__background-color: $neutral-4;
+$song-toolbar__playback-buttons--active__fill: $neutral-4;
+
 .song-toolbar {
+  .toolbar__left {
+    justify-content: center;
+  }
+  &__playback-buttons {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-left: $song-toolbar__playback-buttons__padding-left;
+    padding-right: $song-toolbar__playback-buttons__padding-right;
+    background-color: $song-toolbar__playback-buttons__background-color;
+    .icon-button--active {
+      svg * {
+        fill: $song-toolbar__playback-buttons--active__fill;
+      }
+    }
+  }
 }

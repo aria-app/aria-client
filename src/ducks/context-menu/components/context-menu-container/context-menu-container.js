@@ -1,14 +1,13 @@
 import { connect } from 'react-redux';
-import shared from 'ducks/shared';
+import * as actions from '../../actions';
 import * as selectors from '../../selectors';
-
-const { ContextMenu } = shared.components;
+import { ContextMenu } from '../context-menu/context-menu';
 
 export const ContextMenuContainer = connect((state) => ({
   items: selectors.getContextMenuItems(state),
   isOpen: selectors.getIsContextMenuOpen(state),
   position: selectors.getContextMenuPosition(state),
 }), {
-  onRequestClose: shared.actions.contextMenuClosed,
-  onSelect: shared.actions.contextMenuItemSelected,
+  onRequestClose: actions.contextMenuClosed,
+  onSelect: actions.contextMenuItemSelected,
 })(ContextMenu);
