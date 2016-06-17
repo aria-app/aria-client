@@ -1,7 +1,26 @@
+@import '../../../../styles/constants';
 @import '../../../../styles/palette';
 
+$track-editing-modal__synth-dropdown__label__margin: $margin-m;
+$track-editing-modal__synth-dropdown__list__width: 128px;
+$track-editing-modal__delete-button__background-color: $error-5;
+
 .track-editing-modal {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+  }
+  &__synth-dropdown {
+    &__label {
+      margin-bottom: $track-editing-modal__synth-dropdown__label__margin;
+    }
+    &__list {
+      width: $track-editing-modal__synth-dropdown__list__width;
+    }
+  }
   &__delete-button {
-    
+    background-color: $track-editing-modal__delete-button__background-color;
   }
 }

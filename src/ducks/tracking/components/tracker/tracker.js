@@ -1,10 +1,4 @@
-import {
-  compose,
-  pure,
-  setDisplayName,
-  setPropTypes,
-  withHandlers,
-} from 'recompose';
+import { compose, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import React from 'react';
 import h from 'react-hyperscript';
 import { TracksContainer } from '../tracks-container/tracks-container';

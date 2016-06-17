@@ -1,11 +1,5 @@
 import _ from 'lodash';
-import {
-  compose,
-  pure,
-  setDisplayName,
-  setPropTypes,
-  withHandlers,
-} from 'recompose';
+import { compose, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from 'ducks/shared';
@@ -16,43 +10,26 @@ const { synthTypes } = shared.constants;
 
 const component = (props) =>
   h(Modal, {
+    className: 'track-editing-modal',
     isOpen: !_.isEmpty(props.stagedTrack),
-    onConfirm: props.onModalConfirm,
-    onCancel: props.onModalCancel,
+    onConfirm: props.applyStagedTrack,
+    onCancel: props.clearStagedTrack,
     titleText: 'Edit Track',
   }, [
-    h('div', {
-      style: {
-        display: 'flex',
-        flexDirection: 'column',
-        flexGrow: 1,
-        justifyContent: 'space-between',
-      },
-    }, [
-      h('div', [
-        h('div', {
-          marginBottom: 16,
-        }, [
+    h('.track-editing-modal__content', [
+      h('.track-editing-modal__synth-dropdown', [
+        h('.track-editing-modal__synth-dropdown__label', [
           'Synth Type:',
         ]),
         h(DropdownList, {
-          style: {
-            width: 128,
-          },
-          items: [
-            ...Object.keys(synthTypes).map(key => ({
-              text: synthTypes[key],
-              id: synthTypes[key],
-            })),
-          ],
+          className: 'track-editing-modal__synth-dropdown__list',
+          items: props.synthTypeList,
           selectedId: props.stagedTrack ? props.stagedTrack.synthType : '',
           onSelect: (item) => props.updateStagedSynthType(item.id),
         }),
       ]),
       h(Button, {
-        style: {
-          backgroundColor: '#d63',
-        },
+        className: 'track-editing-modal__delete-button',
         onPress: props.deleteStagedTrack,
         text: 'Delete',
       }),
@@ -66,20 +43,16 @@ const composed = compose([
     applyStagedTrack: React.PropTypes.func.isRequired,
     clearStagedTrack: React.PropTypes.func.isRequired,
     deleteStagedTrack: React.PropTypes.func.isRequired,
+    stagedTrack: React.PropTypes.object.isRequired,
     updateStagedSynthType: React.PropTypes.func.isRequired,
-    stagedTrack: React.PropTypes.object,
   }),
-  withHandlers({
-    onModalCancel: (props) => () => {
-      props.clearStagedTrack();
-    },
-    onModalConfirm: (props) => () => {
-      props.applyStagedTrack();
-    },
-    updateStagedSynthType: (props) => (synthType) => {
-      props.updateStagedSynthType(synthType);
-    },
-  }),
+  mapProps((props) => ({
+    ...props,
+    synthTypeList: Object.keys(synthTypes).map(key => ({
+      text: synthTypes[key],
+      id: synthTypes[key],
+    })),
+  })),
 ])(component);
 
 export const TrackEditingModal = composed;
