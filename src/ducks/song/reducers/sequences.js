@@ -16,10 +16,34 @@ const dict = (state = {}, action) => {
       return _.omit(state, action.sequence.id);
     case actionTypes.DELETE_SEQUENCES:
       return _.omit(state, _.map(action.sequences, 'id'));
+    case actionTypes.EXTEND_SEQUENCE:
+      return setAtIds([{
+        ...action.sequence,
+        measureCount: action.sequence.measureCount + 1,
+      }], state);
     case actionTypes.LOAD_SONG:
       return action.song.sequences.dict;
+    case actionTypes.MOVE_SEQUENCE_LEFT:
+      return setAtIds([{
+        ...action.sequence,
+        position: action.sequence.position === 0
+          ? 1
+          : action.sequence.position - 1,
+      }], state);
+    case actionTypes.MOVE_SEQUENCE_RIGHT:
+      return setAtIds([{
+        ...action.sequence,
+        position: action.sequence.position + 1,
+      }], state);
     case actionTypes.SET_SEQUENCES:
       return setAtIds(action.sequences, state);
+    case actionTypes.SHORTEN_SEQUENCE:
+      return setAtIds([{
+        ...action.sequence,
+        measureCount: action.sequence.measureCount === 1
+          ? 1
+          : action.sequence.measureCount - 1,
+      }], state);
     default:
       return state;
   }
@@ -38,7 +62,6 @@ const ids = (state = [], action) => {
         ..._.map(action.sequences, 'id'),
       ];
     case actionTypes.DELETE_SEQUENCE:
-    console.log('ids without', _.without(state, action.sequence.id));
       return _.without(state, action.sequence.id);
     case actionTypes.DELETE_SEQUENCES:
       return _.without(state, _.map(action.sequences, 'id'));

@@ -62,7 +62,7 @@ const composed = compose([
       e.stopPropagation();
     },
     onDoubleClick: (props) => (e) => {
-      props.openSequence(props.sequence.id);
+      props.openSequence(props.sequence);
       e.stopPropagation();
     },
   }),

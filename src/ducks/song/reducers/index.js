@@ -11,7 +11,7 @@ const activeSequenceId = (state = '', action) => {
     case actionTypes.CLOSE_SEQUENCE:
       return '';
     case actionTypes.OPEN_SEQUENCE:
-      return action.id;
+      return action.sequence.id;
     default:
       return state;
   }

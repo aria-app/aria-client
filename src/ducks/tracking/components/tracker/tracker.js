@@ -1,5 +1,4 @@
-import { compose, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
-import React from 'react';
+import { compose, pure, setDisplayName } from 'recompose';
 import h from 'react-hyperscript';
 import { TracksContainer } from '../tracks-container/tracks-container';
 import { SongTimelineContainer } from '../song-timeline-container/song-timeline-container';
@@ -10,14 +9,10 @@ import {
 import './tracker.scss';
 
 
-const component = (props) =>
-  h('.tracker', {
-    style: props.style,
-  }, [
+const component = () =>
+  h('.tracker', [
     h(TrackerToolbarContainer),
-    h(TracksContainer, {
-      openSequence: props.openSequence,
-    }),
+    h(TracksContainer),
     h(SongTimelineContainer),
     h(TrackEditingModalContainer),
   ]);
@@ -25,16 +20,6 @@ const component = (props) =>
 const composed = compose([
   setDisplayName('Tracker'),
   pure,
-  setPropTypes({
-    addNewTrack: React.PropTypes.func.isRequired,
-    openSequence: React.PropTypes.func.isRequired,
-    selectedSequenceId: React.PropTypes.string,
-  }),
-  withHandlers({
-    openSequence: (props) => () => {
-      props.openSequence(props.selectedSequenceId);
-    },
-  }),
 ])(component);
 
 export const Tracker = composed;

@@ -38,7 +38,7 @@ const component = (props) => h('.tracks', {
       icon: 'plus',
       size: 'large',
     }),
-    h('.tracks__add-button__text', 'Add New Track'),
+    h('.tracks__add-button__text', 'Add Track'),
   ]),
 ]);
 
@@ -61,12 +61,12 @@ const composed = compose([
     tracks: React.PropTypes.array.isRequired,
   }),
   withHandlers({
-    onTrackSelect: (props) => (track) => {
-      props.stageTrack(_.omit(track, 'sequences'));
-    },
     onTracksPress: (props) => (e) => {
       props.deselectSequence();
       e.stopPropagation();
+    },
+    onTrackSelect: (props) => (track) => {
+      props.stageTrack(_.omit(track, 'sequences'));
     },
   }),
 ])(component);

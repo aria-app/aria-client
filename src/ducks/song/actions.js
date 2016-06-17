@@ -90,6 +90,13 @@ export function deleteTrackById(id) {
   };
 }
 
+export function extendSequence(sequence) {
+  return {
+    type: actionTypes.EXTEND_SEQUENCE,
+    sequence,
+  };
+}
+
 export function incrementMeasureCount() {
   return {
     type: actionTypes.INCREMENT_MEASURE_COUNT,
@@ -103,11 +110,29 @@ export function loadSong(song) {
   };
 }
 
-export function openSequence(id) {
+export function moveSequenceLeft(sequence) {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.MOVE_SEQUENCE_LEFT,
+      sequence,
+    });
+  };
+}
+
+export function moveSequenceRight(sequence) {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.MOVE_SEQUENCE_RIGHT,
+      sequence,
+    });
+  };
+}
+
+export function openSequence(sequence) {
   return (dispatch) => {
     dispatch({
       type: actionTypes.OPEN_SEQUENCE,
-      id,
+      sequence,
     });
   };
 }
@@ -165,6 +190,13 @@ export function setTracks(tracks) {
   return {
     type: actionTypes.SET_TRACKS,
     tracks,
+  };
+}
+
+export function shortenSequence(sequence) {
+  return {
+    type: actionTypes.SHORTEN_SEQUENCE,
+    sequence,
   };
 }
 

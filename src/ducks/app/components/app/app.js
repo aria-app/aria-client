@@ -10,7 +10,7 @@ import './app.scss';
 
 const { SequencerContainer } = sequencing.components;
 const { ContextMenuContainer } = contextMenu.components;
-const { TrackerContainer } = tracking.components;
+const { Tracker } = tracking.components;
 const { doOnMount } = shared.helpers;
 
 const component = (props) => h('.app', [
@@ -33,7 +33,7 @@ const composed = compose([
     ...props,
     contentComponent: props.isSequenceOpen
       ? h(SequencerContainer)
-      : h(TrackerContainer),
+      : h(Tracker),
   })),
 ])(component);
 

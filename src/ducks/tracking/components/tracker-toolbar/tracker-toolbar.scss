@@ -2,4 +2,7 @@
 @import '../../../../styles/palette';
 
 .tracker-toolbar {
+  &__sequence-actions {
+    display: flex;
+  }
 }
