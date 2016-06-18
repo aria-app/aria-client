@@ -1,5 +1,15 @@
 import * as actionTypes from './action-types';
 
+export const addNewTrack = () => ({
+  type: actionTypes.ADD_NEW_TRACK,
+});
+
+export const addSequenceToTrack = (track, position) => ({
+  type: actionTypes.ADD_SEQUENCE_TO_TRACK,
+  track,
+  position,
+});
+
 export const applyStagedTrack = () => ({
   type: actionTypes.APPLY_STAGED_TRACK,
 });
@@ -8,12 +18,32 @@ export const clearStagedTrack = () => ({
   type: actionTypes.CLEAR_STAGED_TRACK,
 });
 
+export const deleteSequence = (sequence) => ({
+  type: actionTypes.DELETE_SEQUENCE,
+  sequence,
+});
+
 export const deleteStagedTrack = () => ({
   type: actionTypes.DELETE_STAGED_TRACK,
 });
 
 export const deselectSequence = () => ({
   type: actionTypes.DESELECT_SEQUENCE,
+});
+
+export const extendSequence = (sequence) => ({
+  type: actionTypes.EXTEND_SEQUENCE,
+  sequence,
+});
+
+export const moveSequenceLeft = (sequence) => ({
+  type: actionTypes.MOVE_SEQUENCE_LEFT,
+  sequence,
+});
+
+export const moveSequenceRight = (sequence) => ({
+  type: actionTypes.MOVE_SEQUENCE_RIGHT,
+  sequence,
 });
 
 export const pushRedo = () => ({
@@ -43,9 +73,24 @@ export const setUndos = (undos) => ({
   undos,
 });
 
+export const shortenSequence = (sequence) => ({
+  type: actionTypes.SHORTEN_SEQUENCE,
+  sequence,
+});
+
 export const stageTrack = (track) => ({
   type: actionTypes.STAGE_TRACK,
   track,
+});
+
+export const toggleTrackIsMuted = (id) => ({
+  type: actionTypes.TOGGLE_TRACK_IS_MUTED,
+  id,
+});
+
+export const toggleTrackIsSoloing = (id) => ({
+  type: actionTypes.TOGGLE_TRACK_IS_SOLOING,
+  id,
 });
 
 export const undo = () => ({

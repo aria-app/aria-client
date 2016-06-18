@@ -11,6 +11,7 @@ import * as selectors from './selectors';
 
 function* start() {
   const startPoint = yield select(sequencing.selectors.getMousePoint);
+  yield put(notes.actions.pushUndo());
   yield put(actions.setNewPoint(startPoint));
   //eslint-disable-next-line
   while(true) {
@@ -31,12 +32,11 @@ function* update() {
     return;
   }
 
-
   if (_.isEqual(previousPoint, newPoint)) return;
 
   const change = helpers.getPointOffset(previousPoint, newPoint);
 
-  yield put(notes.actions.nudgeSelectedNotesSize(change));
+  yield put(notes.actions.changeSelectedNotesSize(change));
 
   yield put(actions.setNewPoint(newPoint));
 }

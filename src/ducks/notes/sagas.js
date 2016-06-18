@@ -10,11 +10,15 @@ import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
+function* changeSelectedNotesSize({ change }) {
+  const selectedNotes = yield select(selectors.getSelectedNotes);
+  yield put(actions.resize(selectedNotes, change));
+}
+
 function* draw() {
   const activeSequenceId = yield select(song.selectors.getActiveSequenceId);
   const point = yield select(sequencing.selectors.getMousePoint);
 
-  yield put(actions.pushUndo());
   yield put(playing.actions.previewNote(point));
   yield put(song.actions.addNote(song.helpers.createNote({
     points: [point, { x: point.x + 1, y: point.y }],
@@ -32,7 +36,6 @@ function* duplicate() {
     sequenceId: note.sequenceId,
   }));
 
-  yield put(actions.pushUndo());
   yield put(song.actions.addNotes(newNotes));
   yield put(actions.selectNotes(newNotes));
 }
@@ -70,14 +73,11 @@ function* nudgeSelectedNotesPosition({ change }) {
 
   if (_.isEmpty(selectedNotes)) return;
 
-  yield put(actions.pushUndo());
   yield put(actions.move(selectedNotes, change));
 }
 
 function* nudgeSelectedNotesSize({ change }) {
-  const selectedNotes = yield select(selectors.getSelectedNotes);
-  yield put(actions.pushUndo());
-  yield put(actions.resize(selectedNotes, change));
+  yield put(actions.changeSelectedNotesSize({ change }));
 }
 
 function* pushRedo() {
@@ -120,7 +120,6 @@ function* redo() {
 }
 
 function* remove({ notes }) {
-  yield put(actions.pushUndo());
   yield put(song.actions.deleteNotes(notes));
 }
 
@@ -170,7 +169,6 @@ function* resizeSelected(action) {
     ],
   }));
 
-  yield put(actions.pushUndo());
   yield put(song.actions.updateNotes(updatedNotes));
 }
 
@@ -201,7 +199,6 @@ function* undo() {
   const undos = yield select(selectors.getUndos);
 
   if (_.isEmpty(undos)) return;
-  console.log('note undos', undos);
 
   yield put(actions.pushRedo());
   yield put(song.actions.setNotes(_.last(undos)));
@@ -210,6 +207,17 @@ function* undo() {
 
 export default function* saga() {
   yield [
+    takeEvery([
+      actionTypes.DRAW,
+      actionTypes.DUPLICATE,
+      actionTypes.ERASE,
+      actionTypes.REMOVE,
+      actionTypes.NUDGE_SELECTED_NOTES_POSITION,
+      actionTypes.NUDGE_SELECTED_NOTES_SIZE,
+      actionTypes.SHIFT_DOWN_OCTAVE,
+      actionTypes.SHIFT_UP_OCTAVE,
+    ], pushUndo),
+    takeEvery(actionTypes.CHANGE_SELECTED_NOTES_SIZE, changeSelectedNotesSize),
     takeEvery(actionTypes.DRAW, draw),
     takeEvery(actionTypes.DUPLICATE, duplicate),
     takeEvery(actionTypes.ERASE, erase),

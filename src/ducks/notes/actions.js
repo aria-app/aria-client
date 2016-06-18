@@ -1,5 +1,10 @@
 import * as actionTypes from './action-types';
 
+export const changeSelectedNotesSize = (change) => ({
+  type: actionTypes.CHANGE_SELECTED_NOTES_SIZE,
+  change,
+});
+
 export const deselectAll = () => ({
   type: actionTypes.DESELECT_ALL,
 });

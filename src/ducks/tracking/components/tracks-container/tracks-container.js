@@ -12,14 +12,13 @@ export const TracksContainer = connect((state) => ({
   songMeasureCount: song.selectors.getMeasureCount(state),
   tracks: song.selectors.getDeepTracks(state),
 }), {
-  addSequence: song.actions.addSequenceToTrack,
-  addTrack: song.actions.addNewTrack,
-  deleteSequence: song.actions.deleteSequence,
+  addSequence: actions.addSequenceToTrack,
+  addTrack: actions.addNewTrack,
   deselectSequence: actions.deselectSequence,
   openContextMenu: contextMenu.actions.contextMenuOpened,
   openSequence: song.actions.openSequence,
   selectSequence: actions.selectSequence,
   stageTrack: actions.stageTrack,
-  toggleTrackIsMuted: song.actions.toggleTrackIsMuted,
-  toggleTrackIsSoloing: song.actions.toggleTrackIsSoloing,
+  toggleTrackIsMuted: actions.toggleTrackIsMuted,
+  toggleTrackIsSoloing: actions.toggleTrackIsSoloing,
 })(Tracks);

@@ -8,6 +8,13 @@ export function addChannel(channel) {
   };
 }
 
+export function disposeSynths(channel) {
+  return {
+    type: actionTypes.DISPOSE_SYNTHS,
+    channel,
+  };
+}
+
 export function playNote(payload) {
   return {
     type: actionTypes.PLAY_NOTE,

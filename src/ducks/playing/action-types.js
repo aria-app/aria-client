@@ -1,6 +1,7 @@
 import { NAME } from './constants';
 
 export const ADD_CHANNEL = `${NAME}/ADD_CHANNEL`;
+export const DISPOSE_SYNTHS = `${NAME}/DISPOSE_SYNTHS`;
 export const POP_SYNTH = `${NAME}/POP_SYNTH`;
 export const PLAY_NOTE = `${NAME}/PLAY_NOTE`;
 export const PUSH_SYNTH = `${NAME}/PUSH_SYNTH`;

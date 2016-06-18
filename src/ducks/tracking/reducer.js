@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import song from 'ducks/song';
 import * as actionTypes from './action-types';
 
 function redos(state = [], action) {
@@ -12,7 +13,9 @@ function redos(state = [], action) {
 
 const selectedSequenceId = (state = '', action) => {
   switch (action.type) {
+    case actionTypes.DELETE_SEQUENCE:
     case actionTypes.DESELECT_SEQUENCE:
+    case song.actionTypes.OPEN_SEQUENCE:
       return '';
     case actionTypes.SELECT_SEQUENCE:
       return action.id;

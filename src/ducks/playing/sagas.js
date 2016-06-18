@@ -9,13 +9,12 @@ import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
-
 function* addNewChannel(action) {
   const channel = helpers.createChannel(action.track);
   yield put(actions.addChannel(channel));
 }
 
-function* disposeSynths(channel) {
+function* disposeSynths({ channel }) {
   yield call(() => {
     channel.activeSynths.forEach(s => s.dispose());
     channel.previewSynth.dispose();
@@ -98,7 +97,7 @@ function* pushSynth(action) {
 
 function* receiveTrackUpdate(action) {
   const channelForTrack = yield select(selectors.getChannelById(action.track.id));
-  yield disposeSynths(channelForTrack);
+  yield put(actions.disposeSynths(channelForTrack));
   yield put(actions.updateChannel(helpers.createChannel(action.track)));
 }
 
@@ -130,18 +129,26 @@ function* setBPM(action) {
 }
 
 function* setChannels(action) {
+  const previousChannels = yield select(selectors.getChannels);
+
+  for (let i = 0; i < previousChannels.length; i++) {
+    yield put(actions.disposeSynths(previousChannels[i]));
+  }
+
   const channels = action.tracks.map(helpers.createChannel);
+
   yield put(actions.setChannels(channels));
 }
 
 export default function* saga() {
   yield [
-    takeEvery(song.actionTypes.ADD_NEW_TRACK, addNewChannel),
+    takeEvery(actionTypes.DISPOSE_SYNTHS, disposeSynths),
     takeEvery(actionTypes.PLAY_NOTE, playNote),
     takeEvery(actionTypes.POP_SYNTH, popSynth),
     takeEvery(actionTypes.PREVIEW_NOTE, previewNote),
     takeEvery(actionTypes.PUSH_SYNTH, pushSynth),
     takeEvery(actionTypes.RELEASE_ALL, releaseAll),
+    takeEvery(song.actionTypes.ADD_NEW_TRACK, addNewChannel),
     takeEvery(song.actionTypes.SET_BPM, setBPM),
     takeEvery(song.actionTypes.LOAD_SONG, initialize),
     takeEvery(song.actionTypes.SET_TRACKS, setChannels),
