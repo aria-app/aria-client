@@ -25,13 +25,15 @@ const middleware = applyMiddleware(
 
 const store = createStore(reducer, middleware);
 sagaMiddleware.run(rootSaga);
+
 const localStorageSong = localStorage.getItem(
   shared.constants.localStorageKey
 );
+
 const initialSong = localStorageSong
   ? JSON.parse(localStorageSong)
   : sampleSong;
-console.log(initialSong);
+
 store.dispatch(song.actions.loadSong(initialSong));
 
 // whyDidYouUpdate(React, { exclude: /^(Connect|pure|withHandlers|withState)/ });

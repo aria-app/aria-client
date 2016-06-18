@@ -32,7 +32,7 @@ function* deleteTrackById() {
 
 const throttledSave = _.throttle((song) => {
   localStorage.setItem(shared.constants.localStorageKey, JSON.stringify(song));
-}, 2000);
+}, 500);
 
 function* saveToLocalStorage() {
   const song = yield select(selectors.getSong);

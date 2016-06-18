@@ -16,6 +16,10 @@ const component = (props) => h(Toolbar, {
   ],
   rightItems: [
     h(Button, {
+      text: `BPM ${props.BPM}`,
+      onPress: props.openBPMModal,
+    }),
+    h(Button, {
       text: 'Song Settings',
       onPress: () => console.log('Pressed Song Settings'),
     }),
@@ -26,9 +30,10 @@ const composed = compose([
   setDisplayName('SongToolbar'),
   pure,
   setPropTypes({
-    bpm: React.PropTypes.number.isRequired,
+    BPM: React.PropTypes.number.isRequired,
     decrementMeasureCount: React.PropTypes.func.isRequired,
     incrementMeasureCount: React.PropTypes.func.isRequired,
+    openBPMModal: React.PropTypes.func.isRequired,
     pause: React.PropTypes.func.isRequired,
     play: React.PropTypes.func.isRequired,
     playbackState: React.PropTypes.string.isRequired,

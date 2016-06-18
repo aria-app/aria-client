@@ -45,12 +45,15 @@ $dropdown-list__popup__item__background-color--active: $accent-3;
   }
   &__popup {
     min-width: 100%;
+    max-height: 256px;
     position: absolute;
     top: 0;
     right: 0;
     z-index: $dropdown-list__z-index;
     background-color: $dropdown-list__background-color;
     border-radius: 2px;
+    overflow-x: hidden;
+    overflow-y: scroll;
     &__list {
       padding-top: $dropdown-list__popup__list__padding;
       padding-bottom: $dropdown-list__popup__list__padding;

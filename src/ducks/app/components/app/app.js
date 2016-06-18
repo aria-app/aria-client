@@ -5,6 +5,7 @@ import contextMenu from 'ducks/context-menu';
 import sequencing from 'ducks/sequencing';
 import shared from 'ducks/shared';
 import tracking from 'ducks/tracking';
+import { BPMModalContainer } from '../bpm-modal/bpm-modal-container';
 import { SongToolbarContainer } from '../song-toolbar/song-toolbar-container';
 import './app.scss';
 
@@ -16,6 +17,7 @@ const { doOnMount } = shared.helpers;
 const component = (props) => h('.app', [
   props.contentComponent,
   h(SongToolbarContainer),
+  h(BPMModalContainer),
   h(ContextMenuContainer),
 ]);
 
