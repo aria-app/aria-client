@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import Mousetrap from 'mousetrap';
-import notes from 'ducks/notes';
+// import notes from 'ducks/notes';
 import sequencing from 'ducks/sequencing';
 import shared from 'ducks/shared';
 import transport from 'ducks/transport';
@@ -12,24 +12,25 @@ import * as selectors from './selectors';
 
 const shortcuts = [
   // Notes
-  [notes.actions.deselectAll(), ['ctrl+d', 'meta+d']],
-  [notes.actions.duplicate(), ['ctrl+shift+d', 'meta+shift+d']],
-  [notes.actions.nudgeSelectedNotesPosition({ x: 0, y: -1 }), ['up']],
-  [notes.actions.nudgeSelectedNotesPosition({ x: 0, y: 1 }), ['down']],
-  [notes.actions.nudgeSelectedNotesPosition({ x: -1, y: 0 }), ['left']],
-  [notes.actions.nudgeSelectedNotesPosition({ x: 1, y: 0 }), ['right']],
-  [notes.actions.nudgeSelectedNotesSize({ x: 0, y: -1 }), ['ctrl+up', 'meta+up']],
-  [notes.actions.nudgeSelectedNotesSize({ x: 1, y: 0 }), ['ctrl+right', 'meta+right']],
-  [notes.actions.nudgeSelectedNotesSize({ x: 0, y: 1 }), ['ctrl+down', 'meta+down']],
-  [notes.actions.nudgeSelectedNotesSize({ x: -1, y: 0 }), ['ctrl+left', 'meta+left']],
-  [notes.actions.removeSelected(), ['backspace', 'del']],
-  [notes.actions.resizeSelected(1), ['ctrl+1', 'meta+1']],
-  [notes.actions.resizeSelected(2), ['ctrl+2', 'meta+2']],
-  [notes.actions.resizeSelected(4), ['ctrl+3', 'meta+3']],
-  [notes.actions.resizeSelected(8), ['ctrl+4', 'meta+4']],
-  [notes.actions.redo(), ['ctrl+y', 'meta+y']],
-  [notes.actions.selectAll(), ['ctrl+a', 'meta+a']],
-  [notes.actions.undo(), ['ctrl+z', 'meta+z']],
+  // [notes.actions.deselectAll(), ['ctrl+d', 'meta+d']],
+  // [notes.actions.duplicate(), ['ctrl+shift+d', 'meta+shift+d']],
+  // [notes.actions.nudgeSelectedNotesPosition({ x: 0, y: -1 }), ['up']],
+  // [notes.actions.nudgeSelectedNotesPosition({ x: 0, y: 1 }), ['down']],
+  // [notes.actions.nudgeSelectedNotesPosition({ x: -1, y: 0 }), ['left']],
+  // [notes.actions.nudgeSelectedNotesPosition({ x: 1, y: 0 }), ['right']],
+  // [notes.actions.nudgeSelectedNotesSize({ x: 0, y: -1 }), ['ctrl+up', 'meta+up']],
+  // [notes.actions.nudgeSelectedNotesSize({ x: 1, y: 0 }), ['ctrl+right', 'meta+right']],
+  // [notes.actions.nudgeSelectedNotesSize({ x: 0, y: 1 }), ['ctrl+down', 'meta+down']],
+  // [notes.actions.nudgeSelectedNotesSize({ x: -1, y: 0 }), ['ctrl+left', 'meta+left']],
+  // [notes.actions.removeSelected(), ['backspace', 'del']],
+  // [notes.actions.resizeSelected(1), ['ctrl+1', 'meta+1']],
+  // [notes.actions.resizeSelected(2), ['ctrl+2', 'meta+2']],
+  // [notes.actions.resizeSelected(4), ['ctrl+3', 'meta+3']],
+  // [notes.actions.resizeSelected(8), ['ctrl+4', 'meta+4']],
+  // [notes.actions.redo(), ['ctrl+y', 'meta+y']],
+  // [notes.actions.selectAll(), ['ctrl+a', 'meta+a']],
+  [{ type: actionTypes.REDO }, ['ctrl+y', 'meta+y']],
+  [{ type: actionTypes.UNDO }, ['ctrl+z', 'meta+z']],
 
   // Playback
   [transport.actions.togglePlayPause(), ['enter']],

@@ -52,15 +52,9 @@ const dict = (state = {}, action) => {
 const ids = (state = [], action) => {
   switch (action.type) {
     case actionTypes.ADD_SEQUENCE:
-      return [
-        ...state,
-        action.sequence.id,
-      ];
+      return state.concat(action.sequence.id);
     case actionTypes.ADD_SEQUENCES:
-      return [
-        ...state,
-        ..._.map(action.sequences, 'id'),
-      ];
+      return state.concat(_.map(action.sequences, 'id'));
     case actionTypes.DELETE_SEQUENCE:
       return _.without(state, action.sequence.id);
     case actionTypes.DELETE_SEQUENCES:

@@ -34,6 +34,11 @@ export const getNotesBySequenceId = (sequenceId) => createSelector(
   (notes) => _.filter(notes, { sequenceId }),
 );
 
+export const getNotesBySequenceIds = (sequenceIds) => createSelector(
+  getNotes,
+  (notes) => _.filter(notes, note => _.includes(sequenceIds, note.sequenceId)),
+);
+
 // --- Sequence ---
 
 export const getSequenceById = (id) => createSelector(

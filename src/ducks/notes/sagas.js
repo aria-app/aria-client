@@ -3,6 +3,7 @@ import { takeEvery } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
 import playing from 'ducks/playing';
 import sequencing from 'ducks/sequencing';
+import shortcuts from 'ducks/shortcuts';
 import song from 'ducks/song';
 import * as actions from './actions';
 import * as actionTypes from './action-types';
@@ -13,6 +14,7 @@ function* draw() {
   const activeSequenceId = yield select(song.selectors.getActiveSequenceId);
   const point = yield select(sequencing.selectors.getMousePoint);
 
+  yield put(actions.pushUndo());
   yield put(playing.actions.previewNote(point));
   yield put(song.actions.addNote(song.helpers.createNote({
     points: [point, { x: point.x + 1, y: point.y }],
@@ -199,6 +201,7 @@ function* undo() {
   const undos = yield select(selectors.getUndos);
 
   if (_.isEmpty(undos)) return;
+  console.log('note undos', undos);
 
   yield put(actions.pushRedo());
   yield put(song.actions.setNotes(_.last(undos)));
@@ -225,5 +228,7 @@ export default function* saga() {
     takeEvery(actionTypes.SHIFT_DOWN_OCTAVE, shiftDownOctave),
     takeEvery(actionTypes.SHIFT_UP_OCTAVE, shiftUpOctave),
     takeEvery(actionTypes.UNDO, undo),
+    takeEvery(shortcuts.actionTypes.REDO, redo),
+    takeEvery(shortcuts.actionTypes.UNDO, undo),
   ];
 }

@@ -16,7 +16,7 @@ const dict = (state = {}, action) => {
     case actionTypes.LOAD_SONG:
       return action.song.tracks.dict;
     case actionTypes.DELETE_TRACK_BY_ID:
-      return _.reject(state, { id: action.id });
+      return _.omit(state, action.id);
     case actionTypes.DELETE_TRACKS:
       return _.omit(state, _.map(action.tracks, 'id'));
     case actionTypes.SET_TRACKS:
@@ -55,6 +55,8 @@ const ids = (state = [], action) => {
         ...state,
         ..._.map(action.tracks, 'id'),
       ];
+    case actionTypes.DELETE_TRACK_BY_ID:
+      return _.without(state, action.id);
     case actionTypes.DELETE_TRACKS:
       return _.without(state, _.map(action.tracks, 'id'));
     case actionTypes.LOAD_SONG:
