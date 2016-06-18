@@ -1,9 +1,13 @@
+import _ from 'lodash';
 import React from 'react';
 import h from 'react-hyperscript';
-import { compose, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
+import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import classnames from 'classnames';
+import shared from 'ducks/shared';
 import { Sequence } from '../sequence/sequence';
 import './track.scss';
+
+const { Icon } = shared.components;
 
 const component = (props) => h('.track', {
   onClick: props.onTrackPress,
@@ -39,6 +43,17 @@ const component = (props) => h('.track', {
       onContextMenu: props.onSequenceContextMenu,
       sequence,
     })),
+    h('.track__add-button', {
+      onClick: props.addSequence,
+      style: {
+        transform: `translateX(${props.addPosition * 64}px)`,
+      },
+    }, [
+      h(Icon, {
+        icon: 'plus',
+        size: 'large',
+      }),
+    ]),
   ]),
 ]);
 
@@ -46,6 +61,7 @@ const composed = compose([
   setDisplayName('Track'),
   pure,
   setPropTypes({
+    addSequence: React.PropTypes.func.isRequired,
     deselectSequence: React.PropTypes.func.isRequired,
     isMuted: React.PropTypes.bool.isRequired,
     isSoloing: React.PropTypes.bool.isRequired,
@@ -59,7 +75,14 @@ const composed = compose([
     toggleTrackIsSoloing: React.PropTypes.func.isRequired,
     track: React.PropTypes.object.isRequired,
   }),
+  mapProps((props) => ({
+    ...props,
+    addPosition: getAddPosition(props.track.sequences),
+  })),
   withHandlers({
+    addSequence: (props) => () => {
+      props.addSequence(props.track, props.addPosition);
+    },
     onMutePress: (props) => (e) => {
       props.toggleTrackIsMuted(props.track.id);
       e.stopPropagation();
@@ -82,3 +105,7 @@ const composed = compose([
 ])(component);
 
 export const Track = composed;
+
+function getAddPosition(sequences) {
+  return _(sequences).map(s => s.position + s.measureCount).max();
+}

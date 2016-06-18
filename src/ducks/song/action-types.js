@@ -4,6 +4,7 @@ export const ADD_NEW_TRACK = `${NAME}/ADD_NEW_TRACK`;
 export const ADD_NOTE = `${NAME}/ADD_NOTE`;
 export const ADD_NOTES = `${NAME}/ADD_NOTES`;
 export const ADD_SEQUENCE = `${NAME}/ADD_SEQUENCE`;
+export const ADD_SEQUENCE_TO_TRACK = `${NAME}/ADD_SEQUENCE_TO_TRACK`;
 export const ADD_SEQUENCES = `${NAME}/ADD_SEQUENCES`;
 export const ADD_TRACKS = `${NAME}/ADD_TRACKS`;
 export const CLOSE_SEQUENCE = `${NAME}/CLOSE_SEQUENCE`;

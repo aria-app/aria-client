@@ -14,6 +14,7 @@ const component = (props) => h('.tracks', {
 }, [
   h(RulerContainer),
   ...props.tracks.map(track => h(Track, {
+    addSequence: props.addSequence,
     deselectSequence: props.deselectSequence,
     isMuted: _.includes(props.mutedTrackIds, track.id),
     isSoloing: _.includes(props.soloingTrackIds, track.id),
@@ -46,6 +47,7 @@ const composed = compose([
   setDisplayName('Tracks'),
   pure,
   setPropTypes({
+    addSequence: React.PropTypes.func.isRequired,
     addTrack: React.PropTypes.func.isRequired,
     deselectSequence: React.PropTypes.func.isRequired,
     mutedTrackIds: React.PropTypes.array.isRequired,

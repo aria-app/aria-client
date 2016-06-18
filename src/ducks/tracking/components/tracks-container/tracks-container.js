@@ -12,6 +12,7 @@ export const TracksContainer = connect((state) => ({
   songMeasureCount: song.selectors.getMeasureCount(state),
   tracks: song.selectors.getDeepTracks(state),
 }), {
+  addSequence: song.actions.addSequenceToTrack,
   addTrack: song.actions.addNewTrack,
   deleteSequence: song.actions.deleteSequence,
   deselectSequence: actions.deselectSequence,

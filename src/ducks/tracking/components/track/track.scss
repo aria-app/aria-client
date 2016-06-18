@@ -92,4 +92,23 @@ $track__sequences__padding--vertical: 0;
     padding-top: $track__sequences__padding--vertical;
     padding-bottom: $track__sequences__padding--vertical;
   }
+  &__add-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 64px;
+    border: 2px solid $neutral-5;
+    transition: border-color 0.25s ease;
+    svg * {
+      fill: $neutral-5;
+      transition: fill 0.25s ease;
+    }
+    &:hover {
+      border-color: $neutral-6;
+      svg * {
+        fill: $neutral-6;
+      }
+    }
+  }
 }

@@ -29,6 +29,14 @@ export function addSequence(sequence) {
   };
 }
 
+export function addSequenceToTrack(track, position) {
+  return {
+    type: actionTypes.ADD_SEQUENCE_TO_TRACK,
+    position,
+    track,
+  };
+}
+
 export function addSequences(sequences) {
   return {
     type: actionTypes.ADD_SEQUENCES,

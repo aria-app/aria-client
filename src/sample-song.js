@@ -54,7 +54,7 @@ const initialNotes = [
 export default {
   bpm: 150,
   id: v4(),
-  measureCount: 2,
+  measureCount: 4,
   name: 'My Song',
   notes: {
     dict: initialNotes.reduce((acc, cur) =>

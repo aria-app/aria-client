@@ -12,8 +12,18 @@ function* addSequenceToNewTrack(action) {
   })));
 }
 
+function* addSequenceToTrack({ position, track }) {
+  console.log(position);
+  yield put(actions.addSequence(helpers.createSequence({
+    measureCount: 1,
+    trackId: track.id,
+    position,
+  })));
+}
+
 export default function* saga() {
   yield [
     takeEvery(actionTypes.ADD_NEW_TRACK, addSequenceToNewTrack),
+    takeEvery(actionTypes.ADD_SEQUENCE_TO_TRACK, addSequenceToTrack),
   ];
 }
