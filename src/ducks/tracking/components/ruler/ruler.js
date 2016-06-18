@@ -1,21 +1,28 @@
 import _ from 'lodash';
 import React from 'react';
 import h from 'react-hyperscript';
-import { compose, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
+import {
+  compose,
+  mapProps,
+  pure,
+  setDisplayName,
+  setPropTypes,
+  withHandlers,
+  withState,
+} from 'recompose';
 import './ruler.scss';
 
 
-const component = ({
-  measures,
-  measuresWidth,
-}) => h('.ruler', [
+const component = (props) => h('.ruler', [
   h('.ruler__header'),
   h('.ruler__measures', {
     style: {
-      width: measuresWidth,
+      width: props.measuresWidth,
     },
+    onMouseDown: props.holdPosition,
+    onMouseMove: props.movePosition,
   }, [
-    ...measures,
+    ...props.measures,
   ]),
 ]);
 
@@ -24,11 +31,33 @@ const composed = compose([
   pure,
   setPropTypes({
     measureCount: React.PropTypes.number.isRequired,
+    pause: React.PropTypes.func.isRequired,
+    play: React.PropTypes.func.isRequired,
+    setPosition: React.PropTypes.func.isRequired,
   }),
   mapProps((props) => ({
+    ...props,
     measuresWidth: props.measureCount * 64,
     measures: getMeasures(props.measureCount),
   })),
+  withState('isMovingPosition', 'setIsMovingPosition', false),
+  withHandlers({
+    holdPosition: (props) => (e) => {
+      props.play();
+      props.setPosition((e.pageX - e.target.offsetLeft) / 64);
+      props.pause();
+      props.setIsMovingPosition(() => true);
+      const mouseUpListener = window.addEventListener('mouseup', () => {
+        props.play();
+        props.setIsMovingPosition(() => false);
+        window.removeEventListener('mouseup', mouseUpListener);
+      });
+    },
+    movePosition: (props) => (e) => {
+      if (!props.isMovingPosition) return;
+      props.setPosition((e.pageX - e.target.offsetLeft) / 64);
+    },
+  }),
 ])(component);
 
 export const Ruler = composed;
@@ -37,6 +66,7 @@ function getMeasures(count) {
   return _.times(count, (n) => h('.ruler__measure', {
     key: n,
     style: {
+      pointerEvents: 'none',
       transform: `translateX(${n * 64}px)`,
     },
   }, [

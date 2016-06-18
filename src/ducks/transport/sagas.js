@@ -107,6 +107,13 @@ function* setBPM(action) {
   });
 }
 
+function* setTransportPosition({ measures }) {
+  const position = helpers.measuresToSeconds(measures);
+  Tone.Transport.position = position;
+  yield put(actions.setSongPosition(measures * 32));
+  yield put(playing.actions.releaseAll());
+}
+
 function* songSequenceStep(action) {
   const { step } = action.payload;
   yield put(actions.setSongPosition(step));
@@ -161,6 +168,7 @@ export default function* saga() {
     takeEvery(actionTypes.PLAY, play),
     takeEvery(actionTypes.PAUSE, pause),
     takeEvery(actionTypes.SEQUENCE_STEP, sequenceStep),
+    takeEvery(actionTypes.SET_TRANSPORT_POSITION, setTransportPosition),
     takeEvery(actionTypes.SONG_SEQUENCE_STEP, songSequenceStep),
     takeEvery(actionTypes.STOP, stop),
     takeEvery(actionTypes.TOGGLE_PLAY_PAUSE, togglePlayPause),

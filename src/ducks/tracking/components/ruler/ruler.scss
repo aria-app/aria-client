@@ -34,6 +34,7 @@ $ruler__measure__font-size: 0.75em;
   &__measures {
     width: 100%;
     position: relative;
+    cursor: pointer;
   }
   &__measure {
     display: flex;

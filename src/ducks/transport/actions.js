@@ -54,6 +54,13 @@ export function setStartPoint(startPoint) {
   };
 }
 
+export function setTransportPosition(measures) {
+  return {
+    type: actionTypes.SET_TRANSPORT_POSITION,
+    measures,
+  };
+}
+
 export function songSequenceStep(payload) {
   return {
     type: actionTypes.SONG_SEQUENCE_STEP,
