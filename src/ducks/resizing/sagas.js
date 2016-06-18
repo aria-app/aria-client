@@ -13,12 +13,13 @@ function* start() {
   const startPoint = yield select(sequencing.selectors.getMousePoint);
   yield put(notes.actions.pushUndo());
   yield put(actions.setNewPoint(startPoint));
-  //eslint-disable-next-line
-  while(true) {
+  let started = true;
+  while (started) {
     yield call(shared.helpers.resolveOnMouseUp);
     const isResizing = yield select(selectors.getIsResizing);
     if (isResizing) {
       yield put(actions.stop());
+      started = false;
     }
   }
 }

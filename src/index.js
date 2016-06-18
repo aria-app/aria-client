@@ -8,6 +8,7 @@ import createSagaMiddleware from 'redux-saga';
 import thunkMiddleware from 'redux-thunk';
 import app from 'ducks/app';
 import reducer from './reducer';
+import shared from 'ducks/shared';
 import song from 'ducks/song';
 import rootSaga from './sagas';
 import sampleSong from './sample-song';
@@ -24,7 +25,14 @@ const middleware = applyMiddleware(
 
 const store = createStore(reducer, middleware);
 sagaMiddleware.run(rootSaga);
-store.dispatch(song.actions.loadSong(sampleSong));
+const localStorageSong = localStorage.getItem(
+  shared.constants.localStorageKey
+);
+const initialSong = localStorageSong
+  ? JSON.parse(localStorageSong)
+  : sampleSong;
+console.log(initialSong);
+store.dispatch(song.actions.loadSong(initialSong));
 
 // whyDidYouUpdate(React, { exclude: /^(Connect|pure|withHandlers|withState)/ });
 

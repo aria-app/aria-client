@@ -7,6 +7,7 @@ const get = state => state[NAME];
 
 export const getActiveSequenceId = (state) => get(state).activeSequenceId;
 export const getBPM = (state) => get(state).bpm || transport.constants.defaultBPM;
+export const getId = (state) => get(state).id;
 export const getMeasureCount = (state) => get(state).measureCount || 1;
 export const getName = (state) => get(state).name || '';
 export const getNotesDict = (state) => get(state).notes.dict;
@@ -119,3 +120,24 @@ export const getSoloingTrackIds = (state) => _(getTracks(state))
 
 export const getIsAnyTrackSoloing = (state) =>
 _.some(getTracks(state), 'isSoloing');
+
+// --- Song ---
+
+export const getSong = (state) => ({
+  bpm: getBPM(state),
+  id: getId(state),
+  measureCount: getMeasureCount(state),
+  name: getName(state),
+  notes: {
+    dict: getNotesDict(state),
+    ids: getNotesIds(state),
+  },
+  sequences: {
+    dict: getSequencesDict(state),
+    ids: getSequencesIds(state),
+  },
+  tracks: {
+    dict: getTracksDict(state),
+    ids: getTracksIds(state),
+  },
+});

@@ -1,3 +1,5 @@
+export const localStorageKey = 'currentSong';
+
 export const minBPM = 60;
 export const maxBPM = 400;
 
