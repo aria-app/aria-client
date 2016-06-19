@@ -41,14 +41,14 @@ const id = (state = '', action) => {
 
 const measureCount = (state = 1, action) => {
   switch (action.type) {
-    case actionTypes.DECREMENT_MEASURE_COUNT:
-      return state > 1 ? state - 1 : state;
-    case actionTypes.INCREMENT_MEASURE_COUNT:
+    case actionTypes.EXTEND_SONG:
       return state + 1;
     case actionTypes.LOAD_SONG:
       return action.song.measureCount;
     case actionTypes.SET_MEASURE_COUNT:
       return action.measureCount;
+    case actionTypes.SHORTEN_SONG:
+      return state > 1 ? state - 1 : state;
     default:
       return state;
   }

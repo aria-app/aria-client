@@ -57,12 +57,6 @@ export function closeSequence() {
   };
 }
 
-export function decrementMeasureCount() {
-  return {
-    type: actionTypes.DECREMENT_MEASURE_COUNT,
-  };
-}
-
 export function deleteNotes(notes) {
   return {
     type: actionTypes.DELETE_NOTES,
@@ -105,9 +99,9 @@ export function extendSequence(sequence) {
   };
 }
 
-export function incrementMeasureCount() {
+export function extendSong() {
   return {
-    type: actionTypes.INCREMENT_MEASURE_COUNT,
+    type: actionTypes.EXTEND_SONG,
   };
 }
 
@@ -205,6 +199,12 @@ export function shortenSequence(sequence) {
   return {
     type: actionTypes.SHORTEN_SEQUENCE,
     sequence,
+  };
+}
+
+export function shortenSong() {
+  return {
+    type: actionTypes.SHORTEN_SONG,
   };
 }
 

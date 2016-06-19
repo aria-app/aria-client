@@ -9,20 +9,36 @@ import {
   setPropTypes,
   withHandlers,
 } from 'recompose';
+import shared from 'ducks/shared';
 import transport from 'ducks/transport';
 import './ruler.scss';
 
+const { Icon } = shared.components;
 const { STARTED } = transport.constants.playbackStates;
 
 const component = (props) => h('.ruler', [
-  h('.ruler__header'),
-  h('.ruler__measures', {
-    style: {
-      width: props.measuresWidth,
-    },
-    onMouseDown: props.holdPosition,
-  }, [
-    ...props.measures,
+  h('.ruler__body', [
+    h('.ruler__header'),
+    h('.ruler__measures', {
+      style: {
+        width: props.measuresWidth,
+      },
+      onMouseDown: props.holdPosition,
+    }, [
+      ...props.measures,
+    ]),
+  ]),
+  h('.ruler__song-length-button', [
+    h('.ruler__song-length-button__side', {
+      onClick: props.shortenSong,
+    }, [
+      h(Icon, { icon: 'chevron-left', size: 'small' }),
+    ]),
+    h('.ruler__song-length-button__side', {
+      onClick: props.extendSong,
+    }, [
+      h(Icon, { icon: 'chevron-right', size: 'small' }),
+    ]),
   ]),
 ]);
 
@@ -30,11 +46,13 @@ const composed = compose([
   setDisplayName('Ruler'),
   pure,
   setPropTypes({
+    extendSong: React.PropTypes.func.isRequired,
     measureCount: React.PropTypes.number.isRequired,
     pause: React.PropTypes.func.isRequired,
     play: React.PropTypes.func.isRequired,
     playbackState: React.PropTypes.string.isRequired,
     setPosition: React.PropTypes.func.isRequired,
+    shortenSong: React.PropTypes.func.isRequired,
   }),
   mapProps((props) => ({
     ...props,

@@ -31,8 +31,6 @@ const composed = compose([
   pure,
   setPropTypes({
     BPM: React.PropTypes.number.isRequired,
-    decrementMeasureCount: React.PropTypes.func.isRequired,
-    incrementMeasureCount: React.PropTypes.func.isRequired,
     openBPMModal: React.PropTypes.func.isRequired,
     pause: React.PropTypes.func.isRequired,
     play: React.PropTypes.func.isRequired,

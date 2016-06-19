@@ -7,6 +7,7 @@ $ruler__time-offset: 84px;
 $ruler__background-color: $neutral-3;
 $ruler__border-radius: 2px;
 $ruler__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+$ruler__body__margin-right: $margin-s;
 $ruler__header__width: 84px;
 $ruler__header__background-color: $neutral-8;
 $ruler__measure__width: 64px;
@@ -14,14 +15,22 @@ $ruler__measure__padding: 0 4px;
 $ruler__measure__color: $neutral-5;
 $ruler__measure__border-left: 1px solid $neutral-5;
 $ruler__measure__font-size: 0.75em;
+$ruler__song-length-button__border: 1px solid $neutral-3;
+$ruler__song-length-button__side__color: $neutral-3;
+$ruler__song-length-button__side__color--hover: $neutral-2;
+$ruler__song-length-button__side__background-color--hover: $neutral-3;
 
 .ruler {
   display: flex;
   height: $ruler__height;
   margin-bottom: $ruler__margin-bottom;
-  background-color: $ruler__background-color;
-  box-shadow: $ruler__box-shadow;
-  border-radius: $ruler__border-radius;
+  &__body {
+    display: flex;
+    background-color: $ruler__background-color;
+    box-shadow: $ruler__box-shadow;
+    border-radius: $ruler__border-radius;
+    margin-right: $ruler__body__margin-right;
+  }
   &__header {
     display: flex;
     align-items: center;
@@ -56,6 +65,33 @@ $ruler__measure__font-size: 0.75em;
       top: 0;
       left: 0;
       background-color: $neutral-4;
+    }
+  }
+  &__song-length-button {
+    display: flex;
+    width: 84px;
+    height: 42px;
+    border: $ruler__song-length-button__border;
+    border-radius: 2px;
+    &__side{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+      flex-basis: 50%;
+      flex-shrink: 0;
+      transition: background-color 0.25s ease;
+      cursor: pointer;
+      svg * {
+        fill: $ruler__song-length-button__side__color;
+        transition: fill 0.25s ease;
+      }
+      &:hover {
+        background-color: $ruler__song-length-button__side__background-color--hover;
+        svg * {
+          fill: $ruler__song-length-button__side__color--hover;
+        }
+      }
     }
   }
 }

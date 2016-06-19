@@ -182,10 +182,10 @@ export default function* saga() {
       song.actionTypes.SHORTEN_SEQUENCE,
     ], updateSequences),
     takeEvery(song.actionTypes.CLOSE_SEQUENCE, loopSong),
-    takeEvery(song.actionTypes.DECREMENT_MEASURE_COUNT, updateSong),
-    takeEvery(song.actionTypes.INCREMENT_MEASURE_COUNT, updateSong),
+    takeEvery(song.actionTypes.EXTEND_SONG, updateSong),
     takeEvery(song.actionTypes.LOAD_SONG, initialize),
     takeEvery(song.actionTypes.OPEN_SEQUENCE, loopSequence),
     takeEvery(song.actionTypes.SET_BPM, setBPM),
+    takeEvery(song.actionTypes.SHORTEN_SONG, updateSong),
   ];
 }
