@@ -2,9 +2,9 @@
 @import '../../../../styles/palette';
 
 $track__spacing: $margin-s;
-$track__background-color: $neutral-4;
-$track__border-radius: 2px;
-$track__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+$track__body__background-color: $neutral-4;
+$track__body__border-radius: 2px;
+$track__body__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 $track__header__width: 84px;
 $track__header__color: $neutral-3;
 $track__header__background-color: $neutral-8;
@@ -30,11 +30,18 @@ $track__sequences__padding--vertical: 0;
   flex-shrink: 0;
   align-items: stretch;
   margin-bottom: $track__spacing;
-  background-color: $track__background-color;
-  border-radius: $track__border-radius;
-  box-shadow: $track__box-shadow;
   overflow: hidden;
-  cursor: pointer;
+  &__body {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+    align-items: stretch;
+    background-color: $track__body__background-color;
+    border-radius: $track__body__border-radius;
+    box-shadow: $track__body__box-shadow;
+    overflow: hidden;
+    cursor: pointer;
+  }
   &__header {
     display: flex;
     flex-direction: column;

@@ -5,6 +5,7 @@ import { Ruler } from '../ruler/ruler';
 
 export const RulerContainer = connect((state) => ({
   measureCount: song.selectors.getMeasureCount(state),
+  playbackState: transport.selectors.getPlaybackState(state),
 }), {
   pause: transport.actions.pause,
   play: transport.actions.play,

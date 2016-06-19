@@ -8,10 +8,11 @@ import {
   setDisplayName,
   setPropTypes,
   withHandlers,
-  withState,
 } from 'recompose';
+import transport from 'ducks/transport';
 import './ruler.scss';
 
+const { STARTED } = transport.constants.playbackStates;
 
 const component = (props) => h('.ruler', [
   h('.ruler__header'),
@@ -20,7 +21,6 @@ const component = (props) => h('.ruler', [
       width: props.measuresWidth,
     },
     onMouseDown: props.holdPosition,
-    onMouseMove: props.movePosition,
   }, [
     ...props.measures,
   ]),
@@ -33,6 +33,7 @@ const composed = compose([
     measureCount: React.PropTypes.number.isRequired,
     pause: React.PropTypes.func.isRequired,
     play: React.PropTypes.func.isRequired,
+    playbackState: React.PropTypes.string.isRequired,
     setPosition: React.PropTypes.func.isRequired,
   }),
   mapProps((props) => ({
@@ -40,22 +41,34 @@ const composed = compose([
     measuresWidth: props.measureCount * 64,
     measures: getMeasures(props.measureCount),
   })),
-  withState('isMovingPosition', 'setIsMovingPosition', false),
   withHandlers({
     holdPosition: (props) => (e) => {
+      e.persist();
+      const startingState = props.playbackState;
       props.play();
       props.setPosition((e.pageX - e.target.offsetLeft) / 64);
       props.pause();
-      props.setIsMovingPosition(() => true);
-      const mouseUpListener = window.addEventListener('mouseup', () => {
-        props.play();
-        props.setIsMovingPosition(() => false);
-        window.removeEventListener('mouseup', mouseUpListener);
-      });
-    },
-    movePosition: (props) => (e) => {
-      if (!props.isMovingPosition) return;
-      props.setPosition((e.pageX - e.target.offsetLeft) / 64);
+      const moveHandler = (moveE) => {
+        const position = moveE.pageX >= e.target.offsetLeft
+          ? (moveE.pageX - e.target.offsetLeft) / 64
+          : 0;
+        const clampedPosition = _.clamp(
+          position,
+          0,
+          props.measureCount
+        );
+        props.setPosition(clampedPosition);
+      };
+      const upHandler = () => {
+        if (startingState === STARTED) {
+          props.play();
+        }
+        // props.setIsMovingPosition(() => false);
+        window.removeEventListener('mousemove', moveHandler);
+        window.removeEventListener('mouseup', upHandler);
+      };
+      window.addEventListener('mousemove', moveHandler);
+      window.addEventListener('mouseup', upHandler);
     },
   }),
 ])(component);

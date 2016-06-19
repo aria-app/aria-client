@@ -9,50 +9,50 @@ import './track.scss';
 
 const { Icon } = shared.components;
 
-const component = (props) => h('.track', {
-  onClick: props.onTrackPress,
-}, [
-  h('.track__header', {
-    onClick: props.onTrackSelect,
-  }, [
-    h('.track__header__title', [props.track.synthType]),
-    h('.track__header__actions', [
-      h('.track__header__action.track__header__action--mute', {
-        className: classnames({
-          'track__header__action--active': props.isMuted,
-        }),
-        onClick: props.onMutePress,
-      }, ['M']),
-      h('.track__header__action.track__header__action--solo', {
-        className: classnames({
-          'track__header__action--active': props.isSoloing,
-        }),
-        onClick: props.onSoloPress,
-      }, ['S']),
+const component = (props) => h('.track', [
+  h('.track__body', [
+    h('.track__header', {
+      onClick: props.onTrackSelect,
+    }, [
+      h('.track__header__title', [props.track.synthType]),
+      h('.track__header__actions', [
+        h('.track__header__action.track__header__action--mute', {
+          className: classnames({
+            'track__header__action--active': props.isMuted,
+          }),
+          onClick: props.onMutePress,
+        }, ['M']),
+        h('.track__header__action.track__header__action--solo', {
+          className: classnames({
+            'track__header__action--active': props.isSoloing,
+          }),
+          onClick: props.onSoloPress,
+        }, ['S']),
+      ]),
     ]),
-  ]),
-  h('.track__sequences', {
-    style: {
-      width: props.songMeasureCount * 4 * 8 * 2,
-    },
-  }, [
-    ...props.track.sequences.map(sequence => h(Sequence, {
-      isSelected: sequence.id === props.selectedSequenceId,
-      onSelect: props.selectSequence,
-      openSequence: props.openSequence,
-      onContextMenu: props.onSequenceContextMenu,
-      sequence,
-    })),
-    h('.track__add-button', {
-      onClick: props.addSequence,
+    h('.track__sequences', {
       style: {
-        transform: `translateX(${props.addPosition * 64}px)`,
+        width: props.songMeasureCount * 4 * 8 * 2,
       },
     }, [
-      h(Icon, {
-        icon: 'plus',
-        size: 'large',
-      }),
+      ...props.track.sequences.map(sequence => h(Sequence, {
+        isSelected: sequence.id === props.selectedSequenceId,
+        onSelect: props.selectSequence,
+        openSequence: props.openSequence,
+        onContextMenu: props.onSequenceContextMenu,
+        sequence,
+      })),
+      h('.track__add-button', {
+        onClick: props.addSequence,
+        style: {
+          transform: `translateX(${props.addPosition * 64}px)`,
+        },
+      }, [
+        h(Icon, {
+          icon: 'plus',
+          size: 'large',
+        }),
+      ]),
     ]),
   ]),
 ]);
@@ -93,10 +93,6 @@ const composed = compose([
     },
     onTrackSelect: (props) => () => {
       props.onTrackSelect(props.track);
-    },
-    onTrackPress: (props) => (e) => {
-      props.deselectSequence();
-      e.stopPropagation();
     },
     selectSequence: (props) => (id) => {
       props.selectSequence(id);
