@@ -39,7 +39,7 @@ const component = (props) => h('.modal', {
   ]),
 ]);
 
-export const Modal = compose([
+export const Modal = compose(
   setDisplayName('Modal'),
   pure,
   setPropTypes({
@@ -55,4 +55,4 @@ export const Modal = compose([
     cancelText: props.cancelText || 'cancel',
     confirmText: props.confirmText || 'confirm',
   })),
-])(component);
+)(component);

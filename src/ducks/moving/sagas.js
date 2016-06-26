@@ -15,7 +15,7 @@ function* start() {
     yield call(shared.helpers.resolveOnMouseUp);
     const isMoving = yield select(selectors.getIsMoving);
     if (isMoving) {
-      yield put(actions.stop());
+      yield put(actions.stopped());
     }
   }
 }
@@ -26,7 +26,7 @@ function* update() {
 
   if (_.isEmpty(previousPoint)) {
     yield put(notes.actions.pushUndo());
-    yield put(actions.setNewPoint(newPoint));
+    yield put(actions.newPointSet(newPoint));
     return;
   }
 
@@ -36,12 +36,12 @@ function* update() {
 
   yield put(notes.actions.moveSelected(offset));
 
-  yield put(actions.setNewPoint(newPoint));
+  yield put(actions.newPointSet(newPoint));
 }
 
 export default function* saga() {
   yield [
-    takeEvery(actionTypes.START, start),
-    takeEvery(actionTypes.UPDATE, update),
+    takeEvery(actionTypes.STARTED, start),
+    takeEvery(actionTypes.UPDATED, update),
   ];
 }

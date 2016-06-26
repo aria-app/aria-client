@@ -3,9 +3,9 @@ import * as actionTypes from './action-types';
 
 const isBPMModalOpen = (state = false, action) => {
   switch (action.type) {
-    case actionTypes.CLOSE_BPM_MODAL:
+    case actionTypes.BPM_MODAL_CLOSED:
       return false;
-    case actionTypes.OPEN_BPM_MODAL:
+    case actionTypes.BPM_MODAL_OPENED:
       return true;
     default:
       return state;

@@ -19,18 +19,13 @@ const initialSequences = [
   }),
   song.helpers.createSequence({
     trackId: initialTracks[1].id,
-    measureCount: 2,
+    measureCount: 1,
     position: 0,
   }),
   song.helpers.createSequence({
     trackId: initialTracks[2].id,
     measureCount: 1,
     position: 0,
-  }),
-  song.helpers.createSequence({
-    trackId: initialTracks[0].id,
-    measureCount: 1,
-    position: 1,
   }),
 ];
 
@@ -40,13 +35,6 @@ const initialNotes = [
     points: [
       { x: 0, y: 35 },
       { x: 1, y: 35 },
-    ],
-  }),
-  song.helpers.createNote({
-    sequenceId: initialSequences[0].id,
-    points: [
-      { x: 0, y: 40 },
-      { x: 1, y: 40 },
     ],
   }),
 ];

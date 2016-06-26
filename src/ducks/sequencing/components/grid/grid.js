@@ -41,7 +41,7 @@ const component = (props) => h('.grid', {
   ]),
 ]);
 
-const composed = compose([
+const composed = compose(
   setDisplayName('Sequencer'),
   getElementRef(),
   pure,
@@ -78,7 +78,7 @@ const composed = compose([
     onMouseMove,
     onScroll,
   }),
-])(component);
+)(component);
 
 export const Grid = composed;
 

@@ -11,8 +11,8 @@ export const holdPan = (e) => ({
   e,
 });
 
-export const initialize = () => ({
-  type: actionTypes.INITIALIZE,
+export const initialized = () => ({
+  type: actionTypes.INITIALIZED,
 });
 
 export const releasePan = () => ({

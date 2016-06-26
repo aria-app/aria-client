@@ -14,10 +14,10 @@ const component = ({
   style,
 }, text);
 
-export const Button = compose([
+export const Button = compose(
   pure,
   setPropTypes({
     onPress: PropTypes.func,
     text: PropTypes.string,
   }),
-])(component);
+)(component);

@@ -16,7 +16,7 @@ const component = (props) => h(Toolbar, {
   ],
 });
 
-const composed = compose([
+const composed = compose(
   setDisplayName('TrackerToolbar'),
   pure,
   setPropTypes({
@@ -52,6 +52,6 @@ const composed = compose([
       }),
     ]),
   })),
-])(component);
+)(component);
 
 export const TrackerToolbar = composed;

@@ -14,10 +14,10 @@ export function createSynths(type) {
   return _.times(12, () => createSynth(type));
 }
 
-export function createSynth(type) {
+export function createSynth(type, volume) {
   return new Tone.SimpleSynth({
     oscillator: { type },
-    volume: -5,
+    volume,
   }).toMaster();
 }
 

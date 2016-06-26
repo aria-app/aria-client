@@ -1,13 +1,13 @@
 import * as actionTypes from './action-types';
 
-export const closeBPMModal = () => ({
-  type: actionTypes.CLOSE_BPM_MODAL,
+export const bpmModalClosed = () => ({
+  type: actionTypes.BPM_MODAL_CLOSED,
 });
 
-export const initialize = () => ({
-  type: actionTypes.INITIALIZE,
+export const initialized = () => ({
+  type: actionTypes.INITIALIZED,
 });
 
-export const openBPMModal = () => ({
-  type: actionTypes.OPEN_BPM_MODAL,
+export const bpmModalOpened = () => ({
+  type: actionTypes.BPM_MODAL_OPENED,
 });

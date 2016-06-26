@@ -6,5 +6,5 @@ import * as actions from '../../actions';
 export const AppContainer = connect((state) => ({
   isSequenceOpen: !!song.selectors.getActiveSequenceId(state),
 }), {
-  initialize: actions.initialize,
+  initialize: actions.initialized,
 })(App);

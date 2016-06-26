@@ -29,7 +29,7 @@ const component = (props) => h('.sequencer', {
   ]),
 ]);
 
-const composed = compose([
+const composed = compose(
   setDisplayName('Sequencer'),
   pure,
   setPropTypes({
@@ -81,7 +81,7 @@ const composed = compose([
       ],
     }),
   })),
-])(component);
+)(component);
 
 export const Sequencer = composed;
 

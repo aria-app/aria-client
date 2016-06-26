@@ -28,7 +28,7 @@ const component = ({
   ...notes,
 ]);
 
-const composed = compose([
+const composed = compose(
   setDisplayName('Sequence'),
   pure,
   setPropTypes({
@@ -66,7 +66,7 @@ const composed = compose([
       e.stopPropagation();
     },
   }),
-])(component);
+)(component);
 
 export const Sequence = composed;
 

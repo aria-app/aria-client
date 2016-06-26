@@ -10,7 +10,7 @@ const playbackState = (state = STOPPED, action) => {
       return PAUSED;
     case actionTypes.PLAY:
       return STARTED;
-    case actionTypes.STOP:
+    case actionTypes.STOPPED:
       return STOPPED;
     case actionTypes.TOGGLE_PLAY_PAUSE:
       return state === STARTED ? PAUSED : STARTED;
@@ -23,7 +23,7 @@ const position = (state = 0, action) => {
   switch (action.type) {
     case actionTypes.SET_POSITION:
       return action.position;
-    case actionTypes.STOP:
+    case actionTypes.STOPPED:
       return '0';
     default:
       return state;
@@ -43,7 +43,7 @@ const songPosition = (state = 0, action) => {
   switch (action.type) {
     case actionTypes.SET_SONG_POSITION:
       return action.position;
-    case actionTypes.STOP:
+    case actionTypes.STOPPED:
       return '0';
     default:
       return state;
@@ -61,7 +61,7 @@ const songSequence = (state = 0, action) => {
 
 const startPoint = (state = '0', action) => {
   switch (action.type) {
-    case actionTypes.SET_START_POINT:
+    case actionTypes.START_POINT_SET:
       return action.startPoint;
     default:
       return state;

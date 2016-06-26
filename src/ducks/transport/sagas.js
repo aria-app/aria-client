@@ -26,7 +26,7 @@ function* loopSequence() {
   Tone.Transport.setLoopPoints(start, end);
   Tone.Transport.loop = true;
   const playbackState = yield select(selectors.getPlaybackState);
-  yield put(actions.stop());
+  yield put(actions.stopped());
   if (playbackState === STARTED) {
     yield call(() => new Promise(resolve => setTimeout(resolve, 16)));
     yield put(actions.play());
@@ -40,7 +40,7 @@ function* loopSong() {
   Tone.Transport.setLoopPoints(0, end);
   Tone.Transport.loop = true;
   const playbackState = yield select(selectors.getPlaybackState);
-  yield put(actions.stop());
+  yield put(actions.stopped());
   if (playbackState === STARTED) {
     yield call(() => new Promise(resolve => setTimeout(resolve, 16)));
     yield put(actions.play());
@@ -148,7 +148,7 @@ function* updateSong() {
   yield* updateSongSequence();
   yield* loopSong();
   const isPlaying = yield select(selectors.getIsPlaying);
-  yield put(actions.stop());
+  yield put(actions.stopped());
   if (isPlaying) {
     yield call(() => new Promise(resolve => setTimeout(resolve, 16)));
     yield put(actions.play());
@@ -170,7 +170,7 @@ export default function* saga() {
     takeEvery(actionTypes.SEQUENCE_STEP, sequenceStep),
     takeEvery(actionTypes.SET_TRANSPORT_POSITION, setTransportPosition),
     takeEvery(actionTypes.SONG_SEQUENCE_STEP, songSequenceStep),
-    takeEvery(actionTypes.STOP, stop),
+    takeEvery(actionTypes.STOPPED, stop),
     takeEvery(actionTypes.TOGGLE_PLAY_PAUSE, togglePlayPause),
     takeEvery([
       actionTypes.UPDATE_SEQUENCES,

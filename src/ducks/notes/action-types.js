@@ -1,6 +1,5 @@
 import { NAME } from './constants';
 
-export const CHANGE_SELECTED_NOTES_SIZE = `${NAME}/CHANGE_SELECTED_NOTES_SIZE`;
 export const DESELECT_ALL = `${NAME}/DESELECT_ALL`;
 export const DRAW = `${NAME}/DRAW`;
 export const DUPLICATE = `${NAME}/DUPLICATE`;
@@ -19,6 +18,7 @@ export const RESIZE_SELECTED = `${NAME}/RESIZE_SELECTED`;
 export const SELECT_ALL = `${NAME}/SELECT_ALL`;
 export const SELECT_NOTE = `${NAME}/SELECT_NOTE`;
 export const SELECT_NOTES = `${NAME}/SELECT_NOTES`;
+export const SELECTED_NOTES_SIZE_CHANGED = `${NAME}/SELECTED_NOTES_SIZE_CHANGED`;
 export const SET_REDOS = `${NAME}/SET_REDOS`;
 export const SET_UNDOS = `${NAME}/SET_UNDOS`;
 export const SHIFT_DOWN_OCTAVE = `${NAME}/SHIFT_DOWN_OCTAVE`;

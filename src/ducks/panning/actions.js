@@ -1,23 +1,23 @@
 import * as actionTypes from './action-types';
 
 export const setStartPoint = (startPoint) => ({
-  type: actionTypes.SET_START_POINT,
+  type: actionTypes.START_POINT_SET,
   startPoint,
 });
 
-export const start = (scrollLeftElement, scrollTopElement, e) => ({
-  type: actionTypes.START,
+export const started = (scrollLeftElement, scrollTopElement, e) => ({
+  type: actionTypes.STARTED,
   e,
   scrollLeftElement,
   scrollTopElement,
 });
 
-export const stop = () => ({
-  type: actionTypes.STOP,
+export const stopped = () => ({
+  type: actionTypes.STOPPED,
 });
 
-export const update = (scrollLeftElement, scrollTopElement, e) => ({
-  type: actionTypes.UPDATE,
+export const updated = (scrollLeftElement, scrollTopElement, e) => ({
+  type: actionTypes.UPDATED,
   e,
   scrollLeftElement,
   scrollTopElement,

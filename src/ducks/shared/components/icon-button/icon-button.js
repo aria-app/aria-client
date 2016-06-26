@@ -25,7 +25,7 @@ const component = ({
   }),
 ]);
 
-export const IconButton = compose([
+export const IconButton = compose(
   pure,
   setPropTypes({
     icon: PropTypes.string,
@@ -33,4 +33,4 @@ export const IconButton = compose([
     onPress: PropTypes.func,
     toolTip: PropTypes.string,
   }),
-])(component);
+)(component);

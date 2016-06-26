@@ -54,7 +54,7 @@ const component = ({
   ]),
 ]);
 
-export const DropdownList = compose([
+export const DropdownList = compose(
   pure,
   setPropTypes({
     icon: React.PropTypes.string,
@@ -85,7 +85,7 @@ export const DropdownList = compose([
       props.setIsOpen(false);
     },
   }),
-])(component);
+)(component);
 
 function getSelectedItem(props) {
   if (props.selectedItem) {

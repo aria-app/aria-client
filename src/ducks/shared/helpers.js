@@ -2,21 +2,8 @@ import _ from 'lodash';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import createHelper from 'recompose/createHelper';
-import createElement from 'recompose/createElement';
+import { createEagerElement } from 'recompose';
 import * as constants from './constants';
-
-export const doOnMount = createHelper((onMountFn) => BaseComponent =>
-  React.createClass({
-    componentDidMount() {
-      onMountFn(this.props);
-    },
-    render() {
-      return createElement(BaseComponent, {
-        ...this.props,
-      });
-    },
-  })
-, 'doOnMount');
 
 export const getElementRef = createHelper(() => BaseComponent =>
   React.createClass({
@@ -31,7 +18,7 @@ export const getElementRef = createHelper(() => BaseComponent =>
       });
     },
     render() {
-      return createElement(BaseComponent, {
+      return createEagerElement(BaseComponent, {
         ...this.props,
         ref: 0,
         elementRef: this.state.childRef,
@@ -53,7 +40,7 @@ export const getChildRef = createHelper((selector) => BaseComponent =>
       });
     },
     render() {
-      return createElement(BaseComponent, {
+      return createEagerElement(BaseComponent, {
         ...this.props,
         ref: 0,
         childRef: this.state.childRef,
@@ -87,7 +74,7 @@ export const scrollTo = createHelper((props) => BaseComponent =>
       }
     },
     render() {
-      return createElement(BaseComponent, {
+      return createEagerElement(BaseComponent, {
         ...this.props,
         ref: 0,
       });

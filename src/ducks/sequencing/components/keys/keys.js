@@ -18,7 +18,7 @@ const keyComponent = ({
   ]),
 ]);
 
-const composed = compose([
+const composed = compose(
   setDisplayName('Keys'),
   pure,
   setPropTypes({
@@ -36,7 +36,7 @@ const composed = compose([
     })),
     ...rest,
   })),
-])(component);
+)(component);
 
 export const Keys = composed;
 

@@ -36,7 +36,7 @@ const component = (props) =>
     ]),
   ]);
 
-const composed = compose([
+const composed = compose(
   setDisplayName('TrackEditingModal'),
   pure,
   setPropTypes({
@@ -53,6 +53,6 @@ const composed = compose([
       id: synthTypes[key],
     })),
   })),
-])(component);
+)(component);
 
 export const TrackEditingModal = composed;

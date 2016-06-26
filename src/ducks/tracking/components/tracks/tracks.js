@@ -43,7 +43,7 @@ const component = (props) => h('.tracks', {
   ]),
 ]);
 
-const composed = compose([
+const composed = compose(
   setDisplayName('Tracks'),
   pure,
   setPropTypes({
@@ -71,6 +71,6 @@ const composed = compose([
       props.stageTrack(_.omit(track, 'sequences'));
     },
   }),
-])(component);
+)(component);
 
 export const Tracks = composed;

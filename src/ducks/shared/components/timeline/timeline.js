@@ -11,7 +11,7 @@ const component = ({ display, transform }) =>
     },
   });
 
-const composed = compose([
+const composed = compose(
   pure,
   setPropTypes({
     isVisible: PropTypes.bool,
@@ -21,6 +21,6 @@ const composed = compose([
     display: props.isVisible ? 'block' : 'none',
     transform: `translateX(${props.offset}px)`,
   })),
-])(component);
+)(component);
 
 export const Timeline = composed;

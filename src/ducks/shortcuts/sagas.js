@@ -34,7 +34,7 @@ const shortcuts = [
 
   // Playback
   [transport.actions.togglePlayPause(), ['enter']],
-  [transport.actions.stop(), ['escape']],
+  [transport.actions.stopped(), ['escape']],
 
   // Tools
   [actions.activateTool(shared.constants.toolTypes.DRAW), ['d']],
@@ -91,7 +91,7 @@ export default function* saga() {
     takeEvery(actionTypes.ACTIVATE_TOOL, activateTool),
     takeEvery(actionTypes.HOLD_PAN, holdPan),
     takeEvery(actionTypes.RELEASE_PAN, releasePan),
-    takeEvery(actionTypes.INITIALIZE, initialize),
+    takeEvery(actionTypes.INITIALIZED, initialize),
   ];
 }
 

@@ -44,5 +44,6 @@ export function createTrack(synthType) {
     isMuted: false,
     isSoloing: false,
     synthType: synthType || shared.constants.defaultSynthType,
+    volume: 0,
   };
 }

@@ -1,7 +1,7 @@
 import * as actionTypes from './action-types';
 
-export const changeSelectedNotesSize = (change) => ({
-  type: actionTypes.CHANGE_SELECTED_NOTES_SIZE,
+export const selectedNotesSizeChanged = (change) => ({
+  type: actionTypes.SELECTED_NOTES_SIZE_CHANGED,
   change,
 });
 

@@ -1,18 +1,18 @@
 import * as actionTypes from './action-types';
 
-export const setNewPoint = (newPoint) => ({
-  type: actionTypes.SET_NEW_POINT,
+export const newPointSet = (newPoint) => ({
+  type: actionTypes.NEW_POINT_SET,
   newPoint,
 });
 
-export const start = () => ({
-  type: actionTypes.START,
+export const started = () => ({
+  type: actionTypes.STARTED,
 });
 
-export const stop = () => ({
-  type: actionTypes.STOP,
+export const stopped = () => ({
+  type: actionTypes.STOPPED,
 });
 
-export const update = () => ({
-  type: actionTypes.UPDATE,
+export const updated = () => ({
+  type: actionTypes.UPDATED,
 });

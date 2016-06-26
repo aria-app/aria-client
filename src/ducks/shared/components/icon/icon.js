@@ -19,7 +19,7 @@ const component = ({
   ]),
 ]);
 
-export const Icon = compose([
+export const Icon = compose(
   pure,
   setPropTypes({
     icon: PropTypes.string,
@@ -33,7 +33,7 @@ export const Icon = compose([
     ...props,
     iconComponent: loadIcon(props.icon),
   })),
-])(component);
+)(component);
 
 function loadIcon(name) {
   const moduleName = `Fa${_.startCase(name).replace(/\s/g, '')}`;

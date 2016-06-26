@@ -49,7 +49,7 @@ export function setSongSequence(sequence) {
 
 export function setStartPoint(startPoint) {
   return {
-    type: actionTypes.SET_START_POINT,
+    type: actionTypes.START_POINT_SET,
     startPoint,
   };
 }
@@ -68,9 +68,9 @@ export function songSequenceStep(payload) {
   };
 }
 
-export function stop() {
+export function stopped() {
   return {
-    type: actionTypes.STOP,
+    type: actionTypes.STOPPED,
   };
 }
 

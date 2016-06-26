@@ -34,7 +34,7 @@ const component = (props) => h('.context-menu', {
   ]),
 ]);
 
-export const ContextMenu = compose([
+export const ContextMenu = compose(
   setDisplayName('ContextMenu'),
   pure,
   setPropTypes({
@@ -57,7 +57,7 @@ export const ContextMenu = compose([
       e.stopPropagation();
     },
   }),
-])(component);
+)(component);
 
 function getTransform(items, position) {
   const x = _.clamp(position.x, 0, window.innerWidth - 202);

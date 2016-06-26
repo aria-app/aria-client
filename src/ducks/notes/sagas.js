@@ -77,7 +77,7 @@ function* nudgeSelectedNotesPosition({ change }) {
 }
 
 function* nudgeSelectedNotesSize({ change }) {
-  yield put(actions.changeSelectedNotesSize({ change }));
+  yield put(actions.selectedNotesSizeChanged({ change }));
 }
 
 function* pushRedo() {
@@ -217,7 +217,7 @@ export default function* saga() {
       actionTypes.SHIFT_DOWN_OCTAVE,
       actionTypes.SHIFT_UP_OCTAVE,
     ], pushUndo),
-    takeEvery(actionTypes.CHANGE_SELECTED_NOTES_SIZE, changeSelectedNotesSize),
+    takeEvery(actionTypes.SELECTED_NOTES_SIZE_CHANGED, changeSelectedNotesSize),
     takeEvery(actionTypes.DRAW, draw),
     takeEvery(actionTypes.DUPLICATE, duplicate),
     takeEvery(actionTypes.ERASE, erase),

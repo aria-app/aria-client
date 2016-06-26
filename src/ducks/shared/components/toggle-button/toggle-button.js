@@ -16,7 +16,7 @@ const component = ({
   onClick: () => onPress(),
 }, text);
 
-export const ToggleButton = compose([
+export const ToggleButton = compose(
   pure,
   setPropTypes({
     className: PropTypes.string,
@@ -24,4 +24,4 @@ export const ToggleButton = compose([
     onPress: PropTypes.func,
     text: PropTypes.string,
   }),
-])(component);
+)(component);

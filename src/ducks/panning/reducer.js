@@ -3,9 +3,9 @@ import * as actionTypes from './action-types';
 
 const isPanning = (state = false, action) => {
   switch (action.type) {
-    case actionTypes.START:
+    case actionTypes.STARTED:
       return true;
-    case actionTypes.STOP:
+    case actionTypes.STOPPED:
       return false;
     default:
       return state;
@@ -14,9 +14,9 @@ const isPanning = (state = false, action) => {
 
 const startPoint = (state = {}, action) => {
   switch (action.type) {
-    case actionTypes.SET_START_POINT:
+    case actionTypes.START_POINT_SET:
       return action.startPoint;
-    case actionTypes.STOP:
+    case actionTypes.STOPPED:
       return {};
     default:
       return state;

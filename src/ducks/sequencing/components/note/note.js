@@ -38,7 +38,7 @@ const component = ({
   ]),
 ]);
 
-export const Note = compose([
+export const Note = compose(
   setDisplayName('Note'),
   pure,
   setPropTypes({
@@ -77,7 +77,7 @@ export const Note = compose([
     }),
     ...rest,
   })),
-])(component);
+)(component);
 
 function getConnectorTransform(startPoint, endPoint) {
   const { asin, abs, PI, pow, sign, sqrt } = Math;

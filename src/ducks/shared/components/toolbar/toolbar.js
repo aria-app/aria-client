@@ -21,7 +21,7 @@ const component = ({
     ]),
   ]);
 
-export const Toolbar = compose([
+export const Toolbar = compose(
   pure,
   setPropTypes({
     alternateLeftItems: PropTypes.array,
@@ -40,7 +40,7 @@ export const Toolbar = compose([
     rightItems: getRightItems(props),
     modifierClasses: getModifierClasses(props),
   })),
-])(component);
+)(component);
 
 function getLeftItems({ alternateLeftItems, isAlternate, leftItems }) {
   if (isAlternate) {

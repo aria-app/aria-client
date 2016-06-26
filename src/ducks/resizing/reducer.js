@@ -3,9 +3,9 @@ import * as actionTypes from './action-types';
 
 const isResizing = (state = false, action) => {
   switch (action.type) {
-    case actionTypes.START:
+    case actionTypes.STARTED:
       return true;
-    case actionTypes.STOP:
+    case actionTypes.STOPPED:
       return false;
     default:
       return state;
@@ -14,9 +14,9 @@ const isResizing = (state = false, action) => {
 
 const newPoint = (state = {}, action) => {
   switch (action.type) {
-    case actionTypes.SET_NEW_POINT:
+    case actionTypes.NEW_POINT_SET:
       return action.newPoint;
-    case actionTypes.STOP:
+    case actionTypes.STOPPED:
       return {};
     default:
       return state;

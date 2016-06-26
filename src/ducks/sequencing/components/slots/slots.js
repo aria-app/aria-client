@@ -8,7 +8,7 @@ const component = ({
   rows,
 }) => h('.slots', rows);
 
-const composed = compose([
+const composed = compose(
   setDisplayName('Slots'),
   pure,
   setPropTypes({
@@ -18,7 +18,7 @@ const composed = compose([
   mapProps((props) => ({
     rows: getRows(props.scale, props.measureCount),
   })),
-])(component);
+)(component);
 
 export const Slots = composed;
 

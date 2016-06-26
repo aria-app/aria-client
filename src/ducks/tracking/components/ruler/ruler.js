@@ -42,7 +42,7 @@ const component = (props) => h('.ruler', [
   ]),
 ]);
 
-const composed = compose([
+const composed = compose(
   setDisplayName('Ruler'),
   pure,
   setPropTypes({
@@ -89,7 +89,7 @@ const composed = compose([
       window.addEventListener('mouseup', upHandler);
     },
   }),
-])(component);
+)(component);
 
 export const Ruler = composed;
 

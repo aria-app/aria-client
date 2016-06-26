@@ -26,7 +26,7 @@ const component = (props) =>
     ]),
   ]);
 
-const composed = compose([
+const composed = compose(
   setDisplayName('BPMModal'),
   pure,
   setPropTypes({
@@ -43,6 +43,6 @@ const composed = compose([
         value: n,
       })),
   })),
-])(component);
+)(component);
 
 export const BPMModal = composed;

@@ -4,11 +4,11 @@ import shortcuts from 'ducks/shortcuts';
 import * as actionTypes from './action-types';
 
 function* initialize() {
-  yield put(shortcuts.actions.initialize());
+  yield put(shortcuts.actions.initialized());
 }
 
 export default function* saga() {
   yield [
-    takeEvery(actionTypes.INITIALIZE, initialize),
+    takeEvery(actionTypes.INITIALIZED, initialize),
   ];
 }

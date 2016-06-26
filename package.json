@@ -51,7 +51,7 @@
     "react-hyperscript": "2.3.0",
     "react-icons": "^1.0.5",
     "react-redux": "4.4.4",
-    "recompose": "0.17.0",
+    "recompose": "^0.20.0",
     "redux": "3.4.0",
     "redux-saga": "^0.10.4",
     "redux-thunk": "2.0.1",

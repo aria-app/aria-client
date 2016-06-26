@@ -18,7 +18,7 @@ const component = ({
   },
 });
 
-const composed = compose([
+const composed = compose(
   setDisplayName('Fence'),
   pure,
   setPropTypes({
@@ -32,7 +32,7 @@ const composed = compose([
     transform: getTransform(props.startPoint, props.newPoint),
     width: getWidth(props.startPoint, props.newPoint),
   })),
-])(component);
+)(component);
 
 export const Fence = composed;
 

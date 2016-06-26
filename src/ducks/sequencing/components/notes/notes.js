@@ -20,7 +20,7 @@ const component = (props) => h('.notes', {
   ...props.noteComponents,
 ]);
 
-const composed = compose([
+const composed = compose(
   setDisplayName('Notes'),
   getElementRef(),
   pure,
@@ -94,7 +94,7 @@ const composed = compose([
         : 0,
     },
   })),
-])(component);
+)(component);
 
 export const Notes = composed;
 

@@ -14,7 +14,7 @@ function* start({ e, scrollLeftElement, scrollTopElement }) {
     yield call(shared.helpers.resolveOnMouseUp);
     const isPanning = yield select(selectors.getIsPanning);
     if (isPanning) {
-      yield put(actions.stop());
+      yield put(actions.stopped());
     }
   }
 }
@@ -26,7 +26,7 @@ function* update({ e, scrollLeftElement, scrollTopElement }) {
 
 export default function* saga() {
   yield [
-    takeEvery(actionTypes.START, start),
-    takeEvery(actionTypes.UPDATE, update),
+    takeEvery(actionTypes.STARTED, start),
+    takeEvery(actionTypes.UPDATED, update),
   ];
 }

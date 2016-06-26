@@ -17,9 +17,9 @@ const component = () =>
     h(TrackEditingModalContainer),
   ]);
 
-const composed = compose([
+const composed = compose(
   setDisplayName('Tracker'),
   pure,
-])(component);
+)(component);
 
 export const Tracker = composed;

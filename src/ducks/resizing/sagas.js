@@ -12,13 +12,13 @@ import * as selectors from './selectors';
 function* start() {
   const startPoint = yield select(sequencing.selectors.getMousePoint);
   yield put(notes.actions.pushUndo());
-  yield put(actions.setNewPoint(startPoint));
+  yield put(actions.newPointSet(startPoint));
   let started = true;
   while (started) {
     yield call(shared.helpers.resolveOnMouseUp);
     const isResizing = yield select(selectors.getIsResizing);
     if (isResizing) {
-      yield put(actions.stop());
+      yield put(actions.stopped());
       started = false;
     }
   }
@@ -29,7 +29,7 @@ function* update() {
   const previousPoint = yield select(selectors.getNewPoint);
 
   if (_.isEmpty(previousPoint)) {
-    yield put(actions.setNewPoint(newPoint));
+    yield put(actions.newPointSet(newPoint));
     return;
   }
 
@@ -37,14 +37,14 @@ function* update() {
 
   const change = helpers.getPointOffset(previousPoint, newPoint);
 
-  yield put(notes.actions.changeSelectedNotesSize(change));
+  yield put(notes.actions.selectedNotesSizeChanged(change));
 
-  yield put(actions.setNewPoint(newPoint));
+  yield put(actions.newPointSet(newPoint));
 }
 
 export default function* saga() {
   yield [
-    takeEvery(actionTypes.START, start),
-    takeEvery(actionTypes.UPDATE, update),
+    takeEvery(actionTypes.STARTED, start),
+    takeEvery(actionTypes.UPDATED, update),
   ];
 }
