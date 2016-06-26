@@ -1,12 +1,11 @@
 import _ from 'lodash';
 import Tone from 'tone';
+import Instrument from './instrument';
 
 export function createChannel(track) {
   return {
     id: track.id,
-    activeSynths: [],
-    previewSynth: createSynth(track.synthType),
-    synths: createSynths(track.synthType),
+    instrument: Instrument.create(track.synthType),
   };
 }
 

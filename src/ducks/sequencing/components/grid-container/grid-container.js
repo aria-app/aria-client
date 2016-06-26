@@ -12,6 +12,6 @@ export const GridContainer = connect((state) => ({
 }), {
   mouseMoved: actions.mouseMoved,
   scrolledHorizontally: actions.scrolledHorizontally,
-  startPanning: panning.actions.start,
-  updatePanning: panning.actions.update,
+  startPanning: panning.actions.started,
+  updatePanning: panning.actions.updated,
 })(Grid);

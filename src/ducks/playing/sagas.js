@@ -1,8 +1,6 @@
-import _ from 'lodash';
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import Tone from 'tone';
-import shared from 'ducks/shared';
 import song from 'ducks/song';
 import * as actions from './actions';
 import * as actionTypes from './action-types';
@@ -14,12 +12,8 @@ function* addNewChannel(action) {
   yield put(actions.addChannel(channel));
 }
 
-function* disposeSynths({ channel }) {
-  yield call(() => {
-    channel.activeSynths.forEach(s => s.dispose());
-    channel.previewSynth.dispose();
-    channel.synths.forEach(s => s.dispose());
-  });
+function* disposeInstruments({ channel }) {
+  yield call(channel.instrument.dispose);
 }
 
 function* initialize(action) {
@@ -35,70 +29,21 @@ function* initialize(action) {
 function* playNote(action) {
   const { channelId, note, time } = action.payload;
   const channel = yield select(selectors.getChannelById(channelId));
-  const synth = _.last(channel.synths);
 
-  yield put(actions.popSynth(synth, channelId));
-
-  const playNoteInner = () => new Promise(resolve => {
-    if (!synth) {
-      // eslint-disable-next-line no-console
-      console.log(`Channel ${channelId} synths unavailable`);
-      return;
-    }
-
-    const name = shared.helpers.getNoteName(_.first(note.points).y);
-    const length = helpers.sizeToSeconds(_.last(note.points).x - _.first(note.points).x);
-
-    synth.triggerAttack(name, time);
-
-    if (_.last(note.points).y !== _.first(note.points).y) {
-      const endName = shared.helpers.getNoteName(_.last(note.points).y);
-      synth.frequency.linearRampToValueAtTime(endName, `+${length}`);
-      synth.frequency.setValueAtTime(endName, `+${length}`);
-    }
-
-    Tone.Transport.scheduleOnce(() => {
-      if (synth && synth.envelope) synth.triggerRelease();
-      resolve();
-    }, `+(${length} - 0:0:0.1)`);
-  });
-
-  yield call(playNoteInner);
-  yield put(actions.pushSynth(synth, channelId));
+  channel.instrument.playNote({ note, time });
 }
 
-function* popSynth(action) {
-  const channel = yield select(selectors.getChannelById(action.channelId));
-
-  yield put(actions.updateChannel({
-    ...channel,
-    activeSynths: _.concat(channel.activeSynths, action.synth),
-    synths: _.without(channel.synths, action.synth),
-  }));
-}
-
-function* previewNote(action) {
+function* previewNote({ name }) {
   const sequence = yield select(song.selectors.getActiveSequence);
-  const previewSynth = yield select(selectors.getPreviewSynthByChannelId(sequence.trackId));
-  previewSynth.triggerAttackRelease(action.name, '16n');
+  const channel = yield select(selectors.getChannelById(sequence.trackId));
+  channel.instrument.previewNote(name);
 }
 
-function* pushSynth(action) {
-  const channel = yield select(selectors.getChannelById(action.channelId));
-
-  if (!_.includes(channel.activeSynths, action.synth)) return;
-
-  yield put(actions.updateChannel({
-    ...channel,
-    activeSynths: _.without(channel.activeSynths, action.synth),
-    synths: _.concat(channel.synths, action.synth),
-  }));
-}
-
-function* receiveTrackUpdate(action) {
-  const channelForTrack = yield select(selectors.getChannelById(action.track.id));
-  yield put(actions.disposeSynths(channelForTrack));
-  yield put(actions.updateChannel(helpers.createChannel(action.track)));
+function* receiveTrackUpdate({ track }) {
+  const channelForTrack = yield select(selectors.getChannelById(track.id));
+  if (channelForTrack.instrument.getType() !== track.synthType) {
+    channelForTrack.instrument.setType(track.synthType);
+  }
 }
 
 function* releaseAll() {
@@ -106,20 +51,9 @@ function* releaseAll() {
 
   yield call(() => {
     channels.forEach(channel => {
-      channel.activeSynths.forEach(s => {
-        s.triggerRelease();
-      });
+      channel.instrument.release();
     });
   });
-
-  yield put(actions.updateChannels(channels.map(channel => ({
-    ...channel,
-    activeSynths: [],
-    synths: [
-      ...channel.synths,
-      ...channel.activeSynths,
-    ],
-  }))));
 }
 
 function* setBPM(action) {
@@ -132,7 +66,7 @@ function* setChannels(action) {
   const previousChannels = yield select(selectors.getChannels);
 
   for (let i = 0; i < previousChannels.length; i++) {
-    yield put(actions.disposeSynths(previousChannels[i]));
+    yield put(actions.instrumentDisposed(previousChannels[i]));
   }
 
   const channels = action.tracks.map(helpers.createChannel);
@@ -142,15 +76,13 @@ function* setChannels(action) {
 
 export default function* saga() {
   yield [
-    takeEvery(actionTypes.DISPOSE_SYNTHS, disposeSynths),
+    takeEvery(actionTypes.INSTRUMENT_DISPOSED, disposeInstruments),
     takeEvery(actionTypes.PLAY_NOTE, playNote),
-    takeEvery(actionTypes.POP_SYNTH, popSynth),
     takeEvery(actionTypes.PREVIEW_NOTE, previewNote),
-    takeEvery(actionTypes.PUSH_SYNTH, pushSynth),
     takeEvery(actionTypes.RELEASE_ALL, releaseAll),
     takeEvery(song.actionTypes.ADD_NEW_TRACK, addNewChannel),
-    takeEvery(song.actionTypes.SET_BPM, setBPM),
     takeEvery(song.actionTypes.LOAD_SONG, initialize),
+    takeEvery(song.actionTypes.SET_BPM, setBPM),
     takeEvery(song.actionTypes.SET_TRACKS, setChannels),
     takeEvery(song.actionTypes.UPDATE_TRACK, receiveTrackUpdate),
   ];

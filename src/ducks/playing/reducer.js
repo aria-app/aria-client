@@ -10,8 +10,6 @@ const byId = (state = {}, action) => {
       return shared.helpers.setAtIds([action.channel], state);
     case actionTypes.SET_CHANNELS:
       return shared.helpers.setAtIds(action.channels, {});
-    case actionTypes.UPDATE_CHANNELS:
-      return shared.helpers.setAtIds(action.channels, state);
     default:
       return state;
   }
