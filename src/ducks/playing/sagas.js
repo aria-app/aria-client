@@ -7,9 +7,17 @@ import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
-function* addNewChannel(action) {
-  const channel = helpers.createChannel(action.track);
+function* addNewChannel({ track }) {
+  const channel = helpers.createChannel(track);
   yield put(actions.addChannel(channel));
+}
+
+function* changeTrackInstrumentType({ synthType, track }) {
+  const channel = yield select(selectors.getChannelById(track.id));
+
+  if (channel.instrument.getType() !== synthType) {
+    channel.instrument.setType(synthType);
+  }
 }
 
 function* disposeInstruments({ channel }) {
@@ -17,17 +25,15 @@ function* disposeInstruments({ channel }) {
 }
 
 function* initialize(action) {
-  yield setBPM({
-    bpm: action.song.bpm,
-  });
-  yield setChannels({
-    tracks: action.song.tracks.ids
-      .map(id => action.song.tracks.dict[id]),
-  });
+  const tracks = yield select(song.selectors.getTracks);
+
+  yield setChannels({ tracks });
+
+  yield setBPM({ bpm: action.song.bpm });
 }
 
-function* playNote(action) {
-  const { channelId, note, time } = action.payload;
+function* playNote({ payload }) {
+  const { channelId, note, time } = payload;
   const channel = yield select(selectors.getChannelById(channelId));
 
   channel.instrument.playNote({ note, time });
@@ -41,6 +47,7 @@ function* previewNote({ name }) {
 
 function* receiveTrackUpdate({ track }) {
   const channelForTrack = yield select(selectors.getChannelById(track.id));
+
   if (channelForTrack.instrument.getType() !== track.synthType) {
     channelForTrack.instrument.setType(track.synthType);
   }
@@ -56,20 +63,18 @@ function* releaseAll() {
   });
 }
 
-function* setBPM(action) {
-  yield call(() => {
-    Tone.Transport.bpm.value = action.bpm;
-  });
+function* setBPM({ bpm }) {
+  yield call(setToneBPM, bpm);
 }
 
-function* setChannels(action) {
+function* setChannels({ tracks }) {
   const previousChannels = yield select(selectors.getChannels);
 
   for (let i = 0; i < previousChannels.length; i++) {
     yield put(actions.instrumentDisposed(previousChannels[i]));
   }
 
-  const channels = action.tracks.map(helpers.createChannel);
+  const channels = tracks.map(helpers.createChannel);
 
   yield put(actions.setChannels(channels));
 }
@@ -83,7 +88,12 @@ export default function* saga() {
     takeEvery(song.actionTypes.ADD_NEW_TRACK, addNewChannel),
     takeEvery(song.actionTypes.LOAD_SONG, initialize),
     takeEvery(song.actionTypes.SET_BPM, setBPM),
+    takeEvery(song.actionTypes.SET_TRACK_SYNTH_TYPE, changeTrackInstrumentType),
     takeEvery(song.actionTypes.SET_TRACKS, setChannels),
     takeEvery(song.actionTypes.UPDATE_TRACK, receiveTrackUpdate),
   ];
+}
+
+function setToneBPM(value) {
+  Tone.Transport.bpm.value = value;
 }

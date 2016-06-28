@@ -16,6 +16,13 @@ const component = (props) => h(Toolbar, {
   ],
   rightItems: [
     h(Button, {
+      text: 'clear cache',
+      onPress: () => {
+        window.localStorage.removeItem('currentSong');
+        window.location.reload();
+      },
+    }),
+    h(Button, {
       text: `BPM ${props.BPM}`,
       onPress: props.bpmModalOpened,
     }),

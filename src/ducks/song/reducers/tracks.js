@@ -19,6 +19,11 @@ const dict = (state = {}, action) => {
       return _.omit(state, action.id);
     case actionTypes.DELETE_TRACKS:
       return _.omit(state, _.map(action.tracks, 'id'));
+    case actionTypes.SET_TRACK_SYNTH_TYPE:
+      return shared.helpers.setAtIds([{
+        ...state[action.track.id],
+        synthType: action.synthType,
+      }], state);
     case actionTypes.SET_TRACKS:
       return setAtIds(action.tracks, {});
     case actionTypes.TOGGLE_TRACK_IS_MUTED:
@@ -57,8 +62,6 @@ const ids = (state = [], action) => {
       ];
     case actionTypes.DELETE_TRACK_BY_ID:
       return _.without(state, action.id);
-    case actionTypes.DELETE_TRACKS:
-      return _.without(state, _.map(action.tracks, 'id'));
     case actionTypes.LOAD_SONG:
       return action.song.tracks.ids;
     case actionTypes.SET_TRACKS:

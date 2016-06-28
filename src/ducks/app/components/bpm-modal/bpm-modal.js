@@ -11,7 +11,7 @@ const { maxBPM, minBPM } = shared.constants;
 const component = (props) =>
   h(Modal, {
     className: 'bpm-modal',
-    confirmText: 'Close',
+    confirmText: 'DONE',
     isOpen: props.isOpen,
     onConfirm: props.close,
     titleText: 'Set BPM',

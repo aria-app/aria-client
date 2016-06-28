@@ -1,7 +1,8 @@
 @import '../../../../styles/constants';
 @import '../../../../styles/palette';
 
-$track-editing-modal__synth-dropdown__label__margin: $margin-m;
+$track-editing-modal__synth-dropdown__margin: $margin-l;
+$track-editing-modal__synth-dropdown__label__margin: 0;
 $track-editing-modal__synth-dropdown__list__width: 128px;
 $track-editing-modal__delete-button__background-color: $error-5;
 
@@ -13,6 +14,7 @@ $track-editing-modal__delete-button__background-color: $error-5;
     justify-content: space-between;
   }
   &__synth-dropdown {
+    margin-bottom: $track-editing-modal__synth-dropdown__margin;
     &__label {
       margin-bottom: $track-editing-modal__synth-dropdown__label__margin;
     }

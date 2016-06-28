@@ -18,7 +18,7 @@ export const TracksContainer = connect((state) => ({
   openContextMenu: contextMenu.actions.contextMenuOpened,
   openSequence: song.actions.openSequence,
   selectSequence: actions.selectSequence,
-  stageTrack: actions.stageTrack,
+  stageTrack: actions.trackEditingStarted,
   toggleTrackIsMuted: actions.toggleTrackIsMuted,
   toggleTrackIsSoloing: actions.toggleTrackIsSoloing,
 })(Tracks);

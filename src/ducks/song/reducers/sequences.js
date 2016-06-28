@@ -58,7 +58,7 @@ const ids = (state = [], action) => {
     case actionTypes.DELETE_SEQUENCE:
       return _.without(state, action.sequence.id);
     case actionTypes.DELETE_SEQUENCES:
-      return _.without(state, _.map(action.sequences, 'id'));
+      return _.difference(state, _.map(action.sequences, 'id'));
     case actionTypes.LOAD_SONG:
       return action.song.sequences.ids;
     case actionTypes.SET_SEQUENCES:

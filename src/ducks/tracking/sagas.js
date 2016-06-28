@@ -17,15 +17,6 @@ function* addSequenceToTrack({ track, position }) {
   yield put(song.actions.addSequenceToTrack(track, position));
 }
 
-function* applyStagedTrack() {
-  const stagedTrack = yield select(selectors.getStagedTrack);
-  const originalTrack = yield select(song.selectors.getTrackById(stagedTrack.id));
-  if (!_.isEqual(stagedTrack, originalTrack)) {
-    yield put(song.actions.updateTrack(stagedTrack));
-  }
-  yield put(actions.clearStagedTrack());
-}
-
 function* contextMenuItemSelected({ item }) {
   const { DELETE_SEQUENCE } = constants.contextMenuActions;
 
@@ -39,12 +30,6 @@ function* contextMenuItemSelected({ item }) {
 
 function* deleteSequence({ sequence }) {
   yield put(song.actions.deleteSequence(sequence));
-}
-
-function* deleteStagedTrack() {
-  const stagedTrack = yield select(selectors.getStagedTrack);
-  yield put(song.actions.deleteTrackById(stagedTrack.id));
-  yield put(actions.clearStagedTrack());
 }
 
 function* extendSequence({ sequence }) {
@@ -137,9 +122,7 @@ export default function* saga() {
     takeEvery([
       actionTypes.ADD_NEW_TRACK,
       actionTypes.ADD_SEQUENCE_TO_TRACK,
-      actionTypes.APPLY_STAGED_TRACK,
       actionTypes.DELETE_SEQUENCE,
-      actionTypes.DELETE_STAGED_TRACK,
       actionTypes.EXTEND_SEQUENCE,
       actionTypes.MOVE_SEQUENCE_LEFT,
       actionTypes.MOVE_SEQUENCE_RIGHT,
@@ -150,9 +133,7 @@ export default function* saga() {
     ], pushUndo),
     takeEvery(actionTypes.ADD_NEW_TRACK, addNewTrack),
     takeEvery(actionTypes.ADD_SEQUENCE_TO_TRACK, addSequenceToTrack),
-    takeEvery(actionTypes.APPLY_STAGED_TRACK, applyStagedTrack),
     takeEvery(actionTypes.DELETE_SEQUENCE, deleteSequence),
-    takeEvery(actionTypes.DELETE_STAGED_TRACK, deleteStagedTrack),
     takeEvery(actionTypes.EXTEND_SEQUENCE, extendSequence),
     takeEvery(actionTypes.MOVE_SEQUENCE_LEFT, moveSequenceLeft),
     takeEvery(actionTypes.MOVE_SEQUENCE_RIGHT, moveSequenceRight),

@@ -34,6 +34,12 @@ const initialSong = localStorageSong
   ? JSON.parse(localStorageSong)
   : sampleSong;
 
+// console.log(localStorageSong ? 'Loaded Song' : 'Sample Song');
+// console.log({
+//   sequences: initialSong.sequences.ids,
+//   tracks: initialSong.tracks.ids,
+// });
+
 store.dispatch(song.actions.loadSong(initialSong));
 
 // whyDidYouUpdate(React, { exclude: /^(Connect|pure|withHandlers|withState)/ });

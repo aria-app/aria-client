@@ -78,17 +78,17 @@ export function deleteSequences(sequences) {
   };
 }
 
-export function deleteTracks(tracks) {
-  return {
-    type: actionTypes.DELETE_TRACKS,
-    tracks,
-  };
-}
-
 export function deleteTrackById(id) {
   return {
     type: actionTypes.DELETE_TRACK_BY_ID,
     id,
+  };
+}
+
+export function deleteTracks(tracks) {
+  return {
+    type: actionTypes.DELETE_TRACKS,
+    tracks,
   };
 }
 
@@ -185,6 +185,14 @@ export function setSong(song) {
   return {
     type: actionTypes.SET_SONG,
     song,
+  };
+}
+
+export function setTrackSynthType(track, synthType) {
+  return {
+    type: actionTypes.SET_TRACK_SYNTH_TYPE,
+    synthType,
+    track,
   };
 }
 

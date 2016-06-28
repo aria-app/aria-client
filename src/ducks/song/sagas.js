@@ -23,8 +23,8 @@ function* addSequenceToTrack({ position, track }) {
   })));
 }
 
-function* deleteTrackById() {
-  const sequences = yield select(selectors.getSequencesByTrackId);
+function* deleteTrackById({ id }) {
+  const sequences = yield select(selectors.getSequencesByTrackId(id));
   const notes = yield select(selectors.getNotesBySequenceIds(_.map(sequences, 'id')));
   yield put(actions.deleteSequences(sequences));
   yield put(actions.deleteNotes(notes));
@@ -69,6 +69,7 @@ export default function* saga() {
       actionTypes.SET_NOTES,
       actionTypes.SET_SEQUENCES,
       actionTypes.SET_SONG,
+      actionTypes.SET_TRACK_SYNTH_TYPE,
       actionTypes.SET_TRACKS,
       actionTypes.SHORTEN_SEQUENCE,
       actionTypes.SHORTEN_SONG,

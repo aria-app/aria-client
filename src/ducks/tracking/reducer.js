@@ -24,17 +24,12 @@ const selectedSequenceId = (state = '', action) => {
   }
 };
 
-const stagedTrack = (state = {}, action) => {
+const stagedTrackId = (state = '', action) => {
   switch (action.type) {
-    case actionTypes.CLEAR_STAGED_TRACK:
+    case actionTypes.TRACK_EDITING_FINISHED:
       return {};
-    case actionTypes.STAGE_TRACK:
-      return action.track;
-    case actionTypes.UPDATE_STAGED_SYNTH_TYPE:
-      return {
-        ...state,
-        synthType: action.synthType,
-      };
+    case actionTypes.TRACK_EDITING_STARTED:
+      return action.id;
     default:
       return state;
   }
@@ -52,6 +47,6 @@ function undos(state = [], action) {
 export default combineReducers({
   redos,
   selectedSequenceId,
-  stagedTrack,
+  stagedTrackId,
   undos,
 });

@@ -74,7 +74,6 @@ export const DropdownList = compose(
   withState('isOpen', 'setIsOpen', false),
   withHandlers({
     closePopup: props => () => {
-      console.log('close');
       props.setIsOpen(() => false);
     },
     openPopup: props => () => {

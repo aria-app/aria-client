@@ -72,8 +72,8 @@ function* play() {
   }
 }
 
-function* sequenceStep(action) {
-  const { sequence, step, time } = action.payload;
+function* sequenceStep({ payload }) {
+  const { sequence, step, time } = payload;
   const isAnyTrackSoloing = yield select(song.selectors.getIsAnyTrackSoloing);
   const track = yield select(song.selectors.getTrackById(sequence.trackId));
   const activeSequenceId = yield select(song.selectors.getActiveSequenceId);

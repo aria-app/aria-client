@@ -68,7 +68,7 @@ const composed = compose(
       e.stopPropagation();
     },
     onTrackSelect: (props) => (track) => {
-      props.stageTrack(_.omit(track, 'sequences'));
+      props.stageTrack(track.id);
     },
   }),
 )(component);

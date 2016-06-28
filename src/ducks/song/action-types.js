@@ -27,6 +27,7 @@ export const SET_NAME = `${NAME}/SET_NAME`;
 export const SET_NOTES = `${NAME}/SET_NOTES`;
 export const SET_SEQUENCES = `${NAME}/SET_SEQUENCES`;
 export const SET_SONG = `${NAME}/SET_SONG`;
+export const SET_TRACK_SYNTH_TYPE = `${NAME}/SET_TRACK_SYNTH_TYPE`;
 export const SET_TRACKS = `${NAME}/SET_TRACKS`;
 export const SHORTEN_SEQUENCE = `${NAME}/SHORTEN_SEQUENCE`;
 export const SHORTEN_SONG = `${NAME}/SHORTEN_SONG`;

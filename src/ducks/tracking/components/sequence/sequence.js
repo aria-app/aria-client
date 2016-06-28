@@ -74,7 +74,7 @@ function getNotes(props) {
   return props.sequence.notes.map(note => h('.sequence__note', {
     style: {
       transform: `translate(${note.points[0].x * 2}px, ${note.points[0].y}px)`,
-      width: note.points[1].x - note.points[0].x + 1,
+      width: (note.points[1].x - note.points[0].x + 1) * 2,
     },
   }));
 }
