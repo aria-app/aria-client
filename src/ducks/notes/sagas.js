@@ -236,7 +236,7 @@ export default function* saga() {
     takeEvery(actionTypes.SELECTED_NOTES_SIZE_NUDGED, nudgeSelectedNotesSize),
     takeEvery(actionTypes.UNDO_POPPED, undo),
     takeEvery(actionTypes.UNDO_PUSHED, pushUndo),
-    takeEvery(shortcuts.actionTypes.REDO, redo),
-    takeEvery(shortcuts.actionTypes.UNDO, undo),
+    takeEvery(shortcuts.actionTypes.REDO_PRESSED, redo),
+    takeEvery(shortcuts.actionTypes.UNDO_PRESSED, undo),
   ];
 }

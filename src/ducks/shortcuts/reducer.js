@@ -3,7 +3,7 @@ import * as actionTypes from './action-types';
 
 const heldKeys = (state = [], action) => {
   switch (action.type) {
-    case actionTypes.SET_HELD_KEYS:
+    case actionTypes.HELD_KEYS_SET:
       return action.keys;
     default:
       return state;

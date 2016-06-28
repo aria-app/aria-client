@@ -1,9 +1,9 @@
 import { NAME } from './constants';
 
-export const ACTIVATE_TOOL = `${NAME}/ACTIVATE_TOOL`;
-export const HOLD_PAN = `${NAME}/HOLD_PAN`;
+export const HELD_KEYS_SET = `${NAME}/HELD_KEYS_SET`;
 export const INITIALIZED = `${NAME}/INITIALIZED`;
-export const REDO = `${NAME}/REDO`;
-export const RELEASE_PAN = `${NAME}/RELEASE_PAN`;
-export const SET_HELD_KEYS = `${NAME}/SET_HELD_KEYS`;
-export const UNDO = `${NAME}/UNDO`;
+export const PAN_HELD = `${NAME}/PAN_HELD`;
+export const PAN_RELEASED = `${NAME}/PAN_RELEASED`;
+export const REDO_PRESSED = `${NAME}/REDO_PRESSED`;
+export const TOOL_ACTIVATED = `${NAME}/TOOL_ACTIVATED`;
+export const UNDO_PRESSED = `${NAME}/UNDO_PRESSED`;

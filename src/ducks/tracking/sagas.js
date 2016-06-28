@@ -144,7 +144,7 @@ export default function* saga() {
     takeEvery(actionTypes.TRACK_IS_SOLOING_TOGGLED, toggleTrackIsSoloing),
     takeEvery(actionTypes.UNDO_POPPED, undo),
     takeEvery(contextMenu.actionTypes.CONTEXT_MENU_ITEM_SELECTED, contextMenuItemSelected),
-    takeEvery(shortcuts.actionTypes.REDO, redo),
-    takeEvery(shortcuts.actionTypes.UNDO, undo),
+    takeEvery(shortcuts.actionTypes.REDO_PRESSED, redo),
+    takeEvery(shortcuts.actionTypes.UNDO_PRESSED, undo),
   ];
 }

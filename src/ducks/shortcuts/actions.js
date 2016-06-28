@@ -1,36 +1,41 @@
 import Mousetrap from 'mousetrap';
 import * as actionTypes from './action-types';
 
-export const activateTool = (toolType) => ({
-  type: actionTypes.ACTIVATE_TOOL,
-  toolType,
-});
-
-export const holdPan = (e) => ({
-  type: actionTypes.HOLD_PAN,
-  e,
+export const heldKeysSet = (keys) => ({
+  type: actionTypes.HELD_KEYS_SET,
+  keys,
 });
 
 export const initialized = () => ({
   type: actionTypes.INITIALIZED,
 });
 
-export const releasePan = () => ({
-  type: actionTypes.RELEASE_PAN,
+export const panHeld = (e) => ({
+  type: actionTypes.PAN_HELD,
+  e,
 });
 
-export const setHeldKeys = (keys) => ({
-  type: actionTypes.SET_HELD_KEYS,
-  keys,
+export const panReleased = () => ({
+  type: actionTypes.PAN_RELEASED,
 });
 
-export function registerShortcuts(shortcuts) {
-  return (dispatch) => {
-    shortcuts.forEach(shortcut => {
-      Mousetrap.bind(shortcut[1], (e) => {
-        e.preventDefault();
-        dispatch(shortcut[0]);
-      }, shortcut[2]);
-    });
-  };
-}
+export const redoPressed = () => ({
+  type: actionTypes.REDO_PRESSED,
+});
+
+export const shortcutsRegistered = (shortcuts) => (dispatch) =>
+  shortcuts.forEach(shortcut => {
+    Mousetrap.bind(shortcut[1], (e) => {
+      e.preventDefault();
+      dispatch(shortcut[0]);
+    }, shortcut[2]);
+  });
+
+export const toolActivated = (toolType) => ({
+  type: actionTypes.TOOL_ACTIVATED,
+  toolType,
+});
+
+export const undoPressed = () => ({
+  type: actionTypes.UNDO_PRESSED,
+});

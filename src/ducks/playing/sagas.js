@@ -21,7 +21,7 @@ function* changeTrackInstrumentType({ synthType, track }) {
 }
 
 function* disposeInstruments({ channel }) {
-  yield call(channel.instrument.dispose);
+  yield call(channel.instrument.dispose.bind(channel.instrument));
 }
 
 function* initialize(action) {

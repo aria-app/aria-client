@@ -29,19 +29,19 @@ const shortcuts = [
   // [notes.actions.selectedNotesResized(2), ['ctrl+2', 'meta+2']],
   // [notes.actions.selectedNotesResized(4), ['ctrl+3', 'meta+3']],
   // [notes.actions.selectedNotesResized(8), ['ctrl+4', 'meta+4']],
-  [{ type: actionTypes.REDO }, ['ctrl+y', 'meta+y']],
-  [{ type: actionTypes.UNDO }, ['ctrl+z', 'meta+z']],
+  [{ type: actionTypes.REDO_PRESSED }, ['ctrl+y', 'meta+y']],
+  [{ type: actionTypes.UNDO_PRESSED }, ['ctrl+z', 'meta+z']],
 
   // Playback
   [transport.actions.playbackStopped(), ['escape']],
   [transport.actions.playbackToggled(), ['enter']],
 
   // Tools
-  [actions.activateTool(shared.constants.toolTypes.DRAW), ['d']],
-  [actions.activateTool(shared.constants.toolTypes.ERASE), ['e']],
-  [actions.activateTool(shared.constants.toolTypes.MOVE), ['m']],
-  [actions.activateTool(shared.constants.toolTypes.PAN), ['p']],
-  [actions.activateTool(shared.constants.toolTypes.SELECT), ['s']],
+  [actions.toolActivated(shared.constants.toolTypes.DRAW), ['d']],
+  [actions.toolActivated(shared.constants.toolTypes.ERASE), ['e']],
+  [actions.toolActivated(shared.constants.toolTypes.MOVE), ['m']],
+  [actions.toolActivated(shared.constants.toolTypes.PAN), ['p']],
+  [actions.toolActivated(shared.constants.toolTypes.SELECT), ['s']],
 ];
 
 function* activateTool({ toolType }) {
@@ -68,7 +68,7 @@ function* holdPan({ e }) {
 }
 
 function* initialize() {
-  yield put(actions.registerShortcuts(shortcuts));
+  yield put(actions.shortcutsRegistered(shortcuts));
 
   //eslint-disable-next-line
   while (true) {
@@ -83,22 +83,22 @@ function* releasePan() {
   if (!previousToolType || previousToolType === shared.constants.toolTypes.PAN) return;
 
   yield put(sequencing.actions.selectTool(previousToolType));
-  yield put(actions.setHeldKeys([]));
+  yield put(actions.heldKeysSet([]));
 }
 
 export default function* saga() {
   yield [
-    takeEvery(actionTypes.ACTIVATE_TOOL, activateTool),
-    takeEvery(actionTypes.HOLD_PAN, holdPan),
-    takeEvery(actionTypes.RELEASE_PAN, releasePan),
     takeEvery(actionTypes.INITIALIZED, initialize),
+    takeEvery(actionTypes.PAN_HELD, holdPan),
+    takeEvery(actionTypes.PAN_RELEASED, releasePan),
+    takeEvery(actionTypes.TOOL_ACTIVATED, activateTool),
   ];
 }
 
 function resolveOnShortcut() {
   return new Promise(resolve => {
     // Held Keys
-    Mousetrap.bind('space', (e) => resolve(actions.holdPan(e)), 'keydown');
-    Mousetrap.bind('space', () => resolve(actions.releasePan()), 'keyup');
+    Mousetrap.bind('space', (e) => resolve(actions.panHeld(e)), 'keydown');
+    Mousetrap.bind('space', () => resolve(actions.panReleased()), 'keyup');
   });
 }
