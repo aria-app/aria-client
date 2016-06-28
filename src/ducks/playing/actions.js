@@ -1,9 +1,9 @@
 import shared from 'ducks/shared';
 import * as actionTypes from './action-types';
 
-export function addChannel(channel) {
+export function channelAdded(channel) {
   return {
-    type: actionTypes.ADD_CHANNEL,
+    type: actionTypes.CHANNEL_ADDED,
     channel,
   };
 }
@@ -15,36 +15,36 @@ export function instrumentDisposed(channel) {
   };
 }
 
-export function playNote(payload) {
+export function notePlayed(payload) {
   return {
-    type: actionTypes.PLAY_NOTE,
+    type: actionTypes.NOTE_PLAYED,
     payload,
   };
 }
 
-export function previewNote(point) {
+export function notePreviewed(point) {
   return {
-    type: actionTypes.PREVIEW_NOTE,
+    type: actionTypes.NOTE_PREVIEWED,
     name: shared.helpers.getNoteName(point.y),
   };
 }
 
-export function releaseAll() {
+export function allInstrumentsReleased() {
   return {
-    type: actionTypes.RELEASE_ALL,
+    type: actionTypes.ALL_INSTRUMENTS_RELEASED,
   };
 }
 
-export function setChannels(channels) {
+export function channelsSet(channels) {
   return {
-    type: actionTypes.SET_CHANNELS,
+    type: actionTypes.CHANNELS_SET,
     channels,
   };
 }
 
-export function updateChannel(channel) {
+export function channelUpdated(channel) {
   return {
-    type: actionTypes.UPDATE_CHANNEL,
+    type: actionTypes.channelUpdated,
     channel,
   };
 }

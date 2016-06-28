@@ -3,5 +3,5 @@ import { Keys } from '../keys/keys';
 import playing from 'ducks/playing';
 
 export const KeysContainer = connect(() => ({}), {
-  previewNote: playing.actions.previewNote,
+  previewNote: playing.actions.notePreviewed,
 })(Keys);

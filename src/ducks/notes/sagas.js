@@ -19,7 +19,7 @@ function* drawNote() {
   const activeSequenceId = yield select(song.selectors.getActiveSequenceId);
   const point = yield select(sequencing.selectors.getMousePoint);
 
-  yield put(playing.actions.previewNote(point));
+  yield put(playing.actions.notePreviewed(point));
   yield put(song.actions.addNote(song.helpers.createNote({
     points: [point, { x: point.x + 1, y: point.y }],
     sequenceId: activeSequenceId,
@@ -56,7 +56,7 @@ function* moveNotes({ notes, offset }) {
     (helpers.somePointOutside(_.map(updatedNotes, n => n.points[1]), measureCount))
   ) return;
 
-  yield put(playing.actions.previewNote(_.first(updatedNotes[0].points)));
+  yield put(playing.actions.notePreviewed(_.first(updatedNotes[0].points)));
   yield put(song.actions.updateNotes(updatedNotes));
 }
 
@@ -152,7 +152,7 @@ function* resize({ notes, change }) {
 
   if (helpers.somePointOutside(_.map(updatedNotes, n => n.points[1]), measureCount)) return;
 
-  yield put(playing.actions.previewNote(_.last(updatedNotes[0].points)));
+  yield put(playing.actions.notePreviewed(_.last(updatedNotes[0].points)));
   yield put(song.actions.updateNotes(updatedNotes));
 }
 

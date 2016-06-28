@@ -9,7 +9,7 @@ import * as selectors from './selectors';
 
 function* addNewChannel({ track }) {
   const channel = helpers.createChannel(track);
-  yield put(actions.addChannel(channel));
+  yield put(actions.channelAdded(channel));
 }
 
 function* changeTrackInstrumentType({ synthType, track }) {
@@ -76,15 +76,15 @@ function* setChannels({ tracks }) {
 
   const channels = tracks.map(helpers.createChannel);
 
-  yield put(actions.setChannels(channels));
+  yield put(actions.channelsSet(channels));
 }
 
 export default function* saga() {
   yield [
     takeEvery(actionTypes.INSTRUMENT_DISPOSED, disposeInstruments),
-    takeEvery(actionTypes.PLAY_NOTE, playNote),
-    takeEvery(actionTypes.PREVIEW_NOTE, previewNote),
-    takeEvery(actionTypes.RELEASE_ALL, releaseAll),
+    takeEvery(actionTypes.NOTE_PLAYED, playNote),
+    takeEvery(actionTypes.NOTE_PREVIEWED, previewNote),
+    takeEvery(actionTypes.ALL_INSTRUMENTS_RELEASED, releaseAll),
     takeEvery(song.actionTypes.ADD_NEW_TRACK, addNewChannel),
     takeEvery(song.actionTypes.LOAD_SONG, initialize),
     takeEvery(song.actionTypes.SET_BPM, setBPM),

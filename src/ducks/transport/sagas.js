@@ -53,7 +53,7 @@ function* pause() {
       Tone.Transport.pause();
     });
 
-    yield put(playing.actions.releaseAll());
+    yield put(playing.actions.allInstrumentsReleased());
   }
 }
 
@@ -88,7 +88,7 @@ function* sequenceStep({ payload }) {
 
     for (let i = 0; i < notesAtStep.length; i++) {
       const note = notesAtStep[i];
-      yield put(playing.actions.playNote({
+      yield put(playing.actions.notePlayed({
         channelId: sequence.trackId,
         note,
         time,
@@ -111,7 +111,7 @@ function* setTransportPosition({ measures }) {
   const position = helpers.measuresToSeconds(measures);
   Tone.Transport.position = position;
   yield put(actions.songPositionSet(measures * 32));
-  yield put(playing.actions.releaseAll());
+  yield put(playing.actions.allInstrumentsReleased());
 }
 
 function* songSequenceStep(action) {
@@ -125,7 +125,7 @@ function* stop() {
       Tone.Transport.stop();
     });
 
-    yield put(playing.actions.releaseAll());
+    yield put(playing.actions.allInstrumentsReleased());
   }
 }
 

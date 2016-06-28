@@ -5,10 +5,10 @@ import * as actionTypes from './action-types';
 
 const byId = (state = {}, action) => {
   switch (action.type) {
-    case actionTypes.ADD_CHANNEL:
-    case actionTypes.UPDATE_CHANNEL:
+    case actionTypes.CHANNEL_ADDED:
+    case actionTypes.CHANNEL_UPDATED:
       return shared.helpers.setAtIds([action.channel], state);
-    case actionTypes.SET_CHANNELS:
+    case actionTypes.CHANNELS_SET:
       return shared.helpers.setAtIds(action.channels, {});
     default:
       return state;
@@ -17,9 +17,9 @@ const byId = (state = {}, action) => {
 
 const ids = (state = [], action) => {
   switch (action.type) {
-    case actionTypes.ADD_CHANNEL:
+    case actionTypes.CHANNEL_ADDED:
       return state.concat(action.channel.id);
-    case actionTypes.SET_CHANNELS:
+    case actionTypes.CHANNELS_SET:
       return _.map(action.channels, 'id');
     default:
       return state;
