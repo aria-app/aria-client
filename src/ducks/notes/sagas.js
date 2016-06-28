@@ -20,7 +20,7 @@ function* drawNote() {
   const point = yield select(sequencing.selectors.getMousePoint);
 
   yield put(playing.actions.notePreviewed(point));
-  yield put(song.actions.addNote(song.helpers.createNote({
+  yield put(song.actions.noteAdded(song.helpers.createNote({
     points: [point, { x: point.x + 1, y: point.y }],
     sequenceId: activeSequenceId,
   })));
@@ -36,7 +36,7 @@ function* duplicateNotes() {
     sequenceId: note.sequenceId,
   }));
 
-  yield put(song.actions.addNotes(newNotes));
+  yield put(song.actions.notesAdded(newNotes));
   yield put(actions.notesSelected(newNotes));
 }
 
@@ -57,7 +57,7 @@ function* moveNotes({ notes, offset }) {
   ) return;
 
   yield put(playing.actions.notePreviewed(_.first(updatedNotes[0].points)));
-  yield put(song.actions.updateNotes(updatedNotes));
+  yield put(song.actions.notesUpdated(updatedNotes));
 }
 
 function* moveSelected({ offset }) {
@@ -115,12 +115,12 @@ function* redo() {
     ...undos,
     allNotes,
   ]));
-  yield put(song.actions.setNotes(_.last(redos)));
+  yield put(song.actions.notesSet(_.last(redos)));
   yield put(actions.redosSet(redos.slice(0, redos.length - 1)));
 }
 
 function* remove({ notes }) {
-  yield put(song.actions.deleteNotes(notes));
+  yield put(song.actions.notesDeleted(notes));
 }
 
 function* removeSelected() {
@@ -153,7 +153,7 @@ function* resize({ notes, change }) {
   if (helpers.somePointOutside(_.map(updatedNotes, n => n.points[1]), measureCount)) return;
 
   yield put(playing.actions.notePreviewed(_.last(updatedNotes[0].points)));
-  yield put(song.actions.updateNotes(updatedNotes));
+  yield put(song.actions.notesUpdated(updatedNotes));
 }
 
 function* resizeSelected(action) {
@@ -169,7 +169,7 @@ function* resizeSelected(action) {
     ],
   }));
 
-  yield put(song.actions.updateNotes(updatedNotes));
+  yield put(song.actions.notesUpdated(updatedNotes));
 }
 
 function* selectAll() {
@@ -201,7 +201,7 @@ function* undo() {
   if (_.isEmpty(undos)) return;
 
   yield put(actions.redoPushed());
-  yield put(song.actions.setNotes(_.last(undos)));
+  yield put(song.actions.notesSet(_.last(undos)));
   yield put(actions.undosSet(undos.slice(0, undos.length - 1)));
 }
 
@@ -212,8 +212,8 @@ export default function* saga() {
       actionTypes.NOTE_ERASED,
       actionTypes.NOTES_DUPLICATED,
       actionTypes.NOTES_REMOVED,
-      actionTypes.NOTES_SHIFTED_OCTAVE_DOWN,
-      actionTypes.NOTES_SHIFTED_OCTAVE_UP,
+      actionTypes.SELECTED_NOTES_MOVED_OCTAVE_DOWN,
+      actionTypes.SELECTED_NOTES_MOVED_OCTAVE_UP,
       actionTypes.SELECTED_NOTES_POSITION_NUDGED,
       actionTypes.SELECTED_NOTES_SIZE_NUDGED,
     ], pushUndo),
@@ -222,13 +222,13 @@ export default function* saga() {
     takeEvery(actionTypes.NOTE_ERASED, erase),
     takeEvery(actionTypes.NOTES_DUPLICATED, duplicateNotes),
     takeEvery(actionTypes.NOTES_MOVED, moveNotes),
-    takeEvery(actionTypes.SELECTED_NOTES_MOVED_OCTAVE_DOWN, shiftDownOctave),
-    takeEvery(actionTypes.SELECTED_NOTES_MOVED_OCTAVE_UP, shiftUpOctave),
     takeEvery(actionTypes.NOTES_REMOVED, remove),
     takeEvery(actionTypes.NOTES_RESIZED, resize),
     takeEvery(actionTypes.REDO_POPPED, redo),
     takeEvery(actionTypes.REDO_PUSHED, pushRedo),
     takeEvery(actionTypes.SELECTED_NOTES_MOVED, moveSelected),
+    takeEvery(actionTypes.SELECTED_NOTES_MOVED_OCTAVE_DOWN, shiftDownOctave),
+    takeEvery(actionTypes.SELECTED_NOTES_MOVED_OCTAVE_UP, shiftUpOctave),
     takeEvery(actionTypes.SELECTED_NOTES_POSITION_NUDGED, nudgeSelectedNotesPosition),
     takeEvery(actionTypes.SELECTED_NOTES_REMOVED, removeSelected),
     takeEvery(actionTypes.SELECTED_NOTES_RESIZED, resizeSelected),

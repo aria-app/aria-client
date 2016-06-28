@@ -15,7 +15,7 @@ const selectedSequenceId = (state = '', action) => {
   switch (action.type) {
     case actionTypes.SEQUENCE_DELETED:
     case actionTypes.SEQUENCE_DESELECTED:
-    case song.actionTypes.OPEN_SEQUENCE:
+    case song.actionTypes.SEQUENCE_OPENED:
       return '';
     case actionTypes.SEQUENCE_SELECTED:
       return action.id;

@@ -10,11 +10,11 @@ import * as constants from './constants';
 import * as selectors from './selectors';
 
 function* addNewTrack() {
-  yield put(song.actions.addNewTrack());
+  yield put(song.actions.newTrackAdded());
 }
 
 function* addSequenceToTrack({ track, position }) {
-  yield put(song.actions.addSequenceToTrack(track, position));
+  yield put(song.actions.sequenceAddedToTrack(track, position));
 }
 
 function* contextMenuItemSelected({ item }) {
@@ -22,26 +22,26 @@ function* contextMenuItemSelected({ item }) {
 
   switch (item.action) {
     case DELETE_SEQUENCE:
-      return yield put(song.actions.deleteSequence(item.sequence));
+      return yield put(song.actions.sequenceDeleted(item.sequence));
     default:
       return undefined;
   }
 }
 
 function* deleteSequence({ sequence }) {
-  yield put(song.actions.deleteSequence(sequence));
+  yield put(song.actions.sequenceDeleted(sequence));
 }
 
 function* extendSequence({ sequence }) {
-  yield put(song.actions.extendSequence(sequence));
+  yield put(song.actions.sequenceExtended(sequence));
 }
 
 function* moveSequenceLeft({ sequence }) {
-  yield put(song.actions.moveSequenceLeft(sequence));
+  yield put(song.actions.sequenceNudgedLeft(sequence));
 }
 
 function* moveSequenceRight({ sequence }) {
-  yield put(song.actions.moveSequenceRight(sequence));
+  yield put(song.actions.sequenceNudgedRight(sequence));
 }
 
 function* pushRedo() {
@@ -87,21 +87,21 @@ function* redo() {
     ...undos,
     { sequences, tracks },
   ]));
-  yield put(song.actions.setSequences(_.last(redos).sequences));
-  yield put(song.actions.setTracks(_.last(redos).tracks));
+  yield put(song.actions.sequencesSet(_.last(redos).sequences));
+  yield put(song.actions.tracksSet(_.last(redos).tracks));
   yield put(actions.redosSet(redos.slice(0, redos.length - 1)));
 }
 
 function* shortenSequence({ sequence }) {
-  yield put(song.actions.shortenSequence(sequence));
+  yield put(song.actions.sequenceShortened(sequence));
 }
 
 function* toggleTrackIsMuted({ id }) {
-  yield put(song.actions.toggleTrackIsMuted(id));
+  yield put(song.actions.trackIsMutedToggled(id));
 }
 
 function* toggleTrackIsSoloing({ id }) {
-  yield put(song.actions.toggleTrackIsSoloing(id));
+  yield put(song.actions.trackIsSoloingToggled(id));
 }
 
 function* undo() {
@@ -112,8 +112,8 @@ function* undo() {
   if (_.isEmpty(undos)) return;
 
   yield put(actions.redoPushed());
-  yield put(song.actions.setSequences(_.last(undos).sequences));
-  yield put(song.actions.setTracks(_.last(undos).tracks));
+  yield put(song.actions.sequencesSet(_.last(undos).sequences));
+  yield put(song.actions.tracksSet(_.last(undos).tracks));
   yield put(actions.undosSet(undos.slice(0, undos.length - 1)));
 }
 

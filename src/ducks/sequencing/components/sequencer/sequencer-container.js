@@ -10,7 +10,7 @@ export const SequencerContainer = connect((state) => ({
   isSelectingActive: notes.selectors.getIsSelectingActive(state),
   toolType: selectors.getToolType(state),
 }), {
-  closeSequence: song.actions.closeSequence,
+  closeSequence: song.actions.sequenceClosed,
   duplicate: notes.actions.notesDuplicated,
   removeSelected: notes.actions.selectedNotesRemoved,
   resizeSelected: notes.actions.selectedNotesResized,

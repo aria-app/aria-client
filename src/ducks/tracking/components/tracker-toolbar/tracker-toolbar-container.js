@@ -11,6 +11,6 @@ export const TrackerToolbarContainer = connect((state) => ({
   extendSequence: actions.sequenceExtended,
   moveSequenceLeft: actions.sequenceNudgedLeft,
   moveSequenceRight: actions.sequenceNudgedRight,
-  openSequence: song.actions.openSequence,
+  openSequence: song.actions.sequenceOpened,
   shortenSequence: actions.sequenceShortened,
 })(TrackerToolbar);

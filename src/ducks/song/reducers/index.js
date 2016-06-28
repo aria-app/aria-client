@@ -8,9 +8,9 @@ import tracks from './tracks';
 
 const activeSequenceId = (state = '', action) => {
   switch (action.type) {
-    case actionTypes.CLOSE_SEQUENCE:
+    case actionTypes.SEQUENCE_CLOSED:
       return '';
-    case actionTypes.OPEN_SEQUENCE:
+    case actionTypes.SEQUENCE_OPENED:
       return action.sequence.id;
     default:
       return state;
@@ -19,10 +19,10 @@ const activeSequenceId = (state = '', action) => {
 
 const bpm = (state = 0, action) => {
   switch (action.type) {
-    case actionTypes.LOAD_SONG:
-      return action.song.bpm;
-    case actionTypes.SET_BPM:
+    case actionTypes.BPM_SET:
       return clampBpm(action.bpm);
+    case actionTypes.SONG_LOADED:
+      return action.song.bpm;
     default:
       return state;
   }
@@ -30,10 +30,10 @@ const bpm = (state = 0, action) => {
 
 const id = (state = '', action) => {
   switch (action.type) {
-    case actionTypes.LOAD_SONG:
-      return action.song.id;
-    case actionTypes.SET_ID:
+    case actionTypes.ID_SET:
       return action.id;
+    case actionTypes.SONG_LOADED:
+      return action.song.id;
     default:
       return state;
   }
@@ -41,13 +41,13 @@ const id = (state = '', action) => {
 
 const measureCount = (state = 1, action) => {
   switch (action.type) {
-    case actionTypes.EXTEND_SONG:
-      return state + 1;
-    case actionTypes.LOAD_SONG:
-      return action.song.measureCount;
-    case actionTypes.SET_MEASURE_COUNT:
+    case actionTypes.MEASURE_COUNT_SET:
       return action.measureCount;
-    case actionTypes.SHORTEN_SONG:
+    case actionTypes.SONG_EXTENDED:
+      return state + 1;
+    case actionTypes.SONG_LOADED:
+      return action.song.measureCount;
+    case actionTypes.SONG_SHORTENED:
       return state > 1 ? state - 1 : state;
     default:
       return state;
@@ -56,10 +56,10 @@ const measureCount = (state = 1, action) => {
 
 const name = (state = 0, action) => {
   switch (action.type) {
-    case actionTypes.LOAD_SONG:
-      return action.song.name;
-    case actionTypes.SET_NAME:
+    case actionTypes.NAME_SET:
       return action.name;
+    case actionTypes.SONG_LOADED:
+      return action.song.name;
     default:
       return state;
   }

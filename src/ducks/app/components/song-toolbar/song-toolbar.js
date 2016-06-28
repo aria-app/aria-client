@@ -42,7 +42,6 @@ const composed = compose(
     pause: React.PropTypes.func.isRequired,
     play: React.PropTypes.func.isRequired,
     playbackState: React.PropTypes.string.isRequired,
-    setBPM: React.PropTypes.func.isRequired,
     stop: React.PropTypes.func.isRequired,
   }),
   mapProps((props) => ({

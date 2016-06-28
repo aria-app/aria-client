@@ -8,7 +8,7 @@ import * as helpers from './helpers';
 import * as selectors from './selectors';
 
 function* addSequenceToNewTrack(action) {
-  yield put(actions.addSequence(helpers.createSequence({
+  yield put(actions.sequenceAdded(helpers.createSequence({
     measureCount: 1,
     position: 0,
     trackId: action.track.id,
@@ -16,7 +16,7 @@ function* addSequenceToNewTrack(action) {
 }
 
 function* addSequenceToTrack({ position, track }) {
-  yield put(actions.addSequence(helpers.createSequence({
+  yield put(actions.sequenceAdded(helpers.createSequence({
     measureCount: 1,
     trackId: track.id,
     position,
@@ -26,8 +26,8 @@ function* addSequenceToTrack({ position, track }) {
 function* deleteTrackById({ id }) {
   const sequences = yield select(selectors.getSequencesByTrackId(id));
   const notes = yield select(selectors.getNotesBySequenceIds(_.map(sequences, 'id')));
-  yield put(actions.deleteSequences(sequences));
-  yield put(actions.deleteNotes(notes));
+  yield put(actions.sequencesDeleted(sequences));
+  yield put(actions.notesDeleted(notes));
 }
 
 const throttledSave = _.throttle((song) => {
@@ -41,44 +41,44 @@ function* saveToLocalStorage() {
 
 export default function* saga() {
   yield [
-    takeEvery(actionTypes.ADD_NEW_TRACK, addSequenceToNewTrack),
-    takeEvery(actionTypes.DELETE_TRACK_BY_ID, deleteTrackById),
-    takeEvery(actionTypes.ADD_SEQUENCE_TO_TRACK, addSequenceToTrack),
+    takeEvery(actionTypes.NEW_TRACK_ADDED, addSequenceToNewTrack),
+    takeEvery(actionTypes.TRACK_DELETED_BY_ID, deleteTrackById),
+    takeEvery(actionTypes.SEQUENCE_ADDED_TO_TRACK, addSequenceToTrack),
     takeEvery([
-      actionTypes.ADD_NEW_TRACK,
-      actionTypes.ADD_NOTE,
-      actionTypes.ADD_NOTES,
-      actionTypes.ADD_SEQUENCE,
-      actionTypes.ADD_SEQUENCE_TO_TRACK,
-      actionTypes.ADD_SEQUENCES,
-      actionTypes.ADD_TRACKS,
-      actionTypes.DELETE_NOTES,
-      actionTypes.DELETE_SEQUENCE,
-      actionTypes.DELETE_SEQUENCES,
-      actionTypes.DELETE_TRACK_BY_ID,
-      actionTypes.DELETE_TRACKS,
-      actionTypes.DUPLICATE_NOTES,
-      actionTypes.EXTEND_SEQUENCE,
-      actionTypes.EXTEND_SONG,
-      actionTypes.MOVE_SEQUENCE_LEFT,
-      actionTypes.MOVE_SEQUENCE_RIGHT,
-      actionTypes.SET_BPM,
-      actionTypes.SET_ID,
-      actionTypes.SET_MEASURE_COUNT,
-      actionTypes.SET_NAME,
-      actionTypes.SET_NOTES,
-      actionTypes.SET_SEQUENCES,
-      actionTypes.SET_SONG,
-      actionTypes.SET_TRACK_SYNTH_TYPE,
-      actionTypes.SET_TRACKS,
-      actionTypes.SHORTEN_SEQUENCE,
-      actionTypes.SHORTEN_SONG,
-      actionTypes.TOGGLE_TRACK_IS_MUTED,
-      actionTypes.TOGGLE_TRACK_IS_SOLOING,
-      actionTypes.UPDATE_NOTES,
-      actionTypes.UPDATE_SEQUENCES,
-      actionTypes.UPDATE_TRACK,
-      actionTypes.UPDATE_TRACKS,
+      actionTypes.BPM_SET,
+      actionTypes.ID_SET,
+      actionTypes.MEASURE_COUNT_SET,
+      actionTypes.NAME_SET,
+      actionTypes.NEW_TRACK_ADDED,
+      actionTypes.NOTE_ADDED,
+      actionTypes.NOTES_ADDED,
+      actionTypes.NOTES_DELETED,
+      actionTypes.NOTES_DUPLICATED,
+      actionTypes.NOTES_SET,
+      actionTypes.NOTES_UPDATED,
+      actionTypes.SEQUENCE_ADDED,
+      actionTypes.SEQUENCE_ADDED_TO_TRACK,
+      actionTypes.SEQUENCE_DELETED,
+      actionTypes.SEQUENCE_EXTENDED,
+      actionTypes.SEQUENCE_NUDGED_LEFT,
+      actionTypes.SEQUENCE_NUDGED_RIGHT,
+      actionTypes.SEQUENCE_SHORTENED,
+      actionTypes.SEQUENCES_ADDED,
+      actionTypes.SEQUENCES_DELETED,
+      actionTypes.SEQUENCES_SET,
+      actionTypes.SEQUENCES_UPDATED,
+      actionTypes.SONG_EXTENDED,
+      actionTypes.SONG_SET,
+      actionTypes.SONG_SHORTENED,
+      actionTypes.TRACKS_ADDED,
+      actionTypes.TRACK_DELETED_BY_ID,
+      actionTypes.TRACK_IS_MUTED_TOGGLED,
+      actionTypes.TRACK_IS_SOLOING_TOGGLED,
+      actionTypes.TRACK_SYNTH_TYPE_SET,
+      actionTypes.TRACK_UPDATED,
+      actionTypes.TRACKS_DELETED,
+      actionTypes.TRACKS_SET,
+      actionTypes.TRACKS_UPDATED,
     ], saveToLocalStorage),
   ];
 }

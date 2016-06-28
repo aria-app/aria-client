@@ -7,7 +7,7 @@ import * as selectors from '../../selectors';
 export const TrackEditingModalContainer = connect((state) => ({
   stagedTrack: selectors.getStagedTrack(state),
 }), {
-  delete: song.actions.deleteTrackById,
+  delete: song.actions.trackDeletedById,
   dismiss: actions.trackEditingFinished,
-  setSynthType: song.actions.setTrackSynthType,
+  setSynthType: song.actions.trackSynthTypeSet,
 })(TrackEditingModal);

@@ -1,259 +1,259 @@
 import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 
-export function addNewTrack() {
+export function bpmSet(bpm) {
   return {
-    type: actionTypes.ADD_NEW_TRACK,
+    type: actionTypes.BPM_SET,
+    bpm,
+  };
+}
+
+export function idSet(id) {
+  return {
+    type: actionTypes.ID_SET,
+    id,
+  };
+}
+
+export function measureCountSet(measureCount) {
+  return {
+    type: actionTypes.MEASURE_COUNT_SET,
+    measureCount,
+  };
+}
+
+export function nameSet(name) {
+  return {
+    type: actionTypes.NAME_SET,
+    name,
+  };
+}
+
+export function newTrackAdded() {
+  return {
+    type: actionTypes.NEW_TRACK_ADDED,
     track: helpers.createTrack(),
   };
 }
 
-export function addNote(note) {
+export function noteAdded(note) {
   return {
-    type: actionTypes.ADD_NOTE,
+    type: actionTypes.NOTE_ADDED,
     note,
   };
 }
 
-export function addNotes(notes) {
+export function notesAdded(notes) {
   return {
-    type: actionTypes.ADD_NOTES,
+    type: actionTypes.NOTES_ADDED,
     notes,
   };
 }
 
-export function addSequence(sequence) {
+export function notesDeleted(notes) {
   return {
-    type: actionTypes.ADD_SEQUENCE,
+    type: actionTypes.NOTES_DELETED,
+    notes,
+  };
+}
+
+export function notesSet(notes) {
+  return {
+    type: actionTypes.NOTES_SET,
+    notes,
+  };
+}
+
+export function notesUpdated(notes) {
+  return {
+    type: actionTypes.NOTES_UPDATED,
+    notes,
+  };
+}
+
+export function sequenceAdded(sequence) {
+  return {
+    type: actionTypes.SEQUENCE_ADDED,
     sequence,
   };
 }
 
-export function addSequenceToTrack(track, position) {
+export function sequenceAddedToTrack(track, position) {
   return {
-    type: actionTypes.ADD_SEQUENCE_TO_TRACK,
+    type: actionTypes.SEQUENCE_ADDED_TO_TRACK,
     position,
     track,
   };
 }
 
-export function addSequences(sequences) {
+export function sequenceClosed() {
   return {
-    type: actionTypes.ADD_SEQUENCES,
-    sequences,
+    type: actionTypes.SEQUENCE_CLOSED,
   };
 }
 
-export function addTracks(tracks) {
+export function sequenceDeleted(sequence) {
   return {
-    type: actionTypes.ADD_TRACKS,
-    tracks,
-  };
-}
-
-export function closeSequence() {
-  return {
-    type: actionTypes.CLOSE_SEQUENCE,
-  };
-}
-
-export function deleteNotes(notes) {
-  return {
-    type: actionTypes.DELETE_NOTES,
-    notes,
-  };
-}
-
-export function deleteSequence(sequence) {
-  return {
-    type: actionTypes.DELETE_SEQUENCE,
+    type: actionTypes.SEQUENCE_DELETED,
     sequence,
   };
 }
 
-export function deleteSequences(sequences) {
+export function sequenceExtended(sequence) {
   return {
-    type: actionTypes.DELETE_SEQUENCES,
-    sequences,
-  };
-}
-
-export function deleteTrackById(id) {
-  return {
-    type: actionTypes.DELETE_TRACK_BY_ID,
-    id,
-  };
-}
-
-export function deleteTracks(tracks) {
-  return {
-    type: actionTypes.DELETE_TRACKS,
-    tracks,
-  };
-}
-
-export function extendSequence(sequence) {
-  return {
-    type: actionTypes.EXTEND_SEQUENCE,
+    type: actionTypes.SEQUENCE_EXTENDED,
     sequence,
   };
 }
 
-export function extendSong() {
-  return {
-    type: actionTypes.EXTEND_SONG,
-  };
-}
-
-export function loadSong(song) {
-  return {
-    type: actionTypes.LOAD_SONG,
-    song,
-  };
-}
-
-export function moveSequenceLeft(sequence) {
+export function sequenceNudgedLeft(sequence) {
   return (dispatch) => {
     dispatch({
-      type: actionTypes.MOVE_SEQUENCE_LEFT,
+      type: actionTypes.SEQUENCE_NUDGED_LEFT,
       sequence,
     });
   };
 }
 
-export function moveSequenceRight(sequence) {
+export function sequenceNudgedRight(sequence) {
   return (dispatch) => {
     dispatch({
-      type: actionTypes.MOVE_SEQUENCE_RIGHT,
+      type: actionTypes.SEQUENCE_NUDGED_RIGHT,
       sequence,
     });
   };
 }
 
-export function openSequence(sequence) {
+export function sequenceOpened(sequence) {
   return (dispatch) => {
     dispatch({
-      type: actionTypes.OPEN_SEQUENCE,
+      type: actionTypes.SEQUENCE_OPENED,
       sequence,
     });
   };
 }
 
-export function setBPM(bpm) {
+export function sequenceShortened(sequence) {
   return {
-    type: actionTypes.SET_BPM,
-    bpm,
+    type: actionTypes.SEQUENCE_SHORTENED,
+    sequence,
   };
 }
 
-export function setID(id) {
+export function sequencesAdded(sequences) {
   return {
-    type: actionTypes.SET_ID,
-    id,
-  };
-}
-
-export function setMeasureCount(measureCount) {
-  return {
-    type: actionTypes.SET_MEASURE_COUNT,
-    measureCount,
-  };
-}
-
-export function setName(name) {
-  return {
-    type: actionTypes.SET_NAME,
-    name,
-  };
-}
-
-export function setNotes(notes) {
-  return {
-    type: actionTypes.SET_NOTES,
-    notes,
-  };
-}
-
-export function setSequences(sequences) {
-  return {
-    type: actionTypes.SET_SEQUENCES,
+    type: actionTypes.SEQUENCES_ADDED,
     sequences,
   };
 }
 
-export function setSong(song) {
+export function sequencesDeleted(sequences) {
   return {
-    type: actionTypes.SET_SONG,
+    type: actionTypes.SEQUENCES_DELETED,
+    sequences,
+  };
+}
+
+export function sequencesSet(sequences) {
+  return {
+    type: actionTypes.SEQUENCES_SET,
+    sequences,
+  };
+}
+
+export function sequencesUpdated(sequences) {
+  return {
+    type: actionTypes.SEQUENCES_UPDATED,
+    sequences,
+  };
+}
+
+export function songExtended() {
+  return {
+    type: actionTypes.SONG_EXTENDED,
+  };
+}
+
+export function songLoaded(song) {
+  return {
+    type: actionTypes.SONG_LOADED,
     song,
   };
 }
 
-export function setTrackSynthType(track, synthType) {
+export function songSet(song) {
   return {
-    type: actionTypes.SET_TRACK_SYNTH_TYPE,
+    type: actionTypes.SONG_SET,
+    song,
+  };
+}
+
+export function songShortened() {
+  return {
+    type: actionTypes.SONG_SHORTENED,
+  };
+}
+
+export function trackDeletedById(id) {
+  return {
+    type: actionTypes.TRACK_DELETED_BY_ID,
+    id,
+  };
+}
+
+export function trackIsMutedToggled(id) {
+  return {
+    type: actionTypes.trackIsMutedToggled,
+    id,
+  };
+}
+
+export function trackIsSoloingToggled(id) {
+  return {
+    type: actionTypes.TRACK_IS_SOLOING_TOGGLED,
+    id,
+  };
+}
+
+export function trackSynthTypeSet(track, synthType) {
+  return {
+    type: actionTypes.TRACK_SYNTH_TYPE_SET,
     synthType,
     track,
   };
 }
 
-export function setTracks(tracks) {
+export function trackUpdated(track) {
   return {
-    type: actionTypes.SET_TRACKS,
-    tracks,
-  };
-}
-
-export function shortenSequence(sequence) {
-  return {
-    type: actionTypes.SHORTEN_SEQUENCE,
-    sequence,
-  };
-}
-
-export function shortenSong() {
-  return {
-    type: actionTypes.SHORTEN_SONG,
-  };
-}
-
-export function toggleTrackIsMuted(id) {
-  return {
-    type: actionTypes.TOGGLE_TRACK_IS_MUTED,
-    id,
-  };
-}
-
-export function toggleTrackIsSoloing(id) {
-  return {
-    type: actionTypes.TOGGLE_TRACK_IS_SOLOING,
-    id,
-  };
-}
-
-export function updateNotes(notes) {
-  return {
-    type: actionTypes.UPDATE_NOTES,
-    notes,
-  };
-}
-
-export function updateSequences(sequences) {
-  return {
-    type: actionTypes.UPDATE_SEQUENCES,
-    sequences,
-  };
-}
-
-export function updateTrack(track) {
-  return {
-    type: actionTypes.UPDATE_TRACK,
+    type: actionTypes.TRACK_UPDATED,
     track,
   };
 }
 
-export function updateTracks(tracks) {
+export function tracksAdded(tracks) {
   return {
-    type: actionTypes.UPDATE_TRACKS,
+    type: actionTypes.TRACKS_ADDED,
+    tracks,
+  };
+}
+
+export function tracksDeleted(tracks) {
+  return {
+    type: actionTypes.TRACKS_DELETED,
+    tracks,
+  };
+}
+
+export function tracksSet(tracks) {
+  return {
+    type: actionTypes.TRACKS_SET,
+    tracks,
+  };
+}
+
+export function tracksUpdated(tracks) {
+  return {
+    type: actionTypes.TRACKS_UPDATED,
     tracks,
   };
 }

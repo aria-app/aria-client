@@ -7,9 +7,9 @@ export const RulerContainer = connect((state) => ({
   measureCount: song.selectors.getMeasureCount(state),
   playbackState: transport.selectors.getPlaybackState(state),
 }), {
-  extendSong: song.actions.extendSong,
+  extendSong: song.actions.songExtended,
   pause: transport.actions.playbackPaused,
   play: transport.actions.playbackStarted,
   setPosition: transport.actions.transportPositionSet,
-  shortenSong: song.actions.shortenSong,
+  shortenSong: song.actions.songShortened,
 })(Ruler);

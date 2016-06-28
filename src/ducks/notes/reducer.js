@@ -15,8 +15,8 @@ function redos(state = [], action) {
 function selectedIds(state = [], action) {
   switch (action.type) {
     case actionTypes.ALL_NOTES_DESELECTED:
-    case song.actionTypes.DELETE_NOTES:
-    case song.actionTypes.OPEN_SEQUENCE:
+    case song.actionTypes.NOTES_DELETED:
+    case song.actionTypes.SEQUENCE_OPENED:
       return [];
     case actionTypes.NOTE_SELECTED:
       if (action.isAdditive) {

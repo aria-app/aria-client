@@ -11,6 +11,5 @@ export const SongToolbarContainer = connect((state) => ({
   bpmModalOpened: actions.bpmModalOpened,
   pause: transport.actions.playbackPaused,
   play: transport.actions.playbackStarted,
-  setBPM: song.actions.setBPM,
   stop: transport.actions.playbackStopped,
 })(SongToolbar);

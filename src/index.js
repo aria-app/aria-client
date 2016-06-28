@@ -40,7 +40,7 @@ const initialSong = localStorageSong
 //   tracks: initialSong.tracks.ids,
 // });
 
-store.dispatch(song.actions.loadSong(initialSong));
+store.dispatch(song.actions.songLoaded(initialSong));
 
 // whyDidYouUpdate(React, { exclude: /^(Connect|pure|withHandlers|withState)/ });
 

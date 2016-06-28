@@ -7,42 +7,42 @@ const { setAtIds } = shared.helpers;
 
 const dict = (state = {}, action) => {
   switch (action.type) {
-    case actionTypes.ADD_TRACK:
-    case actionTypes.ADD_NEW_TRACK:
-      return setAtIds([action.track], state);
-    case actionTypes.ADD_TRACKS:
-    case actionTypes.UPDATE_TRACKS:
-      return setAtIds(action.tracks, state);
-    case actionTypes.LOAD_SONG:
+    case actionTypes.SONG_LOADED:
       return action.song.tracks.dict;
-    case actionTypes.DELETE_TRACK_BY_ID:
+    case actionTypes.TRACK_ADDED:
+    case actionTypes.NEW_TRACK_ADDED:
+      return setAtIds([action.track], state);
+    case actionTypes.TRACK_DELETED_BY_ID:
       return _.omit(state, action.id);
-    case actionTypes.DELETE_TRACKS:
-      return _.omit(state, _.map(action.tracks, 'id'));
-    case actionTypes.SET_TRACK_SYNTH_TYPE:
+    case actionTypes.TRACK_SYNTH_TYPE_SET:
       return shared.helpers.setAtIds([{
         ...state[action.track.id],
         synthType: action.synthType,
       }], state);
-    case actionTypes.SET_TRACKS:
-      return setAtIds(action.tracks, {});
-    case actionTypes.TOGGLE_TRACK_IS_MUTED:
+    case actionTypes.TRACK_IS_MUTED_TOGGLED:
       return shared.helpers.setAtIds([{
         ...state[action.id],
         isMuted: !state[action.id].isMuted,
         isSoloing: false,
       }], state);
-    case actionTypes.TOGGLE_TRACK_IS_SOLOING:
+    case actionTypes.TRACK_IS_SOLOING_TOGGLED:
       return shared.helpers.setAtIds([{
         ...state[action.id],
         isSoloing: !state[action.id].isSoloing,
         isMuted: false,
       }], state);
-    case actionTypes.UPDATE_TRACK:
+    case actionTypes.TRACK_UPDATED:
       return {
         ...state,
         [action.track.id]: action.track,
       };
+    case actionTypes.TRACKS_ADDED:
+    case actionTypes.TRACKS_UPDATED:
+      return setAtIds(action.tracks, state);
+    case actionTypes.TRACKS_DELETED:
+      return _.omit(state, _.map(action.tracks, 'id'));
+    case actionTypes.TRACKS_SET:
+      return setAtIds(action.tracks, {});
     default:
       return state;
   }
@@ -50,21 +50,21 @@ const dict = (state = {}, action) => {
 
 const ids = (state = [], action) => {
   switch (action.type) {
-    case actionTypes.ADD_NEW_TRACK:
+    case actionTypes.NEW_TRACK_ADDED:
       return [
         ...state,
         action.track.id,
       ];
-    case actionTypes.ADD_TRACKS:
+    case actionTypes.SONG_LOADED:
+      return action.song.tracks.ids;
+    case actionTypes.TRACK_DELETED_BY_ID:
+      return _.without(state, action.id);
+    case actionTypes.TRACKS_ADDED:
       return [
         ...state,
         ..._.map(action.tracks, 'id'),
       ];
-    case actionTypes.DELETE_TRACK_BY_ID:
-      return _.without(state, action.id);
-    case actionTypes.LOAD_SONG:
-      return action.song.tracks.ids;
-    case actionTypes.SET_TRACKS:
+    case actionTypes.TRACKS_SET:
       return _.map(action.tracks, 'id');
     default:
       return state;
