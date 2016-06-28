@@ -2,8 +2,8 @@ import React from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import shared from 'ducks/shared';
-import { GridContainer } from '../grid-container/grid-container';
-import { KeysContainer } from '../keys-container/keys-container';
+import { GridContainer } from '../grid/grid-container';
+import { KeysContainer } from '../keys/keys-container';
 import './sequencer.scss';
 
 const { DropdownList, IconButton, Toolbar } = shared.components;

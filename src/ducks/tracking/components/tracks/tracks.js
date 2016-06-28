@@ -3,7 +3,7 @@ import React from 'react';
 import h from 'react-hyperscript';
 import { compose, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import shared from 'ducks/shared';
-import { RulerContainer } from '../ruler-container/ruler-container';
+import { RulerContainer } from '../ruler/ruler-container';
 import { Track } from '../track/track';
 import './tracks.scss';
 

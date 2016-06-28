@@ -6,8 +6,8 @@ import shared from 'ducks/shared';
 import {
   SequencerTimelineContainer,
 } from '../sequencer-timeline-container/sequencer-timeline-container';
-import { NotesContainer } from '../notes-container/notes-container';
-import { SlotsContainer } from '../slots-container/slots-container';
+import { NotesContainer } from '../notes/notes-container';
+import { SlotsContainer } from '../slots/slots-container';
 import * as helpers from '../../helpers';
 import './grid.scss';
 
