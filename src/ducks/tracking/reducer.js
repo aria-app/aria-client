@@ -4,7 +4,7 @@ import * as actionTypes from './action-types';
 
 function redos(state = [], action) {
   switch (action.type) {
-    case actionTypes.SET_REDOS:
+    case actionTypes.REDOS_SET:
       return action.redos;
     default:
       return state;
@@ -13,11 +13,11 @@ function redos(state = [], action) {
 
 const selectedSequenceId = (state = '', action) => {
   switch (action.type) {
-    case actionTypes.DELETE_SEQUENCE:
-    case actionTypes.DESELECT_SEQUENCE:
+    case actionTypes.SEQUENCE_DELETED:
+    case actionTypes.SEQUENCE_DESELECTED:
     case song.actionTypes.OPEN_SEQUENCE:
       return '';
-    case actionTypes.SELECT_SEQUENCE:
+    case actionTypes.SEQUENCE_SELECTED:
       return action.id;
     default:
       return state;
@@ -37,7 +37,7 @@ const stagedTrackId = (state = '', action) => {
 
 function undos(state = [], action) {
   switch (action.type) {
-    case actionTypes.SET_UNDOS:
+    case actionTypes.UNDOS_SET:
       return action.undos;
     default:
       return state;

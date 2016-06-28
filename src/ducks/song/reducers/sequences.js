@@ -27,7 +27,7 @@ const dict = (state = {}, action) => {
       return setAtIds([{
         ...action.sequence,
         position: action.sequence.position === 0
-          ? 1
+          ? 0
           : action.sequence.position - 1,
       }], state);
     case actionTypes.MOVE_SEQUENCE_RIGHT:

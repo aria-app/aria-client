@@ -7,10 +7,10 @@ import * as selectors from '../../selectors';
 export const TrackerToolbarContainer = connect((state) => ({
   selectedSequence: selectors.getSelectedSequence(state),
 }), {
-  deleteSequence: actions.deleteSequence,
-  extendSequence: actions.extendSequence,
-  moveSequenceLeft: actions.moveSequenceLeft,
-  moveSequenceRight: actions.moveSequenceRight,
+  deleteSequence: actions.sequenceDeleted,
+  extendSequence: actions.sequenceExtended,
+  moveSequenceLeft: actions.sequenceNudgedLeft,
+  moveSequenceRight: actions.sequenceNudgedRight,
   openSequence: song.actions.openSequence,
-  shortenSequence: actions.shortenSequence,
+  shortenSequence: actions.sequenceShortened,
 })(TrackerToolbar);

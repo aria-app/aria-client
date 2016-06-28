@@ -1,79 +1,60 @@
 import * as actionTypes from './action-types';
 
-export const addNewTrack = () => ({
-  type: actionTypes.ADD_NEW_TRACK,
+export const newTrackAdded = () => ({
+  type: actionTypes.NEW_TRACK_ADDED,
 });
 
-export const addSequenceToTrack = (track, position) => ({
-  type: actionTypes.ADD_SEQUENCE_TO_TRACK,
+export const redoPopped = () => ({
+  type: actionTypes.REDO_POPPED,
+});
+
+export const redoPushed = () => ({
+  type: actionTypes.REDO_PUSHED,
+});
+
+export const redosSet = (redos) => ({
+  type: actionTypes.REDOS_SET,
+  redos,
+});
+
+export const sequenceAddedToTrack = (track, position) => ({
+  type: actionTypes.SEQUENCE_ADDED_TO_TRACK,
   track,
   position,
 });
 
-export const deleteSequence = (sequence) => ({
-  type: actionTypes.DELETE_SEQUENCE,
+export const sequenceDeleted = (sequence) => ({
+  type: actionTypes.SEQUENCE_DELETED,
   sequence,
 });
 
-export const deselectSequence = () => ({
-  type: actionTypes.DESELECT_SEQUENCE,
+export const sequenceDeselected = () => ({
+  type: actionTypes.SEQUENCE_DESELECTED,
 });
 
-export const extendSequence = (sequence) => ({
-  type: actionTypes.EXTEND_SEQUENCE,
+export const sequenceExtended = (sequence) => ({
+  type: actionTypes.SEQUENCE_EXTENDED,
   sequence,
 });
 
-export const moveSequenceLeft = (sequence) => ({
-  type: actionTypes.MOVE_SEQUENCE_LEFT,
+export const sequenceNudgedLeft = (sequence) => ({
+  type: actionTypes.SEQUENCE_NUDGED_LEFT,
   sequence,
 });
 
-export const moveSequenceRight = (sequence) => ({
-  type: actionTypes.MOVE_SEQUENCE_RIGHT,
+export const sequenceNudgedRight = (sequence) => ({
+  type: actionTypes.SEQUENCE_NUDGED_RIGHT,
   sequence,
 });
 
-export const pushRedo = () => ({
-  type: actionTypes.PUSH_REDO,
-});
-
-export const pushUndo = () => ({
-  type: actionTypes.PUSH_UNDO,
-});
-
-export const redo = () => ({
-  type: actionTypes.REDO,
-});
-
-export const selectSequence = (id) => ({
-  type: actionTypes.SELECT_SEQUENCE,
+export const sequenceSelected = (id) => ({
+  type: actionTypes.SEQUENCE_SELECTED,
   id,
 });
 
-export const setRedos = (redos) => ({
-  type: actionTypes.SET_REDOS,
-  redos,
-});
-
-export const setUndos = (undos) => ({
-  type: actionTypes.SET_UNDOS,
-  undos,
-});
-
-export const shortenSequence = (sequence) => ({
-  type: actionTypes.SHORTEN_SEQUENCE,
+export const sequenceShortened = (sequence) => ({
+  type: actionTypes.SEQUENCE_SHORTENED,
   sequence,
-});
-
-export const toggleTrackIsMuted = (id) => ({
-  type: actionTypes.TOGGLE_TRACK_IS_MUTED,
-  id,
-});
-
-export const toggleTrackIsSoloing = (id) => ({
-  type: actionTypes.TOGGLE_TRACK_IS_SOLOING,
-  id,
 });
 
 export const trackEditingFinished = () => ({
@@ -85,6 +66,25 @@ export const trackEditingStarted = (id) => ({
   id,
 });
 
-export const undo = () => ({
-  type: actionTypes.UNDO,
+export const trackIsMutedToggled = (id) => ({
+  type: actionTypes.TRACK_IS_MUTED_TOGGLED,
+  id,
+});
+
+export const trackIsSoloingToggled = (id) => ({
+  type: actionTypes.TRACK_IS_SOLOING_TOGGLED,
+  id,
+});
+
+export const undoPopped = () => ({
+  type: actionTypes.UNDO_POPPED,
+});
+
+export const undoPushed = () => ({
+  type: actionTypes.UNDO_PUSHED,
+});
+
+export const undosSet = (undos) => ({
+  type: actionTypes.UNDOS_SET,
+  undos,
 });

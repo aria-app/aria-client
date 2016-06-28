@@ -48,7 +48,7 @@ function* pushRedo() {
   const sequences = yield select(song.selectors.getSequences);
   const tracks = yield select(song.selectors.getTracks);
   const redos = yield select(selectors.getRedos);
-  yield put(actions.setRedos([
+  yield put(actions.redosSet([
     ...redos,
     { sequences, tracks },
   ]));
@@ -65,11 +65,11 @@ function* pushUndo() {
     (_.isEqual(_.last(undos).tracks, tracks))
   ) return;
 
-  yield put(actions.setUndos([
+  yield put(actions.undosSet([
     ...undos,
     { sequences, tracks },
   ]));
-  yield put(actions.setRedos([]));
+  yield put(actions.redosSet([]));
 }
 
 function* redo() {
@@ -83,13 +83,13 @@ function* redo() {
   const tracks = yield select(song.selectors.getTracks);
   const undos = yield select(selectors.getUndos);
 
-  yield put(actions.setUndos([
+  yield put(actions.undosSet([
     ...undos,
     { sequences, tracks },
   ]));
   yield put(song.actions.setSequences(_.last(redos).sequences));
   yield put(song.actions.setTracks(_.last(redos).tracks));
-  yield put(actions.setRedos(redos.slice(0, redos.length - 1)));
+  yield put(actions.redosSet(redos.slice(0, redos.length - 1)));
 }
 
 function* shortenSequence({ sequence }) {
@@ -111,38 +111,38 @@ function* undo() {
 
   if (_.isEmpty(undos)) return;
 
-  yield put(actions.pushRedo());
+  yield put(actions.redoPushed());
   yield put(song.actions.setSequences(_.last(undos).sequences));
   yield put(song.actions.setTracks(_.last(undos).tracks));
-  yield put(actions.setUndos(undos.slice(0, undos.length - 1)));
+  yield put(actions.undosSet(undos.slice(0, undos.length - 1)));
 }
 
 export default function* saga() {
   yield [
     takeEvery([
-      actionTypes.ADD_NEW_TRACK,
-      actionTypes.ADD_SEQUENCE_TO_TRACK,
-      actionTypes.DELETE_SEQUENCE,
-      actionTypes.EXTEND_SEQUENCE,
-      actionTypes.MOVE_SEQUENCE_LEFT,
-      actionTypes.MOVE_SEQUENCE_RIGHT,
-      actionTypes.PUSH_UNDO,
-      actionTypes.SHORTEN_SEQUENCE,
-      actionTypes.TOGGLE_TRACK_IS_MUTED,
-      actionTypes.TOGGLE_TRACK_IS_SOLOING,
+      actionTypes.NEW_TRACK_ADDED,
+      actionTypes.SEQUENCE_ADDED_TO_TRACK,
+      actionTypes.SEQUENCE_DELETED,
+      actionTypes.SEQUENCE_EXTENDED,
+      actionTypes.SEQUENCE_NUDGED_LEFT,
+      actionTypes.SEQUENCE_NUDGED_RIGHT,
+      actionTypes.SEQUENCE_SHORTENED,
+      actionTypes.TRACK_IS_MUTED_TOGGLED,
+      actionTypes.TRACK_IS_SOLOING_TOGGLED,
+      actionTypes.UNDO_PUSHED,
     ], pushUndo),
-    takeEvery(actionTypes.ADD_NEW_TRACK, addNewTrack),
-    takeEvery(actionTypes.ADD_SEQUENCE_TO_TRACK, addSequenceToTrack),
-    takeEvery(actionTypes.DELETE_SEQUENCE, deleteSequence),
-    takeEvery(actionTypes.EXTEND_SEQUENCE, extendSequence),
-    takeEvery(actionTypes.MOVE_SEQUENCE_LEFT, moveSequenceLeft),
-    takeEvery(actionTypes.MOVE_SEQUENCE_RIGHT, moveSequenceRight),
-    takeEvery(actionTypes.PUSH_REDO, pushRedo),
-    takeEvery(actionTypes.REDO, redo),
-    takeEvery(actionTypes.SHORTEN_SEQUENCE, shortenSequence),
-    takeEvery(actionTypes.TOGGLE_TRACK_IS_MUTED, toggleTrackIsMuted),
-    takeEvery(actionTypes.TOGGLE_TRACK_IS_SOLOING, toggleTrackIsSoloing),
-    takeEvery(actionTypes.UNDO, undo),
+    takeEvery(actionTypes.NEW_TRACK_ADDED, addNewTrack),
+    takeEvery(actionTypes.REDO_POPPED, redo),
+    takeEvery(actionTypes.REDO_PUSHED, pushRedo),
+    takeEvery(actionTypes.SEQUENCE_ADDED_TO_TRACK, addSequenceToTrack),
+    takeEvery(actionTypes.SEQUENCE_DELETED, deleteSequence),
+    takeEvery(actionTypes.SEQUENCE_EXTENDED, extendSequence),
+    takeEvery(actionTypes.SEQUENCE_NUDGED_LEFT, moveSequenceLeft),
+    takeEvery(actionTypes.SEQUENCE_NUDGED_RIGHT, moveSequenceRight),
+    takeEvery(actionTypes.SEQUENCE_SHORTENED, shortenSequence),
+    takeEvery(actionTypes.TRACK_IS_MUTED_TOGGLED, toggleTrackIsMuted),
+    takeEvery(actionTypes.TRACK_IS_SOLOING_TOGGLED, toggleTrackIsSoloing),
+    takeEvery(actionTypes.UNDO_POPPED, undo),
     takeEvery(contextMenu.actionTypes.CONTEXT_MENU_ITEM_SELECTED, contextMenuItemSelected),
     takeEvery(shortcuts.actionTypes.REDO, redo),
     takeEvery(shortcuts.actionTypes.UNDO, undo),
