@@ -13,7 +13,7 @@ import * as selectors from './selectors';
 function* start({ isAdditive }) {
   const startPoint = yield select(sequencing.selectors.getMousePoint);
   yield put(actions.newPointSet(startPoint));
-  yield put(actions.setStartPoint(startPoint));
+  yield put(actions.startPointSet(startPoint));
   if (!isAdditive) {
     yield put(notes.actions.notesSelected([]));
   }

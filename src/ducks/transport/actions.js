@@ -12,16 +12,15 @@ export function playbackStarted() {
   };
 }
 
-export function playbackToggled() {
+export function playbackStopped() {
   return {
-    type: actionTypes.PLAYBACK_TOGGLED,
+    type: actionTypes.PLAYBACK_STOPPED,
   };
 }
 
-export function sequenceStepTriggered(payload) {
+export function playbackToggled() {
   return {
-    type: actionTypes.SEQUENCE_STEP_TRIGGERED,
-    payload,
+    type: actionTypes.PLAYBACK_TOGGLED,
   };
 }
 
@@ -36,6 +35,19 @@ export function sequencesSet(sequences) {
   return {
     type: actionTypes.SEQUENCES_SET,
     sequences,
+  };
+}
+
+export function sequenceStepTriggered(payload) {
+  return {
+    type: actionTypes.SEQUENCE_STEP_TRIGGERED,
+    payload,
+  };
+}
+
+export function sequencesUpdated() {
+  return {
+    type: actionTypes.SEQUENCES_UPDATED,
   };
 }
 
@@ -67,21 +79,9 @@ export function startPointSet(startPoint) {
   };
 }
 
-export function playbackStopped() {
-  return {
-    type: actionTypes.PLAYBACK_STOPPED,
-  };
-}
-
 export function transportPositionSet(measures) {
   return {
     type: actionTypes.TRANSPORT_POSITION_SET,
     measures,
-  };
-}
-
-export function sequencesUpdated() {
-  return {
-    type: actionTypes.SEQUENCES_UPDATED,
   };
 }

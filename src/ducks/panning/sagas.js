@@ -8,7 +8,7 @@ import * as selectors from './selectors';
 
 function* start({ e, scrollLeftElement, scrollTopElement }) {
   const startPoint = helpers.getStartPoint(scrollLeftElement, scrollTopElement, e);
-  yield put(actions.setStartPoint(startPoint));
+  yield put(actions.startPointSet(startPoint));
   //eslint-disable-next-line
   while(true) {
     yield call(shared.helpers.resolveOnMouseUp);

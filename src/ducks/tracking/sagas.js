@@ -22,6 +22,7 @@ function* contextMenuItemSelected({ item }) {
 
   switch (item.action) {
     case DELETE_SEQUENCE:
+      yield put(actions.undoPushed());
       return yield put(song.actions.sequenceDeleted(item.sequence));
     default:
       return undefined;

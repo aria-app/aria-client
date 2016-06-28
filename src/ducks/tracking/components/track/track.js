@@ -103,5 +103,5 @@ const composed = compose(
 export const Track = composed;
 
 function getAddPosition(sequences) {
-  return _(sequences).map(s => s.position + s.measureCount).max();
+  return _(sequences).map(s => s.position + s.measureCount).max() || 0;
 }

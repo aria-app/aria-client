@@ -5,13 +5,13 @@ export const newPointSet = (newPoint) => ({
   newPoint,
 });
 
-export const setStartPoint = (startPoint) => ({
-  type: actionTypes.START_POINT_SET,
-  startPoint,
-});
-
 export const started = () => ({
   type: actionTypes.STARTED,
+});
+
+export const startPointSet = (startPoint) => ({
+  type: actionTypes.START_POINT_SET,
+  startPoint,
 });
 
 export const stopped = () => ({

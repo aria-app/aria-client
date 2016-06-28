@@ -70,7 +70,7 @@ function* holdPan({ e }) {
 function* initialize() {
   yield put(actions.shortcutsRegistered(shortcuts));
 
-  //eslint-disable-next-line
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const action = yield call(resolveOnShortcut);
     yield put(action);
