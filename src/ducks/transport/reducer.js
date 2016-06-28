@@ -6,13 +6,13 @@ const { PAUSED, STARTED, STOPPED } = constants.playbackStates;
 
 const playbackState = (state = STOPPED, action) => {
   switch (action.type) {
-    case actionTypes.PAUSE:
+    case actionTypes.PLAYBACK_PAUSED:
       return PAUSED;
-    case actionTypes.PLAY:
+    case actionTypes.PLAYBACK_STARTED:
       return STARTED;
-    case actionTypes.STOPPED:
+    case actionTypes.PLAYBACK_STOPPED:
       return STOPPED;
-    case actionTypes.TOGGLE_PLAY_PAUSE:
+    case actionTypes.PLAYBACK_TOGGLED:
       return state === STARTED ? PAUSED : STARTED;
     default:
       return state;
@@ -21,9 +21,9 @@ const playbackState = (state = STOPPED, action) => {
 
 const position = (state = 0, action) => {
   switch (action.type) {
-    case actionTypes.SET_POSITION:
+    case actionTypes.POSITION_SET:
       return action.position;
-    case actionTypes.STOPPED:
+    case actionTypes.PLAYBACK_STOPPED:
       return '0';
     default:
       return state;
@@ -32,7 +32,7 @@ const position = (state = 0, action) => {
 
 const sequences = (state = [], action) => {
   switch (action.type) {
-    case actionTypes.SET_SEQUENCES:
+    case actionTypes.SEQUENCES_SET:
       return action.sequences;
     default:
       return state;
@@ -41,9 +41,9 @@ const sequences = (state = [], action) => {
 
 const songPosition = (state = 0, action) => {
   switch (action.type) {
-    case actionTypes.SET_SONG_POSITION:
+    case actionTypes.SONG_POSITION_SET:
       return action.position;
-    case actionTypes.STOPPED:
+    case actionTypes.PLAYBACK_STOPPED:
       return '0';
     default:
       return state;
@@ -52,7 +52,7 @@ const songPosition = (state = 0, action) => {
 
 const songSequence = (state = 0, action) => {
   switch (action.type) {
-    case actionTypes.SET_SONG_SEQUENCE:
+    case actionTypes.SONG_SEQUENCE_SET:
       return action.sequence;
     default:
       return state;

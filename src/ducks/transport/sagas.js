@@ -14,7 +14,7 @@ import * as selectors from './selectors';
 const { STARTED } = constants.playbackStates;
 
 function* initialize() {
-  yield put(actions.updateSequences());
+  yield put(actions.sequencesUpdated());
   yield* updateSong();
 }
 
@@ -22,28 +22,28 @@ function* loopSequence() {
   const { measureCount, position } = yield select(song.selectors.getActiveSequence);
   const start = helpers.measuresToSeconds(position);
   const end = helpers.measuresToSeconds(position + measureCount);
-  yield put(actions.setStartPoint(`+${start}`));
+  yield put(actions.startPointSet(`+${start}`));
   Tone.Transport.setLoopPoints(start, end);
   Tone.Transport.loop = true;
   const playbackState = yield select(selectors.getPlaybackState);
-  yield put(actions.stopped());
+  yield put(actions.playbackStopped());
   if (playbackState === STARTED) {
     yield call(() => new Promise(resolve => setTimeout(resolve, 16)));
-    yield put(actions.play());
+    yield put(actions.playbackStarted());
   }
 }
 
 function* loopSong() {
   const songMeasureCount = yield select(song.selectors.getMeasureCount);
   const end = helpers.measuresToSeconds(songMeasureCount);
-  yield put(actions.setStartPoint(0));
+  yield put(actions.startPointSet(0));
   Tone.Transport.setLoopPoints(0, end);
   Tone.Transport.loop = true;
   const playbackState = yield select(selectors.getPlaybackState);
-  yield put(actions.stopped());
+  yield put(actions.playbackStopped());
   if (playbackState === STARTED) {
     yield call(() => new Promise(resolve => setTimeout(resolve, 16)));
-    yield put(actions.play());
+    yield put(actions.playbackStarted());
   }
 }
 
@@ -98,7 +98,7 @@ function* sequenceStep({ payload }) {
 
   if (!isActiveSequence) return;
 
-  yield put(actions.setPosition(step));
+  yield put(actions.positionSet(step));
 }
 
 function* setBPM(action) {
@@ -110,13 +110,13 @@ function* setBPM(action) {
 function* setTransportPosition({ measures }) {
   const position = helpers.measuresToSeconds(measures);
   Tone.Transport.position = position;
-  yield put(actions.setSongPosition(measures * 32));
+  yield put(actions.songPositionSet(measures * 32));
   yield put(playing.actions.releaseAll());
 }
 
 function* songSequenceStep(action) {
   const { step } = action.payload;
-  yield put(actions.setSongPosition(step));
+  yield put(actions.songPositionSet(step));
 }
 
 function* stop() {
@@ -148,10 +148,10 @@ function* updateSong() {
   yield* updateSongSequence();
   yield* loopSong();
   const isPlaying = yield select(selectors.getIsPlaying);
-  yield put(actions.stopped());
+  yield put(actions.playbackStopped());
   if (isPlaying) {
     yield call(() => new Promise(resolve => setTimeout(resolve, 16)));
-    yield put(actions.play());
+    yield put(actions.playbackStarted());
   }
 }
 
@@ -165,15 +165,15 @@ function* updateSongSequence() {
 
 export default function* saga() {
   yield [
-    takeEvery(actionTypes.PLAY, play),
-    takeEvery(actionTypes.PAUSE, pause),
-    takeEvery(actionTypes.SEQUENCE_STEP, sequenceStep),
-    takeEvery(actionTypes.SET_TRANSPORT_POSITION, setTransportPosition),
-    takeEvery(actionTypes.SONG_SEQUENCE_STEP, songSequenceStep),
-    takeEvery(actionTypes.STOPPED, stop),
-    takeEvery(actionTypes.TOGGLE_PLAY_PAUSE, togglePlayPause),
+    takeEvery(actionTypes.PLAYBACK_STARTED, play),
+    takeEvery(actionTypes.PLAYBACK_PAUSED, pause),
+    takeEvery(actionTypes.PLAYBACK_STOPPED, stop),
+    takeEvery(actionTypes.PLAYBACK_TOGGLED, togglePlayPause),
+    takeEvery(actionTypes.SEQUENCE_STEP_TRIGGERED, sequenceStep),
+    takeEvery(actionTypes.SONG_SEQUENCE_STEP_TRIGGERED, songSequenceStep),
+    takeEvery(actionTypes.TRANSPORT_POSITION_SET, setTransportPosition),
     takeEvery([
-      actionTypes.UPDATE_SEQUENCES,
+      actionTypes.SEQUENCES_UPDATED,
       song.actionTypes.ADD_SEQUENCE,
       song.actionTypes.EXTEND_SEQUENCE,
       song.actionTypes.MOVE_SEQUENCE_RIGHT,

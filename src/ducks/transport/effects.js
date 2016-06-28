@@ -9,12 +9,12 @@ export function createSequences() {
     const songSequences = song.selectors.getSequences(getState());
     const sequences = songSequences.map(sequence => createSequence(
       sequence,
-      (time, step) => dispatch(actions.sequenceStep({ sequence, step, time })),
+      (time, step) => dispatch(actions.sequenceStepTriggered({ sequence, step, time })),
       _.range(sequence.measureCount * 32),
       '32n'
     ));
 
-    dispatch(actions.setSequences(sequences));
+    dispatch(actions.sequencesSet(sequences));
   };
 }
 
@@ -22,13 +22,13 @@ export function createSongSequence() {
   return (dispatch, getState) => {
     const measureCount = song.selectors.getMeasureCount(getState());
     const sequence = new Tone.Sequence(
-      (time, step) => dispatch(actions.songSequenceStep({ step, time })),
+      (time, step) => dispatch(actions.songSequenceStepTriggered({ step, time })),
       _.range(measureCount * 32),
       '32n',
     );
     sequence.loop = false;
     sequence.start('0');
-    dispatch(actions.setSongSequence(sequence));
+    dispatch(actions.songSequenceSet(sequence));
   };
 }
 

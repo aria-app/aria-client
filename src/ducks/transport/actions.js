@@ -1,87 +1,87 @@
 import * as actionTypes from './action-types';
 
-export function pause() {
+export function playbackPaused() {
   return {
-    type: actionTypes.PAUSE,
+    type: actionTypes.PLAYBACK_PAUSED,
   };
 }
 
-export function play() {
+export function playbackStarted() {
   return {
-    type: actionTypes.PLAY,
+    type: actionTypes.PLAYBACK_STARTED,
   };
 }
 
-export function sequenceStep(payload) {
+export function playbackToggled() {
   return {
-    type: actionTypes.SEQUENCE_STEP,
+    type: actionTypes.PLAYBACK_TOGGLED,
+  };
+}
+
+export function sequenceStepTriggered(payload) {
+  return {
+    type: actionTypes.SEQUENCE_STEP_TRIGGERED,
     payload,
   };
 }
 
-export function setPosition(position) {
+export function positionSet(position) {
   return {
-    type: actionTypes.SET_POSITION,
+    type: actionTypes.POSITION_SET,
     position,
   };
 }
 
-export function setSequences(sequences) {
+export function sequencesSet(sequences) {
   return {
-    type: actionTypes.SET_SEQUENCES,
+    type: actionTypes.SEQUENCES_SET,
     sequences,
   };
 }
 
-export function setSongPosition(position) {
+export function songPositionSet(position) {
   return {
-    type: actionTypes.SET_SONG_POSITION,
+    type: actionTypes.SONG_POSITION_SET,
     position,
   };
 }
 
-export function setSongSequence(sequence) {
+export function songSequenceSet(sequence) {
   return {
-    type: actionTypes.SET_SONG_SEQUENCE,
+    type: actionTypes.SONG_SEQUENCE_SET,
     sequence,
   };
 }
 
-export function setStartPoint(startPoint) {
+export function songSequenceStepTriggered(payload) {
+  return {
+    type: actionTypes.SONG_SEQUENCE_STEP_TRIGGERED,
+    payload,
+  };
+}
+
+export function startPointSet(startPoint) {
   return {
     type: actionTypes.START_POINT_SET,
     startPoint,
   };
 }
 
-export function setTransportPosition(measures) {
+export function playbackStopped() {
   return {
-    type: actionTypes.SET_TRANSPORT_POSITION,
+    type: actionTypes.PLAYBACK_STOPPED,
+  };
+}
+
+export function transportPositionSet(measures) {
+  return {
+    type: actionTypes.TRANSPORT_POSITION_SET,
     measures,
   };
 }
 
-export function songSequenceStep(payload) {
+export function sequencesUpdated() {
   return {
-    type: actionTypes.SONG_SEQUENCE_STEP,
-    payload,
-  };
-}
-
-export function stopped() {
-  return {
-    type: actionTypes.STOPPED,
-  };
-}
-
-export function togglePlayPause() {
-  return {
-    type: actionTypes.TOGGLE_PLAY_PAUSE,
-  };
-}
-
-export function updateSequences() {
-  return {
-    type: actionTypes.UPDATE_SEQUENCES,
+    type: actionTypes.SEQUENCES_UPDATED,
   };
 }

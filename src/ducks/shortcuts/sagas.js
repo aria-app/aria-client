@@ -33,8 +33,8 @@ const shortcuts = [
   [{ type: actionTypes.UNDO }, ['ctrl+z', 'meta+z']],
 
   // Playback
-  [transport.actions.togglePlayPause(), ['enter']],
-  [transport.actions.stopped(), ['escape']],
+  [transport.actions.playbackStopped(), ['escape']],
+  [transport.actions.playbackToggled(), ['enter']],
 
   // Tools
   [actions.activateTool(shared.constants.toolTypes.DRAW), ['d']],

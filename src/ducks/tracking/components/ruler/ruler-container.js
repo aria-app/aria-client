@@ -8,8 +8,8 @@ export const RulerContainer = connect((state) => ({
   playbackState: transport.selectors.getPlaybackState(state),
 }), {
   extendSong: song.actions.extendSong,
-  pause: transport.actions.pause,
-  play: transport.actions.play,
-  setPosition: transport.actions.setTransportPosition,
+  pause: transport.actions.playbackPaused,
+  play: transport.actions.playbackStarted,
+  setPosition: transport.actions.transportPositionSet,
   shortenSong: song.actions.shortenSong,
 })(Ruler);
