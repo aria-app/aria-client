@@ -5,6 +5,21 @@ export const mouseMoved = (point) => ({
   point,
 });
 
+export const mousePointSet = (point) => ({
+  type: actionTypes.MOUSE_POINT_SET,
+  point,
+});
+
+export const scrollLeftSet = (scrollLeft) => ({
+  type: actionTypes.SCROLL_LEFT_SET,
+  scrollLeft,
+});
+
+export const scrollTopSet = (scrollTop) => ({
+  type: actionTypes.SCROLL_TOP_SET,
+  scrollTop,
+});
+
 export const scrolledHorizontally = (scrollLeft) => ({
   type: actionTypes.SCROLLED_HORIZONTALLY,
   scrollLeft,
@@ -15,28 +30,13 @@ export const scrolledVertically = (scrollTop) => ({
   scrollTop,
 });
 
-export const setMousePoint = (point) => ({
-  type: actionTypes.SET_MOUSE_POINT,
-  point,
-});
-
-export const setScrollLeft = (scrollLeft) => ({
-  type: actionTypes.SET_SCROLL_LEFT,
-  scrollLeft,
-});
-
-export const setScrollTop = (scrollTop) => ({
-  type: actionTypes.SET_SCROLL_TOP,
-  scrollTop,
-});
-
-export const setToolType = (toolType, previousToolType) => ({
-  type: actionTypes.SET_TOOL_TYPE,
-  previousToolType,
+export const toolSelected = (toolType) => ({
+  type: actionTypes.TOOL_SELECTED,
   toolType,
 });
 
-export const selectTool = (toolType) => ({
-  type: actionTypes.SELECT_TOOL,
+export const toolTypeSet = (toolType, previousToolType) => ({
+  type: actionTypes.TOOL_TYPE_SET,
+  previousToolType,
   toolType,
 });

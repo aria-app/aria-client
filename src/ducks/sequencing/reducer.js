@@ -6,7 +6,7 @@ const { defaultToolType } = shared.constants;
 
 const mousePoint = (state = {}, action) => {
   switch (action.type) {
-    case actionTypes.SET_MOUSE_POINT:
+    case actionTypes.MOUSE_POINT_SET:
       return action.point;
     default:
       return state;
@@ -15,7 +15,7 @@ const mousePoint = (state = {}, action) => {
 
 const previousToolType = (state = '', action) => {
   switch (action.type) {
-    case actionTypes.SET_TOOL_TYPE:
+    case actionTypes.TOOL_TYPE_SET:
       return action.previousToolType;
     default:
       return state;
@@ -24,7 +24,7 @@ const previousToolType = (state = '', action) => {
 
 const scrollLeft = (state = 0, action) => {
   switch (action.type) {
-    case actionTypes.SET_SCROLL_LEFT:
+    case actionTypes.SCROLL_LEFT_SET:
       return action.scrollLeft;
     default:
       return state;
@@ -33,7 +33,7 @@ const scrollLeft = (state = 0, action) => {
 
 const scrollTop = (state = 0, action) => {
   switch (action.type) {
-    case actionTypes.SET_SCROLL_TOP:
+    case actionTypes.SCROLL_TOP_SET:
       return action.scrollTop;
     default:
       return state;
@@ -42,7 +42,7 @@ const scrollTop = (state = 0, action) => {
 
 const toolType = (state = defaultToolType, action) => {
   switch (action.type) {
-    case actionTypes.SET_TOOL_TYPE:
+    case actionTypes.TOOL_TYPE_SET:
       return action.toolType;
     default:
       return state;

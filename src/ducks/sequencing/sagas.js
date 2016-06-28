@@ -14,7 +14,7 @@ function* handleToolTypeSelected({ toolType }) {
   if (_.includes([toolTypes.DRAW, toolTypes.ERASE], toolType)) {
     yield put(notes.actions.allNotesDeselected());
   }
-  yield put(actions.setToolType(toolType, previousToolType));
+  yield put(actions.toolTypeSet(toolType, previousToolType));
 }
 
 function* setMousePointIfChanged({ point }) {
@@ -22,7 +22,7 @@ function* setMousePointIfChanged({ point }) {
 
   if (point === prevMousePoint) return;
 
-  yield put(actions.setMousePoint(point));
+  yield put(actions.mousePointSet(point));
 }
 
 function* setScrollLeftIfChanged({ scrollLeft }) {
@@ -30,7 +30,7 @@ function* setScrollLeftIfChanged({ scrollLeft }) {
 
   if (scrollLeft === prevScrollLeft) return;
 
-  yield put(actions.setScrollLeft(scrollLeft));
+  yield put(actions.scrollLeftSet(scrollLeft));
 }
 
 function* setScrollTopIfChanged({ scrollTop }) {
@@ -38,7 +38,7 @@ function* setScrollTopIfChanged({ scrollTop }) {
 
   if (scrollTop === prevScrollTop) return;
 
-  yield put(actions.setScrollTop(scrollTop));
+  yield put(actions.scrollTopSet(scrollTop));
 }
 
 export default function* saga() {
@@ -46,6 +46,6 @@ export default function* saga() {
     takeEvery(actionTypes.MOUSE_MOVED, setMousePointIfChanged),
     takeEvery(actionTypes.SCROLLED_HORIZONTALLY, setScrollLeftIfChanged),
     takeEvery(actionTypes.SCROLLED_VERTICALLY, setScrollTopIfChanged),
-    takeEvery(actionTypes.SELECT_TOOL, handleToolTypeSelected),
+    takeEvery(actionTypes.TOOL_SELECTED, handleToolTypeSelected),
   ];
 }

@@ -15,7 +15,7 @@ export const SequencerContainer = connect((state) => ({
   removeSelected: notes.actions.selectedNotesRemoved,
   resizeSelected: notes.actions.selectedNotesResized,
   scrolledVertically: actions.scrolledVertically,
-  selectTool: actions.selectTool,
+  selectTool: actions.toolSelected,
   shiftDownOctave: notes.actions.selectedNotesMovedOctaveDown,
   shiftUpOctave: notes.actions.selectedNotesMovedOctaveUp,
 })(Sequencer);

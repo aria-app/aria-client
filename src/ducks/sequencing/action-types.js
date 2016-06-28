@@ -1,10 +1,10 @@
 import { NAME } from './constants';
 
 export const MOUSE_MOVED = `${NAME}/MOUSE_MOVED`;
+export const MOUSE_POINT_SET = `${NAME}/MOUSE_POINT_SET`;
+export const SCROLL_LEFT_SET = `${NAME}/SCROLL_LEFT_SET`;
+export const SCROLL_TOP_SET = `${NAME}/SCROLL_TOP_SET`;
 export const SCROLLED_HORIZONTALLY = `${NAME}/SCROLLED_HORIZONTALLY`;
 export const SCROLLED_VERTICALLY = `${NAME}/SCROLLED_VERTICALLY`;
-export const SET_MOUSE_POINT = `${NAME}/SET_MOUSE_POINT`;
-export const SET_SCROLL_LEFT = `${NAME}/SET_SCROLL_LEFT`;
-export const SET_SCROLL_TOP = `${NAME}/SET_SCROLL_TOP`;
-export const SET_TOOL_TYPE = `${NAME}/SET_TOOL_TYPE`;
-export const SELECT_TOOL = `${NAME}/SELECT_TOOL`;
+export const TOOL_SELECTED = `${NAME}/TOOL_SELECTED`;
+export const TOOL_TYPE_SET = `${NAME}/TOOL_TYPE_SET`;

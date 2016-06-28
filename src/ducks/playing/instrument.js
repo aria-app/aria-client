@@ -93,6 +93,6 @@ function createSynths(type) {
 function createSynth(type) {
   return new Tone.SimpleSynth({
     oscillator: { type },
-    volume: -5,
+    volume: -20,
   }).toMaster();
 }
