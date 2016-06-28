@@ -12,7 +12,7 @@ const { toolTypes } = shared.constants;
 function* handleToolTypeSelected({ toolType }) {
   const previousToolType = yield select(selectors.getToolType);
   if (_.includes([toolTypes.DRAW, toolTypes.ERASE], toolType)) {
-    yield put(notes.actions.deselectAll());
+    yield put(notes.actions.allNotesDeselected());
   }
   yield put(actions.setToolType(toolType, previousToolType));
 }

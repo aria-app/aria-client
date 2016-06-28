@@ -11,7 +11,7 @@ import * as selectors from './selectors';
 
 function* start() {
   const startPoint = yield select(sequencing.selectors.getMousePoint);
-  yield put(notes.actions.pushUndo());
+  yield put(notes.actions.undoPushed());
   yield put(actions.newPointSet(startPoint));
   let started = true;
   while (started) {

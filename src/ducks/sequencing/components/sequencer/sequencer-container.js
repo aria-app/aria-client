@@ -11,11 +11,11 @@ export const SequencerContainer = connect((state) => ({
   toolType: selectors.getToolType(state),
 }), {
   closeSequence: song.actions.closeSequence,
-  duplicate: notes.actions.duplicate,
-  removeSelected: notes.actions.removeSelected,
-  resizeSelected: notes.actions.resizeSelected,
+  duplicate: notes.actions.notesDuplicated,
+  removeSelected: notes.actions.selectedNotesRemoved,
+  resizeSelected: notes.actions.selectedNotesResized,
   scrolledVertically: actions.scrolledVertically,
   selectTool: actions.selectTool,
-  shiftDownOctave: notes.actions.shiftDownOctave,
-  shiftUpOctave: notes.actions.shiftUpOctave,
+  shiftDownOctave: notes.actions.selectedNotesMovedOctaveDown,
+  shiftUpOctave: notes.actions.selectedNotesMovedOctaveUp,
 })(Sequencer);

@@ -1,113 +1,113 @@
 import * as actionTypes from './action-types';
 
+export const allNotesDeselected = () => ({
+  type: actionTypes.ALL_NOTES_DESELECTED,
+});
+
+export const allNotesSelected = () => ({
+  type: actionTypes.ALL_NOTES_SELECTED,
+});
+
+export const noteDrawn = () => ({
+  type: actionTypes.NOTE_DRAWN,
+});
+
+export const notesDuplicated = () => ({
+  type: actionTypes.NOTES_DUPLICATED,
+});
+
+export const noteErased = (note) => ({
+  type: actionTypes.NOTE_ERASED,
+  note,
+});
+
+export const notesMoved = (notes, offset) => ({
+  type: actionTypes.NOTES_MOVED,
+  notes,
+  offset,
+});
+
+export const selectedNotesMoved = (offset) => ({
+  type: actionTypes.SELECTED_NOTES_MOVED,
+  offset,
+});
+
+export const selectedNotesPositionNudged = (change) => ({
+  type: actionTypes.SELECTED_NOTES_POSITION_NUDGED,
+  change,
+});
+
 export const selectedNotesSizeChanged = (change) => ({
   type: actionTypes.SELECTED_NOTES_SIZE_CHANGED,
   change,
 });
 
-export const deselectAll = () => ({
-  type: actionTypes.DESELECT_ALL,
-});
-
-export const draw = () => ({
-  type: actionTypes.DRAW,
-});
-
-export const duplicate = () => ({
-  type: actionTypes.DUPLICATE,
-});
-
-export const erase = (note) => ({
-  type: actionTypes.ERASE,
-  note,
-});
-
-export const move = (notes, offset) => ({
-  type: actionTypes.MOVE,
-  notes,
-  offset,
-});
-
-export const moveSelected = (offset) => ({
-  type: actionTypes.MOVE_SELECTED,
-  offset,
-});
-
-export const nudgeSelectedNotesPosition = (change) => ({
-  type: actionTypes.NUDGE_SELECTED_NOTES_POSITION,
+export const selectedNotesSizeNudged = (change) => ({
+  type: actionTypes.SELECTED_NOTES_SIZE_NUDGED,
   change,
 });
 
-export const nudgeSelectedNotesSize = (change) => ({
-  type: actionTypes.NUDGE_SELECTED_NOTES_SIZE,
-  change,
+export const redoPopped = () => ({
+  type: actionTypes.REDO_POPPED,
 });
 
-export const pushRedo = () => ({
-  type: actionTypes.PUSH_REDO,
+export const redoPushed = () => ({
+  type: actionTypes.REDO_PUSHED,
 });
 
-export const pushUndo = () => ({
-  type: actionTypes.PUSH_UNDO,
+export const undoPushed = () => ({
+  type: actionTypes.UNDO_PUSHED,
 });
 
-export const redo = () => ({
-  type: actionTypes.REDO,
-});
-
-export const remove = (notes) => ({
-  type: actionTypes.REMOVE,
+export const notesRemoved = (notes) => ({
+  type: actionTypes.NOTES_REMOVED,
   notes,
 });
 
-export const removeSelected = () => ({
-  type: actionTypes.REMOVE_SELECTED,
+export const selectedNotesRemoved = () => ({
+  type: actionTypes.SELECTED_NOTES_REMOVED,
 });
 
-export const resize = (notes, change) => ({
-  type: actionTypes.RESIZE,
+export const selectedNotesMovedOctaveDown = () => ({
+  type: actionTypes.SELECTED_NOTES_MOVED_OCTAVE_DOWN,
+});
+
+export const selectedNotesMovedOctaveUp = () => ({
+  type: actionTypes.SELECTED_NOTES_MOVED_OCTAVE_UP,
+});
+
+export const notesResized = (notes, change) => ({
+  type: actionTypes.NOTES_RESIZED,
   notes,
   change,
 });
 
-export const resizeSelected = (size) => ({
-  type: actionTypes.RESIZE_SELECTED,
+export const selectedNotesResized = (size) => ({
+  type: actionTypes.SELECTED_NOTES_RESIZED,
   size,
 });
 
-export const selectAll = () => ({
-  type: actionTypes.SELECT_ALL,
-});
-
-export const selectNote = (note, isAdditive) => ({
-  type: actionTypes.SELECT_NOTE,
+export const noteSelected = (note, isAdditive) => ({
+  type: actionTypes.NOTE_SELECTED,
   note,
   isAdditive,
 });
 
-export const selectNotes = (notes) => ({
-  type: actionTypes.SELECT_NOTES,
+export const notesSelected = (notes) => ({
+  type: actionTypes.NOTES_SELECTED,
   notes,
 });
 
-export const setRedos = (redos) => ({
-  type: actionTypes.SET_REDOS,
+export const redosSet = (redos) => ({
+  type: actionTypes.REDOS_SET,
   redos,
 });
 
-export const setUndos = (undos) => ({
-  type: actionTypes.SET_UNDOS,
+export const undosSet = (undos) => ({
+  type: actionTypes.UNDOS_SET,
   undos,
 });
 
-export const shiftDownOctave = () => ({
-  type: actionTypes.SHIFT_DOWN_OCTAVE,
-});
-
-export const shiftUpOctave = () => ({
-  type: actionTypes.SHIFT_UP_OCTAVE,
-});
-
-export const undo = () => ({
-  type: actionTypes.UNDO,
+export const undoPopped = () => ({
+  type: actionTypes.UNDO_POPPED,
 });

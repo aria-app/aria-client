@@ -5,7 +5,7 @@ import * as actionTypes from './action-types';
 
 function redos(state = [], action) {
   switch (action.type) {
-    case actionTypes.SET_REDOS:
+    case actionTypes.REDOS_SET:
       return action.redos;
     default:
       return state;
@@ -14,11 +14,11 @@ function redos(state = [], action) {
 
 function selectedIds(state = [], action) {
   switch (action.type) {
-    case actionTypes.DESELECT_ALL:
+    case actionTypes.ALL_NOTES_DESELECTED:
     case song.actionTypes.DELETE_NOTES:
     case song.actionTypes.OPEN_SEQUENCE:
       return [];
-    case actionTypes.SELECT_NOTE:
+    case actionTypes.NOTE_SELECTED:
       if (action.isAdditive) {
         return _.includes(state, action.note.id)
           ? _.without(state, action.note.id)
@@ -27,7 +27,7 @@ function selectedIds(state = [], action) {
       return !_.includes(state, action.note.id)
         ? [action.note.id]
         : state;
-    case actionTypes.SELECT_NOTES:
+    case actionTypes.NOTES_SELECTED:
       return _.map(action.notes, 'id');
     default:
       return state;
@@ -36,7 +36,7 @@ function selectedIds(state = [], action) {
 
 function undos(state = [], action) {
   switch (action.type) {
-    case actionTypes.SET_UNDOS:
+    case actionTypes.UNDOS_SET:
       return action.undos;
     default:
       return state;

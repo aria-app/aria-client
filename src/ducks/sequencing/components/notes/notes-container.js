@@ -19,10 +19,10 @@ export const NotesContainer = connect((state) => ({
   notes: song.selectors.getActiveSequenceNotes(state),
   selectedNotes: notes.selectors.getSelectedNotes(state),
 }), {
-  draw: notes.actions.draw,
-  erase: notes.actions.erase,
+  draw: notes.actions.noteDrawn,
+  erase: notes.actions.noteErased,
   previewNote: playing.actions.previewNote,
-  selectNote: notes.actions.selectNote,
+  selectNote: notes.actions.noteSelected,
   startMoving: moving.actions.started,
   startResizing: resizing.actions.started,
   startSelecting: selecting.actions.started,

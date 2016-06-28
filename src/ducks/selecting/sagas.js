@@ -15,7 +15,7 @@ function* start({ isAdditive }) {
   yield put(actions.newPointSet(startPoint));
   yield put(actions.setStartPoint(startPoint));
   if (!isAdditive) {
-    yield put(notes.actions.selectNotes([]));
+    yield put(notes.actions.notesSelected([]));
   }
   //eslint-disable-next-line
   while(true) {
@@ -44,12 +44,12 @@ function* update({ isAdditive }) {
   }
 
   if (isAdditive) {
-    yield put(notes.actions.selectNotes([
+    yield put(notes.actions.notesSelected([
       ...selectedNotes,
       ...notesToSelect,
     ]));
   } else {
-    yield put(notes.actions.selectNotes(notesToSelect));
+    yield put(notes.actions.notesSelected(notesToSelect));
   }
 
   yield put(actions.newPointSet(newPoint));

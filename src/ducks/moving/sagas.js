@@ -25,7 +25,7 @@ function* update() {
   const previousPoint = yield select(selectors.getNewPoint);
 
   if (_.isEmpty(previousPoint)) {
-    yield put(notes.actions.pushUndo());
+    yield put(notes.actions.undoPushed());
     yield put(actions.newPointSet(newPoint));
     return;
   }
@@ -34,7 +34,7 @@ function* update() {
 
   const offset = helpers.getPointOffset(previousPoint, newPoint);
 
-  yield put(notes.actions.moveSelected(offset));
+  yield put(notes.actions.selectedNotesMoved(offset));
 
   yield put(actions.newPointSet(newPoint));
 }
