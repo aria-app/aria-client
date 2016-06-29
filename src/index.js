@@ -1,6 +1,5 @@
 import 'babel-polyfill';
 import React from 'react';
-// import whyDidYouUpdate from 'why-did-you-update';
 import { render } from 'react-dom';
 import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -34,15 +33,8 @@ const initialSong = localStorageSong
   ? JSON.parse(localStorageSong)
   : sampleSong;
 
-// console.log(localStorageSong ? 'Loaded Song' : 'Sample Song');
-// console.log({
-//   sequences: initialSong.sequences.ids,
-//   tracks: initialSong.tracks.ids,
-// });
-
 store.dispatch(song.actions.songLoaded(initialSong));
 
-// whyDidYouUpdate(React, { exclude: /^(Connect|pure|withHandlers|withState)/ });
 
 render(
   React.createElement(Provider, {
