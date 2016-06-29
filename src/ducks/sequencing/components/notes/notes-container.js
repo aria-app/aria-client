@@ -9,7 +9,7 @@ import selecting from 'ducks/selecting';
 import song from 'ducks/song';
 import * as selectors from '../../selectors';
 
-export const NotesContainer = connect((state) => ({
+export const NotesContainer = connect(state => ({
   isMoving: moving.selectors.getIsMoving(state),
   isPanning: panning.selectors.getIsPanning(state),
   isResizing: resizing.selectors.getIsResizing(state),

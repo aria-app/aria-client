@@ -4,7 +4,7 @@ import song from 'ducks/song';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 
-export const BPMModalContainer = connect((state) => ({
+export const BPMModalContainer = connect(state => ({
   BPM: song.selectors.getBPM(state),
   isOpen: selectors.getIsBPMModalOpen(state),
 }), {

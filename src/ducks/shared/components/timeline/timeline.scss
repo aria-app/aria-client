@@ -6,7 +6,7 @@ $timeline__opacity: 0.25;
 
 .timeline {
   display: block;
-  width: timeline__width;
+  width: $timeline__width;
   position: absolute;
   top: 0;
   left: 0;

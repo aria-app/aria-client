@@ -5,7 +5,7 @@ import song from 'ducks/song';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 
-export const GridContainer = connect((state) => ({
+export const GridContainer = connect(state => ({
   isPanning: panning.selectors.getIsPanning(state),
   measureCount: song.selectors.getActiveSequenceMeasureCount(state),
   toolType: selectors.getToolType(state),

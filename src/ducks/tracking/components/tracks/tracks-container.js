@@ -5,7 +5,7 @@ import { Tracks } from '../tracks/tracks';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 
-export const TracksContainer = connect((state) => ({
+export const TracksContainer = connect(state => ({
   mutedTrackIds: song.selectors.getMutedTrackIds(state),
   soloingTrackIds: song.selectors.getSoloingTrackIds(state),
   selectedSequenceId: selectors.getSelectedSequenceId(state),

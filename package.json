@@ -55,7 +55,6 @@
     "redux": "3.4.0",
     "redux-saga": "^0.10.4",
     "redux-thunk": "2.0.1",
-    "reselect": "^2.5.1",
     "tone": "0.6.1"
   }
 }

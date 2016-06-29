@@ -5,7 +5,7 @@ import song from 'ducks/song';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 
-export const SequencerContainer = connect((state) => ({
+export const SequencerContainer = connect(state => ({
   activeSequenceId: song.selectors.getActiveSequenceId(state),
   isSelectingActive: notes.selectors.getIsSelectingActive(state),
   toolType: selectors.getToolType(state),

@@ -4,7 +4,7 @@ import song from 'ducks/song';
 import transport from 'ducks/transport';
 import * as actions from '../../actions';
 
-export const SongToolbarContainer = connect((state) => ({
+export const SongToolbarContainer = connect(state => ({
   BPM: song.selectors.getBPM(state),
   playbackState: transport.selectors.getPlaybackState(state),
 }), {

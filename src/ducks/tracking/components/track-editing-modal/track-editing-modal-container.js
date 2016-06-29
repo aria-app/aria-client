@@ -4,7 +4,7 @@ import song from 'ducks/song';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 
-export const TrackEditingModalContainer = connect((state) => ({
+export const TrackEditingModalContainer = connect(state => ({
   stagedTrack: selectors.getStagedTrack(state),
 }), {
   delete: song.actions.tracksDeleted,
