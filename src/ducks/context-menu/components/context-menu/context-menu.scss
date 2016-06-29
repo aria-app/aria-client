@@ -4,6 +4,8 @@
 $context-menu__z-index: 500;
 $context-menu__background-color: $neutral-8;
 $context-menu__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+$context-menu__popup__width: 202px;
+$context-menu__popup__border-radius: 2px;
 $context-menu__popup__list__padding: $margin-s;
 $context-menu__popup__item__height: 48px;
 $context-menu__popup__item__padding: $margin-s;
@@ -23,13 +25,13 @@ $context-menu__popup__item__icon__margin-right: $margin-s;
     overflow: hidden;
   }
   &__popup {
-    width: 202px;
+    width: $context-menu__popup__width;
     position: absolute;
     top: 0;
     left: 0;
     z-index: $context-menu__z-index;
     background-color: $context-menu__background-color;
-    border-radius: 2px;
+    border-radius: $context-menu__popup__border-radius;
     box-shadow: $context-menu__box-shadow;
     overflow: hidden;
     &__list {

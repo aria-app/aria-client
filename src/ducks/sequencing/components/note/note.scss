@@ -9,6 +9,10 @@ $note__point__fill__border-radius: 20%;
 $note__point__fill__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 $note__point__fill--active__background-color: $accent-6;
 $note__point__fill--z-index: 150;
+$note__point-connector__width: 1px;
+$note__point-connector__height: 12px;
+$note__point-connector__top: 14px;
+$note__point-connector__left: 20px;
 $note__point-connector__background-color: $color-primary;
 $note__point-connector__background-color--hover: $primary-7;
 $note__point-connector--active__background-color: $accent-6;
@@ -43,11 +47,11 @@ $note__point-connector--z-index--active: 200;
     }
   }
   &__point-connector {
-    width: 1px;
-    height: 12px;
+    width: $note__point-connector__width;
+    height: $note__point-connector__height;
     position: absolute;
-    top: 14px;
-    left: 20px;
+    top: $note__point-connector__top;
+    left: $note__point-connector__left;
     z-index: $note__point-connector--z-index;
     background-color: $note__point-connector__background-color;
     transition: background-color 0.1s ease;

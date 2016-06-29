@@ -15,7 +15,13 @@ $ruler__measure__padding: 0 4px;
 $ruler__measure__color: $neutral-5;
 $ruler__measure__border-left: 1px solid $neutral-5;
 $ruler__measure__font-size: 0.75em;
+$ruler__measure__eighth__width: 1px;
+$ruler__measure__eighth__height: 8px;
+$ruler__measure__eighth__background-color: $neutral-4;
+$ruler__song-length-button__width: 84px;
+$ruler__song-length-button__height: 42px;
 $ruler__song-length-button__border: 1px solid $neutral-3;
+$ruler__song-length-button__border-radius: 2px;
 $ruler__song-length-button__side__color: $neutral-3;
 $ruler__song-length-button__side__color--hover: $neutral-2;
 $ruler__song-length-button__side__background-color--hover: $neutral-3;
@@ -59,20 +65,20 @@ $ruler__song-length-button__side__background-color--hover: $neutral-3;
     border-left: $ruler__measure__border-left;
     font-size: $ruler__measure__font-size;
     &__eighth {
-      width: 1px;
-      height: 8px;
+      width: $ruler__measure__eighth__width;
+      height: $ruler__measure__eighth__width;
       position: absolute;
       top: 0;
       left: 0;
-      background-color: $neutral-4;
+      background-color: $ruler__measure__eighth__background-color;
     }
   }
   &__song-length-button {
     display: flex;
-    width: 84px;
-    height: 42px;
+    width: $ruler__song-length-button__width;
+    height: $ruler__song-length-button__height;
     border: $ruler__song-length-button__border;
-    border-radius: 2px;
+    border-radius: $ruler__song-length-button__border-radius;
     &__side{
       display: flex;
       align-items: center;

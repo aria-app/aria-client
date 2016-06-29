@@ -8,6 +8,7 @@ $track__body__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 $track__header__width: 84px;
 $track__header__color: $neutral-3;
 $track__header__background-color: $neutral-8;
+$track__header__border: 1px solid $neutral-5;
 $track__header__title__padding: $margin-xs $margin-s;
 $track__header__title__font-size: 0.75em;
 $track__header__action__padding: $margin-s;
@@ -24,6 +25,11 @@ $track__header__action--solo--active__border-color: $accent-5;
 $track__header__action--solo--active--hover__background-color: $accent-7;
 $track__sequences__height: 84px;
 $track__sequences__padding--vertical: 0;
+$track__add-button__width: 64px;
+$track__add-button__border: 2px solid $neutral-5;
+$track__add-button__fill: $neutral-5;
+$track__add-button--hover__border-color: $neutral-6;
+$track__add-button--hover__fill: $neutral-6;
 
 .track {
   display: flex;
@@ -49,7 +55,7 @@ $track__sequences__padding--vertical: 0;
     width: $track__header__width;
     color: $track__header__color;
     background-color: $track__header__background-color;
-    border-right: 1px solid $neutral-5;
+    border-right: $track__header__border;
     &__title {
       padding: $track__header__title__padding;
       font-size: $track__header__title__font-size;
@@ -104,17 +110,17 @@ $track__sequences__padding--vertical: 0;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    width: 64px;
-    border: 2px solid $neutral-5;
+    width: $track__add-button__width;
+    border: $track__add-button__border;
     transition: border-color 0.25s ease;
     svg * {
-      fill: $neutral-5;
+      fill: $track__add-button__fill;
       transition: fill 0.25s ease;
     }
     &:hover {
-      border-color: $neutral-6;
+      border-color: $track__add-button--hover__border-color;
       svg * {
-        fill: $neutral-6;
+        fill: $track__add-button--hover__fill;
       }
     }
   }

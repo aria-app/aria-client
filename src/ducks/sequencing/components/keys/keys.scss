@@ -1,6 +1,8 @@
 @import '../../../../styles/palette';
 
 $keys__width: 40px;
+$keys__z-index: 50;
+$keys__box-shadow: 2px 0 5px rgba(0, 0, 0, 0.25);
 $keys__key__height: 40px;
 $keys__key__font-size: 1.0em;
 $keys__key__font-weight: 600;
@@ -15,9 +17,9 @@ $keys__key--ivory__divider-color: $neutral-6;
   flex-direction: column;
   flex-shrink: 0;
   width: $keys__width;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.25);
+  box-shadow: $keys__box-shadow;
   overflow: hidden;
-  z-index: 50;
+  z-index: $keys__z-index;
   &__key {
     display: flex;
     align-items: center;

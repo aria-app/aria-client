@@ -9,6 +9,8 @@ $sequence__background-color--hover: $primary-6;
 $sequence__border: 2px solid $primary-6;
 $sequence__border-color--active: $accent-6;
 $sequence__border-color--hover: $primary-8;
+$sequence__note__width: 2px;
+$sequence__note__height: 1px;
 $sequence__note__background-color: $primary-8;
 $sequence__note__background-color--active: $accent-8;
 
@@ -23,8 +25,8 @@ $sequence__note__background-color--active: $accent-8;
   border-right: $sequence__border;
   overflow: hidden;
   &__note {
-    width: 2px;
-    height: 1px;
+    width: $sequence__note__width;
+    height: $sequence__note__height;
     position: absolute;
     top: 0;
     left: 0;

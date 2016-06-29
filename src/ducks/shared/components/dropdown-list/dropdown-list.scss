@@ -7,6 +7,7 @@ $dropdown-list__input__height: 48px;
 $dropdown-list__input__padding-left: 0;
 $dropdown-list__input__padding-right: 0;
 $dropdown-list__input__border: 1px solid $color;
+$dropdown-list__input__icon__margin-right: -4px;
 $dropdown-list__popup__list__padding: $margin-s;
 $dropdown-list__popup__item__height: 48px;
 $dropdown-list__popup__item__padding: $margin-m;
@@ -31,7 +32,7 @@ $dropdown-list__popup__item__background-color--active: $accent-3;
     cursor: pointer;
     overflow: hidden;
     .icon {
-      margin-right: -4px;
+      margin-right: $dropdown-list__input__icon__margin-right;
     }
   }
   &__overlay {

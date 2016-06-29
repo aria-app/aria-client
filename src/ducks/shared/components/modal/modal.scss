@@ -10,9 +10,11 @@ $modal__window__max-height: 480px;
 $modal__window__padding: 0;
 $modal__window__background-color: $neutral-3;
 $modal__window__border-radius: 2px;
-$modal__title__padding: $margin-m;
-$modal__title__font-size: 1.25em;
+$modal__header__padding: $margin-m;
+$modal__header__background-color: $neutral-2;
+$modal__header__font-size: 1.25em;
 $modal__content__padding: $margin-m;
+$modal__actions__background-color: $neutral-2;
 
 .modal {
   position: fixed;
@@ -23,9 +25,9 @@ $modal__content__padding: $margin-m;
   z-index: $modal__z-index;
   overflow: hidden;
   &__header {
-    padding: $modal__title__padding;
-    font-size: $modal__title__font-size;
-    background-color: $neutral-2;
+    padding: $modal__header__padding;
+    background-color: $modal__header__background-color;
+    font-size: $modal__header__font-size;
   }
   &__overlay {
     display: flex;
@@ -59,9 +61,7 @@ $modal__content__padding: $margin-m;
     padding: $modal__content__padding;
   }
   &__actions {
-    background-color: $neutral-2;
+    background-color: $modal__actions__background-color;
     box-shadow: none;
-  }
-  &__action {
   }
 }

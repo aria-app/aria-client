@@ -6,6 +6,9 @@ $toolbar__padding: $margin-s;
 $toolbar__background-color: $neutral-3;
 $toolbar__background-color--alternate: $neutral-9;
 $toolbar__border: none;
+$toolbar__z-index: 100;
+$toolbar--top__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+$toolbar--bottom__box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.25);
 $toolbar__item__spacing: $margin-s;
 $toolbar__button__height: 36px;
 $toolbar__button__padding: 16px;
@@ -26,7 +29,7 @@ $toolbar__icon-button__background--active--alternate: rgba(0, 0, 0, 0.25);
   padding-right: $toolbar__padding;
   background-color: $toolbar__background-color;
   border-bottom: $toolbar__border;
-  z-index: 100;
+  z-index: $toolbar__z-index;
   transition: background-color 0.25s ease;
   .icon-button + .icon-button {
     margin-left: $toolbar__item__spacing;
@@ -53,9 +56,9 @@ $toolbar__icon-button__background--active--alternate: rgba(0, 0, 0, 0.25);
     }
   }
   &--top {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    box-shadow: toolbar--top__box-shadow;
   }
   &--bottom {
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.25);
+    box-shadow: toolbar--bottom__box-shadow;
   }
 }
