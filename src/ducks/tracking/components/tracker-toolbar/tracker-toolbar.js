@@ -10,7 +10,7 @@ const { IconButton, Toolbar } = shared.components;
 const component = (props) => h(Toolbar, {
   className: 'tracker-toolbar',
   position: 'top',
-  isAlternate: !_.isEmpty(props.selectedSequence),
+  isAlternate: !!props.selectedSequenceId,
   alternateLeftItems: [
     props.sequenceActions,
   ],
@@ -21,34 +21,34 @@ const composed = compose(
   pure,
   setPropTypes({
     openSequence: React.PropTypes.func.isRequired,
-    selectedSequence: React.PropTypes.object.isRequired,
+    selectedSequenceId: React.PropTypes.string.isRequired,
   }),
   mapProps((props) => ({
     ...props,
     sequenceActions: h('.tracker-toolbar__sequence-actions', [
       h(IconButton, {
         icon: 'pencil',
-        onPress: () => props.openSequence(props.selectedSequence),
+        onPress: () => props.openSequence(props.selectedSequenceId),
       }),
       h(IconButton, {
         icon: 'trash',
-        onPress: () => props.deleteSequence(props.selectedSequence),
+        onPress: () => props.deleteSequence(props.selectedSequenceId),
       }),
       h(IconButton, {
         icon: 'long-arrow-left',
-        onPress: () => props.shortenSequence(props.selectedSequence),
+        onPress: () => props.shortenSequence(props.selectedSequenceId),
       }),
       h(IconButton, {
         icon: 'arrow-left',
-        onPress: () => props.moveSequenceLeft(props.selectedSequence),
+        onPress: () => props.moveSequenceLeft(props.selectedSequenceId),
       }),
       h(IconButton, {
         icon: 'arrow-right',
-        onPress: () => props.moveSequenceRight(props.selectedSequence),
+        onPress: () => props.moveSequenceRight(props.selectedSequenceId),
       }),
       h(IconButton, {
         icon: 'long-arrow-right',
-        onPress: () => props.extendSequence(props.selectedSequence),
+        onPress: () => props.extendSequence(props.selectedSequenceId),
       }),
     ]),
   })),

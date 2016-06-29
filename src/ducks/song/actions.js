@@ -29,17 +29,10 @@ export function nameSet(name) {
   };
 }
 
-export function newTrackAdded() {
+export function trackCreatedAndAdded() {
   return {
-    type: actionTypes.NEW_TRACK_ADDED,
+    type: actionTypes.TRACK_CREATED_AND_ADDED,
     track: helpers.createTrack(),
-  };
-}
-
-export function noteAdded(note) {
-  return {
-    type: actionTypes.NOTE_ADDED,
-    note,
   };
 }
 
@@ -50,10 +43,10 @@ export function notesAdded(notes) {
   };
 }
 
-export function notesDeleted(notes) {
+export function notesDeleted(ids) {
   return {
     type: actionTypes.NOTES_DELETED,
-    notes,
+    ids,
   };
 }
 
@@ -71,18 +64,11 @@ export function notesUpdated(notes) {
   };
 }
 
-export function sequenceAdded(sequence) {
-  return {
-    type: actionTypes.SEQUENCE_ADDED,
-    sequence,
-  };
-}
-
-export function sequenceAddedToTrack(track, position) {
+export function sequenceAddedToTrack(id, position) {
   return {
     type: actionTypes.SEQUENCE_ADDED_TO_TRACK,
     position,
-    track,
+    id,
   };
 }
 
@@ -92,51 +78,44 @@ export function sequenceClosed() {
   };
 }
 
-export function sequenceDeleted(sequence) {
-  return {
-    type: actionTypes.SEQUENCE_DELETED,
-    sequence,
-  };
-}
-
-export function sequenceExtended(sequence) {
+export function sequenceExtended(id) {
   return {
     type: actionTypes.SEQUENCE_EXTENDED,
-    sequence,
+    id,
   };
 }
 
-export function sequenceNudgedLeft(sequence) {
+export function sequenceNudgedLeft(id) {
   return (dispatch) => {
     dispatch({
       type: actionTypes.SEQUENCE_NUDGED_LEFT,
-      sequence,
+      id,
     });
   };
 }
 
-export function sequenceNudgedRight(sequence) {
+export function sequenceNudgedRight(id) {
   return (dispatch) => {
     dispatch({
       type: actionTypes.SEQUENCE_NUDGED_RIGHT,
-      sequence,
+      id,
     });
   };
 }
 
-export function sequenceOpened(sequence) {
+export function sequenceOpened(id) {
   return (dispatch) => {
     dispatch({
       type: actionTypes.SEQUENCE_OPENED,
-      sequence,
+      id,
     });
   };
 }
 
-export function sequenceShortened(sequence) {
+export function sequenceShortened(id) {
   return {
     type: actionTypes.SEQUENCE_SHORTENED,
-    sequence,
+    id,
   };
 }
 
@@ -147,10 +126,10 @@ export function sequencesAdded(sequences) {
   };
 }
 
-export function sequencesDeleted(sequences) {
+export function sequencesDeleted(ids) {
   return {
     type: actionTypes.SEQUENCES_DELETED,
-    sequences,
+    ids,
   };
 }
 
@@ -181,23 +160,9 @@ export function songLoaded(song) {
   };
 }
 
-export function songSet(song) {
-  return {
-    type: actionTypes.SONG_SET,
-    song,
-  };
-}
-
 export function songShortened() {
   return {
     type: actionTypes.SONG_SHORTENED,
-  };
-}
-
-export function trackDeletedById(id) {
-  return {
-    type: actionTypes.TRACK_DELETED_BY_ID,
-    id,
   };
 }
 
@@ -215,18 +180,11 @@ export function trackIsSoloingToggled(id) {
   };
 }
 
-export function trackSynthTypeSet(track, synthType) {
+export function trackSynthTypeSet(id, synthType) {
   return {
     type: actionTypes.TRACK_SYNTH_TYPE_SET,
     synthType,
-    track,
-  };
-}
-
-export function trackUpdated(track) {
-  return {
-    type: actionTypes.TRACK_UPDATED,
-    track,
+    id,
   };
 }
 
@@ -237,10 +195,10 @@ export function tracksAdded(tracks) {
   };
 }
 
-export function tracksDeleted(tracks) {
+export function tracksDeleted(ids) {
   return {
     type: actionTypes.TRACKS_DELETED,
-    tracks,
+    ids,
   };
 }
 

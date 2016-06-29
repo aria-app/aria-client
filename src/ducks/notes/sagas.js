@@ -20,10 +20,12 @@ function* drawNote() {
   const point = yield select(sequencing.selectors.getMousePoint);
 
   yield put(playing.actions.notePreviewed(point));
-  yield put(song.actions.noteAdded(song.helpers.createNote({
-    points: [point, { x: point.x + 1, y: point.y }],
-    sequenceId: activeSequenceId,
-  })));
+  yield put(song.actions.notesAdded([
+    song.helpers.createNote({
+      points: [point, { x: point.x + 1, y: point.y }],
+      sequenceId: activeSequenceId,
+    }),
+  ]));
 }
 
 function* duplicateNotes() {
@@ -120,7 +122,7 @@ function* redo() {
 }
 
 function* remove({ notes }) {
-  yield put(song.actions.notesDeleted(notes));
+  yield put(song.actions.notesDeleted(_.map(notes, 'id')));
 }
 
 function* removeSelected() {

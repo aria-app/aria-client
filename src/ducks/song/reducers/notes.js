@@ -7,13 +7,11 @@ const { setAtIds } = shared.helpers;
 
 const dict = (state = {}, action) => {
   switch (action.type) {
-    case actionTypes.NOTE_ADDED:
-      return setAtIds([action.note], state);
     case actionTypes.NOTES_ADDED:
     case actionTypes.NOTES_UPDATED:
       return setAtIds(action.notes, state);
     case actionTypes.NOTES_DELETED:
-      return _.omit(state, _.map(action.notes, 'id'));
+      return _.omit(state, action.ids);
     case actionTypes.NOTES_SET:
       return setAtIds(action.notes, {});
     case actionTypes.SONG_LOADED:
@@ -25,12 +23,10 @@ const dict = (state = {}, action) => {
 
 const ids = (state = [], action) => {
   switch (action.type) {
-    case actionTypes.NOTE_ADDED:
-      return _.concat(state, action.note.id);
     case actionTypes.NOTES_ADDED:
       return _.concat(state, _.map(action.notes, 'id'));
     case actionTypes.NOTES_DELETED:
-      return _.without(state, _.map(action.notes, 'id'));
+      return _.without(state, action.ids);
     case actionTypes.NOTES_SET:
       return _.map(action.notes, 'id');
     case actionTypes.SONG_LOADED:

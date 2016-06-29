@@ -53,7 +53,7 @@ const composed = compose(
         {
           text: 'Delete',
           action: constants.contextMenuActions.DELETE_SEQUENCE,
-          sequence: props.sequence,
+          id: props.id,
         },
       ];
 
@@ -62,7 +62,7 @@ const composed = compose(
       e.stopPropagation();
     },
     onDoubleClick: (props) => (e) => {
-      props.openSequence(props.sequence);
+      props.openSequence(props.sequence.id);
       e.stopPropagation();
     },
   }),

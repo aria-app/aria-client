@@ -12,8 +12,8 @@ function* addNewChannel({ track }) {
   yield put(actions.channelAdded(channel));
 }
 
-function* changeTrackInstrumentType({ synthType, track }) {
-  const channel = yield select(selectors.getChannelById(track.id));
+function* changeTrackInstrumentType({ synthType, id }) {
+  const channel = yield select(selectors.getChannelById(id));
 
   if (channel.instrument.getType() !== synthType) {
     channel.instrument.setType(synthType);
@@ -43,14 +43,6 @@ function* previewNote({ name }) {
   const sequence = yield select(song.selectors.getActiveSequence);
   const channel = yield select(selectors.getChannelById(sequence.trackId));
   channel.instrument.previewNote(name);
-}
-
-function* receiveTrackUpdate({ track }) {
-  const channelForTrack = yield select(selectors.getChannelById(track.id));
-
-  if (channelForTrack.instrument.getType() !== track.synthType) {
-    channelForTrack.instrument.setType(track.synthType);
-  }
 }
 
 function* releaseAll() {
@@ -85,12 +77,11 @@ export default function* saga() {
     takeEvery(actionTypes.NOTE_PLAYED, playNote),
     takeEvery(actionTypes.NOTE_PREVIEWED, previewNote),
     takeEvery(actionTypes.ALL_INSTRUMENTS_RELEASED, releaseAll),
-    takeEvery(song.actionTypes.NEW_TRACK_ADDED, addNewChannel),
+    takeEvery(song.actionTypes.TRACK_CREATED_AND_ADDED, addNewChannel),
     takeEvery(song.actionTypes.SONG_LOADED, initialize),
     takeEvery(song.actionTypes.BPM_SET, setBPM),
     takeEvery(song.actionTypes.TRACK_SYNTH_TYPE_SET, changeTrackInstrumentType),
     takeEvery(song.actionTypes.TRACKS_SET, setChannels),
-    takeEvery(song.actionTypes.TRACK_UPDATED, receiveTrackUpdate),
   ];
 }
 

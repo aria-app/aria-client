@@ -1,7 +1,7 @@
 import * as actionTypes from './action-types';
 
-export const newTrackAdded = () => ({
-  type: actionTypes.NEW_TRACK_ADDED,
+export const trackCreatedAndAdded = () => ({
+  type: actionTypes.TRACK_CREATED_AND_ADDED,
 });
 
 export const redoPopped = () => ({
@@ -17,34 +17,34 @@ export const redosSet = (redos) => ({
   redos,
 });
 
-export const sequenceAddedToTrack = (track, position) => ({
+export const sequenceAddedToTrack = (id, position) => ({
   type: actionTypes.SEQUENCE_ADDED_TO_TRACK,
-  track,
+  id,
   position,
 });
 
-export const sequenceDeleted = (sequence) => ({
+export const sequenceDeleted = (id) => ({
   type: actionTypes.SEQUENCE_DELETED,
-  sequence,
+  id,
 });
 
 export const sequenceDeselected = () => ({
   type: actionTypes.SEQUENCE_DESELECTED,
 });
 
-export const sequenceExtended = (sequence) => ({
+export const sequenceExtended = (id) => ({
   type: actionTypes.SEQUENCE_EXTENDED,
-  sequence,
+  id,
 });
 
-export const sequenceNudgedLeft = (sequence) => ({
+export const sequenceNudgedLeft = (id) => ({
   type: actionTypes.SEQUENCE_NUDGED_LEFT,
-  sequence,
+  id,
 });
 
-export const sequenceNudgedRight = (sequence) => ({
+export const sequenceNudgedRight = (id) => ({
   type: actionTypes.SEQUENCE_NUDGED_RIGHT,
-  sequence,
+  id,
 });
 
 export const sequenceSelected = (id) => ({
@@ -52,10 +52,22 @@ export const sequenceSelected = (id) => ({
   id,
 });
 
-export const sequenceShortened = (sequence) => ({
+export const sequenceShortened = (id) => ({
   type: actionTypes.SEQUENCE_SHORTENED,
-  sequence,
+  id,
 });
+
+export function songExtended() {
+  return {
+    type: actionTypes.SONG_EXTENDED,
+  };
+}
+
+export function songShortened() {
+  return {
+    type: actionTypes.SONG_SHORTENED,
+  };
+}
 
 export const trackEditingFinished = () => ({
   type: actionTypes.TRACK_EDITING_FINISHED,

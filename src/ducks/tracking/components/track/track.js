@@ -81,7 +81,7 @@ const composed = compose(
   })),
   withHandlers({
     addSequence: (props) => () => {
-      props.addSequence(props.track, props.addPosition);
+      props.addSequence(props.track.id, props.addPosition);
     },
     onMutePress: (props) => (e) => {
       props.toggleTrackIsMuted(props.track.id);

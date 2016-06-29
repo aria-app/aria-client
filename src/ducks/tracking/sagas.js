@@ -10,11 +10,11 @@ import * as constants from './constants';
 import * as selectors from './selectors';
 
 function* addNewTrack() {
-  yield put(song.actions.newTrackAdded());
+  yield put(song.actions.trackCreatedAndAdded());
 }
 
-function* addSequenceToTrack({ track, position }) {
-  yield put(song.actions.sequenceAddedToTrack(track, position));
+function* addSequenceToTrack({ id, position }) {
+  yield put(song.actions.sequenceAddedToTrack(id, position));
 }
 
 function* contextMenuItemSelected({ item }) {
@@ -22,27 +22,30 @@ function* contextMenuItemSelected({ item }) {
 
   switch (item.action) {
     case DELETE_SEQUENCE:
-      yield put(actions.undoPushed());
-      return yield put(song.actions.sequenceDeleted(item.sequence));
+      return yield put(actions.sequenceDeleted([item.id]));
     default:
       return undefined;
   }
 }
 
-function* deleteSequence({ sequence }) {
-  yield put(song.actions.sequenceDeleted(sequence));
+function* deleteSequence({ id }) {
+  yield put(song.actions.sequencesDeleted([id]));
 }
 
-function* extendSequence({ sequence }) {
-  yield put(song.actions.sequenceExtended(sequence));
+function* extendSequence({ id }) {
+  yield put(song.actions.sequenceExtended(id));
 }
 
-function* moveSequenceLeft({ sequence }) {
-  yield put(song.actions.sequenceNudgedLeft(sequence));
+function* extendSong() {
+  yield put(song.actions.songExtended());
 }
 
-function* moveSequenceRight({ sequence }) {
-  yield put(song.actions.sequenceNudgedRight(sequence));
+function* moveSequenceLeft({ id }) {
+  yield put(song.actions.sequenceNudgedLeft(id));
+}
+
+function* moveSequenceRight({ id }) {
+  yield put(song.actions.sequenceNudgedRight(id));
 }
 
 function* pushRedo() {
@@ -97,6 +100,10 @@ function* shortenSequence({ sequence }) {
   yield put(song.actions.sequenceShortened(sequence));
 }
 
+function* shortenSong() {
+  yield put(song.actions.songShortened());
+}
+
 function* toggleTrackIsMuted({ id }) {
   yield put(song.actions.trackIsMutedToggled(id));
 }
@@ -121,18 +128,20 @@ function* undo() {
 export default function* saga() {
   yield [
     takeEvery([
-      actionTypes.NEW_TRACK_ADDED,
+      actionTypes.TRACK_CREATED_AND_ADDED,
       actionTypes.SEQUENCE_ADDED_TO_TRACK,
       actionTypes.SEQUENCE_DELETED,
       actionTypes.SEQUENCE_EXTENDED,
       actionTypes.SEQUENCE_NUDGED_LEFT,
       actionTypes.SEQUENCE_NUDGED_RIGHT,
       actionTypes.SEQUENCE_SHORTENED,
+      actionTypes.SONG_EXTENDED,
+      actionTypes.SONG_SHORTENED,
       actionTypes.TRACK_IS_MUTED_TOGGLED,
       actionTypes.TRACK_IS_SOLOING_TOGGLED,
       actionTypes.UNDO_PUSHED,
     ], pushUndo),
-    takeEvery(actionTypes.NEW_TRACK_ADDED, addNewTrack),
+    takeEvery(actionTypes.TRACK_CREATED_AND_ADDED, addNewTrack),
     takeEvery(actionTypes.REDO_POPPED, redo),
     takeEvery(actionTypes.REDO_PUSHED, pushRedo),
     takeEvery(actionTypes.SEQUENCE_ADDED_TO_TRACK, addSequenceToTrack),
@@ -141,6 +150,8 @@ export default function* saga() {
     takeEvery(actionTypes.SEQUENCE_NUDGED_LEFT, moveSequenceLeft),
     takeEvery(actionTypes.SEQUENCE_NUDGED_RIGHT, moveSequenceRight),
     takeEvery(actionTypes.SEQUENCE_SHORTENED, shortenSequence),
+    takeEvery(actionTypes.SONG_EXTENDED, extendSong),
+    takeEvery(actionTypes.SONG_SHORTENED, shortenSong),
     takeEvery(actionTypes.TRACK_IS_MUTED_TOGGLED, toggleTrackIsMuted),
     takeEvery(actionTypes.TRACK_IS_SOLOING_TOGGLED, toggleTrackIsSoloing),
     takeEvery(actionTypes.UNDO_POPPED, undo),

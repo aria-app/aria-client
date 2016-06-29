@@ -5,7 +5,7 @@ import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 
 export const TrackerToolbarContainer = connect((state) => ({
-  selectedSequence: selectors.getSelectedSequence(state),
+  selectedSequenceId: selectors.getSelectedSequenceId(state),
 }), {
   deleteSequence: actions.sequenceDeleted,
   extendSequence: actions.sequenceExtended,
