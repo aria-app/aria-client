@@ -56,9 +56,9 @@ $toolbar__icon-button__background--active--alternate: rgba(0, 0, 0, 0.25);
     }
   }
   &--top {
-    box-shadow: toolbar--top__box-shadow;
+    box-shadow: $toolbar--top__box-shadow;
   }
   &--bottom {
-    box-shadow: toolbar--bottom__box-shadow;
+    box-shadow: $toolbar--bottom__box-shadow;
   }
 }

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { combineReducers } from 'redux';
+import shortcuts from 'ducks/shortcuts';
 import song from 'ducks/song';
 import * as actionTypes from './action-types';
 
@@ -15,6 +16,7 @@ function redos(state = [], action) {
 function selectedIds(state = [], action) {
   switch (action.type) {
     case actionTypes.ALL_NOTES_DESELECTED:
+    case shortcuts.actionTypes.DESELECT:
     case song.actionTypes.NOTES_DELETED:
     case song.actionTypes.SEQUENCE_OPENED:
       return [];
@@ -38,6 +40,8 @@ function undos(state = [], action) {
   switch (action.type) {
     case actionTypes.UNDOS_SET:
       return action.undos;
+    case song.actionTypes.SEQUENCE_CLOSED:
+      return [];
     default:
       return state;
   }

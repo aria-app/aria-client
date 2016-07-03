@@ -28,8 +28,32 @@ function* contextMenuItemSelected({ item }) {
   }
 }
 
+function* deleteSelectedSequence() {
+  const activeSequenceId = yield select(song.selectors.getActiveSequenceId);
+
+  if (activeSequenceId) return;
+
+  const selectedSequenceId = yield select(selectors.getSelectedSequenceId);
+
+  if (!selectedSequenceId) return;
+
+  yield put(song.actions.sequencesDeleted([selectedSequenceId]));
+}
+
 function* deleteSequence({ id }) {
   yield put(song.actions.sequencesDeleted([id]));
+}
+
+function* extendSelectedSequence() {
+  const activeSequenceId = yield select(song.selectors.getActiveSequenceId);
+
+  if (activeSequenceId) return;
+
+  const selectedSequenceId = yield select(selectors.getSelectedSequenceId);
+
+  if (!selectedSequenceId) return;
+
+  yield put(song.actions.sequenceExtended(selectedSequenceId));
 }
 
 function* extendSequence({ id }) {
@@ -40,8 +64,32 @@ function* extendSong() {
   yield put(song.actions.songExtended());
 }
 
+function* moveSelectedSequenceLeft() {
+  const activeSequenceId = yield select(song.selectors.getActiveSequenceId);
+
+  if (activeSequenceId) return;
+
+  const selectedSequenceId = yield select(selectors.getSelectedSequenceId);
+
+  if (!selectedSequenceId) return;
+
+  yield put(song.actions.sequenceNudgedLeft(selectedSequenceId));
+}
+
 function* moveSequenceLeft({ id }) {
   yield put(song.actions.sequenceNudgedLeft(id));
+}
+
+function* moveSelectedSequenceRight() {
+  const activeSequenceId = yield select(song.selectors.getActiveSequenceId);
+
+  if (activeSequenceId) return;
+
+  const selectedSequenceId = yield select(selectors.getSelectedSequenceId);
+
+  if (!selectedSequenceId) return;
+
+  yield put(song.actions.sequenceNudgedRight(selectedSequenceId));
 }
 
 function* moveSequenceRight({ id }) {
@@ -59,6 +107,10 @@ function* pushRedo() {
 }
 
 function* pushUndo() {
+  const activeSequenceId = yield select(song.selectors.getActiveSequenceId);
+
+  if (activeSequenceId) return;
+
   const sequences = yield select(song.selectors.getSequences);
   const tracks = yield select(song.selectors.getTracks);
   const undos = yield select(selectors.getUndos);
@@ -96,8 +148,16 @@ function* redo() {
   yield put(actions.redosSet(redos.slice(0, redos.length - 1)));
 }
 
-function* shortenSequence({ sequence }) {
-  yield put(song.actions.sequenceShortened(sequence));
+function* shortenSelectedSequence() {
+  const selectedSequenceId = yield select(selectors.getSelectedSequenceId);
+
+  if (!selectedSequenceId) return;
+
+  yield put(song.actions.sequenceShortened(selectedSequenceId));
+}
+
+function* shortenSequence({ id }) {
+  yield put(song.actions.sequenceShortened(id));
 }
 
 function* shortenSong() {
@@ -127,20 +187,18 @@ function* undo() {
 
 export default function* saga() {
   yield [
-    takeEvery([
-      actionTypes.TRACK_CREATED_AND_ADDED,
-      actionTypes.SEQUENCE_ADDED_TO_TRACK,
-      actionTypes.SEQUENCE_DELETED,
-      actionTypes.SEQUENCE_EXTENDED,
-      actionTypes.SEQUENCE_NUDGED_LEFT,
-      actionTypes.SEQUENCE_NUDGED_RIGHT,
-      actionTypes.SEQUENCE_SHORTENED,
-      actionTypes.SONG_EXTENDED,
-      actionTypes.SONG_SHORTENED,
-      actionTypes.TRACK_IS_MUTED_TOGGLED,
-      actionTypes.TRACK_IS_SOLOING_TOGGLED,
-      actionTypes.UNDO_PUSHED,
-    ], pushUndo),
+    takeEvery(actionTypes.TRACK_CREATED_AND_ADDED, pushUndo),
+    takeEvery(actionTypes.SEQUENCE_ADDED_TO_TRACK, pushUndo),
+    takeEvery(actionTypes.SEQUENCE_DELETED, pushUndo),
+    takeEvery(actionTypes.SEQUENCE_EXTENDED, pushUndo),
+    takeEvery(actionTypes.SEQUENCE_NUDGED_LEFT, pushUndo),
+    takeEvery(actionTypes.SEQUENCE_NUDGED_RIGHT, pushUndo),
+    takeEvery(actionTypes.SEQUENCE_SHORTENED, pushUndo),
+    takeEvery(actionTypes.SONG_EXTENDED, pushUndo),
+    takeEvery(actionTypes.SONG_SHORTENED, pushUndo),
+    takeEvery(actionTypes.TRACK_IS_MUTED_TOGGLED, pushUndo),
+    takeEvery(actionTypes.TRACK_IS_SOLOING_TOGGLED, pushUndo),
+    takeEvery(actionTypes.UNDO_PUSHED, pushUndo),
     takeEvery(actionTypes.TRACK_CREATED_AND_ADDED, addNewTrack),
     takeEvery(actionTypes.REDO_POPPED, redo),
     takeEvery(actionTypes.REDO_PUSHED, pushRedo),
@@ -156,7 +214,13 @@ export default function* saga() {
     takeEvery(actionTypes.TRACK_IS_SOLOING_TOGGLED, toggleTrackIsSoloing),
     takeEvery(actionTypes.UNDO_POPPED, undo),
     takeEvery(contextMenu.actionTypes.CONTEXT_MENU_ITEM_SELECTED, contextMenuItemSelected),
-    takeEvery(shortcuts.actionTypes.REDO_PRESSED, redo),
-    takeEvery(shortcuts.actionTypes.UNDO_PRESSED, undo),
+    takeEvery(shortcuts.actionTypes.DELETE, pushUndo),
+    takeEvery(shortcuts.actionTypes.DELETE, deleteSelectedSequence),
+    takeEvery(shortcuts.actionTypes.NUDGE_ALT_LEFT, shortenSelectedSequence),
+    takeEvery(shortcuts.actionTypes.NUDGE_ALT_RIGHT, extendSelectedSequence),
+    takeEvery(shortcuts.actionTypes.NUDGE_LEFT, moveSelectedSequenceLeft),
+    takeEvery(shortcuts.actionTypes.NUDGE_RIGHT, moveSelectedSequenceRight),
+    takeEvery(shortcuts.actionTypes.REDO, redo),
+    takeEvery(shortcuts.actionTypes.UNDO, undo),
   ];
 }

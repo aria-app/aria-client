@@ -12,6 +12,9 @@ import * as selectors from './selectors';
 
 function* changeSelectedNotesSize({ change }) {
   const selectedNotes = yield select(selectors.getSelectedNotes);
+
+  if (_.isEmpty(selectedNotes)) return;
+
   yield put(actions.notesResized(selectedNotes, change));
 }
 
@@ -28,7 +31,7 @@ function* drawNote() {
   ]));
 }
 
-function* duplicateNotes() {
+function* duplicateSelectedNotes() {
   const selectedNotes = yield select(selectors.getSelectedNotes);
 
   if (_.isEmpty(selectedNotes)) return;
@@ -43,7 +46,7 @@ function* duplicateNotes() {
 }
 
 function* erase(action) {
-  yield put(actions.notesRemoved([action.note]));
+  yield put(actions.notesDeleted([action.note]));
 }
 
 function* moveNotes({ notes, offset }) {
@@ -79,11 +82,11 @@ function* nudgeSelectedNotesPosition({ change }) {
 }
 
 function* nudgeSelectedNotesSize({ change }) {
-  yield put(actions.selectedNotesSizeChanged({ change }));
+  yield put(actions.selectedNotesSizeChanged(change));
 }
 
 function* pushRedo() {
-  const allNotes = yield select(song.selectors.getActiveSequenceNotes);
+  const allNotes = yield select(song.selectors.getNotes);
   const redos = yield select(selectors.getRedos);
 
   yield put(actions.redosSet([
@@ -93,7 +96,7 @@ function* pushRedo() {
 }
 
 function* pushUndo() {
-  const allNotes = yield select(song.selectors.getActiveSequenceNotes);
+  const allNotes = yield select(song.selectors.getNotes);
   const undos = yield select(selectors.getUndos);
 
   if (_.isEqual(_.last(undos), allNotes)) return;
@@ -121,13 +124,16 @@ function* redo() {
   yield put(actions.redosSet(redos.slice(0, redos.length - 1)));
 }
 
-function* remove({ notes }) {
+function* deleteNotes({ notes }) {
   yield put(song.actions.notesDeleted(_.map(notes, 'id')));
 }
 
-function* removeSelected() {
+function* deleteSelectedNotes() {
   const selectedNotes = yield select(selectors.getSelectedNotes);
-  yield put(actions.notesRemoved(selectedNotes));
+
+  if (_.isEmpty(selectedNotes)) return;
+
+  yield put(actions.notesDeleted(selectedNotes));
 }
 
 function* resize({ notes, change }) {
@@ -160,6 +166,9 @@ function* resize({ notes, change }) {
 
 function* resizeSelected(action) {
   const selectedNotes = yield select(selectors.getSelectedNotes);
+
+  if (_.isEmpty(selectedNotes)) return;
+
   const updatedNotes = selectedNotes.map(note => ({
     ...note,
     points: [
@@ -176,11 +185,16 @@ function* resizeSelected(action) {
 
 function* selectAll() {
   const notes = yield select(song.selectors.getActiveSequenceNotes);
+
+  if (_.isEmpty(notes)) return;
+
   yield put(actions.notesSelected(notes));
 }
 
 function* shiftDownOctave() {
   const selectedNotes = yield select(selectors.getSelectedNotes);
+
+  if (_.isEmpty(selectedNotes)) return;
 
   yield put(actions.notesMoved(selectedNotes, {
     x: 0,
@@ -190,6 +204,8 @@ function* shiftDownOctave() {
 
 function* shiftUpOctave() {
   const selectedNotes = yield select(selectors.getSelectedNotes);
+
+  if (_.isEmpty(selectedNotes)) return;
 
   yield put(actions.notesMoved(selectedNotes, {
     x: 0,
@@ -202,29 +218,29 @@ function* undo() {
 
   if (_.isEmpty(undos)) return;
 
+  const lastUndo = _.last(undos);
+
   yield put(actions.redoPushed());
-  yield put(song.actions.notesSet(_.last(undos)));
-  yield put(actions.undosSet(undos.slice(0, undos.length - 1)));
+  yield put(song.actions.notesSet(lastUndo));
+  yield put(actions.undosSet(_.without(undos, lastUndo)));
 }
 
 export default function* saga() {
   yield [
-    takeEvery([
-      actionTypes.NOTE_DRAWN,
-      actionTypes.NOTE_ERASED,
-      actionTypes.NOTES_DUPLICATED,
-      actionTypes.NOTES_REMOVED,
-      actionTypes.SELECTED_NOTES_MOVED_OCTAVE_DOWN,
-      actionTypes.SELECTED_NOTES_MOVED_OCTAVE_UP,
-      actionTypes.SELECTED_NOTES_POSITION_NUDGED,
-      actionTypes.SELECTED_NOTES_SIZE_NUDGED,
-    ], pushUndo),
+    takeEvery(actionTypes.NOTE_DRAWN, pushUndo),
+    takeEvery(actionTypes.NOTE_ERASED, pushUndo),
+    takeEvery(actionTypes.NOTES_DUPLICATED, pushUndo),
+    takeEvery(actionTypes.NOTES_DELETED, pushUndo),
+    takeEvery(actionTypes.SELECTED_NOTES_MOVED_OCTAVE_DOWN, pushUndo),
+    takeEvery(actionTypes.SELECTED_NOTES_MOVED_OCTAVE_UP, pushUndo),
+    takeEvery(actionTypes.SELECTED_NOTES_POSITION_NUDGED, pushUndo),
+    takeEvery(actionTypes.SELECTED_NOTES_SIZE_NUDGED, pushUndo),
     takeEvery(actionTypes.ALL_NOTES_SELECTED, selectAll),
     takeEvery(actionTypes.NOTE_DRAWN, drawNote),
     takeEvery(actionTypes.NOTE_ERASED, erase),
-    takeEvery(actionTypes.NOTES_DUPLICATED, duplicateNotes),
+    takeEvery(actionTypes.NOTES_DUPLICATED, duplicateSelectedNotes),
     takeEvery(actionTypes.NOTES_MOVED, moveNotes),
-    takeEvery(actionTypes.NOTES_REMOVED, remove),
+    takeEvery(actionTypes.NOTES_DELETED, deleteNotes),
     takeEvery(actionTypes.NOTES_RESIZED, resize),
     takeEvery(actionTypes.REDO_POPPED, redo),
     takeEvery(actionTypes.REDO_PUSHED, pushRedo),
@@ -232,13 +248,41 @@ export default function* saga() {
     takeEvery(actionTypes.SELECTED_NOTES_MOVED_OCTAVE_DOWN, shiftDownOctave),
     takeEvery(actionTypes.SELECTED_NOTES_MOVED_OCTAVE_UP, shiftUpOctave),
     takeEvery(actionTypes.SELECTED_NOTES_POSITION_NUDGED, nudgeSelectedNotesPosition),
-    takeEvery(actionTypes.SELECTED_NOTES_REMOVED, removeSelected),
+    takeEvery(actionTypes.SELECTED_NOTES_DELETED, deleteSelectedNotes),
     takeEvery(actionTypes.SELECTED_NOTES_RESIZED, resizeSelected),
     takeEvery(actionTypes.SELECTED_NOTES_SIZE_CHANGED, changeSelectedNotesSize),
     takeEvery(actionTypes.SELECTED_NOTES_SIZE_NUDGED, nudgeSelectedNotesSize),
     takeEvery(actionTypes.UNDO_POPPED, undo),
     takeEvery(actionTypes.UNDO_PUSHED, pushUndo),
-    takeEvery(shortcuts.actionTypes.REDO_PRESSED, redo),
-    takeEvery(shortcuts.actionTypes.UNDO_PRESSED, undo),
+    takeEvery(shortcuts.actionTypes.DELETE, deleteSelectedNotes),
+    takeEvery(shortcuts.actionTypes.DESELECT, deleteSelectedNotes),
+    takeEvery(shortcuts.actionTypes.DUPLICATE, duplicateSelectedNotes),
+    takeEvery(shortcuts.actionTypes.NUDGE_ALT_DOWN,
+      () => nudgeSelectedNotesSize({ change: { x: 0, y: 1 } })
+    ),
+    takeEvery(shortcuts.actionTypes.NUDGE_ALT_LEFT,
+      () => nudgeSelectedNotesSize({ change: { x: -1, y: 0 } })
+    ),
+    takeEvery(shortcuts.actionTypes.NUDGE_ALT_RIGHT,
+      () => nudgeSelectedNotesSize({ change: { x: 1, y: 0 } })
+    ),
+    takeEvery(shortcuts.actionTypes.NUDGE_ALT_UP,
+      () => nudgeSelectedNotesSize({ change: { x: 0, y: -1 } })
+    ),
+    takeEvery(shortcuts.actionTypes.NUDGE_DOWN,
+      () => nudgeSelectedNotesPosition({ change: { x: 0, y: 1 } })
+    ),
+    takeEvery(shortcuts.actionTypes.NUDGE_LEFT,
+      () => nudgeSelectedNotesPosition({ change: { x: -1, y: 0 } })
+    ),
+    takeEvery(shortcuts.actionTypes.NUDGE_RIGHT,
+      () => nudgeSelectedNotesPosition({ change: { x: 1, y: 0 } })
+    ),
+    takeEvery(shortcuts.actionTypes.NUDGE_UP,
+      () => nudgeSelectedNotesPosition({ change: { x: 0, y: -1 } })
+    ),
+    takeEvery(shortcuts.actionTypes.REDO, redo),
+    takeEvery(shortcuts.actionTypes.SELECT_ALL, selectAll),
+    takeEvery(shortcuts.actionTypes.UNDO, undo),
   ];
 }

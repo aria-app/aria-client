@@ -12,7 +12,7 @@ export const SequencerContainer = connect(state => ({
 }), {
   closeSequence: song.actions.sequenceClosed,
   duplicate: notes.actions.notesDuplicated,
-  removeSelected: notes.actions.selectedNotesRemoved,
+  deleteSelectedNotes: notes.actions.selectedNotesDeleted,
   resizeSelected: notes.actions.selectedNotesResized,
   scrolledVertically: actions.scrolledVertically,
   selectTool: actions.toolSelected,

@@ -26,7 +26,7 @@ const ids = (state = [], action) => {
     case actionTypes.NOTES_ADDED:
       return _.concat(state, _.map(action.notes, 'id'));
     case actionTypes.NOTES_DELETED:
-      return _.without(state, action.ids);
+      return _.difference(state, action.ids);
     case actionTypes.NOTES_SET:
       return _.map(action.notes, 'id');
     case actionTypes.SONG_LOADED:

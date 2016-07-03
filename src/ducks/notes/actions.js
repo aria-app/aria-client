@@ -33,8 +33,8 @@ export const notesMoved = (notes, offset) => ({
   offset,
 });
 
-export const notesRemoved = (notes) => ({
-  type: actionTypes.NOTES_REMOVED,
+export const notesDeleted = (notes) => ({
+  type: actionTypes.NOTES_DELETED,
   notes,
 });
 
@@ -80,8 +80,8 @@ export const selectedNotesPositionNudged = (change) => ({
   change,
 });
 
-export const selectedNotesRemoved = () => ({
-  type: actionTypes.SELECTED_NOTES_REMOVED,
+export const selectedNotesDeleted = () => ({
+  type: actionTypes.SELECTED_NOTES_DELETED,
 });
 
 export const selectedNotesResized = (size) => ({

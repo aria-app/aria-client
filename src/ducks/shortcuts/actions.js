@@ -19,10 +19,6 @@ export const panReleased = () => ({
   type: actionTypes.PAN_RELEASED,
 });
 
-export const redoPressed = () => ({
-  type: actionTypes.REDO_PRESSED,
-});
-
 export const shortcutsRegistered = (shortcuts) => (dispatch) =>
   shortcuts.forEach(shortcut => {
     Mousetrap.bind(shortcut[1], (e) => {
@@ -30,12 +26,3 @@ export const shortcutsRegistered = (shortcuts) => (dispatch) =>
       dispatch(shortcut[0]);
     }, shortcut[2]);
   });
-
-export const toolActivated = (toolType) => ({
-  type: actionTypes.TOOL_ACTIVATED,
-  toolType,
-});
-
-export const undoPressed = () => ({
-  type: actionTypes.UNDO_PRESSED,
-});

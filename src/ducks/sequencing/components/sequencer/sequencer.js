@@ -36,7 +36,7 @@ const composed = compose(
     closeSequence: React.PropTypes.func.isRequired,
     duplicate: React.PropTypes.func.isRequired,
     isSelectingActive: React.PropTypes.bool,
-    removeSelected: React.PropTypes.func.isRequired,
+    deleteSelectedNotes: React.PropTypes.func.isRequired,
     scrolledVertically: React.PropTypes.func.isRequired,
     resizeSelected: React.PropTypes.func.isRequired,
     selectTool: React.PropTypes.func.isRequired,
@@ -90,7 +90,7 @@ function getSelectingCommands(props) {
     h(IconButton, {
       icon: 'trash',
       toolTip: 'Delete',
-      onPress: () => props.removeSelected(),
+      onPress: () => props.deleteSelectedNotes(),
     }),
     h(IconButton, {
       icon: 'clone',

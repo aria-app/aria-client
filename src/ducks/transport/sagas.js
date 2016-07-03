@@ -3,6 +3,7 @@ import Tone from 'tone';
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import playing from 'ducks/playing';
+import shortcuts from 'ducks/shortcuts';
 import song from 'ducks/song';
 import * as actions from './actions';
 import * as actionTypes from './action-types';
@@ -180,6 +181,7 @@ export default function* saga() {
       song.actionTypes.SEQUENCE_SHORTENED,
       song.actionTypes.SEQUENCES_ADDED,
       song.actionTypes.SEQUENCES_DELETED,
+      song.actionTypes.SEQUENCES_SET,
       song.actionTypes.SEQUENCES_UPDATED,
     ], updateSequences),
     takeEvery(song.actionTypes.BPM_SET, setBPM),
@@ -188,5 +190,7 @@ export default function* saga() {
     takeEvery(song.actionTypes.SONG_EXTENDED, updateSong),
     takeEvery(song.actionTypes.SONG_LOADED, initialize),
     takeEvery(song.actionTypes.SONG_SHORTENED, updateSong),
+    takeEvery(shortcuts.actionTypes.PLAYBACK_STOP, stop),
+    takeEvery(shortcuts.actionTypes.PLAYBACK_TOGGLE, togglePlayPause),
   ];
 }

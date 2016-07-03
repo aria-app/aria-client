@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import shortcuts from 'ducks/shortcuts';
 import * as actionTypes from './action-types';
 import * as constants from './constants';
 
@@ -10,8 +11,10 @@ const playbackState = (state = STOPPED, action) => {
       return PAUSED;
     case actionTypes.PLAYBACK_STARTED:
       return STARTED;
+    case shortcuts.actionTypes.PLAYBACK_STOP:
     case actionTypes.PLAYBACK_STOPPED:
       return STOPPED;
+    case shortcuts.actionTypes.PLAYBACK_TOGGLE:
     case actionTypes.PLAYBACK_TOGGLED:
       return state === STARTED ? PAUSED : STARTED;
     default:
