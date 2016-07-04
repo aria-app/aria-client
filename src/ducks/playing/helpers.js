@@ -3,7 +3,7 @@ import Instrument from './instrument';
 export function createChannel(track) {
   return {
     id: track.id,
-    instrument: Instrument.create(track.synthType),
+    instrument: Instrument.create(track.id, track.synthType),
   };
 }
 

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
@@ -28,27 +27,27 @@ const composed = compose(
     sequenceActions: h('.tracker-toolbar__sequence-actions', [
       h(IconButton, {
         icon: 'pencil',
-        onPress: () => props.openSequence(props.selectedSequenceId),
+        onPress: () => props.openSequence(),
       }),
       h(IconButton, {
         icon: 'trash',
-        onPress: () => props.deleteSequence(props.selectedSequenceId),
+        onPress: () => props.deleteSequence(),
       }),
       h(IconButton, {
         icon: 'long-arrow-left',
-        onPress: () => props.shortenSequence(props.selectedSequenceId),
+        onPress: () => props.shortenSequence(),
       }),
       h(IconButton, {
         icon: 'arrow-left',
-        onPress: () => props.moveSequenceLeft(props.selectedSequenceId),
+        onPress: () => props.moveSequenceLeft(),
       }),
       h(IconButton, {
         icon: 'arrow-right',
-        onPress: () => props.moveSequenceRight(props.selectedSequenceId),
+        onPress: () => props.moveSequenceRight(),
       }),
       h(IconButton, {
         icon: 'long-arrow-right',
-        onPress: () => props.extendSequence(props.selectedSequenceId),
+        onPress: () => props.extendSequence(),
       }),
     ]),
   })),

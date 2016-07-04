@@ -76,23 +76,44 @@ export default class Instrument {
   }
 }
 
-Instrument.create = function create(type) {
+Instrument.create = function create(id, type) {
   const instrument = new Instrument();
 
   instrument.activeVoices = [];
-  instrument.availableVoices = createSynths(type);
-  instrument.previewVoice = createSynth(type);
+  instrument.gain = new Tone.Gain(1);
+  instrument.id = id;
+  instrument.type = type;
+
+  instrument.availableVoices = createSynths(instrument);
+  instrument.previewVoice = createSynth(instrument);
+
+  instrument.reverbSends = applyReverb(instrument);
+
+  instrument.reverbSends.forEach(s => s.gain.value = 0);
 
   return instrument;
 };
 
-function createSynths(type) {
-  return _.times(12, () => createSynth(type));
+function applyReverb({ availableVoices, id, previewVoice }) {
+  const sendId = `${id}-reverb`;
+  const r = new Tone.Freeverb();
+  const previewSend = previewVoice.send(sendId, -Infinity);
+
+  const availableSends = availableVoices.map(v => v.send(sendId, -Infinity));
+
+  r.receive(sendId).toMaster();
+
+  return [...availableSends, previewSend];
 }
 
-function createSynth(type) {
-  return new Tone.SimpleSynth({
-    oscillator: { type },
-    volume: -20,
-  }).toMaster();
+function createSynths(instrument) {
+  return _.times(12, () => createSynth(instrument));
+}
+
+function createSynth({ type, gain }) {
+  const synth = new Tone.SimpleSynth({ oscillator: { type } });
+
+  synth.chain(gain, Tone.Master);
+
+  return synth;
 }

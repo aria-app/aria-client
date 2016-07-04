@@ -1,9 +1,5 @@
 import * as actionTypes from './action-types';
 
-export const trackCreatedAndAdded = () => ({
-  type: actionTypes.TRACK_CREATED_AND_ADDED,
-});
-
 export const redoPopped = () => ({
   type: actionTypes.REDO_POPPED,
 });
@@ -17,34 +13,44 @@ export const redosSet = (redos) => ({
   redos,
 });
 
+export const selectedSequenceDeleted = (id) => ({
+  type: actionTypes.SELECTED_SEQUENCE_DELETED,
+  id,
+});
+
+export const selectedSequenceExtended = (id) => ({
+  type: actionTypes.SELECTED_SEQUENCE_EXTENDED,
+  id,
+});
+
+export const selectedSequenceNudgedLeft = (id) => ({
+  type: actionTypes.SELECTED_SEQUENCE_NUDGED_LEFT,
+  id,
+});
+
+export const selectedSequenceNudgedRight = (id) => ({
+  type: actionTypes.SELECTED_SEQUENCE_NUDGED_RIGHT,
+  id,
+});
+
+export const selectedSequenceOpened = (id) => ({
+  type: actionTypes.SELECTED_SEQUENCE_OPENED,
+  id,
+});
+
+export const selectedSequenceShortened = (id) => ({
+  type: actionTypes.SELECTED_SEQUENCE_SHORTENED,
+  id,
+});
+
 export const sequenceAddedToTrack = (id, position) => ({
   type: actionTypes.SEQUENCE_ADDED_TO_TRACK,
   id,
   position,
 });
 
-export const sequenceDeleted = (id) => ({
-  type: actionTypes.SEQUENCE_DELETED,
-  id,
-});
-
 export const sequenceDeselected = () => ({
   type: actionTypes.SEQUENCE_DESELECTED,
-});
-
-export const sequenceExtended = (id) => ({
-  type: actionTypes.SEQUENCE_EXTENDED,
-  id,
-});
-
-export const sequenceNudgedLeft = (id) => ({
-  type: actionTypes.SEQUENCE_NUDGED_LEFT,
-  id,
-});
-
-export const sequenceNudgedRight = (id) => ({
-  type: actionTypes.SEQUENCE_NUDGED_RIGHT,
-  id,
 });
 
 export const sequenceSelected = (id) => ({
@@ -52,22 +58,17 @@ export const sequenceSelected = (id) => ({
   id,
 });
 
-export const sequenceShortened = (id) => ({
-  type: actionTypes.SEQUENCE_SHORTENED,
-  id,
+export const songExtended = () => ({
+  type: actionTypes.SONG_EXTENDED,
 });
 
-export function songExtended() {
-  return {
-    type: actionTypes.SONG_EXTENDED,
-  };
-}
+export const songShortened = () => ({
+  type: actionTypes.SONG_SHORTENED,
+});
 
-export function songShortened() {
-  return {
-    type: actionTypes.SONG_SHORTENED,
-  };
-}
+export const trackCreatedAndAdded = () => ({
+  type: actionTypes.TRACK_CREATED_AND_ADDED,
+});
 
 export const trackEditingFinished = () => ({
   type: actionTypes.TRACK_EDITING_FINISHED,
