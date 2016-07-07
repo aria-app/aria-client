@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { combineReducers } from 'redux';
-import shared from 'ducks/shared';
+import shared from '../shared';
 import * as actionTypes from './action-types';
 
 const byId = (state = {}, action) => {

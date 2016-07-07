@@ -1,5 +1,8 @@
 extends: airbnb-base
 
+env:
+  jasmine: true
+
 parser: babel-eslint
 
 parserOptions:

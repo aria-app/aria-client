@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { TrackEditingModal } from '../track-editing-modal/track-editing-modal';
-import song from 'ducks/song';
+import song from '../../../song';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 

@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { compose, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
 import React from 'react';
 import h from 'react-hyperscript';
-import shared from 'ducks/shared';
+import shared from '../../../shared';
 import './track-editing-modal.scss';
 
 const { Button, DropdownList, Modal } = shared.components;

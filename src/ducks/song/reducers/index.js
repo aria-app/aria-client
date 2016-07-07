@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { combineReducers } from 'redux';
 import * as actionTypes from '../action-types';
-import shared from 'ducks/shared';
+import shared from '../../shared';
 import notes from './notes';
 import sequences from './sequences';
 import tracks from './tracks';
@@ -17,7 +17,7 @@ const activeSequenceId = (state = '', action) => {
   }
 };
 
-const bpm = (state = 0, action) => {
+const bpm = (state = 120, action) => {
   switch (action.type) {
     case actionTypes.BPM_SET:
       return clampBpm(action.bpm);
@@ -54,7 +54,7 @@ const measureCount = (state = 1, action) => {
   }
 };
 
-const name = (state = 0, action) => {
+const name = (state = '', action) => {
   switch (action.type) {
     case actionTypes.NAME_SET:
       return action.name;

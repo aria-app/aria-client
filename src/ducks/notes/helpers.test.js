@@ -1,67 +1,65 @@
-import test from 'ava';
-import * as constants from './constants';
+import shared from '../shared';
 import * as helpers from './helpers';
 
-test('addPoints returns point with x values added and y values added', t => {
-  const expected = {
-    x: 24,
-    y: 15,
-  };
-  const result = helpers.addPoints(
-    { x: 16, y: 7 },
-    { x: 8, y: 8 }
-  );
+describe('Notes Helpers', () => {
+  describe('addPoints', () => {
+    it('should return add point, given two points', () => {
+      const expected = {
+        x: 24,
+        y: 15,
+      };
+      const result = helpers.addPoints(
+        { x: 16, y: 7 },
+        { x: 8, y: 8 }
+      );
+      expect(result).toEqual(expected);
+    });
+  });
 
-  t.deepEqual(result, expected);
-});
+  describe('somePointOutside', () => {
+    it('should return true, given point off left of grid', () => {
+      const measureCount = 1;
+      const points = [{
+        x: -1,
+        y: 35,
+      }];
+      const result = helpers.somePointOutside(points, measureCount);
 
-test('getNoteName return correct note name when given Y position', t => {
-  const expected = 'C3';
-  const result = helpers.getNoteName(47);
+      expect(result).toEqual(true);
+    });
 
-  t.deepEqual(result, expected);
-});
+    it('should return true, given point off right of grid', () => {
+      const measureCount = 1;
+      const points = [{
+        x: measureCount * 8 * 4 + 1,
+        y: 35,
+      }];
+      const result = helpers.somePointOutside(points, measureCount);
 
-test('somePointOutside returns true if any point is at x < 0', t => {
-  const measureCount = 1;
-  const points = [{
-    x: -1,
-    y: 35,
-  }];
-  const result = helpers.somePointOutside(points, measureCount);
+      expect(result).toEqual(true);
+    });
 
-  t.truthy(result);
-});
+    it('should return true, given point off top of grid', () => {
+      const measureCount = 1;
+      const points = [{
+        x: 35,
+        y: -1,
+      }];
+      const result = helpers.somePointOutside(points, measureCount);
 
-test('somePointOutside returns true if any point is at x > (measureCount * 8 * 4)', t => {
-  const measureCount = 1;
-  const points = [{
-    x: measureCount * 8 * 4 + 1,
-    y: 35,
-  }];
-  const result = helpers.somePointOutside(points, measureCount);
+      expect(result).toEqual(true);
+    });
 
-  t.truthy(result);
-});
+    it('should return true, given point off bottom of grid', () => {
+      const measureCount = 1;
+      const points = [{
+        x: 35,
+        y: shared.constants.octaveRange.length * 12,
+      }];
+      const result = helpers.somePointOutside(points, measureCount);
 
-test('somePointOutside returns true if any point is at y < 0', t => {
-  const measureCount = 1;
-  const points = [{
-    x: 35,
-    y: -1,
-  }];
-  const result = helpers.somePointOutside(points, measureCount);
+      expect(result).toEqual(true);
+    });
+  });
 
-  t.truthy(result);
-});
-
-test('somePointOutside returns true if any point is at y > (constants.octaveRange.length * 12 - 1) and offset y=1', t => {
-  const measureCount = 1;
-  const points = [{
-    x: 35,
-    y: constants.octaveRange.length * 12,
-  }];
-  const result = helpers.somePointOutside(points, measureCount);
-
-  t.truthy(result);
 });

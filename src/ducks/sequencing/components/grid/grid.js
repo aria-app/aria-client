@@ -1,8 +1,8 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
-import selecting from 'ducks/selecting';
-import shared from 'ducks/shared';
+import selecting from '../../../selecting';
+import shared from '../../../shared';
 import {
   SequencerTimelineContainer,
 } from '../sequencer-timeline-container/sequencer-timeline-container';

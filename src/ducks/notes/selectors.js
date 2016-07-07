@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import song from 'ducks/song';
+import song from '../song';
 import { NAME } from './constants';
 
 const get = state => state[NAME];

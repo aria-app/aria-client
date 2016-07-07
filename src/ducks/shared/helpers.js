@@ -83,7 +83,7 @@ export const scrollTo = createHelper((props) => BaseComponent =>
 , 'scrollTo');
 
 function getCenteredScroll(el) {
-  return (el.scrollHeight / 2) - el.offsetHeight / 2;
+  return el.scrollHeight / 2 - el.offsetHeight / 2;
 }
 
 function getLetter(point) {
@@ -122,13 +122,6 @@ export function resolveOnMouseUp() {
       window.removeEventListener('mouseup', doResolve, false);
       resolve();
     }
-  });
-}
-
-export function replaceItemsById(list, items) {
-  return list.map(i => {
-    const newItem = _.find(items, { id: i.id });
-    return newItem || i;
   });
 }
 

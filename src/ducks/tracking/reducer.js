@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import song from 'ducks/song';
+import song from '../song';
 import * as actionTypes from './action-types';
 
 function redos(state = [], action) {

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { SongToolbar } from './song-toolbar';
-import song from 'ducks/song';
-import transport from 'ducks/transport';
+import song from '../../../song';
+import transport from '../../../transport';
 import * as actions from '../../actions';
 
 export const SongToolbarContainer = connect(state => ({

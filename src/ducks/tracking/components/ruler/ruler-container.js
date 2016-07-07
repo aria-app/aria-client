@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import song from 'ducks/song';
-import transport from 'ducks/transport';
+import song from '../../../song';
+import transport from '../../../transport';
 import { Ruler } from '../ruler/ruler';
 import * as actions from '../../actions';
 

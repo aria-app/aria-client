@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { combineReducers } from 'redux';
-import shared from 'ducks/shared';
+import shared from '../../shared';
 import * as actionTypes from '../action-types';
 
 const { setAtIds } = shared.helpers;
@@ -13,7 +13,7 @@ const dict = (state = {}, action) => {
     case actionTypes.NOTES_DELETED:
       return _.omit(state, action.ids);
     case actionTypes.NOTES_SET:
-      return setAtIds(action.notes, {});
+      return setAtIds(action.notes);
     case actionTypes.SONG_LOADED:
       return action.song.notes.dict;
     default:

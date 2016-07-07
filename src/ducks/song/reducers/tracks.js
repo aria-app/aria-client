@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { combineReducers } from 'redux';
-import shared from 'ducks/shared';
+import shared from '../../shared';
 import * as actionTypes from '../action-types';
 
 const { setAtIds } = shared.helpers;
@@ -34,7 +34,7 @@ const dict = (state = {}, action) => {
     case actionTypes.TRACKS_DELETED:
       return _.omit(state, action.ids);
     case actionTypes.TRACKS_SET:
-      return setAtIds(action.tracks, {});
+      return setAtIds(action.tracks);
     default:
       return state;
   }

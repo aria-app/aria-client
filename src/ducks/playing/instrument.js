@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import Tone from 'tone';
-import shared from 'ducks/shared';
+import shared from '../shared';
 import * as helpers from './helpers';
 
 export default class Instrument {
@@ -88,8 +88,8 @@ Instrument.create = function create(id, type) {
   instrument.previewVoice = createSynth(instrument);
 
   instrument.reverbSends = applyReverb(instrument);
-
-  instrument.reverbSends.forEach(s => s.gain.value = 0);
+  // eslint-disable-next-line no-param-reassign
+  instrument.reverbSends.forEach(s => { s.gain.value = 0; });
 
   return instrument;
 };

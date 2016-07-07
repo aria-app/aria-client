@@ -20,19 +20,22 @@ module.exports = {
         loader: 'style!css!postcss!sass',
       },
       {
-        test: /\.json$/,
-        exclude: /node_modules/,
-        loader: 'json',
-      },
-      {
         test: /\.js$/,
         include: [
           path.join(__dirname, 'src'),
-          // path.join(__dirname, 'node_modules/react-icons'),
         ],
         loader: 'babel',
       },
+      {
+        test: /\.json/,
+        loader: 'json',
+      },
     ],
+  },
+  externals: {
+    'react/addons': true,
+    'react/lib/ExecutionEnvironment': true,
+    'react/lib/ReactContext': true,
   },
   postcss: function postcss() {
     return [autoprefixer];

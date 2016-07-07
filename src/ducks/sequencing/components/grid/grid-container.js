@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { Grid } from '../grid/grid';
-import panning from 'ducks/panning';
-import song from 'ducks/song';
+import panning from '../../../panning';
+import song from '../../../song';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 

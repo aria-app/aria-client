@@ -1,0 +1,9 @@
+import 'babel-polyfill';
+import './src/ducks/app';
+import './src/ducks/app/components/app/app.test';
+import './src/ducks/moving/helpers.test';
+import './src/ducks/notes/helpers.test';
+import './src/ducks/selecting/helpers.test';
+import './src/ducks/shared/helpers.test';
+import './src/ducks/sequencing/components/note/note.test';
+import './src/ducks/song/reducers/notes.test';
