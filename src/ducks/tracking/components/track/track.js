@@ -3,7 +3,7 @@ import React from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import classnames from 'classnames';
-import shared from '../../../shared';
+import shared from 'ducks/shared';
 import { Sequence } from '../sequence/sequence';
 import './track.scss';
 

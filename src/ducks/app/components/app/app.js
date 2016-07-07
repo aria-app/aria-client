@@ -1,9 +1,9 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import { compose, lifecycle, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
-import contextMenu from '../../../context-menu';
-import sequencing from '../../../sequencing';
-import tracking from '../../../tracking';
+import contextMenu from 'ducks/context-menu';
+import sequencing from 'ducks/sequencing';
+import tracking from 'ducks/tracking';
 import { BPMModalContainer } from '../bpm-modal/bpm-modal-container';
 import { SongToolbarContainer } from '../song-toolbar/song-toolbar-container';
 import './app.scss';

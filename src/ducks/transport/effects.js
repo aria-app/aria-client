@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import Tone from 'tone';
-import song from '../song';
+import song from 'ducks/song';
 import * as actions from './actions';
 import * as helpers from './helpers';
 

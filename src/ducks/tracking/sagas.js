@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { takeEvery } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
-import contextMenu from '../context-menu';
-import shortcuts from '../shortcuts';
-import song from '../song';
+import contextMenu from 'ducks/context-menu';
+import shortcuts from 'ducks/shortcuts';
+import song from 'ducks/song';
 import * as actions from './actions';
 import * as actionTypes from './action-types';
 import * as constants from './constants';

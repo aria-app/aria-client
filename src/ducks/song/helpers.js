@@ -1,5 +1,5 @@
 import { v4 } from 'node-uuid';
-import shared from '../shared';
+import shared from 'ducks/shared';
 
 export function createNote(options) {
   if (typeof options.points === 'undefined') {

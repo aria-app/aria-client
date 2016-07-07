@@ -1,6 +1,6 @@
 import { takeEvery } from 'redux-saga';
 import { put } from 'redux-saga/effects';
-import shortcuts from '../shortcuts';
+import shortcuts from 'ducks/shortcuts';
 import * as actionTypes from './action-types';
 
 function* initialize() {

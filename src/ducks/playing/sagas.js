@@ -1,7 +1,7 @@
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import Tone from 'tone';
-import song from '../song';
+import song from 'ducks/song';
 import * as actions from './actions';
 import * as actionTypes from './action-types';
 import * as helpers from './helpers';

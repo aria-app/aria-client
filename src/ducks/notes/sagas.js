@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import { takeEvery } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
-import playing from '../playing';
-import sequencing from '../sequencing';
-import shortcuts from '../shortcuts';
-import song from '../song';
+import playing from 'ducks/playing';
+import sequencing from 'ducks/sequencing';
+import shortcuts from 'ducks/shortcuts';
+import song from 'ducks/song';
 import * as actions from './actions';
 import * as actionTypes from './action-types';
 import * as helpers from './helpers';

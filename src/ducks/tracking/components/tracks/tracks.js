@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import h from 'react-hyperscript';
 import { compose, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
-import shared from '../../../shared';
+import shared from 'ducks/shared';
 import { RulerContainer } from '../ruler/ruler-container';
 import { Track } from '../track/track';
 import './tracks.scss';

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import shared from '../shared';
+import shared from 'ducks/shared';
 
 export function addPoints(a, b) {
   return {

@@ -9,8 +9,8 @@ import {
   setPropTypes,
   withHandlers,
 } from 'recompose';
-import shared from '../../../shared';
-import transport from '../../../transport';
+import shared from 'ducks/shared';
+import transport from 'ducks/transport';
 import './ruler.scss';
 
 const { Icon } = shared.components;

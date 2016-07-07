@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { App } from '../app/app';
-import song from '../../../song';
+import song from 'ducks/song';
 import * as actions from '../../actions';
 
 export const AppContainer = connect(state => ({

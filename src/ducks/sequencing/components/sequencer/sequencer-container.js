@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { Sequencer } from '../sequencer/sequencer';
-import notes from '../../../notes';
-import song from '../../../song';
+import notes from 'ducks/notes';
+import song from 'ducks/song';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 

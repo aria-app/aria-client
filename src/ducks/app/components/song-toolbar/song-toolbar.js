@@ -1,8 +1,8 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
-import shared from '../../../shared';
-import transport from '../../../transport';
+import shared from 'ducks/shared';
+import transport from 'ducks/transport';
 import './song-toolbar.scss';
 
 const { Button, IconButton, Toolbar } = shared.components;

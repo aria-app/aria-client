@@ -1,4 +1,4 @@
-import song from '../song';
+import song from 'ducks/song';
 import { NAME } from './constants';
 
 const get = state => state[NAME];

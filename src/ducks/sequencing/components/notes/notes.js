@@ -3,7 +3,7 @@ import h from 'react-hyperscript';
 import _ from 'lodash';
 import classnames from 'classnames';
 import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
-import shared from '../../../shared';
+import shared from 'ducks/shared';
 import { Note } from '../note/note';
 import './notes.scss';
 

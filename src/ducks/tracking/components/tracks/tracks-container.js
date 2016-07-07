@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import contextMenu from '../../../context-menu';
-import song from '../../../song';
+import contextMenu from 'ducks/context-menu';
+import song from 'ducks/song';
 import { Tracks } from '../tracks/tracks';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';

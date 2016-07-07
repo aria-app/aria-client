@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import shortcuts from '../shortcuts';
+import shortcuts from 'ducks/shortcuts';
 import * as actionTypes from './action-types';
 import * as constants from './constants';
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { BPMModal } from '../bpm-modal/bpm-modal';
-import song from '../../../song';
+import song from 'ducks/song';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 

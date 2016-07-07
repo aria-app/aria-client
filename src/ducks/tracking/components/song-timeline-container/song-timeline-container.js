@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import shared from '../../../shared';
-import transport from '../../../transport';
+import shared from 'ducks/shared';
+import transport from 'ducks/transport';
 
 export const SongTimelineContainer = connect(state => ({
   isVisible: transport.selectors.getIsPlaying(state),

@@ -1,4 +1,4 @@
-import shared from '../shared';
+import shared from 'ducks/shared';
 import * as helpers from './helpers';
 
 describe('Notes Helpers', () => {

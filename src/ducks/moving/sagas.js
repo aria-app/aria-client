@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import notes from '../notes';
-import sequencing from '../sequencing';
-import shared from '../shared';
+import notes from 'ducks/notes';
+import sequencing from 'ducks/sequencing';
+import shared from 'ducks/shared';
 import * as actions from './actions';
 import * as actionTypes from './action-types';
 import * as helpers from './helpers';

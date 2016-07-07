@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { combineReducers } from 'redux';
 import * as actionTypes from '../action-types';
-import shared from '../../shared';
+import shared from 'ducks/shared';
 import notes from './notes';
 import sequences from './sequences';
 import tracks from './tracks';
