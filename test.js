@@ -1,6 +1,7 @@
 import 'babel-polyfill';
 import './src/ducks/app';
 import './src/ducks/app/components/app/app.test';
+import './src/ducks/context-menu/components/context-menu/context-menu.test';
 import './src/ducks/moving/helpers.test';
 import './src/ducks/notes/helpers.test';
 import './src/ducks/selecting/helpers.test';
