@@ -18,7 +18,7 @@ function selectedIds(state = [], action) {
     case actionTypes.ALL_NOTES_DESELECTED:
     case shortcuts.actionTypes.DESELECT:
     case song.actionTypes.NOTES_DELETED:
-    case song.actionTypes.SEQUENCE_OPENED:
+    case song.actionTypes.SEQUENCE_CLOSED:
       return [];
     case actionTypes.NOTE_SELECTED:
       if (action.isAdditive) {

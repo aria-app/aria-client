@@ -13,7 +13,7 @@ const contextMenuItems = (state = [], action) => {
   }
 };
 
-const contextMenuPosition = (state = { x: 0, y: 0 }, action) => {
+const contextMenuPosition = (state = {}, action) => {
   switch (action.type) {
     case actionTypes.CONTEXT_MENU_OPENED:
       return action.position;
