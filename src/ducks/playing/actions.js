@@ -10,11 +10,6 @@ export const channelAdded = channel => ({
   channel,
 });
 
-export const channelUpdated = channel => ({
-  type: actionTypes.channelUpdated,
-  channel,
-});
-
 export const channelsSet = channels => ({
   type: actionTypes.CHANNELS_SET,
   channels,

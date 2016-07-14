@@ -2,7 +2,6 @@ import { NAME } from './constants';
 
 export const ALL_INSTRUMENTS_RELEASED = `${NAME}/ALL_INSTRUMENTS_RELEASED`;
 export const CHANNEL_ADDED = `${NAME}/CHANNEL_ADDED`;
-export const CHANNEL_UPDATED = `${NAME}/CHANNEL_UPDATED`;
 export const CHANNELS_SET = `${NAME}/CHANNELS_SET`;
 export const INSTRUMENT_DISPOSED = `${NAME}/INSTRUMENT_DISPOSED`;
 export const NOTE_PLAYED = `${NAME}/NOTE_PLAYED`;

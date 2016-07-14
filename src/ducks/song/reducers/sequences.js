@@ -7,6 +7,11 @@ const { setAtIds } = shared.helpers;
 
 const dict = (state = {}, action) => {
   switch (action.type) {
+    case actionTypes.SEQUENCES_ADDED:
+    case actionTypes.SEQUENCES_UPDATED:
+      return setAtIds(action.sequences, state);
+    case actionTypes.SEQUENCES_DELETED:
+      return _.omit(state, action.ids);
     case actionTypes.SEQUENCE_EXTENDED:
       return setAtIds([{
         ...state[action.id],
@@ -31,11 +36,6 @@ const dict = (state = {}, action) => {
           ? 1
           : state[action.id].measureCount - 1,
       }], state);
-    case actionTypes.SEQUENCES_ADDED:
-    case actionTypes.SEQUENCES_UPDATED:
-      return setAtIds(action.sequences, state);
-    case actionTypes.SEQUENCES_DELETED:
-      return _.omit(state, action.ids);
     case actionTypes.SEQUENCES_SET:
       return setAtIds(action.sequences, state);
     case actionTypes.SONG_LOADED:

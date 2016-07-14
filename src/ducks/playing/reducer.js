@@ -6,7 +6,6 @@ import * as actionTypes from './action-types';
 const byId = (state = {}, action) => {
   switch (action.type) {
     case actionTypes.CHANNEL_ADDED:
-    case actionTypes.CHANNEL_UPDATED:
       return shared.helpers.setAtIds([action.channel], state);
     case actionTypes.CHANNELS_SET:
       return shared.helpers.setAtIds(action.channels, {});

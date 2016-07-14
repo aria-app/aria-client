@@ -65,14 +65,18 @@ const name = (state = '', action) => {
   }
 };
 
-export default combineReducers({
+export const indexReducer = combineReducers({
   activeSequenceId,
-  notes,
-  sequences,
   bpm,
   id,
   measureCount,
   name,
+});
+
+export default combineReducers({
+  indexReducer,
+  notes,
+  sequences,
   tracks,
 });
 
