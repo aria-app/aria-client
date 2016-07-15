@@ -21,3 +21,5 @@ import './src/ducks/song/reducers/index.test';
 import './src/ducks/song/reducers/notes.test';
 import './src/ducks/song/reducers/sequences.test';
 import './src/ducks/song/reducers/tracks.test';
+import './src/ducks/tracking/reducer.test';
+import './src/ducks/transport/reducer.test';

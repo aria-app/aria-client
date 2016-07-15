@@ -27,7 +27,7 @@ const selectedSequenceId = (state = '', action) => {
 const stagedTrackId = (state = '', action) => {
   switch (action.type) {
     case actionTypes.TRACK_EDITING_FINISHED:
-      return {};
+      return '';
     case actionTypes.TRACK_EDITING_STARTED:
       return action.id;
     default:

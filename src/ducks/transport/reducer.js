@@ -11,11 +11,11 @@ const playbackState = (state = STOPPED, action) => {
       return PAUSED;
     case actionTypes.PLAYBACK_STARTED:
       return STARTED;
-    case shortcuts.actionTypes.PLAYBACK_STOP:
     case actionTypes.PLAYBACK_STOPPED:
+    case shortcuts.actionTypes.PLAYBACK_STOP:
       return STOPPED;
-    case shortcuts.actionTypes.PLAYBACK_TOGGLE:
     case actionTypes.PLAYBACK_TOGGLED:
+    case shortcuts.actionTypes.PLAYBACK_TOGGLE:
       return state === STARTED ? PAUSED : STARTED;
     default:
       return state;
@@ -27,7 +27,7 @@ const position = (state = 0, action) => {
     case actionTypes.POSITION_SET:
       return action.position;
     case actionTypes.PLAYBACK_STOPPED:
-      return '0';
+      return 0;
     default:
       return state;
   }
@@ -47,13 +47,13 @@ const songPosition = (state = 0, action) => {
     case actionTypes.SONG_POSITION_SET:
       return action.position;
     case actionTypes.PLAYBACK_STOPPED:
-      return '0';
+      return 0;
     default:
       return state;
   }
 };
 
-const songSequence = (state = 0, action) => {
+const songSequence = (state = {}, action) => {
   switch (action.type) {
     case actionTypes.SONG_SEQUENCE_SET:
       return action.sequence;

@@ -11,11 +11,6 @@ const dict = (state = {}, action) => {
       return action.song.tracks.dict;
     case actionTypes.TRACK_CREATED_AND_ADDED:
       return setAtIds([action.track], state);
-    case actionTypes.TRACK_SYNTH_TYPE_SET:
-      return shared.helpers.setAtIds([{
-        ...state[action.id],
-        synthType: action.synthType,
-      }], state);
     case actionTypes.TRACK_IS_MUTED_TOGGLED:
       return shared.helpers.setAtIds([{
         ...state[action.id],
@@ -27,6 +22,11 @@ const dict = (state = {}, action) => {
         ...state[action.id],
         isSoloing: !state[action.id].isSoloing,
         isMuted: false,
+      }], state);
+    case actionTypes.TRACK_SYNTH_TYPE_SET:
+      return shared.helpers.setAtIds([{
+        ...state[action.id],
+        synthType: action.synthType,
       }], state);
     case actionTypes.TRACKS_ADDED:
     case actionTypes.TRACKS_UPDATED:
