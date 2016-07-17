@@ -13,6 +13,7 @@ import './src/ducks/playing/reducer.test';
 import './src/ducks/resizing/reducer.test';
 import './src/ducks/selecting/helpers.test';
 import './src/ducks/selecting/reducer.test';
+import './src/ducks/selecting/components/fence/fence.test';
 import './src/ducks/sequencing/reducer.test';
 import './src/ducks/shared/helpers.test';
 import './src/ducks/shortcuts/reducer.test';

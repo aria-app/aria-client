@@ -22,9 +22,9 @@ const composed = compose(
   setDisplayName('Fence'),
   pure,
   setPropTypes({
-    newPoint: PropTypes.object,
-    startPoint: PropTypes.object,
-    isSelecting: PropTypes.bool,
+    newPoint: PropTypes.object.isRequired,
+    startPoint: PropTypes.object.isRequired,
+    isSelecting: PropTypes.bool.isRequired,
   }),
   mapProps(props => ({
     display: getDisplay(props.isSelecting, props.startPoint, props.newPoint),
