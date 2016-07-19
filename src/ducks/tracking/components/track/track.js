@@ -32,7 +32,7 @@ const component = (props) => h('.track', [
     ]),
     h('.track__sequences', {
       style: {
-        width: props.songMeasureCount * 4 * 8 * 2,
+        width: props.songMeasureCount * 64,
       },
     }, [
       ...props.track.sequences.map(sequence => h(Sequence, {

@@ -1,3 +1,3 @@
-export function measuresToSeconds(measures) {
+export function measuresToTime(measures) {
   return `(${measures * 32} * 32n)`;
 }

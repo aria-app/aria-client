@@ -34,7 +34,7 @@ export function createSongSequence() {
 
 function createSequence(songSequence, ...rest) {
   const sequence = new Tone.Sequence(...rest);
-  const start = helpers.measuresToSeconds(songSequence.position);
+  const start = helpers.measuresToTime(songSequence.position);
   sequence.loop = false;
   sequence.start(start);
   return sequence;

@@ -6,7 +6,6 @@ import sequencing from 'ducks/sequencing';
 import shared from 'ducks/shared';
 import * as actions from './actions';
 import * as actionTypes from './action-types';
-import * as helpers from './helpers';
 import * as selectors from './selectors';
 
 function* start() {
@@ -35,7 +34,7 @@ function* update() {
 
   if (_.isEqual(previousPoint, newPoint)) return;
 
-  const change = helpers.getPointOffset(previousPoint, newPoint);
+  const change = shared.helpers.getPointOffset(previousPoint, newPoint);
 
   yield put(notes.actions.selectedNotesSizeChanged(change));
 

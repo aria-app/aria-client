@@ -103,6 +103,13 @@ function getLetter(point) {
   ][point % 12];
 }
 
+export function getPointOffset(start, end) {
+  return {
+    x: end.x - start.x,
+    y: end.y - start.y,
+  };
+}
+
 export function getScale() {
   return _(constants.octaveRange)
   .flatMap(octave => _.range(12).map(step => {

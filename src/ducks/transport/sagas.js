@@ -21,8 +21,8 @@ function* initialize() {
 
 function* loopSequence() {
   const { measureCount, position } = yield select(song.selectors.getActiveSequence);
-  const start = helpers.measuresToSeconds(position);
-  const end = helpers.measuresToSeconds(position + measureCount);
+  const start = helpers.measuresToTime(position);
+  const end = helpers.measuresToTime(position + measureCount);
   yield put(actions.startPointSet(`+${start}`));
   Tone.Transport.setLoopPoints(start, end);
   Tone.Transport.loop = true;
@@ -36,7 +36,7 @@ function* loopSequence() {
 
 function* loopSong() {
   const songMeasureCount = yield select(song.selectors.getMeasureCount);
-  const end = helpers.measuresToSeconds(songMeasureCount);
+  const end = helpers.measuresToTime(songMeasureCount);
   yield put(actions.startPointSet(0));
   Tone.Transport.setLoopPoints(0, end);
   Tone.Transport.loop = true;
@@ -109,7 +109,7 @@ function* setBPM(action) {
 }
 
 function* setTransportPosition({ measures }) {
-  const position = helpers.measuresToSeconds(measures);
+  const position = helpers.measuresToTime(measures);
   Tone.Transport.position = position;
   yield put(actions.songPositionSet(measures * 32));
   yield put(playing.actions.allInstrumentsReleased());

@@ -23,13 +23,13 @@ const component = (props) => h('.modal', {
       h(Toolbar, {
         className: 'modal__actions',
         rightItems: [
-          !!props.onCancelPress ? h(Button, {
-            className: 'modal__action',
+          !!props.onCancel ? h(Button, {
+            className: 'modal__action modal__action--cancel',
             text: props.cancelText,
             onPress: props.onCancel,
           }) : null,
           h(Button, {
-            className: 'modal__action',
+            className: 'modal__action modal__action--confirm',
             text: props.confirmText,
             onPress: props.onConfirm,
           }),

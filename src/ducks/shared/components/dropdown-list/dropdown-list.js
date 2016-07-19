@@ -27,7 +27,7 @@ const component = ({
   }) : h('.dropdown-list__input', {
     onClick: () => openPopup(),
   }, [
-    selectedItem ? selectedItem.text : text,
+    text || selectedItem.text || '',
     h(Icon, {
       icon: 'caret-down',
       size: 'small',

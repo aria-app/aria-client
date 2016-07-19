@@ -1,46 +1,46 @@
 import { v4 } from 'node-uuid';
 import shared from 'ducks/shared';
 
-export function createNote(options) {
-  if (typeof options.points === 'undefined') {
+export function createNote({ id, points, sequenceId }) {
+  if (typeof points === 'undefined') {
     throw new Error('Please provide points to createNote');
   }
 
-  if (typeof options.sequenceId === 'undefined') {
+  if (typeof sequenceId === 'undefined') {
     throw new Error('Please provide a sequenceId to createNote');
   }
 
   return {
-    id: v4(),
-    points: options.points,
-    sequenceId: options.sequenceId,
+    id: id || v4(),
+    points,
+    sequenceId,
   };
 }
 
-export function createSequence(options) {
-  if (typeof options.measureCount === 'undefined') {
+export function createSequence({ id, measureCount, position, trackId }) {
+  if (typeof measureCount === 'undefined') {
     throw new Error('Please provide a measureCount to createSequence');
   }
 
-  if (typeof options.position === 'undefined') {
+  if (typeof position === 'undefined') {
     throw new Error('Please provide a position to createSequence');
   }
 
-  if (typeof options.trackId === 'undefined') {
+  if (typeof trackId === 'undefined') {
     throw new Error('Please provide a trackId to createSequence');
   }
 
   return {
-    id: v4(),
-    measureCount: options.measureCount,
-    position: options.position,
-    trackId: options.trackId,
+    id: id || v4(),
+    measureCount,
+    position,
+    trackId,
   };
 }
 
-export function createTrack(synthType) {
+export function createTrack({ id, synthType }) {
   return {
-    id: v4(),
+    id: id || v4(),
     isMuted: false,
     isSoloing: false,
     synthType: synthType || shared.constants.defaultSynthType,

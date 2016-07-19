@@ -18,7 +18,7 @@ describe('Fence Component', () => {
       newPoint: { x: 0, y: 0 },
       startPoint: { x: 1, y: 1 },
     }));
-    const display = component.find('.fence').node.style.display;
+    const { display } = component.find('.fence').prop('style');
     expect(display).toEqual('block');
   });
 
@@ -28,7 +28,7 @@ describe('Fence Component', () => {
       newPoint: { x: 0, y: 0 },
       startPoint: { x: 0, y: 0 },
     }));
-    const display = component.find('.fence').node.style.display;
+    const { display } = component.find('.fence').prop('style');
     expect(display).toEqual('none');
   });
 
@@ -38,7 +38,7 @@ describe('Fence Component', () => {
       newPoint: { x: 0, y: 0 },
       startPoint: { x: 0, y: 0 },
     }));
-    const display = component.find('.fence').node.style.display;
+    const { display } = component.find('.fence').prop('style');
     expect(display).toEqual('none');
   });
 
@@ -48,8 +48,8 @@ describe('Fence Component', () => {
       newPoint: { x: 2, y: 0 },
       startPoint: { x: 0, y: 0 },
     }));
-    const width = component.find('.fence').node.style.width;
-    expect(width).toEqual('120px');
+    const { width } = component.find('.fence').prop('style');
+    expect(width).toEqual(120);
   });
 
   it('should have height of deltaY * 40px', () => {
@@ -58,8 +58,8 @@ describe('Fence Component', () => {
       newPoint: { x: 0, y: 2 },
       startPoint: { x: 0, y: 0 },
     }));
-    const height = component.find('.fence').node.style.height;
-    expect(height).toEqual('120px');
+    const { height } = component.find('.fence').prop('style');
+    expect(height).toEqual(120);
   });
 
   it('should be translated to top left corner of selection when growing normally', () => {
@@ -68,7 +68,7 @@ describe('Fence Component', () => {
       newPoint: { x: 5, y: 5 },
       startPoint: { x: 3, y: 3 },
     }));
-    const transform = component.find('.fence').node.style.transform;
+    const { transform } = component.find('.fence').prop('style');
     expect(transform).toEqual('translate(120px, 120px)');
   });
 
@@ -78,7 +78,7 @@ describe('Fence Component', () => {
       newPoint: { x: 2, y: 2 },
       startPoint: { x: 3, y: 3 },
     }));
-    const transform = component.find('.fence').node.style.transform;
+    const { transform } = component.find('.fence').prop('style');
     expect(transform).toEqual('translate(80px, 80px)');
   });
 

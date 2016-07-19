@@ -1,7 +1,7 @@
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
-import { compose, pure, setPropTypes } from 'recompose';
+import { compose, pure, setDisplayName, setPropTypes } from 'recompose';
 import './toggle-button.scss';
 
 const component = ({
@@ -17,6 +17,7 @@ const component = ({
 }, text);
 
 export const ToggleButton = compose(
+  setDisplayName('ToggleButton'),
   pure,
   setPropTypes({
     className: PropTypes.string,

@@ -42,8 +42,8 @@ export const Note = compose(
   setDisplayName('Note'),
   pure,
   setPropTypes({
-    note: PropTypes.object,
-    isSelected: PropTypes.bool,
+    note: PropTypes.object.isRequired,
+    isSelected: PropTypes.bool.isRequired,
     onEndpointMouseDown: PropTypes.func,
     onEndpointMouseUp: PropTypes.func,
     onMouseDown: PropTypes.func,
@@ -67,15 +67,12 @@ export const Note = compose(
       props.onEndpointMouseUp(props.note, e);
     },
   }),
-  mapProps(({ isSelected, note, ...rest }) => ({
-    transform: `translate(${note.points[0].x * 40}px, ${note.points[0].y * 40}px)`,
-    connectorTransform: getConnectorTransform(note.points[0], _.last(note.points)),
-    endPointDisplay: _.last(note.points).x - note.points[0].x === 0 ? 'none' : 'flex',
-    endPointTransform: getEndPointTransform(note.points[0], _.last(note.points)),
-    className: classnames({
-      'note--active': isSelected,
-    }),
-    ...rest,
+  mapProps((props) => ({
+    className: classnames({ 'note--active': props.isSelected }),
+    connectorTransform: getConnectorTransform(props.note.points[0], _.last(props.note.points)),
+    endPointDisplay: _.last(props.note.points).x - props.note.points[0].x === 0 ? 'none' : 'flex',
+    endPointTransform: getEndPointTransform(props.note.points[0], _.last(props.note.points)),
+    transform: `translate(${props.note.points[0].x * 40}px, ${props.note.points[0].y * 40}px)`,
   })),
 )(component);
 

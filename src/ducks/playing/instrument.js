@@ -42,7 +42,7 @@ export default class Instrument {
     }
 
     const name = shared.helpers.getNoteName(_.first(note.points).y);
-    const length = helpers.sizeToSeconds(_.last(note.points).x - _.first(note.points).x);
+    const length = helpers.sizeToTime(_.last(note.points).x - _.first(note.points).x);
 
     voice.triggerAttack(name, time);
 

@@ -26,7 +26,7 @@ export const trackCreatedAndAdded = () => ({
   track: helpers.createTrack(),
 });
 
-export const notesAdded=(notes) => ({
+export const notesAdded = (notes) => ({
   type: actionTypes.NOTES_ADDED,
   notes,
 });
