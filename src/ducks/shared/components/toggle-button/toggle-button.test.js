@@ -11,22 +11,39 @@ describe('ToggleButton Component', () => {
   });
 
   it('should have active class when active', () => {
-    const component = mount(h(ToggleButton));
-    expect(false).toEqual(true);
+    const component = mount(h(ToggleButton, {
+      isActive: true,
+    }));
+    const el = component.find('.toggle-button');
+    expect(el.hasClass('toggle-button--active')).toEqual(true);
   });
 
   it('should not have active class when not active', () => {
-    const component = mount(h(ToggleButton));
-    expect(false).toEqual(true);
+    const component = mount(h(ToggleButton, {
+      isActive: false,
+    }));
+    const el = component.find('.toggle-button');
+    expect(el.hasClass('toggle-button--active')).toEqual(false);
   });
 
   it('should contain text', () => {
-    const component = mount(h(ToggleButton));
-    expect(false).toEqual(true);
+    const text = 'Some Text';
+    const component = mount(h(ToggleButton, {
+      text,
+    }));
+    const expected = text;
+    const el = component.find('.toggle-button');
+    expect(el.text().trim()).toEqual(expected);
   });
 
-  it('should call onPress when pressed', () => {
-    const component = mount(h(ToggleButton));
-    expect(false).toEqual(true);
+  it('should invoke onPress when pressed', () => {
+    let invoked = false;
+    const component = mount(h(ToggleButton, {
+      onPress: () => {
+        invoked = true;
+      },
+    }));
+    component.find('.toggle-button').simulate('click');
+    expect(invoked).toEqual(true);
   });
 });

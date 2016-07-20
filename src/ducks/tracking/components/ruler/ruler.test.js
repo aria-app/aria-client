@@ -18,7 +18,18 @@ describe('Ruler Component', () => {
 
   describe('measures', () => {
     it('should have width of measureCount * 64', () => {
-      expect(false).toEqual(true);
+      const component = mount(h(Ruler, {
+        extendSong: () => {},
+        measureCount: 2,
+        playbackState: '',
+        pause: () => {},
+        play: () => {},
+        setPosition: () => {},
+        shortenSong: () => {},
+      }));
+      const expected = 128;
+      const { width } = component.find('.ruler__measures').prop('style');
+      expect(width).toEqual(expected);
     });
   });
 });

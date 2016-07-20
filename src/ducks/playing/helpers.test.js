@@ -1,25 +1,41 @@
+import shared from 'ducks/shared';
+import * as helpers from './helpers';
+
 describe('Playing Helpers', () => {
   describe('createChannel', () => {
-    it('should return correctly formatted channel', () => {
-      expect(false).toEqual(true);
+    it('should return channel', () => {
+      const track = {
+        id: 'my-track',
+        synthType: shared.constants.synthTypes.SQUARE,
+      };
+      expect(helpers.createChannel(track)).toBeDefined();
     });
 
     it('should throw when track has no id', () => {
-      expect(false).toEqual(true);
+      const track = {
+        synthType: shared.constants.synthTypes.SQUARE,
+      };
+      expect(() => helpers.createChannel(track)).toThrow();
     });
 
     it('should throw when track has no synthType', () => {
-      expect(false).toEqual(true);
+      const track = {
+        id: 'my-track',
+      };
+      expect(() => helpers.createChannel(track)).toThrow();
     });
   });
 
   describe('sizeToTime', () => {
     it('should return correctly formatted time', () => {
-      expect(false).toEqual(true);
+      const size = 2;
+      const expected = '(3 * 32n)';
+      expect(helpers.sizeToTime(size)).toEqual(expected);
     });
 
     it('should throw if size is not number', () => {
-      expect(false).toEqual(true);
+      const size = '2';
+      expect(() => helpers.sizeToTime(size)).toThrow();
     });
   });
 });

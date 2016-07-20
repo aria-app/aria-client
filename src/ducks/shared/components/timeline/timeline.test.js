@@ -15,20 +15,26 @@ describe('Timeline Component', () => {
       isVisible: true,
       offset: 0,
     }));
-    expect(false).toEqual(true);
+    const expected = 'block';
+    const { display } = component.find('.timeline').prop('style');
+    expect(display).toEqual(expected);
   });
 
   it('should have display none when not visible', () => {
     const component = mount(h(Timeline, {
       offset: 0,
     }));
-    expect(false).toEqual(true);
+    const expected = 'none';
+    const { display } = component.find('.timeline').prop('style');
+    expect(display).toEqual(expected);
   });
 
   it('should have x-translation equal to offset in pixels', () => {
     const component = mount(h(Timeline, {
-      offset: 0,
+      offset: 256,
     }));
-    expect(false).toEqual(true);
+    const expected = 'translateX(256px)';
+    const { transform } = component.find('.timeline').prop('style');
+    expect(transform).toEqual(expected);
   });
 });

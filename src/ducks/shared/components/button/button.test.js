@@ -9,7 +9,11 @@ describe('Button Component', () => {
   });
 
   it('should contain text', () => {
-    const component = mount(h(Button));
-    expect(false).toEqual(true);
+    const text = 'Some Text';
+    const component = mount(h(Button, {
+      text,
+    }));
+    const el = component.find('.button');
+    expect(el.text()).toEqual(text);
   });
 });

@@ -20,7 +20,7 @@ describe('Playing Reducer', () => {
   it('should handle CHANNEL_ADDED', () => {
     const channel = helpers.createChannel({
       id: 'track-1',
-      type: shared.constants.synthTypes.SQUARE,
+      synthType: shared.constants.synthTypes.SQUARE,
     });
     const previous = {
       channels: {
@@ -48,7 +48,7 @@ describe('Playing Reducer', () => {
     const channels = [
       helpers.createChannel({
         id: 'track-1',
-        type: shared.constants.synthTypes.SQUARE,
+        synthType: shared.constants.synthTypes.SQUARE,
       }),
     ];
     const previous = {

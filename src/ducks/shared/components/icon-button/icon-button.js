@@ -28,7 +28,7 @@ const component = ({
 export const IconButton = compose(
   pure,
   setPropTypes({
-    icon: PropTypes.string,
+    icon: PropTypes.string.isRequired,
     isActive: PropTypes.bool,
     onPress: PropTypes.func,
     toolTip: PropTypes.string,

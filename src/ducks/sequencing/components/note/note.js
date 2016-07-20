@@ -69,10 +69,10 @@ export const Note = compose(
   }),
   mapProps((props) => ({
     className: classnames({ 'note--active': props.isSelected }),
-    connectorTransform: getConnectorTransform(props.note.points[0], _.last(props.note.points)),
-    endPointDisplay: _.last(props.note.points).x - props.note.points[0].x === 0 ? 'none' : 'flex',
-    endPointTransform: getEndPointTransform(props.note.points[0], _.last(props.note.points)),
-    transform: `translate(${props.note.points[0].x * 40}px, ${props.note.points[0].y * 40}px)`,
+    connectorTransform: getConnectorTransform(_.first(props.note.points), _.last(props.note.points)),
+    endPointDisplay: _.last(props.note.points).x - _.first(props.note.points).x === 0 ? 'none' : 'flex',
+    endPointTransform: getEndPointTransform(_.first(props.note.points), _.last(props.note.points)),
+    transform: `translate(${_.first(props.note.points).x * 40}px, ${_.first(props.note.points).y * 40}px)`,
   })),
 )(component);
 

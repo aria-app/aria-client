@@ -72,15 +72,51 @@ describe('Note Component', () => {
 
   describe('final point', () => {
     it('should have display none if length is 0', () => {
-      expect(false).toEqual(true);
+      const component = mount(h(Note, {
+        isSelected: false,
+        note: song.helpers.createNote({
+          sequenceId: 'my-sequence',
+          points: [
+            { x: 0, y: 35 },
+            { x: 0, y: 35 },
+          ],
+        }),
+      }));
+      const expected = 'none';
+      const { display } = component.find('.note__point').last().prop('style');
+      expect(display).toEqual(expected);
     });
 
     it('should have display flex if length is not 0', () => {
-      expect(false).toEqual(true);
+      const component = mount(h(Note, {
+        isSelected: false,
+        note: song.helpers.createNote({
+          sequenceId: 'my-sequence',
+          points: [
+            { x: 0, y: 35 },
+            { x: 3, y: 35 },
+          ],
+        }),
+      }));
+      const expected = 'flex';
+      const { display } = component.find('.note__point').last().prop('style');
+      expect(display).toEqual(expected);
     });
 
     it('should have correct transform', () => {
-      expect(false).toEqual(true);
+      const component = mount(h(Note, {
+        isSelected: false,
+        note: song.helpers.createNote({
+          sequenceId: 'my-sequence',
+          points: [
+            { x: 0, y: 35 },
+            { x: 4, y: 38 },
+          ],
+        }),
+      }));
+      const expected = 'translate(160px, 120px)';
+      const { transform } = component.find('.note__point').last().prop('style');
+      expect(transform).toEqual(expected);
     });
   });
 });
