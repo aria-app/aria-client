@@ -6,7 +6,7 @@ import './tracker-toolbar.scss';
 
 const { IconButton, Toolbar } = shared.components;
 
-const component = (props) => h(Toolbar, {
+const component = props => h(Toolbar, {
   className: 'tracker-toolbar',
   position: 'top',
   isAlternate: !!props.selectedSequenceId,
@@ -22,7 +22,7 @@ const composed = compose(
     openSequence: React.PropTypes.func.isRequired,
     selectedSequenceId: React.PropTypes.string.isRequired,
   }),
-  mapProps((props) => ({
+  mapProps(props => ({
     ...props,
     sequenceActions: h('.tracker-toolbar__sequence-actions', [
       h(IconButton, {

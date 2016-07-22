@@ -9,7 +9,7 @@ import './tracks.scss';
 
 const { Icon } = shared.components;
 
-const component = (props) => h('.tracks', {
+const component = props => h('.tracks', {
   onClick: props.onTracksPress,
 }, [
   h(RulerContainer),
@@ -63,11 +63,11 @@ const composed = compose(
     tracks: React.PropTypes.array.isRequired,
   }),
   withHandlers({
-    onTracksPress: (props) => (e) => {
+    onTracksPress: props => (e) => {
       props.deselectSequence();
       e.stopPropagation();
     },
-    onTrackSelect: (props) => (track) => {
+    onTrackSelect: props => (track) => {
       props.stageTrack(track.id);
     },
   }),

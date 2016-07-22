@@ -4,9 +4,7 @@ import _ from 'lodash';
 import { compose, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
 import './slots.scss';
 
-const component = ({
-  rows,
-}) => h('.slots', rows);
+const component = props => h('.slots', props.rows);
 
 const composed = compose(
   setDisplayName('Slots'),
@@ -15,7 +13,7 @@ const composed = compose(
     measureCount: PropTypes.number.isRequired,
     scale: PropTypes.array.isRequired,
   }),
-  mapProps((props) => ({
+  mapProps(props => ({
     rows: getRows(props.scale, props.measureCount),
   })),
 )(component);

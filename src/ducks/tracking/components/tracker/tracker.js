@@ -9,13 +9,12 @@ import {
 import './tracker.scss';
 
 
-const component = () =>
-  h('.tracker', [
-    h(TrackerToolbarContainer),
-    h(TracksContainer),
-    h(SongTimelineContainer),
-    h(TrackEditingModalContainer),
-  ]);
+const component = () => h('.tracker', [
+  h(TrackerToolbarContainer),
+  h(TracksContainer),
+  h(SongTimelineContainer),
+  h(TrackEditingModalContainer),
+]);
 
 const composed = compose(
   setDisplayName('Tracker'),

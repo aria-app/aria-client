@@ -16,7 +16,7 @@ import './ruler.scss';
 const { Icon } = shared.components;
 const { STARTED } = transport.constants.playbackStates;
 
-const component = (props) => h('.ruler', [
+const component = props => h('.ruler', [
   h('.ruler__body', [
     h('.ruler__header'),
     h('.ruler__measures', {
@@ -54,13 +54,13 @@ const composed = compose(
     setPosition: React.PropTypes.func.isRequired,
     shortenSong: React.PropTypes.func.isRequired,
   }),
-  mapProps((props) => ({
+  mapProps(props => ({
     ...props,
     measuresWidth: props.measureCount * 64,
     measures: getMeasures(props.measureCount),
   })),
   withHandlers({
-    holdPosition: (props) => (e) => {
+    holdPosition: props => (e) => {
       e.persist();
       const startingState = props.playbackState;
       props.play();

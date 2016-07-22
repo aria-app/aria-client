@@ -11,7 +11,7 @@ const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
 const { getChildRef, scrollTo } = shared.helpers;
 const scale = shared.helpers.getScale();
 
-const component = (props) => h('.sequencer', {
+const component = props => h('.sequencer', {
   style: props.style,
 }, [
   props.actionsToolbar,
@@ -51,7 +51,7 @@ const composed = compose(
   }),
   pure,
   withHandlers({
-    close: (props) => () => {
+    close: props => () => {
       props.closeSequence();
     },
     onContentScroll,

@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import './keys.scss';
 
-const component = ({ keys }) => h('.keys', keys);
+const component = props => h('.keys', props.keys);
 
 const keyComponent = ({
   handleKeyPress,

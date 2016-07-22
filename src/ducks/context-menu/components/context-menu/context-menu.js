@@ -7,7 +7,7 @@ import './context-menu.scss';
 
 const { Icon } = shared.components;
 
-const component = (props) => h('.context-menu', {
+const component = props => h('.context-menu', {
   className: props.className,
   style: props.style,
 }, [
@@ -47,12 +47,12 @@ export const ContextMenu = compose(
       y: React.PropTypes.number,
     }).isRequired,
   }),
-  mapProps((props) => ({
+  mapProps(props => ({
     ...props,
     transform: getTransform(props.items, props.position),
   })),
   withHandlers({
-    selectItem: (props) => (item, e) => {
+    selectItem: props => (item, e) => {
       props.onSelect(item);
       e.stopPropagation();
     },

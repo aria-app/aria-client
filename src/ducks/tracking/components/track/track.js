@@ -9,7 +9,7 @@ import './track.scss';
 
 const { Icon } = shared.components;
 
-const component = (props) => h('.track', [
+const component = props => h('.track', [
   h('.track__body', [
     h('.track__header', {
       onClick: props.onTrackSelect,
@@ -75,26 +75,26 @@ const composed = compose(
     toggleTrackIsSoloing: React.PropTypes.func.isRequired,
     track: React.PropTypes.object.isRequired,
   }),
-  mapProps((props) => ({
+  mapProps(props => ({
     ...props,
     addPosition: getAddPosition(props.track.sequences),
   })),
   withHandlers({
-    addSequence: (props) => () => {
+    addSequence: props => () => {
       props.addSequence(props.track.id, props.addPosition);
     },
-    onMutePress: (props) => (e) => {
+    onMutePress: props => (e) => {
       props.toggleTrackIsMuted(props.track.id);
       e.stopPropagation();
     },
-    onSoloPress: (props) => (e) => {
+    onSoloPress: props => (e) => {
       props.toggleTrackIsSoloing(props.track.id);
       e.stopPropagation();
     },
-    onTrackSelect: (props) => () => {
+    onTrackSelect: props => () => {
       props.onTrackSelect(props.track);
     },
-    selectSequence: (props) => (id) => {
+    selectSequence: props => (id) => {
       props.selectSequence(id);
     },
   }),

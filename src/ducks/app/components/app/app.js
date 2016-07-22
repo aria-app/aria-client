@@ -12,7 +12,7 @@ const { SequencerContainer } = sequencing.components;
 const { ContextMenuContainer } = contextMenu.components;
 const { Tracker } = tracking.components;
 
-const component = (props) => h('.app', [
+const component = props => h('.app', [
   props.contentComponent,
   h(SongToolbarContainer),
   h(BPMModalContainer),
@@ -26,7 +26,7 @@ const composed = compose(
     initialize: React.PropTypes.func.isRequired,
     isSequenceOpen: React.PropTypes.bool.isRequired,
   }),
-  mapProps((props) => ({
+  mapProps(props => ({
     ...props,
     contentComponent: props.isSequenceOpen
       ? h(SequencerContainer)

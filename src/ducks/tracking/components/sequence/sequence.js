@@ -5,27 +5,19 @@ import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } f
 import * as constants from '../../constants';
 import './sequence.scss';
 
-const component = ({
-  isSelected,
-  notes,
-  onClick,
-  onContextMenu,
-  onDoubleClick,
-  transform,
-  width,
-}) => h('.sequence', {
+const component = props => h('.sequence', {
   className: classnames({
-    'sequence--active': isSelected,
+    'sequence--active': props.isSelected,
   }),
   style: {
-    transform,
-    width,
+    transform: props.transform,
+    width: props.width,
   },
-  onClick,
-  onContextMenu,
-  onDoubleClick,
+  onClick: props.onClick,
+  onContextMenu: props.onContextMenu,
+  onDoubleClick: props.onDoubleClick,
 }, [
-  ...notes,
+  ...props.notes,
 ]);
 
 const composed = compose(
@@ -44,11 +36,11 @@ const composed = compose(
     width: measureCountToPx(props.sequence.measureCount),
   })),
   withHandlers({
-    onClick: (props) => (e) => {
+    onClick: props => (e) => {
       props.onSelect(props.sequence.id);
       e.stopPropagation();
     },
-    onContextMenu: (props) => (e) => {
+    onContextMenu: props => (e) => {
       const items = [
         {
           text: 'Delete',
@@ -61,7 +53,7 @@ const composed = compose(
       e.preventDefault();
       e.stopPropagation();
     },
-    onDoubleClick: (props) => (e) => {
+    onDoubleClick: props => (e) => {
       props.openSequence(props.sequence.id);
       e.stopPropagation();
     },

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { compose, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
+import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from 'ducks/shared';
@@ -8,7 +8,7 @@ import './track-editing-modal.scss';
 const { Button, DropdownList, Modal } = shared.components;
 const { synthTypes } = shared.constants;
 
-const component = (props) =>
+const component = props =>
   h(Modal, {
     className: 'track-editing-modal',
     confirmText: 'DONE',
@@ -25,12 +25,12 @@ const component = (props) =>
           className: 'track-editing-modal__synth-dropdown__list',
           items: props.synthTypeList,
           selectedId: props.stagedTrack ? props.stagedTrack.synthType : '',
-          onSelect: (item) => props.setSynthType(props.stagedTrack.id, item.id),
+          onSelect: props.onSynthTypeSelect,
         }),
       ]),
       h(Button, {
         className: 'track-editing-modal__delete-button',
-        onPress: () => props.delete(props.stagedTrack.id),
+        onPress: props.onDeletePress,
         text: 'Delete',
       }),
     ]),
@@ -45,13 +45,21 @@ const composed = compose(
     setSynthType: React.PropTypes.func.isRequired,
     stagedTrack: React.PropTypes.object.isRequired,
   }),
-  mapProps((props) => ({
+  mapProps(props => ({
     ...props,
     synthTypeList: Object.keys(synthTypes).map(key => ({
       text: synthTypes[key],
       id: synthTypes[key],
     })),
   })),
+  withHandlers({
+    onDeletePress: props => () => {
+      props.delete(props.stagedTrack.id);
+    },
+    onSynthTypeSelect: props => item => {
+      props.setSynthType(props.stagedTrack.id, item.id);
+    },
+  }),
 )(component);
 
 export const TrackEditingModal = composed;

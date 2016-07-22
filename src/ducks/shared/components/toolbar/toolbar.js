@@ -4,20 +4,15 @@ import classnames from 'classnames';
 import { compose, mapProps, pure, setPropTypes } from 'recompose';
 import './toolbar.scss';
 
-const component = ({
-  className,
-  leftItems,
-  modifierClasses,
-  rightItems,
-}) =>
+const component = props =>
   h('.toolbar', {
-    className: classnames(modifierClasses, className),
+    className: classnames(props.modifierClasses, props.className),
   }, [
     h('.toolbar__left', [
-      ...leftItems,
+      ...props.leftItems,
     ]),
     h('.toolbar__right', [
-      ...rightItems,
+      ...props.rightItems,
     ]),
   ]);
 

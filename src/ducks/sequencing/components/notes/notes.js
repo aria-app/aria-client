@@ -9,7 +9,7 @@ import './notes.scss';
 
 const { getElementRef } = shared.helpers;
 
-const component = (props) => h('.notes', {
+const component = props => h('.notes', {
   className: props.cursorClasses,
   onMouseDown: props.onMouseDown,
   onMouseMove: props.onMouseMove,

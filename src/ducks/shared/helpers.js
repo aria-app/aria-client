@@ -55,7 +55,7 @@ export function getNoteName(y) {
   return `${letter}${octaveNumber}`;
 }
 
-export const scrollTo = createHelper((props) => BaseComponent =>
+export const scrollTo = createHelper(props => BaseComponent =>
   React.createClass({
     getInitialState() {
       return {

@@ -7,46 +7,36 @@ import { Icon } from '../icon/icon';
 import { IconButton } from '../icon-button/icon-button';
 import './dropdown-list.scss';
 
-const component = ({
-  closePopup,
-  isOpen,
-  openPopup,
-  icon,
-  items,
-  selectedItem,
-  select,
-  style,
-  text,
-}) => h('.dropdown-list', {
-  style,
+const component = props => h('.dropdown-list', {
+  style: props.style,
 }, [
-  icon ? h(IconButton, {
+  props.icon ? h(IconButton, {
     className: 'dropdown-list__button',
-    onPress: () => openPopup(),
-    icon,
+    onPress: props.openPopup,
+    icon: props.icon,
   }) : h('.dropdown-list__input', {
-    onClick: () => openPopup(),
+    onClick: props.openPopup,
   }, [
-    text || selectedItem.text || '',
+    props.text || props.selectedItem.text || '',
     h(Icon, {
       icon: 'caret-down',
       size: 'small',
     }),
   ]),
-  !isOpen ? null : h('.dropdown-list__overlay', {
-    onClick: () => closePopup(),
+  !props.isOpen ? null : h('.dropdown-list__overlay', {
+    onClick: props.closePopup,
   }),
-  !isOpen ? null : h('.dropdown-list__popup', {
+  !props.isOpen ? null : h('.dropdown-list__popup', {
     style: {
-      height: items.length * 48 + 16,
+      height: props.items.length * 48 + 16,
     },
   }, [
     h('.dropdown-list__popup__list', [
-      ...items.map(item => h('.dropdown-list__popup__item', {
+      ...props.items.map(item => h('.dropdown-list__popup__item', {
         className: classnames({
-          'dropdown-list__popup__item--active': item === selectedItem,
+          'dropdown-list__popup__item--active': item === props.selectedItem,
         }),
-        onClick: () => select(item),
+        onClick: () => props.select(item),
       }, [
         item.text,
       ])),

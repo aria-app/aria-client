@@ -5,16 +5,12 @@ import { compose, mapProps, pure, setPropTypes } from 'recompose';
 import * as FAIcons from 'react-icons/lib/fa';
 import './icon.scss';
 
-const component = ({
-  className,
-  iconComponent,
-  size,
-}) => h('.icon', {
-  className,
+const component = props => h('.icon', {
+  className: props.className,
 }, [
   h('.icon__content', [
-    h(iconComponent, {
-      size: getSizePixels(size),
+    h(props.iconComponent, {
+      size: getSizePixels(props.size),
     }),
   ]),
 ]);

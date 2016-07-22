@@ -4,17 +4,12 @@ import classnames from 'classnames';
 import { compose, pure, setDisplayName, setPropTypes } from 'recompose';
 import './toggle-button.scss';
 
-const component = ({
-  className,
-  isActive,
-  onPress,
-  text,
-}) => h('.toggle-button', {
+const component = props => h('.toggle-button', {
   className: classnames({
-    'toggle-button--active': isActive,
-  }, className),
-  onClick: () => onPress(),
-}, text);
+    'toggle-button--active': props.isActive,
+  }, props.className),
+  onClick: props.onPress,
+}, props.text);
 
 export const ToggleButton = compose(
   setDisplayName('ToggleButton'),

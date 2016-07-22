@@ -1,6 +1,6 @@
 import React from 'react';
 import h from 'react-hyperscript';
-import { compose, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
+import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import shared from 'ducks/shared';
 import transport from 'ducks/transport';
 import './song-toolbar.scss';
@@ -8,7 +8,7 @@ import './song-toolbar.scss';
 const { Button, IconButton, Toolbar } = shared.components;
 const { PAUSED, STARTED, STOPPED } = transport.constants.playbackStates;
 
-const component = (props) => h(Toolbar, {
+const component = props => h(Toolbar, {
   className: 'song-toolbar',
   position: 'bottom',
   leftItems: [
@@ -17,10 +17,7 @@ const component = (props) => h(Toolbar, {
   rightItems: [
     h(Button, {
       text: 'clear cache',
-      onPress: () => {
-        window.localStorage.removeItem('currentSong');
-        window.location.reload();
-      },
+      onPress: props.onClearCachePress,
     }),
     h(Button, {
       text: `BPM ${props.BPM}`,
@@ -28,7 +25,7 @@ const component = (props) => h(Toolbar, {
     }),
     h(Button, {
       text: 'Song Settings',
-      onPress: () => console.log('Pressed Song Settings'),
+      onPress: props.onSongSettingsPress,
     }),
   ],
 });
@@ -44,10 +41,19 @@ const composed = compose(
     playbackState: React.PropTypes.string.isRequired,
     stop: React.PropTypes.func.isRequired,
   }),
-  mapProps((props) => ({
+  mapProps(props => ({
     ...props,
     playbackButtons: getPlaybackButtons(props),
   })),
+  withHandlers({
+    onClearCachePress: () => () => {
+      window.localStorage.removeItem('currentSong');
+      window.location.reload();
+    },
+    onSongSettingsPress: () => () => {
+      console.log('Pressed Song Settings');
+    },
+  }),
 )(component);
 
 export const SongToolbar = composed;

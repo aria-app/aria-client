@@ -5,7 +5,7 @@ import { Button } from '../button/button';
 import { Toolbar } from '../toolbar/toolbar';
 import './modal.scss';
 
-const component = (props) => h('.modal', {
+const component = props => h('.modal', {
   className: props.className,
   style: {
     ...props.style,

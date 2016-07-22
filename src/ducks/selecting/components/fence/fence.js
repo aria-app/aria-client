@@ -4,17 +4,12 @@ import h from 'react-hyperscript';
 import { compose, mapProps, setDisplayName, setPropTypes, pure } from 'recompose';
 import './fence.scss';
 
-const component = ({
-  display,
-  height,
-  transform,
-  width,
-}) => h('.fence', {
+const component = props => h('.fence', {
   style: {
-    display,
-    height,
-    transform,
-    width,
+    display: props.display,
+    height: props.height,
+    transform: props.transform,
+    width: props.width,
   },
 });
 

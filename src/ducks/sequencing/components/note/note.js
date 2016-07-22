@@ -5,34 +5,29 @@ import classnames from 'classnames';
 import { compose, mapProps, setDisplayName, setPropTypes, pure, withHandlers } from 'recompose';
 import './note.scss';
 
-const component = ({
-  className,
-  connectorTransform,
-  endPointDisplay,
-  endPointTransform,
-  handleEndpointMouseDown,
-  handleMouseDown,
-  handleMouseUp,
-  transform,
-}) => h('.note', {
-  className,
-  style: { transform },
+const component = props => h('.note', {
+  className: props.className,
+  style: {
+    transform: props.transform,
+  },
 }, [
   h('.note__point', {
-    onMouseDown: handleMouseDown,
-    onMouseUp: handleMouseUp,
+    onMouseDown: props.handleMouseDown,
+    onMouseUp: props.handleMouseUp,
   }, [
     h('.note__point__fill'),
   ]),
   h('.note__point-connector', {
-    style: { transform: connectorTransform },
+    style: {
+      transform: props.connectorTransform,
+    },
   }),
   h('.note__point', {
     style: {
-      display: endPointDisplay,
-      transform: endPointTransform,
+      display: props.endPointDisplay,
+      transform: props.endPointTransform,
     },
-    onMouseDown: handleEndpointMouseDown,
+    onMouseDown: props.handleEndpointMouseDown,
   }, [
     h('.note__point__fill'),
   ]),
@@ -67,12 +62,15 @@ export const Note = compose(
       props.onEndpointMouseUp(props.note, e);
     },
   }),
-  mapProps((props) => ({
+  mapProps(props => ({
     className: classnames({ 'note--active': props.isSelected }),
-    connectorTransform: getConnectorTransform(_.first(props.note.points), _.last(props.note.points)),
-    endPointDisplay: _.last(props.note.points).x - _.first(props.note.points).x === 0 ? 'none' : 'flex',
+    connectorTransform: getConnectorTransform(
+      _.first(props.note.points),
+      _.last(props.note.points)
+    ),
+    endPointDisplay: is32ndNote(props.note) === 0 ? 'none' : 'flex',
     endPointTransform: getEndPointTransform(_.first(props.note.points), _.last(props.note.points)),
-    transform: `translate(${_.first(props.note.points).x * 40}px, ${_.first(props.note.points).y * 40}px)`,
+    transform: getTransform(props.note),
   })),
 )(component);
 
@@ -93,4 +91,13 @@ function getEndPointTransform(startPoint, endPoint) {
   const x = (endPoint.x - startPoint.x) * 40;
   const y = (endPoint.y - startPoint.y) * 40;
   return `translate(${x}px, ${y}px)`;
+}
+
+function getTransform(note) {
+  const { x, y } = _.first(note.points);
+  return `translate(${x * 40}px, ${y * 40}px)`;
+}
+
+function is32ndNote(note) {
+  return _.last(note.points).x - _.first(note.points).x;
 }

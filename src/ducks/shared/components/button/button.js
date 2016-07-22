@@ -3,16 +3,11 @@ import h from 'react-hyperscript';
 import { compose, pure, setPropTypes } from 'recompose';
 import './button.scss';
 
-const component = ({
-  className,
-  onPress,
-  style,
-  text,
-}) => h('.button', {
-  onClick: () => onPress(),
-  className,
-  style,
-}, text);
+const component = props => h('.button', {
+  onClick: props.onPress,
+  className: props.className,
+  style: props.style,
+}, props.text);
 
 export const Button = compose(
   pure,

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { compose, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
+import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from 'ducks/shared';
@@ -7,8 +7,12 @@ import './bpm-modal.scss';
 
 const { DropdownList, Modal } = shared.components;
 const { maxBPM, minBPM } = shared.constants;
+const bpmRange = _.range(minBPM, maxBPM + 1).map(n => ({
+  text: n,
+  value: n,
+}));
 
-const component = (props) =>
+const component = props =>
   h(Modal, {
     className: 'bpm-modal',
     confirmText: 'DONE',
@@ -21,7 +25,7 @@ const component = (props) =>
         className: 'bpm-modal__dropdown-list',
         items: props.bpmRange,
         selectedItem: _.find(props.bpmRange, { value: props.BPM }),
-        onSelect: (item) => props.set(item.value),
+        onSelect: props.onSelect,
       }),
     ]),
   ]);
@@ -35,14 +39,13 @@ const composed = compose(
     isOpen: React.PropTypes.bool.isRequired,
     set: React.PropTypes.func.isRequired,
   }),
-  mapProps((props) => ({
+  mapProps(props => ({
     ...props,
-    bpmRange: _.range(minBPM, maxBPM + 1)
-      .map(n => ({
-        text: n,
-        value: n,
-      })),
+    bpmRange,
   })),
+  withHandlers({
+    onSelect: props => item => props.set(item.value),
+  }),
 )(component);
 
 export const BPMModal = composed;

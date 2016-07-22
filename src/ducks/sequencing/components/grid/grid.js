@@ -16,7 +16,7 @@ const { getElementRef } = shared.helpers;
 const { toolTypes } = shared.constants;
 const scale = shared.helpers.getScale();
 
-const component = (props) => h('.grid', {
+const component = props => h('.grid', {
   onMouseDown: props.onMouseDown,
   onMouseMove: props.onMouseMove,
   onMouseUp: props.onMouseUp,
