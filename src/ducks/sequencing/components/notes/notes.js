@@ -63,6 +63,7 @@ const composed = compose(
     ghostNote: props.toolType === props.toolTypes.DRAW
       ? h(Note, {
         className: 'ghost',
+        isSelected: false,
         note: {
           points: [
             {

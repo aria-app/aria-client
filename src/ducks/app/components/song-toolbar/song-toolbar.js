@@ -23,10 +23,10 @@ const component = props => h(Toolbar, {
       text: `BPM ${props.BPM}`,
       onPress: props.bpmModalOpened,
     }),
-    h(Button, {
-      text: 'Song Settings',
-      onPress: props.onSongSettingsPress,
-    }),
+    h('a', {
+      href: props.downloadHref,
+      download: 'song.json',
+    }, ['Download']),
   ],
 });
 
@@ -39,10 +39,12 @@ const composed = compose(
     pause: React.PropTypes.func.isRequired,
     play: React.PropTypes.func.isRequired,
     playbackState: React.PropTypes.string.isRequired,
+    stringifiedSong: React.PropTypes.string.isRequired,
     stop: React.PropTypes.func.isRequired,
   }),
   mapProps(props => ({
     ...props,
+    downloadHref: getDownloadHref(props.stringifiedSong),
     playbackButtons: getPlaybackButtons(props),
   })),
   withHandlers({
@@ -50,13 +52,16 @@ const composed = compose(
       window.localStorage.removeItem('currentSong');
       window.location.reload();
     },
-    onSongSettingsPress: () => () => {
-      console.log('Pressed Song Settings');
-    },
   }),
 )(component);
 
 export const SongToolbar = composed;
+
+function getDownloadHref(stringifiedSong) {
+  const uriComponent = encodeURIComponent(stringifiedSong);
+  const data = `text/json;charset=utf-8,${uriComponent}`;
+  return `data:${data}`;
+}
 
 function getPlaybackButtons(props) {
   return h('.song-toolbar__playback-buttons', [

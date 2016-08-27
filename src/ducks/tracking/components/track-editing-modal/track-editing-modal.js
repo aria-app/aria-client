@@ -54,7 +54,7 @@ const composed = compose(
   })),
   withHandlers({
     onDeletePress: props => () => {
-      props.delete(props.stagedTrack.id);
+      props.delete([props.stagedTrack.id]);
     },
     onSynthTypeSelect: props => item => {
       props.setSynthType(props.stagedTrack.id, item.id);

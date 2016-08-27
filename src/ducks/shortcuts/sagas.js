@@ -43,8 +43,8 @@ function* holdPan({ e }) {
 
   if (currentToolType === toolType) return;
 
-  yield put(sequencing.actions.selectTool(toolType));
-  yield put(actions.setHeldKeys([e.keyCode]));
+  yield put(sequencing.actions.toolSelected(toolType));
+  yield put(actions.heldKeysSet([e.keyCode]));
 }
 
 function* initialize() {
@@ -62,7 +62,7 @@ function* releasePan() {
 
   if (!previousToolType || previousToolType === shared.constants.toolTypes.PAN) return;
 
-  yield put(sequencing.actions.selectTool(previousToolType));
+  yield put(sequencing.actions.toolSelected(previousToolType));
   yield put(actions.heldKeysSet([]));
 }
 

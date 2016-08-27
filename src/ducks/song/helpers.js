@@ -38,12 +38,12 @@ export function createSequence({ id, measureCount, position, trackId }) {
   };
 }
 
-export function createTrack({ id, synthType }) {
+export function createTrack(options) {
   return {
-    id: id || v4(),
+    id: options && options.id || v4(),
     isMuted: false,
     isSoloing: false,
-    synthType: synthType || shared.constants.defaultSynthType,
+    synthType: options && options.synthType || shared.constants.defaultSynthType,
     volume: 0,
   };
 }

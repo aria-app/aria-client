@@ -27,6 +27,9 @@ module.exports = {
         loader: 'json',
       },
     ],
+    noParse: [
+      /node_modules\/sinon/,
+    ],
   },
   externals: {
     'react/addons': true,

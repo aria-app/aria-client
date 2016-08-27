@@ -63,6 +63,7 @@ export const Note = compose(
     },
   }),
   mapProps(props => ({
+    ...props,
     className: classnames({ 'note--active': props.isSelected }),
     connectorTransform: getConnectorTransform(
       _.first(props.note.points),

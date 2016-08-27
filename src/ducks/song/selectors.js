@@ -6,7 +6,7 @@ const get = state => state[NAME];
 
 export const getActiveSequenceId = state => get(state).activeSequenceId;
 export const getBPM = state => get(state).bpm || transport.constants.defaultBPM;
-export const getId = state => get(state).id;
+export const getId = state => get(state).id || '';
 export const getMeasureCount = state => get(state).measureCount || 1;
 export const getName = state => get(state).name || '';
 export const getNotesDict = state => get(state).notes.dict;
@@ -42,6 +42,9 @@ export const getSequences = state =>
 
 export const getSequencesByTrackId = trackId => state =>
   _.filter(getSequences(state), { trackId });
+
+export const getSequencesByTrackIds = trackIds => state =>
+  _.filter(getSequences(state), s => _.includes(trackIds, s.trackId));
 
 export const getDeepSequences = state =>
   getSequences(state).map(sequence => ({
@@ -113,3 +116,5 @@ export const getSong = state => ({
     ids: getTracksIds(state),
   },
 });
+
+export const getStringifiedSong = state => JSON.stringify(getSong(state));

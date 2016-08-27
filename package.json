@@ -39,7 +39,7 @@
     "postcss-loader": "0.8.2",
     "react-addons-test-utils": "^15.2.0",
     "sass-loader": "3.2.0",
-    "sinon": "1.17.4",
+    "sinon": "^1.17.4",
     "style-loader": "0.13.1",
     "surge": "^0.18.0",
     "webpack": "1.13.1",

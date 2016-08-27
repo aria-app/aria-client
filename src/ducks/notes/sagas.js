@@ -88,7 +88,6 @@ function* nudgeSelectedNotesSize({ change }) {
 function* pushRedo() {
   const allNotes = yield select(song.selectors.getNotes);
   const redos = yield select(selectors.getRedos);
-
   yield put(actions.redosSet([
     ...redos,
     allNotes,

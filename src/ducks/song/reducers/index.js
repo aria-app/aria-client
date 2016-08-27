@@ -74,7 +74,11 @@ export const indexReducer = combineReducers({
 });
 
 export default combineReducers({
-  indexReducer,
+  activeSequenceId,
+  bpm,
+  id,
+  measureCount,
+  name,
   notes,
   sequences,
   tracks,

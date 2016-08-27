@@ -13,7 +13,7 @@ const dict = (state = {}, action) => {
     case actionTypes.NOTES_DELETED:
       return _.omit(state, action.ids);
     case actionTypes.NOTES_SET:
-      return setAtIds(action.notes);
+      return setAtIds(action.notes, state);
     case actionTypes.SONG_LOADED:
       return action.song.notes.dict;
     default:

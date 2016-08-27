@@ -158,7 +158,7 @@ function* updateSong() {
 
 function* updateSongSequence() {
   const sequence = yield select(selectors.getSongSequence);
-  if (sequence) {
+  if (!_.isEmpty(sequence)) {
     sequence.dispose();
   }
   yield put(effects.createSongSequence());

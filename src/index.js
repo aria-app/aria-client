@@ -33,6 +33,8 @@ const initialSong = localStorageSong
   ? JSON.parse(localStorageSong)
   : sampleSong;
 
+console.log(initialSong);
+
 store.dispatch(song.actions.songLoaded(initialSong));
 
 
