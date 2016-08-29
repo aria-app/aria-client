@@ -30,7 +30,7 @@ const composed = compose(
       return false;
     },
     onDragLeave: props => () => {
-      props.setIsFileOver(() => false);
+      props.cancelFileDrag();
     },
     onDrop: props => e => {
       const files = e.dataTransfer.files;
