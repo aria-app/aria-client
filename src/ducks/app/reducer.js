@@ -17,6 +17,7 @@ const isFileOver = (state = false, action) => {
     case actionTypes.FILE_DRAG_STARTED:
       return true;
     case actionTypes.FILE_DRAG_CANCELLED:
+    case actionTypes.FILE_DROPPED:
       return false;
     default:
       return state;

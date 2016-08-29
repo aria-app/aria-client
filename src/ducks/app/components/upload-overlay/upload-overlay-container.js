@@ -7,4 +7,5 @@ export const UploadOverlayContainer = connect(state => ({
   isFileOver: selectors.getIsFileOver(state),
 }), {
   cancelFileDrag: actions.fileDragCancelled,
+  dropFile: actions.fileDropped,
 })(UploadOverlay);

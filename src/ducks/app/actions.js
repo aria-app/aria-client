@@ -16,6 +16,11 @@ export const fileDragStarted = () => ({
   type: actionTypes.FILE_DRAG_STARTED,
 });
 
+export const fileDropped = (file) => ({
+  type: actionTypes.FILE_DROPPED,
+  file,
+});
+
 export const initialized = () => ({
   type: actionTypes.INITIALIZED,
 });

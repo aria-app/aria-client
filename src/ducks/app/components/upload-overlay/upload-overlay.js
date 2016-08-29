@@ -1,14 +1,8 @@
 import { compose, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import React from 'react';
 import h from 'react-hyperscript';
+import _ from 'lodash';
 import './upload-overlay.scss';
-
-const reader = new FileReader();
-reader.onload = e => {
-  const data = e.target.result;
-  console.log('JSON', data);
-  console.log('OBJ', JSON.parse(data));
-};
 
 const component = props => (props.isFileOver ? h('.upload-overlay', {
   onDragLeave: props.onDragLeave,
@@ -26,6 +20,7 @@ const composed = compose(
   setDisplayName('UploadOverlay'),
   setPropTypes({
     cancelFileDrag: React.PropTypes.func.isRequired,
+    dropFile: React.PropTypes.func.isRequired,
   }),
   pure,
   withHandlers({
@@ -39,10 +34,9 @@ const composed = compose(
     },
     onDrop: props => e => {
       const files = e.dataTransfer.files;
-      if (files) {
-        reader.readAsText(files[0]);
+      if (!_.isEmpty(files)) {
+        props.dropFile(files[0]);
       }
-      props.cancelFileDrag();
       e.preventDefault();
       e.stopPropagation();
       return false;
