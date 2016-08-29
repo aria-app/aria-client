@@ -54,6 +54,7 @@
     "node-uuid": "^1.4.7",
     "react": "15.0.0",
     "react-dom": "15.0.0",
+    "react-dropzone": "3.5.3",
     "react-hyperscript": "2.3.0",
     "react-icons": "^1.0.5",
     "react-redux": "4.4.4",

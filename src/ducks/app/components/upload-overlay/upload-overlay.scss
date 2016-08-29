@@ -1,0 +1,43 @@
+@import '../../../../styles/constants';
+@import '../../../../styles/palette';
+
+$upload-overlay__z-index: 550;
+$upload-overlay__tint__background-color: rgba(0, 0, 0, 0.50);
+$upload-overlay__drag-indicator__font-size: 1.5em;
+$upload-overlay__drag-indicator__padding: $margin-m;
+$upload-overlay__drag-indicator__background-color: rgba(0, 0, 0, 0.50);
+$upload-overlay__drag-indicator__border-radius: 4px;
+
+.upload-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $upload-overlay__z-index;
+  overflow: hidden;
+  &__tint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: inherit;
+    overflow: hidden;
+    background-color: $upload-overlay__tint__background-color;
+    pointer-events: none;
+  }
+  &__drag-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $upload-overlay__drag-indicator__padding;
+    z-index: inherit;
+    background-color: $upload-overlay__drag-indicator__background-color;
+    border-radius: $upload-overlay__drag-indicator__border-radius;
+    pointer-events: none;
+  }
+}

@@ -12,6 +12,18 @@ const isBPMModalOpen = (state = false, action) => {
   }
 };
 
+const isFileOver = (state = false, action) => {
+  switch (action.type) {
+    case actionTypes.FILE_DRAG_STARTED:
+      return true;
+    case actionTypes.FILE_DRAG_CANCELLED:
+      return false;
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   isBPMModalOpen,
+  isFileOver,
 });
