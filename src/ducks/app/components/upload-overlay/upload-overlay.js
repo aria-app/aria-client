@@ -36,6 +36,8 @@ const composed = compose(
       const files = e.dataTransfer.files;
       if (!_.isEmpty(files)) {
         props.dropFile(files[0]);
+      } else {
+        props.cancelFileDrag();
       }
       e.preventDefault();
       e.stopPropagation();

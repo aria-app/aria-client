@@ -1,4 +1,5 @@
 export { Button } from './button/button';
+export { DownloadButton } from './download-button/download-button';
 export { DropdownList } from './dropdown-list/dropdown-list';
 export { Icon } from './icon/icon';
 export { IconButton } from './icon-button/icon-button';

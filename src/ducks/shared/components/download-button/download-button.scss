@@ -1,4 +1,8 @@
 @import '../../../../styles/palette';
+@import '../button/button';
 
 .download-button {
+  @extend .button;
+  text-decoration: none;
+  -webkit-user-drag: none;
 }

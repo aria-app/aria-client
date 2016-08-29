@@ -5,7 +5,7 @@ import shared from 'ducks/shared';
 import transport from 'ducks/transport';
 import './song-toolbar.scss';
 
-const { Button, IconButton, Toolbar } = shared.components;
+const { Button, DownloadButton, IconButton, Toolbar } = shared.components;
 const { PAUSED, STARTED, STOPPED } = transport.constants.playbackStates;
 
 const component = props => h(Toolbar, {
@@ -23,10 +23,11 @@ const component = props => h(Toolbar, {
       text: `BPM ${props.BPM}`,
       onPress: props.bpmModalOpened,
     }),
-    h('a', {
-      href: props.downloadHref,
-      download: 'song.json',
-    }, ['Download']),
+    h(DownloadButton, {
+      content: props.stringifiedSong,
+      filename: 'song.json',
+      text: 'Download Song',
+    }),
   ],
 });
 
@@ -44,7 +45,6 @@ const composed = compose(
   }),
   mapProps(props => ({
     ...props,
-    downloadHref: getDownloadHref(props.stringifiedSong),
     playbackButtons: getPlaybackButtons(props),
   })),
   withHandlers({
@@ -56,12 +56,6 @@ const composed = compose(
 )(component);
 
 export const SongToolbar = composed;
-
-function getDownloadHref(stringifiedSong) {
-  const uriComponent = encodeURIComponent(stringifiedSong);
-  const data = `text/json;charset=utf-8,${uriComponent}`;
-  return `data:${data}`;
-}
 
 function getPlaybackButtons(props) {
   return h('.song-toolbar__playback-buttons', [
