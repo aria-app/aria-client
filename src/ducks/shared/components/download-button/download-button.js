@@ -23,7 +23,7 @@ export const DownloadButton = compose(
 )(component);
 
 function getHref(content) {
-  const uriComponent = encodeURIComponent(content);
-  const data = `text/json;charset=utf-8,${uriComponent}`;
+  const uri = encodeURIComponent(content);
+  const data = `text/json;charset=utf-8,${uri}`;
   return `data:${data}`;
 }

@@ -6,6 +6,7 @@ describe('App Component', () => {
   it('should be defined', () => {
     const app = shallow(h(App, {
       initialize: () => {},
+      startDraggingFile: () => {},
       isSequenceOpen: false,
     }));
     expect(app).not.toBe(undefined);

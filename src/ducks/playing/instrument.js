@@ -111,7 +111,7 @@ function createSynths(instrument) {
 }
 
 function createSynth({ type, gain }) {
-  const synth = new Tone.SimpleSynth({ oscillator: { type } });
+  const synth = new Tone.Synth({ oscillator: { type } });
 
   synth.chain(gain, Tone.Master);
 
