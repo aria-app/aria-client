@@ -1,5 +1,5 @@
 import * as t from './action-types';
-import song from 'ducks/song';
+import song from '../song';
 import reducer from './reducer';
 
 describe('Tracking Reducer', () => {

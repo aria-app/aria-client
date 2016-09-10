@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import React from 'react';
 import h from 'react-hyperscript';
-import shared from 'ducks/shared';
+import shared from '../../../shared';
 import './bpm-modal.scss';
 
 const { DropdownList, Modal } = shared.components;

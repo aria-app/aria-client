@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import { Notes } from '../notes/notes';
-import moving from 'ducks/moving';
-import notes from 'ducks/notes';
-import panning from 'ducks/panning';
-import playing from 'ducks/playing';
-import resizing from 'ducks/resizing';
-import selecting from 'ducks/selecting';
-import song from 'ducks/song';
+import moving from '../../../moving';
+import notes from '../../../notes';
+import panning from '../../../panning';
+import playing from '../../../playing';
+import resizing from '../../../resizing';
+import selecting from '../../../selecting';
+import song from '../../../song';
 import * as selectors from '../../selectors';
 
 export const NotesContainer = connect(state => ({

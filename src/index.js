@@ -1,3 +1,4 @@
+// @flow
 import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
@@ -33,6 +34,7 @@ const initialSong = localStorageSong
   ? JSON.parse(localStorageSong)
   : sampleSong;
 
+// eslint-disable-next-line no-console
 console.log('Initial Song', initialSong);
 
 store.dispatch(song.actions.songLoaded(initialSong));

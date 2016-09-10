@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
-import shared from 'ducks/shared';
+import shared from '../../../shared';
 import './context-menu.scss';
 
 const { Icon } = shared.components;

@@ -40,10 +40,4 @@ module.exports = {
   postcss: function postcss() {
     return [autoprefixer];
   },
-  resolve: {
-    modulesDirectories: [
-      'node_modules',
-      'src',
-    ],
-  },
 };

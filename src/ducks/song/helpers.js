@@ -1,5 +1,5 @@
 import { v4 } from 'node-uuid';
-import shared from 'ducks/shared';
+import shared from '../shared';
 
 export function createNote({ id, points, sequenceId }) {
   if (typeof points === 'undefined') {

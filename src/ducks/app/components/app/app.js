@@ -3,9 +3,9 @@ import h from 'react-hyperscript';
 import {
   compose, lifecycle, mapProps, pure, setDisplayName, setPropTypes, withHandlers,
 } from 'recompose';
-import contextMenu from 'ducks/context-menu';
-import sequencing from 'ducks/sequencing';
-import tracking from 'ducks/tracking';
+import contextMenu from '../../../context-menu';
+import sequencing from '../../../sequencing';
+import tracking from '../../../tracking';
 import { BPMModalContainer } from '../bpm-modal/bpm-modal-container';
 import { UploadOverlayContainer } from '../upload-overlay/upload-overlay-container';
 import { SongToolbarContainer } from '../song-toolbar/song-toolbar-container';

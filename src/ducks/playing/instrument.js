@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import Tone from 'tone';
-import shared from 'ducks/shared';
+import shared from '../shared';
 import * as helpers from './helpers';
 
 export default class Instrument {

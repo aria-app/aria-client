@@ -1,16 +1,10 @@
 import { takeEvery } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import shortcuts from 'ducks/shortcuts';
-import song from 'ducks/song';
+import shortcuts from '../shortcuts';
+import song from '../song';
 import * as actionTypes from './action-types';
 
 const reader = new FileReader();
-// reader.onload = e => {
-//   const data = e.target.result;
-//   console.log('JSON', data);
-//   console.log('OBJ', JSON.parse(data));
-// };
-// reader.readAsText(files[0]);
 
 function getFileContents(file) {
   return new Promise(resolve => {

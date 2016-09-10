@@ -1,7 +1,7 @@
 import * as t from './action-types';
 import reducer from './reducer';
-import shortcuts from 'ducks/shortcuts';
-import song from 'ducks/song';
+import shortcuts from '../shortcuts';
+import song from '../song';
 
 describe('Notes Reducer', () => {
   it('should return the initial state', () => {

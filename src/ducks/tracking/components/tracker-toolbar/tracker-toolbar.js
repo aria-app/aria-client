@@ -1,7 +1,7 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
-import shared from 'ducks/shared';
+import shared from '../../../shared';
 import './tracker-toolbar.scss';
 
 const { IconButton, Toolbar } = shared.components;

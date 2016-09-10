@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import transport from 'ducks/transport';
+import transport from '../transport';
 import { NAME } from './constants';
 
 const get = state => state[NAME];

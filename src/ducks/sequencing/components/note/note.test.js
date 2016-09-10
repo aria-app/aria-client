@@ -1,6 +1,6 @@
 import h from 'react-hyperscript';
 import { mount } from 'enzyme';
-import song from 'ducks/song';
+import song from '../../../song';
 import { Note } from './note';
 
 describe('Note Component', () => {

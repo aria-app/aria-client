@@ -1,4 +1,4 @@
-import shared from 'ducks/shared';
+import shared from '../shared';
 import * as helpers from './helpers';
 
 describe('Notes Helpers', () => {
@@ -61,5 +61,4 @@ describe('Notes Helpers', () => {
       expect(result).toEqual(true);
     });
   });
-
 });

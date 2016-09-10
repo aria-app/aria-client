@@ -1,4 +1,4 @@
-import shared from 'ducks/shared';
+import shared from '../shared';
 import * as t from './action-types';
 import * as helpers from './helpers';
 import reducer from './reducer';

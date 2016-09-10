@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import shared from 'ducks/shared';
-import transport from 'ducks/transport';
+import shared from '../../../shared';
+import transport from '../../../transport';
 
 export const SequencerTimelineContainer = connect(state => ({
   isVisible: transport.selectors.getIsPlaying(state),

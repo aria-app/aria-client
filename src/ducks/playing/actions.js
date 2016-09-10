@@ -1,4 +1,4 @@
-import shared from 'ducks/shared';
+import shared from '../shared';
 import * as actionTypes from './action-types';
 
 export const allInstrumentsReleased = () => ({
