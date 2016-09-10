@@ -8,6 +8,7 @@ import createSagaMiddleware from 'redux-saga';
 import thunkMiddleware from 'redux-thunk';
 import app from './ducks/app';
 import reducer from './reducer';
+import { loggerMiddleware } from './logger';
 import shared from './ducks/shared';
 import song from './ducks/song';
 import rootSaga from './sagas';
@@ -19,6 +20,7 @@ const { AppContainer } = app.components;
 const sagaMiddleware = createSagaMiddleware();
 
 const middleware = applyMiddleware(
+  loggerMiddleware,
   sagaMiddleware,
   thunkMiddleware
 );

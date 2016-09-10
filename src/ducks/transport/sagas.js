@@ -59,6 +59,7 @@ function* pause() {
 }
 
 function* play() {
+  console.log('play');
   if (Tone.Transport.state === 'stopped') {
     const startPoint = yield select(selectors.getStartPoint);
     yield call(() => {
@@ -125,7 +126,6 @@ function* stop() {
     yield call(() => {
       Tone.Transport.stop();
     });
-
     yield put(playing.actions.allInstrumentsReleased());
   }
 }

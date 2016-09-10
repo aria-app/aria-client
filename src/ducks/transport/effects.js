@@ -22,7 +22,10 @@ export function createSongSequence() {
   return (dispatch, getState) => {
     const measureCount = song.selectors.getMeasureCount(getState());
     const sequence = new Tone.Sequence(
-      (time, step) => dispatch(actions.songSequenceStepTriggered({ step, time })),
+      (time, step) => {
+        console.log('sequence step');
+        dispatch(actions.songSequenceStepTriggered({ step, time }));
+      },
       _.range(measureCount * 32),
       '32n',
     );

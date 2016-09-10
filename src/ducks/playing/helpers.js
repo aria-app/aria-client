@@ -21,5 +21,5 @@ export function sizeToTime(size) {
     throw new Error('Size must be a number');
   }
 
-  return `(${size + 1} * 32n)`;
+  return `(${size + 2} * 32n)`;
 }

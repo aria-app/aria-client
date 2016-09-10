@@ -27,12 +27,15 @@ export default class Instrument {
     return voice.oscillator.type;
   }
   makeVoiceAvailable(voice) {
-    if (_.isEmpty(this.activeVoices)) return;
+    if (
+      _.isEmpty(this.activeVoices) ||
+      _.includes(this.availableVoices, voice)
+    ) return;
 
     this.availableVoices = _.concat(this.availableVoices, voice);
     this.activeVoices = _.without(this.activeVoices, voice);
   }
-  playNote({ note, time }) {
+  playNote({ note }) {
     const voice = this.getAvailableVoice();
 
     if (!voice) {
@@ -44,7 +47,7 @@ export default class Instrument {
     const name = shared.helpers.getNoteName(_.first(note.points).y);
     const length = helpers.sizeToTime(_.last(note.points).x - _.first(note.points).x);
 
-    voice.triggerAttack(name, time);
+    voice.triggerAttack(name);
 
     if (_.last(note.points).y !== _.first(note.points).y) {
       const endName = shared.helpers.getNoteName(_.last(note.points).y);
@@ -63,10 +66,12 @@ export default class Instrument {
     this.previewVoice.triggerAttackRelease(name, '16n');
   }
   release() {
-    this.activeVoices.forEach(v => v.triggerRelease());
-
     this.availableVoices = _.concat(this.availableVoices, this.activeVoices);
     this.activeVoices = [];
+
+    this.availableVoices.forEach(v => {
+      v.triggerRelease();
+    });
   }
   setType(type) {
     _.concat(this.activeVoices, this.availableVoices).forEach(v => {
@@ -80,40 +85,23 @@ Instrument.create = function create(id, type) {
   const instrument = new Instrument();
 
   instrument.activeVoices = [];
-  instrument.gain = new Tone.Gain(1);
   instrument.id = id;
   instrument.type = type;
 
   instrument.availableVoices = createSynths(instrument);
   instrument.previewVoice = createSynth(instrument);
 
-  instrument.reverbSends = applyReverb(instrument);
-  // eslint-disable-next-line no-param-reassign
-  instrument.reverbSends.forEach(s => { s.gain.value = 0; });
-
   return instrument;
 };
-
-function applyReverb({ availableVoices, id, previewVoice }) {
-  const sendId = `${id}-reverb`;
-  const r = new Tone.Freeverb();
-  const previewSend = previewVoice.send(sendId, -Infinity);
-
-  const availableSends = availableVoices.map(v => v.send(sendId, -Infinity));
-
-  r.receive(sendId).toMaster();
-
-  return [...availableSends, previewSend];
-}
 
 function createSynths(instrument) {
   return _.times(12, () => createSynth(instrument));
 }
 
-function createSynth({ type, gain }) {
-  const synth = new Tone.Synth({ oscillator: { type } });
-
-  synth.chain(gain, Tone.Master);
-
-  return synth;
+function createSynth({ type }) {
+  return new Tone.Synth({
+    oscillator: {
+      type,
+    },
+  }).toMaster();
 }
