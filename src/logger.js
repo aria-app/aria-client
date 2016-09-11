@@ -17,7 +17,7 @@ const typesToSkip = [
   sequencing.actionTypes.SCROLLED_VERTICALLY,
   shortcuts.actionTypes.INITIALIZED,
   song.actionTypes.SONG_LOADED,
-  transport.actionTypes.SEQUENCE_STEP_TRIGGERED,
+  // transport.actionTypes.SEQUENCE_STEP_TRIGGERED,
   transport.actionTypes.SONG_POSITION_SET,
   transport.actionTypes.SONG_SEQUENCE_STEP,
   transport.actionTypes.SONG_SEQUENCE_STEP_TRIGGERED,
@@ -29,6 +29,7 @@ const predicate = (getState, action) =>
   !_.includes(typesToSkip, action.type);
 
 export const loggerMiddleware = createLogger({
+  colors: {},
   collapsed,
   predicate,
 });

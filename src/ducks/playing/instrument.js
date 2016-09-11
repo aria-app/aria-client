@@ -35,7 +35,7 @@ export default class Instrument {
     this.availableVoices = _.concat(this.availableVoices, voice);
     this.activeVoices = _.without(this.activeVoices, voice);
   }
-  playNote({ note }) {
+  playNote(note, time) {
     const voice = this.getAvailableVoice();
 
     if (!voice) {
@@ -47,12 +47,17 @@ export default class Instrument {
     const name = shared.helpers.getNoteName(_.first(note.points).y);
     const length = helpers.sizeToTime(_.last(note.points).x - _.first(note.points).x);
 
-    voice.triggerAttack(name);
+    if (!doesNoteBend(note)) {
+      voice.triggerAttackRelease(name, length, time);
+    } else {
+      voice.triggerRelease();
+      voice.triggerAttack(name, time);
 
-    if (_.last(note.points).y !== _.first(note.points).y) {
-      const endName = shared.helpers.getNoteName(_.last(note.points).y);
-      voice.frequency.linearRampToValueAtTime(endName, `+${length}`);
-      voice.frequency.setValueAtTime(endName, `+${length}`);
+      if (_.last(note.points).y !== _.first(note.points).y) {
+        const endName = shared.helpers.getNoteName(_.last(note.points).y);
+        voice.frequency.linearRampToValueAtTime(endName, `+${length}`);
+        voice.frequency.setValueAtTime(endName, `+${length}`);
+      }
     }
 
     Tone.Transport.scheduleOnce(() => {
@@ -63,6 +68,7 @@ export default class Instrument {
     }, `+(${length} - 0:0:0.1)`);
   }
   previewNote(name) {
+    this.previewVoice.triggerRelease();
     this.previewVoice.triggerAttackRelease(name, '16n');
   }
   release() {
@@ -100,8 +106,14 @@ function createSynths(instrument) {
 
 function createSynth({ type }) {
   return new Tone.Synth({
+    detune: 0,
     oscillator: {
       type,
     },
   }).toMaster();
+}
+
+function doesNoteBend(note) {
+  const notePointYs = _.map(note.points, 'y');
+  return notePointYs.length === _.uniq(notePointYs).length;
 }

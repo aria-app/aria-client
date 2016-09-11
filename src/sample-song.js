@@ -7,8 +7,8 @@ const { synthTypes } = shared.constants;
 
 const initialTracks = [
   song.helpers.createTrack(synthTypes.SQUARE),
-  song.helpers.createTrack(synthTypes.SAWTOOTH),
-  song.helpers.createTrack(synthTypes.PWM),
+  // song.helpers.createTrack(synthTypes.SAWTOOTH),
+  // song.helpers.createTrack(synthTypes.PWM),
 ];
 
 const initialSequences = [
@@ -17,16 +17,16 @@ const initialSequences = [
     measureCount: 1,
     position: 0,
   }),
-  song.helpers.createSequence({
-    trackId: initialTracks[1].id,
-    measureCount: 1,
-    position: 0,
-  }),
-  song.helpers.createSequence({
-    trackId: initialTracks[2].id,
-    measureCount: 1,
-    position: 0,
-  }),
+  // song.helpers.createSequence({
+  //   trackId: initialTracks[1].id,
+  //   measureCount: 1,
+  //   position: 0,
+  // }),
+  // song.helpers.createSequence({
+  //   trackId: initialTracks[2].id,
+  //   measureCount: 1,
+  //   position: 0,
+  // }),
 ];
 
 const initialNotes = [
@@ -40,6 +40,7 @@ const initialNotes = [
 ];
 
 export default {
+  activeSequenceId: '',
   bpm: 150,
   id: v4(),
   measureCount: 4,

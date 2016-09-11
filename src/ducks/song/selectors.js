@@ -99,6 +99,7 @@ export const getIsAnyTrackSoloing = state =>
 // --- Song ---
 
 export const getSong = state => ({
+  activeSequenceId: getActiveSequenceId(state),
   bpm: getBPM(state),
   id: getId(state),
   measureCount: getMeasureCount(state),

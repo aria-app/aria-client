@@ -140,7 +140,7 @@ describe('Song Index Reducer', () => {
       name: '',
     };
     const expected = {
-      activeSequenceId: '',
+      activeSequenceId: 'my-sequence',
       bpm: 150,
       id: 'song-1',
       measureCount: 3,
@@ -149,6 +149,7 @@ describe('Song Index Reducer', () => {
     const action = {
       type: t.SONG_LOADED,
       song: {
+        activeSequenceId: 'my-sequence',
         bpm: 150,
         id: 'song-1',
         measureCount: 3,

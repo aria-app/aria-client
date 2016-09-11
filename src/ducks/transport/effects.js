@@ -9,7 +9,9 @@ export function createSequences() {
     const songSequences = song.selectors.getSequences(getState());
     const sequences = songSequences.map(sequence => createSequence(
       sequence,
-      (time, step) => dispatch(actions.sequenceStepTriggered({ sequence, step, time })),
+      (time, step) => {
+        dispatch(actions.sequenceStepTriggered({ sequence, step, time }))
+      },
       _.range(sequence.measureCount * 32),
       '32n'
     ));
@@ -23,7 +25,6 @@ export function createSongSequence() {
     const measureCount = song.selectors.getMeasureCount(getState());
     const sequence = new Tone.Sequence(
       (time, step) => {
-        console.log('sequence step');
         dispatch(actions.songSequenceStepTriggered({ step, time }));
       },
       _.range(measureCount * 32),

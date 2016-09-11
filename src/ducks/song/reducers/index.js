@@ -8,6 +8,8 @@ import tracks from './tracks';
 
 const activeSequenceId = (state = '', action) => {
   switch (action.type) {
+    case actionTypes.SONG_LOADED:
+      return action.song.activeSequenceId;
     case actionTypes.SEQUENCE_CLOSED:
       return '';
     case actionTypes.SEQUENCE_OPENED:

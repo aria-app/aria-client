@@ -23,7 +23,8 @@ function* loopSequence() {
   const { measureCount, position } = yield select(song.selectors.getActiveSequence);
   const start = helpers.measuresToTime(position);
   const end = helpers.measuresToTime(position + measureCount);
-  yield put(actions.startPointSet(`+${start}`));
+  yield put(actions.startPointSet(Tone.Time(start).addNow()));
+  // yield put(actions.startPointSet(`+${start}`));
   Tone.Transport.setLoopPoints(start, end);
   Tone.Transport.loop = true;
   const playbackState = yield select(selectors.getPlaybackState);
@@ -37,8 +38,8 @@ function* loopSequence() {
 function* loopSong() {
   const songMeasureCount = yield select(song.selectors.getMeasureCount);
   const end = helpers.measuresToTime(songMeasureCount);
-  yield put(actions.startPointSet(0));
-  Tone.Transport.setLoopPoints(0, end);
+  yield put(actions.startPointSet('0'));
+  Tone.Transport.setLoopPoints('0', end);
   Tone.Transport.loop = true;
   const playbackState = yield select(selectors.getPlaybackState);
   yield put(actions.playbackStopped());
@@ -59,7 +60,6 @@ function* pause() {
 }
 
 function* play() {
-  console.log('play');
   if (Tone.Transport.state === 'stopped') {
     const startPoint = yield select(selectors.getStartPoint);
     yield call(() => {
@@ -147,7 +147,14 @@ function* updateSequences() {
 
 function* updateSong() {
   yield* updateSongSequence();
-  yield* loopSong();
+  const activeSequenceId = yield select(song.selectors.getActiveSequenceId);
+
+  if (activeSequenceId) {
+    yield* loopSequence();
+  } else {
+    yield* loopSong();
+  }
+
   const isPlaying = yield select(selectors.getIsPlaying);
   yield put(actions.playbackStopped());
   if (isPlaying) {

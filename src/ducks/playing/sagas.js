@@ -36,7 +36,7 @@ function* playNote({ payload }) {
   const { channelId, note, time } = payload;
   const channel = yield select(selectors.getChannelById(channelId));
 
-  channel.instrument.playNote({ note, time });
+  channel.instrument.playNote(note, time);
 }
 
 function* previewNote({ name }) {
@@ -48,11 +48,10 @@ function* previewNote({ name }) {
 function* releaseAll() {
   const channels = yield select(selectors.getChannels);
 
-  yield call(() => {
-    channels.forEach(channel => {
-      channel.instrument.release();
-    });
-  });
+  for (let i = 0; i < channels.length; i++) {
+    const channel = channels[i];
+    channel.instrument.release();
+  }
 }
 
 function* setBPM({ bpm }) {

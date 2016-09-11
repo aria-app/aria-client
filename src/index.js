@@ -1,6 +1,6 @@
 // @flow
 import 'babel-polyfill';
-import React from 'react';
+import h from 'react-hyperscript';
 import { render } from 'react-dom';
 import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -20,7 +20,7 @@ const { AppContainer } = app.components;
 const sagaMiddleware = createSagaMiddleware();
 
 const middleware = applyMiddleware(
-  loggerMiddleware,
+  // loggerMiddleware,
   sagaMiddleware,
   thunkMiddleware
 );
@@ -43,8 +43,8 @@ store.dispatch(song.actions.songLoaded(initialSong));
 
 
 render(
-  React.createElement(Provider, {
+  h(Provider, {
     store,
-  }, React.createElement(AppContainer)),
+  }, h(AppContainer)),
   document.querySelector('#zen-app-root')
 );
