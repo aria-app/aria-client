@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { takeEvery } from 'redux-saga';
-import { call, put, select } from 'redux-saga/effects';
+import { eventChannel, takeEvery } from 'redux-saga';
+import { put, select, take } from 'redux-saga/effects';
 import Mousetrap from 'mousetrap';
 import sequencing from '../sequencing';
 import shared from '../shared';
@@ -8,28 +8,32 @@ import * as actions from './actions';
 import * as t from './action-types';
 import * as selectors from './selectors';
 
-const shortcuts = [
-  [{ type: t.DELETE }, ['backspace', 'del']],
-  [{ type: t.DESELECT }, ['ctrl+d', 'meta+d']],
-  [{ type: t.DUPLICATE }, ['ctrl+shift+d', 'meta+shift+d']],
-  [{ type: t.NUDGE_ALT_DOWN }, ['ctrl+down', 'meta+down']],
-  [{ type: t.NUDGE_ALT_LEFT }, ['ctrl+left', 'meta+left']],
-  [{ type: t.NUDGE_ALT_RIGHT }, ['ctrl+right', 'meta+right']],
-  [{ type: t.NUDGE_ALT_UP }, ['ctrl+up', 'meta+up']],
-  [{ type: t.NUDGE_DOWN }, ['down']],
-  [{ type: t.NUDGE_LEFT }, ['left']],
-  [{ type: t.NUDGE_RIGHT }, ['right']],
-  [{ type: t.NUDGE_UP }, ['up']],
-  [{ type: t.PLAYBACK_STOP }, ['escape']],
-  [{ type: t.PLAYBACK_TOGGLE }, ['enter']],
-  [{ type: t.REDO }, ['ctrl+y', 'meta+y']],
-  [{ type: t.SELECT_ALL }, ['ctrl+a', 'meta+a']],
-  [{ type: t.SELECT_TOOL_D }, ['d']],
-  [{ type: t.SELECT_TOOL_E }, ['e']],
-  [{ type: t.SELECT_TOOL_M }, ['m']],
-  [{ type: t.SELECT_TOOL_P }, ['p']],
-  [{ type: t.SELECT_TOOL_S }, ['s']],
-  [{ type: t.UNDO }, ['ctrl+z', 'meta+z']],
+const heldShortcuts = [
+  [t.PAN_HELD, t.PAN_RELEASED, ['space']],
+];
+
+const pressedShortcuts = [
+  [t.DELETE, ['backspace', 'del']],
+  [t.DESELECT, ['ctrl+d', 'meta+d']],
+  [t.DUPLICATE, ['ctrl+shift+d', 'meta+shift+d']],
+  [t.NUDGE_ALT_DOWN, ['ctrl+down', 'meta+down']],
+  [t.NUDGE_ALT_LEFT, ['ctrl+left', 'meta+left']],
+  [t.NUDGE_ALT_RIGHT, ['ctrl+right', 'meta+right']],
+  [t.NUDGE_ALT_UP, ['ctrl+up', 'meta+up']],
+  [t.NUDGE_DOWN, ['down']],
+  [t.NUDGE_LEFT, ['left']],
+  [t.NUDGE_RIGHT, ['right']],
+  [t.NUDGE_UP, ['up']],
+  [t.PLAYBACK_STOP, ['escape']],
+  [t.PLAYBACK_TOGGLE, ['enter']],
+  [t.REDO, ['ctrl+y', 'meta+y']],
+  [t.SELECT_ALL, ['ctrl+a', 'meta+a']],
+  [t.SELECT_TOOL_D, ['d']],
+  [t.SELECT_TOOL_E, ['e']],
+  [t.SELECT_TOOL_M, ['m']],
+  [t.SELECT_TOOL_P, ['p']],
+  [t.SELECT_TOOL_S, ['s']],
+  [t.UNDO, ['ctrl+z', 'meta+z']],
 ];
 
 function* holdPan({ e }) {
@@ -48,12 +52,27 @@ function* holdPan({ e }) {
 }
 
 function* initialize() {
-  yield put(actions.shortcutsRegistered(shortcuts));
+  yield [
+    registerHeldKeys(),
+    registerKeypresses(),
+  ];
+}
 
-  // eslint-disable-next-line no-constant-condition
+function* registerHeldKeys() {
+  const heldChannel = heldChannelFactory();
+
   while (true) {
-    const action = yield call(resolveOnShortcut);
-    yield put(action);
+    const heldKeyAction = yield take(heldChannel);
+    yield put(heldKeyAction);
+  }
+}
+
+function* registerKeypresses() {
+  const pressedChannel = pressedChannelFactory();
+
+  while (true) {
+    const pressedAction = yield take(pressedChannel);
+    yield put(pressedAction);
   }
 }
 
@@ -74,10 +93,36 @@ export default function* saga() {
   ];
 }
 
-function resolveOnShortcut() {
-  return new Promise(resolve => {
-    // Held Keys
-    Mousetrap.bind('space', (e) => resolve(actions.panHeld(e)), 'keydown');
-    Mousetrap.bind('space', () => resolve(actions.panReleased()), 'keyup');
+function heldChannelFactory() {
+  return eventChannel(emit => {
+    heldShortcuts.forEach(shortcut => {
+      const downType = shortcut[0];
+      const upType = shortcut[1];
+      const comboKeys = shortcut[2];
+
+      Mousetrap.bind(comboKeys, e => {
+        e.preventDefault();
+        emit({ type: downType, e });
+      }, 'keydown');
+
+      Mousetrap.bind(comboKeys, e => {
+        e.preventDefault();
+        emit({ type: upType });
+      }, 'keyup');
+    });
+  });
+}
+
+function pressedChannelFactory() {
+  return eventChannel(emit => {
+    pressedShortcuts.forEach(shortcut => {
+      const type = shortcut[0];
+      const combo = shortcut[1];
+
+      Mousetrap.bind(combo, (e) => {
+        e.preventDefault();
+        emit({ type });
+      });
+    });
   });
 }
