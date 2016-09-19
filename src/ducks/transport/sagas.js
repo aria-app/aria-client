@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { takeEvery } from 'redux-saga';
-import { call, put, select } from 'redux-saga/effects';
+import { eventChannel, takeEvery } from 'redux-saga';
+import { call, fork, put, select, take } from 'redux-saga/effects';
 import Tone from 'tone';
 import playing from '../playing';
 import shortcuts from '../shortcuts';
@@ -8,11 +8,36 @@ import song from '../song';
 import * as actions from './actions';
 import * as actionTypes from './action-types';
 import * as constants from './constants';
-import * as effects from './effects';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
 const { STARTED } = constants.playbackStates;
+
+function* createSequences() {
+  const songSequences = yield select(song.selectors.getSequences);
+  const sequenceStepsChannel = sequenceStepsChannelFactory(songSequences);
+
+  const sequencesSetAction = yield take(sequenceStepsChannel);
+
+  yield put(sequencesSetAction);
+
+  while (true) {
+    const sequenceStepAction = yield take(sequenceStepsChannel);
+    yield put(sequenceStepAction);
+  }
+}
+
+function* createSongSequence() {
+  const measureCount = yield select(song.selectors.getMeasureCount);
+  const stepsChannel = songSequenceStepsChannelFactory(measureCount);
+  const setAction = yield take(stepsChannel);
+  yield put(setAction);
+
+  while (true) {
+    const stepAction = yield take(stepsChannel);
+    yield put(stepAction);
+  }
+}
 
 function* initialize() {
   yield put(actions.sequencesUpdated());
@@ -142,7 +167,7 @@ function* togglePlayPause() {
 function* updateSequences() {
   const sequences = yield select(selectors.getSequences);
   sequences.forEach(s => s.dispose());
-  yield put(effects.createSequences());
+  yield fork(createSequences);
 }
 
 function* updateSong() {
@@ -168,7 +193,7 @@ function* updateSongSequence() {
   if (!_.isEmpty(sequence)) {
     sequence.dispose();
   }
-  yield put(effects.createSongSequence());
+  yield fork(createSongSequence);
 }
 
 export default function* saga() {
@@ -200,4 +225,42 @@ export default function* saga() {
     takeEvery(shortcuts.actionTypes.PLAYBACK_STOP, stop),
     takeEvery(shortcuts.actionTypes.PLAYBACK_TOGGLE, togglePlayPause),
   ];
+}
+
+function createSequence(songSequence, ...rest) {
+  const sequence = new Tone.Sequence(...rest);
+  const start = helpers.measuresToTime(songSequence.position);
+  sequence.loop = false;
+  sequence.start(start);
+  return sequence;
+}
+
+function songSequenceStepsChannelFactory(measureCount) {
+  return eventChannel(emit => {
+    const sequence = new Tone.Sequence(
+      (time, step) => {
+        emit(actions.songSequenceStepTriggered({ step, time }));
+      },
+      _.range(measureCount * 32),
+      '32n',
+    );
+    sequence.loop = false;
+    sequence.start('0');
+    emit(actions.songSequenceSet(sequence));
+  });
+}
+
+function sequenceStepsChannelFactory(songSequences) {
+  return eventChannel(emit => {
+    const sequences = songSequences.map(sequence => createSequence(
+      sequence,
+      (time, step) => {
+        emit(actions.sequenceStepTriggered({ sequence, step, time }));
+      },
+      _.range(sequence.measureCount * 32),
+      '32n'
+    ));
+
+    emit(actions.sequencesSet(sequences));
+  });
 }

@@ -65,7 +65,6 @@
     "redux": "3.4.0",
     "redux-logger": "2.6.1",
     "redux-saga": "^0.10.4",
-    "redux-thunk": "2.0.1",
     "tone": "0.7.1"
   }
 }
