@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import h from 'react-hyperscript';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import app from './ducks/app';
+import app from './features/app';
 import store from './store';
 import './styles/resets.scss';
 

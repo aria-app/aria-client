@@ -1,17 +1,17 @@
 import { combineReducers } from 'redux';
-import app from '../ducks/app';
-import contextMenu from '../ducks/context-menu';
-import moving from '../ducks/moving';
-import notes from '../ducks/notes';
-import panning from '../ducks/panning';
-import playing from '../ducks/playing';
-import resizing from '../ducks/resizing';
-import selecting from '../ducks/selecting';
-import sequencing from '../ducks/sequencing';
-import shortcuts from '../ducks/shortcuts';
-import song from '../ducks/song';
-import tracking from '../ducks/tracking';
-import transport from '../ducks/transport';
+import app from '../features/app';
+import contextMenu from '../features/context-menu';
+import moving from '../features/moving';
+import notes from '../features/notes';
+import panning from '../features/panning';
+import playing from '../features/playing';
+import resizing from '../features/resizing';
+import selecting from '../features/selecting';
+import sequencing from '../features/sequencing';
+import shortcuts from '../features/shortcuts';
+import song from '../features/song';
+import tracking from '../features/tracking';
+import transport from '../features/transport';
 
 export default combineReducers({
   [app.constants.NAME]: app.reducer,

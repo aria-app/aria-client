@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { v4 } from 'node-uuid';
-import shared from '../ducks/shared';
-import song from '../ducks/song';
+import shared from '../features/shared';
+import song from '../features/song';
 
 const { synthTypes } = shared.constants;
 

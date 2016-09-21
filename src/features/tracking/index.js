@@ -1,17 +1,17 @@
 import * as actions from './actions';
 import * as actionTypes from './action-types';
-import * as helpers from './helpers';
+import * as components from './components';
 import * as constants from './constants';
-import reducer from './reducers';
-import sagas from './sagas';
+import reducer from './reducer';
+import saga from './saga';
 import * as selectors from './selectors';
 
 export default {
   actions,
   actionTypes,
-  helpers,
+  components,
   constants,
   reducer,
-  sagas,
+  saga,
   selectors,
 };

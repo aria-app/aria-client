@@ -3,7 +3,7 @@ import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as constants from './constants';
 import reducer from './reducer';
-import sagas from './sagas';
+import saga from './saga';
 import * as selectors from './selectors';
 
 export default {
@@ -12,6 +12,6 @@ export default {
   helpers,
   constants,
   reducer,
-  sagas,
+  saga,
   selectors,
 };

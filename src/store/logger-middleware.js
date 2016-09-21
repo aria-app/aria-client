@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import createLogger from 'redux-logger';
-import app from '../ducks/app';
-import playing from '../ducks/playing';
-import sequencing from '../ducks/sequencing';
-import shortcuts from '../ducks/shortcuts';
-import transport from '../ducks/transport';
+import app from '../features/app';
+import playing from '../features/playing';
+import sequencing from '../features/sequencing';
+import shortcuts from '../features/shortcuts';
+import transport from '../features/transport';
 
 const typesToSkip = [
   app.actionTypes.INITIALIZED,
