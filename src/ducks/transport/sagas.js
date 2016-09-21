@@ -246,7 +246,7 @@ function songSequenceStepsChannelFactory(measureCount) {
     );
     sequence.loop = false;
     sequence.start('0');
-    emit(actions.songSequenceSet(sequence));
+    setTimeout(() => emit(actions.songSequenceSet(sequence)));
   });
 }
 
@@ -261,6 +261,6 @@ function sequenceStepsChannelFactory(songSequences) {
       '32n'
     ));
 
-    emit(actions.sequencesSet(sequences));
+    setTimeout(() => emit(actions.sequencesSet(sequences)));
   });
 }
