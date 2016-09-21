@@ -5,7 +5,6 @@ import { App } from './app';
 describe('App Component', () => {
   it('should be defined', () => {
     const app = shallow(h(App, {
-      initialize: () => {},
       startDraggingFile: () => {},
       isSequenceOpen: false,
     }));

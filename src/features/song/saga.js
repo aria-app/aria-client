@@ -6,6 +6,7 @@ import * as actions from './actions';
 import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
+import sampleSong from './sample-song';
 
 function* addSequenceToNewTrack(action) {
   yield put(actions.sequencesAdded([
@@ -32,6 +33,18 @@ function* deleteSequencesFromTracks({ ids }) {
   const sequenceIds = _.map(sequences, 'id');
 
   yield put(actions.sequencesDeleted(sequenceIds));
+}
+
+function* initialize() {
+  const localStorageSong = localStorage.getItem(
+    shared.constants.localStorageKey
+  );
+
+  const initialSong = localStorageSong
+    ? JSON.parse(localStorageSong)
+    : sampleSong;
+
+  yield put(actions.songLoaded(initialSong));
 }
 
 const throttledSave = _.throttle((song) => {
@@ -80,5 +93,6 @@ export default function* saga() {
       actionTypes.TRACKS_SET,
       actionTypes.TRACKS_UPDATED,
     ], saveToLocalStorage),
+    takeEvery(shared.actionTypes.INITIALIZED, initialize),
   ];
 }

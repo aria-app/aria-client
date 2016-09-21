@@ -1,28 +1,28 @@
 import _ from 'lodash';
 import { v4 } from 'node-uuid';
-import shared from '../features/shared';
-import song from '../features/song';
+import shared from '../shared';
+import * as helpers from './helpers';
 
 const { synthTypes } = shared.constants;
 
 const initialTracks = [
-  song.helpers.createTrack(synthTypes.SQUARE),
-  // song.helpers.createTrack(synthTypes.SAWTOOTH),
-  // song.helpers.createTrack(synthTypes.PWM),
+  helpers.createTrack(synthTypes.SQUARE),
+  // helpers.createTrack(synthTypes.SAWTOOTH),
+  // helpers.createTrack(synthTypes.PWM),
 ];
 
 const initialSequences = [
-  song.helpers.createSequence({
+  helpers.createSequence({
     trackId: initialTracks[0].id,
     measureCount: 1,
     position: 0,
   }),
-  // song.helpers.createSequence({
+  // helpers.createSequence({
   //   trackId: initialTracks[1].id,
   //   measureCount: 1,
   //   position: 0,
   // }),
-  // song.helpers.createSequence({
+  // helpers.createSequence({
   //   trackId: initialTracks[2].id,
   //   measureCount: 1,
   //   position: 0,
@@ -30,7 +30,7 @@ const initialSequences = [
 ];
 
 const initialNotes = [
-  song.helpers.createNote({
+  helpers.createNote({
     sequenceId: initialSequences[0].id,
     points: [
       { x: 0, y: 35 },

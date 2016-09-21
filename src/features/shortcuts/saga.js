@@ -87,9 +87,9 @@ function* releasePan() {
 
 export default function* saga() {
   yield [
-    takeEvery(t.INITIALIZED, initialize),
     takeEvery(t.PAN_HELD, holdPan),
     takeEvery(t.PAN_RELEASED, releasePan),
+    takeEvery(shared.actionTypes.INITIALIZED, initialize),
   ];
 }
 

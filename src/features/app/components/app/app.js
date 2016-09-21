@@ -1,8 +1,6 @@
 import React from 'react';
 import h from 'react-hyperscript';
-import {
-  compose, lifecycle, mapProps, pure, setDisplayName, setPropTypes, withHandlers,
-} from 'recompose';
+import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import contextMenu from '../../../context-menu';
 import sequencing from '../../../sequencing';
 import tracking from '../../../tracking';
@@ -33,7 +31,6 @@ const composed = compose(
   pure,
   setPropTypes({
     startDraggingFile: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
     isSequenceOpen: React.PropTypes.bool.isRequired,
   }),
   mapProps(props => ({
@@ -42,11 +39,6 @@ const composed = compose(
       ? h(SequencerContainer)
       : h(Tracker),
   })),
-  lifecycle({
-    componentDidMount() {
-      this.props.initialize();
-    },
-  }),
   withHandlers({
     onDragEnter: props => e => {
       props.startDraggingFile();

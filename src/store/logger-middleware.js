@@ -1,20 +1,18 @@
 import _ from 'lodash';
 import createLogger from 'redux-logger';
-import app from '../features/app';
 import playing from '../features/playing';
 import sequencing from '../features/sequencing';
-import shortcuts from '../features/shortcuts';
+import shared from '../features/shared';
 import transport from '../features/transport';
 
 const typesToSkip = [
-  app.actionTypes.INITIALIZED,
   playing.actionTypes.NOTE_PLAYED,
   sequencing.actionTypes.MOUSE_MOVED,
   sequencing.actionTypes.MOUSE_POINT_SET,
   sequencing.actionTypes.SCROLL_TOP_SET,
   sequencing.actionTypes.SCROLLED_HORIZONTALLY,
   sequencing.actionTypes.SCROLLED_VERTICALLY,
-  shortcuts.actionTypes.INITIALIZED,
+  shared.actionTypes.INITIALIZED,
   transport.actionTypes.PLAYBACK_STARTED,
   transport.actionTypes.PLAYBACK_STOPPED,
   transport.actionTypes.SEQUENCE_STEP_TRIGGERED,

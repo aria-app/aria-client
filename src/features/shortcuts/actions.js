@@ -4,7 +4,3 @@ export const heldKeysSet = (keys) => ({
   type: actionTypes.HELD_KEYS_SET,
   keys,
 });
-
-export const initialized = () => ({
-  type: actionTypes.INITIALIZED,
-});

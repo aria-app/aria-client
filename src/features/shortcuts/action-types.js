@@ -4,7 +4,6 @@ export const DELETE = `${NAME}/DELETE`;
 export const DESELECT = `${NAME}/DESELECT`;
 export const DUPLICATE = `${NAME}/DUPLICATE`;
 export const HELD_KEYS_SET = `${NAME}/HELD_KEYS_SET`;
-export const INITIALIZED = `${NAME}/INITIALIZED`;
 export const NUDGE_ALT_DOWN = `${NAME}/NUDGE_ALT_DOWN`;
 export const NUDGE_ALT_LEFT = `${NAME}/NUDGE_ALT_LEFT`;
 export const NUDGE_ALT_RIGHT = `${NAME}/NUDGE_ALT_RIGHT`;
