@@ -6,7 +6,6 @@ import sequencing from '../sequencing';
 import shortcuts from '../shortcuts';
 import song from '../song';
 import * as actions from './actions';
-import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
@@ -226,62 +225,62 @@ function* undo() {
 
 export default function* saga() {
   yield [
-    takeEvery(actionTypes.NOTE_DRAWN, pushUndo),
-    takeEvery(actionTypes.NOTE_ERASED, pushUndo),
-    takeEvery(actionTypes.NOTES_DUPLICATED, pushUndo),
-    takeEvery(actionTypes.NOTES_DELETED, pushUndo),
-    takeEvery(actionTypes.SELECTED_NOTES_MOVED_OCTAVE_DOWN, pushUndo),
-    takeEvery(actionTypes.SELECTED_NOTES_MOVED_OCTAVE_UP, pushUndo),
-    takeEvery(actionTypes.SELECTED_NOTES_POSITION_NUDGED, pushUndo),
-    takeEvery(actionTypes.SELECTED_NOTES_SIZE_NUDGED, pushUndo),
-    takeEvery(actionTypes.ALL_NOTES_SELECTED, selectAll),
-    takeEvery(actionTypes.NOTE_DRAWN, drawNote),
-    takeEvery(actionTypes.NOTE_ERASED, erase),
-    takeEvery(actionTypes.NOTES_DUPLICATED, duplicateSelectedNotes),
-    takeEvery(actionTypes.NOTES_MOVED, moveNotes),
-    takeEvery(actionTypes.NOTES_DELETED, deleteNotes),
-    takeEvery(actionTypes.NOTES_RESIZED, resize),
-    takeEvery(actionTypes.REDO_POPPED, redo),
-    takeEvery(actionTypes.REDO_PUSHED, pushRedo),
-    takeEvery(actionTypes.SELECTED_NOTES_MOVED, moveSelected),
-    takeEvery(actionTypes.SELECTED_NOTES_MOVED_OCTAVE_DOWN, shiftDownOctave),
-    takeEvery(actionTypes.SELECTED_NOTES_MOVED_OCTAVE_UP, shiftUpOctave),
-    takeEvery(actionTypes.SELECTED_NOTES_POSITION_NUDGED, nudgeSelectedNotesPosition),
-    takeEvery(actionTypes.SELECTED_NOTES_DELETED, deleteSelectedNotes),
-    takeEvery(actionTypes.SELECTED_NOTES_RESIZED, resizeSelected),
-    takeEvery(actionTypes.SELECTED_NOTES_SIZE_CHANGED, changeSelectedNotesSize),
-    takeEvery(actionTypes.SELECTED_NOTES_SIZE_NUDGED, nudgeSelectedNotesSize),
-    takeEvery(actionTypes.UNDO_POPPED, undo),
-    takeEvery(actionTypes.UNDO_PUSHED, pushUndo),
-    takeEvery(shortcuts.actionTypes.DELETE, deleteSelectedNotes),
-    takeEvery(shortcuts.actionTypes.DESELECT, deleteSelectedNotes),
-    takeEvery(shortcuts.actionTypes.DUPLICATE, duplicateSelectedNotes),
-    takeEvery(shortcuts.actionTypes.NUDGE_ALT_DOWN,
+    takeEvery(actions.NOTE_DRAWN, pushUndo),
+    takeEvery(actions.NOTE_ERASED, pushUndo),
+    takeEvery(actions.NOTES_DUPLICATED, pushUndo),
+    takeEvery(actions.NOTES_DELETED, pushUndo),
+    takeEvery(actions.SELECTED_NOTES_MOVED_OCTAVE_DOWN, pushUndo),
+    takeEvery(actions.SELECTED_NOTES_MOVED_OCTAVE_UP, pushUndo),
+    takeEvery(actions.SELECTED_NOTES_POSITION_NUDGED, pushUndo),
+    takeEvery(actions.SELECTED_NOTES_SIZE_NUDGED, pushUndo),
+    takeEvery(actions.ALL_NOTES_SELECTED, selectAll),
+    takeEvery(actions.NOTE_DRAWN, drawNote),
+    takeEvery(actions.NOTE_ERASED, erase),
+    takeEvery(actions.NOTES_DUPLICATED, duplicateSelectedNotes),
+    takeEvery(actions.NOTES_MOVED, moveNotes),
+    takeEvery(actions.NOTES_DELETED, deleteNotes),
+    takeEvery(actions.NOTES_RESIZED, resize),
+    takeEvery(actions.REDO_POPPED, redo),
+    takeEvery(actions.REDO_PUSHED, pushRedo),
+    takeEvery(actions.SELECTED_NOTES_MOVED, moveSelected),
+    takeEvery(actions.SELECTED_NOTES_MOVED_OCTAVE_DOWN, shiftDownOctave),
+    takeEvery(actions.SELECTED_NOTES_MOVED_OCTAVE_UP, shiftUpOctave),
+    takeEvery(actions.SELECTED_NOTES_POSITION_NUDGED, nudgeSelectedNotesPosition),
+    takeEvery(actions.SELECTED_NOTES_DELETED, deleteSelectedNotes),
+    takeEvery(actions.SELECTED_NOTES_RESIZED, resizeSelected),
+    takeEvery(actions.SELECTED_NOTES_SIZE_CHANGED, changeSelectedNotesSize),
+    takeEvery(actions.SELECTED_NOTES_SIZE_NUDGED, nudgeSelectedNotesSize),
+    takeEvery(actions.UNDO_POPPED, undo),
+    takeEvery(actions.UNDO_PUSHED, pushUndo),
+    takeEvery(shortcuts.actions.DELETE, deleteSelectedNotes),
+    takeEvery(shortcuts.actions.DESELECT, deleteSelectedNotes),
+    takeEvery(shortcuts.actions.DUPLICATE, duplicateSelectedNotes),
+    takeEvery(shortcuts.actions.NUDGE_ALT_DOWN,
       () => nudgeSelectedNotesSize({ change: { x: 0, y: 1 } })
     ),
-    takeEvery(shortcuts.actionTypes.NUDGE_ALT_LEFT,
+    takeEvery(shortcuts.actions.NUDGE_ALT_LEFT,
       () => nudgeSelectedNotesSize({ change: { x: -1, y: 0 } })
     ),
-    takeEvery(shortcuts.actionTypes.NUDGE_ALT_RIGHT,
+    takeEvery(shortcuts.actions.NUDGE_ALT_RIGHT,
       () => nudgeSelectedNotesSize({ change: { x: 1, y: 0 } })
     ),
-    takeEvery(shortcuts.actionTypes.NUDGE_ALT_UP,
+    takeEvery(shortcuts.actions.NUDGE_ALT_UP,
       () => nudgeSelectedNotesSize({ change: { x: 0, y: -1 } })
     ),
-    takeEvery(shortcuts.actionTypes.NUDGE_DOWN,
+    takeEvery(shortcuts.actions.NUDGE_DOWN,
       () => nudgeSelectedNotesPosition({ change: { x: 0, y: 1 } })
     ),
-    takeEvery(shortcuts.actionTypes.NUDGE_LEFT,
+    takeEvery(shortcuts.actions.NUDGE_LEFT,
       () => nudgeSelectedNotesPosition({ change: { x: -1, y: 0 } })
     ),
-    takeEvery(shortcuts.actionTypes.NUDGE_RIGHT,
+    takeEvery(shortcuts.actions.NUDGE_RIGHT,
       () => nudgeSelectedNotesPosition({ change: { x: 1, y: 0 } })
     ),
-    takeEvery(shortcuts.actionTypes.NUDGE_UP,
+    takeEvery(shortcuts.actions.NUDGE_UP,
       () => nudgeSelectedNotesPosition({ change: { x: 0, y: -1 } })
     ),
-    takeEvery(shortcuts.actionTypes.REDO, redo),
-    takeEvery(shortcuts.actionTypes.SELECT_ALL, selectAll),
-    takeEvery(shortcuts.actionTypes.UNDO, undo),
+    takeEvery(shortcuts.actions.REDO, redo),
+    takeEvery(shortcuts.actions.SELECT_ALL, selectAll),
+    takeEvery(shortcuts.actions.UNDO, undo),
   ];
 }

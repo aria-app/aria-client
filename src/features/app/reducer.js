@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import * as actionTypes from './action-types';
+import * as actions from './actions';
 
 const isBPMModalOpen = (state = false, action) => {
   switch (action.type) {
-    case actionTypes.BPM_MODAL_CLOSED:
+    case actions.BPM_MODAL_CLOSED:
       return false;
-    case actionTypes.BPM_MODAL_OPENED:
+    case actions.BPM_MODAL_OPENED:
       return true;
     default:
       return state;
@@ -14,10 +14,10 @@ const isBPMModalOpen = (state = false, action) => {
 
 const isFileOver = (state = false, action) => {
   switch (action.type) {
-    case actionTypes.FILE_DRAG_STARTED:
+    case actions.FILE_DRAG_STARTED:
       return true;
-    case actionTypes.FILE_DRAG_CANCELLED:
-    case actionTypes.FILE_DROPPED:
+    case actions.FILE_DRAG_CANCELLED:
+    case actions.FILE_DROPPED:
       return false;
     default:
       return state;

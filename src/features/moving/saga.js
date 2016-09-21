@@ -5,7 +5,6 @@ import notes from '../notes';
 import sequencing from '../sequencing';
 import shared from '../shared';
 import * as actions from './actions';
-import * as actionTypes from './action-types';
 import * as selectors from './selectors';
 
 function* start() {
@@ -40,7 +39,7 @@ function* update() {
 
 export default function* saga() {
   yield [
-    takeEvery(actionTypes.STARTED, start),
-    takeEvery(actionTypes.UPDATED, update),
+    takeEvery(actions.STARTED, start),
+    takeEvery(actions.UPDATED, update),
   ];
 }

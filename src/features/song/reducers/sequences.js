@@ -1,44 +1,44 @@
 import _ from 'lodash';
 import { combineReducers } from 'redux';
 import shared from '../../shared';
-import * as actionTypes from '../action-types';
+import * as actions from '../actions';
 
 const { setAtIds } = shared.helpers;
 
 const dict = (state = {}, action) => {
   switch (action.type) {
-    case actionTypes.SEQUENCES_ADDED:
-    case actionTypes.SEQUENCES_UPDATED:
+    case actions.SEQUENCES_ADDED:
+    case actions.SEQUENCES_UPDATED:
       return setAtIds(action.sequences, state);
-    case actionTypes.SEQUENCES_DELETED:
+    case actions.SEQUENCES_DELETED:
       return _.omit(state, action.ids);
-    case actionTypes.SEQUENCE_EXTENDED:
+    case actions.SEQUENCE_EXTENDED:
       return setAtIds([{
         ...state[action.id],
         measureCount: state[action.id].measureCount + 1,
       }], state);
-    case actionTypes.SEQUENCE_NUDGED_LEFT:
+    case actions.SEQUENCE_NUDGED_LEFT:
       return setAtIds([{
         ...state[action.id],
         position: state[action.id].position === 0
           ? 0
           : state[action.id].position - 1,
       }], state);
-    case actionTypes.SEQUENCE_NUDGED_RIGHT:
+    case actions.SEQUENCE_NUDGED_RIGHT:
       return setAtIds([{
         ...state[action.id],
         position: state[action.id].position + 1,
       }], state);
-    case actionTypes.SEQUENCE_SHORTENED:
+    case actions.SEQUENCE_SHORTENED:
       return setAtIds([{
         ...state[action.id],
         measureCount: state[action.id].measureCount === 1
           ? 1
           : state[action.id].measureCount - 1,
       }], state);
-    case actionTypes.SEQUENCES_SET:
+    case actions.SEQUENCES_SET:
       return setAtIds(action.sequences, state);
-    case actionTypes.SONG_LOADED:
+    case actions.SONG_LOADED:
       return action.song.sequences.dict;
     default:
       return state;
@@ -47,13 +47,13 @@ const dict = (state = {}, action) => {
 
 const ids = (state = [], action) => {
   switch (action.type) {
-    case actionTypes.SEQUENCES_ADDED:
+    case actions.SEQUENCES_ADDED:
       return state.concat(_.map(action.sequences, 'id'));
-    case actionTypes.SEQUENCES_DELETED:
+    case actions.SEQUENCES_DELETED:
       return _.difference(state, action.ids);
-    case actionTypes.SEQUENCES_SET:
+    case actions.SEQUENCES_SET:
       return _.map(action.sequences, 'id');
-    case actionTypes.SONG_LOADED:
+    case actions.SONG_LOADED:
       return action.song.sequences.ids;
     default:
       return state;

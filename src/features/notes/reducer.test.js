@@ -1,4 +1,4 @@
-import * as t from './action-types';
+import * as actions from './actions';
 import reducer from './reducer';
 import shortcuts from '../shortcuts';
 import song from '../song';
@@ -46,7 +46,7 @@ describe('Notes Reducer', () => {
       undos: [],
     };
     const action = {
-      type: shortcuts.actionTypes.DESELECT,
+      type: shortcuts.actions.DESELECT,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -64,7 +64,7 @@ describe('Notes Reducer', () => {
       undos: [],
     };
     const action = {
-      type: song.actionTypes.NOTES_DELETED,
+      type: song.actions.NOTES_DELETED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -82,7 +82,7 @@ describe('Notes Reducer', () => {
       undos: [],
     };
     const action = {
-      type: song.actionTypes.SEQUENCE_CLOSED,
+      type: song.actions.SEQUENCE_CLOSED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);

@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import * as actionTypes from './action-types';
+import * as actions from './actions';
 
 const isPanning = (state = false, action) => {
   switch (action.type) {
-    case actionTypes.STARTED:
+    case actions.STARTED:
       return true;
-    case actionTypes.STOPPED:
+    case actions.STOPPED:
       return false;
     default:
       return state;
@@ -14,9 +14,9 @@ const isPanning = (state = false, action) => {
 
 const startPoint = (state = {}, action) => {
   switch (action.type) {
-    case actionTypes.START_POINT_SET:
+    case actions.START_POINT_SET:
       return action.startPoint;
-    case actionTypes.STOPPED:
+    case actions.STOPPED:
       return {};
     default:
       return state;

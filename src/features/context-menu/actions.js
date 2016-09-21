@@ -1,16 +1,20 @@
-import * as actionTypes from './action-types';
+import { NAME } from './constants';
+
+export const CONTEXT_MENU_CLOSED = `${NAME}/CONTEXT_MENU_CLOSED`;
+export const CONTEXT_MENU_ITEM_SELECTED = `${NAME}/CONTEXT_MENU_ITEM_SELECTED`;
+export const CONTEXT_MENU_OPENED = `${NAME}/CONTEXT_MENU_OPENED`;
 
 export const contextMenuClosed = () => ({
-  type: actionTypes.CONTEXT_MENU_CLOSED,
+  type: CONTEXT_MENU_CLOSED,
 });
 
 export const contextMenuItemSelected = (item) => ({
-  type: actionTypes.CONTEXT_MENU_ITEM_SELECTED,
+  type: CONTEXT_MENU_ITEM_SELECTED,
   item,
 });
 
 export const contextMenuOpened = (items, position) => ({
-  type: actionTypes.CONTEXT_MENU_OPENED,
+  type: CONTEXT_MENU_OPENED,
   items,
   position,
 });

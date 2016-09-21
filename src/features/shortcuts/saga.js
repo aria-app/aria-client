@@ -5,35 +5,34 @@ import Mousetrap from 'mousetrap';
 import sequencing from '../sequencing';
 import shared from '../shared';
 import * as actions from './actions';
-import * as t from './action-types';
 import * as selectors from './selectors';
 
 const heldShortcuts = [
-  [t.PAN_HELD, t.PAN_RELEASED, ['space']],
+  [actions.PAN_HELD, actions.PAN_RELEASED, ['space']],
 ];
 
 const pressedShortcuts = [
-  [t.DELETE, ['backspace', 'del']],
-  [t.DESELECT, ['ctrl+d', 'meta+d']],
-  [t.DUPLICATE, ['ctrl+shift+d', 'meta+shift+d']],
-  [t.NUDGE_ALT_DOWN, ['ctrl+down', 'meta+down']],
-  [t.NUDGE_ALT_LEFT, ['ctrl+left', 'meta+left']],
-  [t.NUDGE_ALT_RIGHT, ['ctrl+right', 'meta+right']],
-  [t.NUDGE_ALT_UP, ['ctrl+up', 'meta+up']],
-  [t.NUDGE_DOWN, ['down']],
-  [t.NUDGE_LEFT, ['left']],
-  [t.NUDGE_RIGHT, ['right']],
-  [t.NUDGE_UP, ['up']],
-  [t.PLAYBACK_STOP, ['escape']],
-  [t.PLAYBACK_TOGGLE, ['enter']],
-  [t.REDO, ['ctrl+y', 'meta+y']],
-  [t.SELECT_ALL, ['ctrl+a', 'meta+a']],
-  [t.SELECT_TOOL_D, ['d']],
-  [t.SELECT_TOOL_E, ['e']],
-  [t.SELECT_TOOL_M, ['m']],
-  [t.SELECT_TOOL_P, ['p']],
-  [t.SELECT_TOOL_S, ['s']],
-  [t.UNDO, ['ctrl+z', 'meta+z']],
+  [actions.DELETE, ['backspace', 'del']],
+  [actions.DESELECT, ['ctrl+d', 'meta+d']],
+  [actions.DUPLICATE, ['ctrl+shift+d', 'meta+shift+d']],
+  [actions.NUDGE_ALT_DOWN, ['ctrl+down', 'meta+down']],
+  [actions.NUDGE_ALT_LEFT, ['ctrl+left', 'meta+left']],
+  [actions.NUDGE_ALT_RIGHT, ['ctrl+right', 'meta+right']],
+  [actions.NUDGE_ALT_UP, ['ctrl+up', 'meta+up']],
+  [actions.NUDGE_DOWN, ['down']],
+  [actions.NUDGE_LEFT, ['left']],
+  [actions.NUDGE_RIGHT, ['right']],
+  [actions.NUDGE_UP, ['up']],
+  [actions.PLAYBACK_STOP, ['escape']],
+  [actions.PLAYBACK_TOGGLE, ['enter']],
+  [actions.REDO, ['ctrl+y', 'meta+y']],
+  [actions.SELECT_ALL, ['ctrl+a', 'meta+a']],
+  [actions.SELECT_TOOL_D, ['d']],
+  [actions.SELECT_TOOL_E, ['e']],
+  [actions.SELECT_TOOL_M, ['m']],
+  [actions.SELECT_TOOL_P, ['p']],
+  [actions.SELECT_TOOL_S, ['s']],
+  [actions.UNDO, ['ctrl+z', 'meta+z']],
 ];
 
 function* holdPan({ e }) {
@@ -87,9 +86,9 @@ function* releasePan() {
 
 export default function* saga() {
   yield [
-    takeEvery(t.PAN_HELD, holdPan),
-    takeEvery(t.PAN_RELEASED, releasePan),
-    takeEvery(shared.actionTypes.INITIALIZED, initialize),
+    takeEvery(actions.PAN_HELD, holdPan),
+    takeEvery(actions.PAN_RELEASED, releasePan),
+    takeEvery(shared.actions.INITIALIZED, initialize),
   ];
 }
 

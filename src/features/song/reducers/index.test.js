@@ -1,5 +1,5 @@
 import shared from '../../shared';
-import * as t from '../action-types';
+import * as t from '../actions';
 import { indexReducer as reducer } from './index';
 
 describe('Song Index Reducer', () => {

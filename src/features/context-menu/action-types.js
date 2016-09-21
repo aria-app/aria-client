@@ -1,5 +1,0 @@
-import { NAME } from './constants';
-
-export const CONTEXT_MENU_CLOSED = `${NAME}/CONTEXT_MENU_CLOSED`;
-export const CONTEXT_MENU_ITEM_SELECTED = `${NAME}/CONTEXT_MENU_ITEM_SELECTED`;
-export const CONTEXT_MENU_OPENED = `${NAME}/CONTEXT_MENU_OPENED`;

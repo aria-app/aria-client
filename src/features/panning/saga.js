@@ -2,7 +2,6 @@ import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import shared from '../shared';
 import * as actions from './actions';
-import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
@@ -26,7 +25,7 @@ function* update({ e, scrollLeftElement, scrollTopElement }) {
 
 export default function* saga() {
   yield [
-    takeEvery(actionTypes.STARTED, start),
-    takeEvery(actionTypes.UPDATED, update),
+    takeEvery(actions.STARTED, start),
+    takeEvery(actions.UPDATED, update),
   ];
 }

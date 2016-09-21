@@ -6,7 +6,6 @@ import sequencing from '../sequencing';
 import shared from '../shared';
 import song from '../song';
 import * as actions from './actions';
-import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
@@ -57,7 +56,7 @@ function* update({ isAdditive }) {
 
 export default function* saga() {
   yield [
-    takeEvery(actionTypes.STARTED, start),
-    takeEvery(actionTypes.UPDATED, update),
+    takeEvery(actions.STARTED, start),
+    takeEvery(actions.UPDATED, update),
   ];
 }

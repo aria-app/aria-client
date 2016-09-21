@@ -3,7 +3,6 @@ import { call, put, select } from 'redux-saga/effects';
 import Tone from 'tone';
 import song from '../song';
 import * as actions from './actions';
-import * as actionTypes from './action-types';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
@@ -72,15 +71,15 @@ function* setChannels({ tracks }) {
 
 export default function* saga() {
   yield [
-    takeEvery(actionTypes.INSTRUMENT_DISPOSED, disposeInstruments),
-    takeEvery(actionTypes.NOTE_PLAYED, playNote),
-    takeEvery(actionTypes.NOTE_PREVIEWED, previewNote),
-    takeEvery(actionTypes.ALL_INSTRUMENTS_RELEASED, releaseAll),
-    takeEvery(song.actionTypes.TRACK_CREATED_AND_ADDED, addNewChannel),
-    takeEvery(song.actionTypes.SONG_LOADED, initialize),
-    takeEvery(song.actionTypes.BPM_SET, setBPM),
-    takeEvery(song.actionTypes.TRACK_SYNTH_TYPE_SET, changeTrackInstrumentType),
-    takeEvery(song.actionTypes.TRACKS_SET, setChannels),
+    takeEvery(actions.INSTRUMENT_DISPOSED, disposeInstruments),
+    takeEvery(actions.NOTE_PLAYED, playNote),
+    takeEvery(actions.NOTE_PREVIEWED, previewNote),
+    takeEvery(actions.ALL_INSTRUMENTS_RELEASED, releaseAll),
+    takeEvery(song.actions.TRACK_CREATED_AND_ADDED, addNewChannel),
+    takeEvery(song.actions.SONG_LOADED, initialize),
+    takeEvery(song.actions.BPM_SET, setBPM),
+    takeEvery(song.actions.TRACK_SYNTH_TYPE_SET, changeTrackInstrumentType),
+    takeEvery(song.actions.TRACKS_SET, setChannels),
   ];
 }
 

@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import song from '../song';
-import * as actionTypes from './action-types';
+import * as actions from './actions';
 
 function redos(state = [], action) {
   switch (action.type) {
-    case actionTypes.REDOS_SET:
+    case actions.REDOS_SET:
       return action.redos;
     default:
       return state;
@@ -13,11 +13,11 @@ function redos(state = [], action) {
 
 const selectedSequenceId = (state = '', action) => {
   switch (action.type) {
-    case actionTypes.SEQUENCE_DELETED:
-    case actionTypes.SEQUENCE_DESELECTED:
-    case song.actionTypes.SEQUENCE_OPENED:
+    case actions.SEQUENCE_DELETED:
+    case actions.SEQUENCE_DESELECTED:
+    case song.actions.SEQUENCE_OPENED:
       return '';
-    case actionTypes.SEQUENCE_SELECTED:
+    case actions.SEQUENCE_SELECTED:
       return action.id;
     default:
       return state;
@@ -26,9 +26,9 @@ const selectedSequenceId = (state = '', action) => {
 
 const stagedTrackId = (state = '', action) => {
   switch (action.type) {
-    case actionTypes.TRACK_EDITING_FINISHED:
+    case actions.TRACK_EDITING_FINISHED:
       return '';
-    case actionTypes.TRACK_EDITING_STARTED:
+    case actions.TRACK_EDITING_STARTED:
       return action.id;
     default:
       return state;
@@ -37,7 +37,7 @@ const stagedTrackId = (state = '', action) => {
 
 function undos(state = [], action) {
   switch (action.type) {
-    case actionTypes.UNDOS_SET:
+    case actions.UNDOS_SET:
       return action.undos;
     default:
       return state;

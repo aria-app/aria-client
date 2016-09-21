@@ -1,31 +1,39 @@
 import shared from '../shared';
-import * as actionTypes from './action-types';
+import { NAME } from './constants';
+
+export const ALL_INSTRUMENTS_RELEASED = `${NAME}/ALL_INSTRUMENTS_RELEASED`;
+export const CHANNEL_ADDED = `${NAME}/CHANNEL_ADDED`;
+export const CHANNELS_SET = `${NAME}/CHANNELS_SET`;
+export const INSTRUMENT_DISPOSED = `${NAME}/INSTRUMENT_DISPOSED`;
+export const NOTE_PLAYED = `${NAME}/NOTE_PLAYED`;
+export const NOTE_PREVIEWED = `${NAME}/NOTE_PREVIEWED`;
+
 
 export const allInstrumentsReleased = () => ({
-  type: actionTypes.ALL_INSTRUMENTS_RELEASED,
+  type: ALL_INSTRUMENTS_RELEASED,
 });
 
 export const channelAdded = channel => ({
-  type: actionTypes.CHANNEL_ADDED,
+  type: CHANNEL_ADDED,
   channel,
 });
 
 export const channelsSet = channels => ({
-  type: actionTypes.CHANNELS_SET,
+  type: CHANNELS_SET,
   channels,
 });
 
 export const instrumentDisposed = channel => ({
-  type: actionTypes.INSTRUMENT_DISPOSED,
+  type: INSTRUMENT_DISPOSED,
   channel,
 });
 
 export const notePlayed = payload => ({
-  type: actionTypes.NOTE_PLAYED,
+  type: NOTE_PLAYED,
   payload,
 });
 
 export const notePreviewed = point => ({
-  type: actionTypes.NOTE_PREVIEWED,
+  type: NOTE_PREVIEWED,
   name: shared.helpers.getNoteName(point.y),
 });

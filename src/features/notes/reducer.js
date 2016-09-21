@@ -2,11 +2,11 @@ import _ from 'lodash';
 import { combineReducers } from 'redux';
 import shortcuts from '../shortcuts';
 import song from '../song';
-import * as actionTypes from './action-types';
+import * as actions from './actions';
 
 function redos(state = [], action) {
   switch (action.type) {
-    case actionTypes.REDOS_SET:
+    case actions.REDOS_SET:
       return action.redos;
     default:
       return state;
@@ -15,12 +15,12 @@ function redos(state = [], action) {
 
 function selectedIds(state = [], action) {
   switch (action.type) {
-    case actionTypes.ALL_NOTES_DESELECTED:
-    case shortcuts.actionTypes.DESELECT:
-    case song.actionTypes.NOTES_DELETED:
-    case song.actionTypes.SEQUENCE_CLOSED:
+    case actions.ALL_NOTES_DESELECTED:
+    case shortcuts.actions.DESELECT:
+    case song.actions.NOTES_DELETED:
+    case song.actions.SEQUENCE_CLOSED:
       return [];
-    case actionTypes.NOTE_SELECTED:
+    case actions.NOTE_SELECTED:
       if (action.isAdditive) {
         return _.includes(state, action.note.id)
           ? _.without(state, action.note.id)
@@ -29,7 +29,7 @@ function selectedIds(state = [], action) {
       return !_.includes(state, action.note.id)
         ? [action.note.id]
         : state;
-    case actionTypes.NOTES_SELECTED:
+    case actions.NOTES_SELECTED:
       return _.map(action.notes, 'id');
     default:
       return state;
@@ -38,9 +38,9 @@ function selectedIds(state = [], action) {
 
 function undos(state = [], action) {
   switch (action.type) {
-    case actionTypes.UNDOS_SET:
+    case actions.UNDOS_SET:
       return action.undos;
-    case song.actionTypes.SEQUENCE_CLOSED:
+    case song.actions.SEQUENCE_CLOSED:
       return [];
     default:
       return state;

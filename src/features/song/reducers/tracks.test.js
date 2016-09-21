@@ -1,4 +1,4 @@
-import * as actionTypes from '../action-types';
+import * as actions from '../actions';
 import reducer from './tracks';
 
 describe('Song Tracks Reducer', () => {
@@ -46,7 +46,7 @@ describe('Song Tracks Reducer', () => {
       ids: ['t1', 't2'],
     };
     const action = {
-      type: actionTypes.TRACK_CREATED_AND_ADDED,
+      type: actions.TRACK_CREATED_AND_ADDED,
       track: {
         id: 't2',
         isMuted: false,
@@ -85,7 +85,7 @@ describe('Song Tracks Reducer', () => {
       ids: ['t1'],
     };
     const action = {
-      type: actionTypes.TRACK_IS_MUTED_TOGGLED,
+      type: actions.TRACK_IS_MUTED_TOGGLED,
       id: 't1',
     };
     const next = reducer(previous, action);
@@ -118,7 +118,7 @@ describe('Song Tracks Reducer', () => {
       ids: ['t1'],
     };
     const action = {
-      type: actionTypes.TRACK_IS_SOLOING_TOGGLED,
+      type: actions.TRACK_IS_SOLOING_TOGGLED,
       id: 't1',
     };
     const next = reducer(previous, action);
@@ -151,7 +151,7 @@ describe('Song Tracks Reducer', () => {
       ids: ['t1'],
     };
     const action = {
-      type: actionTypes.TRACK_SYNTH_TYPE_SET,
+      type: actions.TRACK_SYNTH_TYPE_SET,
       id: 't1',
       synthType: 'my-other-synth',
     };
@@ -192,7 +192,7 @@ describe('Song Tracks Reducer', () => {
       ids: ['t1', 't2'],
     };
     const action = {
-      type: actionTypes.TRACKS_ADDED,
+      type: actions.TRACKS_ADDED,
       tracks: [{
         id: 't2',
         isMuted: false,
@@ -238,7 +238,7 @@ describe('Song Tracks Reducer', () => {
       ids: ['t1'],
     };
     const action = {
-      type: actionTypes.TRACKS_DELETED,
+      type: actions.TRACKS_DELETED,
       ids: ['t2'],
     };
     const next = reducer(previous, action);
@@ -271,7 +271,7 @@ describe('Song Tracks Reducer', () => {
       ids: ['t1'],
     };
     const action = {
-      type: actionTypes.TRACKS_SET,
+      type: actions.TRACKS_SET,
       tracks: [{
         id: 't1',
         isMuted: false,
@@ -324,7 +324,7 @@ describe('Song Tracks Reducer', () => {
       ids: ['t1', 't2'],
     };
     const action = {
-      type: actionTypes.TRACKS_UPDATED,
+      type: actions.TRACKS_UPDATED,
       tracks: [{
         id: 't2',
         isMuted: false,
@@ -355,7 +355,7 @@ describe('Song Tracks Reducer', () => {
       ids: ['t1'],
     };
     const action = {
-      type: actionTypes.SONG_LOADED,
+      type: actions.SONG_LOADED,
       song: {
         tracks: {
           dict: {

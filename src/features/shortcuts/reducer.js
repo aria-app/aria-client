@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import * as actionTypes from './action-types';
+import * as actions from './actions';
 
 const heldKeys = (state = [], action) => {
   switch (action.type) {
-    case actionTypes.HELD_KEYS_SET:
+    case actions.HELD_KEYS_SET:
       return action.keys;
     default:
       return state;

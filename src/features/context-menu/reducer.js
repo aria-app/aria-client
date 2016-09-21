@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import * as actionTypes from './action-types';
+import * as actions from './actions';
 
 const contextMenuItems = (state = [], action) => {
   switch (action.type) {
-    case actionTypes.CONTEXT_MENU_OPENED:
+    case actions.CONTEXT_MENU_OPENED:
       return action.items;
-    case actionTypes.CONTEXT_MENU_CLOSED:
-    case actionTypes.CONTEXT_MENU_ITEM_SELECTED:
+    case actions.CONTEXT_MENU_CLOSED:
+    case actions.CONTEXT_MENU_ITEM_SELECTED:
       return [];
     default:
       return state;
@@ -15,10 +15,10 @@ const contextMenuItems = (state = [], action) => {
 
 const contextMenuPosition = (state = {}, action) => {
   switch (action.type) {
-    case actionTypes.CONTEXT_MENU_OPENED:
+    case actions.CONTEXT_MENU_OPENED:
       return action.position;
-    case actionTypes.CONTEXT_MENU_CLOSED:
-    case actionTypes.CONTEXT_MENU_ITEM_SELECTED:
+    case actions.CONTEXT_MENU_CLOSED:
+    case actions.CONTEXT_MENU_ITEM_SELECTED:
       return {};
     default:
       return state;

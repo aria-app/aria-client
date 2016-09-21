@@ -1,5 +1,5 @@
 import shared from '../shared';
-import * as t from './action-types';
+import * as actions from './actions';
 import reducer from './reducer';
 
 describe('Sequencing Reducer', () => {

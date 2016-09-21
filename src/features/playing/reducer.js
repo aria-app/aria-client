@@ -1,13 +1,13 @@
 import _ from 'lodash';
 import { combineReducers } from 'redux';
 import shared from '../shared';
-import * as actionTypes from './action-types';
+import * as actions from './actions';
 
 const byId = (state = {}, action) => {
   switch (action.type) {
-    case actionTypes.CHANNEL_ADDED:
+    case actions.CHANNEL_ADDED:
       return shared.helpers.setAtIds([action.channel], state);
-    case actionTypes.CHANNELS_SET:
+    case actions.CHANNELS_SET:
       return shared.helpers.setAtIds(action.channels, {});
     default:
       return state;
@@ -16,9 +16,9 @@ const byId = (state = {}, action) => {
 
 const ids = (state = [], action) => {
   switch (action.type) {
-    case actionTypes.CHANNEL_ADDED:
+    case actions.CHANNEL_ADDED:
       return state.concat(action.channel.id);
-    case actionTypes.CHANNELS_SET:
+    case actions.CHANNELS_SET:
       return _.map(action.channels, 'id');
     default:
       return state;

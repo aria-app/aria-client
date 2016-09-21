@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import * as actionTypes from './action-types';
+import * as actions from './actions';
 
 const isResizing = (state = false, action) => {
   switch (action.type) {
-    case actionTypes.STARTED:
+    case actions.STARTED:
       return true;
-    case actionTypes.STOPPED:
+    case actions.STOPPED:
       return false;
     default:
       return state;
@@ -14,9 +14,9 @@ const isResizing = (state = false, action) => {
 
 const newPoint = (state = {}, action) => {
   switch (action.type) {
-    case actionTypes.NEW_POINT_SET:
+    case actions.NEW_POINT_SET:
       return action.newPoint;
-    case actionTypes.STOPPED:
+    case actions.STOPPED:
       return {};
     default:
       return state;

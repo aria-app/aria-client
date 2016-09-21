@@ -1,4 +1,4 @@
-import * as actionTypes from '../action-types';
+import * as actions from '../actions';
 import reducer from './sequences';
 
 describe('Song Sequences Reducer', () => {
@@ -43,7 +43,7 @@ describe('Song Sequences Reducer', () => {
       ids: ['s1', 's2'],
     };
     const action = {
-      type: actionTypes.SEQUENCES_ADDED,
+      type: actions.SEQUENCES_ADDED,
       sequences: [{
         id: 's2',
         measureCount: 1,
@@ -85,7 +85,7 @@ describe('Song Sequences Reducer', () => {
       ids: ['s1'],
     };
     const action = {
-      type: actionTypes.SEQUENCES_DELETED,
+      type: actions.SEQUENCES_DELETED,
       ids: ['s2'],
     };
     const next = reducer(previous, action);
@@ -116,7 +116,7 @@ describe('Song Sequences Reducer', () => {
       ids: ['s1'],
     };
     const action = {
-      type: actionTypes.SEQUENCE_EXTENDED,
+      type: actions.SEQUENCE_EXTENDED,
       id: 's1',
     };
     const next = reducer(previous, action);
@@ -147,7 +147,7 @@ describe('Song Sequences Reducer', () => {
       ids: ['s1'],
     };
     const action = {
-      type: actionTypes.SEQUENCE_NUDGED_LEFT,
+      type: actions.SEQUENCE_NUDGED_LEFT,
       id: 's1',
     };
     const next = reducer(previous, action);
@@ -178,7 +178,7 @@ describe('Song Sequences Reducer', () => {
       ids: ['s1'],
     };
     const action = {
-      type: actionTypes.SEQUENCE_NUDGED_LEFT,
+      type: actions.SEQUENCE_NUDGED_LEFT,
       id: 's1',
     };
     const next = reducer(previous, action);
@@ -209,7 +209,7 @@ describe('Song Sequences Reducer', () => {
       ids: ['s1'],
     };
     const action = {
-      type: actionTypes.SEQUENCE_NUDGED_RIGHT,
+      type: actions.SEQUENCE_NUDGED_RIGHT,
       id: 's1',
     };
     const next = reducer(previous, action);
@@ -240,7 +240,7 @@ describe('Song Sequences Reducer', () => {
       ids: ['s1'],
     };
     const action = {
-      type: actionTypes.SEQUENCE_SHORTENED,
+      type: actions.SEQUENCE_SHORTENED,
       id: 's1',
     };
     const next = reducer(previous, action);
@@ -271,7 +271,7 @@ describe('Song Sequences Reducer', () => {
       ids: ['s1'],
     };
     const action = {
-      type: actionTypes.SEQUENCE_SHORTENED,
+      type: actions.SEQUENCE_SHORTENED,
       id: 's1',
     };
     const next = reducer(previous, action);
@@ -302,7 +302,7 @@ describe('Song Sequences Reducer', () => {
       ids: ['s1'],
     };
     const action = {
-      type: actionTypes.SEQUENCES_SET,
+      type: actions.SEQUENCES_SET,
       sequences: [{
         id: 's1',
         measureCount: 1,
@@ -350,7 +350,7 @@ describe('Song Sequences Reducer', () => {
       ids: ['s1', 's2'],
     };
     const action = {
-      type: actionTypes.SEQUENCES_UPDATED,
+      type: actions.SEQUENCES_UPDATED,
       sequences: [{
         id: 's2',
         measureCount: 1,
@@ -379,7 +379,7 @@ describe('Song Sequences Reducer', () => {
       ids: ['s1'],
     };
     const action = {
-      type: actionTypes.SONG_LOADED,
+      type: actions.SONG_LOADED,
       song: {
         sequences: {
           dict: {

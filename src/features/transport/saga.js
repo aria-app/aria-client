@@ -6,7 +6,6 @@ import playing from '../playing';
 import shortcuts from '../shortcuts';
 import song from '../song';
 import * as actions from './actions';
-import * as actionTypes from './action-types';
 import * as constants from './constants';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
@@ -198,32 +197,32 @@ function* updateSongSequence() {
 
 export default function* saga() {
   yield [
-    takeEvery(actionTypes.PLAYBACK_STARTED, play),
-    takeEvery(actionTypes.PLAYBACK_PAUSED, pause),
-    takeEvery(actionTypes.PLAYBACK_STOPPED, stop),
-    takeEvery(actionTypes.PLAYBACK_TOGGLED, togglePlayPause),
-    takeEvery(actionTypes.SEQUENCE_STEP_TRIGGERED, sequenceStep),
-    takeEvery(actionTypes.SONG_SEQUENCE_STEP_TRIGGERED, songSequenceStep),
-    takeEvery(actionTypes.TRANSPORT_POSITION_SET, setTransportPosition),
+    takeEvery(actions.PLAYBACK_STARTED, play),
+    takeEvery(actions.PLAYBACK_PAUSED, pause),
+    takeEvery(actions.PLAYBACK_STOPPED, stop),
+    takeEvery(actions.PLAYBACK_TOGGLED, togglePlayPause),
+    takeEvery(actions.SEQUENCE_STEP_TRIGGERED, sequenceStep),
+    takeEvery(actions.SONG_SEQUENCE_STEP_TRIGGERED, songSequenceStep),
+    takeEvery(actions.TRANSPORT_POSITION_SET, setTransportPosition),
     takeEvery([
-      actionTypes.SEQUENCES_UPDATED,
-      song.actionTypes.SEQUENCE_EXTENDED,
-      song.actionTypes.SEQUENCE_NUDGED_LEFT,
-      song.actionTypes.SEQUENCE_NUDGED_RIGHT,
-      song.actionTypes.SEQUENCE_SHORTENED,
-      song.actionTypes.SEQUENCES_ADDED,
-      song.actionTypes.SEQUENCES_DELETED,
-      song.actionTypes.SEQUENCES_SET,
-      song.actionTypes.SEQUENCES_UPDATED,
+      actions.SEQUENCES_UPDATED,
+      song.actions.SEQUENCE_EXTENDED,
+      song.actions.SEQUENCE_NUDGED_LEFT,
+      song.actions.SEQUENCE_NUDGED_RIGHT,
+      song.actions.SEQUENCE_SHORTENED,
+      song.actions.SEQUENCES_ADDED,
+      song.actions.SEQUENCES_DELETED,
+      song.actions.SEQUENCES_SET,
+      song.actions.SEQUENCES_UPDATED,
     ], updateSequences),
-    takeEvery(song.actionTypes.BPM_SET, setBPM),
-    takeEvery(song.actionTypes.SEQUENCE_CLOSED, loopSong),
-    takeEvery(song.actionTypes.SEQUENCE_OPENED, loopSequence),
-    takeEvery(song.actionTypes.SONG_EXTENDED, updateSong),
-    takeEvery(song.actionTypes.SONG_LOADED, initialize),
-    takeEvery(song.actionTypes.SONG_SHORTENED, updateSong),
-    takeEvery(shortcuts.actionTypes.PLAYBACK_STOP, stop),
-    takeEvery(shortcuts.actionTypes.PLAYBACK_TOGGLE, togglePlayPause),
+    takeEvery(song.actions.BPM_SET, setBPM),
+    takeEvery(song.actions.SEQUENCE_CLOSED, loopSong),
+    takeEvery(song.actions.SEQUENCE_OPENED, loopSequence),
+    takeEvery(song.actions.SONG_EXTENDED, updateSong),
+    takeEvery(song.actions.SONG_LOADED, initialize),
+    takeEvery(song.actions.SONG_SHORTENED, updateSong),
+    takeEvery(shortcuts.actions.PLAYBACK_STOP, stop),
+    takeEvery(shortcuts.actions.PLAYBACK_TOGGLE, togglePlayPause),
   ];
 }
 

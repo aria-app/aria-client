@@ -1,4 +1,4 @@
-import * as actionTypes from '../action-types';
+import * as actions from '../actions';
 import reducer from './notes';
 
 describe('Song Notes Reducer', () => {
@@ -40,7 +40,7 @@ describe('Song Notes Reducer', () => {
       ids: ['n1', 'n2'],
     };
     const action = {
-      type: actionTypes.NOTES_ADDED,
+      type: actions.NOTES_ADDED,
       notes: [{
         id: 'n2',
         points: [{ x: 0, y: 3 }, { x: 2, y: 3 }],
@@ -78,7 +78,7 @@ describe('Song Notes Reducer', () => {
       ids: ['n1'],
     };
     const action = {
-      type: actionTypes.NOTES_DELETED,
+      type: actions.NOTES_DELETED,
       ids: ['n2'],
     };
     const next = reducer(previous, action);
@@ -107,7 +107,7 @@ describe('Song Notes Reducer', () => {
       ids: ['n1'],
     };
     const action = {
-      type: actionTypes.NOTES_SET,
+      type: actions.NOTES_SET,
       notes: [{
         id: 'n1',
         points: [{ x: 0, y: 3 }, { x: 2, y: 3 }],
@@ -150,7 +150,7 @@ describe('Song Notes Reducer', () => {
       ids: ['n1', 'n2'],
     };
     const action = {
-      type: actionTypes.NOTES_UPDATED,
+      type: actions.NOTES_UPDATED,
       notes: [{
         id: 'n2',
         points: [{ x: 0, y: 4 }, { x: 2, y: 4 }],
@@ -177,7 +177,7 @@ describe('Song Notes Reducer', () => {
       ids: ['n1'],
     };
     const action = {
-      type: actionTypes.SONG_LOADED,
+      type: actions.SONG_LOADED,
       song: {
         notes: {
           dict: {

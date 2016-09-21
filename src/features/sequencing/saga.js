@@ -5,7 +5,6 @@ import notes from '../notes';
 import shared from '../shared';
 import shortcuts from '../shortcuts';
 import * as actions from './actions';
-import * as actionTypes from './action-types';
 import * as selectors from './selectors';
 
 const { toolTypes } = shared.constants;
@@ -46,23 +45,23 @@ function* setScrollTopIfChanged({ scrollTop }) {
 
 export default function* saga() {
   yield [
-    takeEvery(actionTypes.MOUSE_MOVED, setMousePointIfChanged),
-    takeEvery(actionTypes.SCROLLED_HORIZONTALLY, setScrollLeftIfChanged),
-    takeEvery(actionTypes.SCROLLED_VERTICALLY, setScrollTopIfChanged),
-    takeEvery(actionTypes.TOOL_SELECTED, handleToolTypeSelected),
-    takeEvery(shortcuts.actionTypes.SELECT_TOOL_D,
+    takeEvery(actions.MOUSE_MOVED, setMousePointIfChanged),
+    takeEvery(actions.SCROLLED_HORIZONTALLY, setScrollLeftIfChanged),
+    takeEvery(actions.SCROLLED_VERTICALLY, setScrollTopIfChanged),
+    takeEvery(actions.TOOL_SELECTED, handleToolTypeSelected),
+    takeEvery(shortcuts.actions.SELECT_TOOL_D,
       () => handleToolTypeSelected({ toolType: toolTypes.DRAW })
     ),
-    takeEvery(shortcuts.actionTypes.SELECT_TOOL_E,
+    takeEvery(shortcuts.actions.SELECT_TOOL_E,
       () => handleToolTypeSelected({ toolType: toolTypes.ERASE })
     ),
-    takeEvery(shortcuts.actionTypes.SELECT_TOOL_M,
+    takeEvery(shortcuts.actions.SELECT_TOOL_M,
       () => handleToolTypeSelected({ toolType: toolTypes.MOVE })
     ),
-    takeEvery(shortcuts.actionTypes.SELECT_TOOL_P,
+    takeEvery(shortcuts.actions.SELECT_TOOL_P,
       () => handleToolTypeSelected({ toolType: toolTypes.PAN })
     ),
-    takeEvery(shortcuts.actionTypes.SELECT_TOOL_S,
+    takeEvery(shortcuts.actions.SELECT_TOOL_S,
       () => handleToolTypeSelected({ toolType: toolTypes.SELECT })
     ),
   ];

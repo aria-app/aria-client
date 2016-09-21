@@ -1,4 +1,4 @@
-import * as t from './action-types';
+import * as actions from './actions';
 import song from '../song';
 import reducer from './reducer';
 
@@ -115,7 +115,7 @@ describe('Tracking Reducer', () => {
       undos: [],
     };
     const action = {
-      type: song.actionTypes.SEQUENCE_OPENED,
+      type: song.actions.SEQUENCE_OPENED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
