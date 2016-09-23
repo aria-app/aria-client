@@ -1,38 +1,39 @@
 import _ from 'lodash';
 import { eventChannel, takeEvery } from 'redux-saga';
-import { put, select, take } from 'redux-saga/effects';
+import { fork, put, select, take } from 'redux-saga/effects';
 import Mousetrap from 'mousetrap';
 import sequencing from '../sequencing';
 import shared from '../shared';
 import * as actions from './actions';
 import * as selectors from './selectors';
 
-const heldShortcuts = [
-  [actions.PAN_HELD, actions.PAN_RELEASED, ['space']],
-];
-
-const pressedShortcuts = [
-  [actions.DELETE, ['backspace', 'del']],
-  [actions.DESELECT, ['ctrl+d', 'meta+d']],
-  [actions.DUPLICATE, ['ctrl+shift+d', 'meta+shift+d']],
-  [actions.NUDGE_ALT_DOWN, ['ctrl+down', 'meta+down']],
-  [actions.NUDGE_ALT_LEFT, ['ctrl+left', 'meta+left']],
-  [actions.NUDGE_ALT_RIGHT, ['ctrl+right', 'meta+right']],
-  [actions.NUDGE_ALT_UP, ['ctrl+up', 'meta+up']],
-  [actions.NUDGE_DOWN, ['down']],
-  [actions.NUDGE_LEFT, ['left']],
-  [actions.NUDGE_RIGHT, ['right']],
-  [actions.NUDGE_UP, ['up']],
-  [actions.PLAYBACK_STOP, ['escape']],
-  [actions.PLAYBACK_TOGGLE, ['enter']],
-  [actions.REDO, ['ctrl+y', 'meta+y']],
-  [actions.SELECT_ALL, ['ctrl+a', 'meta+a']],
-  [actions.SELECT_TOOL_D, ['d']],
-  [actions.SELECT_TOOL_E, ['e']],
-  [actions.SELECT_TOOL_M, ['m']],
-  [actions.SELECT_TOOL_P, ['p']],
-  [actions.SELECT_TOOL_S, ['s']],
-  [actions.UNDO, ['ctrl+z', 'meta+z']],
+const shortcuts = [
+  { onPress: actions.DELETE, combos: ['backspace', 'del'] },
+  { onPress: actions.DESELECT, combos: ['ctrl+d', 'meta+d'] },
+  { onPress: actions.DUPLICATE, combos: ['ctrl+shift+d', 'meta+shift+d'] },
+  { onPress: actions.NUDGE_ALT_DOWN, combos: ['ctrl+down', 'meta+down'] },
+  { onPress: actions.NUDGE_ALT_LEFT, combos: ['ctrl+left', 'meta+left'] },
+  { onPress: actions.NUDGE_ALT_RIGHT, combos: ['ctrl+right', 'meta+right'] },
+  { onPress: actions.NUDGE_ALT_UP, combos: ['ctrl+up', 'meta+up'] },
+  { onPress: actions.NUDGE_DOWN, combos: ['down'] },
+  { onPress: actions.NUDGE_LEFT, combos: ['left'] },
+  { onPress: actions.NUDGE_RIGHT, combos: ['right'] },
+  { onPress: actions.NUDGE_UP, combos: ['up'] },
+  { onPress: actions.PLAYBACK_STOP, combos: ['escape'] },
+  { onPress: actions.PLAYBACK_TOGGLE, combos: ['enter'] },
+  { onPress: actions.REDO, combos: ['ctrl+y', 'meta+y'] },
+  { onPress: actions.SELECT_ALL, combos: ['ctrl+a', 'meta+a'] },
+  { onPress: actions.SELECT_TOOL_D, combos: ['d'] },
+  { onPress: actions.SELECT_TOOL_E, combos: ['e'] },
+  { onPress: actions.SELECT_TOOL_M, combos: ['m'] },
+  { onPress: actions.SELECT_TOOL_P, combos: ['p'] },
+  { onPress: actions.SELECT_TOOL_S, combos: ['s'] },
+  { onPress: actions.UNDO, combos: ['ctrl+z', 'meta+z'] },
+  {
+    onPress: actions.PAN_HELD,
+    onRelease: actions.PAN_RELEASED,
+    combos: ['space'],
+  },
 ];
 
 function* holdPan({ e }) {
@@ -51,27 +52,15 @@ function* holdPan({ e }) {
 }
 
 function* initialize() {
-  yield [
-    registerHeldKeys(),
-    registerKeypresses(),
-  ];
+  yield fork(registerShortcuts);
 }
 
-function* registerHeldKeys() {
-  const heldChannel = heldChannelFactory();
+function* registerShortcuts() {
+  const keypressChannel = keypressChannelFactory();
 
   while (true) {
-    const heldKeyAction = yield take(heldChannel);
-    yield put(heldKeyAction);
-  }
-}
-
-function* registerKeypresses() {
-  const pressedChannel = pressedChannelFactory();
-
-  while (true) {
-    const pressedAction = yield take(pressedChannel);
-    yield put(pressedAction);
+    const keypressAction = yield take(keypressChannel);
+    yield put(keypressAction);
   }
 }
 
@@ -92,36 +81,20 @@ export default function* saga() {
   ];
 }
 
-function heldChannelFactory() {
+function keypressChannelFactory() {
   return eventChannel(emit => {
-    heldShortcuts.forEach(shortcut => {
-      const downType = shortcut[0];
-      const upType = shortcut[1];
-      const comboKeys = shortcut[2];
-
-      Mousetrap.bind(comboKeys, e => {
+    shortcuts.forEach(shortcut => {
+      Mousetrap.bind(shortcut.combos, (e) => {
         e.preventDefault();
-        emit({ type: downType, e });
-      }, 'keydown');
-
-      Mousetrap.bind(comboKeys, e => {
-        e.preventDefault();
-        emit({ type: upType });
-      }, 'keyup');
-    });
-  });
-}
-
-function pressedChannelFactory() {
-  return eventChannel(emit => {
-    pressedShortcuts.forEach(shortcut => {
-      const type = shortcut[0];
-      const combo = shortcut[1];
-
-      Mousetrap.bind(combo, (e) => {
-        e.preventDefault();
-        emit({ type });
+        emit({ type: shortcut.onPress, e });
       });
+
+      if (shortcut.onRelease) {
+        Mousetrap.bind(shortcut.combos, e => {
+          e.preventDefault();
+          emit({ type: shortcut.onRelease });
+        }, 'keyup');
+      }
     });
   });
 }

@@ -3,6 +3,7 @@ import createLogger from 'redux-logger';
 import playing from '../features/playing';
 import sequencing from '../features/sequencing';
 import shared from '../features/shared';
+import shortcuts from '../features/shortcuts';
 import transport from '../features/transport';
 
 const typesToSkip = [
@@ -14,6 +15,8 @@ const typesToSkip = [
   sequencing.actions.SCROLLED_HORIZONTALLY,
   sequencing.actions.SCROLLED_VERTICALLY,
   shared.actions.INITIALIZED,
+  shortcuts.actions.PAN_HELD,
+  shortcuts.actions.PAN_RELEASED,
   transport.actions.PLAYBACK_STARTED,
   transport.actions.PLAYBACK_STOPPED,
   transport.actions.SEQUENCE_STEP_TRIGGERED,

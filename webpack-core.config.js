@@ -6,6 +6,7 @@ const dependencies = require('./package.json').dependencies;
 const vendor = _(dependencies)
   .omit('babel-polyfill')
   .omit('react-icons')
+  .omit('tone')
   .keys()
   .value();
 
