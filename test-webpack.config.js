@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 module.exports = {
   entry: './test.js',
   output: {
@@ -36,4 +38,7 @@ module.exports = {
     'react/lib/ExecutionEnvironment': true,
     'react/lib/ReactContext': true,
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+  ],
 };

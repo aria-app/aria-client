@@ -1,4 +1,7 @@
 const _ = require('lodash');
+const autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const dependencies = require('./package.json').dependencies;
 const vendor = _(dependencies)
   .omit('babel-polyfill')
@@ -37,4 +40,17 @@ module.exports = {
     'react/lib/ExecutionEnvironment': true,
     'react/lib/ReactContext': true,
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+    }),
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        postcss: function postcss() {
+          return [autoprefixer];
+        },
+      },
+    }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+  ],
 };

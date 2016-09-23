@@ -9,6 +9,7 @@ const typesToSkip = [
   playing.actions.NOTE_PLAYED,
   sequencing.actions.MOUSE_MOVED,
   sequencing.actions.MOUSE_POINT_SET,
+  sequencing.actions.SCROLL_LEFT_SET,
   sequencing.actions.SCROLL_TOP_SET,
   sequencing.actions.SCROLLED_HORIZONTALLY,
   sequencing.actions.SCROLLED_VERTICALLY,

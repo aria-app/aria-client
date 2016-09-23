@@ -1,9 +1,8 @@
-const autoprefixer = require('autoprefixer');
 const coreConfig = require('./webpack-core.config');
+const merge = require('webpack-merge');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = Object.assign({}, coreConfig, {
+module.exports = merge.smart({}, coreConfig, {
   devServer: {
     stats: {
       chunks: false,
@@ -12,16 +11,6 @@ module.exports = Object.assign({}, coreConfig, {
   },
   devtool: 'eval',
   plugins: [
-    new HtmlWebpackPlugin({
-      template: './src/index.html',
-    }),
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        postcss: function postcss() {
-          return [autoprefixer];
-        },
-      },
-    }),
-    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
   ],
 });

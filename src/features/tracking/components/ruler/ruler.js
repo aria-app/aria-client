@@ -1,14 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import h from 'react-hyperscript';
-import {
-  compose,
-  mapProps,
-  pure,
-  setDisplayName,
-  setPropTypes,
-  withHandlers,
-} from 'recompose';
+import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import shared from '../../../shared';
 import transport from '../../../transport';
 import './ruler.scss';
