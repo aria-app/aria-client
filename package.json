@@ -14,12 +14,16 @@
     "prestart": "npm run clean -s",
     "start": "webpack-dev-server --inline --config ./webpack-dev.config.js",
     "test": "webpack-dev-server --inline --config ./webpack-test.config.js --port 5000",
-    "testw": "CONFIG=$(pwd)/ava-webpack.config.js BABEL_DISABLE_CACHE=1 NODE_ENV=AVA ava -w"
+    "testw": "CONFIG=$(pwd)/ava-webpack.config.js BABEL_DISABLE_CACHE=1 NODE_ENV=AVA ava -w",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "keywords": [],
   "author": "Nick Johnson",
   "license": "ISC",
   "devDependencies": {
+    "@kadira/storybook": "^2.5.2",
+    "@kadira/storybook-addon-knobs": "1.2.1",
     "autoprefixer": "6.3.6",
     "autoprefixer-core": "6.0.1",
     "babel-core": "6.14.0",
