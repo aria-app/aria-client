@@ -1,5 +1,5 @@
 import shared from '../../shared';
-import * as t from '../actions';
+import * as actions from '../actions';
 import { indexReducer as reducer } from './index';
 
 describe('Song Index Reducer', () => {
@@ -33,7 +33,7 @@ describe('Song Index Reducer', () => {
       name: '',
     };
     const action = {
-      type: t.SEQUENCE_CLOSED,
+      type: actions.SEQUENCE_CLOSED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -55,7 +55,7 @@ describe('Song Index Reducer', () => {
       name: '',
     };
     const action = {
-      type: t.SEQUENCE_OPENED,
+      type: actions.SEQUENCE_OPENED,
       id: 'sequence-1',
     };
     const next = reducer(previous, action);
@@ -78,7 +78,7 @@ describe('Song Index Reducer', () => {
       name: '',
     };
     const action = {
-      type: t.BPM_SET,
+      type: actions.BPM_SET,
       bpm: 150,
     };
     const next = reducer(previous, action);
@@ -101,7 +101,7 @@ describe('Song Index Reducer', () => {
       name: '',
     };
     const action = {
-      type: t.BPM_SET,
+      type: actions.BPM_SET,
       bpm: shared.constants.minBPM - 10,
     };
     const next = reducer(previous, action);
@@ -124,7 +124,7 @@ describe('Song Index Reducer', () => {
       name: '',
     };
     const action = {
-      type: t.BPM_SET,
+      type: actions.BPM_SET,
       bpm: shared.constants.maxBPM + 10,
     };
     const next = reducer(previous, action);
@@ -147,7 +147,7 @@ describe('Song Index Reducer', () => {
       name: 'my-song',
     };
     const action = {
-      type: t.SONG_LOADED,
+      type: actions.SONG_LOADED,
       song: {
         activeSequenceId: 'my-sequence',
         bpm: 150,
@@ -176,7 +176,7 @@ describe('Song Index Reducer', () => {
       name: '',
     };
     const action = {
-      type: t.ID_SET,
+      type: actions.ID_SET,
       id: 'song-1',
     };
     const next = reducer(previous, action);
@@ -199,7 +199,7 @@ describe('Song Index Reducer', () => {
       name: '',
     };
     const action = {
-      type: t.MEASURE_COUNT_SET,
+      type: actions.MEASURE_COUNT_SET,
       measureCount: 3,
     };
     const next = reducer(previous, action);
@@ -222,7 +222,7 @@ describe('Song Index Reducer', () => {
       name: '',
     };
     const action = {
-      type: t.SONG_EXTENDED,
+      type: actions.SONG_EXTENDED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -244,7 +244,7 @@ describe('Song Index Reducer', () => {
       name: '',
     };
     const action = {
-      type: t.SONG_SHORTENED,
+      type: actions.SONG_SHORTENED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -266,7 +266,7 @@ describe('Song Index Reducer', () => {
       name: 'my-song',
     };
     const action = {
-      type: t.NAME_SET,
+      type: actions.NAME_SET,
       name: 'my-song',
     };
     const next = reducer(previous, action);

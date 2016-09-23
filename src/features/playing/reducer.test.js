@@ -37,7 +37,7 @@ describe('Playing Reducer', () => {
       },
     };
     const action = {
-      type: t.CHANNEL_ADDED,
+      type: actions.CHANNEL_ADDED,
       channel,
     };
     const next = reducer(previous, action);
@@ -66,7 +66,7 @@ describe('Playing Reducer', () => {
       },
     };
     const action = {
-      type: t.CHANNELS_SET,
+      type: actions.CHANNELS_SET,
       channels,
     };
     const next = reducer(previous, action);

@@ -33,7 +33,7 @@ describe('Sequencing Reducer', () => {
       toolType: shared.constants.defaultToolType,
     };
     const action = {
-      type: t.MOUSE_POINT_SET,
+      type: actions.MOUSE_POINT_SET,
       point: { x: 0, y: 0 },
     };
     const next = reducer(previous, action);
@@ -56,7 +56,7 @@ describe('Sequencing Reducer', () => {
       toolType: shared.constants.toolTypes.ERASE,
     };
     const action = {
-      type: t.TOOL_TYPE_SET,
+      type: actions.TOOL_TYPE_SET,
       previousToolType: shared.constants.toolTypes.DRAW,
       toolType: shared.constants.toolTypes.ERASE,
     };
@@ -80,7 +80,7 @@ describe('Sequencing Reducer', () => {
       toolType: shared.constants.defaultToolType,
     };
     const action = {
-      type: t.SCROLL_LEFT_SET,
+      type: actions.SCROLL_LEFT_SET,
       scrollLeft: 100,
     };
     const next = reducer(previous, action);
@@ -103,7 +103,7 @@ describe('Sequencing Reducer', () => {
       toolType: shared.constants.defaultToolType,
     };
     const action = {
-      type: t.SCROLL_TOP_SET,
+      type: actions.SCROLL_TOP_SET,
       scrollTop: 100,
     };
     const next = reducer(previous, action);

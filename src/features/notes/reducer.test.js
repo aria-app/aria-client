@@ -28,7 +28,7 @@ describe('Notes Reducer', () => {
       undos: [],
     };
     const action = {
-      type: t.ALL_NOTES_DESELECTED,
+      type: actions.ALL_NOTES_DESELECTED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -104,7 +104,7 @@ describe('Notes Reducer', () => {
       undos: [],
     };
     const action = {
-      type: t.NOTE_SELECTED,
+      type: actions.NOTE_SELECTED,
       note,
     };
     const next = reducer(previous, action);
@@ -133,7 +133,7 @@ describe('Notes Reducer', () => {
       undos: [],
     };
     const action = {
-      type: t.NOTES_SELECTED,
+      type: actions.NOTES_SELECTED,
       notes,
     };
     const next = reducer(previous, action);
@@ -153,7 +153,7 @@ describe('Notes Reducer', () => {
       redos,
     };
     const action = {
-      type: t.REDOS_SET,
+      type: actions.REDOS_SET,
       redos,
     };
     const next = reducer(previous, action);
@@ -173,7 +173,7 @@ describe('Notes Reducer', () => {
       undos,
     };
     const action = {
-      type: t.UNDOS_SET,
+      type: actions.UNDOS_SET,
       undos,
     };
     const next = reducer(previous, action);

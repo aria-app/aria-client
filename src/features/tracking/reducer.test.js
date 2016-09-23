@@ -33,7 +33,7 @@ describe('Tracking Reducer', () => {
       redos,
     };
     const action = {
-      type: t.REDOS_SET,
+      type: actions.REDOS_SET,
       redos,
     };
     const next = reducer(previous, action);
@@ -54,7 +54,7 @@ describe('Tracking Reducer', () => {
       undos: [],
     };
     const action = {
-      type: t.SEQUENCE_DELETED,
+      type: actions.SEQUENCE_DELETED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -74,7 +74,7 @@ describe('Tracking Reducer', () => {
       undos: [],
     };
     const action = {
-      type: t.SEQUENCE_DESELECTED,
+      type: actions.SEQUENCE_DESELECTED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -94,7 +94,7 @@ describe('Tracking Reducer', () => {
       undos: [],
     };
     const action = {
-      type: t.SEQUENCE_SELECTED,
+      type: actions.SEQUENCE_SELECTED,
       id: 's1',
     };
     const next = reducer(previous, action);
@@ -135,7 +135,7 @@ describe('Tracking Reducer', () => {
       undos: [],
     };
     const action = {
-      type: t.TRACK_EDITING_FINISHED,
+      type: actions.TRACK_EDITING_FINISHED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -155,7 +155,7 @@ describe('Tracking Reducer', () => {
       undos: [],
     };
     const action = {
-      type: t.TRACK_EDITING_STARTED,
+      type: actions.TRACK_EDITING_STARTED,
       id: 't1',
     };
     const next = reducer(previous, action);
@@ -179,7 +179,7 @@ describe('Tracking Reducer', () => {
       undos,
     };
     const action = {
-      type: t.UNDOS_SET,
+      type: actions.UNDOS_SET,
       undos,
     };
     const next = reducer(previous, action);

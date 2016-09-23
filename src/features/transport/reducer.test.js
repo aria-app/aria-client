@@ -36,7 +36,7 @@ describe('Transport Reducer', () => {
       startPoint: '0',
     };
     const action = {
-      type: t.PLAYBACK_PAUSED,
+      type: actions.PLAYBACK_PAUSED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -60,7 +60,7 @@ describe('Transport Reducer', () => {
       startPoint: '0',
     };
     const action = {
-      type: t.PLAYBACK_STARTED,
+      type: actions.PLAYBACK_STARTED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -84,7 +84,7 @@ describe('Transport Reducer', () => {
       startPoint: '0',
     };
     const action = {
-      type: t.PLAYBACK_STOPPED,
+      type: actions.PLAYBACK_STOPPED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -108,7 +108,7 @@ describe('Transport Reducer', () => {
       startPoint: '0',
     };
     const action = {
-      type: t.PLAYBACK_TOGGLED,
+      type: actions.PLAYBACK_TOGGLED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -132,7 +132,7 @@ describe('Transport Reducer', () => {
       startPoint: '0',
     };
     const action = {
-      type: t.PLAYBACK_TOGGLED,
+      type: actions.PLAYBACK_TOGGLED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -156,7 +156,7 @@ describe('Transport Reducer', () => {
       startPoint: '0',
     };
     const action = {
-      type: t.PLAYBACK_TOGGLED,
+      type: actions.PLAYBACK_TOGGLED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -180,7 +180,7 @@ describe('Transport Reducer', () => {
       startPoint: '0',
     };
     const action = {
-      type: t.POSITION_SET,
+      type: actions.POSITION_SET,
       position: 40,
     };
     const next = reducer(previous, action);
@@ -205,7 +205,7 @@ describe('Transport Reducer', () => {
       startPoint: '0',
     };
     const action = {
-      type: t.SEQUENCES_SET,
+      type: actions.SEQUENCES_SET,
       sequences: [{ id: 's1' }],
     };
     const next = reducer(previous, action);
@@ -230,7 +230,7 @@ describe('Transport Reducer', () => {
       startPoint: '0',
     };
     const action = {
-      type: t.SONG_POSITION_SET,
+      type: actions.SONG_POSITION_SET,
       position: 80,
     };
     const next = reducer(previous, action);
@@ -255,7 +255,7 @@ describe('Transport Reducer', () => {
       startPoint: '0',
     };
     const action = {
-      type: t.SONG_SEQUENCE_SET,
+      type: actions.SONG_SEQUENCE_SET,
       sequence: { id: 's1' },
     };
     const next = reducer(previous, action);
@@ -280,7 +280,7 @@ describe('Transport Reducer', () => {
       startPoint: '0:0:4',
     };
     const action = {
-      type: t.START_POINT_SET,
+      type: actions.START_POINT_SET,
       startPoint: '0:0:4',
     };
     const next = reducer(previous, action);

@@ -20,7 +20,7 @@ describe('Shortcuts Reducer', () => {
       heldKeys: ['space'],
     };
     const action = {
-      type: t.HELD_KEYS_SET,
+      type: actions.HELD_KEYS_SET,
       keys: ['space'],
     };
     const next = reducer(previous, action);

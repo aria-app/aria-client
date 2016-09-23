@@ -26,7 +26,7 @@ describe('Selecting Reducer', () => {
       startPoint: {},
     };
     const action = {
-      type: t.STARTED,
+      type: actions.STARTED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -44,7 +44,7 @@ describe('Selecting Reducer', () => {
       startPoint: {},
     };
     const action = {
-      type: t.STOPPED,
+      type: actions.STOPPED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -62,7 +62,7 @@ describe('Selecting Reducer', () => {
       startPoint: {},
     };
     const action = {
-      type: t.NEW_POINT_SET,
+      type: actions.NEW_POINT_SET,
       newPoint: { x: 0, y: 0 },
     };
     const next = reducer(previous, action);
@@ -81,7 +81,7 @@ describe('Selecting Reducer', () => {
       startPoint: { x: 0, y: 0 },
     };
     const action = {
-      type: t.START_POINT_SET,
+      type: actions.START_POINT_SET,
       startPoint: { x: 0, y: 0 },
     };
     const next = reducer(previous, action);

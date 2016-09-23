@@ -23,7 +23,7 @@ describe('App Reducer', () => {
       isFileOver: false,
     };
     const action = {
-      type: t.BPM_MODAL_CLOSED,
+      type: actions.BPM_MODAL_CLOSED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -39,7 +39,7 @@ describe('App Reducer', () => {
       isFileOver: false,
     };
     const action = {
-      type: t.BPM_MODAL_OPENED,
+      type: actions.BPM_MODAL_OPENED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -55,7 +55,7 @@ describe('App Reducer', () => {
       isFileOver: true,
     };
     const action = {
-      type: t.FILE_DRAG_STARTED,
+      type: actions.FILE_DRAG_STARTED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -71,7 +71,7 @@ describe('App Reducer', () => {
       isFileOver: false,
     };
     const action = {
-      type: t.FILE_DRAG_CANCELLED,
+      type: actions.FILE_DRAG_CANCELLED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -87,7 +87,7 @@ describe('App Reducer', () => {
       isFileOver: false,
     };
     const action = {
-      type: t.FILE_DROPPED,
+      type: actions.FILE_DROPPED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
