@@ -5,13 +5,15 @@
   "repository": "nickjohnson-dev/zen-app",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint src",
     "build": "webpack --progress --colors --config ./webpack-prod.config.js",
-    "predeploy": "npm run build -s",
+    "clean": "rimraf ./public",
     "deploy": "surge ./public zen-sequencer.surge.sh",
     "flow": "flow",
-    "test": "webpack-dev-server --inline --config test-webpack.config.js --port 5000",
+    "lint": "eslint src",
+    "predeploy": "npm run build -s",
+    "prestart": "npm run clean -s",
     "start": "webpack-dev-server --inline --config ./webpack-dev.config.js",
+    "test": "webpack-dev-server --inline --config ./webpack-test.config.js --port 5000",
     "testw": "CONFIG=$(pwd)/ava-webpack.config.js BABEL_DISABLE_CACHE=1 NODE_ENV=AVA ava -w"
   },
   "keywords": [],
