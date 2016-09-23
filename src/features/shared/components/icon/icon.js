@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setPropTypes } from 'recompose';
-import * as FAIcons from 'react-icons/lib/fa';
+import icons from './icons';
 import './icon.scss';
 
 const component = props => h('.icon', {
@@ -32,11 +32,10 @@ export const Icon = compose(
 )(component);
 
 function loadIcon(name) {
-  const moduleName = `Fa${_.startCase(name).replace(/\s/g, '')}`;
-  const icon = FAIcons[moduleName];
+  const icon = icons[name];
 
   if (!icon) {
-    throw new Error(`No icon exists for name ${moduleName}`);
+    throw new Error(`No icon exists for name ${name}`);
   }
 
   return icon;
