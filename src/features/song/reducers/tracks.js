@@ -9,8 +9,6 @@ const dict = (state = {}, action) => {
   switch (action.type) {
     case actions.SONG_LOADED:
       return action.song.tracks.dict;
-    case actions.TRACK_CREATED_AND_ADDED:
-      return setAtIds([action.track], state);
     case actions.TRACK_IS_MUTED_TOGGLED:
       return shared.helpers.setAtIds([{
         ...state[action.id],
@@ -44,11 +42,6 @@ const ids = (state = [], action) => {
   switch (action.type) {
     case actions.SONG_LOADED:
       return action.song.tracks.ids;
-    case actions.TRACK_CREATED_AND_ADDED:
-      return [
-        ...state,
-        action.track.id,
-      ];
     case actions.TRACKS_ADDED:
       return [
         ...state,

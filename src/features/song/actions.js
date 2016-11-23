@@ -1,5 +1,4 @@
 import { NAME } from './constants';
-import * as helpers from './helpers';
 
 export const BPM_SET = `${NAME}/BPM_SET`;
 export const ID_SET = `${NAME}/ID_SET`;
@@ -55,7 +54,6 @@ export const nameSet = name => ({
 
 export const trackCreatedAndAdded = () => ({
   type: TRACK_CREATED_AND_ADDED,
-  track: helpers.createTrack(),
 });
 
 export const notesAdded = (notes) => ({

@@ -13,52 +13,6 @@ describe('Song Tracks Reducer', () => {
     expect(next).toEqual(expected);
   });
 
-  it('should handle TRACK_CREATED_AND_ADDED', () => {
-    const previous = {
-      dict: {
-        t1: {
-          id: 't1',
-          isMuted: false,
-          isSoloing: false,
-          synthType: 'my-synth',
-          volume: 0,
-        },
-      },
-      ids: ['t1'],
-    };
-    const expected = {
-      dict: {
-        t1: {
-          id: 't1',
-          isMuted: false,
-          isSoloing: false,
-          synthType: 'my-synth',
-          volume: 0,
-        },
-        t2: {
-          id: 't2',
-          isMuted: false,
-          isSoloing: false,
-          synthType: 'my-synth',
-          volume: 0,
-        },
-      },
-      ids: ['t1', 't2'],
-    };
-    const action = {
-      type: actions.TRACK_CREATED_AND_ADDED,
-      track: {
-        id: 't2',
-        isMuted: false,
-        isSoloing: false,
-        synthType: 'my-synth',
-        volume: 0,
-      },
-    };
-    const next = reducer(previous, action);
-    expect(next).toEqual(expected);
-  });
-
   it('should handle TRACK_IS_MUTED_TOGGLED', () => {
     const previous = {
       dict: {

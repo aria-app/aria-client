@@ -1,14 +1,18 @@
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import Tone from 'tone';
+import shared from '../shared';
 import song from '../song';
 import * as actions from './actions';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
-function* addNewChannel({ track }) {
-  const channel = helpers.createChannel(track);
-  yield put(actions.channelAdded(channel));
+function* addNewChannels({ tracks }) {
+  for (let i = 0; i < tracks.length; i++) {
+    const track = tracks[i];
+    const channel = helpers.createChannel(track);
+    yield put(actions.channelAdded(channel));
+  }
 }
 
 function* changeTrackInstrumentType({ synthType, id }) {
@@ -38,9 +42,11 @@ function* playNote({ payload }) {
   channel.instrument.playNote(note, time);
 }
 
-function* previewNote({ name }) {
+function* previewNote({ payload }) {
+  const { y } = payload;
   const sequence = yield select(song.selectors.getActiveSequence);
   const channel = yield select(selectors.getChannelById(sequence.trackId));
+  const name = shared.helpers.getNoteName(y);
   channel.instrument.previewNote(name);
 }
 
@@ -75,7 +81,7 @@ export default function* saga() {
     takeEvery(actions.NOTE_PLAYED, playNote),
     takeEvery(actions.NOTE_PREVIEWED, previewNote),
     takeEvery(actions.ALL_INSTRUMENTS_RELEASED, releaseAll),
-    takeEvery(song.actions.TRACK_CREATED_AND_ADDED, addNewChannel),
+    takeEvery(song.actions.TRACKS_ADDED, addNewChannels),
     takeEvery(song.actions.SONG_LOADED, initialize),
     takeEvery(song.actions.BPM_SET, setBPM),
     takeEvery(song.actions.TRACK_SYNTH_TYPE_SET, changeTrackInstrumentType),

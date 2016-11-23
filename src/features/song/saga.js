@@ -7,12 +7,14 @@ import * as helpers from './helpers';
 import * as selectors from './selectors';
 import sampleSong from './sample-song';
 
-function* addSequenceToNewTrack(action) {
+function* createAndAddTrack() {
+  const track = helpers.createTrack();
+  yield put(actions.tracksAdded([track]));
   yield put(actions.sequencesAdded([
     helpers.createSequence({
       measureCount: 1,
       position: 0,
-      trackId: action.track.id,
+      trackId: track.id,
     }),
   ]));
 }
@@ -58,7 +60,7 @@ function* saveToLocalStorage() {
 export default function* saga() {
   yield [
     takeEvery(actions.SEQUENCE_ADDED_TO_TRACK, addSequenceToTrack),
-    takeEvery(actions.TRACK_CREATED_AND_ADDED, addSequenceToNewTrack),
+    takeEvery(actions.TRACK_CREATED_AND_ADDED, createAndAddTrack),
     takeEvery(actions.TRACKS_DELETED, deleteSequencesFromTracks),
     takeEvery([
       actions.BPM_SET,

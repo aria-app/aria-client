@@ -1,4 +1,3 @@
-import shared from '../shared';
 import { NAME } from './constants';
 
 export const ALL_INSTRUMENTS_RELEASED = `${NAME}/ALL_INSTRUMENTS_RELEASED`;
@@ -35,5 +34,5 @@ export const notePlayed = payload => ({
 
 export const notePreviewed = point => ({
   type: NOTE_PREVIEWED,
-  name: shared.helpers.getNoteName(point.y),
+  payload: point,
 });
