@@ -20,6 +20,7 @@ function* createSequences() {
 
   yield put(sequencesSetAction);
 
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const sequenceStepAction = yield take(sequenceStepsChannel);
     yield put(sequenceStepAction);
@@ -32,6 +33,7 @@ function* createSongSequence() {
   const setAction = yield take(stepsChannel);
   yield put(setAction);
 
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const stepAction = yield take(stepsChannel);
     yield put(stepAction);
@@ -106,14 +108,14 @@ function* sequenceStep({ payload }) {
   const activeSequenceId = yield select(song.selectors.getActiveSequenceId);
   const isActiveSequence = activeSequenceId === sequence.id;
 
-  if (!track.isMuted && !(isAnyTrackSoloing && !track.isSoloing) || isActiveSequence) {
+  if ((!track.isMuted && !(isAnyTrackSoloing && !track.isSoloing)) || isActiveSequence) {
     const notes = yield select(song.selectors.getNotesBySequenceId(sequence.id));
     const notesAtStep = _(notes)
       .filter(note => _.first(note.points).x === step)
       .uniqBy(note => _.first(note.points).y)
       .value();
 
-    for (let i = 0; i < notesAtStep.length; i++) {
+    for (let i = 0; i < notesAtStep.length; i += 1) {
       const note = notesAtStep[i];
       yield put(playing.actions.notePlayed({
         channelId: sequence.trackId,
@@ -236,7 +238,7 @@ function createSequence(songSequence, ...rest) {
 }
 
 function songSequenceStepsChannelFactory(measureCount) {
-  return eventChannel(emit => {
+  return eventChannel((emit) => {
     const sequence = new Tone.Sequence(
       (time, step) => {
         emit(actions.songSequenceStepTriggered({ step, time }));
@@ -251,14 +253,14 @@ function songSequenceStepsChannelFactory(measureCount) {
 }
 
 function sequenceStepsChannelFactory(songSequences) {
-  return eventChannel(emit => {
+  return eventChannel((emit) => {
     const sequences = songSequences.map(sequence => createSequence(
       sequence,
       (time, step) => {
         emit(actions.sequenceStepTriggered({ sequence, step, time }));
       },
       _.range(sequence.measureCount * 32),
-      '32n'
+      '32n',
     ));
 
     setTimeout(() => emit(actions.sequencesSet(sequences)));

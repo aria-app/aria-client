@@ -13,7 +13,7 @@ export const started = (scrollLeftElement, scrollTopElement, e) => ({
   scrollTopElement,
 });
 
-export const startPointSet = (startPoint) => ({
+export const startPointSet = startPoint => ({
   type: START_POINT_SET,
   startPoint,
 });

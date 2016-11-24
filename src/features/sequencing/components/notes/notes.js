@@ -3,11 +3,8 @@ import h from 'react-hyperscript';
 import _ from 'lodash';
 import classnames from 'classnames';
 import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
-import shared from '../../../shared';
 import { Note } from '../note/note';
 import './notes.scss';
-
-const { getElementRef } = shared.helpers;
 
 const component = props => h('.notes', {
   className: props.cursorClasses,
@@ -22,7 +19,6 @@ const component = props => h('.notes', {
 
 const composed = compose(
   setDisplayName('Notes'),
-  getElementRef(),
   pure,
   setPropTypes({
     draw: React.PropTypes.func.isRequired,
@@ -87,7 +83,7 @@ const composed = compose(
         onMouseDown: props.onNoteMouseDown,
         onMouseUp: props.onNoteMouseUp,
         note,
-      })
+      }),
     ),
     style: {
       width: props.measureCount !== undefined

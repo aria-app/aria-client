@@ -58,7 +58,7 @@ export const getDeepSequences = state =>
 export const getActiveSequence = state =>
   getSequencesDict(state)[getActiveSequenceId(state)];
 
-export const getActiveSequenceMeasureCount = state => {
+export const getActiveSequenceMeasureCount = (state) => {
   const activeSequence = getActiveSequence(state);
   return activeSequence
     ? activeSequence.measureCount

@@ -67,7 +67,7 @@ export const Note = compose(
     className: classnames({ 'note--active': props.isSelected }),
     connectorTransform: getConnectorTransform(
       _.first(props.note.points),
-      _.last(props.note.points)
+      _.last(props.note.points),
     ),
     endPointDisplay: is32ndNote(props.note) === 0 ? 'none' : 'flex',
     endPointTransform: getEndPointTransform(_.first(props.note.points), _.last(props.note.points)),
@@ -76,11 +76,11 @@ export const Note = compose(
 )(component);
 
 function getConnectorTransform(startPoint, endPoint) {
-  const { asin, abs, PI, pow, sign, sqrt } = Math;
+  const { asin, abs, PI, sign, sqrt } = Math;
   const x = ((endPoint.x - startPoint.x) * 40);
   const y = (endPoint.y - startPoint.y) * 40;
   const length = x !== 0
-    ? sqrt(abs(pow(x, 2) + pow(y, 2)))
+    ? sqrt(abs((x ** 2) + (y ** 2)))
     : 0;
   const rotation = x !== 0
     ? asin(abs(y / length)) * (180 / PI) * sign(y)

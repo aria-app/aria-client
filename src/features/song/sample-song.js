@@ -48,21 +48,21 @@ export default {
   notes: {
     dict: initialNotes.reduce((acc, cur) =>
       ({ ...acc, [cur.id]: cur }),
-      {}
+      {},
     ),
     ids: _.map(initialNotes, 'id'),
   },
   sequences: {
     dict: initialSequences.reduce((acc, cur) =>
       ({ ...acc, [cur.id]: cur }),
-      {}
+      {},
     ),
     ids: _.map(initialSequences, 'id'),
   },
   tracks: {
     dict: initialTracks.reduce((acc, cur) =>
       ({ ...acc, [cur.id]: cur }),
-      {}
+      {},
     ),
     ids: _.map(initialTracks, 'id'),
   },

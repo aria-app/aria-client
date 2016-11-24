@@ -172,7 +172,7 @@ function* resizeSelected(action) {
     points: [
       ...note.points.slice(0, note.points.length - 1),
       {
-        x: _.first(note.points).x + action.size - 1,
+        x: (_.first(note.points).x + action.size) - 1,
         y: _.first(note.points).y,
       },
     ],
@@ -256,28 +256,28 @@ export default function* saga() {
     takeEvery(shortcuts.actions.DESELECT, deleteSelectedNotes),
     takeEvery(shortcuts.actions.DUPLICATE, duplicateSelectedNotes),
     takeEvery(shortcuts.actions.NUDGE_ALT_DOWN,
-      () => nudgeSelectedNotesSize({ change: { x: 0, y: 1 } })
+      () => nudgeSelectedNotesSize({ change: { x: 0, y: 1 } }),
     ),
     takeEvery(shortcuts.actions.NUDGE_ALT_LEFT,
-      () => nudgeSelectedNotesSize({ change: { x: -1, y: 0 } })
+      () => nudgeSelectedNotesSize({ change: { x: -1, y: 0 } }),
     ),
     takeEvery(shortcuts.actions.NUDGE_ALT_RIGHT,
-      () => nudgeSelectedNotesSize({ change: { x: 1, y: 0 } })
+      () => nudgeSelectedNotesSize({ change: { x: 1, y: 0 } }),
     ),
     takeEvery(shortcuts.actions.NUDGE_ALT_UP,
-      () => nudgeSelectedNotesSize({ change: { x: 0, y: -1 } })
+      () => nudgeSelectedNotesSize({ change: { x: 0, y: -1 } }),
     ),
     takeEvery(shortcuts.actions.NUDGE_DOWN,
-      () => nudgeSelectedNotesPosition({ change: { x: 0, y: 1 } })
+      () => nudgeSelectedNotesPosition({ change: { x: 0, y: 1 } }),
     ),
     takeEvery(shortcuts.actions.NUDGE_LEFT,
-      () => nudgeSelectedNotesPosition({ change: { x: -1, y: 0 } })
+      () => nudgeSelectedNotesPosition({ change: { x: -1, y: 0 } }),
     ),
     takeEvery(shortcuts.actions.NUDGE_RIGHT,
-      () => nudgeSelectedNotesPosition({ change: { x: 1, y: 0 } })
+      () => nudgeSelectedNotesPosition({ change: { x: 1, y: 0 } }),
     ),
     takeEvery(shortcuts.actions.NUDGE_UP,
-      () => nudgeSelectedNotesPosition({ change: { x: 0, y: -1 } })
+      () => nudgeSelectedNotesPosition({ change: { x: 0, y: -1 } }),
     ),
     takeEvery(shortcuts.actions.REDO, redo),
     takeEvery(shortcuts.actions.SELECT_ALL, selectAll),

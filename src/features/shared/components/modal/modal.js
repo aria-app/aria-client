@@ -23,7 +23,7 @@ const component = props => h('.modal', {
       h(Toolbar, {
         className: 'modal__actions',
         rightItems: [
-          !!props.onCancel ? h(Button, {
+          props.onCancel ? h(Button, {
             className: 'modal__action modal__action--cancel',
             text: props.cancelText,
             onPress: props.onCancel,

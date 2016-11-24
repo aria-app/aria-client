@@ -21,7 +21,7 @@ const component = props => h('.context-menu', {
     }, [
       h('.context-menu__popup__list', [
         ...props.items.map(item => h('.context-menu__popup__item', {
-          onClick: (e) => props.selectItem(item, e),
+          onClick: e => props.selectItem(item, e),
         }, [
           item.icon ? h(Icon, {
             className: 'context-menu__popup__item__icon',
@@ -61,7 +61,7 @@ export const ContextMenu = compose(
 
 function getTransform(items, position) {
   const x = _.clamp(position.x, 0, window.innerWidth - 202);
-  const popupHeight = 16 + items.length * 48;
+  const popupHeight = 16 + (items.length * 48);
   const y = _.clamp(position.y, 0, window.innerHeight - popupHeight);
   return `translate(${x}px, ${y}px)`;
 }

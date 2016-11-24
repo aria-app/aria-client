@@ -27,17 +27,17 @@ export const PAN_HELD = `${NAME}/PAN_HELD`;
 export const PAN_RELEASED = `${NAME}/PAN_RELEASED`;
 export const UNDO = `${NAME}/UNDO`;
 
-export const heldKeysSet = (keys) => ({
+export const heldKeysSet = keys => ({
   type: HELD_KEYS_SET,
   keys,
 });
 
-export const keyHoldStarted = (keyCode) => ({
+export const keyHoldStarted = keyCode => ({
   type: KEY_HOLD_STARTED,
   keyCode,
 });
 
-export const keyHoldStopped = (keyCode) => ({
+export const keyHoldStopped = keyCode => ({
   type: KEY_HOLD_STOPPED,
   keyCode,
 });

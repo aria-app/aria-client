@@ -15,7 +15,7 @@ describe('Shared Helpers', () => {
       const expected = { x: -2, y: 3 };
       const actual = helpers.getPointOffset(
         { x: 4, y: 6 },
-        { x: 2, y: 9 }
+        { x: 2, y: 9 },
       );
 
       expect(actual).toEqual(expected);

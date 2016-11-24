@@ -28,7 +28,7 @@ const component = props => h('.dropdown-list', {
   }),
   !props.isOpen ? null : h('.dropdown-list__popup', {
     style: {
-      height: props.items.length * 48 + 16,
+      height: (props.items.length * 48) + 16,
     },
   }, [
     h('.dropdown-list__popup__list', [

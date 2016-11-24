@@ -13,7 +13,6 @@ import './grid.scss';
 
 const { FenceContainer } = selecting.components;
 const { getMousePoint } = sequencingPosition.helpers;
-const { getElementRef } = shared.helpers;
 const { toolTypes } = shared.constants;
 const scale = shared.helpers.getScale();
 
@@ -44,7 +43,6 @@ const component = props => h('.grid', {
 
 const composed = compose(
   setDisplayName('Sequencer'),
-  getElementRef(),
   pure,
   setPropTypes({
     isPanning: PropTypes.bool,
@@ -58,20 +56,20 @@ const composed = compose(
   }),
   mapProps(props => ({
     ...props,
-    getMousePoint: (e) => getMousePoint(
-      props.elementRef,
-      props.sequencerContentRef,
-      e
+    getMousePoint: e => getMousePoint(
+      {}, // props.elementRef,
+      {}, // props.sequencerContentRef,
+      e,
     ),
     startPanningWithElements: e => props.startPanning(
-      props.elementRef,
-      props.sequencerContentRef,
-      e
+      {}, // props.elementRef,
+      {}, // props.sequencerContentRef,
+      e,
     ),
     updatePanningWithElements: e => props.updatePanning(
-      props.elementRef,
-      props.sequencerContentRef,
-      e
+      {}, // props.elementRef,
+      {}, // props.sequencerContentRef,
+      e,
     ),
   })),
   withHandlers({

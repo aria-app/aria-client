@@ -11,7 +11,7 @@ export const getUndos = state => get(state).undos;
 export const getSelectedSequence = state =>
   song.selectors.getSequenceById(getSelectedSequenceId(state))(state) || {};
 
-export const getStagedTrack = state => {
+export const getStagedTrack = (state) => {
   const id = getStagedTrackId(state);
   const track = song.selectors.getTrackById(id)(state);
   return track || {};

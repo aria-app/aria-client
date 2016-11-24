@@ -32,37 +32,37 @@ export const redoPushed = () => ({
   type: REDO_PUSHED,
 });
 
-export const redosSet = (redos) => ({
+export const redosSet = redos => ({
   type: REDOS_SET,
   redos,
 });
 
-export const selectedSequenceDeleted = (id) => ({
+export const selectedSequenceDeleted = id => ({
   type: SELECTED_SEQUENCE_DELETED,
   id,
 });
 
-export const selectedSequenceExtended = (id) => ({
+export const selectedSequenceExtended = id => ({
   type: SELECTED_SEQUENCE_EXTENDED,
   id,
 });
 
-export const selectedSequenceNudgedLeft = (id) => ({
+export const selectedSequenceNudgedLeft = id => ({
   type: SELECTED_SEQUENCE_NUDGED_LEFT,
   id,
 });
 
-export const selectedSequenceNudgedRight = (id) => ({
+export const selectedSequenceNudgedRight = id => ({
   type: SELECTED_SEQUENCE_NUDGED_RIGHT,
   id,
 });
 
-export const selectedSequenceOpened = (id) => ({
+export const selectedSequenceOpened = id => ({
   type: SELECTED_SEQUENCE_OPENED,
   id,
 });
 
-export const selectedSequenceShortened = (id) => ({
+export const selectedSequenceShortened = id => ({
   type: SELECTED_SEQUENCE_SHORTENED,
   id,
 });
@@ -81,7 +81,7 @@ export const sequenceDeselected = () => ({
   type: SEQUENCE_DESELECTED,
 });
 
-export const sequenceSelected = (id) => ({
+export const sequenceSelected = id => ({
   type: SEQUENCE_SELECTED,
   id,
 });
@@ -102,17 +102,17 @@ export const trackEditingFinished = () => ({
   type: TRACK_EDITING_FINISHED,
 });
 
-export const trackEditingStarted = (id) => ({
+export const trackEditingStarted = id => ({
   type: TRACK_EDITING_STARTED,
   id,
 });
 
-export const trackIsMutedToggled = (id) => ({
+export const trackIsMutedToggled = id => ({
   type: TRACK_IS_MUTED_TOGGLED,
   id,
 });
 
-export const trackIsSoloingToggled = (id) => ({
+export const trackIsSoloingToggled = id => ({
   type: TRACK_IS_SOLOING_TOGGLED,
   id,
 });
@@ -125,7 +125,7 @@ export const undoPushed = () => ({
   type: UNDO_PUSHED,
 });
 
-export const undosSet = (undos) => ({
+export const undosSet = undos => ({
   type: UNDOS_SET,
   undos,
 });

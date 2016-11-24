@@ -51,7 +51,7 @@ describe('ContextMenu Component', () => {
       isOpen: true,
       items: [item],
       onRequestClose: () => {},
-      onSelect: i => { selectedItem = i; },
+      onSelect: (i) => { selectedItem = i; },
       position: { x: 0, y: 0 },
     }));
 

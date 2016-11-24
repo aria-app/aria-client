@@ -30,7 +30,7 @@ function getRowClasses(step) {
 }
 
 function getRows(measureCount) {
-  return scale.map((row) => h('.slots__row', {
+  return scale.map(row => h('.slots__row', {
     className: getRowClasses(row),
   }, getSections(measureCount * 4)));
 }
@@ -39,7 +39,7 @@ function getSections(count) {
   return _.times(count, sectionNumber =>
     h('.slots__row__section', {
       key: sectionNumber,
-    }, getSlots(8))
+    }, getSlots(8)),
   );
 }
 
@@ -47,6 +47,6 @@ function getSlots(count) {
   return _.times(count, n =>
     h('.slots__slot', {
       key: n,
-    }, h('.slots__slot__fill'))
+    }, h('.slots__slot__fill')),
   );
 }

@@ -15,5 +15,5 @@ render(
   h(Provider, {
     store,
   }, h(AppContainer)),
-  document.querySelector('#zen-app-root')
+  document.querySelector('#zen-app-root'),
 );

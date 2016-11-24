@@ -24,7 +24,7 @@ const composed = compose(
   }),
   pure,
   withHandlers({
-    browserNoOp: () => e => {
+    browserNoOp: () => (e) => {
       e.preventDefault();
       e.stopPropagation();
       return false;
@@ -32,7 +32,7 @@ const composed = compose(
     onDragLeave: props => () => {
       props.cancelFileDrag();
     },
-    onDrop: props => e => {
+    onDrop: props => (e) => {
       const files = e.dataTransfer.files;
       if (!_.isEmpty(files)) {
         props.dropFile(files[0]);

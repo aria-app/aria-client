@@ -14,5 +14,5 @@ export const getIsSelectingActive = state =>
 export const getSelectedNotes = state =>
   _.filter(
     song.selectors.getActiveSequenceNotes(state),
-    n => _.includes(getSelectedIds(state), n.id)
+    n => _.includes(getSelectedIds(state), n.id),
   );

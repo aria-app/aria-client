@@ -37,7 +37,7 @@ export const noteDrawn = () => ({
   type: NOTE_DRAWN,
 });
 
-export const noteErased = (note) => ({
+export const noteErased = note => ({
   type: NOTE_ERASED,
   note,
 });
@@ -58,7 +58,7 @@ export const notesMoved = (notes, offset) => ({
   offset,
 });
 
-export const notesDeleted = (notes) => ({
+export const notesDeleted = notes => ({
   type: NOTES_DELETED,
   notes,
 });
@@ -69,7 +69,7 @@ export const notesResized = (notes, change) => ({
   change,
 });
 
-export const notesSelected = (notes) => ({
+export const notesSelected = notes => ({
   type: NOTES_SELECTED,
   notes,
 });
@@ -82,12 +82,12 @@ export const redoPushed = () => ({
   type: REDO_PUSHED,
 });
 
-export const redosSet = (redos) => ({
+export const redosSet = redos => ({
   type: REDOS_SET,
   redos,
 });
 
-export const selectedNotesMoved = (offset) => ({
+export const selectedNotesMoved = offset => ({
   type: SELECTED_NOTES_MOVED,
   offset,
 });
@@ -100,7 +100,7 @@ export const selectedNotesMovedOctaveUp = () => ({
   type: SELECTED_NOTES_MOVED_OCTAVE_UP,
 });
 
-export const selectedNotesPositionNudged = (change) => ({
+export const selectedNotesPositionNudged = change => ({
   type: SELECTED_NOTES_POSITION_NUDGED,
   change,
 });
@@ -109,17 +109,17 @@ export const selectedNotesDeleted = () => ({
   type: SELECTED_NOTES_DELETED,
 });
 
-export const selectedNotesResized = (size) => ({
+export const selectedNotesResized = size => ({
   type: SELECTED_NOTES_RESIZED,
   size,
 });
 
-export const selectedNotesSizeChanged = (change) => ({
+export const selectedNotesSizeChanged = change => ({
   type: SELECTED_NOTES_SIZE_CHANGED,
   change,
 });
 
-export const selectedNotesSizeNudged = (change) => ({
+export const selectedNotesSizeNudged = change => ({
   type: SELECTED_NOTES_SIZE_NUDGED,
   change,
 });
@@ -132,7 +132,7 @@ export const undoPushed = () => ({
   type: UNDO_PUSHED,
 });
 
-export const undosSet = (undos) => ({
+export const undosSet = undos => ({
   type: UNDOS_SET,
   undos,
 });

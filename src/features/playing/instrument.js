@@ -74,12 +74,12 @@ export default class Instrument {
     this.availableVoices = _.concat(this.availableVoices, this.activeVoices);
     this.activeVoices = [];
 
-    this.availableVoices.forEach(v => {
+    this.availableVoices.forEach((v) => {
       v.triggerRelease();
     });
   }
   setType(type) {
-    _.concat(this.activeVoices, this.availableVoices).forEach(v => {
+    _.concat(this.activeVoices, this.availableVoices).forEach((v) => {
       // eslint-disable-next-line no-param-reassign
       v.oscillator.type = type;
     });

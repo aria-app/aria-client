@@ -8,7 +8,7 @@ export const contextMenuClosed = () => ({
   type: CONTEXT_MENU_CLOSED,
 });
 
-export const contextMenuItemSelected = (item) => ({
+export const contextMenuItemSelected = item => ({
   type: CONTEXT_MENU_ITEM_SELECTED,
   item,
 });

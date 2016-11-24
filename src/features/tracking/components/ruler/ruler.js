@@ -66,7 +66,7 @@ const composed = compose(
         const clampedPosition = _.clamp(
           position,
           0,
-          props.measureCount
+          props.measureCount,
         );
         props.setPosition(clampedPosition);
       };
@@ -87,7 +87,7 @@ const composed = compose(
 export const Ruler = composed;
 
 function getMeasures(count) {
-  return _.times(count, (n) => h('.ruler__measure', {
+  return _.times(count, n => h('.ruler__measure', {
     key: n,
     style: {
       pointerEvents: 'none',
@@ -97,7 +97,7 @@ function getMeasures(count) {
     h('.ruler__measure__label', [
       n !== count ? n + 1 : '',
     ]),
-    n !== count ? _.times(7, (m) => h('.ruler__measure__eighth', {
+    n !== count ? _.times(7, m => h('.ruler__measure__eighth', {
       key: m,
       style: {
         transform: `translateX(${(m + 1) * 8}px)`,

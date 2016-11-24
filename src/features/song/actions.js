@@ -56,7 +56,7 @@ export const trackCreatedAndAdded = () => ({
   type: TRACK_CREATED_AND_ADDED,
 });
 
-export const notesAdded = (notes) => ({
+export const notesAdded = notes => ({
   type: NOTES_ADDED,
   notes,
 });

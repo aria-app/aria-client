@@ -63,6 +63,7 @@ function* initialize() {
 function* registerShortcuts() {
   const keypressChannel = keypressChannelFactory();
 
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const keypress = yield take(keypressChannel);
     yield fork(handleKeypress, keypress);
@@ -76,8 +77,8 @@ export default function* saga() {
 }
 
 function keypressChannelFactory() {
-  return eventChannel(emit => {
-    shortcuts.forEach(shortcut => {
+  return eventChannel((emit) => {
+    shortcuts.forEach((shortcut) => {
       Mousetrap.bind(shortcut.combos, (e) => {
         e.preventDefault();
         emit({
@@ -90,7 +91,7 @@ function keypressChannelFactory() {
       });
 
       if (shortcut.onRelease) {
-        Mousetrap.bind(shortcut.combos, e => {
+        Mousetrap.bind(shortcut.combos, (e) => {
           e.preventDefault();
           emit({
             action: {

@@ -38,7 +38,7 @@ function* deleteSequencesFromTracks({ ids }) {
 
 function* initialize() {
   const localStorageSong = localStorage.getItem(
-    shared.constants.localStorageKey
+    shared.constants.localStorageKey,
   );
 
   const initialSong = localStorageSong

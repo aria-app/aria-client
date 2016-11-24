@@ -8,7 +8,7 @@ import * as helpers from './helpers';
 import * as selectors from './selectors';
 
 function* addNewChannels({ tracks }) {
-  for (let i = 0; i < tracks.length; i++) {
+  for (let i = 0; i < tracks.length; i += 1) {
     const track = tracks[i];
     const channel = helpers.createChannel(track);
     yield put(actions.channelAdded(channel));
@@ -53,7 +53,7 @@ function* previewNote({ payload }) {
 function* releaseAll() {
   const channels = yield select(selectors.getChannels);
 
-  for (let i = 0; i < channels.length; i++) {
+  for (let i = 0; i < channels.length; i += 1) {
     const channel = channels[i];
     channel.instrument.release();
   }
@@ -66,7 +66,7 @@ function* setBPM({ bpm }) {
 function* setChannels({ tracks }) {
   const previousChannels = yield select(selectors.getChannels);
 
-  for (let i = 0; i < previousChannels.length; i++) {
+  for (let i = 0; i < previousChannels.length; i += 1) {
     yield put(actions.instrumentDisposed(previousChannels[i]));
   }
 

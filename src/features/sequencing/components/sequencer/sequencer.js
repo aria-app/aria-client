@@ -8,7 +8,6 @@ import './sequencer.scss';
 
 const { DropdownList, IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
-const { getChildRef, scrollTo } = shared.helpers;
 const scale = shared.helpers.getScale();
 
 const component = props => h('.sequencer', {
@@ -44,11 +43,11 @@ const composed = compose(
     shiftUpOctave: React.PropTypes.func.isRequired,
     toolType: React.PropTypes.string.isRequired,
   }),
-  getChildRef('.sequencer__content'),
-  scrollTo({
-    scrollTop: 'center',
-    selector: '.sequencer__content',
-  }),
+  // getChildRef('.sequencer__content'),
+  // scrollTo({
+  //   scrollTop: 'center',
+  //   selector: '.sequencer__content',
+  // }),
   pure,
   withHandlers({
     close: props => () => {
@@ -121,7 +120,7 @@ function getSizingDropdown(props) {
       { text: '1/2', value: 16 },
       { text: '1', value: 32 },
     ],
-    onSelect: (item) => props.resizeSelected(item.value),
+    onSelect: item => props.resizeSelected(item.value),
   });
 }
 

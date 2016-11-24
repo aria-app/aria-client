@@ -13,13 +13,13 @@ export function getType(synth) {
 }
 
 export function somePointOutside(points, measureCount) {
-  const totalSlotsX = measureCount * 8 * 4 - 1;
-  const totalSlotsY = shared.constants.octaveRange.length * 12 - 1;
+  const totalSlotsX = ((measureCount * 8) * 4) - 1;
+  const totalSlotsY = (shared.constants.octaveRange.length * 12) - 1;
 
   return _.some(points, point =>
     point.x < 0
     || point.x > totalSlotsX
     || point.y < 0
-    || point.y > totalSlotsY
+    || point.y > totalSlotsY,
   );
 }

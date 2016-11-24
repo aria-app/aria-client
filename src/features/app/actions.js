@@ -22,7 +22,7 @@ export const fileDragStarted = () => ({
   type: FILE_DRAG_STARTED,
 });
 
-export const fileDropped = (file) => ({
+export const fileDropped = file => ({
   type: FILE_DROPPED,
   file,
 });

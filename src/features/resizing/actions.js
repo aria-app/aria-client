@@ -5,7 +5,7 @@ export const STARTED = `${NAME}/STARTED`;
 export const STOPPED = `${NAME}/STOPPED`;
 export const UPDATED = `${NAME}/UPDATED`;
 
-export const newPointSet = (newPoint) => ({
+export const newPointSet = newPoint => ({
   type: NEW_POINT_SET,
   newPoint,
 });

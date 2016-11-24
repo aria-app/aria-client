@@ -40,16 +40,16 @@ const composed = compose(
       : h(Tracker),
   })),
   withHandlers({
-    onDragEnter: props => e => {
+    onDragEnter: props => (e) => {
       props.startDraggingFile();
       e.preventDefault();
       e.stopPropagation();
     },
-    onDragOver: () => e => {
+    onDragOver: () => (e) => {
       e.preventDefault();
       e.stopPropagation();
     },
-    onDrop: () => e => {
+    onDrop: () => (e) => {
       e.preventDefault();
       e.stopPropagation();
     },

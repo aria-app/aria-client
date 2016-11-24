@@ -10,7 +10,7 @@ describe('Notes Helpers', () => {
       };
       const result = helpers.addPoints(
         { x: 16, y: 7 },
-        { x: 8, y: 8 }
+        { x: 8, y: 8 },
       );
       expect(result).toEqual(expected);
     });
@@ -31,7 +31,7 @@ describe('Notes Helpers', () => {
     it('should return true, given point off right of grid', () => {
       const measureCount = 1;
       const points = [{
-        x: measureCount * 8 * 4 + 1,
+        x: ((measureCount * 8) * 4) + 1,
         y: 35,
       }];
       const result = helpers.somePointOutside(points, measureCount);

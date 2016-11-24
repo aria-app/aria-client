@@ -30,7 +30,7 @@ const component = props => h('.tracks', {
   })),
   h('.tracks__add-button', {
     style: {
-      width: props.songMeasureCount * 64 + 84,
+      width: (props.songMeasureCount * 64) + 84,
     },
     onClick: props.addTrack,
   }, [

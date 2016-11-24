@@ -44,19 +44,19 @@ export default function* saga() {
     takeEvery(shortcuts.actions.PAN_HELD, startPanning),
     takeEvery(shortcuts.actions.PAN_RELEASED, stopPanning),
     takeEvery(shortcuts.actions.SELECT_TOOL_D,
-      () => handleToolTypeSelected({ toolType: toolTypes.DRAW })
+      () => handleToolTypeSelected({ toolType: toolTypes.DRAW }),
     ),
     takeEvery(shortcuts.actions.SELECT_TOOL_E,
-      () => handleToolTypeSelected({ toolType: toolTypes.ERASE })
+      () => handleToolTypeSelected({ toolType: toolTypes.ERASE }),
     ),
     takeEvery(shortcuts.actions.SELECT_TOOL_M,
-      () => handleToolTypeSelected({ toolType: toolTypes.MOVE })
+      () => handleToolTypeSelected({ toolType: toolTypes.MOVE }),
     ),
     takeEvery(shortcuts.actions.SELECT_TOOL_P,
-      () => handleToolTypeSelected({ toolType: toolTypes.PAN })
+      () => handleToolTypeSelected({ toolType: toolTypes.PAN }),
     ),
     takeEvery(shortcuts.actions.SELECT_TOOL_S,
-      () => handleToolTypeSelected({ toolType: toolTypes.SELECT })
+      () => handleToolTypeSelected({ toolType: toolTypes.SELECT }),
     ),
   ];
 }
