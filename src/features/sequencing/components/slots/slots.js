@@ -2,19 +2,20 @@ import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
 import { compose, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
+import shared from '../../../shared';
 import './slots.scss';
 
 const component = props => h('.slots', props.rows);
+const scale = shared.helpers.getScale();
 
 const composed = compose(
   setDisplayName('Slots'),
   pure,
   setPropTypes({
     measureCount: PropTypes.number.isRequired,
-    scale: PropTypes.array.isRequired,
   }),
   mapProps(props => ({
-    rows: getRows(props.scale, props.measureCount),
+    rows: getRows(props.measureCount),
   })),
 )(component);
 
@@ -28,7 +29,7 @@ function getRowClasses(step) {
   return `slots__row--${letter}${suffix}`;
 }
 
-function getRows(scale, measureCount) {
+function getRows(measureCount) {
   return scale.map((row) => h('.slots__row', {
     className: getRowClasses(row),
   }, getSections(measureCount * 4)));

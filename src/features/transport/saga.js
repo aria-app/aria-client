@@ -47,7 +47,10 @@ function* loopSequence() {
   const { measureCount, position } = yield select(song.selectors.getActiveSequence);
   const start = helpers.measuresToTime(position);
   const end = helpers.measuresToTime(position + measureCount);
-  yield put(actions.startPointSet(Tone.Time(start).addNow()));
+  console.log('start', start);
+  const startPoint = new Tone.TransportTime(start).toBarsBeatsSixteenths();
+  console.log('startPoint', startPoint);
+  yield put(actions.startPointSet(startPoint));
   // yield put(actions.startPointSet(`+${start}`));
   Tone.Transport.setLoopPoints(start, end);
   Tone.Transport.loop = true;
@@ -86,8 +89,9 @@ function* pause() {
 function* play() {
   if (Tone.Transport.state === 'stopped') {
     const startPoint = yield select(selectors.getStartPoint);
+    console.log(startPoint);
     yield call(() => {
-      Tone.Transport.start(null, startPoint);
+      Tone.Transport.start(undefined, startPoint);
     });
   }
 

@@ -1,4 +1,4 @@
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import shared from '../shared';
 
 export function createNote({ id, points, sequenceId }) {

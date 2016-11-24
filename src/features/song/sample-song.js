@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import shared from '../shared';
 import * as helpers from './helpers';
 

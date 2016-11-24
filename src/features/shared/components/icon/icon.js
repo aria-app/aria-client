@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setPropTypes } from 'recompose';
