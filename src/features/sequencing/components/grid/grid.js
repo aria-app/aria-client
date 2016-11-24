@@ -2,16 +2,17 @@ import { PropTypes } from 'react';
 import h from 'react-hyperscript';
 import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import selecting from '../../../selecting';
+import sequencingPosition from '../../../sequencing-position';
 import shared from '../../../shared';
 import {
   SequencerTimelineContainer,
 } from '../sequencer-timeline-container/sequencer-timeline-container';
 import { NotesContainer } from '../notes/notes-container';
 import { SlotsContainer } from '../slots/slots-container';
-import * as helpers from '../../helpers';
 import './grid.scss';
 
 const { FenceContainer } = selecting.components;
+const { getMousePoint } = sequencingPosition.helpers;
 const { getElementRef } = shared.helpers;
 const { toolTypes } = shared.constants;
 const scale = shared.helpers.getScale();
@@ -57,7 +58,7 @@ const composed = compose(
   }),
   mapProps(props => ({
     ...props,
-    getMousePoint: (e) => helpers.getMousePoint(
+    getMousePoint: (e) => getMousePoint(
       props.elementRef,
       props.sequencerContentRef,
       e

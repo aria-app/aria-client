@@ -8,6 +8,7 @@ import playing from '../features/playing';
 import resizing from '../features/resizing';
 import selecting from '../features/selecting';
 import sequencing from '../features/sequencing';
+import sequencingPosition from '../features/sequencing-position';
 import shortcuts from '../features/shortcuts';
 import song from '../features/song';
 import tracking from '../features/tracking';
@@ -23,6 +24,7 @@ export default combineReducers({
   [resizing.constants.NAME]: resizing.reducer,
   [selecting.constants.NAME]: selecting.reducer,
   [sequencing.constants.NAME]: sequencing.reducer,
+  [sequencingPosition.constants.NAME]: sequencingPosition.reducer,
   [shortcuts.constants.NAME]: shortcuts.reducer,
   [song.constants.NAME]: song.reducer,
   [tracking.constants.NAME]: tracking.reducer,

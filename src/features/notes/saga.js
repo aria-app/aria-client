@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { takeEvery } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
 import playing from '../playing';
-import sequencing from '../sequencing';
+import sequencingPosition from '../sequencing-position';
 import shortcuts from '../shortcuts';
 import song from '../song';
 import * as actions from './actions';
@@ -19,7 +19,7 @@ function* changeSelectedNotesSize({ change }) {
 
 function* drawNote() {
   const activeSequenceId = yield select(song.selectors.getActiveSequenceId);
-  const point = yield select(sequencing.selectors.getMousePoint);
+  const point = yield select(sequencingPosition.selectors.getMousePoint);
 
   yield put(playing.actions.notePreviewed(point));
   yield put(song.actions.notesAdded([

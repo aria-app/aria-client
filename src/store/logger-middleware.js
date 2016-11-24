@@ -1,19 +1,19 @@
 import _ from 'lodash';
 import createLogger from 'redux-logger';
 import playing from '../features/playing';
-import sequencing from '../features/sequencing';
+import sequencingPosition from '../features/sequencing-position';
 import shared from '../features/shared';
 import shortcuts from '../features/shortcuts';
 import transport from '../features/transport';
 
 const typesToSkip = [
   playing.actions.NOTE_PLAYED,
-  sequencing.actions.MOUSE_MOVED,
-  sequencing.actions.MOUSE_POINT_SET,
-  sequencing.actions.SCROLL_LEFT_SET,
-  sequencing.actions.SCROLL_TOP_SET,
-  sequencing.actions.SCROLLED_HORIZONTALLY,
-  sequencing.actions.SCROLLED_VERTICALLY,
+  sequencingPosition.actions.MOUSE_MOVED,
+  sequencingPosition.actions.MOUSE_POINT_SET,
+  sequencingPosition.actions.SCROLL_LEFT_SET,
+  sequencingPosition.actions.SCROLL_TOP_SET,
+  sequencingPosition.actions.SCROLLED_HORIZONTALLY,
+  sequencingPosition.actions.SCROLLED_VERTICALLY,
   shared.actions.INITIALIZED,
   shortcuts.actions.PAN_HELD,
   shortcuts.actions.PAN_RELEASED,

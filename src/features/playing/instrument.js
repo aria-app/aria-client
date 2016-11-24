@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import Tone from 'tone';
 import shared from '../shared';
-import * as helpers from './helpers';
 
 export default class Instrument {
   dispose() {
@@ -45,7 +44,7 @@ export default class Instrument {
     }
 
     const name = shared.helpers.getNoteName(_.first(note.points).y);
-    const length = helpers.sizeToTime(_.last(note.points).x - _.first(note.points).x);
+    const length = shared.helpers.sizeToTime(_.last(note.points).x - _.first(note.points).x);
 
     if (!doesNoteBend(note)) {
       voice.triggerAttackRelease(name, length, time);

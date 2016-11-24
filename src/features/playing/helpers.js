@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import Instrument from './instrument';
 
 export function createChannel(track) {
@@ -14,12 +13,4 @@ export function createChannel(track) {
     id: track.id,
     instrument: Instrument.create(track.id, track.synthType),
   };
-}
-
-export function sizeToTime(size) {
-  if (!_.isNumber(size)) {
-    throw new Error('Size must be a number');
-  }
-
-  return `(${size + 1} * 32n)`;
 }

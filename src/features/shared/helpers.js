@@ -135,3 +135,11 @@ export function resolveOnMouseUp() {
 export function setAtIds(array, obj) {
   return array.reduce((acc, cur) => ({ ...acc, [cur.id]: cur }), obj);
 }
+
+export function sizeToTime(size) {
+  if (!_.isNumber(size)) {
+    throw new Error('Size must be a number');
+  }
+
+  return `(${size + 1} * 32n)`;
+}

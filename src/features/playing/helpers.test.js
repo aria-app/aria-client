@@ -25,17 +25,4 @@ describe('Playing Helpers', () => {
       expect(() => helpers.createChannel(track)).toThrow();
     });
   });
-
-  describe('sizeToTime', () => {
-    it('should return correctly formatted time', () => {
-      const size = 2;
-      const expected = '(3 * 32n)';
-      expect(helpers.sizeToTime(size)).toEqual(expected);
-    });
-
-    it('should throw if size is not number', () => {
-      const size = '2';
-      expect(() => helpers.sizeToTime(size)).toThrow();
-    });
-  });
 });

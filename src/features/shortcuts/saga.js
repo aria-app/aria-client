@@ -29,29 +29,30 @@ const shortcuts = [
   { onPress: actions.SELECT_TOOL_S, combos: ['s'] },
   { onPress: actions.UNDO, combos: ['ctrl+z', 'meta+z'] },
   {
-    onPress: actions.SPACE_HELD,
-    onRelease: actions.SPACE_RELEASED,
+    onPress: actions.PAN_HELD,
+    onRelease: actions.PAN_RELEASED,
     combos: ['space'],
   },
 ];
 
 function* handleKeypress(keypress) {
-  const heldKeys = yield select(selectors.getHeldKeys);
+  if (!keypress.isHeldAction) {
+    yield put(keypress.action);
+    return;
+  }
 
-  if (!_.includes(heldKeys, keypress.action.e.keyCode) && keypress.willRelease) {
+  const heldKeys = yield select(selectors.getHeldKeys);
+  const isHeldKey = _.includes(heldKeys, keypress.action.e.keyCode);
+
+  if (!isHeldKey) {
     yield put(actions.keyHoldStarted(keypress.action.e.keyCode));
     yield put(keypress.action);
     return;
   }
 
-  if (!keypress.isReleasing) return;
+  if (!keypress.isRelease) return;
 
   yield put(actions.keyHoldStopped(keypress.action.e.keyCode));
-
-  const newHeldKeys = yield select(selectors.getHeldKeys);
-
-  if (_.includes(newHeldKeys, keypress.action.e.keyCode)) return;
-
   yield put(keypress.action);
 }
 
@@ -84,7 +85,7 @@ function keypressChannelFactory() {
             type: shortcut.onPress,
             e,
           },
-          willRelease: !!shortcut.onRelease,
+          isHeldAction: !!shortcut.onRelease,
         });
       });
 
@@ -96,7 +97,8 @@ function keypressChannelFactory() {
               type: shortcut.onRelease,
               e,
             },
-            isReleasing: true,
+            isHeldAction: !!shortcut.onRelease,
+            isRelease: true,
           });
         }, 'keyup');
       }

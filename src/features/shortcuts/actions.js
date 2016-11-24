@@ -23,8 +23,8 @@ export const SELECT_TOOL_E = `${NAME}/SELECT_TOOL_E`;
 export const SELECT_TOOL_M = `${NAME}/SELECT_TOOL_M`;
 export const SELECT_TOOL_P = `${NAME}/SELECT_TOOL_P`;
 export const SELECT_TOOL_S = `${NAME}/SELECT_TOOL_S`;
-export const SPACE_HELD = `${NAME}/SPACE_HELD`;
-export const SPACE_RELEASED = `${NAME}/SPACE_RELEASED`;
+export const PAN_HELD = `${NAME}/PAN_HELD`;
+export const PAN_RELEASED = `${NAME}/PAN_RELEASED`;
 export const UNDO = `${NAME}/UNDO`;
 
 export const heldKeysSet = (keys) => ({
