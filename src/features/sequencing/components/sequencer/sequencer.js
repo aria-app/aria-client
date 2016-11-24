@@ -120,7 +120,7 @@ function getSizingDropdown(props) {
       { text: '1/2', value: 16 },
       { text: '1', value: 32 },
     ],
-    onSelect: item => props.resizeSelected(item.value),
+    onSelectedItemChange: item => props.resizeSelected(item.value),
   });
 }
 

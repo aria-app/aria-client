@@ -25,7 +25,7 @@ const component = props =>
           className: 'track-editing-modal__synth-dropdown__list',
           items: props.synthTypeList,
           selectedId: props.stagedTrack ? props.stagedTrack.synthType : '',
-          onSelect: props.onSynthTypeSelect,
+          onSelectedItemChange: props.onSynthTypeSelect,
         }),
       ]),
       h(Button, {

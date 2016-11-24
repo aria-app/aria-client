@@ -47,6 +47,10 @@ export function getScale() {
   .value();
 }
 
+export function hideIf(condition) {
+  return result => (condition ? null : result);
+}
+
 export function resolveOnMouseUp() {
   return new Promise((resolve) => {
     window.addEventListener('mouseup', doResolve, false);
@@ -59,6 +63,10 @@ export function resolveOnMouseUp() {
 
 export function setAtIds(array, obj) {
   return array.reduce((acc, cur) => ({ ...acc, [cur.id]: cur }), obj);
+}
+
+export function showIf(condition) {
+  return result => (condition ? result : null);
 }
 
 export function sizeToTime(size) {
