@@ -1,9 +1,7 @@
-export const defaultBPM = 120;
+export const NAME = 'transport';
 
 export const playbackStates = {
   PAUSED: 'PAUSED',
   STARTED: 'STARTED',
   STOPPED: 'STOPPED',
 };
-
-export const NAME = 'transport';

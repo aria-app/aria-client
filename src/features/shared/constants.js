@@ -1,5 +1,7 @@
 export const NAME = 'shared';
 
+export const defaultBPM = 120;
+
 export const localStorageKey = 'currentSong';
 
 export const minBPM = 60;

@@ -43,12 +43,33 @@ function* setScrollTopIfChanged({ scrollTop }) {
   yield put(actions.scrollTopSet(scrollTop));
 }
 
+function* startPanning() {
+  const currentToolType = yield select(selectors.getToolType);
+
+  if (currentToolType === toolTypes.PAN) return;
+
+  yield put(actions.toolSelected(toolTypes.PAN));
+}
+
+function* stopPanning() {
+  const previousToolType = yield select(selectors.getPreviousToolType);
+
+  if (
+    !previousToolType ||
+    previousToolType === toolTypes.PAN
+  ) return;
+
+  yield put(actions.toolSelected(previousToolType));
+}
+
 export default function* saga() {
   yield [
     takeEvery(actions.MOUSE_MOVED, setMousePointIfChanged),
     takeEvery(actions.SCROLLED_HORIZONTALLY, setScrollLeftIfChanged),
     takeEvery(actions.SCROLLED_VERTICALLY, setScrollTopIfChanged),
     takeEvery(actions.TOOL_SELECTED, handleToolTypeSelected),
+    takeEvery(shortcuts.actions.SPACE_HELD, startPanning),
+    takeEvery(shortcuts.actions.SPACE_RELEASED, stopPanning),
     takeEvery(shortcuts.actions.SELECT_TOOL_D,
       () => handleToolTypeSelected({ toolType: toolTypes.DRAW })
     ),

@@ -1,3 +1,4 @@
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
@@ -53,6 +54,10 @@ module.exports = {
     'react/lib/ReactContext': true,
   },
   plugins: [
+    new CircularDependencyPlugin({
+      exclude: /node_modules/,
+      failOnError: true,
+    }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '../test/index.html'),
     }),

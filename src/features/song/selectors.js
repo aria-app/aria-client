@@ -1,11 +1,11 @@
 import _ from 'lodash';
-import transport from '../transport';
+import shared from '../shared';
 import { NAME } from './constants';
 
 const get = state => state[NAME];
 
 export const getActiveSequenceId = state => get(state).activeSequenceId;
-export const getBPM = state => get(state).bpm || transport.constants.defaultBPM;
+export const getBPM = state => get(state).bpm || shared.constants.defaultBPM;
 export const getId = state => get(state).id || '';
 export const getMeasureCount = state => get(state).measureCount || 1;
 export const getName = state => get(state).name || '';

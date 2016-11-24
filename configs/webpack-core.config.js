@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const autoprefixer = require('autoprefixer');
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 const dependencies = require('../package.json').dependencies;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
@@ -43,6 +44,10 @@ module.exports = {
     'react/lib/ReactContext': true,
   },
   plugins: [
+    new CircularDependencyPlugin({
+      exclude: /node_modules/,
+      failOnError: true,
+    }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '../src/index.html'),
     }),

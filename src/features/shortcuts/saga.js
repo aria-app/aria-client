@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { eventChannel, takeEvery } from 'redux-saga';
 import { fork, put, select, take } from 'redux-saga/effects';
 import Mousetrap from 'mousetrap';
-import sequencing from '../sequencing';
 import shared from '../shared';
 import * as actions from './actions';
 import * as selectors from './selectors';
@@ -30,25 +29,30 @@ const shortcuts = [
   { onPress: actions.SELECT_TOOL_S, combos: ['s'] },
   { onPress: actions.UNDO, combos: ['ctrl+z', 'meta+z'] },
   {
-    onPress: actions.PAN_HELD,
-    onRelease: actions.PAN_RELEASED,
+    onPress: actions.SPACE_HELD,
+    onRelease: actions.SPACE_RELEASED,
     combos: ['space'],
   },
 ];
 
-function* holdPan({ e }) {
-  e.preventDefault();
+function* handleKeypress(keypress) {
   const heldKeys = yield select(selectors.getHeldKeys);
 
-  if (_.includes(heldKeys, e.keyCode)) return;
+  if (!_.includes(heldKeys, keypress.action.e.keyCode) && keypress.willRelease) {
+    yield put(actions.keyHoldStarted(keypress.action.e.keyCode));
+    yield put(keypress.action);
+    return;
+  }
 
-  const toolType = shared.constants.toolTypes.PAN;
-  const currentToolType = yield select(sequencing.selectors.getToolType);
+  if (!keypress.isReleasing) return;
 
-  if (currentToolType === toolType) return;
+  yield put(actions.keyHoldStopped(keypress.action.e.keyCode));
 
-  yield put(sequencing.actions.toolSelected(toolType));
-  yield put(actions.heldKeysSet([e.keyCode]));
+  const newHeldKeys = yield select(selectors.getHeldKeys);
+
+  if (_.includes(newHeldKeys, keypress.action.e.keyCode)) return;
+
+  yield put(keypress.action);
 }
 
 function* initialize() {
@@ -59,24 +63,13 @@ function* registerShortcuts() {
   const keypressChannel = keypressChannelFactory();
 
   while (true) {
-    const keypressAction = yield take(keypressChannel);
-    yield put(keypressAction);
+    const keypress = yield take(keypressChannel);
+    yield fork(handleKeypress, keypress);
   }
-}
-
-function* releasePan() {
-  const previousToolType = yield select(sequencing.selectors.getPreviousToolType);
-
-  if (!previousToolType || previousToolType === shared.constants.toolTypes.PAN) return;
-
-  yield put(sequencing.actions.toolSelected(previousToolType));
-  yield put(actions.heldKeysSet([]));
 }
 
 export default function* saga() {
   yield [
-    takeEvery(actions.PAN_HELD, holdPan),
-    takeEvery(actions.PAN_RELEASED, releasePan),
     takeEvery(shared.actions.INITIALIZED, initialize),
   ];
 }
@@ -86,13 +79,25 @@ function keypressChannelFactory() {
     shortcuts.forEach(shortcut => {
       Mousetrap.bind(shortcut.combos, (e) => {
         e.preventDefault();
-        emit({ type: shortcut.onPress, e });
+        emit({
+          action: {
+            type: shortcut.onPress,
+            e,
+          },
+          willRelease: !!shortcut.onRelease,
+        });
       });
 
       if (shortcut.onRelease) {
         Mousetrap.bind(shortcut.combos, e => {
           e.preventDefault();
-          emit({ type: shortcut.onRelease });
+          emit({
+            action: {
+              type: shortcut.onRelease,
+              e,
+            },
+            isReleasing: true,
+          });
         }, 'keyup');
       }
     });
