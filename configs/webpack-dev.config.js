@@ -1,5 +1,6 @@
 const coreConfig = require('./webpack-core.config');
 const merge = require('webpack-merge');
+const path = require('path');
 const webpack = require('webpack');
 
 module.exports = merge.smart({}, coreConfig, {
@@ -7,7 +8,7 @@ module.exports = merge.smart({}, coreConfig, {
     stats: {
       chunks: false,
     },
-    contentBase: 'public',
+    contentBase: path.join(__dirname, '../public'),
   },
   devtool: 'eval',
   plugins: [

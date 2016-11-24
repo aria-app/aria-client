@@ -1,6 +1,6 @@
 const coreConfig = require('./webpack-core.config');
-const webpack = require('webpack');
 const merge = require('webpack-merge');
+const webpack = require('webpack');
 
 module.exports = merge.smart({}, coreConfig, {
   devtool: 'cheap-module-source-map',

@@ -1,56 +1,12 @@
-// const webpack = require('webpack');
-//
-// module.exports = {
-//   entry: './test.js',
-//   output: {
-//     path: '.',
-//     filename: 'test-bundle.js',
-//   },
-//   devServer: {
-//     stats: {
-//       chunks: false,
-//     },
-//     contentBase: '.',
-//   },
-//   module: {
-//     loaders: [
-//       {
-//         test: /\.scss$/,
-//         exclude: /node_modules/,
-//         loader: 'null',
-//       },
-//       {
-//         test: /\.js$/,
-//         exclude: /node_modules/,
-//         loader: 'babel',
-//       },
-//       {
-//         test: /\.json$/,
-//         loader: 'json',
-//       },
-//     ],
-//     noParse: [
-//       /node_modules\/sinon/,
-//     ],
-//   },
-//   externals: {
-//     'react/addons': true,
-//     'react/lib/ExecutionEnvironment': true,
-//     'react/lib/ReactContext': true,
-//   },
-//   plugins: [
-//     new webpack.HotModuleReplacementPlugin(),
-//   ],
-// };
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
   devtool: 'eval',
   entry: {
-    tests: './test/index.js',
-    vendor: './test/vendor.js',
+    tests: path.join(__dirname, '../test/index.js'),
+    vendor: path.join(__dirname, '../test/vendor.js'),
   },
   devServer: {
     stats: {
@@ -59,7 +15,7 @@ module.exports = {
     contentBase: '.',
   },
   output: {
-    path: 'test',
+    path: path.join(__dirname, '../test'),
     publicPath: 'http://localhost:5000/',
     filename: '[name].js',
     chunkFilename: '[id].chunk.js',
@@ -97,13 +53,13 @@ module.exports = {
     'react/lib/ReactContext': true,
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, '../test/index.html'),
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(true),
     new webpack.optimize.CommonsChunkPlugin({
       name: ['tests', 'vendor'],
-    }),
-    new HtmlWebpackPlugin({
-      template: 'test/index.html',
     }),
   ],
 };

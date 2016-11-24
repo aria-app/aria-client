@@ -1,22 +1,23 @@
 const _ = require('lodash');
 const autoprefixer = require('autoprefixer');
-const webpack = require('webpack');
+const dependencies = require('../package.json').dependencies;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const dependencies = require('./package.json').dependencies;
+const path = require('path');
 const vendor = _(dependencies)
   .omit('babel-polyfill')
   .omit('react-icons')
   .omit('tone')
   .keys()
   .value();
+const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    app: './src/index.js',
+    app: path.join(__dirname, '../src/index.js'),
     vendor,
   },
   output: {
-    path: 'public',
+    path: path.join(__dirname, '../public'),
     filename: '[name].bundle.js',
   },
   module: {
@@ -43,7 +44,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: path.join(__dirname, '../src/index.html'),
     }),
     new webpack.LoaderOptionsPlugin({
       options: {

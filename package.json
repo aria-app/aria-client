@@ -5,16 +5,13 @@
   "repository": "nickjohnson-dev/zen-app",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --progress --colors --config ./webpack-prod.config.js",
-    "clean": "rimraf ./public",
-    "deploy": "surge ./public zen-sequencer.surge.sh",
-    "lint": "eslint src",
-    "predeploy": "npm run build -s",
+    "build": "run build",
+    "clean": "run clean",
+    "deploy": "run deploy",
+    "lint": "run lint",
     "start": "run start",
-    "test": "webpack-dev-server --inline --config ./webpack-test.config.js --port 5000",
-    "testw": "CONFIG=$(pwd)/ava-webpack.config.js BABEL_DISABLE_CACHE=1 NODE_ENV=AVA ava -w",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook": "run storybook",
+    "test": "run test"
   },
   "keywords": [],
   "author": "Nick Johnson",
@@ -68,5 +65,10 @@
     "redux-saga": "^0.10.4",
     "tone": "0.8.0",
     "uuid": "3.0.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "./configs/.eslintrc.js"
+    ]
   }
 }
