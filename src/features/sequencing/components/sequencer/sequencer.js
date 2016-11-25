@@ -1,6 +1,6 @@
 import React from 'react';
 import h from 'react-hyperscript';
-import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
+import StylePropType from 'react-style-proptype';
 import shared from '../../../shared';
 import { GridContainer } from '../grid/grid-container';
 import { KeysContainer } from '../keys/keys-container';
@@ -10,147 +10,138 @@ const { DropdownList, IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
 const scale = shared.helpers.getScale();
 
-const component = props => h('.sequencer', {
-  style: props.style,
-}, [
-  props.actionsToolbar,
-  h('.sequencer__content', {
-    onScroll: props.onContentScroll,
-  }, [
-    h('.sequencer__wrapper', [
-      h(KeysContainer, {
-        scale,
-      }),
-      h(GridContainer, {
-        sequencerContentRef: props.childRef,
-      }),
-    ]),
-  ]),
-]);
-
-const composed = compose(
-  setDisplayName('Sequencer'),
-  pure,
-  setPropTypes({
+export class Sequencer extends React.Component {
+  static propTypes = {
     closeSequence: React.PropTypes.func.isRequired,
+    deleteSelectedNotes: React.PropTypes.func.isRequired,
     duplicate: React.PropTypes.func.isRequired,
     isSelectingActive: React.PropTypes.bool,
-    deleteSelectedNotes: React.PropTypes.func.isRequired,
-    scrolledVertically: React.PropTypes.func.isRequired,
     resizeSelected: React.PropTypes.func.isRequired,
+    scrolledVertically: React.PropTypes.func.isRequired,
     selectTool: React.PropTypes.func.isRequired,
     shiftDownOctave: React.PropTypes.func.isRequired,
     shiftUpOctave: React.PropTypes.func.isRequired,
+    style: StylePropType,
     toolType: React.PropTypes.string.isRequired,
-  }),
-  // getChildRef('.sequencer__content'),
-  // scrollTo({
-  //   scrollTop: 'center',
-  //   selector: '.sequencer__content',
-  // }),
-  pure,
-  withHandlers({
-    close: props => () => {
-      props.closeSequence();
-    },
-    onContentScroll,
-  }),
-  mapProps(props => ({
-    ...props,
-    actionsToolbar: h(Toolbar, {
-      isAlternate: props.isSelectingActive,
-      alternateLeftItems: [
-        ...getSelectingCommands(props),
-      ],
-      alternateRightItems: [
-        getSizingDropdown(props),
-        h(IconButton, {
-          icon: 'close',
-          onPress: props.close,
-        }),
-      ],
-      leftItems: [
-        ...getToolButtons(props),
-      ],
-      rightItems: [
-        h(IconButton, {
-          icon: 'close',
-          onPress: props.close,
-        }),
-      ],
-    }),
-  })),
-)(component);
+  }
 
-export const Sequencer = composed;
+  componentDidMount() {
+    this.contentRef.scrollTop = getCenteredScroll(
+      this.contentRef,
+    );
+  }
 
-function getSelectingCommands(props) {
-  return [
-    h(IconButton, {
-      icon: 'trash',
-      toolTip: 'Delete',
-      onPress: () => props.deleteSelectedNotes(),
-    }),
-    h(IconButton, {
-      icon: 'clone',
-      toolTip: 'Duplicate',
-      onPress: () => props.duplicate(),
-    }),
-    h(IconButton, {
-      icon: 'arrow-up',
-      toolTip: 'Up Octave',
-      onPress: () => props.shiftUpOctave(),
-    }),
-    h(IconButton, {
-      icon: 'arrow-down',
-      toolTip: 'Down Octave',
-      onPress: () => props.shiftDownOctave(),
-    }),
-  ];
+  render() {
+    return h('.sequencer', {
+      style: this.props.style,
+    }, [
+      h(Toolbar, {
+        className: '.sequencer__toolbar',
+        isAlternate: this.props.isSelectingActive,
+        alternateLeftItems: [
+          h(IconButton, {
+            icon: 'trash',
+            toolTip: 'Delete',
+            onPress: () => this.props.deleteSelectedNotes(),
+          }),
+          h(IconButton, {
+            icon: 'clone',
+            toolTip: 'Duplicate',
+            onPress: () => this.props.duplicate(),
+          }),
+          h(IconButton, {
+            icon: 'arrow-up',
+            toolTip: 'Up Octave',
+            onPress: () => this.props.shiftUpOctave(),
+          }),
+          h(IconButton, {
+            icon: 'arrow-down',
+            toolTip: 'Down Octave',
+            onPress: () => this.props.shiftDownOctave(),
+          }),
+        ],
+        alternateRightItems: [
+          h(DropdownList, {
+            className: 'sequencer__toolbar__resize-dropdown',
+            icon: 'long-arrow-right',
+            items: [
+              { text: '1/32', id: 1 },
+              { text: '1/16', id: 2 },
+              { text: '1/8', id: 4 },
+              { text: '1/4', id: 8 },
+              { text: '1/2', id: 16 },
+              { text: '1', id: 32 },
+            ],
+            onSelectedItemChange: this.handleResizeDropdownSelectedItemChange,
+          }),
+          h(IconButton, {
+            icon: 'close',
+            onPress: this.close,
+          }),
+        ],
+        leftItems: [
+          h(IconButton, {
+            isActive: this.props.toolType === SELECT,
+            icon: 'mouse-pointer',
+            onPress: () => this.props.selectTool(SELECT),
+          }),
+          h(IconButton, {
+            isActive: this.props.toolType === DRAW,
+            icon: 'pencil',
+            onPress: () => this.props.selectTool(DRAW),
+          }),
+          h(IconButton, {
+            isActive: this.props.toolType === ERASE,
+            icon: 'eraser',
+            onPress: () => this.props.selectTool(ERASE),
+          }),
+          h(IconButton, {
+            isActive: this.props.toolType === PAN,
+            icon: 'hand-paper-o',
+            onPress: () => this.props.selectTool(PAN),
+          }),
+        ],
+        rightItems: [
+          h(IconButton, {
+            icon: 'close',
+            onPress: this.close,
+          }),
+        ],
+      }),
+      h('.sequencer__content', {
+        onScroll: this.onContentScroll,
+        ref: this.setContentRef,
+      }, [
+        h('.sequencer__content__wrapper', [
+          h(KeysContainer, {
+            scale,
+          }),
+          h(GridContainer, {
+            sequencerContentRef: this.contentRef,
+          }),
+        ]),
+      ]),
+    ]);
+  }
+
+  close = () => {
+    this.props.closeSequence();
+  }
+
+  handleResizeDropdownSelectedItemChange = (item) => {
+    this.props.resizeSelected(item);
+  }
+
+  onContentScroll = (e) => {
+    this.props.scrolledVertically(Math.floor(e.target.scrollTop / 40));
+  }
+
+  setContentRef = (ref) => {
+    this.contentRef = ref;
+    this.forceUpdate();
+  }
 }
 
-function getSizingDropdown(props) {
-  return h(DropdownList, {
-    icon: 'long-arrow-right',
-    items: [
-      { text: '1/32', value: 1 },
-      { text: '1/16', value: 2 },
-      { text: '1/8', value: 4 },
-      { text: '1/4', value: 8 },
-      { text: '1/2', value: 16 },
-      { text: '1', value: 32 },
-    ],
-    onSelectedItemChange: item => props.resizeSelected(item.value),
-  });
-}
-
-function getToolButtons(props) {
-  return [
-    h(IconButton, {
-      isActive: props.toolType === SELECT,
-      icon: 'mouse-pointer',
-      onPress: () => props.selectTool(SELECT),
-    }),
-    h(IconButton, {
-      isActive: props.toolType === DRAW,
-      icon: 'pencil',
-      onPress: () => props.selectTool(DRAW),
-    }),
-    h(IconButton, {
-      isActive: props.toolType === ERASE,
-      icon: 'eraser',
-      onPress: () => props.selectTool(ERASE),
-    }),
-    h(IconButton, {
-      isActive: props.toolType === PAN,
-      icon: 'hand-paper-o',
-      onPress: () => props.selectTool(PAN),
-    }),
-  ];
-}
-
-function onContentScroll(props) {
-  return (e) => {
-    props.scrolledVertically(Math.floor(e.target.scrollTop / 40));
-  };
+function getCenteredScroll(el) {
+  return (el.scrollHeight / 2) - (el.offsetHeight / 2);
 }

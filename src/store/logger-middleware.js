@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import createLogger from 'redux-logger';
 import playing from '../features/playing';
+import selecting from '../features/selecting';
 import sequencingPosition from '../features/sequencing-position';
 import shared from '../features/shared';
 import shortcuts from '../features/shortcuts';
@@ -8,6 +9,8 @@ import transport from '../features/transport';
 
 const typesToSkip = [
   playing.actions.NOTE_PLAYED,
+  selecting.actions.NEW_POINT_SET,
+  selecting.actions.UPDATED,
   sequencingPosition.actions.MOUSE_MOVED,
   sequencingPosition.actions.MOUSE_POINT_SET,
   sequencingPosition.actions.SCROLL_LEFT_SET,

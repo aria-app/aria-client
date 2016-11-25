@@ -1,44 +1,33 @@
-import { PropTypes } from 'react';
+import React from 'react';
 import h from 'react-hyperscript';
 import _ from 'lodash';
-import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import './keys.scss';
 
-const component = props => h('.keys', props.keys);
+export class Keys extends React.Component {
+  static propTypes = {
+    previewNote: React.PropTypes.func.isRequired,
+    scale: React.PropTypes.arrayOf(React.PropTypes.object),
+  }
 
-const keyComponent = ({
-  handleKeyPress,
-  step,
-}) => h('.keys__key', {
-  className: getKeyClasses(step),
-  onMouseUp: () => handleKeyPress(step),
-}, [
-  h('.keys__key__label', [
-    step.name,
-  ]),
-]);
+  render() {
+    return h('.keys', [
+      ...this.props.scale.map(step => h('.keys__key', {
+        className: getKeyClasses(step),
+        onMouseUp: () => this.handleKeyPress(step),
+      }, [
+        h('.keys__key__label', [
+          step.name,
+        ]),
+      ])),
+    ]);
+  }
 
-const composed = compose(
-  setDisplayName('Keys'),
-  pure,
-  setPropTypes({
-    previewNote: PropTypes.func,
-    scale: PropTypes.array,
-  }),
-  withHandlers({
-    handleKeyPress: ({ previewNote }) => step =>
-      previewNote({ y: step.y }),
-  }),
-  mapProps(({ handleKeyPress, scale, ...rest }) => ({
-    keys: scale.map(step => h(keyComponent, {
-      handleKeyPress,
-      step,
-    })),
-    ...rest,
-  })),
-)(component);
-
-export const Keys = composed;
+  handleKeyPress = (step) => {
+    this.props.previewNote({
+      y: step.y,
+    });
+  }
+}
 
 function getKeyClasses(step) {
   const letter = step.name.slice(0, 1).toLowerCase();

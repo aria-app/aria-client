@@ -17,6 +17,18 @@ function* changeSelectedNotesSize({ change }) {
   yield put(actions.notesResized(selectedNotes, change));
 }
 
+function* deleteNotes({ notes }) {
+  yield put(song.actions.notesDeleted(_.map(notes, 'id')));
+}
+
+function* deleteSelectedNotes() {
+  const selectedNotes = yield select(selectors.getSelectedNotes);
+
+  if (_.isEmpty(selectedNotes)) return;
+
+  yield put(actions.notesDeleted(selectedNotes));
+}
+
 function* drawNote() {
   const activeSequenceId = yield select(song.selectors.getActiveSequenceId);
   const point = yield select(sequencingPosition.selectors.getMousePoint);
@@ -120,18 +132,6 @@ function* redo() {
   ]));
   yield put(song.actions.notesSet(_.last(redos)));
   yield put(actions.redosSet(redos.slice(0, redos.length - 1)));
-}
-
-function* deleteNotes({ notes }) {
-  yield put(song.actions.notesDeleted(_.map(notes, 'id')));
-}
-
-function* deleteSelectedNotes() {
-  const selectedNotes = yield select(selectors.getSelectedNotes);
-
-  if (_.isEmpty(selectedNotes)) return;
-
-  yield put(actions.notesDeleted(selectedNotes));
 }
 
 function* resize({ notes, change }) {

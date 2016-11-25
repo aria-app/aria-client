@@ -23,40 +23,40 @@ $context-menu__popup__item__icon__margin-right: $margin-s;
     left: 0;
     z-index: $context-menu__z-index;
     overflow: hidden;
-  }
-  &__popup {
-    width: $context-menu__popup__width;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: $context-menu__z-index;
-    background-color: $context-menu__background-color;
-    border-radius: $context-menu__popup__border-radius;
-    box-shadow: $context-menu__box-shadow;
-    overflow: hidden;
-    &__list {
-      padding-top: $context-menu__popup__list__padding;
-      padding-bottom: $context-menu__popup__list__padding;
-    }
-    &__item {
-      display: flex;
-      align-items: center;
-      height: $context-menu__popup__item__height;
-      padding-left: $context-menu__popup__item__padding;
-      padding-right: $context-menu__popup__item__padding;
-      color: $context-menu__popup__item__color;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      cursor: pointer;
+    &__popup {
+      width: $context-menu__popup__width;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: $context-menu__z-index;
+      background-color: $context-menu__background-color;
+      border-radius: $context-menu__popup__border-radius;
+      box-shadow: $context-menu__box-shadow;
       overflow: hidden;
-      &__icon {
-        margin-right: $context-menu__popup__item__icon__margin-right;
-        svg * {
-          fill: $context-menu__popup__item__color;
+      &__list {
+        padding-top: $context-menu__popup__list__padding;
+        padding-bottom: $context-menu__popup__list__padding;
+        &__item {
+          display: flex;
+          align-items: center;
+          height: $context-menu__popup__item__height;
+          padding-left: $context-menu__popup__item__padding;
+          padding-right: $context-menu__popup__item__padding;
+          color: $context-menu__popup__item__color;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          cursor: pointer;
+          overflow: hidden;
+          &__icon {
+            margin-right: $context-menu__popup__item__icon__margin-right;
+            svg * {
+              fill: $context-menu__popup__item__color;
+            }
+          }
+          &:hover {
+            background-color: $context-menu__popup__item__background-color--hover;
+          }
         }
-      }
-      &:hover {
-        background-color: $context-menu__popup__item__background-color--hover;
       }
     }
   }

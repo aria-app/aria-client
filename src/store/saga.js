@@ -6,6 +6,7 @@ import playing from '../features/playing';
 import resizing from '../features/resizing';
 import selecting from '../features/selecting';
 import sequencing from '../features/sequencing';
+import sequencingPosition from '../features/sequencing-position';
 import shortcuts from '../features/shortcuts';
 import song from '../features/song';
 import tracking from '../features/tracking';
@@ -21,6 +22,7 @@ export default function* saga() {
     resizing.saga(),
     selecting.saga(),
     sequencing.saga(),
+    sequencingPosition.saga(),
     shortcuts.saga(),
     song.saga(),
     tracking.saga(),

@@ -1,10 +1,6 @@
 import _ from 'lodash';
 import * as constants from './constants';
 
-export function getCenteredScroll(el) {
-  return (el.scrollHeight / 2) - (el.offsetHeight / 2);
-}
-
 export function getNoteName(y) {
   const octaveNumber = ((constants.octaveRange.length - 1) - Math.floor(y / 12));
   const letter = getLetter(y);

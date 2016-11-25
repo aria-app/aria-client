@@ -29,15 +29,15 @@ $upload-overlay__drag-indicator__border-radius: 4px;
     overflow: hidden;
     background-color: $upload-overlay__tint__background-color;
     pointer-events: none;
-  }
-  &__drag-indicator {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: $upload-overlay__drag-indicator__padding;
-    z-index: inherit;
-    background-color: $upload-overlay__drag-indicator__background-color;
-    border-radius: $upload-overlay__drag-indicator__border-radius;
-    pointer-events: none;
+    &__drag-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: $upload-overlay__drag-indicator__padding;
+      z-index: inherit;
+      background-color: $upload-overlay__drag-indicator__background-color;
+      border-radius: $upload-overlay__drag-indicator__border-radius;
+      pointer-events: none;
+    }
   }
 }
