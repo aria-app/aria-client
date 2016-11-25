@@ -1,6 +1,16 @@
 import _ from 'lodash';
 import * as constants from './constants';
 
+const scale = _(constants.octaveRange)
+  .flatMap(octave => _.range(12).map((step) => {
+    const y = (octave * 12) + step;
+    return {
+      name: getNoteName(y),
+      y,
+    };
+  }))
+  .value();
+
 export function getNoteName(y) {
   const octaveNumber = ((constants.octaveRange.length - 1) - Math.floor(y / 12));
   const letter = getLetter(y);
@@ -32,15 +42,7 @@ export function getPointOffset(start, end) {
 }
 
 export function getScale() {
-  return _(constants.octaveRange)
-  .flatMap(octave => _.range(12).map((step) => {
-    const y = (octave * 12) + step;
-    return {
-      name: getNoteName(y),
-      y,
-    };
-  }))
-  .value();
+  return scale;
 }
 
 export function hideIf(condition) {

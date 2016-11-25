@@ -8,7 +8,6 @@ import './sequencer.scss';
 
 const { DropdownList, IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
-const scale = shared.helpers.getScale();
 
 export class Sequencer extends React.Component {
   static propTypes = {
@@ -113,9 +112,7 @@ export class Sequencer extends React.Component {
         ref: this.setContentRef,
       }, [
         h('.sequencer__content__wrapper', [
-          h(KeysContainer, {
-            scale,
-          }),
+          h(KeysContainer),
           h(GridContainer, {
             sequencerContentRef: this.contentRef,
           }),

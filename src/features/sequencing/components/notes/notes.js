@@ -60,16 +60,14 @@ export class Notes extends React.Component {
           },
         }),
       ),
-      ...this.props.notes.map((note, index) =>
-        h(Note, {
-          key: index,
-          isSelected: !!_.find(this.props.selectedNotes, { id: note.id }),
-          onEndpointMouseDown: this.handleNoteEndpointMouseDown,
-          onMouseDown: this.handleNoteMouseDown,
-          onMouseUp: this.handleNoteMouseUp,
-          note,
-        }),
-      ),
+      ...this.props.notes.map(note => h(Note, {
+        key: note.id,
+        isSelected: !!_.find(this.props.selectedNotes, { id: note.id }),
+        onEndpointMouseDown: this.handleNoteEndpointMouseDown,
+        onMouseDown: this.handleNoteMouseDown,
+        onMouseUp: this.handleNoteMouseUp,
+        note,
+      })),
     ]);
   }
 

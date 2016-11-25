@@ -13,7 +13,6 @@ import './grid.scss';
 const { FenceContainer } = selecting.components;
 const { getMousePoint } = sequencingPosition.helpers;
 const { toolTypes } = shared.constants;
-const scale = shared.helpers.getScale();
 
 export class Grid extends React.Component {
   static propTypes = {
@@ -41,9 +40,7 @@ export class Grid extends React.Component {
             : 0,
         },
       }, [
-        h(SlotsContainer, {
-          scale,
-        }),
+        h(SlotsContainer),
         h(NotesContainer),
         h(FenceContainer),
         h(SequencerTimelineContainer),
