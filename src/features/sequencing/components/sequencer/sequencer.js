@@ -42,22 +42,22 @@ export class Sequencer extends React.Component {
           h(IconButton, {
             icon: 'trash',
             toolTip: 'Delete',
-            onPress: () => this.props.deleteSelectedNotes(),
+            onClick: () => this.props.deleteSelectedNotes(),
           }),
           h(IconButton, {
             icon: 'clone',
             toolTip: 'Duplicate',
-            onPress: () => this.props.duplicate(),
+            onClick: () => this.props.duplicate(),
           }),
           h(IconButton, {
             icon: 'arrow-up',
             toolTip: 'Up Octave',
-            onPress: () => this.props.shiftUpOctave(),
+            onClick: () => this.props.shiftUpOctave(),
           }),
           h(IconButton, {
             icon: 'arrow-down',
             toolTip: 'Down Octave',
-            onPress: () => this.props.shiftDownOctave(),
+            onClick: () => this.props.shiftDownOctave(),
           }),
         ],
         alternateRightItems: [
@@ -76,35 +76,35 @@ export class Sequencer extends React.Component {
           }),
           h(IconButton, {
             icon: 'close',
-            onPress: this.close,
+            onClick: this.close,
           }),
         ],
         leftItems: [
           h(IconButton, {
             isActive: this.props.toolType === SELECT,
             icon: 'mouse-pointer',
-            onPress: () => this.props.selectTool(SELECT),
+            onClick: () => this.props.selectTool(SELECT),
           }),
           h(IconButton, {
             isActive: this.props.toolType === DRAW,
             icon: 'pencil',
-            onPress: () => this.props.selectTool(DRAW),
+            onClick: () => this.props.selectTool(DRAW),
           }),
           h(IconButton, {
             isActive: this.props.toolType === ERASE,
             icon: 'eraser',
-            onPress: () => this.props.selectTool(ERASE),
+            onClick: () => this.props.selectTool(ERASE),
           }),
           h(IconButton, {
             isActive: this.props.toolType === PAN,
             icon: 'hand-paper-o',
-            onPress: () => this.props.selectTool(PAN),
+            onClick: () => this.props.selectTool(PAN),
           }),
         ],
         rightItems: [
           h(IconButton, {
             icon: 'close',
-            onPress: this.close,
+            onClick: this.close,
           }),
         ],
       }),

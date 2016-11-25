@@ -1,26 +1,23 @@
-import { PropTypes } from 'react';
+import React from 'react';
 import h from 'react-hyperscript';
-import { compose, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
 import './download-button.scss';
 
-const component = props => h('a.download-button', {
-  href: props.href,
-  download: props.filename,
-}, [props.text]);
+export class DownloadButton extends React.Component {
+  static propTypes = {
+    content: React.PropTypes.string.isRequired,
+    filename: React.PropTypes.string.isRequired,
+    text: React.PropTypes.string.isRequired,
+  }
 
-export const DownloadButton = compose(
-  setDisplayName('DownloadButton'),
-  pure,
-  setPropTypes({
-    text: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-    filename: PropTypes.string.isRequired,
-  }),
-  mapProps(props => ({
-    ...props,
-    href: getHref(props.content),
-  })),
-)(component);
+  render() {
+    return h('a.download-button', {
+      download: this.props.filename,
+      href: getHref(this.props.content),
+    }, [
+      this.props.text,
+    ]);
+  }
+}
 
 function getHref(content) {
   const uri = encodeURIComponent(content);

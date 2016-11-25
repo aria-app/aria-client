@@ -1,58 +1,65 @@
 import React from 'react';
 import h from 'react-hyperscript';
-import { compose, mapProps, pure, setDisplayName, setPropTypes } from 'recompose';
+import StylePropType from 'react-style-proptype';
 import { Button } from '../button/button';
 import { Toolbar } from '../toolbar/toolbar';
 import './modal.scss';
 
-const component = props => h('.modal', {
-  className: props.className,
-  style: {
-    ...props.style,
-    display: props.isOpen ? 'flex' : 'none',
-  },
-}, [
-  h('.modal__overlay', [
-    h('.modal__window', [
-      h('.modal__header', null, [
-        h('.modal__header__text', [
-          props.titleText,
-        ]),
-      ]),
-      h('.modal__content', null, props.children),
-      h(Toolbar, {
-        className: 'modal__actions',
-        rightItems: [
-          props.onCancel ? h(Button, {
-            className: 'modal__action modal__action--cancel',
-            text: props.cancelText,
-            onPress: props.onCancel,
-          }) : null,
-          h(Button, {
-            className: 'modal__action modal__action--confirm',
-            text: props.confirmText,
-            onPress: props.onConfirm,
-          }),
-        ],
-      }),
-    ]),
-  ]),
-]);
-
-export const Modal = compose(
-  setDisplayName('Modal'),
-  pure,
-  setPropTypes({
+export class Modal extends React.Component {
+  static propTypes = {
     cancelText: React.PropTypes.string,
+    children: React.PropTypes.node,
+    className: React.PropTypes.string,
     confirmText: React.PropTypes.string,
     isOpen: React.PropTypes.bool,
     onCancel: React.PropTypes.func,
     onConfirm: React.PropTypes.func,
+    style: StylePropType,
     titleText: React.PropTypes.string,
-  }),
-  mapProps(props => ({
-    ...props,
-    cancelText: props.cancelText || 'cancel',
-    confirmText: props.confirmText || 'confirm',
-  })),
-)(component);
+  }
+
+  static defaultProps = {
+    cancelText: 'cancel',
+    confirmText: 'confirm',
+  }
+
+  render() {
+    return h('.modal', {
+      className: this.props.className,
+      style: this.getStyle(),
+    }, [
+      h('.modal__overlay', [
+        h('.modal__overlay__window', [
+          h('.modal__overlay__window__header', null, [
+            h('.modal__overlay__window__header__text', [
+              this.props.titleText,
+            ]),
+          ]),
+          h('.modal__overlay__window__content', null, this.props.children),
+          h(Toolbar, {
+            className: 'modal__overlay__window__actions',
+            rightItems: [
+              this.props.onCancel ? h(Button, {
+                className: 'modal__overlay__window__actions__action modal__overlay__window__actions__action--cancel',
+                text: this.props.cancelText,
+                onClick: this.props.onCancel,
+              }) : null,
+              h(Button, {
+                className: 'modal__overlay__window__actions__action modal__overlay__window__actions__action--confirm',
+                text: this.props.confirmText,
+                onClick: this.props.onConfirm,
+              }),
+            ],
+          }),
+        ]),
+      ]),
+    ]);
+  }
+
+  getStyle() {
+    return {
+      ...this.props.style,
+      display: this.props.isOpen ? 'flex' : 'none',
+    };
+  }
+}

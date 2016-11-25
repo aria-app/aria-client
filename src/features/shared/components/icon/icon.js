@@ -1,52 +1,47 @@
-import { PropTypes } from 'react';
+import React from 'react';
 import h from 'react-hyperscript';
-import { compose, mapProps, pure, setPropTypes } from 'recompose';
+import StylePropType from 'react-style-proptype';
 import icons from './icons';
 import './icon.scss';
 
-const component = props => h('.icon', {
-  className: props.className,
-}, [
-  h('.icon__content', [
-    h(props.iconComponent, {
-      size: getSizePixels(props.size),
-    }),
-  ]),
-]);
-
-export const Icon = compose(
-  pure,
-  setPropTypes({
-    icon: PropTypes.string,
-    size: PropTypes.oneOf([
-      'small',
-      'regular',
-      'large',
-    ]),
-  }),
-  mapProps(props => ({
-    ...props,
-    iconComponent: loadIcon(props.icon),
-  })),
-)(component);
-
-function loadIcon(name) {
-  const icon = icons[name];
-
-  if (!icon) {
-    throw new Error(`No icon exists for name ${name}`);
+export class Icon extends React.Component {
+  static propTypes = {
+    className: React.PropTypes.string,
+    icon: React.PropTypes.string,
+    size: React.PropTypes.oneOf(['small', 'regular', 'large']),
+    style: StylePropType,
   }
 
-  return icon;
-}
+  render() {
+    return h('.icon', {
+      className: this.props.className,
+    }, [
+      h('.icon__content', [
+        h(this.loadIcon(), {
+          size: this.getSizePixels(),
+        }),
+      ]),
+    ]);
+  }
 
-function getSizePixels(size) {
-  switch (size) {
-    case 'large':
-      return 24;
-    case 'small':
-      return 12;
-    default:
-      return 20;
+  getSizePixels() {
+    switch (this.props.size) {
+      case 'large':
+        return 24;
+      case 'small':
+        return 12;
+      default:
+        return 20;
+    }
+  }
+
+  loadIcon() {
+    const icon = icons[this.props.icon];
+
+    if (!icon) {
+      throw new Error(`No icon exists for name ${this.props.icon}`);
+    }
+
+    return icon;
   }
 }

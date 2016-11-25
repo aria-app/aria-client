@@ -30,7 +30,7 @@ const component = props =>
       ]),
       h(Button, {
         className: 'track-editing-modal__delete-button',
-        onPress: props.onDeletePress,
+        onClick: props.handleDeleteButtonClick,
         text: 'Delete',
       }),
     ]),
@@ -53,7 +53,7 @@ const composed = compose(
     })),
   })),
   withHandlers({
-    onDeletePress: props => () => {
+    handleDeleteButtonClick: props => () => {
       props.delete([props.stagedTrack.id]);
     },
     onSynthTypeSelect: props => (item) => {

@@ -27,27 +27,27 @@ const composed = compose(
     sequenceActions: h('.tracker-toolbar__sequence-actions', [
       h(IconButton, {
         icon: 'pencil',
-        onPress: () => props.openSequence(),
+        onClick: () => props.openSequence(),
       }),
       h(IconButton, {
         icon: 'trash',
-        onPress: () => props.deleteSequence(),
+        onClick: () => props.deleteSequence(),
       }),
       h(IconButton, {
         icon: 'long-arrow-left',
-        onPress: () => props.shortenSequence(),
+        onClick: () => props.shortenSequence(),
       }),
       h(IconButton, {
         icon: 'arrow-left',
-        onPress: () => props.moveSequenceLeft(),
+        onClick: () => props.moveSequenceLeft(),
       }),
       h(IconButton, {
         icon: 'arrow-right',
-        onPress: () => props.moveSequenceRight(),
+        onClick: () => props.moveSequenceRight(),
       }),
       h(IconButton, {
         icon: 'long-arrow-right',
-        onPress: () => props.extendSequence(),
+        onClick: () => props.extendSequence(),
       }),
     ]),
   })),

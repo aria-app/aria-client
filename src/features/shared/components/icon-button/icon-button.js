@@ -1,30 +1,33 @@
-import { PropTypes } from 'react';
+import React from 'react';
 import h from 'react-hyperscript';
+import StylePropType from 'react-style-proptype';
 import classnames from 'classnames';
-import { compose, pure, setPropTypes } from 'recompose';
 import { Icon } from '../icon/icon';
 import './icon-button.scss';
 
-const component = props => h('.icon-button', {
-  className: classnames({
-    'icon-button--active': props.isActive,
-  }, props.className),
-  onClick: props.onPress,
-  title: props.toolTip,
-}, [
-  h('.icon-button__background'),
-  h(Icon, {
-    className: 'icon-button__icon',
-    icon: props.icon,
-  }),
-]);
+export class IconButton extends React.Component {
+  static propTypes = {
+    className: React.PropTypes.string,
+    icon: React.PropTypes.string,
+    isActive: React.PropTypes.bool,
+    onClick: React.PropTypes.func,
+    style: StylePropType,
+    toolTip: React.PropTypes.string,
+  }
 
-export const IconButton = compose(
-  pure,
-  setPropTypes({
-    icon: PropTypes.string.isRequired,
-    isActive: PropTypes.bool,
-    onPress: PropTypes.func,
-    toolTip: PropTypes.string,
-  }),
-)(component);
+  render() {
+    return h('.icon-button', {
+      className: classnames({
+        'icon-button--active': this.props.isActive,
+      }, this.props.className),
+      onClick: this.props.onClick,
+      title: this.props.toolTip,
+    }, [
+      h('.icon-button__background'),
+      h(Icon, {
+        className: 'icon-button__icon',
+        icon: this.props.icon,
+      }),
+    ]);
+  }
+}

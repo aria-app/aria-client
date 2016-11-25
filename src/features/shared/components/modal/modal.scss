@@ -24,11 +24,6 @@ $modal__actions__background-color: $neutral-2;
   left: 0;
   z-index: $modal__z-index;
   overflow: hidden;
-  &__header {
-    padding: $modal__header__padding;
-    background-color: $modal__header__background-color;
-    font-size: $modal__header__font-size;
-  }
   &__overlay {
     display: flex;
     align-items: center;
@@ -40,28 +35,33 @@ $modal__actions__background-color: $neutral-2;
     left: 0;
     background-color: $modal__overlay__background-color;
     overflow: hidden;
-  }
-  &__window {
-    display: flex;
-    flex-direction: column;
-    min-width: $modal__window__min-width;
-    max-width: $modal__window__max-width;
-    min-height: $modal__window__min-height;
-    max-height: $modal__window__max-height;
-    padding-top: $modal__window__padding;
-    padding-bottom: $modal__window__padding;
-    background-color: $modal__window__background-color;
-    border-radius: $modal__window__border-radius;
-  }
-  &__content {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    flex-shrink: 1;
-    padding: $modal__content__padding;
-  }
-  &__actions {
-    background-color: $modal__actions__background-color;
-    box-shadow: none;
+    &__window {
+      display: flex;
+      flex-direction: column;
+      min-width: $modal__window__min-width;
+      max-width: $modal__window__max-width;
+      min-height: $modal__window__min-height;
+      max-height: $modal__window__max-height;
+      padding-top: $modal__window__padding;
+      padding-bottom: $modal__window__padding;
+      background-color: $modal__window__background-color;
+      border-radius: $modal__window__border-radius;
+      &__header {
+        padding: $modal__header__padding;
+        background-color: $modal__header__background-color;
+        font-size: $modal__header__font-size;
+      }
+      &__content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        flex-shrink: 1;
+        padding: $modal__content__padding;
+      }
+      &__actions {
+        background-color: $modal__actions__background-color;
+        box-shadow: none;
+      }
+    }
   }
 }

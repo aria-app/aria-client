@@ -27,28 +27,28 @@ export class SongToolbar extends React.Component {
           h(IconButton, {
             isActive: this.props.playbackState === STARTED,
             icon: 'play',
-            onPress: () => this.props.play(),
+            onClick: () => this.props.play(),
           }),
           h(IconButton, {
             isActive: this.props.playbackState === PAUSED,
             icon: 'pause',
-            onPress: () => this.props.pause(),
+            onClick: () => this.props.pause(),
           }),
           h(IconButton, {
             isActive: this.props.playbackState === STOPPED,
             icon: 'stop',
-            onPress: () => this.props.stop(),
+            onClick: () => this.props.stop(),
           }),
         ]),
       ],
       rightItems: [
         h(Button, {
           text: 'clear cache',
-          onPress: this.handleClearCacheClick,
+          onClick: this.handleClearCacheClick,
         }),
         h(Button, {
           text: `BPM ${this.props.BPM}`,
-          onPress: this.props.bpmModalOpened,
+          onClick: this.props.bpmModalOpened,
         }),
         h(DownloadButton, {
           content: this.props.stringifiedSong,
