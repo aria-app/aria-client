@@ -1,62 +1,54 @@
-import { PropTypes } from 'react';
+import React from 'react';
 import h from 'react-hyperscript';
+import StylePropType from 'react-style-proptype';
 import classnames from 'classnames';
-import { compose, mapProps, pure, setPropTypes } from 'recompose';
 import './toolbar.scss';
 
-const component = props =>
-  h('.toolbar', {
-    className: classnames(props.modifierClasses, props.className),
-  }, [
-    h('.toolbar__left', [
-      ...props.leftItems,
-    ]),
-    h('.toolbar__right', [
-      ...props.rightItems,
-    ]),
-  ]);
-
-export const Toolbar = compose(
-  pure,
-  setPropTypes({
-    alternateLeftItems: PropTypes.array,
-    alternateRightItems: PropTypes.array,
-    isAlternate: PropTypes.bool,
-    leftItems: PropTypes.array,
-    position: PropTypes.oneOf([
-      'top',
-      'bottom',
-    ]),
-    rightItems: PropTypes.array,
-  }),
-  mapProps(props => ({
-    ...props,
-    leftItems: getLeftItems(props),
-    rightItems: getRightItems(props),
-    modifierClasses: getModifierClasses(props),
-  })),
-)(component);
-
-function getLeftItems({ alternateLeftItems, isAlternate, leftItems }) {
-  if (isAlternate) {
-    return alternateLeftItems || [];
+export class Toolbar extends React.Component {
+  static propTypes = {
+    alternateLeftItems: React.PropTypes.node,
+    alternateRightItems: React.PropTypes.node,
+    className: React.PropTypes.string,
+    isAlternate: React.PropTypes.bool,
+    leftItems: React.PropTypes.node,
+    position: React.PropTypes.oneOf(['bottom', 'top']),
+    rightItems: React.PropTypes.node,
+    style: StylePropType,
   }
 
-  return leftItems || [];
-}
-
-function getRightItems({ alternateRightItems, isAlternate, rightItems }) {
-  if (isAlternate) {
-    return alternateRightItems || [];
+  static defaultProps = {
+    alternateLeftItems: [],
+    alternateRightItems: [],
+    leftItems: [],
+    rightItems: [],
   }
 
-  return rightItems || [];
-}
+  render() {
+    return h('.toolbar', {
+      className: this.getClassName(),
+    }, [
+      h('.toolbar__left', {}, this.getLeftItems()),
+      h('.toolbar__right', {}, this.getRightItems()),
+    ]);
+  }
 
-function getModifierClasses({ isAlternate, position }) {
-  return classnames({
-    'toolbar--bottom': position === 'bottom',
-    'toolbar--top': position !== 'bottom',
-    'toolbar--alternate': isAlternate,
-  });
+  getClassName() {
+    return classnames({
+      'toolbar--bottom': this.props.position === 'bottom',
+      'toolbar--top': this.props.position !== 'bottom',
+      'toolbar--alternate': this.props.isAlternate,
+    }, this.props.className);
+  }
+
+  getLeftItems() {
+    return this.props.isAlternate
+      ? this.props.alternateLeftItems
+      : this.props.leftItems;
+  }
+
+  getRightItems() {
+    return this.props.isAlternate
+      ? this.props.alternateRightItems
+      : this.props.rightItems;
+  }
 }

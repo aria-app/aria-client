@@ -1,23 +1,26 @@
-import { PropTypes } from 'react';
+import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
-import { compose, pure, setDisplayName, setPropTypes } from 'recompose';
 import './toggle-button.scss';
 
-const component = props => h('.toggle-button', {
-  className: classnames({
-    'toggle-button--active': props.isActive,
-  }, props.className),
-  onClick: props.onPress,
-}, props.text);
+export class ToggleButton extends React.Component {
+  static propTypes = {
+    className: React.PropTypes.string,
+    isActive: React.PropTypes.bool,
+    onPress: React.PropTypes.func,
+    text: React.PropTypes.string,
+  }
 
-export const ToggleButton = compose(
-  setDisplayName('ToggleButton'),
-  pure,
-  setPropTypes({
-    className: PropTypes.string,
-    isActive: PropTypes.bool,
-    onPress: PropTypes.func,
-    text: PropTypes.string,
-  }),
-)(component);
+  render() {
+    return h('.toggle-button', {
+      className: this.getClassName(),
+      onClick: this.props.onPress,
+    }, this.props.text);
+  }
+
+  getClassName() {
+    return classnames({
+      'toggle-button--active': this.props.isActive,
+    }, this.props.className);
+  }
+}

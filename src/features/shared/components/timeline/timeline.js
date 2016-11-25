@@ -1,26 +1,30 @@
-import { PropTypes } from 'react';
+import React from 'react';
 import h from 'react-hyperscript';
-import { compose, mapProps, pure, setPropTypes } from 'recompose';
+import StylePropType from 'react-style-proptype';
 import './timeline.scss';
 
-const component = props =>
-  h('.timeline', {
-    style: {
-      display: props.display,
-      transform: props.transform,
-    },
-  });
+export class Timeline extends React.Component {
+  static propTypes = {
+    className: React.PropTypes.string,
+    isVisible: React.PropTypes.bool,
+    offset: React.PropTypes.number.isRequired,
+    style: StylePropType,
+  }
 
-const composed = compose(
-  pure,
-  setPropTypes({
-    isVisible: PropTypes.bool,
-    offset: PropTypes.number.isRequired,
-  }),
-  mapProps(props => ({
-    display: props.isVisible ? 'block' : 'none',
-    transform: `translateX(${props.offset}px)`,
-  })),
-)(component);
+  render() {
+    return h('.timeline', {
+      style: {
+        display: this.getDisplay(),
+        transform: this.getTransform(),
+      },
+    });
+  }
 
-export const Timeline = composed;
+  getDisplay() {
+    return this.props.isVisible ? 'block' : 'none';
+  }
+
+  getTransform() {
+    return `translateX(${this.props.offset}px)`;
+  }
+}

@@ -1,76 +1,70 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
-import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
 import * as constants from '../../constants';
 import './sequence.scss';
 
-const component = props => h('.sequence', {
-  className: classnames({
-    'sequence--active': props.isSelected,
-  }),
-  style: {
-    transform: props.transform,
-    width: props.width,
-  },
-  onClick: props.onClick,
-  onContextMenu: props.onContextMenu,
-  onDoubleClick: props.onDoubleClick,
-}, [
-  ...props.notes,
-]);
-
-const composed = compose(
-  setDisplayName('Sequence'),
-  pure,
-  setPropTypes({
+export class Sequence extends React.Component {
+  static propTypes = {
     isSelected: React.PropTypes.bool.isRequired,
+    onContextMenu: React.PropTypes.func.isRequired,
     onSelect: React.PropTypes.func.isRequired,
     openSequence: React.PropTypes.func.isRequired,
     sequence: React.PropTypes.object.isRequired,
-  }),
-  mapProps(props => ({
-    ...props,
-    notes: getNotes(props),
-    transform: `translateX(${measureCountToPx(props.sequence.position)}px)`,
-    width: measureCountToPx(props.sequence.measureCount),
-  })),
-  withHandlers({
-    onClick: props => (e) => {
-      props.onSelect(props.sequence.id);
-      e.stopPropagation();
-    },
-    onContextMenu: props => (e) => {
-      const items = [
-        {
-          text: 'Delete',
-          action: constants.contextMenuActions.DELETE_SEQUENCE,
-          id: props.id,
+  }
+
+  render() {
+    return h('.sequence', {
+      className: classnames({
+        'sequence--active': this.props.isSelected,
+      }),
+      style: this.getStyle(),
+      onClick: this.handleClick,
+      onContextMenu: this.handleContextMenu,
+      onDoubleClick: this.handleDoubleClick,
+    }, [
+      ...this.props.sequence.notes.map(note => h('.sequence__note', {
+        style: {
+          transform: `translate(${note.points[0].x * 2}px, ${note.points[0].y}px)`,
+          width: ((note.points[1].x - note.points[0].x) + 1) * 2,
         },
-      ];
+      })),
+    ]);
+  }
 
-      props.onContextMenu(items, { x: e.pageX, y: e.pageY });
-      e.preventDefault();
-      e.stopPropagation();
-    },
-    onDoubleClick: props => (e) => {
-      props.openSequence(props.sequence.id);
-      e.stopPropagation();
-    },
-  }),
-)(component);
+  getStyle() {
+    return {
+      transform: `translateX(${measureCountToPx(this.props.sequence.position)}px)`,
+      width: measureCountToPx(this.props.sequence.measureCount),
+    };
+  }
 
-export const Sequence = composed;
+  handleClick = (e) => {
+    if (!this.props.onSelect) return;
+    this.props.onSelect(this.props.sequence.id);
+    e.stopPropagation();
+  }
 
-function getNotes(props) {
-  return props.sequence.notes.map(note => h('.sequence__note', {
-    style: {
-      transform: `translate(${note.points[0].x * 2}px, ${note.points[0].y}px)`,
-      width: ((note.points[1].x - note.points[0].x) + 1) * 2,
-    },
-  }));
+  handleContextMenu = (e) => {
+    const items = [
+      {
+        text: 'Delete',
+        action: constants.contextMenuActions.DELETE_SEQUENCE,
+        id: this.props.sequence.id,
+      },
+    ];
+
+    this.props.onContextMenu(items, { x: e.pageX, y: e.pageY });
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  handleDoubleClick = (e) => {
+    this.props.openSequence(this.props.sequence.id);
+    e.stopPropagation();
+  }
 }
 
 function measureCountToPx(count) {
-  return count * 4 * 8 * 2;
+  return ((count * 4) * 8) * 2;
 }

@@ -12,17 +12,17 @@ $track-editing-modal__delete-button__background-color: $error-5;
     flex-direction: column;
     flex-grow: 1;
     justify-content: space-between;
-  }
-  &__synth-dropdown {
-    margin-bottom: $track-editing-modal__synth-dropdown__margin;
-    &__label {
-      margin-bottom: $track-editing-modal__synth-dropdown__label__margin;
+    &__synth-dropdown {
+      margin-bottom: $track-editing-modal__synth-dropdown__margin;
+      &__label {
+        margin-bottom: $track-editing-modal__synth-dropdown__label__margin;
+      }
+      &__list {
+        width: $track-editing-modal__synth-dropdown__list__width;
+      }
     }
-    &__list {
-      width: $track-editing-modal__synth-dropdown__list__width;
+    &__delete-button {
+      background-color: $track-editing-modal__delete-button__background-color;
     }
-  }
-  &__delete-button {
-    background-color: $track-editing-modal__delete-button__background-color;
   }
 }
