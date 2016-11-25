@@ -8,9 +8,9 @@ const { showIf } = shared.helpers;
 
 export class UploadOverlay extends React.Component {
   static propTypes = {
-    cancelFileDrag: React.PropTypes.func.isRequired,
-    dropFile: React.PropTypes.func.isRequired,
     isFileOver: React.PropTypes.bool.isRequired,
+    onFileDragCancel: React.PropTypes.func.isRequired,
+    onFileDrop: React.PropTypes.func.isRequired,
   }
 
   render() {
@@ -36,15 +36,15 @@ export class UploadOverlay extends React.Component {
   }
 
   handleDragLeave = () => {
-    this.props.cancelFileDrag();
+    this.props.onFileDragCancel();
   }
 
   handleDrop = (e) => {
     const files = e.dataTransfer.files;
     if (!_.isEmpty(files)) {
-      this.props.dropFile(files[0]);
+      this.props.onFileDrop(files[0]);
     } else {
-      this.props.cancelFileDrag();
+      this.props.onFileDragCancel();
     }
     e.preventDefault();
     e.stopPropagation();

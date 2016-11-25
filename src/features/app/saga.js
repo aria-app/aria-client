@@ -6,8 +6,8 @@ import * as actions from './actions';
 const reader = new FileReader();
 
 function getFileContents(file) {
-  return new Promise(resolve => {
-    reader.onload = e => {
+  return new Promise((resolve) => {
+    reader.onload = (e) => {
       const data = e.target.result;
       reader.onload = undefined;
       resolve(data);

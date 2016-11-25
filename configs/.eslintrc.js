@@ -22,6 +22,7 @@ module.exports = {
       'error',
       {
         devDependencies: [
+          '**/*.stories.js',
           '**/*.test.js',
           '**/webpack-*.config.js',
         ],

@@ -4,7 +4,7 @@ import _ from 'lodash';
 import shared from '../../../shared';
 import './slots.scss';
 
-const scale = shared.helpers.getScale();
+const { scale } = shared.constants;
 
 export class Slots extends React.Component {
   static propTypes = {

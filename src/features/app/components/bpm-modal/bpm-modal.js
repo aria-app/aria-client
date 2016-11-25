@@ -1,21 +1,17 @@
-import _ from 'lodash';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
 import './bpm-modal.scss';
 
 const { DropdownList, Modal } = shared.components;
-const { maxBPM, minBPM } = shared.constants;
-const bpmRange = _.range(minBPM, maxBPM + 1, 10).map(n => ({
-  id: n,
-  text: String(n),
-}));
+const { bpmRange } = shared.constants;
+const bpmRangeItems = getBPMRangeItems();
 
 export class BPMModal extends React.PureComponent {
   static propTypes = {
     BPM: React.PropTypes.number.isRequired,
     isOpen: React.PropTypes.bool.isRequired,
-    onBPMSet: React.PropTypes.func.isRequired,
+    onBPMChange: React.PropTypes.func.isRequired,
     onConfirm: React.PropTypes.func.isRequired,
   }
 
@@ -30,7 +26,7 @@ export class BPMModal extends React.PureComponent {
       h('.bpm-modal__content', [
         h(DropdownList, {
           className: 'bpm-modal__content__dropdown-list',
-          items: bpmRange,
+          items: bpmRangeItems,
           selectedId: this.props.BPM,
           onSelectedIdChange: this.handleContentDropdownListSelect,
         }),
@@ -39,6 +35,13 @@ export class BPMModal extends React.PureComponent {
   }
 
   handleContentDropdownListSelect = (value) => {
-    this.props.onBPMSet(value);
+    this.props.onBPMChange(value);
   }
+}
+
+export function getBPMRangeItems() {
+  return bpmRange.map(n => ({
+    id: n,
+    text: String(n),
+  }));
 }

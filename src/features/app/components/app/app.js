@@ -17,7 +17,7 @@ const { Tracker } = tracking.components;
 export class App extends React.Component {
   static propTypes = {
     isSequenceOpen: React.PropTypes.bool.isRequired,
-    startDraggingFile: React.PropTypes.func.isRequired,
+    onFileDragStart: React.PropTypes.func.isRequired,
   }
 
   render() {
@@ -40,7 +40,7 @@ export class App extends React.Component {
   }
 
   handleDragEnter = (e) => {
-    this.props.startDraggingFile();
+    this.props.onFileDragStart();
     e.preventDefault();
     e.stopPropagation();
   }

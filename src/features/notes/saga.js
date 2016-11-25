@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { takeEvery } from 'redux-saga';
-import { put, select } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import playing from '../playing';
 import sequencingPosition from '../sequencing-position';
 import shortcuts from '../shortcuts';
@@ -89,6 +89,7 @@ function* nudgeSelectedNotesPosition({ change }) {
 
   if (_.isEmpty(selectedNotes)) return;
 
+  yield call(pushUndo);
   yield put(actions.notesMoved(selectedNotes, change));
 }
 
@@ -123,7 +124,7 @@ function* redo() {
 
   if (_.isEmpty(redos)) return;
 
-  const allNotes = yield select(song.selectors.getActiveSequenceNotes);
+  const allNotes = yield select(song.selectors.getNotes);
   const undos = yield select(selectors.getUndos);
 
   yield put(actions.undosSet([

@@ -6,6 +6,6 @@ import * as selectors from '../../selectors';
 export const UploadOverlayContainer = connect(state => ({
   isFileOver: selectors.getIsFileOver(state),
 }), {
-  cancelFileDrag: actions.fileDragCancelled,
-  dropFile: actions.fileDropped,
+  onFileDragCancel: actions.fileDragCancelled,
+  onFileDrop: actions.fileDropped,
 })(UploadOverlay);

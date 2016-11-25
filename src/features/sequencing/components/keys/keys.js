@@ -4,7 +4,7 @@ import h from 'react-hyperscript';
 import shared from '../../../shared';
 import './keys.scss';
 
-const scale = shared.helpers.getScale();
+const { scale } = shared.constants;
 
 export class Keys extends React.Component {
   static propTypes = {
