@@ -44,10 +44,7 @@ export class Grid extends React.Component {
         h(SlotsContainer, {
           scale,
         }),
-        h(NotesContainer, {
-          toolType: this.props.toolType,
-          toolTypes,
-        }),
+        h(NotesContainer),
         h(FenceContainer),
         h(SequencerTimelineContainer),
       ]),

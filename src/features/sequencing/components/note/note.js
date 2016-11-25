@@ -6,6 +6,7 @@ import './note.scss';
 
 export class Note extends React.Component {
   static propTypes = {
+    className: React.PropTypes.string,
     isSelected: React.PropTypes.bool.isRequired,
     note: React.PropTypes.object.isRequired,
     onEndpointMouseDown: React.PropTypes.func,
@@ -46,7 +47,7 @@ export class Note extends React.Component {
   getClassName() {
     return classnames({
       'note--active': this.props.isSelected,
-    });
+    }, this.props.className);
   }
 
   getConnectorTransform() {

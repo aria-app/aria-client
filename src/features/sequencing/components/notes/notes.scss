@@ -9,4 +9,7 @@
   &--grab {
     cursor: grab;
   }
+  &__note--ghost {
+    opacity: 0.4;
+  }
 }

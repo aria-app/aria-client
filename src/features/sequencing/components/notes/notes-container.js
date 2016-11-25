@@ -8,6 +8,7 @@ import resizing from '../../../resizing';
 import selecting from '../../../selecting';
 import sequencingPosition from '../../../sequencing-position';
 import song from '../../../song';
+import * as selectors from '../../selectors';
 
 export const NotesContainer = connect(state => ({
   isMoving: moving.selectors.getIsMoving(state),
@@ -18,6 +19,7 @@ export const NotesContainer = connect(state => ({
   mousePoint: sequencingPosition.selectors.getMousePoint(state),
   notes: song.selectors.getActiveSequenceNotes(state),
   selectedNotes: notes.selectors.getSelectedNotes(state),
+  toolType: selectors.getToolType(state),
 }), {
   draw: notes.actions.noteDrawn,
   erase: notes.actions.noteErased,
