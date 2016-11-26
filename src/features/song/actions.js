@@ -24,6 +24,7 @@ export const SONG_EXTENDED = `${NAME}/SONG_EXTENDED`;
 export const SONG_LOADED = `${NAME}/SONG_LOADED`;
 export const SONG_SHORTENED = `${NAME}/SONG_SHORTENED`;
 export const TRACK_CREATED_AND_ADDED = `${NAME}/TRACK_CREATED_AND_ADDED`;
+export const TRACK_DELETED = `${NAME}/TRACK_DELETED`;
 export const TRACK_IS_MUTED_TOGGLED = `${NAME}/TRACK_IS_MUTED_TOGGLED`;
 export const TRACK_IS_SOLOING_TOGGLED = `${NAME}/TRACK_IS_SOLOING_TOGGLED`;
 export const TRACK_SYNTH_TYPE_SET = `${NAME}/TRACK_SYNTH_TYPE_SET`;
@@ -142,6 +143,11 @@ export const songLoaded = song => ({
 
 export const songShortened = () => ({
   type: SONG_SHORTENED,
+});
+
+export const trackDeleted = id => ({
+  type: TRACK_DELETED,
+  id,
 });
 
 export const trackIsMutedToggled = id => ({

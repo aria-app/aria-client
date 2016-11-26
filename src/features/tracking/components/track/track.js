@@ -10,18 +10,17 @@ const { Icon } = shared.components;
 
 export class Track extends React.Component {
   static propTypes = {
-    addSequence: React.PropTypes.func.isRequired,
-    deselectSequence: React.PropTypes.func.isRequired,
     isMuted: React.PropTypes.bool.isRequired,
     isSoloing: React.PropTypes.bool.isRequired,
+    onSequenceAdd: React.PropTypes.func.isRequired,
     onSequenceContextMenu: React.PropTypes.func.isRequired,
+    onSequenceOpen: React.PropTypes.func.isRequired,
+    onSequenceSelect: React.PropTypes.func.isRequired,
+    onTrackIsMutedToggle: React.PropTypes.func.isRequired,
+    onTrackIsSoloingToggle: React.PropTypes.func.isRequired,
     onTrackSelect: React.PropTypes.func.isRequired,
-    openSequence: React.PropTypes.func.isRequired,
-    selectSequence: React.PropTypes.func.isRequired,
     selectedSequenceId: React.PropTypes.string,
     songMeasureCount: React.PropTypes.number.isRequired,
-    toggleTrackIsMuted: React.PropTypes.func.isRequired,
-    toggleTrackIsSoloing: React.PropTypes.func.isRequired,
     track: React.PropTypes.object.isRequired,
   }
 
@@ -36,15 +35,11 @@ export class Track extends React.Component {
           ]),
           h('.track__body__header__actions', [
             h('.track__body__header__actions__action.track__body__header__actions__action--mute', {
-              className: classnames({
-                'track__body__header__actions__action--active': this.props.isMuted,
-              }),
+              className: this.getBodyHeaderActionsActionMuteClassName(),
               onClick: this.handleBodyHeaderActionsActionMuteClick,
             }, ['M']),
             h('.track__body__header__actions__action.track__body__header__actions__action--solo', {
-              className: classnames({
-                'track__body__header__actions__action--active': this.props.isSoloing,
-              }),
+              className: this.getBodyHeaderActionsActionSoloClassName(),
               onClick: this.handleBodyHeaderActionsActionSoloClick,
             }, ['S']),
           ]),
@@ -53,10 +48,10 @@ export class Track extends React.Component {
           style: this.getBodySequencesStyle(),
         }, [
           ...this.props.track.sequences.map(sequence => h(Sequence, {
-            isSelected: sequence.id === this.props.selectedSequenceId,
-            onSelect: this.handleBodySequencesSequenceClick,
-            openSequence: this.props.openSequence,
+            isSelected: this.getIsSequenceSelected(sequence),
             onContextMenu: this.props.onSequenceContextMenu,
+            onOpen: this.props.onSequenceOpen,
+            onSelect: this.handleBodySequencesSequenceSelect,
             sequence,
           })),
           h('.track__body__sequences__add-button', {
@@ -64,6 +59,7 @@ export class Track extends React.Component {
             style: this.getBodySequencesAddButtonStyle(),
           }, [
             h(Icon, {
+              className: 'track__body__sequences__add-button__icon',
               icon: 'plus',
               size: 'large',
             }),
@@ -79,6 +75,18 @@ export class Track extends React.Component {
       .max() || 0;
   }
 
+  getBodyHeaderActionsActionMuteClassName() {
+    return classnames({
+      'track__body__header__actions__action--active': this.props.isMuted,
+    });
+  }
+
+  getBodyHeaderActionsActionSoloClassName() {
+    return classnames({
+      'track__body__header__actions__action--active': this.props.isSoloing,
+    });
+  }
+
   getBodySequencesStyle() {
     return {
       width: this.props.songMeasureCount * 64,
@@ -91,25 +99,29 @@ export class Track extends React.Component {
     };
   }
 
+  getIsSequenceSelected(sequence) {
+    return sequence.id === this.props.selectedSequenceId;
+  }
+
   handleBodyHeaderClick = () => {
-    this.props.onTrackSelect(this.props.track);
+    this.props.onTrackSelect(this.props.track.id);
   }
 
   handleBodyHeaderActionsActionMuteClick = (e) => {
-    this.props.toggleTrackIsMuted(this.props.track.id);
+    this.props.onTrackIsMutedToggle(this.props.track.id);
     e.stopPropagation();
   }
 
   handleBodyHeaderActionsActionSoloClick = (e) => {
-    this.props.toggleTrackIsSoloing(this.props.track.id);
+    this.props.onTrackIsSoloingToggle(this.props.track.id);
     e.stopPropagation();
   }
 
   handleBodySequencesAddButtonClick = () => {
-    this.props.addSequence(this.props.track.id, this.getAddPosition());
+    this.props.onSequenceAdd(this.props.track.id, this.getAddPosition());
   }
 
-  handleBodySequencesSequenceClick = (id) => {
-    this.props.selectSequence(id);
+  handleBodySequencesSequenceSelect = (sequenceId) => {
+    this.props.onSequenceSelect(sequenceId);
   }
 }

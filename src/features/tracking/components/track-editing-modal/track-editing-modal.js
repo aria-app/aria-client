@@ -9,18 +9,18 @@ const { synthTypes } = shared.constants;
 
 export class TrackEditingModal extends React.Component {
   static propTypes = {
-    delete: React.PropTypes.func.isRequired,
-    dismiss: React.PropTypes.func.isRequired,
-    setSynthType: React.PropTypes.func.isRequired,
+    onDelete: React.PropTypes.func.isRequired,
+    onDismiss: React.PropTypes.func.isRequired,
+    onSynthTypeSet: React.PropTypes.func.isRequired,
     stagedTrack: React.PropTypes.object.isRequired,
   }
 
   render() {
     return h(Modal, {
       className: 'track-editing-modal',
-      confirmText: 'DONE',
-      isOpen: !_.isEmpty(this.props.stagedTrack),
-      onConfirm: this.props.dismiss,
+      confirmText: 'done',
+      isOpen: this.getIsOpen(),
+      onConfirm: this.props.onDismiss,
       titleText: 'Edit Track',
     }, [
       h('.track-editing-modal__content', [
@@ -31,29 +31,39 @@ export class TrackEditingModal extends React.Component {
           h(DropdownList, {
             className: 'track-editing-modal__content__synth-dropdown__list',
             items: getSynthTypeList(),
-            selectedId: this.props.stagedTrack ? this.props.stagedTrack.synthType : '',
-            onSelectedItemChange: this.handleContentSynthDropdownListSelectedItemChange,
+            selectedId: this.getSelectedId(),
+            onSelectedIdChange: this.handleContentSynthDropdownListSelectedIdChange,
           }),
         ]),
         h(Button, {
           className: 'track-editing-modal__content__delete-button',
           onClick: this.handleContentDeleteButtonClick,
-          text: 'Delete',
+          text: 'delete',
         }),
       ]),
     ]);
   }
 
-  handleContentDeleteButtonClick = () => {
-    this.props.delete([this.props.stagedTrack.id]);
+  getIsOpen() {
+    return !_.isEmpty(this.props.stagedTrack);
   }
 
-  handleContentSynthDropdownListSelectedItemChange = (item) => {
-    this.props.setSynthType(this.props.stagedTrack.id, item.id);
+  getSelectedId() {
+    return this.props.stagedTrack
+      ? this.props.stagedTrack.synthType
+      : '';
+  }
+
+  handleContentDeleteButtonClick = () => {
+    this.props.onDelete(this.props.stagedTrack.id);
+  }
+
+  handleContentSynthDropdownListSelectedIdChange = (synthType) => {
+    this.props.onSynthTypeSet(this.props.stagedTrack.id, synthType);
   }
 }
 
-function getSynthTypeList() {
+export function getSynthTypeList() {
   return Object.keys(synthTypes).map(key => ({
     text: synthTypes[key],
     id: synthTypes[key],

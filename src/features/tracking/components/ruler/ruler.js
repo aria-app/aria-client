@@ -6,92 +6,120 @@ import transport from '../../../transport';
 import './ruler.scss';
 
 const { Icon } = shared.components;
+const { hideIf } = shared.helpers;
 const { STARTED } = transport.constants.playbackStates;
+const notesPerMeasure = 32;
+const measurePreviewWidth = notesPerMeasure * 2;
 
 export class Ruler extends React.Component {
   static propTypes = {
-    extendSong: React.PropTypes.func.isRequired,
     measureCount: React.PropTypes.number.isRequired,
-    pause: React.PropTypes.func.isRequired,
-    play: React.PropTypes.func.isRequired,
+    onPause: React.PropTypes.func.isRequired,
+    onPlay: React.PropTypes.func.isRequired,
+    onPositionSet: React.PropTypes.func.isRequired,
+    onSongExtend: React.PropTypes.func.isRequired,
+    onSongShorten: React.PropTypes.func.isRequired,
     playbackState: React.PropTypes.string.isRequired,
-    setPosition: React.PropTypes.func.isRequired,
-    shortenSong: React.PropTypes.func.isRequired,
   }
 
   render() {
     return h('.ruler', [
       h('.ruler__body', [
-        h('.ruler__header'),
-        h('.ruler__measures', {
+        h('.ruler__body__header'),
+        h('.ruler__body__measures', {
           style: this.getMeasuresStyle(),
           onMouseDown: this.holdPosition,
         }, [
-          ..._.times(this.props.measureCount, n => h('.ruler__measure', {
-            key: n,
-            style: {
-              pointerEvents: 'none',
-              transform: `translateX(${n * 64}px)`,
-            },
+          ..._.times(this.props.measureCount, measureIndex => h('.ruler__body__measures__measure', {
+            key: measureIndex,
+            style: getMeasuresMeasureStyle(measureIndex),
           }, [
-            h('.ruler__measure__label', [
-              n !== this.props.measureCount ? n + 1 : '',
-            ]),
-            n !== this.props.measureCount ? _.times(7, m => h('.ruler__measure__eighth', {
-              key: m,
-              style: {
-                transform: `translateX(${(m + 1) * 8}px)`,
-              },
-            })) : null,
+            hideIf(this.getIsLastMeasure(measureIndex))(
+              h('.ruler__body__measures__measure__label', [
+                measureIndex + 1,
+              ]),
+            ),
+            hideIf(this.getIsLastMeasure(measureIndex))(
+              _.times(7, eighthIndex => h('.ruler__body__measures__measure__eighth', {
+                key: eighthIndex,
+                style: getMeasuresMeasureEighthStyle(eighthIndex),
+              })),
+            ),
           ])),
         ]),
       ]),
       h('.ruler__song-length-button', [
-        h('.ruler__song-length-button__side', {
-          onClick: this.props.shortenSong,
+        h('.ruler__song-length-button__side.ruler__song-length-button__side--left', {
+          onClick: this.props.onSongShorten,
         }, [
-          h(Icon, { icon: 'chevron-left', size: 'small' }),
+          h(Icon, {
+            className: 'ruler__song-length-button__side__icon ruler__song-length-button__side--left__icon',
+            icon: 'chevron-left',
+            size: 'small',
+          }),
         ]),
-        h('.ruler__song-length-button__side', {
-          onClick: this.props.extendSong,
+        h('.ruler__song-length-button__side.ruler__song-length-button__side--right', {
+          onClick: this.props.onSongExtend,
         }, [
-          h(Icon, { icon: 'chevron-right', size: 'small' }),
+          h(Icon, {
+            className: 'ruler__song-length-button__side__icon ruler__song-length-button__side--right__icon',
+            icon: 'chevron-right',
+            size: 'small',
+          }),
         ]),
       ]),
     ]);
   }
 
+  getIsLastMeasure(measureIndex) {
+    return measureIndex === this.props.measureCount;
+  }
+
   getMeasuresStyle() {
     return {
-      width: this.props.measureCount * 64,
+      width: this.props.measureCount * measurePreviewWidth,
     };
   }
 
   holdPosition = (e) => {
     e.persist();
     const startingState = this.props.playbackState;
-    this.props.play();
-    this.props.setPosition((e.pageX - e.target.offsetLeft) / 64);
-    this.props.pause();
+    this.props.onPlay();
+    this.props.onPositionSet((e.pageX - e.target.offsetLeft) / measurePreviewWidth);
+    this.props.onPause();
     const moveHandler = (moveE) => {
       const position = moveE.pageX >= e.target.offsetLeft
-        ? (moveE.pageX - e.target.offsetLeft) / 64
+        ? (moveE.pageX - e.target.offsetLeft) / measurePreviewWidth
         : 0;
       const clampedPosition = _.clamp(
         position,
         0,
         this.props.measureCount,
       );
-      this.props.setPosition(clampedPosition);
+      this.props.onPositionSet(clampedPosition);
     };
     const upHandler = () => {
       if (startingState === STARTED) {
-        this.props.play();
+        this.props.onPlay();
       }
+      if (!window) return;
       window.removeEventListener('mousemove', moveHandler);
       window.removeEventListener('mouseup', upHandler);
     };
+    if (!window) return;
     window.addEventListener('mousemove', moveHandler);
     window.addEventListener('mouseup', upHandler);
   }
+}
+
+function getMeasuresMeasureEighthStyle(eighthIndex) {
+  return {
+    transform: `translateX(${(eighthIndex + 1) * (measurePreviewWidth / 8)}px)`,
+  };
+}
+
+function getMeasuresMeasureStyle(measureIndex) {
+  return {
+    transform: `translateX(${measureIndex * measurePreviewWidth}px)`,
+  };
 }
