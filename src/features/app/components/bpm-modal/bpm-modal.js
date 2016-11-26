@@ -9,7 +9,7 @@ const bpmRangeItems = getBPMRangeItems();
 
 export class BPMModal extends React.PureComponent {
   static propTypes = {
-    BPM: React.PropTypes.number.isRequired,
+    bpm: React.PropTypes.number.isRequired,
     isOpen: React.PropTypes.bool.isRequired,
     onBPMChange: React.PropTypes.func.isRequired,
     onConfirm: React.PropTypes.func.isRequired,
@@ -18,7 +18,7 @@ export class BPMModal extends React.PureComponent {
   render() {
     return h(Modal, {
       className: 'bpm-modal',
-      confirmText: 'DONE',
+      confirmText: 'done',
       isOpen: this.props.isOpen,
       onConfirm: this.props.onConfirm,
       titleText: 'Set BPM',
@@ -27,7 +27,7 @@ export class BPMModal extends React.PureComponent {
         h(DropdownList, {
           className: 'bpm-modal__content__dropdown-list',
           items: bpmRangeItems,
-          selectedId: this.props.BPM,
+          selectedId: this.props.bpm,
           onSelectedIdChange: this.handleContentDropdownListSelect,
         }),
       ]),
