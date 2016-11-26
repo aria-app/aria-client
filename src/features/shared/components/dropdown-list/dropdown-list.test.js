@@ -1,213 +1,69 @@
-// import h from 'react-hyperscript';
-// import { mount } from 'enzyme';
-// import { DropdownList } from './dropdown-list';
-//
-// describe('DropdownList Component', () => {
-//   it('should be defined', () => {
-//     const component = mount(h(DropdownList, {
-//       items: [],
-//     }));
-//     expect(component).toBeDefined();
-//   });
-//
-//   describe('button', () => {
-//     it('should be defined when icon is defined', () => {
-//       const component = mount(h(DropdownList, {
-//         icon: 'pencil',
-//         items: [],
-//       }));
-//       const buttonEl = component.find('.dropdown-list__button');
-//       expect(buttonEl.length).toEqual(1);
-//     });
-//
-//     it('should not be defined when icon is not defined', () => {
-//       const component = mount(h(DropdownList, {
-//         items: [],
-//       }));
-//       const buttonEl = component.find('.dropdown-list__button');
-//       expect(buttonEl.length).toEqual(0);
-//     });
-//
-//     it('should set isOpen to true when pressed', () => {
-//       const component = mount(h(DropdownList, {
-//         icon: 'pencil',
-//         items: [],
-//       }));
-//       const buttonEl = component.find('.dropdown-list__button');
-//       buttonEl.simulate('click');
-//       const overlayEl = component.find('.dropdown-list__overlay');
-//       expect(overlayEl.length).toEqual(1);
-//     });
-//   });
-//
-//   describe('input', () => {
-//     it('should be defined when icon is not defined', () => {
-//       const component = mount(h(DropdownList, {
-//         items: [],
-//       }));
-//       const inputEl = component.find('.dropdown-list__input');
-//       expect(inputEl.length).toEqual(1);
-//     });
-//
-//     it('should not be defined when icon is defined', () => {
-//       const component = mount(h(DropdownList, {
-//         icon: 'pencil',
-//         items: [],
-//       }));
-//       const inputEl = component.find('.dropdown-list__input');
-//       expect(inputEl.length).toEqual(0);
-//     });
-//
-//     it('should set isOpen to true when pressed', () => {
-//       const component = mount(h(DropdownList, {
-//         items: [],
-//       }));
-//       const inputEl = component.find('.dropdown-list__input');
-//       inputEl.simulate('click');
-//       const overlayEl = component.find('.dropdown-list__overlay');
-//       expect(overlayEl.length).toEqual(1);
-//     });
-//
-//     it('should contain text when text is defined', () => {
-//       const text = 'Some Text';
-//       const selectedItem = { text: 'Some Item Text' };
-//       const otherItem = { text: 'Other Item Text' };
-//       const component = mount(h(DropdownList, {
-//         text: 'Some Text',
-//         items: [selectedItem, otherItem],
-//         selectedItem,
-//       }));
-//       const expected = text;
-//       const inputEl = component.find('.dropdown-list__input');
-//       expect(inputEl.text().trim()).toEqual(expected);
-//     });
-//
-//     it('should contain selectedItem text when text is not defined', () => {
-//       const selectedItem = { text: 'Some Item Text' };
-//       const otherItem = { text: 'Other Item Text' };
-//       const component = mount(h(DropdownList, {
-//         items: [selectedItem, otherItem],
-//         selectedItem,
-//       }));
-//       const expected = selectedItem.text;
-//       const inputEl = component.find('.dropdown-list__input');
-//       expect(inputEl.text().trim()).toEqual(expected);
-//     });
-//
-//     it('should be empty when selectedItem and text are not defined', () => {
-//       const component = mount(h(DropdownList, {
-//         items: [],
-//       }));
-//       const expected = '';
-//       const inputEl = component.find('.dropdown-list__input');
-//       expect(inputEl.text().trim()).toEqual(expected);
-//     });
-//   });
-//
-//   describe('overlay', () => {
-//     it('should be defined when open', () => {
-//       const component = mount(h(DropdownList, {
-//         items: [],
-//       }));
-//       const inputEl = component.find('.dropdown-list__input');
-//       inputEl.simulate('click');
-//       const overlayEl = component.find('.dropdown-list__overlay');
-//       expect(overlayEl.length).toEqual(1);
-//     });
-//
-//     it('should set isOpen to false when pressed', () => {
-//       const component = mount(h(DropdownList, {
-//         items: [],
-//       }));
-//       const inputEl = component.find('.dropdown-list__input');
-//       inputEl.simulate('click');
-//       const overlayEl = component.find('.dropdown-list__overlay');
-//       overlayEl.simulate('click');
-//       const overlayWhenClosed = component.find('.dropdown-list__overlay');
-//       expect(overlayWhenClosed.length).toEqual(0);
-//     });
-//   });
-//
-//   describe('popup', () => {
-//     it('should be defined when open', () => {
-//       const component = mount(h(DropdownList, {
-//         items: [],
-//       }));
-//       const inputEl = component.find('.dropdown-list__input');
-//       inputEl.simulate('click');
-//       const popupEl = component.find('.dropdown-list__popup');
-//       expect(popupEl.length).toEqual(1);
-//     });
-//
-//     it('should have height equal to (items.length * 48) + 16', () => {
-//       const component = mount(h(DropdownList, {
-//         items: [
-//           { text: '1' },
-//           { text: '2' },
-//           { text: '3' },
-//         ],
-//       }));
-//       const expected = 160;
-//       const inputEl = component.find('.dropdown-list__input');
-//       inputEl.simulate('click');
-//       const popupEl = component.find('.dropdown-list__popup');
-//       const { height } = popupEl.prop('style');
-//       expect(height).toEqual(expected);
-//     });
-//   });
-//
-//   describe('popup item', () => {
-//     it('should have active class when active', () => {
-//       const item = { text: '1' };
-//       const component = mount(h(DropdownList, {
-//         items: [
-//           item,
-//           { text: '2' },
-//           { text: '3' },
-//         ],
-//         selectedItem: item,
-//       }));
-//       const inputEl = component.find('.dropdown-list__input');
-//       inputEl.simulate('click');
-//       const popupItemEl = component.find('.dropdown-list__popup__item').first();
-//       expect(popupItemEl.hasClass('dropdown-list__popup__item--active')).toEqual(true);
-//     });
-//
-//     it('should contain item text', () => {
-//       const item = { text: '1' };
-//       const component = mount(h(DropdownList, {
-//         items: [
-//           item,
-//           { text: '2' },
-//           { text: '3' },
-//         ],
-//       }));
-//       const expected = item.text;
-//       const inputEl = component.find('.dropdown-list__input');
-//       inputEl.simulate('click');
-//       const popupItemEl = component.find('.dropdown-list__popup__item').first();
-//       expect(popupItemEl.text().trim()).toEqual(expected);
-//     });
-//
-//     it('should invokeSelect with item when pressed', () => {
-//       let result;
-//       const item = { text: '1' };
-//       const component = mount(h(DropdownList, {
-//         items: [
-//           item,
-//           { text: '2' },
-//           { text: '3' },
-//         ],
-//         onSelect: (i) => {
-//           result = i;
-//         },
-//       }));
-//       const expected = item;
-//       const inputEl = component.find('.dropdown-list__input');
-//       inputEl.simulate('click');
-//       const popupItemEl = component.find('.dropdown-list__popup__item').first();
-//       popupItemEl.simulate('click');
-//       expect(result).toEqual(expected);
-//     });
-//   });
-// });
+import h from 'react-hyperscript';
+import { shallow } from 'enzyme';
+import { DropdownList } from './dropdown-list';
+
+describe('DropdownList Component', () => {
+  it('should be defined', () => {
+    const component = shallow(h(DropdownList, {
+      items: [],
+    }));
+    expect(component.length).toEqual(1);
+  });
+  it('should be closed by default');
+  describe('child component __button', () => {
+    it('should be defined when icon is defined');
+    it('should not be defined when icon is not defined');
+    it('should have correct click handler');
+    it('should have correct icon value');
+  });
+  describe('element __input', () => {
+    it('should be defined when icon is not defined');
+    it('should not be defined when icon is defined');
+    it('should set "is open" to true when clicked');
+  });
+  describe('element __input__text', () => {
+    it('should be defined when text is defined');
+    it('should not be defined when text is not defined');
+    it('should contain text when text is defined');
+    it('should contain selected item text when text is not defined and selected id is defined');
+    it('should contain selected item text when text is not defined and selected item is defined');
+    it('should contain empty string when text is not defined, selected id is not defined, and selected item is not defined');
+  });
+  describe('child component __input__caret', () => {
+    it('should be defined when text is defined');
+    it('should not be defined when text is not defined');
+    it('should have caret-down icon');
+    it('should have small size');
+  });
+  describe('element __overlay', () => {
+    it('should be defined when open');
+    it('should not be defined when not open');
+    it('should set "is open" to false when clicked');
+  });
+  describe('element __popup', () => {
+    it('should be defined when open');
+    it('should not be defined when not open');
+    it('should have correct ref function');
+    it('should have height equal to length of items * item height + vertical padding');
+  });
+  describe('element __popup__list', () => {
+    it('should be defined when open');
+    it('should not be defined when not open');
+  });
+  describe('element __popup__list__item', () => {
+    it('should be defined once for each item in items when open');
+    it('should not be defined when not open');
+    it('should invoke selected id change event with item when clicked');
+    it('should not throw when selected id change event is not defined when clicked');
+    it('should invoke selected item change event with item when clicked');
+    it('should not throw when selected item change event is not defined when clicked');
+    it('should set "is open" to false when clicked');
+  });
+  describe('method getSelectedItemScrollTop', () => {
+    it('should return 0 when selected item cannot be resolved');
+    it('should return (index of selected item - 2) * item height');
+  });
+  describe('method handleButtonClick', () => {
+    it('should set "is open" to true');
+  });
+});

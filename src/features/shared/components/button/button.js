@@ -13,10 +13,12 @@ export class Button extends React.Component {
 
   render() {
     return h('.button', {
-      onClick: this.handleClick,
       className: this.props.className,
+      onClick: this.handleClick,
       style: this.props.style,
-    }, this.props.text);
+    }, [
+      this.props.text,
+    ]);
   }
 
   handleClick = () => {

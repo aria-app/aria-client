@@ -1,19 +1,13 @@
 import h from 'react-hyperscript';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { Button } from './button';
 
 describe('Button Component', () => {
   it('should be defined', () => {
-    const component = mount(h(Button));
-    expect(component).toBeDefined();
+    const component = shallow(h(Button));
+    expect(component.length).toEqual(1);
   });
-
-  it('should contain text', () => {
-    const text = 'Some Text';
-    const component = mount(h(Button, {
-      text,
-    }));
-    const el = component.find('.button');
-    expect(el.text()).toEqual(text);
-  });
+  it('should invoke click event when clicked');
+  it('should not throw if click event is undefined when clicked');
+  it('should contain text');
 });

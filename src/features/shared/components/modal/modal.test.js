@@ -1,37 +1,43 @@
 import h from 'react-hyperscript';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { Modal } from './modal';
 
 describe('Modal Component', () => {
   it('should be defined', () => {
-    const component = mount(h(Modal));
-    expect(component).toBeDefined();
+    const component = shallow(h(Modal));
+    expect(component.length).toEqual(1);
   });
-
-  describe('header text', () => {
-    it('should contain title text', () => {
-      const titleText = 'Some Title';
-      const component = mount(h(Modal, {
-        titleText,
-      }));
-      const headerTextElement = component.find('.modal__header__text');
-      expect(headerTextElement.text().trim()).toEqual(titleText);
-    });
+  it('should have display flex when open');
+  it('should have display none when not open');
+  describe('element __overlay', () => {
+    it('should be defined');
   });
-
-  describe('action cancel', () => {
-    it('should be defined when onCancel is defined', () => {
-      const component = mount(h(Modal, {
-        onCancel: () => {},
-      }));
-      const actionCancelElement = component.find('.modal__action--cancel');
-      expect(actionCancelElement.length).toEqual(1);
-    });
-
-    it('should not be defined when onCancel is not defined', () => {
-      const component = mount(h(Modal));
-      const actionCancelElement = component.find('.modal__action--cancel');
-      expect(actionCancelElement.length).toEqual(0);
-    });
+  describe('element __overlay__window', () => {
+    it('should be defined');
+  });
+  describe('element __overlay__window__header', () => {
+    it('should be defined');
+  });
+  describe('element __overlay__window__header__text', () => {
+    it('should be defined');
+    it('should contain title text');
+  });
+  describe('element __overlay__window__content', () => {
+    it('should be defined');
+    it('should contain children');
+  });
+  describe('child component __overlay__window__actions', () => {
+    it('should be defined');
+  });
+  describe('child component __overlay__window__actions__action--cancel', () => {
+    it('should be defined when cancel event is defined');
+    it('should not be defined when cancel event is not defined');
+    it('should have text equal to cancel text');
+    it('should have correct click handler');
+  });
+  describe('child component __overlay__window__actions__action--confirm', () => {
+    it('should be defined');
+    it('should have text equal to confirm text');
+    it('should have correct click handler');
   });
 });

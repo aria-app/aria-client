@@ -10,4 +10,5 @@ describe('Slots Component', () => {
     }));
     expect(component).toBeDefined();
   });
+  it('should be rewritten and then tested');
 });

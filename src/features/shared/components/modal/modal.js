@@ -1,6 +1,7 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import StylePropType from 'react-style-proptype';
+import { showIf } from '../../helpers';
 import { Button } from '../button/button';
 import { Toolbar } from '../toolbar/toolbar';
 import './modal.scss';
@@ -30,20 +31,22 @@ export class Modal extends React.Component {
     }, [
       h('.modal__overlay', [
         h('.modal__overlay__window', [
-          h('.modal__overlay__window__header', null, [
+          h('.modal__overlay__window__header', [
             h('.modal__overlay__window__header__text', [
               this.props.titleText,
             ]),
           ]),
-          h('.modal__overlay__window__content', null, this.props.children),
+          h('.modal__overlay__window__content', {}, this.props.children),
           h(Toolbar, {
             className: 'modal__overlay__window__actions',
             rightItems: [
-              this.props.onCancel ? h(Button, {
-                className: 'modal__overlay__window__actions__action modal__overlay__window__actions__action--cancel',
-                text: this.props.cancelText,
-                onClick: this.props.onCancel,
-              }) : null,
+              showIf(!!this.props.onCancel)(
+                h(Button, {
+                  className: 'modal__overlay__window__actions__action modal__overlay__window__actions__action--cancel',
+                  text: this.props.cancelText,
+                  onClick: this.props.onCancel,
+                }),
+              ),
               h(Button, {
                 className: 'modal__overlay__window__actions__action modal__overlay__window__actions__action--confirm',
                 text: this.props.confirmText,

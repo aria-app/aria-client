@@ -7,14 +7,14 @@ export class ToggleButton extends React.Component {
   static propTypes = {
     className: React.PropTypes.string,
     isActive: React.PropTypes.bool,
-    onPress: React.PropTypes.func,
+    onClick: React.PropTypes.func,
     text: React.PropTypes.string,
   }
 
   render() {
     return h('.toggle-button', {
       className: this.getClassName(),
-      onClick: this.props.onPress,
+      onClick: this.props.onClick,
     }, this.props.text);
   }
 

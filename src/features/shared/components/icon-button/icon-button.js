@@ -8,7 +8,7 @@ import './icon-button.scss';
 export class IconButton extends React.Component {
   static propTypes = {
     className: React.PropTypes.string,
-    icon: React.PropTypes.string,
+    icon: React.PropTypes.string.isRequired,
     isActive: React.PropTypes.bool,
     onClick: React.PropTypes.func,
     style: StylePropType,
@@ -17,9 +17,7 @@ export class IconButton extends React.Component {
 
   render() {
     return h('.icon-button', {
-      className: classnames({
-        'icon-button--active': this.props.isActive,
-      }, this.props.className),
+      className: this.getClassName(),
       onClick: this.props.onClick,
       title: this.props.toolTip,
     }, [
@@ -29,5 +27,11 @@ export class IconButton extends React.Component {
         icon: this.props.icon,
       }),
     ]);
+  }
+
+  getClassName() {
+    return classnames({
+      'icon-button--active': this.props.isActive,
+    }, this.props.className);
   }
 }
