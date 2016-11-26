@@ -11,27 +11,27 @@ const { showIf } = shared.helpers;
 
 export class Notes extends React.Component {
   static propTypes = {
-    draw: React.PropTypes.func.isRequired,
-    erase: React.PropTypes.func.isRequired,
     isMoving: React.PropTypes.bool.isRequired,
     isPanning: React.PropTypes.bool.isRequired,
     isResizing: React.PropTypes.bool.isRequired,
     isSelecting: React.PropTypes.bool.isRequired,
     measureCount: React.PropTypes.number.isRequired,
-    mousePoint: React.PropTypes.object,
+    mousePoint: React.PropTypes.object.isRequired,
     notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    previewNote: React.PropTypes.func.isRequired,
-    selectNote: React.PropTypes.func.isRequired,
+    onDraw: React.PropTypes.func.isRequired,
+    onErase: React.PropTypes.func.isRequired,
+    onMoveStart: React.PropTypes.func.isRequired,
+    onMoveUpdate: React.PropTypes.func.isRequired,
+    onNotePreview: React.PropTypes.func.isRequired,
+    onNoteSelect: React.PropTypes.func.isRequired,
+    onResizeStart: React.PropTypes.func.isRequired,
+    onResizeUpdate: React.PropTypes.func.isRequired,
+    onSelectStart: React.PropTypes.func.isRequired,
+    onSelectUpdate: React.PropTypes.func.isRequired,
     selectedNotes: React.PropTypes.arrayOf(
       React.PropTypes.object,
     ).isRequired,
-    startMoving: React.PropTypes.func.isRequired,
-    startResizing: React.PropTypes.func.isRequired,
-    startSelecting: React.PropTypes.func.isRequired,
     toolType: React.PropTypes.string.isRequired,
-    updateMoving: React.PropTypes.func.isRequired,
-    updateResizing: React.PropTypes.func.isRequired,
-    updateSelecting: React.PropTypes.func.isRequired,
   }
 
   render() {
@@ -46,23 +46,13 @@ export class Notes extends React.Component {
         h(Note, {
           className: 'notes__note--ghost',
           isSelected: false,
-          note: {
-            points: [
-              {
-                x: this.props.mousePoint ? this.props.mousePoint.x : 0,
-                y: this.props.mousePoint ? this.props.mousePoint.y : 0,
-              },
-              {
-                x: this.props.mousePoint ? this.props.mousePoint.x + 1 : 0,
-                y: this.props.mousePoint ? this.props.mousePoint.y : 0,
-              },
-            ],
-          },
+          note: this.getGhostNoteNote(),
         }),
       ),
       ...this.props.notes.map(note => h(Note, {
+        className: 'notes__note',
         key: note.id,
-        isSelected: !!_.find(this.props.selectedNotes, { id: note.id }),
+        isSelected: this.getIsNoteSelected(note),
         onEndpointMouseDown: this.handleNoteEndpointMouseDown,
         onMouseDown: this.handleNoteMouseDown,
         onMouseUp: this.handleNoteMouseUp,
@@ -77,8 +67,30 @@ export class Notes extends React.Component {
     });
   }
 
+  getGhostNoteNote() {
+    const point = this.props.mousePoint;
+    return {
+      points: [
+        {
+          x: point ? point.x : 0,
+          y: point ? point.y : 0,
+        },
+        {
+          x: point ? point.x + 1 : 0,
+          y: point ? point.y : 0,
+        },
+      ],
+    };
+  }
+
   getIsDrawing() {
     return this.props.toolType === toolTypes.DRAW;
+  }
+
+  getIsNoteSelected(note) {
+    return !!_.find(this.props.selectedNotes, {
+      id: note.id,
+    });
   }
 
   getStyle() {
@@ -93,10 +105,10 @@ export class Notes extends React.Component {
     const { MOVE, SELECT } = toolTypes;
 
     if (this.props.toolType === MOVE) {
-      this.props.startMoving();
+      this.props.onMoveStart();
     } else if (this.props.toolType === SELECT) {
       const isAdditive = e.ctrlKey || e.metaKey;
-      this.props.startSelecting(isAdditive);
+      this.props.onSelectStart(isAdditive);
     }
 
     return false;
@@ -104,12 +116,12 @@ export class Notes extends React.Component {
 
   handleMouseMove = (e) => {
     if (this.props.isMoving) {
-      this.props.updateMoving();
+      this.props.onMoveUpdate();
     } else if (this.props.isResizing) {
-      this.props.updateResizing();
+      this.props.onResizeUpdate();
     } else if (this.props.isSelecting) {
       const isAdditive = e.ctrlKey || e.metaKey;
-      this.props.updateSelecting(isAdditive);
+      this.props.onSelectUpdate(isAdditive);
     }
   }
 
@@ -122,7 +134,7 @@ export class Notes extends React.Component {
     ) return;
 
     if (this.props.toolType === toolTypes.DRAW) {
-      this.props.draw();
+      this.props.onDraw();
     }
   }
 
@@ -135,9 +147,9 @@ export class Notes extends React.Component {
     ) return true;
 
     const isAdditive = e.ctrlKey || e.metaKey;
-    this.props.previewNote(_.first(note.points));
-    this.props.selectNote(note, isAdditive);
-    this.props.startMoving();
+    this.props.onNotePreview(_.first(note.points));
+    this.props.onNoteSelect(note, isAdditive);
+    this.props.onMoveStart();
     e.stopPropagation();
     return false;
   }
@@ -146,7 +158,7 @@ export class Notes extends React.Component {
     const { ERASE } = toolTypes;
 
     if (this.props.toolType === ERASE) {
-      this.props.erase(note);
+      this.props.onErase(note);
     }
   }
 
@@ -154,200 +166,14 @@ export class Notes extends React.Component {
     const { DRAW, MOVE, SELECT } = toolTypes;
 
     if (this.props.toolType === MOVE) {
-      this.props.startMoving();
+      this.props.onMoveStart();
     } else if (this.props.toolType === DRAW || this.props.toolType === SELECT) {
       const isAdditive = e.ctrlKey || e.metaKey;
-      this.props.previewNote(_.last(note.points));
-      this.props.selectNote(note, isAdditive);
-      this.props.startResizing();
+      this.props.onNotePreview(_.last(note.points));
+      this.props.onNoteSelect(note, isAdditive);
+      this.props.onResizeStart();
     }
 
     e.stopPropagation();
   }
 }
-
-// import React from 'react';
-// import h from 'react-hyperscript';
-// import _ from 'lodash';
-// import classnames from 'classnames';
-// import { compose, mapProps, pure, setDisplayName, setPropTypes, withHandlers } from 'recompose';
-// import { Note } from '../note/note';
-// import './notes.scss';
-//
-// const component = props => h('.notes', {
-//   className: props.cursorClasses,
-//   onMouseDown: props.onMouseDown,
-//   onMouseMove: props.onMouseMove,
-//   onMouseUp: props.onMouseUp,
-//   style: props.style,
-// }, [
-//   props.ghostNote,
-//   ...props.noteComponents,
-// ]);
-//
-// const composed = compose(
-//   setDisplayName('Notes'),
-//   pure,
-//   setPropTypes({
-//     draw: React.PropTypes.func.isRequired,
-//     erase: React.PropTypes.func.isRequired,
-//     isMoving: React.PropTypes.bool.isRequired,
-//     isPanning: React.PropTypes.bool.isRequired,
-//     measureCount: React.PropTypes.number.isRequired,
-//     mousePoint: React.PropTypes.object,
-//     notes: React.PropTypes.array.isRequired,
-//     previewNote: React.PropTypes.func.isRequired,
-//     selectedNotes: React.PropTypes.array.isRequired,
-//     selectNote: React.PropTypes.func.isRequired,
-//     startMoving: React.PropTypes.func.isRequired,
-//     startResizing: React.PropTypes.func.isRequired,
-//     startSelecting: React.PropTypes.func.isRequired,
-//     toolType: React.PropTypes.string.isRequired,
-//     toolTypes: React.PropTypes.object.isRequired,
-//     updateMoving: React.PropTypes.func.isRequired,
-//     updateResizing: React.PropTypes.func.isRequired,
-//     updateSelecting: React.PropTypes.func.isRequired,
-//   }),
-//   mapProps(props => ({
-//     ...props,
-//   })),
-//   withHandlers({
-//     onMouseDown,
-//     onMouseMove,
-//     onMouseUp,
-//     onNoteEndpointMouseDown,
-//     onNoteMouseDown,
-//     onNoteMouseUp,
-//   }),
-//   mapProps(props => ({
-//     ...props,
-//     cursorClasses: classnames({
-//       'notes--grab': props.toolType === props.toolTypes.PAN,
-//     }),
-//     ghostNote: props.toolType === props.toolTypes.DRAW
-//       ? h(Note, {
-//         className: 'ghost',
-//         isSelected: false,
-//         note: {
-//           points: [
-//             {
-//               x: props.mousePoint ? props.mousePoint.x : 0,
-//               y: props.mousePoint ? props.mousePoint.y : 0,
-//             },
-//             {
-//               x: props.mousePoint ? props.mousePoint.x + 1 : 0,
-//               y: props.mousePoint ? props.mousePoint.y : 0,
-//             },
-//           ],
-//         },
-//       })
-//       : null,
-//     noteComponents: props.notes.map((note, index) =>
-//       h(Note, {
-//         key: index,
-//         isSelected: !!_.find(props.selectedNotes, { id: note.id }),
-//         onEndpointMouseDown: props.onNoteEndpointMouseDown,
-//         onEndpointMouseUp: props.onNoteEndpointMouseUp,
-//         onMouseDown: props.onNoteMouseDown,
-//         onMouseUp: props.onNoteMouseUp,
-//         note,
-//       }),
-//     ),
-//     style: {
-//       width: props.measureCount !== undefined
-//         ? props.measureCount * 4 * 8 * 40
-//         : 0,
-//     },
-//   })),
-// )(component);
-//
-// export const Notes = composed;
-//
-// function onMouseDown(props) {
-//   return (e) => {
-//     const { MOVE, SELECT } = props.toolTypes;
-//
-//     if (props.toolType === MOVE) {
-//       props.startMoving();
-//     } else if (props.toolType === SELECT) {
-//       const isAdditive = e.ctrlKey || e.metaKey;
-//       props.startSelecting(isAdditive);
-//     }
-//
-//     return false;
-//   };
-// }
-//
-// function onMouseMove(props) {
-//   return (e) => {
-//     const { isMoving, isResizing, isSelecting } = props;
-//
-//     if (isMoving) {
-//       props.updateMoving();
-//     } else if (isResizing) {
-//       props.updateResizing();
-//     } else if (isSelecting) {
-//       const isAdditive = e.ctrlKey || e.metaKey;
-//       props.updateSelecting(isAdditive);
-//     }
-//   };
-// }
-//
-// function onMouseUp(props) {
-//   return () => {
-//     const { isMoving, isPanning, isResizing, isSelecting } = props;
-//
-//     if (isMoving || isPanning || isResizing || isSelecting) return;
-//
-//     if (props.toolType === props.toolTypes.DRAW) {
-//       props.draw();
-//     }
-//   };
-// }
-//
-// function onNoteMouseDown(props) {
-//   return (note, e) => {
-//     const { toolType, toolTypes } = props;
-//     const { DRAW, SELECT } = toolTypes;
-//
-//     if (toolType === DRAW || toolType === SELECT) {
-//       const isAdditive = e.ctrlKey || e.metaKey;
-//       props.previewNote(_.first(note.points));
-//       props.selectNote(note, isAdditive);
-//       props.startMoving();
-//       e.stopPropagation();
-//       return false;
-//     }
-//
-//     return true;
-//   };
-// }
-//
-// function onNoteMouseUp(props) {
-//   return (note) => {
-//     const { toolType, toolTypes } = props;
-//     const { ERASE } = toolTypes;
-//
-//     if (toolType === ERASE) {
-//       props.erase(note);
-//     }
-//   };
-// }
-//
-// function onNoteEndpointMouseDown(props) {
-//   return (note, e) => {
-//     const { toolType, toolTypes } = props;
-//     const { DRAW, MOVE, SELECT } = toolTypes;
-//
-//     if (toolType === MOVE) {
-//       props.startMoving();
-//     } else if (toolType === DRAW || toolType === SELECT) {
-//       const isAdditive = e.ctrlKey || e.metaKey;
-//       props.previewNote(_.last(note.points));
-//       props.selectNote(note, isAdditive);
-//       props.startResizing();
-//     }
-//
-//     e.stopPropagation();
-//   };
-// }

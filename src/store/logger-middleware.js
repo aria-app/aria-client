@@ -18,6 +18,8 @@ const typesToSkip = [
   sequencingPosition.actions.SCROLLED_HORIZONTALLY,
   sequencingPosition.actions.SCROLLED_VERTICALLY,
   shared.actions.INITIALIZED,
+  shared.actions.WINDOW_HEIGHT_CHANGED,
+  shared.actions.WINDOW_WIDTH_CHANGED,
   shortcuts.actions.PAN_HELD,
   shortcuts.actions.PAN_RELEASED,
   transport.actions.PLAYBACK_STARTED,

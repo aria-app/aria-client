@@ -3,7 +3,7 @@ import { Fence } from '../fence/fence';
 import * as selectors from '../../selectors';
 
 export const FenceContainer = connect(state => ({
+  endPoint: selectors.getNewPoint(state),
   isSelecting: selectors.getIsSelecting(state),
-  newPoint: selectors.getNewPoint(state),
   startPoint: selectors.getStartPoint(state),
 }))(Fence);

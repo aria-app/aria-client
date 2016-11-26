@@ -1,6 +1,5 @@
 import React from 'react';
 import h from 'react-hyperscript';
-import StylePropType from 'react-style-proptype';
 import shared from '../../../shared';
 import { GridContainer } from '../grid/grid-container';
 import { KeysContainer } from '../keys/keys-container';
@@ -11,52 +10,54 @@ const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
 
 export class Sequencer extends React.Component {
   static propTypes = {
-    closeSequence: React.PropTypes.func.isRequired,
-    deleteSelectedNotes: React.PropTypes.func.isRequired,
-    duplicate: React.PropTypes.func.isRequired,
     isSelectingActive: React.PropTypes.bool,
-    resizeSelected: React.PropTypes.func.isRequired,
-    scrolledVertically: React.PropTypes.func.isRequired,
-    selectTool: React.PropTypes.func.isRequired,
-    shiftDownOctave: React.PropTypes.func.isRequired,
-    shiftUpOctave: React.PropTypes.func.isRequired,
-    style: StylePropType,
+    onDuplicate: React.PropTypes.func.isRequired,
+    onResizeSelected: React.PropTypes.func.isRequired,
+    onSelectedNotesDelete: React.PropTypes.func.isRequired,
+    onSequenceClose: React.PropTypes.func.isRequired,
+    onShiftOctaveDown: React.PropTypes.func.isRequired,
+    onShiftOctaveUp: React.PropTypes.func.isRequired,
+    onToolSelect: React.PropTypes.func.isRequired,
+    onVerticalScroll: React.PropTypes.func.isRequired,
     toolType: React.PropTypes.string.isRequired,
   }
 
   componentDidMount() {
+    if (!this.contentRef) return;
     this.contentRef.scrollTop = getCenteredScroll(
       this.contentRef,
     );
   }
 
   render() {
-    return h('.sequencer', {
-      style: this.props.style,
-    }, [
+    return h('.sequencer', [
       h(Toolbar, {
         className: '.sequencer__toolbar',
         isAlternate: this.props.isSelectingActive,
         alternateLeftItems: [
           h(IconButton, {
+            className: '.sequencer__toolbar__delete-button',
             icon: 'trash',
             toolTip: 'Delete',
-            onClick: () => this.props.deleteSelectedNotes(),
+            onClick: this.props.onSelectedNotesDelete,
           }),
           h(IconButton, {
+            className: '.sequencer__toolbar__duplicate-button',
             icon: 'clone',
             toolTip: 'Duplicate',
-            onClick: () => this.props.duplicate(),
+            onClick: this.props.onDuplicate,
           }),
           h(IconButton, {
+            className: '.sequencer__toolbar__up-octave-button',
             icon: 'arrow-up',
             toolTip: 'Up Octave',
-            onClick: () => this.props.shiftUpOctave(),
+            onClick: this.props.onShiftOctaveUp,
           }),
           h(IconButton, {
+            className: '.sequencer__toolbar__down-octave-button',
             icon: 'arrow-down',
             toolTip: 'Down Octave',
-            onClick: () => this.props.shiftDownOctave(),
+            onClick: this.props.onShiftOctaveDown,
           }),
         ],
         alternateRightItems: [
@@ -71,39 +72,45 @@ export class Sequencer extends React.Component {
               { text: '1/2', id: 16 },
               { text: '1', id: 32 },
             ],
-            onSelectedItemChange: this.handleResizeDropdownSelectedItemChange,
+            onSelectedIdChange: this.handleToolbarResizeDropdownSelectedIdChange,
           }),
           h(IconButton, {
+            className: '.sequencer__toolbar__close-button',
             icon: 'close',
-            onClick: this.close,
+            onClick: this.handleToolbarCloseButtonClick,
           }),
         ],
         leftItems: [
           h(IconButton, {
+            className: '.sequencer__toolbar__select-tool-button',
             isActive: this.props.toolType === SELECT,
             icon: 'mouse-pointer',
-            onClick: () => this.props.selectTool(SELECT),
+            onClick: this.handleToolbarSelectToolButtonClick,
           }),
           h(IconButton, {
+            className: '.sequencer__toolbar__draw-tool-button',
             isActive: this.props.toolType === DRAW,
             icon: 'pencil',
-            onClick: () => this.props.selectTool(DRAW),
+            onClick: this.handleToolbarDrawToolButtonClick,
           }),
           h(IconButton, {
+            className: '.sequencer__toolbar__erase-tool-button',
             isActive: this.props.toolType === ERASE,
             icon: 'eraser',
-            onClick: () => this.props.selectTool(ERASE),
+            onClick: this.handleToolbarEraseToolButtonClick,
           }),
           h(IconButton, {
+            className: '.sequencer__toolbar__pan-tool-button',
             isActive: this.props.toolType === PAN,
             icon: 'hand-paper-o',
-            onClick: () => this.props.selectTool(PAN),
+            onClick: this.handleToolbarPanToolButtonClick,
           }),
         ],
         rightItems: [
           h(IconButton, {
+            className: '.sequencer__toolbar__close-button',
             icon: 'close',
-            onClick: this.close,
+            onClick: this.handleToolbarCloseButtonClick,
           }),
         ],
       }),
@@ -121,16 +128,32 @@ export class Sequencer extends React.Component {
     ]);
   }
 
-  close = () => {
-    this.props.closeSequence();
+  handleToolbarCloseButtonClick = () => {
+    this.props.onSequenceClose();
   }
 
-  handleResizeDropdownSelectedItemChange = (item) => {
-    this.props.resizeSelected(item);
+  handleToolbarDrawToolButtonClick = () => {
+    this.props.onToolSelect(DRAW);
+  }
+
+  handleToolbarEraseToolButtonClick = () => {
+    this.props.onToolSelect(ERASE);
+  }
+
+  handleToolbarPanToolButtonClick = () => {
+    this.props.onToolSelect(PAN);
+  }
+
+  handleToolbarResizeDropdownSelectedIdChange = (length) => {
+    this.props.onResizeSelected(length);
+  }
+
+  handleToolbarSelectToolButtonClick = () => {
+    this.props.onToolSelect(SELECT);
   }
 
   onContentScroll = (e) => {
-    this.props.scrolledVertically(Math.floor(e.target.scrollTop / 40));
+    this.props.onVerticalScroll(Math.floor(e.target.scrollTop / 40));
   }
 
   setContentRef = (ref) => {

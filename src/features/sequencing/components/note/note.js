@@ -17,29 +17,22 @@ export class Note extends React.Component {
   render() {
     return h('.note', {
       className: this.getClassName(),
-      style: {
-        transform: this.getTransform(),
-      },
+      style: this.getStyle(),
     }, [
-      h('.note__point', {
-        onMouseDown: this.handleMouseDown,
-        onMouseUp: this.handleMouseUp,
+      h('.note__point.note__point--start', {
+        onMouseDown: this.handleStartPointMouseDown,
+        onMouseUp: this.handleStartPointMouseUp,
       }, [
-        h('.note__point__fill'),
+        h('.note__point__fill.note__point__fill--start'),
       ]),
       h('.note__point-connector', {
-        style: {
-          transform: this.getConnectorTransform(),
-        },
+        style: this.getConnectorStyle(),
       }),
-      h('.note__point', {
-        style: {
-          display: this.getEndPointDisplay(),
-          transform: this.getEndPointTransform(),
-        },
-        onMouseDown: this.handleEndpointMouseDown,
+      h('.note__point.note__point--end', {
+        onMouseDown: this.handleEndPointMouseDown,
+        style: this.getEndPointStyle(),
       }, [
-        h('.note__point__fill'),
+        h('.note__point__fill.note__point__fill--end'),
       ]),
     ]);
   }
@@ -50,54 +43,58 @@ export class Note extends React.Component {
     }, this.props.className);
   }
 
-  getConnectorTransform() {
+  getConnectorStyle() {
     const startPoint = _.first(this.props.note.points);
     const endPoint = _.last(this.props.note.points);
     const { asin, abs, PI, sign, sqrt } = Math;
     const x = ((endPoint.x - startPoint.x) * 40);
     const y = (endPoint.y - startPoint.y) * 40;
-    const length = x !== 0
+    const scale = x !== 0
       ? sqrt(abs((x ** 2) + (y ** 2)))
       : 0;
     const rotation = x !== 0
-      ? asin(abs(y / length)) * (180 / PI) * sign(y)
+      ? asin(abs(y / scale)) * (180 / PI) * sign(y)
       : 0;
-    return `rotate(${rotation}deg) scaleX(${x ? length : 0})`;
+    return {
+      transform: `rotate(${rotation}deg) scaleX(${scale})`,
+    };
   }
 
-  getEndPointDisplay() {
-    return is32ndNote(this.props.note) === 0 ? 'none' : 'flex';
-  }
-
-  getEndPointTransform() {
+  getEndPointStyle() {
     const startPoint = _.first(this.props.note.points);
     const endPoint = _.last(this.props.note.points);
     const x = (endPoint.x - startPoint.x) * 40;
     const y = (endPoint.y - startPoint.y) * 40;
-    return `translate(${x}px, ${y}px)`;
+    return {
+      display: is32ndNote(this.props.note) ? 'none' : 'flex',
+      transform: `translate(${x}px, ${y}px)`,
+    };
   }
 
-  getTransform() {
+  getStyle() {
     const { x, y } = _.first(this.props.note.points);
-    return `translate(${x * 40}px, ${y * 40}px)`;
+    return {
+      transform: `translate(${x * 40}px, ${y * 40}px)`,
+    };
   }
 
-  handleEndpointMouseDown = (e) => {
+  handleEndPointMouseDown = (e) => {
     if (!this.props.onEndpointMouseDown) return;
     this.props.onEndpointMouseDown(this.props.note, e);
   }
 
-  handleMouseDown = (e) => {
+  handleStartPointMouseDown = (e) => {
     if (!this.props.onMouseDown) return;
     this.props.onMouseDown(this.props.note, e);
   }
 
-  handleMouseUp = (e) => {
+  handleStartPointMouseUp = (e) => {
     if (!this.props.onMouseUp) return;
     this.props.onMouseUp(this.props.note, e);
   }
 }
 
 function is32ndNote(note) {
-  return _.last(note.points).x - _.first(note.points).x;
+  const length = _.last(note.points).x - _.first(note.points).x;
+  return length === 0;
 }

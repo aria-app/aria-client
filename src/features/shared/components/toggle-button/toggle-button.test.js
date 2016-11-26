@@ -36,7 +36,7 @@ describe('ToggleButton Component', () => {
     expect(el.text().trim()).toEqual(expected);
   });
 
-  it('should invoke onPress when pressed', () => {
+  it('should invokePress when pressed', () => {
     let invoked = false;
     const component = mount(h(ToggleButton, {
       onPress: () => {

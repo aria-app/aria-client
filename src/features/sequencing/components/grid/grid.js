@@ -18,12 +18,12 @@ export class Grid extends React.Component {
   static propTypes = {
     isPanning: React.PropTypes.bool,
     measureCount: React.PropTypes.number,
-    mouseMoved: React.PropTypes.func.isRequired,
-    scrolledHorizontally: React.PropTypes.func.isRequired,
+    onHorizontalScroll: React.PropTypes.func.isRequired,
+    onMouseMove: React.PropTypes.func.isRequired,
+    onPanningStart: React.PropTypes.func.isRequired,
+    onPanningUpdate: React.PropTypes.func.isRequired,
     sequencerContentRef: React.PropTypes.object,
-    startPanning: React.PropTypes.func.isRequired,
     toolType: React.PropTypes.string,
-    updatePanning: React.PropTypes.func.isRequired,
   }
 
   render() {
@@ -34,11 +34,7 @@ export class Grid extends React.Component {
       ref: this.setRef,
     }, [
       h('.grid__wrapper', {
-        style: {
-          width: this.props.measureCount !== undefined
-            ? this.props.measureCount * 4 * 8 * 40
-            : 0,
-        },
+        style: this.getWrapperStyle(),
       }, [
         h(SlotsContainer),
         h(NotesContainer),
@@ -54,6 +50,14 @@ export class Grid extends React.Component {
     e,
   )
 
+  getWrapperStyle() {
+    return {
+      width: this.props.measureCount !== undefined
+        ? this.props.measureCount * 4 * 8 * 40
+        : 0,
+    };
+  }
+
   handleMouseDown = (e) => {
     const { PAN } = toolTypes;
 
@@ -63,7 +67,7 @@ export class Grid extends React.Component {
   }
 
   handleMouseMove = (e) => {
-    this.props.mouseMoved(this.getMousePoint(e));
+    this.props.onMouseMove(this.getMousePoint(e));
 
     if (this.props.isPanning) {
       this.updatePanningWithElements(e);
@@ -71,20 +75,20 @@ export class Grid extends React.Component {
   }
 
   handleScroll = (e) => {
-    this.props.scrolledHorizontally(Math.floor(e.target.scrollLeft / 40));
+    this.props.onHorizontalScroll(Math.floor(e.target.scrollLeft / 40));
   }
 
   setRef = (ref) => {
     this.elementRef = ref;
   }
 
-  startPanningWithElements = e => this.props.startPanning(
+  startPanningWithElements = e => this.props.onPanningStart(
     this.elementRef,
     this.props.sequencerContentRef,
     e,
   )
 
-  updatePanningWithElements = e => this.props.updatePanning(
+  updatePanningWithElements = e => this.props.onPanningUpdate(
     this.elementRef,
     this.props.sequencerContentRef,
     e,

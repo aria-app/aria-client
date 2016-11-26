@@ -1,11 +1,10 @@
 import h from 'react-hyperscript';
-import { mount } from 'enzyme';
-import song from '../../../song';
+import { shallow } from 'enzyme';
 import { Note } from './note';
 
 describe('Note Component', () => {
   it('should be defined', () => {
-    const note = mount(h(Note, {
+    const component = shallow(h(Note, {
       isSelected: false,
       note: {
         points: [
@@ -13,110 +12,38 @@ describe('Note Component', () => {
           { x: 1, y: 0 },
         ],
       },
+      onEndpointMouseDown: () => {},
+      onMouseDown: () => {},
+      onMouseUp: () => {},
     }));
-    expect(note).toBeDefined();
+    expect(component.length).toEqual(1);
   });
-
-  it('should have correct transform', () => {
-    const note = mount(h(Note, {
-      isSelected: false,
-      note: song.helpers.createNote({
-        sequenceId: 'my-sequence',
-        points: [
-          { x: 2, y: 2 },
-          { x: 4, y: 2 },
-        ],
-      }),
-    }));
-    const { transform } = note.find('.note').prop('style');
-    const expected = 'translate(80px, 80px)';
-    expect(transform).toEqual(expected);
+  it('should have active class when active');
+  it('should not have active class when not active');
+  it('should have translate corresponding to note points');
+  describe('element __point--start', () => {
+    it('should be defined');
+    it('should invoke mouse down with note and event when mouse down occurs');
+    it('should invoke mouse up with note and event when mouse up occurs');
   });
-
-  describe('connector', () => {
-    it('should have correct transform, given straight note', () => {
-      const note = mount(h(Note, {
-        isSelected: false,
-        note: song.helpers.createNote({
-          sequenceId: 'my-sequence',
-          points: [
-            { x: 0, y: 35 },
-            { x: 1, y: 35 },
-          ],
-        }),
-      }));
-      const { transform } = note.find('.note__point-connector')
-        .prop('style');
-      const expected = 'rotate(0deg) scaleX(40)';
-      expect(transform).toEqual(expected);
-    });
-
-    it('should have correct transform, given bent note', () => {
-      const note = mount(h(Note, {
-        isSelected: false,
-        note: song.helpers.createNote({
-          sequenceId: 'my-sequence',
-          points: [
-            { x: 0, y: 35 },
-            { x: 1, y: 37 },
-          ],
-        }),
-      }));
-      const connector = note.find('.note__point-connector');
-      const { transform } = connector.prop('style');
-
-      const expected = 'rotate(63.43494882292201deg) scaleX(89.44271909999159)';
-      expect(transform).toEqual(expected);
-    });
+  describe('element __point__fill--start', () => {
+    it('should be defined');
   });
-
-  describe('final point', () => {
-    it('should have display none if length is 0', () => {
-      const component = mount(h(Note, {
-        isSelected: false,
-        note: song.helpers.createNote({
-          sequenceId: 'my-sequence',
-          points: [
-            { x: 0, y: 35 },
-            { x: 0, y: 35 },
-          ],
-        }),
-      }));
-      const expected = 'none';
-      const { display } = component.find('.note__point').last().prop('style');
-      expect(display).toEqual(expected);
-    });
-
-    it('should have display flex if length is not 0', () => {
-      const component = mount(h(Note, {
-        isSelected: false,
-        note: song.helpers.createNote({
-          sequenceId: 'my-sequence',
-          points: [
-            { x: 0, y: 35 },
-            { x: 3, y: 35 },
-          ],
-        }),
-      }));
-      const expected = 'flex';
-      const { display } = component.find('.note__point').last().prop('style');
-      expect(display).toEqual(expected);
-    });
-
-    it('should have correct transform', () => {
-      const component = mount(h(Note, {
-        isSelected: false,
-        note: song.helpers.createNote({
-          sequenceId: 'my-sequence',
-          points: [
-            { x: 0, y: 35 },
-            { x: 4, y: 38 },
-          ],
-        }),
-      }));
-      const expected = 'translate(160px, 120px)';
-      const { transform } = component.find('.note__point').last().prop('style');
-      expect(transform).toEqual(expected);
-    });
+  describe('element __point-connector', () => {
+    it('should be defined');
+    it('should have correct transform applied when the note when the note is straight');
+    it('should have correct transform applied when the note when the note is bent');
+    it('should have correct transform applied when the note is a 32nd note');
+  });
+  describe('element __point--end', () => {
+    it('should be defined');
+    it('should have display none when note is 32nd note');
+    it('should have display flex when note is not 32nd note');
+    it('should have translate equal to the changes in x and y between the points multiplied by 40px');
+    it('should invoke mouse down with note and event when mouse down occurs');
+    it('should invoke mouse up with note and event when mouse up occurs');
+  });
+  describe('element __point__fill--end', () => {
+    it('should be defined');
   });
 });

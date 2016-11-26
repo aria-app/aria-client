@@ -189,7 +189,7 @@
 //       expect(popupItemEl.text().trim()).toEqual(expected);
 //     });
 //
-//     it('should invoke onSelect with item when pressed', () => {
+//     it('should invokeSelect with item when pressed', () => {
 //       let result;
 //       const item = { text: '1' };
 //       const component = mount(h(DropdownList, {
