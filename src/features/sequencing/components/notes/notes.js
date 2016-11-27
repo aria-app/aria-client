@@ -95,9 +95,7 @@ export class Notes extends React.Component {
 
   getStyle() {
     return {
-      width: this.props.measureCount !== undefined
-        ? this.props.measureCount * 4 * 8 * 40
-        : 0,
+      width: this.props.measureCount * 4 * 8 * 40,
     };
   }
 

@@ -14,6 +14,10 @@ export class Note extends React.Component {
     onMouseUp: React.PropTypes.func,
   }
 
+  static defaultProps = {
+    isSelected: false,
+  }
+
   render() {
     return h('.note', {
       className: this.getClassName(),
