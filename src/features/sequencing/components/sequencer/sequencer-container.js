@@ -8,15 +8,15 @@ import * as selectors from '../../selectors';
 
 export const SequencerContainer = connect(state => ({
   activeSequenceId: song.selectors.getActiveSequenceId(state),
-  isSelectingActive: notes.selectors.getIsSelectingActive(state),
+  areSomeNotesSelected: notes.selectors.areSomeNotesSelected(state),
   toolType: selectors.getToolType(state),
 }), {
-  onDuplicate: notes.actions.notesDuplicated,
-  onResizeSelected: notes.actions.selectedNotesResized,
   onSelectedNotesDelete: notes.actions.selectedNotesDeleted,
+  onSelectedNotesDuplicate: notes.actions.notesDuplicated,
+  onSelectedNotesOctaveDown: notes.actions.selectedNotesMovedOctaveDown,
+  onSelectedNotesOctaveUp: notes.actions.selectedNotesMovedOctaveUp,
+  onSelectedNotesResize: notes.actions.selectedNotesResized,
   onSequenceClose: song.actions.sequenceClosed,
-  onShiftOctaveDown: notes.actions.selectedNotesMovedOctaveDown,
-  onShiftOctaveUp: notes.actions.selectedNotesMovedOctaveUp,
   onToolSelect: actions.toolSelected,
   onVerticalScroll: sequencingPosition.actions.scrolledVertically,
 })(Sequencer);

@@ -58,7 +58,7 @@ export class DropdownList extends React.Component {
         h(IconButton, {
           className: 'dropdown-list__button',
           onClick: this.handleButtonClick,
-          icon: this.props.icon,
+          icon: this.props.icon || '',
         }),
       ),
       hideIf(!!this.props.icon)(

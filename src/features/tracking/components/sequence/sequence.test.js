@@ -32,7 +32,9 @@ function getRequiredProps() {
     isSelected: false,
     onContextMenu: () => {},
     onSelect: () => {},
-    onSequenceOpen: () => {},
-    sequence: {},
+    onOpen: () => {},
+    sequence: {
+      notes: [],
+    },
   };
 }
