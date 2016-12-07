@@ -8,7 +8,7 @@ import * as selectors from '../../selectors';
 
 export const SequencerContainer = connect(state => ({
   activeSequenceId: song.selectors.getActiveSequenceId(state),
-  areSomeNotesSelected: notes.selectors.areSomeNotesSelected(state),
+  areSomeNotesSelected: notes.selectors.getAreSomeNotesSelected(state),
   toolType: selectors.getToolType(state),
 }), {
   onSelectedNotesDelete: notes.actions.selectedNotesDeleted,

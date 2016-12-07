@@ -1,7 +1,6 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import selecting from '../../../selecting';
-import sequencingPosition from '../../../sequencing-position';
 import shared from '../../../shared';
 import {
   SequencerTimelineContainer,
@@ -11,7 +10,6 @@ import { SlotsContainer } from '../slots/slots-container';
 import './grid.scss';
 
 const { FenceContainer } = selecting.components;
-const { getMousePoint } = sequencingPosition.helpers;
 const { toolTypes } = shared.constants;
 
 export class Grid extends React.Component {
@@ -24,6 +22,11 @@ export class Grid extends React.Component {
     onPanningUpdate: React.PropTypes.func.isRequired,
     sequencerContentRef: React.PropTypes.object,
     toolType: React.PropTypes.string,
+  }
+
+  constructor(props) {
+    super(props);
+    this.elementRef = {};
   }
 
   render() {
@@ -44,12 +47,6 @@ export class Grid extends React.Component {
     ]);
   }
 
-  getMousePoint = e => getMousePoint(
-    this.elementRef,
-    this.props.sequencerContentRef,
-    e,
-  )
-
   getWrapperStyle() {
     return {
       width: this.props.measureCount !== undefined
@@ -67,7 +64,11 @@ export class Grid extends React.Component {
   }
 
   handleMouseMove = (e) => {
-    this.props.onMouseMove(this.getMousePoint(e));
+    this.props.onMouseMove(getMousePoint(
+      this.elementRef,
+      this.props.sequencerContentRef,
+      e,
+    ));
 
     if (this.props.isPanning) {
       this.updatePanningWithElements(e);
@@ -93,4 +94,19 @@ export class Grid extends React.Component {
     this.props.sequencerContentRef,
     e,
   )
+}
+
+function getMousePoint(scrollLeftEl, scrollTopEl, e) {
+  const toSlotNumber = num => Math.floor(num / 40);
+  const x = e.pageX || 0;
+  const y = e.pageY || 0;
+  const offsetLeft = scrollLeftEl.offsetLeft || 0;
+  const offsetTop = scrollLeftEl.offsetTop || 0;
+  const scrollLeft = scrollTopEl.scrollLeft || 0;
+  const scrollTop = scrollTopEl.scrollTop || 0;
+
+  return {
+    x: toSlotNumber((x - offsetLeft) + scrollLeft),
+    y: toSlotNumber((y - offsetTop) + scrollTop),
+  };
 }
