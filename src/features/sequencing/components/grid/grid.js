@@ -102,7 +102,7 @@ function getMousePoint(scrollLeftEl, scrollTopEl, e) {
   const y = e.pageY || 0;
   const offsetLeft = scrollLeftEl.offsetLeft || 0;
   const offsetTop = scrollLeftEl.offsetTop || 0;
-  const scrollLeft = scrollTopEl.scrollLeft || 0;
+  const scrollLeft = scrollLeftEl.scrollLeft || 0;
   const scrollTop = scrollTopEl.scrollTop || 0;
 
   return {
