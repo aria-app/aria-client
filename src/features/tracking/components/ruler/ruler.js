@@ -72,7 +72,7 @@ export class Ruler extends React.Component {
   }
 
   getIsLastMeasure(measureIndex) {
-    return measureIndex === this.props.measureCount;
+    return measureIndex === this.props.measureCount - 1;
   }
 
   getMeasuresStyle() {

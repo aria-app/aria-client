@@ -11,6 +11,7 @@ export class IconButton extends React.Component {
     icon: React.PropTypes.string.isRequired,
     isActive: React.PropTypes.bool,
     onClick: React.PropTypes.func,
+    size: React.PropTypes.oneOf(['small', 'regular', 'large', '']),
     style: StylePropType,
     toolTip: React.PropTypes.string,
   }
@@ -25,6 +26,7 @@ export class IconButton extends React.Component {
       h(Icon, {
         className: 'icon-button__icon',
         icon: this.props.icon,
+        size: this.props.size,
       }),
     ]);
   }
