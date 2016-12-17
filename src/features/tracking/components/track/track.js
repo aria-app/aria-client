@@ -50,7 +50,7 @@ export class Track extends React.Component {
           ...this.props.track.sequences.map(sequence => h(Sequence, {
             isSelected: this.getIsSequenceSelected(sequence),
             onContextMenu: this.props.onSequenceContextMenu,
-            onOpen: this.props.onSequenceOpen,
+            onOpen: this.handleBodySequencesSequenceOpen,
             onSelect: this.handleBodySequencesSequenceSelect,
             sequence,
           })),
@@ -119,6 +119,10 @@ export class Track extends React.Component {
 
   handleBodySequencesAddButtonClick = () => {
     this.props.onSequenceAdd(this.props.track.id, this.getAddPosition());
+  }
+
+  handleBodySequencesSequenceOpen = (sequenceId) => {
+    this.props.onSequenceOpen(sequenceId);
   }
 
   handleBodySequencesSequenceSelect = (sequenceId) => {
