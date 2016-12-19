@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { debounce } from 'lodash/fp';
 import { eventChannel, takeEvery } from 'redux-saga';
 import { put, select, take } from 'redux-saga/effects';
 import * as actions from './actions';
@@ -31,6 +31,6 @@ export default function* saga() {
 
 function windowResizeChannelFactory() {
   return eventChannel((emit) => {
-    window.addEventListener('resize', _.debounce(emit, 16));
+    window.addEventListener('resize', debounce(16)(emit));
   });
 }

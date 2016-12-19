@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { difference, map, omit, without } from 'lodash/fp';
 import { combineReducers } from 'redux';
 import shared from '../../shared';
 import * as actions from '../actions';
@@ -10,7 +10,7 @@ const dict = (state = {}, action) => {
     case actions.SONG_LOADED:
       return action.song.tracks.dict;
     case actions.TRACK_DELETED:
-      return _.omit(state, action.id);
+      return omit(action.id)(state);
     case actions.TRACK_IS_MUTED_TOGGLED:
       return shared.helpers.setAtIds([{
         ...state[action.id],
@@ -32,7 +32,7 @@ const dict = (state = {}, action) => {
     case actions.TRACKS_UPDATED:
       return setAtIds(action.tracks, state);
     case actions.TRACKS_DELETED:
-      return _.omit(state, action.ids);
+      return omit(action.ids)(state);
     case actions.TRACKS_SET:
       return setAtIds(action.tracks);
     default:
@@ -45,16 +45,16 @@ const ids = (state = [], action) => {
     case actions.SONG_LOADED:
       return action.song.tracks.ids;
     case actions.TRACK_DELETED:
-      return _.without(state, action.id);
+      return without(action.id)(state);
     case actions.TRACKS_ADDED:
       return [
         ...state,
-        ..._.map(action.tracks, 'id'),
+        ...map('id')(action.tracks),
       ];
     case actions.TRACKS_DELETED:
-      return _.difference(state, action.ids);
+      return difference(state)(action.ids);
     case actions.TRACKS_SET:
-      return _.map(action.tracks, 'id');
+      return map('id')(action.tracks);
     default:
       return state;
   }

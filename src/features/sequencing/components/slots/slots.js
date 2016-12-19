@@ -1,6 +1,6 @@
+import { includes, times } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
-import _ from 'lodash';
 import shared from '../../../shared';
 import './slots.scss';
 
@@ -20,7 +20,7 @@ export class Slots extends React.Component {
 
 function getRowClasses(step) {
   const letter = step.name.slice(0, 1).toLowerCase();
-  const suffix = _.includes(step.name, '#')
+  const suffix = includes(step.name, '#')
     ? 'sharp'
     : '';
   return `slots__row--${letter}${suffix}`;
@@ -33,17 +33,17 @@ function getRows(measureCount) {
 }
 
 function getSections(count) {
-  return _.times(count, sectionNumber =>
+  return times(sectionNumber =>
     h('.slots__row__section', {
       key: sectionNumber,
     }, getSlots(8)),
-  );
+  count);
 }
 
 function getSlots(count) {
-  return _.times(count, n =>
+  return times(n =>
     h('.slots__slot', {
       key: n,
     }, h('.slots__slot__fill')),
-  );
+  count);
 }

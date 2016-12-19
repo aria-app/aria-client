@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { clamp } from 'lodash/fp';
 import { combineReducers } from 'redux';
 import * as actions from '../actions';
 import shared from '../../shared';
@@ -87,5 +87,5 @@ export default combineReducers({
 });
 
 function clampBpm(bpmValue) {
-  return _.clamp(bpmValue, shared.constants.minBPM, shared.constants.maxBPM);
+  return clamp(shared.constants.minBPM, shared.constants.maxBPM)(bpmValue);
 }

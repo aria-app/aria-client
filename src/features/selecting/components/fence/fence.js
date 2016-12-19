@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { isEmpty, isEqual } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import './fence.scss';
@@ -25,7 +25,7 @@ export class Fence extends React.Component {
     const isSelecting = this.props.isSelecting;
     const start = this.props.startPoint;
     const end = this.props.endPoint;
-    const hasMoved = !_.isEqual(start, end);
+    const hasMoved = !isEqual(start, end);
     return isSelecting && hasMoved ? 'block' : 'none';
   }
 
@@ -33,7 +33,7 @@ export class Fence extends React.Component {
     const start = this.props.startPoint;
     const end = this.props.endPoint;
 
-    if (_.isEmpty(start) || _.isEmpty(end)) return 0;
+    if (isEmpty(start) || isEmpty(end)) return 0;
     return (Math.abs(this.props.endPoint.y - start.y) + 1) * 40;
   }
 
@@ -41,7 +41,7 @@ export class Fence extends React.Component {
     const start = this.props.startPoint;
     const end = this.props.endPoint;
 
-    if (_.isEmpty(start) || _.isEmpty(end)) {
+    if (isEmpty(start) || isEmpty(end)) {
       return 'translate(0px, 0px)';
     }
 
@@ -55,7 +55,7 @@ export class Fence extends React.Component {
     const start = this.props.startPoint;
     const end = this.props.endPoint;
 
-    if (_.isEmpty(start) || _.isEmpty(end)) return 0;
+    if (isEmpty(start) || isEmpty(end)) return 0;
     return (Math.abs(end.x - start.x) + 1) * 40;
   }
 }

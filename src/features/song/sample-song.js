@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { map } from 'lodash/fp';
 import { v4 } from 'uuid';
 import shared from '../shared';
 import * as helpers from './helpers';
@@ -50,20 +50,20 @@ export default {
       ({ ...acc, [cur.id]: cur }),
       {},
     ),
-    ids: _.map(initialNotes, 'id'),
+    ids: map('id')(initialNotes),
   },
   sequences: {
     dict: initialSequences.reduce((acc, cur) =>
       ({ ...acc, [cur.id]: cur }),
       {},
     ),
-    ids: _.map(initialSequences, 'id'),
+    ids: map('id')(initialSequences),
   },
   tracks: {
     dict: initialTracks.reduce((acc, cur) =>
       ({ ...acc, [cur.id]: cur }),
       {},
     ),
-    ids: _.map(initialTracks, 'id'),
+    ids: map('id')(initialTracks),
   },
 };

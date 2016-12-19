@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { isEmpty } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -45,7 +45,7 @@ export class TrackEditingModal extends React.Component {
   }
 
   getIsOpen() {
-    return !_.isEmpty(this.props.stagedTrack);
+    return !isEmpty(this.props.stagedTrack);
   }
 
   getSelectedId() {

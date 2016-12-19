@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { includes } from 'lodash/fp';
 import { eventChannel, takeEvery } from 'redux-saga';
 import { fork, put, select, take } from 'redux-saga/effects';
 import Mousetrap from 'mousetrap';
@@ -42,7 +42,7 @@ function* handleKeypress(keypress) {
   }
 
   const heldKeys = yield select(selectors.getHeldKeys);
-  const isHeldKey = _.includes(heldKeys, keypress.action.e.keyCode);
+  const isHeldKey = includes(keypress.action.e.keyCode)(heldKeys);
 
   if (!isHeldKey) {
     yield put(actions.keyHoldStarted(keypress.action.e.keyCode));

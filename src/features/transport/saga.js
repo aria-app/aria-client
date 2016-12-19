@@ -1,5 +1,4 @@
-import _ from 'lodash';
-import { filter, uniqBy } from 'lodash/fp';
+import { compose, filter, first, isEmpty, range, uniqBy } from 'lodash/fp';
 import { eventChannel, takeEvery } from 'redux-saga';
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import Tone from 'tone';
@@ -115,9 +114,9 @@ function* sequenceStep({ payload }) {
     //   .filter(note => _.first(note.points).x === step)
     //   .uniqBy(note => _.first(note.points).y)
     //   .value();
-    const notesAtStep = _.compose(
-      uniqBy(note => _.first(note.points).y),
-      filter(note => _.first(note.points).x === step),
+    const notesAtStep = compose(
+      uniqBy(note => first(note.points).y),
+      filter(note => first(note.points).x === step),
     )(notes);
 
     for (let i = 0; i < notesAtStep.length; i += 1) {
@@ -197,7 +196,7 @@ function* updateSong() {
 
 function* updateSongSequence() {
   const sequence = yield select(selectors.getSongSequence);
-  if (!_.isEmpty(sequence)) {
+  if (!isEmpty(sequence)) {
     sequence.dispose();
   }
   yield fork(createSongSequence);
@@ -248,7 +247,7 @@ function songSequenceStepsChannelFactory(measureCount) {
       (time, step) => {
         emit(actions.songSequenceStepTriggered({ step, time }));
       },
-      _.range(measureCount * 32),
+      range(measureCount * 32),
       '32n',
     );
     sequence.loop = false;
@@ -264,7 +263,7 @@ function sequenceStepsChannelFactory(songSequences) {
       (time, step) => {
         emit(actions.sequenceStepTriggered({ sequence, step, time }));
       },
-      _.range(sequence.measureCount * 32),
+      range(sequence.measureCount * 32),
       '32n',
     ));
 

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { isEqual } from 'lodash/fp';
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import notes from '../notes';
@@ -30,14 +30,14 @@ function* update({ isAdditive }) {
   const newPoint = yield select(sequencingPosition.selectors.getMousePoint);
   const previousPoint = yield select(selectors.getNewPoint);
 
-  if (_.isEqual(previousPoint, newPoint)) return;
+  if (isEqual(previousPoint, newPoint)) return;
 
   const startPoint = yield select(selectors.getStartPoint);
   const allNotes = yield select(song.selectors.getActiveSequenceNotes);
   const selectedNotes = yield select(notes.selectors.getSelectedNotes);
   const notesToSelect = helpers.getNotesInFence(startPoint, newPoint, allNotes);
 
-  if (_.isEqual(notesToSelect, selectedNotes)) {
+  if (isEqual(notesToSelect, selectedNotes)) {
     yield put(actions.newPointSet(newPoint));
     return;
   }

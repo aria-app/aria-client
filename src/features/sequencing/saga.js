@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { includes } from 'lodash/fp';
 import { takeEvery } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
 import notes from '../notes';
@@ -12,7 +12,7 @@ const { toolTypes } = shared.constants;
 function* handleToolTypeSelected({ toolType }) {
   const previousToolType = yield select(selectors.getToolType);
 
-  if (_.includes([toolTypes.DRAW, toolTypes.ERASE], toolType)) {
+  if (includes([toolTypes.DRAW, toolTypes.ERASE], toolType)) {
     yield put(notes.actions.allNotesDeselected());
   }
 

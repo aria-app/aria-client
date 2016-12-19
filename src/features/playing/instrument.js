@@ -13,7 +13,7 @@ export default class Instrument {
 
     const voice = head(this.availableVoices);
 
-    this.activeVoices = concat(voice)(this.activeVoices);
+    this.activeVoices = concat(this.activeVoices)(voice);
     this.availableVoices = without(voice)(this.availableVoices);
 
     return voice;
@@ -31,7 +31,7 @@ export default class Instrument {
       includes(voice)(this.availableVoices)
     ) return;
 
-    this.availableVoices = concat(voice)(this.availableVoices);
+    this.availableVoices = concat(this.availableVoices)(voice);
     this.activeVoices = without(voice)(this.activeVoices);
   }
   playNote(note, time) {
@@ -71,7 +71,7 @@ export default class Instrument {
     this.previewVoice.triggerAttackRelease(name, '16n');
   }
   release() {
-    this.availableVoices = concat(this.activeVoices)(this.availableVoices);
+    this.availableVoices = concat(this.availableVoices)(this.activeVoices);
     this.activeVoices = [];
 
     this.availableVoices.forEach((v) => {
@@ -79,7 +79,7 @@ export default class Instrument {
     });
   }
   setType(type) {
-    concat(this.availableVoices)(this.activeVoices).forEach((v) => {
+    concat(this.activeVoices)(this.availableVoices).forEach((v) => {
       // eslint-disable-next-line no-param-reassign
       v.oscillator.type = type;
     });

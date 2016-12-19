@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { concat, difference, map, omit } from 'lodash/fp';
 import { combineReducers } from 'redux';
 import shared from '../../shared';
 import * as actions from '../actions';
@@ -11,7 +11,7 @@ const dict = (state = {}, action) => {
     case actions.NOTES_UPDATED:
       return setAtIds(action.notes, state);
     case actions.NOTES_DELETED:
-      return _.omit(state, action.ids);
+      return omit(action.ids)(state);
     case actions.NOTES_SET:
       return setAtIds(action.notes, state);
     case actions.SONG_LOADED:
@@ -24,11 +24,11 @@ const dict = (state = {}, action) => {
 const ids = (state = [], action) => {
   switch (action.type) {
     case actions.NOTES_ADDED:
-      return _.concat(state, _.map(action.notes, 'id'));
+      return concat(state)(map('id')(action.notes));
     case actions.NOTES_DELETED:
-      return _.difference(state, action.ids);
+      return difference(state)(action.ids);
     case actions.NOTES_SET:
-      return _.map(action.notes, 'id');
+      return map('id')(action.notes);
     case actions.SONG_LOADED:
       return action.song.notes.ids;
     default:

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { without } from 'lodash/fp';
 import { combineReducers } from 'redux';
 import * as actions from './actions';
 
@@ -9,7 +9,7 @@ const heldKeys = (state = [], action) => {
     case actions.KEY_HOLD_STARTED:
       return [...state, action.keyCode];
     case actions.KEY_HOLD_STOPPED:
-      return _.without(state, action.keyCode);
+      return without(action.keyCode)(state);
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { includes } from 'lodash/fp';
 import createLogger from 'redux-logger';
 import panning from '../features/panning';
 import playing from '../features/playing';
@@ -40,7 +40,7 @@ const typesToSkip = [
 
 const collapsed = () => true;
 const predicate = (getState, action) =>
-  !_.includes(typesToSkip, action.type);
+  !includes(action.type)(typesToSkip);
 
 export default createLogger({
   colors: {},

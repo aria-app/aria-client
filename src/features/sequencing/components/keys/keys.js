@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { includes } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -33,7 +33,7 @@ export class Keys extends React.Component {
 
 function getKeyClasses(step) {
   const letter = step.name.slice(0, 1).toLowerCase();
-  const suffix = _.includes(step.name, '#')
+  const suffix = includes('#')(step.name)
     ? 'sharp'
     : '';
   return `keys__key--${letter}${suffix}`;

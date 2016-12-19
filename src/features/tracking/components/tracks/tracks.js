@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { includes } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -74,11 +74,11 @@ export class Tracks extends React.Component {
   }
 
   getIsTrackMuted(track) {
-    return _.includes(this.props.mutedTrackIds, track.id);
+    return includes(track.id)(this.props.mutedTrackIds);
   }
 
   getIsTrackSoloing(track) {
-    return _.includes(this.props.soloingTrackIds, track.id);
+    return includes(track.id)(this.props.soloingTrackIds);
   }
 
   handleClick = (e) => {

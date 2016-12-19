@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { map } from 'lodash/fp';
 import { combineReducers } from 'redux';
 import shared from '../shared';
 import * as actions from './actions';
@@ -19,7 +19,7 @@ const ids = (state = [], action) => {
     case actions.CHANNEL_ADDED:
       return state.concat(action.channel.id);
     case actions.CHANNELS_SET:
-      return _.map(action.channels, 'id');
+      return map('id')(action.channels);
     default:
       return state;
   }

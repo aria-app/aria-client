@@ -1,5 +1,4 @@
-import _ from 'lodash';
-import { compose, filter, map } from 'lodash/fp';
+import { compose, filter, includes, map, some } from 'lodash/fp';
 import shared from '../shared';
 import { NAME } from './constants';
 
@@ -27,10 +26,10 @@ export const getNotes = state =>
   getNotesIds(state).map(id => getNotesDict(state)[id]);
 
 export const getNotesBySequenceId = sequenceId => state =>
-  _.filter(getNotes(state), { sequenceId });
+  filter({ sequenceId })(getNotes(state));
 
 export const getNotesBySequenceIds = sequenceIds => state =>
-  getNotes(state).filter(n => _.includes(sequenceIds, n.sequenceId));
+  getNotes(state).filter(n => includes(n.sequenceId)(sequenceIds));
 
 
 // --- Sequence ---
@@ -42,15 +41,15 @@ export const getSequences = state =>
   getSequencesIds(state).map(id => getSequencesDict(state)[id]);
 
 export const getSequencesByTrackId = trackId => state =>
-  _.filter(getSequences(state), { trackId });
+  filter({ trackId })(getSequences(state));
 
 export const getSequencesByTrackIds = trackIds => state =>
-  _.filter(getSequences(state), s => _.includes(trackIds, s.trackId));
+  filter(s => includes(s.trackId)(trackIds))(getSequences(state));
 
 export const getDeepSequences = state =>
   getSequences(state).map(sequence => ({
     ...sequence,
-    notes: _.filter(getNotes(state), { sequenceId: sequence.id }),
+    notes: filter({ sequenceId: sequence.id })(getNotes(state)),
   }));
 
 
@@ -67,7 +66,9 @@ export const getActiveSequenceMeasureCount = (state) => {
 };
 
 export const getActiveSequenceNotes = state =>
-  _.filter(getNotes(state), { sequenceId: getActiveSequenceId(state) });
+  filter({
+    sequenceId: getActiveSequenceId(state),
+  })(getNotes(state));
 
 
 // --- Tracks ---
@@ -81,7 +82,7 @@ export const getTracks = state =>
 export const getDeepTracks = state =>
   getTracks(state).map(track => ({
     ...track,
-    sequences: _.filter(getDeepSequences(state), { trackId: track.id }),
+    sequences: filter({ trackId: track.id })(getDeepSequences(state)),
   }));
 
 export const getMutedTrackIds = state => compose(
@@ -95,7 +96,7 @@ export const getSoloingTrackIds = state => compose(
 )(getTracks(state));
 
 export const getIsAnyTrackSoloing = state =>
-  _.some(getTracks(state), 'isSoloing');
+  some('isSoloing')(getTracks(state));
 
 // --- Song ---
 

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { map, throttle } from 'lodash/fp';
 import { takeEvery } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
 import shared from '../shared';
@@ -31,7 +31,7 @@ function* addSequenceToTrack({ position, id }) {
 
 function* deleteSequencesFromTracks({ ids }) {
   const sequences = yield select(selectors.getSequencesByTrackIds(ids));
-  const sequenceIds = _.map(sequences, 'id');
+  const sequenceIds = map('id')(sequences);
 
   yield put(actions.sequencesDeleted(sequenceIds));
 }
@@ -48,9 +48,9 @@ function* initialize() {
   yield put(actions.songLoaded(initialSong));
 }
 
-const throttledSave = _.throttle((song) => {
+const throttledSave = throttle(500)((song) => {
   localStorage.setItem(shared.constants.localStorageKey, JSON.stringify(song));
-}, 500);
+});
 
 function* saveToLocalStorage() {
   const song = yield select(selectors.getSong);

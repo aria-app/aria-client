@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { max } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
@@ -70,7 +70,7 @@ export class Track extends React.Component {
   }
 
   getAddPosition() {
-    return _.max(this.props.track.sequences.map(s => s.position + s.measureCount)) || 0;
+    return max(this.props.track.sequences.map(s => s.position + s.measureCount)) || 0;
   }
 
   getBodyHeaderActionsActionMuteClassName() {

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { find, isEqual } from 'lodash/fp';
 import React from 'react';
 import StylePropType from 'react-style-proptype';
 import classnames from 'classnames';
@@ -100,7 +100,7 @@ export class DropdownList extends React.Component {
 
   getIsItemSelected(item) {
     if (this.props.selectedItem) {
-      return _.isEqual(item, this.props.selectedItem);
+      return isEqual(item, this.props.selectedItem);
     }
 
     if (this.props.selectedId) {
@@ -128,9 +128,9 @@ export class DropdownList extends React.Component {
     }
 
     if (this.props.selectedId) {
-      return _.find(this.props.items, {
+      return find({
         id: this.props.selectedId,
-      });
+      })(this.props.items);
     }
 
     return undefined;

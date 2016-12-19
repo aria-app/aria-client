@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { first, last } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
@@ -48,8 +48,8 @@ export class Note extends React.Component {
   }
 
   getConnectorStyle() {
-    const startPoint = _.first(this.props.note.points);
-    const endPoint = _.last(this.props.note.points);
+    const startPoint = first(this.props.note.points);
+    const endPoint = last(this.props.note.points);
     const { asin, abs, PI, sign, sqrt } = Math;
     const x = ((endPoint.x - startPoint.x) * 40);
     const y = (endPoint.y - startPoint.y) * 40;
@@ -65,8 +65,8 @@ export class Note extends React.Component {
   }
 
   getEndPointStyle() {
-    const startPoint = _.first(this.props.note.points);
-    const endPoint = _.last(this.props.note.points);
+    const startPoint = first(this.props.note.points);
+    const endPoint = last(this.props.note.points);
     const x = (endPoint.x - startPoint.x) * 40;
     const y = (endPoint.y - startPoint.y) * 40;
     return {
@@ -76,7 +76,7 @@ export class Note extends React.Component {
   }
 
   getStyle() {
-    const { x, y } = _.first(this.props.note.points);
+    const { x, y } = first(this.props.note.points);
     return {
       transform: `translate(${x * 40}px, ${y * 40}px)`,
     };
@@ -99,6 +99,6 @@ export class Note extends React.Component {
 }
 
 function is32ndNote(note) {
-  const length = _.last(note.points).x - _.first(note.points).x;
+  const length = last(note.points).x - first(note.points).x;
   return length === 0;
 }

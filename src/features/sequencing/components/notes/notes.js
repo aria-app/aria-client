@@ -1,6 +1,6 @@
+import { find, first, last } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
-import _ from 'lodash';
 import classnames from 'classnames';
 import shared from '../../../shared';
 import { Note } from '../note/note';
@@ -88,9 +88,9 @@ export class Notes extends React.Component {
   }
 
   getIsNoteSelected(note) {
-    return !!_.find(this.props.selectedNotes, {
+    return !!find({
       id: note.id,
-    });
+    })(this.props.selectedNotes);
   }
 
   getStyle() {
@@ -145,7 +145,7 @@ export class Notes extends React.Component {
     ) return true;
 
     const isAdditive = e.ctrlKey || e.metaKey;
-    this.props.onNotePreview(_.first(note.points));
+    this.props.onNotePreview(first(note.points));
     this.props.onNoteSelect(note, isAdditive);
     this.props.onMoveStart();
     e.stopPropagation();
@@ -167,7 +167,7 @@ export class Notes extends React.Component {
       this.props.onMoveStart();
     } else if (this.props.toolType === DRAW || this.props.toolType === SELECT) {
       const isAdditive = e.ctrlKey || e.metaKey;
-      this.props.onNotePreview(_.last(note.points));
+      this.props.onNotePreview(last(note.points));
       this.props.onNoteSelect(note, isAdditive);
       this.props.onResizeStart();
     }

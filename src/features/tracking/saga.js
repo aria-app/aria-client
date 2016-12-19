@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { isEmpty, isEqual, last } from 'lodash/fp';
 import { takeEvery } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
 import contextMenu from '../context-menu';
@@ -107,9 +107,9 @@ function* pushUndo() {
   const undos = yield select(selectors.getUndos);
 
   if (
-    (_.last(undos)) &&
-    (_.isEqual(_.last(undos).sequences, sequences)) &&
-    (_.isEqual(_.last(undos).tracks, tracks))
+    (last(undos)) &&
+    (isEqual(last(undos).sequences, sequences)) &&
+    (isEqual(last(undos).tracks, tracks))
   ) return;
 
   yield put(actions.undosSet([
@@ -124,7 +124,7 @@ function* redo() {
 
   const redos = yield select(selectors.getRedos);
 
-  if (_.isEmpty(redos)) return;
+  if (isEmpty(redos)) return;
 
   const sequences = yield select(song.selectors.getSequences);
   const tracks = yield select(song.selectors.getTracks);
@@ -134,8 +134,8 @@ function* redo() {
     ...undos,
     { sequences, tracks },
   ]));
-  yield put(song.actions.sequencesSet(_.last(redos).sequences));
-  yield put(song.actions.tracksSet(_.last(redos).tracks));
+  yield put(song.actions.sequencesSet(last(redos).sequences));
+  yield put(song.actions.tracksSet(last(redos).tracks));
   yield put(actions.redosSet(redos.slice(0, redos.length - 1)));
 }
 
@@ -164,11 +164,11 @@ function* undo() {
 
   const undos = yield select(selectors.getUndos);
 
-  if (_.isEmpty(undos)) return;
+  if (isEmpty(undos)) return;
 
   yield put(actions.redoPushed());
-  yield put(song.actions.sequencesSet(_.last(undos).sequences));
-  yield put(song.actions.tracksSet(_.last(undos).tracks));
+  yield put(song.actions.sequencesSet(last(undos).sequences));
+  yield put(song.actions.tracksSet(last(undos).tracks));
   yield put(actions.undosSet(undos.slice(0, undos.length - 1)));
 }
 

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { clamp, times } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -30,7 +30,7 @@ export class Ruler extends React.Component {
           style: this.getMeasuresStyle(),
           onMouseDown: this.holdPosition,
         }, [
-          ..._.times(this.props.measureCount, measureIndex => h('.ruler__body__measures__measure', {
+          ...times(measureIndex => h('.ruler__body__measures__measure', {
             key: measureIndex,
             style: getMeasuresMeasureStyle(measureIndex),
           }, [
@@ -40,12 +40,12 @@ export class Ruler extends React.Component {
               ]),
             ),
             hideIf(this.getIsLastMeasure(measureIndex))(
-              _.times(7, eighthIndex => h('.ruler__body__measures__measure__eighth', {
+              times(eighthIndex => h('.ruler__body__measures__measure__eighth', {
                 key: eighthIndex,
                 style: getMeasuresMeasureEighthStyle(eighthIndex),
-              })),
+              }), 7),
             ),
-          ])),
+          ]), this.props.measureCount),
         ]),
       ]),
       h('.ruler__song-length-button', [
@@ -91,11 +91,10 @@ export class Ruler extends React.Component {
       const position = moveE.pageX >= e.target.offsetLeft
         ? (moveE.pageX - e.target.offsetLeft) / measurePreviewWidth
         : 0;
-      const clampedPosition = _.clamp(
-        position,
+      const clampedPosition = clamp(
         0,
         this.props.measureCount,
-      );
+      )(position);
       this.props.onPositionSet(clampedPosition);
     };
     const upHandler = () => {
