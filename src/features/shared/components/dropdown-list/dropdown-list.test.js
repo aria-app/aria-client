@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import h from 'react-hyperscript';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -308,7 +307,7 @@ describe('Dropdown List Component', () => {
       component.setState({ isOpen: true });
       const popupListItemEls = component.find('.dropdown-list__popup__list__item');
       popupListItemEls.first().simulate('click');
-      expect(_.last(onSelectedIdChange.args)[0]).toEqual('a');
+      expect(onSelectedIdChange.lastCall.args).toEqual(['a']);
     });
 
     it('should not throw when selected id change event is not defined when clicked', () => {
@@ -339,7 +338,7 @@ describe('Dropdown List Component', () => {
       component.setState({ isOpen: true });
       const popupListItemEls = component.find('.dropdown-list__popup__list__item');
       popupListItemEls.first().simulate('click');
-      expect(_.last(onSelectedItemChange.args)[0]).toEqual(items[0]);
+      expect(onSelectedItemChange.lastCall.args).toEqual([items[0]]);
     });
 
     it('should not throw when selected item change event is not defined when clicked', () => {

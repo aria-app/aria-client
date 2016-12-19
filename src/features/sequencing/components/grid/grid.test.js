@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import h from 'react-hyperscript';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -96,7 +95,7 @@ describe('Grid Component', () => {
         scrollLeft: 90,
       },
     });
-    expect(_.last(onHorizontalScroll.args)[0]).toEqual(2);
+    expect(onHorizontalScroll.lastCall.args).toEqual([2]);
   });
 
   it('should have correct ref function', () => {

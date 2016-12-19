@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import h from 'react-hyperscript';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -421,7 +420,7 @@ describe('Sequencer Component', () => {
           scrollTop: 495,
         },
       });
-      expect(_.last(onVerticalScroll.args)[0]).toEqual(12);
+      expect(onVerticalScroll.lastCall.args).toEqual([12]);
     });
 
     it('should have correct ref function', () => {
@@ -479,7 +478,7 @@ describe('Sequencer Component', () => {
         onToolSelect,
       }));
       component.instance().handleToolbarDrawToolButtonClick();
-      expect(_.last(onToolSelect.args)[0]).toEqual(toolTypes.DRAW);
+      expect(onToolSelect.lastCall.args).toEqual([toolTypes.DRAW]);
     });
   });
 
@@ -491,7 +490,7 @@ describe('Sequencer Component', () => {
         onToolSelect,
       }));
       component.instance().handleToolbarEraseToolButtonClick();
-      expect(_.last(onToolSelect.args)[0]).toEqual(toolTypes.ERASE);
+      expect(onToolSelect.lastCall.args).toEqual([toolTypes.ERASE]);
     });
   });
 
@@ -503,7 +502,7 @@ describe('Sequencer Component', () => {
         onToolSelect,
       }));
       component.instance().handleToolbarPanToolButtonClick();
-      expect(_.last(onToolSelect.args)[0]).toEqual(toolTypes.PAN);
+      expect(onToolSelect.lastCall.args).toEqual([toolTypes.PAN]);
     });
   });
 
@@ -516,7 +515,7 @@ describe('Sequencer Component', () => {
       }));
       const length = 32;
       component.instance().handleToolbarResizeDropdownSelectedIdChange(length);
-      expect(_.last(onSelectedNotesResize.args)[0]).toEqual(length);
+      expect(onSelectedNotesResize.lastCall.args).toEqual([length]);
     });
   });
 
@@ -528,7 +527,7 @@ describe('Sequencer Component', () => {
         onToolSelect,
       }));
       component.instance().handleToolbarSelectToolButtonClick();
-      expect(_.last(onToolSelect.args)[0]).toEqual(toolTypes.SELECT);
+      expect(onToolSelect.lastCall.args).toEqual([toolTypes.SELECT]);
     });
   });
 });

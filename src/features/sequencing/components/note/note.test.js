@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import h from 'react-hyperscript';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -67,8 +66,7 @@ describe('Note Component', () => {
       const pointStartEl = component.find('.note__point--start');
       const e = {};
       pointStartEl.simulate('mousedown', e);
-      expect(_.last(onMouseDown.args)[0]).toEqual(note);
-      expect(_.last(onMouseDown.args)[1]).toEqual(e);
+      expect(onMouseDown.lastCall.args).toEqual([note, e]);
     });
 
     it('should invoke mouse up with note and event when mouse up occurs', () => {
@@ -87,8 +85,7 @@ describe('Note Component', () => {
       const pointStartEl = component.find('.note__point--start');
       const e = {};
       pointStartEl.simulate('mouseup', e);
-      expect(_.last(onMouseUp.args)[0]).toEqual(note);
-      expect(_.last(onMouseUp.args)[1]).toEqual(e);
+      expect(onMouseUp.lastCall.args).toEqual([note, e]);
     });
   });
 
@@ -225,8 +222,7 @@ describe('Note Component', () => {
       const pointEndEl = component.find('.note__point--end');
       const e = {};
       pointEndEl.simulate('mousedown', e);
-      expect(_.last(onEndpointMouseDown.args)[0]).toEqual(note);
-      expect(_.last(onEndpointMouseDown.args)[1]).toEqual(e);
+      expect(onEndpointMouseDown.lastCall.args).toEqual([note, e]);
     });
   });
 

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import h from 'react-hyperscript';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -59,7 +58,7 @@ describe('UploadOverlay Component', () => {
       stopPropagation: () => {},
     };
     component.simulate('drop', e);
-    expect(_.last(onFileDrop.args)[0]).toEqual(files[0]);
+    expect(onFileDrop.lastCall.args).toEqual([files[0]]);
   });
 
   it('should invoke file drag cancel event when dropped files are empty', () => {

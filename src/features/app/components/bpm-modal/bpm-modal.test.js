@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import h from 'react-hyperscript';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -100,7 +99,7 @@ describe('BPMModal Component', () => {
       }));
       const value = 200;
       component.instance().handleContentDropdownListSelect(value);
-      expect(_.last(onBPMChange.args)[0]).toEqual(value);
+      expect(onBPMChange.lastCall.args).toEqual([value]);
     });
   });
 });

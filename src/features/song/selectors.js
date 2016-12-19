@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { compose, filter, map } from 'lodash/fp';
 import shared from '../shared';
 import { NAME } from './constants';
 
@@ -83,15 +84,15 @@ export const getDeepTracks = state =>
     sequences: _.filter(getDeepSequences(state), { trackId: track.id }),
   }));
 
-export const getMutedTrackIds = state => _(getTracks(state))
-  .filter({ isMuted: true })
-  .map('id')
-  .value();
+export const getMutedTrackIds = state => compose(
+  map('id'),
+  filter('isMuted'),
+)(getTracks(state));
 
-export const getSoloingTrackIds = state => _(getTracks(state))
-  .filter({ isSoloing: true })
-  .map('id')
-  .value();
+export const getSoloingTrackIds = state => compose(
+  map('id'),
+  filter('isSoloing'),
+)(getTracks(state));
 
 export const getIsAnyTrackSoloing = state =>
   _.some(getTracks(state), 'isSoloing');

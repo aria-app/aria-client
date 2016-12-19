@@ -77,7 +77,7 @@ $track__add-button--hover__fill: $neutral-6;
         &__action + &__action {
           border-left: $track__header__action__border;
         }
-        &__action--mute.track__header__action--active {
+        &__action--mute.track__body__header__actions__action--active {
           color: $track__header__action--mute--active__color;
           background-color: $track__header__action--mute--active__background-color;
           border-color: $track__header__action--mute--active__border-color;
@@ -85,7 +85,7 @@ $track__add-button--hover__fill: $neutral-6;
             background-color: $track__header__action--mute--active--hover__background-color;
           }
         }
-        &__action--solo.track__header__action--active {
+        &__action--solo.track__body__header__actions__action--active {
           color: $track__header__action--solo--active__color;
           background-color: $track__header__action--solo--active__background-color;
           border-color: $track__header__action--solo--active__border-color;

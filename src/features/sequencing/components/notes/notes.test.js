@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import h from 'react-hyperscript';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -64,7 +63,7 @@ describe('Notes Component', () => {
       ctrlKey: true,
       metaKey: false,
     });
-    expect(_.last(onSelectStart.args)[0]).toEqual(true);
+    expect(onSelectStart.lastCall.args).toEqual([true]);
   });
 
   it('should invoke select start event with true on mouse down when select tool is selected and meta key is held', () => {
@@ -78,7 +77,7 @@ describe('Notes Component', () => {
       ctrlKey: false,
       metaKey: true,
     });
-    expect(_.last(onSelectStart.args)[0]).toEqual(true);
+    expect(onSelectStart.lastCall.args).toEqual([true]);
   });
 
   it('should invoke select start event with false on mouse down when select tool is selected and neither ctrl or meta key is held', () => {
@@ -92,7 +91,7 @@ describe('Notes Component', () => {
       ctrlKey: false,
       metaKey: false,
     });
-    expect(_.last(onSelectStart.args)[0]).toEqual(false);
+    expect(onSelectStart.lastCall.args).toEqual([false]);
   });
 
   it('should not invoke select start event on mouse down when select tool is not selected', () => {
@@ -161,7 +160,7 @@ describe('Notes Component', () => {
       ctrlKey: true,
       metaKey: false,
     });
-    expect(_.last(onSelectUpdate.args)[0]).toEqual(true);
+    expect(onSelectUpdate.lastCall.args).toEqual([true]);
   });
 
   it('should invoke select update event with true on mouse move when selecting and meta key is held', () => {
@@ -175,7 +174,7 @@ describe('Notes Component', () => {
       ctrlKey: false,
       metaKey: true,
     });
-    expect(_.last(onSelectUpdate.args)[0]).toEqual(true);
+    expect(onSelectUpdate.lastCall.args).toEqual([true]);
   });
 
   it('should invoke select update event with false on mouse move when selecting and neither ctrl or meta key is held', () => {
@@ -189,7 +188,7 @@ describe('Notes Component', () => {
       ctrlKey: false,
       metaKey: false,
     });
-    expect(_.last(onSelectUpdate.args)[0]).toEqual(false);
+    expect(onSelectUpdate.lastCall.args).toEqual([false]);
   });
 
   it('should not invoke select update event on mouse move when not selecting', () => {
@@ -534,7 +533,7 @@ describe('Notes Component', () => {
         stopPropagation: () => {},
       };
       component.instance().handleNoteMouseDown(note, e);
-      expect(_.last(onNotePreview.args)[0]).toEqual(note.points[0]);
+      expect(onNotePreview.lastCall.args).toEqual([note.points[0]]);
     });
 
     it('should invoke note preview event with first point of note if select tool is selected', () => {
@@ -557,7 +556,7 @@ describe('Notes Component', () => {
         stopPropagation: () => {},
       };
       component.instance().handleNoteMouseDown(note, e);
-      expect(_.last(onNotePreview.args)[0]).toEqual(note.points[0]);
+      expect(onNotePreview.lastCall.args).toEqual([note.points[0]]);
     });
 
     it('should not invoke note preview event when neither draw or select tool is selected', () => {
@@ -603,8 +602,7 @@ describe('Notes Component', () => {
         stopPropagation: () => {},
       };
       component.instance().handleNoteMouseDown(note, e);
-      expect(_.last(onNoteSelect.args)[0]).toEqual(note);
-      expect(_.last(onNoteSelect.args)[1]).toEqual(true);
+      expect(onNoteSelect.lastCall.args).toEqual([note, true]);
     });
 
     it('should invoke note select event with note and true when ctrl key is held and select tool is selected', () => {
@@ -627,8 +625,7 @@ describe('Notes Component', () => {
         stopPropagation: () => {},
       };
       component.instance().handleNoteMouseDown(note, e);
-      expect(_.last(onNoteSelect.args)[0]).toEqual(note);
-      expect(_.last(onNoteSelect.args)[1]).toEqual(true);
+      expect(onNoteSelect.lastCall.args).toEqual([note, true]);
     });
 
     it('should invoke note select event with note and true when meta key is held and draw tool is selected', () => {
@@ -651,8 +648,7 @@ describe('Notes Component', () => {
         stopPropagation: () => {},
       };
       component.instance().handleNoteMouseDown(note, e);
-      expect(_.last(onNoteSelect.args)[0]).toEqual(note);
-      expect(_.last(onNoteSelect.args)[1]).toEqual(true);
+      expect(onNoteSelect.lastCall.args).toEqual([note, true]);
     });
 
     it('should invoke note select event with note and true when meta key is held and select tool is selected', () => {
@@ -675,8 +671,7 @@ describe('Notes Component', () => {
         stopPropagation: () => {},
       };
       component.instance().handleNoteMouseDown(note, e);
-      expect(_.last(onNoteSelect.args)[0]).toEqual(note);
-      expect(_.last(onNoteSelect.args)[1]).toEqual(true);
+      expect(onNoteSelect.lastCall.args).toEqual([note, true]);
     });
 
     it('should invoke note select event with note and false when neither ctrl or meta key is held and draw tool is selected', () => {
@@ -699,8 +694,7 @@ describe('Notes Component', () => {
         stopPropagation: () => {},
       };
       component.instance().handleNoteMouseDown(note, e);
-      expect(_.last(onNoteSelect.args)[0]).toEqual(note);
-      expect(_.last(onNoteSelect.args)[1]).toEqual(false);
+      expect(onNoteSelect.lastCall.args).toEqual([note, false]);
     });
 
     it('should invoke note select event with note and false when neither ctrl or meta key is held and select tool is selected', () => {
@@ -723,8 +717,7 @@ describe('Notes Component', () => {
         stopPropagation: () => {},
       };
       component.instance().handleNoteMouseDown(note, e);
-      expect(_.last(onNoteSelect.args)[0]).toEqual(note);
-      expect(_.last(onNoteSelect.args)[1]).toEqual(false);
+      expect(onNoteSelect.lastCall.args).toEqual([note, false]);
     });
 
     it('should not invoke note select event when neither draw or select tool is selected', () => {
@@ -902,7 +895,7 @@ describe('Notes Component', () => {
         ],
       };
       component.instance().handleNoteMouseUp(note);
-      expect(_.last(onErase.args)[0]).toEqual(note);
+      expect(onErase.lastCall.args).toEqual([note]);
     });
 
     it('should not invoke erase event if erase tool is not selected', () => {
@@ -991,7 +984,7 @@ describe('Notes Component', () => {
         stopPropagation: () => {},
       };
       component.instance().handleNoteEndpointMouseDown(note, e);
-      expect(_.last(onNotePreview.args)[0]).toEqual(note.points[1]);
+      expect(onNotePreview.lastCall.args).toEqual([note.points[1]]);
     });
 
     it('should invoke note preview event with last point of note when select tool is selected', () => {
@@ -1014,7 +1007,7 @@ describe('Notes Component', () => {
         stopPropagation: () => {},
       };
       component.instance().handleNoteEndpointMouseDown(note, e);
-      expect(_.last(onNotePreview.args)[0]).toEqual(note.points[1]);
+      expect(onNotePreview.lastCall.args).toEqual([note.points[1]]);
     });
 
     it('should not invoke note preview event when neither draw or select tool is selected', () => {
@@ -1060,8 +1053,7 @@ describe('Notes Component', () => {
         stopPropagation: () => {},
       };
       component.instance().handleNoteEndpointMouseDown(note, e);
-      expect(_.last(onNoteSelect.args)[0]).toEqual(note);
-      expect(_.last(onNoteSelect.args)[1]).toEqual(true);
+      expect(onNoteSelect.lastCall.args).toEqual([note, true]);
     });
 
     it('should invoke note select event with note and true when ctrl key is held and select tool is selected', () => {
@@ -1084,8 +1076,7 @@ describe('Notes Component', () => {
         stopPropagation: () => {},
       };
       component.instance().handleNoteEndpointMouseDown(note, e);
-      expect(_.last(onNoteSelect.args)[0]).toEqual(note);
-      expect(_.last(onNoteSelect.args)[1]).toEqual(true);
+      expect(onNoteSelect.lastCall.args).toEqual([note, true]);
     });
 
     it('should invoke note select event with note and true when meta key is held and draw tool is selected', () => {
@@ -1108,8 +1099,7 @@ describe('Notes Component', () => {
         stopPropagation: () => {},
       };
       component.instance().handleNoteEndpointMouseDown(note, e);
-      expect(_.last(onNoteSelect.args)[0]).toEqual(note);
-      expect(_.last(onNoteSelect.args)[1]).toEqual(true);
+      expect(onNoteSelect.lastCall.args).toEqual([note, true]);
     });
 
     it('should invoke note select event with note and true when meta key is held and select tool is selected', () => {
@@ -1132,8 +1122,7 @@ describe('Notes Component', () => {
         stopPropagation: () => {},
       };
       component.instance().handleNoteEndpointMouseDown(note, e);
-      expect(_.last(onNoteSelect.args)[0]).toEqual(note);
-      expect(_.last(onNoteSelect.args)[1]).toEqual(true);
+      expect(onNoteSelect.lastCall.args).toEqual([note, true]);
     });
 
     it('should invoke note select event with note and false when neither ctrl or meta key is held and draw tool is selected', () => {
@@ -1156,8 +1145,7 @@ describe('Notes Component', () => {
         stopPropagation: () => {},
       };
       component.instance().handleNoteEndpointMouseDown(note, e);
-      expect(_.last(onNoteSelect.args)[0]).toEqual(note);
-      expect(_.last(onNoteSelect.args)[1]).toEqual(false);
+      expect(onNoteSelect.lastCall.args).toEqual([note, false]);
     });
 
     it('should invoke note select event with note and false when neither ctrl or meta key is held and select tool is selected', () => {
@@ -1180,8 +1168,7 @@ describe('Notes Component', () => {
         stopPropagation: () => {},
       };
       component.instance().handleNoteEndpointMouseDown(note, e);
-      expect(_.last(onNoteSelect.args)[0]).toEqual(note);
-      expect(_.last(onNoteSelect.args)[1]).toEqual(false);
+      expect(onNoteSelect.lastCall.args).toEqual([note, false]);
     });
 
     it('should not invoke note select event when neither draw or select tool is selected', () => {

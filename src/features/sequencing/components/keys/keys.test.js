@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import h from 'react-hyperscript';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -42,7 +41,7 @@ describe('Keys Component', () => {
         y: scale[0].y,
       };
       keyEls.first().simulate('mouseup');
-      expect(_.last(onNotePreview.args)[0]).toEqual(expected);
+      expect(onNotePreview.lastCall.args).toEqual([expected]);
     });
   });
 

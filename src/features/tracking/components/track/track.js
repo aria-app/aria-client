@@ -70,9 +70,7 @@ export class Track extends React.Component {
   }
 
   getAddPosition() {
-    return _(this.props.track.sequences)
-      .map(s => s.position + s.measureCount)
-      .max() || 0;
+    return _.max(this.props.track.sequences.map(s => s.position + s.measureCount)) || 0;
   }
 
   getBodyHeaderActionsActionMuteClassName() {

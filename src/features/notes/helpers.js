@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { some } from 'lodash/fp';
 import shared from '../shared';
 
 export function addPoints(a, b) {
@@ -16,10 +16,10 @@ export function somePointOutside(points, measureCount) {
   const totalSlotsX = ((measureCount * 8) * 4) - 1;
   const totalSlotsY = (shared.constants.octaveRange.length * 12) - 1;
 
-  return _.some(points, point =>
+  return some(point =>
     point.x < 0
     || point.x > totalSlotsX
     || point.y < 0
     || point.y > totalSlotsY,
-  );
+  )(points);
 }

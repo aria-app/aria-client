@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import h from 'react-hyperscript';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -81,7 +80,7 @@ describe('Ruler Component', () => {
       };
       const expected = (e.pageX - e.target.offsetLeft) / (32 * 2);
       bodyMeasuresEl.simulate('mousedown', e);
-      expect(_.last(onPositionSet.args)[0]).toEqual(expected);
+      expect(onPositionSet.lastCall.args).toEqual([expected]);
     });
 
     it('should invoke pause event on mouse down', () => {

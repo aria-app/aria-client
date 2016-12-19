@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import h from 'react-hyperscript';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -42,7 +41,7 @@ describe('ContextMenu Component', () => {
       }));
       const overlayEl = component.find('.context-menu__overlay');
       overlayEl.simulate('click');
-      expect(_.last(onIsOpenChange.args)[0]).toEqual(false);
+      expect(onIsOpenChange.lastCall.args).toEqual([false]);
     });
   });
 
@@ -163,7 +162,7 @@ describe('ContextMenu Component', () => {
       overlayPopupListItemEls.first().simulate('click', {
         stopPropagation: () => {},
       });
-      expect(_.last(onSelect.args)[0]).toEqual(items[0]);
+      expect(onSelect.lastCall.args).toEqual([items[0]]);
     });
   });
 

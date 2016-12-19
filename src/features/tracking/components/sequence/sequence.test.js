@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import h from 'react-hyperscript';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -105,11 +104,10 @@ describe('Sequence Component', () => {
       stopPropagation: () => {},
     };
     component.simulate('contextmenu', e);
-    expect(_.last(onContextMenu.args)[0]).toEqual(items);
-    expect(_.last(onContextMenu.args)[1]).toEqual({
+    expect(onContextMenu.lastCall.args).toEqual([items, {
       x: e.pageX,
       y: e.pageY,
-    });
+    }]);
   });
 
   it('should prevent default on context menu', () => {
@@ -154,7 +152,7 @@ describe('Sequence Component', () => {
     };
     component.simulate('dblclick', e);
     expect(onOpen.called).toEqual(true);
-    expect(_.last(onOpen.args)[0]).toEqual(sequence.id);
+    expect(onOpen.lastCall.args).toEqual([sequence.id]);
   });
 
   it('should stop propagation when double clicked', () => {

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import h from 'react-hyperscript';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -46,7 +45,7 @@ describe('Track Component', () => {
       }));
       const bodyHeaderEl = component.find('.track__body__header');
       bodyHeaderEl.simulate('click');
-      expect(_.last(onTrackSelect.args)[0]).toEqual(id);
+      expect(onTrackSelect.lastCall.args).toEqual([id]);
     });
   });
 

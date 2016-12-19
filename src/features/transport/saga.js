@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { filter, uniqBy } from 'lodash/fp';
 import { eventChannel, takeEvery } from 'redux-saga';
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import Tone from 'tone';
@@ -110,10 +111,14 @@ function* sequenceStep({ payload }) {
 
   if ((!track.isMuted && !(isAnyTrackSoloing && !track.isSoloing)) || isActiveSequence) {
     const notes = yield select(song.selectors.getNotesBySequenceId(sequence.id));
-    const notesAtStep = _(notes)
-      .filter(note => _.first(note.points).x === step)
-      .uniqBy(note => _.first(note.points).y)
-      .value();
+    // const notesAtStep = _(notes)
+    //   .filter(note => _.first(note.points).x === step)
+    //   .uniqBy(note => _.first(note.points).y)
+    //   .value();
+    const notesAtStep = _.compose(
+      uniqBy(note => _.first(note.points).y),
+      filter(note => _.first(note.points).x === step),
+    )(notes);
 
     for (let i = 0; i < notesAtStep.length; i += 1) {
       const note = notesAtStep[i];
