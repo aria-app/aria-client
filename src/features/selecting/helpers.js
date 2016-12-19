@@ -1,7 +1,7 @@
-import _ from 'lodash';
+import { first } from 'lodash/fp';
 
 export function getNotesInFence(start, end, allNotes) {
-  return allNotes.filter(n => isInside(start, end, _.first(n.points)));
+  return allNotes.filter(n => isInside(start, end, first(n.points)));
 }
 
 export function isInside(start, end, target) {

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { concat, first, head, includes, isEmpty, last, map, times, uniq, without } from 'lodash/fp';
 import Tone from 'tone';
 import shared from '../shared';
 
@@ -9,17 +9,17 @@ export default class Instrument {
     this.previewVoice.dispose();
   }
   getAvailableVoice() {
-    if (_.isEmpty(this.availableVoices)) return undefined;
+    if (isEmpty(this.availableVoices)) return undefined;
 
-    const voice = _.head(this.availableVoices);
+    const voice = head(this.availableVoices);
 
-    this.activeVoices = _.concat(this.activeVoices, voice);
-    this.availableVoices = _.without(this.availableVoices, voice);
+    this.activeVoices = concat(voice)(this.activeVoices);
+    this.availableVoices = without(voice)(this.availableVoices);
 
     return voice;
   }
   getType() {
-    const voice = _.isEmpty(this.availableVoices)
+    const voice = isEmpty(this.availableVoices)
       ? this.activeVoices[0]
       : this.availableVoices[0];
 
@@ -27,12 +27,12 @@ export default class Instrument {
   }
   makeVoiceAvailable(voice) {
     if (
-      _.isEmpty(this.activeVoices) ||
-      _.includes(this.availableVoices, voice)
+      isEmpty(this.activeVoices) ||
+      includes(voice)(this.availableVoices)
     ) return;
 
-    this.availableVoices = _.concat(this.availableVoices, voice);
-    this.activeVoices = _.without(this.activeVoices, voice);
+    this.availableVoices = concat(voice)(this.availableVoices);
+    this.activeVoices = without(voice)(this.activeVoices);
   }
   playNote(note, time) {
     const voice = this.getAvailableVoice();
@@ -43,8 +43,8 @@ export default class Instrument {
       return;
     }
 
-    const name = shared.helpers.getNoteName(_.first(note.points).y);
-    const length = shared.helpers.sizeToTime(_.last(note.points).x - _.first(note.points).x);
+    const name = shared.helpers.getNoteName(first(note.points).y);
+    const length = shared.helpers.sizeToTime(last(note.points).x - first(note.points).x);
 
     if (!doesNoteBend(note)) {
       voice.triggerAttackRelease(name, length, time);
@@ -52,8 +52,8 @@ export default class Instrument {
       voice.triggerRelease();
       voice.triggerAttack(name, time);
 
-      if (_.last(note.points).y !== _.first(note.points).y) {
-        const endName = shared.helpers.getNoteName(_.last(note.points).y);
+      if (last(note.points).y !== first(note.points).y) {
+        const endName = shared.helpers.getNoteName(last(note.points).y);
         voice.frequency.linearRampToValueAtTime(endName, `+${length}`);
         voice.frequency.setValueAtTime(endName, `+${length}`);
       }
@@ -71,7 +71,7 @@ export default class Instrument {
     this.previewVoice.triggerAttackRelease(name, '16n');
   }
   release() {
-    this.availableVoices = _.concat(this.availableVoices, this.activeVoices);
+    this.availableVoices = concat(this.activeVoices)(this.availableVoices);
     this.activeVoices = [];
 
     this.availableVoices.forEach((v) => {
@@ -79,7 +79,7 @@ export default class Instrument {
     });
   }
   setType(type) {
-    _.concat(this.activeVoices, this.availableVoices).forEach((v) => {
+    concat(this.availableVoices)(this.activeVoices).forEach((v) => {
       // eslint-disable-next-line no-param-reassign
       v.oscillator.type = type;
     });
@@ -100,7 +100,7 @@ Instrument.create = function create(id, type) {
 };
 
 function createSynths(instrument) {
-  return _.times(12, () => createSynth(instrument));
+  return times(() => createSynth(instrument))(12);
 }
 
 function createSynth({ type }) {
@@ -113,6 +113,6 @@ function createSynth({ type }) {
 }
 
 function doesNoteBend(note) {
-  const notePointYs = _.map(note.points, 'y');
-  return notePointYs.length === _.uniq(notePointYs).length;
+  const notePointYs = map('y')(note.points);
+  return notePointYs.length === uniq(notePointYs).length;
 }

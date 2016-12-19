@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { isNumber } from 'lodash/fp';
 import * as constants from './constants';
 
 export function getNoteName(y) {
@@ -54,7 +54,7 @@ export function showIf(condition) {
 }
 
 export function sizeToTime(size) {
-  if (!_.isNumber(size)) {
+  if (!isNumber(size)) {
     throw new Error('Size must be a number');
   }
 

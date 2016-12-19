@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { isEmpty, isEqual } from 'lodash/fp';
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import notes from '../notes';
@@ -22,13 +22,13 @@ function* update() {
   const newPoint = yield select(sequencingPosition.selectors.getMousePoint);
   const previousPoint = yield select(selectors.getNewPoint);
 
-  if (_.isEmpty(previousPoint)) {
+  if (isEmpty(previousPoint)) {
     yield put(notes.actions.undoPushed());
     yield put(actions.newPointSet(newPoint));
     return;
   }
 
-  if (_.isEqual(previousPoint, newPoint)) return;
+  if (isEqual(previousPoint, newPoint)) return;
 
   const offset = shared.helpers.getPointOffset(previousPoint, newPoint);
 

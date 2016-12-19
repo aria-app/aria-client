@@ -1,6 +1,6 @@
+import { isEmpty } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
-import _ from 'lodash';
 import shared from '../../../shared';
 import './upload-overlay.scss';
 
@@ -41,7 +41,7 @@ export class UploadOverlay extends React.Component {
 
   handleDrop = (e) => {
     const files = e.dataTransfer.files;
-    if (!_.isEmpty(files)) {
+    if (!isEmpty(files)) {
       this.props.onFileDrop(files[0]);
     } else {
       this.props.onFileDragCancel();

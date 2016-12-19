@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import createLogger from 'redux-logger';
+import panning from '../features/panning';
 import playing from '../features/playing';
 import selecting from '../features/selecting';
 import sequencingPosition from '../features/sequencing-position';
@@ -8,6 +9,10 @@ import shortcuts from '../features/shortcuts';
 import transport from '../features/transport';
 
 const typesToSkip = [
+  panning.actions.START_POINT_SET,
+  panning.actions.STARTED,
+  panning.actions.STOPPED,
+  panning.actions.UPDATED,
   playing.actions.NOTE_PLAYED,
   selecting.actions.NEW_POINT_SET,
   selecting.actions.UPDATED,

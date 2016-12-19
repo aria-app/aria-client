@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { filter, includes, isEmpty } from 'lodash/fp';
 import song from '../song';
 import { NAME } from './constants';
 
@@ -9,10 +9,10 @@ export const getSelectedIds = state => get(state).selectedIds;
 export const getUndos = state => get(state).undos;
 
 export const getAreSomeNotesSelected = state =>
-  !_.isEmpty(getSelectedIds(state));
+  !isEmpty(getSelectedIds(state));
 
 export const getSelectedNotes = state =>
-  _.filter(
+  filter(
+    n => includes(getSelectedIds(state), n.id),
     song.selectors.getActiveSequenceNotes(state),
-    n => _.includes(getSelectedIds(state), n.id),
   );

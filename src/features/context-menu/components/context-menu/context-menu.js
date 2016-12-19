@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { clamp } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import StylePropType from 'react-style-proptype';
@@ -60,17 +60,13 @@ export class ContextMenu extends React.Component {
   }
 
   getOverlayPopupStyle() {
-    const x = _.clamp(
-      this.props.position.x,
-      0,
-      this.props.windowWidth - 202,
-    );
+    const clampX = clamp(0, this.props.windowWidth - 202);
+    const x = clampX(this.props.position.x);
+
     const popupHeight = 16 + (this.props.items.length * 48);
-    const y = _.clamp(
-      this.props.position.y,
-      0,
-      this.props.windowHeight - popupHeight,
-    );
+    const clampY = clamp(0, this.props.windowHeight - popupHeight);
+    const y = clampY(this.props.position.y);
+
     return {
       transform: `translate(${x}px, ${y}px)`,
     };

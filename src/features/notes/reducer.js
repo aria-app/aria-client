@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { includes, map, without } from 'lodash/fp';
 import { combineReducers } from 'redux';
 import shortcuts from '../shortcuts';
 import song from '../song';
@@ -22,15 +22,15 @@ function selectedIds(state = [], action) {
       return [];
     case actions.NOTE_SELECTED:
       if (action.isAdditive) {
-        return _.includes(state, action.note.id)
-          ? _.without(state, action.note.id)
+        return includes(action.note.id)(state)
+          ? without(action.note.id)(state)
           : [...state, action.note.id];
       }
-      return !_.includes(state, action.note.id)
+      return !includes(action.note.id)(state)
         ? [action.note.id]
         : state;
     case actions.NOTES_SELECTED:
-      return _.map(action.notes, 'id');
+      return map('id')(action.notes);
     default:
       return state;
   }

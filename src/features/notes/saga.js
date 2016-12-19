@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { first, isEmpty, isEqual, last, map, some, without } from 'lodash/fp';
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import playing from '../playing';
@@ -12,19 +12,19 @@ import * as selectors from './selectors';
 function* changeSelectedNotesSize({ change }) {
   const selectedNotes = yield select(selectors.getSelectedNotes);
 
-  if (_.isEmpty(selectedNotes)) return;
+  if (isEmpty(selectedNotes)) return;
 
   yield put(actions.notesResized(selectedNotes, change));
 }
 
 function* deleteNotes({ notes }) {
-  yield put(song.actions.notesDeleted(_.map(notes, 'id')));
+  yield put(song.actions.notesDeleted(map('id')(notes)));
 }
 
 function* deleteSelectedNotes() {
   const selectedNotes = yield select(selectors.getSelectedNotes);
 
-  if (_.isEmpty(selectedNotes)) return;
+  if (isEmpty(selectedNotes)) return;
 
   yield put(actions.notesDeleted(selectedNotes));
 }
@@ -45,7 +45,7 @@ function* drawNote() {
 function* duplicateSelectedNotes() {
   const selectedNotes = yield select(selectors.getSelectedNotes);
 
-  if (_.isEmpty(selectedNotes)) return;
+  if (isEmpty(selectedNotes)) return;
 
   const newNotes = selectedNotes.map(note => song.helpers.createNote({
     points: note.points,
@@ -68,18 +68,18 @@ function* moveNotes({ notes, offset }) {
   }));
 
   if (
-    (helpers.somePointOutside(_.map(updatedNotes, n => n.points[0]), measureCount)) ||
-    (helpers.somePointOutside(_.map(updatedNotes, n => n.points[1]), measureCount))
+    (helpers.somePointOutside(map(n => n.points[0])(updatedNotes), measureCount)) ||
+    (helpers.somePointOutside(map(n => n.points[1])(updatedNotes), measureCount))
   ) return;
 
-  yield put(playing.actions.notePreviewed(_.first(updatedNotes[0].points)));
+  yield put(playing.actions.notePreviewed(first(updatedNotes[0].points)));
   yield put(song.actions.notesUpdated(updatedNotes));
 }
 
 function* moveSelected({ offset }) {
   const selectedNotes = yield select(selectors.getSelectedNotes);
 
-  if (_.isEmpty(selectedNotes)) return;
+  if (isEmpty(selectedNotes)) return;
 
   yield put(actions.notesMoved(selectedNotes, offset));
 }
@@ -87,7 +87,7 @@ function* moveSelected({ offset }) {
 function* nudgeSelectedNotesPosition({ change }) {
   const selectedNotes = yield select(selectors.getSelectedNotes);
 
-  if (_.isEmpty(selectedNotes)) return;
+  if (isEmpty(selectedNotes)) return;
 
   yield call(pushUndo);
   yield put(actions.notesMoved(selectedNotes, change));
@@ -110,7 +110,7 @@ function* pushUndo() {
   const allNotes = yield select(song.selectors.getNotes);
   const undos = yield select(selectors.getUndos);
 
-  if (_.isEqual(_.last(undos), allNotes)) return;
+  if (isEqual(last(undos), allNotes)) return;
 
   yield put(actions.undosSet([
     ...undos,
@@ -122,7 +122,7 @@ function* pushUndo() {
 function* redo() {
   const redos = yield select(selectors.getRedos);
 
-  if (_.isEmpty(redos)) return;
+  if (isEmpty(redos)) return;
 
   const allNotes = yield select(song.selectors.getNotes);
   const undos = yield select(selectors.getUndos);
@@ -131,21 +131,21 @@ function* redo() {
     ...undos,
     allNotes,
   ]));
-  yield put(song.actions.notesSet(_.last(redos)));
+  yield put(song.actions.notesSet(last(redos)));
   yield put(actions.redosSet(redos.slice(0, redos.length - 1)));
 }
 
 function* resize({ notes, change }) {
   const measureCount = yield select(song.selectors.getActiveSequenceMeasureCount);
   const movingLeft = change.x < 0;
-  const anyNoteBent = _.some(notes, n => (_.last(n.points).y - _.first(n.points).y) !== 0);
-  const willBeMinLength = _.some(notes, n => (_.last(n.points).x - _.first(n.points).x) <= 1);
-  const willBeNegative = _.some(notes, n => (_.last(n.points).x - _.first(n.points).x) <= 0);
+  const anyNoteBent = some(n => (last(n.points).y - first(n.points).y) !== 0)(notes);
+  const willBeMinLength = some(n => (last(n.points).x - first(n.points).x) <= 1)(notes);
+  const willBeNegative = some(n => (last(n.points).x - first(n.points).x) <= 0)(notes);
 
   if (
     (movingLeft && anyNoteBent && willBeMinLength) ||
     (movingLeft && willBeNegative) ||
-    (change.y !== 0 && _.some(notes, n => (_.last(n.points).x - _.first(n.points).x) === 0))
+    (change.y !== 0 && some(n => (last(n.points).x - first(n.points).x) === 0))(notes)
   ) return;
 
   const updatedNotes = notes
@@ -153,28 +153,28 @@ function* resize({ notes, change }) {
       ...note,
       points: [
         ...note.points.slice(0, note.points.length - 1),
-        helpers.addPoints(_.last(note.points), change),
+        helpers.addPoints(last(note.points), change),
       ],
     }));
 
-  if (helpers.somePointOutside(_.map(updatedNotes, n => n.points[1]), measureCount)) return;
+  if (helpers.somePointOutside(map(n => n.points[1])(updatedNotes), measureCount)) return;
 
-  yield put(playing.actions.notePreviewed(_.last(updatedNotes[0].points)));
+  yield put(playing.actions.notePreviewed(last(updatedNotes[0].points)));
   yield put(song.actions.notesUpdated(updatedNotes));
 }
 
 function* resizeSelected(action) {
   const selectedNotes = yield select(selectors.getSelectedNotes);
 
-  if (_.isEmpty(selectedNotes)) return;
+  if (isEmpty(selectedNotes)) return;
 
   const updatedNotes = selectedNotes.map(note => ({
     ...note,
     points: [
       ...note.points.slice(0, note.points.length - 1),
       {
-        x: (_.first(note.points).x + action.size) - 1,
-        y: _.first(note.points).y,
+        x: (first(note.points).x + action.size) - 1,
+        y: first(note.points).y,
       },
     ],
   }));
@@ -185,7 +185,7 @@ function* resizeSelected(action) {
 function* selectAll() {
   const notes = yield select(song.selectors.getActiveSequenceNotes);
 
-  if (_.isEmpty(notes)) return;
+  if (isEmpty(notes)) return;
 
   yield put(actions.notesSelected(notes));
 }
@@ -193,7 +193,7 @@ function* selectAll() {
 function* shiftDownOctave() {
   const selectedNotes = yield select(selectors.getSelectedNotes);
 
-  if (_.isEmpty(selectedNotes)) return;
+  if (isEmpty(selectedNotes)) return;
 
   yield put(actions.notesMoved(selectedNotes, {
     x: 0,
@@ -204,7 +204,7 @@ function* shiftDownOctave() {
 function* shiftUpOctave() {
   const selectedNotes = yield select(selectors.getSelectedNotes);
 
-  if (_.isEmpty(selectedNotes)) return;
+  if (isEmpty(selectedNotes)) return;
 
   yield put(actions.notesMoved(selectedNotes, {
     x: 0,
@@ -215,13 +215,13 @@ function* shiftUpOctave() {
 function* undo() {
   const undos = yield select(selectors.getUndos);
 
-  if (_.isEmpty(undos)) return;
+  if (isEmpty(undos)) return;
 
-  const lastUndo = _.last(undos);
+  const lastUndo = last(undos);
 
   yield put(actions.redoPushed());
   yield put(song.actions.notesSet(lastUndo));
-  yield put(actions.undosSet(_.without(undos, lastUndo)));
+  yield put(actions.undosSet(without(lastUndo)(undos)));
 }
 
 export default function* saga() {
