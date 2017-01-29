@@ -9,7 +9,7 @@ const heldKeys = (state = [], action) => {
     case actions.KEY_HOLD_STARTED:
       return [...state, action.keyCode];
     case actions.KEY_HOLD_STOPPED:
-      return without(action.keyCode)(state);
+      return without([action.keyCode])(state);
     default:
       return state;
   }

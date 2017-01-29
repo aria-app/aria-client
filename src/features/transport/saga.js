@@ -1,8 +1,8 @@
 import { compose, filter, first, isEmpty, range, uniqBy } from 'lodash/fp';
 import { eventChannel, takeEvery } from 'redux-saga';
 import { call, fork, put, select, take } from 'redux-saga/effects';
-import Tone from 'tone';
 import playing from '../playing';
+import shared from '../shared';
 import shortcuts from '../shortcuts';
 import song from '../song';
 import * as actions from './actions';
@@ -10,6 +10,7 @@ import * as constants from './constants';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
+const { Tone } = shared;
 const { STARTED } = constants.playbackStates;
 
 function* createSequences() {
@@ -49,11 +50,11 @@ function* loopSequence() {
   const { measureCount, position } = yield select(song.selectors.getActiveSequence);
   const start = helpers.measuresToTime(position);
   const end = helpers.measuresToTime(position + measureCount);
-  const startPoint = new Tone.TransportTime(start).toBarsBeatsSixteenths();
+  const startPoint = Tone.getTransportTime(start);
   yield put(actions.startPointSet(startPoint));
   // yield put(actions.startPointSet(`+${start}`));
-  Tone.Transport.setLoopPoints(start, end);
-  Tone.Transport.loop = true;
+  Tone.setTransportLoopPoints(start, end);
+  Tone.setTransportLoop(true);
   const playbackState = yield select(selectors.getPlaybackState);
   yield put(actions.playbackStopped());
   if (playbackState === STARTED) {
@@ -66,8 +67,8 @@ function* loopSong() {
   const songMeasureCount = yield select(song.selectors.getMeasureCount);
   const end = helpers.measuresToTime(songMeasureCount);
   yield put(actions.startPointSet('0'));
-  Tone.Transport.setLoopPoints('0', end);
-  Tone.Transport.loop = true;
+  Tone.setTransportLoopPoints('0', end);
+  Tone.setTransportLoop(true);
   const playbackState = yield select(selectors.getPlaybackState);
   yield put(actions.playbackStopped());
   if (playbackState === STARTED) {
@@ -77,9 +78,9 @@ function* loopSong() {
 }
 
 function* pause() {
-  if (Tone.Transport.state !== 'paused') {
+  if (Tone.getTransportState() !== 'paused') {
     yield call(() => {
-      Tone.Transport.pause();
+      Tone.pauseTransport();
     });
 
     yield put(playing.actions.allInstrumentsReleased());
@@ -87,16 +88,16 @@ function* pause() {
 }
 
 function* play() {
-  if (Tone.Transport.state === 'stopped') {
+  if (Tone.getTransportState() === 'stopped') {
     const startPoint = yield select(selectors.getStartPoint);
     yield call(() => {
-      Tone.Transport.start(undefined, startPoint);
+      Tone.startTransport(undefined, startPoint);
     });
   }
 
-  if (Tone.Transport.state === 'paused') {
+  if (Tone.getTransportState() === 'paused') {
     yield call(() => {
-      Tone.Transport.start();
+      Tone.startTransport();
     });
   }
 }
@@ -136,13 +137,13 @@ function* sequenceStep({ payload }) {
 
 function* setBPM(action) {
   yield call(() => {
-    Tone.Transport.bpm.value = action.bpm;
+    Tone.setTransportBPM(action.bpm);
   });
 }
 
 function* setTransportPosition({ measures }) {
   const position = helpers.measuresToTime(measures);
-  Tone.Transport.position = position;
+  Tone.setTransportPosition(position);
   yield put(actions.songPositionSet(measures * 32));
   yield put(playing.actions.allInstrumentsReleased());
 }
@@ -153,9 +154,9 @@ function* songSequenceStep(action) {
 }
 
 function* stop() {
-  if (Tone.Transport.state !== 'stopped') {
+  if (Tone.getTransportState() !== 'stopped') {
     yield call(() => {
-      Tone.Transport.stop();
+      Tone.stopTransport();
     });
     yield put(playing.actions.allInstrumentsReleased());
   }
@@ -234,7 +235,7 @@ export default function* saga() {
 }
 
 function createSequence(songSequence, ...rest) {
-  const sequence = new Tone.Sequence(...rest);
+  const sequence = Tone.createSequence(...rest);
   const start = helpers.measuresToTime(songSequence.position);
   sequence.loop = false;
   sequence.start(start);
@@ -243,11 +244,11 @@ function createSequence(songSequence, ...rest) {
 
 function songSequenceStepsChannelFactory(measureCount) {
   return eventChannel((emit) => {
-    const sequence = new Tone.Sequence(
+    const sequence = Tone.createSequence(
       (time, step) => {
         emit(actions.songSequenceStepTriggered({ step, time }));
       },
-      range(measureCount * 32),
+      range(0)(measureCount * 32),
       '32n',
     );
     sequence.loop = false;
@@ -263,7 +264,7 @@ function sequenceStepsChannelFactory(songSequences) {
       (time, step) => {
         emit(actions.sequenceStepTriggered({ sequence, step, time }));
       },
-      range(sequence.measureCount * 32),
+      range(0)(sequence.measureCount * 32),
       '32n',
     ));
 

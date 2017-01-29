@@ -6,6 +6,9 @@ import notes from './notes';
 import sequences from './sequences';
 import tracks from './tracks';
 
+const clampBpm = bpmValue =>
+  clamp(shared.constants.minBPM, shared.constants.maxBPM)(bpmValue);
+
 const activeSequenceId = (state = '', action) => {
   switch (action.type) {
     case actions.SONG_LOADED:
@@ -85,7 +88,3 @@ export default combineReducers({
   sequences,
   tracks,
 });
-
-function clampBpm(bpmValue) {
-  return clamp(shared.constants.minBPM, shared.constants.maxBPM)(bpmValue);
-}

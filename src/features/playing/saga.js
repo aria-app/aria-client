@@ -1,11 +1,12 @@
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import Tone from 'tone';
 import shared from '../shared';
 import song from '../song';
 import * as actions from './actions';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
+
+const { Tone } = shared;
 
 function* addNewChannels({ tracks }) {
   for (let i = 0; i < tracks.length; i += 1) {
@@ -90,5 +91,5 @@ export default function* saga() {
 }
 
 function setToneBPM(value) {
-  Tone.Transport.bpm.value = value;
+  Tone.setTransportBPM(value);
 }

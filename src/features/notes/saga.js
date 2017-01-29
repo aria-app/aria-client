@@ -221,7 +221,7 @@ function* undo() {
 
   yield put(actions.redoPushed());
   yield put(song.actions.notesSet(lastUndo));
-  yield put(actions.undosSet(without(lastUndo)(undos)));
+  yield put(actions.undosSet(without([lastUndo])(undos)));
 }
 
 export default function* saga() {

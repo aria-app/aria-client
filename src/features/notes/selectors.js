@@ -1,4 +1,4 @@
-import { filter, includes, isEmpty } from 'lodash/fp';
+import { filter, flow, identity, includes, some } from 'lodash/fp';
 import song from '../song';
 import { NAME } from './constants';
 
@@ -8,11 +8,20 @@ export const getRedos = state => get(state).redos;
 export const getSelectedIds = state => get(state).selectedIds;
 export const getUndos = state => get(state).undos;
 
-export const getAreSomeNotesSelected = state =>
-  !isEmpty(getSelectedIds(state));
+export const getAreSomeNotesSelected =
+  flow(
+    getSelectedIds,
+    some(identity),
+  );
+
+const isSelectedNote = state => note =>
+  flow(
+    getSelectedIds,
+    includes(note.id),
+  )(state);
 
 export const getSelectedNotes = state =>
-  filter(
-    n => includes(getSelectedIds(state), n.id),
-    song.selectors.getActiveSequenceNotes(state),
-  );
+  flow(
+    song.selectors.getActiveSequenceNotes,
+    filter(isSelectedNote(state)),
+  )(state);

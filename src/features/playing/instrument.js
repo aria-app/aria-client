@@ -1,6 +1,7 @@
 import { concat, first, head, includes, isEmpty, last, map, times, uniq, without } from 'lodash/fp';
-import Tone from 'tone';
 import shared from '../shared';
+
+const { Tone } = shared;
 
 export default class Instrument {
   dispose() {
@@ -12,9 +13,8 @@ export default class Instrument {
     if (isEmpty(this.availableVoices)) return undefined;
 
     const voice = head(this.availableVoices);
-
     this.activeVoices = concat(this.activeVoices)(voice);
-    this.availableVoices = without(voice)(this.availableVoices);
+    this.availableVoices = without([voice])(this.availableVoices);
 
     return voice;
   }
@@ -32,7 +32,7 @@ export default class Instrument {
     ) return;
 
     this.availableVoices = concat(this.availableVoices)(voice);
-    this.activeVoices = without(voice)(this.activeVoices);
+    this.activeVoices = without([voice])(this.activeVoices);
   }
   playNote(note, time) {
     const voice = this.getAvailableVoice();
@@ -59,7 +59,7 @@ export default class Instrument {
       }
     }
 
-    Tone.Transport.scheduleOnce(() => {
+    Tone.scheduleOnceOnTransport(() => {
       if (voice && voice.envelope) {
         voice.triggerRelease();
         this.makeVoiceAvailable(voice);
@@ -104,7 +104,7 @@ function createSynths(instrument) {
 }
 
 function createSynth({ type }) {
-  return new Tone.Synth({
+  return Tone.createSynth({
     detune: 0,
     oscillator: {
       type,

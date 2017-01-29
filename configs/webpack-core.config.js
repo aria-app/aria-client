@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const autoprefixer = require('autoprefixer');
+// const autoprefixer = require('autoprefixer');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const dependencies = require('../package.json').dependencies;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -22,19 +22,19 @@ module.exports = {
     filename: '[name].bundle.js',
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.scss$/,
-        loader: 'style!css!postcss!sass',
+        loader: 'style-loader!css-loader!postcss-loader!sass-loader',
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel',
+        loader: 'babel-loader',
       },
       {
         test: /\.json/,
-        loader: 'json',
+        loader: 'json-loader',
       },
     ],
   },
@@ -50,13 +50,6 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '../src/index.html'),
-    }),
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        postcss: function postcss() {
-          return [autoprefixer];
-        },
-      },
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
   ],

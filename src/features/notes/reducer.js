@@ -23,7 +23,7 @@ function selectedIds(state = [], action) {
     case actions.NOTE_SELECTED:
       if (action.isAdditive) {
         return includes(action.note.id)(state)
-          ? without(action.note.id)(state)
+          ? without([action.note.id])(state)
           : [...state, action.note.id];
       }
       return !includes(action.note.id)(state)

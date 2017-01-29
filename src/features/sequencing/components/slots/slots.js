@@ -18,32 +18,31 @@ export class Slots extends React.Component {
   }
 }
 
-function getRowClasses(step) {
-  const letter = step.name.slice(0, 1).toLowerCase();
-  const suffix = includes(step.name, '#')
-    ? 'sharp'
-    : '';
-  return `slots__row--${letter}${suffix}`;
-}
+const getRowClassLetter = step =>
+  step.name.slice(0, 1).toLowerCase();
+
+const getRowClassSuffix = step =>
+  (includes('#', step.name) ? 'sharp' : '');
+
+const getRowClass = step =>
+  `slots__row--${getRowClassLetter(step)}${getRowClassSuffix(step)}`;
+
+const getSlots = times(n => h('.slots__slot', {
+  key: n,
+}, [
+  h('.slots__slot__fill'),
+]));
+
+const getSections = times(sectionNumber =>
+  h('.slots__row__section', {
+    key: sectionNumber,
+  }, [
+    ...getSlots(8),
+  ]));
 
 function getRows(measureCount) {
-  return scale.map(row => h('.slots__row', {
-    className: getRowClasses(row),
+  return scale.map((row, index) => h('.slots__row', {
+    className: getRowClass(row),
+    key: index,
   }, getSections(measureCount * 4)));
-}
-
-function getSections(count) {
-  return times(sectionNumber =>
-    h('.slots__row__section', {
-      key: sectionNumber,
-    }, getSlots(8)),
-  count);
-}
-
-function getSlots(count) {
-  return times(n =>
-    h('.slots__slot', {
-      key: n,
-    }, h('.slots__slot__fill')),
-  count);
 }

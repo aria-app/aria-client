@@ -7,6 +7,7 @@ module.exports = {
     'airbnb-base',
     'plugin:import/errors',
     'plugin:import/warnings',
+    'plugin:lodash-fp/recommended',
   ],
   parser: "babel-eslint",
   parserOptions: {
@@ -15,6 +16,7 @@ module.exports = {
     },
   },
   plugins: [
+    'lodash-fp',
     'react',
   ],
   rules: {
@@ -25,6 +27,7 @@ module.exports = {
           '**/*.stories.js',
           '**/*.test.js',
           '**/webpack-*.config.js',
+          'wallaby.js',
         ],
       },
     ],
