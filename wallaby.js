@@ -14,11 +14,13 @@ module.exports = function wallabyConfig(wallaby) {
   });
   return {
     files: [
-      { pattern: 'setup.js', load: false },
       { pattern: 'src/**/*.js', load: false },
       { pattern: '!src/**/*.stories.js', load: false },
       { pattern: '!src/**/*.test.js', load: false },
     ],
+    hints: {
+      ignoreCoverage: 'wallaby-ignore',
+    },
     tests: [
       { pattern: 'src/**/*.test.js', load: false },
     ],

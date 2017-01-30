@@ -5,6 +5,7 @@ import { Tracks } from '../tracks/tracks';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 
+// wallaby-ignore
 export const TracksContainer = connect(state => ({
   mutedTrackIds: song.selectors.getMutedTrackIds(state),
   soloingTrackIds: song.selectors.getSoloingTrackIds(state),

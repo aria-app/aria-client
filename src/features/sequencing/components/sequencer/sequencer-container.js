@@ -6,6 +6,7 @@ import song from '../../../song';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 
+// wallaby-ignore
 export const SequencerContainer = connect(state => ({
   activeSequenceId: song.selectors.getActiveSequenceId(state),
   areSomeNotesSelected: notes.selectors.getAreSomeNotesSelected(state),

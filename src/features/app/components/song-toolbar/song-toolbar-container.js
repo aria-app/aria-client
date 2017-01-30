@@ -4,6 +4,7 @@ import song from '../../../song';
 import transport from '../../../transport';
 import * as actions from '../../actions';
 
+// wallaby-ignore
 export const SongToolbarContainer = connect(state => ({
   BPM: song.selectors.getBPM(state),
   playbackState: transport.selectors.getPlaybackState(state),

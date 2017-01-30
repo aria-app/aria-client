@@ -5,6 +5,7 @@ import sequencingPosition from '../../../sequencing-position';
 import song from '../../../song';
 import * as selectors from '../../selectors';
 
+// wallaby-ignore
 export const GridContainer = connect(state => ({
   isPanning: panning.selectors.getIsPanning(state),
   measureCount: song.selectors.getActiveSequenceMeasureCount(state),

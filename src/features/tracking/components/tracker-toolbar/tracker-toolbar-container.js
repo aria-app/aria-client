@@ -3,6 +3,7 @@ import { TrackerToolbar } from '../tracker-toolbar/tracker-toolbar';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 
+// wallaby-ignore
 export const TrackerToolbarContainer = connect(state => ({
   selectedSequenceId: selectors.getSelectedSequenceId(state),
 }), {

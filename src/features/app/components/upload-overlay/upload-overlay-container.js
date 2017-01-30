@@ -3,6 +3,7 @@ import { UploadOverlay } from './upload-overlay';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 
+// wallaby-ignore
 export const UploadOverlayContainer = connect(state => ({
   isFileOver: selectors.getIsFileOver(state),
 }), {

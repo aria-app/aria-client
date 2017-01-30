@@ -4,6 +4,7 @@ import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 import { ContextMenu } from '../context-menu/context-menu';
 
+// wallaby-ignore
 export const ContextMenuContainer = connect(state => ({
   isOpen: selectors.getIsContextMenuOpen(state),
   items: selectors.getContextMenuItems(state),

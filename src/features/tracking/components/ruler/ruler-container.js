@@ -4,6 +4,7 @@ import transport from '../../../transport';
 import { Ruler } from '../ruler/ruler';
 import * as actions from '../../actions';
 
+// wallaby-ignore
 export const RulerContainer = connect(state => ({
   measureCount: song.selectors.getMeasureCount(state),
   playbackState: transport.selectors.getPlaybackState(state),

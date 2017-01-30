@@ -10,6 +10,7 @@ import sequencingPosition from '../../../sequencing-position';
 import song from '../../../song';
 import * as selectors from '../../selectors';
 
+// wallaby-ignore
 export const NotesContainer = connect(state => ({
   isMoving: moving.selectors.getIsMoving(state),
   isPanning: panning.selectors.getIsPanning(state),
