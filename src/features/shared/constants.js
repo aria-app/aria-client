@@ -1,4 +1,4 @@
-import { range } from 'lodash/fp';
+import { rangeStep } from 'lodash/fp';
 
 export const NAME = 'shared';
 
@@ -9,7 +9,7 @@ export const localStorageKey = 'currentSong';
 export const minBPM = 60;
 export const maxBPM = 400;
 
-export const bpmRange = range(minBPM, maxBPM + 1, 10);
+export const bpmRange = rangeStep(minBPM, maxBPM + 1, 10);
 
 export const octaveRange = [0, 1, 2, 3, 4, 5, 6];
 

@@ -3,7 +3,7 @@ import shared from '../shared';
 import { NAME } from './constants';
 
 export const getActiveSequenceId = state =>
-  get(`activeSequenceId`)(state[NAME]);
+  get('activeSequenceId')(state[NAME]);
 
 export const getBPM = state =>
   getOr(shared.constants.defaultBPM)('bpm')(state[NAME]);

@@ -3,6 +3,7 @@ import { App } from '../app/app';
 import song from '../../../song';
 import * as actions from '../../actions';
 
+// wallaby-ignore
 export const AppContainer = connect(state => ({
   isSequenceOpen: !!song.selectors.getActiveSequenceId(state),
 }), {

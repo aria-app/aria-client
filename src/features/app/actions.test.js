@@ -1,0 +1,47 @@
+import * as actions from './actions';
+
+describe('App Actions', () => {
+  describe('bpmModalClosed', () => {
+    it('should return action with type BPM_MODAL_CLOSED', () => {
+      const expected = { type: actions.BPM_MODAL_CLOSED };
+      const result = actions.bpmModalClosed();
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('bpmModalOpened', () => {
+    it('should return action with type BPM_MODAL_OPENED', () => {
+      const expected = { type: actions.BPM_MODAL_OPENED };
+      const result = actions.bpmModalOpened();
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('fileDragCancelled', () => {
+    it('should return action with type FILE_DRAG_CANCELLED', () => {
+      const expected = { type: actions.FILE_DRAG_CANCELLED };
+      const result = actions.fileDragCancelled();
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('fileDragStarted', () => {
+    it('should return action with type FILE_DRAG_STARTED', () => {
+      const expected = { type: actions.FILE_DRAG_STARTED };
+      const result = actions.fileDragStarted();
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('fileDropped', () => {
+    it('should return action with type FILE_DROPPED and payload equal to file argument', () => {
+      const file = {};
+      const expected = {
+        type: actions.FILE_DROPPED,
+        payload: file,
+      };
+      const result = actions.fileDropped(file);
+      expect(result).toEqual(expected);
+    });
+  });
+});

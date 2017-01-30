@@ -16,8 +16,8 @@ function getFileContents(file) {
   });
 }
 
-function* loadSongFromFile({ file }) {
-  const data = yield call(getFileContents, file);
+function* loadSongFromFile({ payload }) {
+  const data = yield call(getFileContents, payload);
   try {
     const obj = JSON.parse(data);
     yield put(song.actions.songLoaded(obj));

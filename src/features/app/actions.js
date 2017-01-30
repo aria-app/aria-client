@@ -24,5 +24,5 @@ export const fileDragStarted = () => ({
 
 export const fileDropped = file => ({
   type: FILE_DROPPED,
-  file,
+  payload: file,
 });
