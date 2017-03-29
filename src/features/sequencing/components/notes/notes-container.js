@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { Notes } from '../notes/notes';
 import moving from '../../../moving';
-import notes from '../../../notes';
 import panning from '../../../panning';
 import playing from '../../../playing';
 import resizing from '../../../resizing';
@@ -19,15 +18,15 @@ export const NotesContainer = connect(state => ({
   measureCount: song.selectors.getActiveSequenceMeasureCount(state),
   mousePoint: sequencingPosition.selectors.getMousePoint(state),
   notes: song.selectors.getActiveSequenceNotes(state),
-  selectedNotes: notes.selectors.getSelectedNotes(state),
+  selectedNotes: song.selectors.getSelectedNotes(state),
   toolType: selectors.getToolType(state),
 }), {
-  onDraw: notes.actions.noteDrawn,
-  onErase: notes.actions.noteErased,
+  onDraw: song.actions.noteDrawn,
+  onErase: song.actions.noteErased,
   onMoveStart: moving.actions.started,
   onMoveUpdate: moving.actions.updated,
   onNotePreview: playing.actions.notePreviewed,
-  onNoteSelect: notes.actions.noteSelected,
+  onNoteSelect: song.actions.noteSelected,
   onResizeStart: resizing.actions.started,
   onResizeUpdate: resizing.actions.updated,
   onSelectStart: selecting.actions.started,

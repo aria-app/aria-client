@@ -1,13 +1,14 @@
-import { NAME } from './constants';
+import { NAME } from '../constants';
 
 export const ALL_NOTES_DESELECTED = `${NAME}/ALL_NOTES_DESELECTED`;
 export const ALL_NOTES_SELECTED = `${NAME}/ALL_NOTES_SELECTED`;
 export const NOTE_DRAWN = `${NAME}/NOTE_DRAWN`;
 export const NOTE_ERASED = `${NAME}/NOTE_ERASED`;
+export const NOTE_PREVIEWED = `${NAME}/NOTE_PREVIEWED`;
 export const NOTE_SELECTED = `${NAME}/NOTE_SELECTED`;
 export const NOTES_DUPLICATED = `${NAME}/NOTES_DUPLICATED`;
 export const NOTES_MOVED = `${NAME}/NOTES_MOVED`;
-export const NOTES_DELETED = `${NAME}/NOTES_DELETED`;
+export const SOME_NOTES_DELETED = `${NAME}/SOME_NOTES_DELETED`;
 export const NOTES_RESIZED = `${NAME}/NOTES_RESIZED`;
 export const NOTES_SELECTED = `${NAME}/NOTES_SELECTED`;
 export const REDO_POPPED = `${NAME}/REDO_POPPED`;
@@ -42,6 +43,11 @@ export const noteErased = note => ({
   note,
 });
 
+export const notePreviewed = point => ({
+  type: NOTE_PREVIEWED,
+  point,
+});
+
 export const noteSelected = (note, isAdditive) => ({
   type: NOTE_SELECTED,
   note,
@@ -58,8 +64,8 @@ export const notesMoved = (notes, offset) => ({
   offset,
 });
 
-export const notesDeleted = notes => ({
-  type: NOTES_DELETED,
+export const someNotesDeleted = notes => ({
+  type: SOME_NOTES_DELETED,
   notes,
 });
 

@@ -1,4 +1,4 @@
-import { NAME } from './constants';
+import { NAME } from '../constants';
 
 export const BPM_SET = `${NAME}/BPM_SET`;
 export const ID_SET = `${NAME}/ID_SET`;
@@ -6,7 +6,6 @@ export const MEASURE_COUNT_SET = `${NAME}/MEASURE_COUNT_SET`;
 export const NAME_SET = `${NAME}/NAME_SET`;
 export const NOTES_ADDED = `${NAME}/NOTES_ADDED`;
 export const NOTES_DELETED = `${NAME}/NOTES_DELETED`;
-export const NOTES_DUPLICATED = `${NAME}/NOTES_DUPLICATED`;
 export const NOTES_SET = `${NAME}/NOTES_SET`;
 export const NOTES_UPDATED = `${NAME}/NOTES_UPDATED`;
 export const SEQUENCE_ADDED_TO_TRACK = `${NAME}/SEQUENCE_ADDED_TO_TRACK`;

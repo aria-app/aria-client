@@ -1,6 +1,5 @@
 import app from '../features/app';
 import moving from '../features/moving';
-import notes from '../features/notes';
 import panning from '../features/panning';
 import playing from '../features/playing';
 import resizing from '../features/resizing';
@@ -17,7 +16,6 @@ export default function* saga() {
   yield [
     app.saga(),
     moving.saga(),
-    notes.saga(),
     panning.saga(),
     playing.saga(),
     resizing.saga(),

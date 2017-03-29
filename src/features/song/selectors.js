@@ -1,6 +1,10 @@
-import { defaultTo, filter, pipe, get, includes, map, some } from 'lodash/fp';
+import { defaultTo, filter, identity, pipe, get, includes, map, some } from 'lodash/fp';
 import shared from '../shared';
 import { NAME } from './constants';
+
+export const getRedos = state => get(state).redos;
+export const getSelectedIds = state => get(state).selectedIds;
+export const getUndos = state => get(state).undos;
 
 export const getActiveSequenceId = pipe(
   get(NAME),
@@ -225,3 +229,21 @@ export const getStringifiedSong = pipe(
   getSong,
   JSON.stringify,
 );
+
+export const getAreSomeNotesSelected =
+  pipe(
+    getSelectedIds,
+    some(identity),
+  );
+
+const isSelectedNote = state => note =>
+  pipe(
+    getSelectedIds,
+    includes(note.id),
+  )(state);
+
+export const getSelectedNotes = state =>
+  pipe(
+    getActiveSequenceNotes,
+    filter(isSelectedNote(state)),
+  )(state);

@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import app from '../features/app';
 import contextMenu from '../features/context-menu';
 import moving from '../features/moving';
-import notes from '../features/notes';
 import panning from '../features/panning';
 import playing from '../features/playing';
 import resizing from '../features/resizing';
@@ -19,7 +18,6 @@ export default combineReducers({
   [app.constants.NAME]: app.reducer,
   [contextMenu.constants.NAME]: contextMenu.reducer,
   [moving.constants.NAME]: moving.reducer,
-  [notes.constants.NAME]: notes.reducer,
   [panning.constants.NAME]: panning.reducer,
   [playing.constants.NAME]: playing.reducer,
   [resizing.constants.NAME]: resizing.reducer,

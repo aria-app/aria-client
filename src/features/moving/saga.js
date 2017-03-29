@@ -1,9 +1,9 @@
 import { isEmpty, isEqual } from 'lodash/fp';
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import notes from '../notes';
 import sequencingPosition from '../sequencing-position';
 import shared from '../shared';
+import song from '../song';
 import * as actions from './actions';
 import * as selectors from './selectors';
 
@@ -23,7 +23,7 @@ function* update() {
   const previousPoint = yield select(selectors.getNewPoint);
 
   if (isEmpty(previousPoint)) {
-    yield put(notes.actions.undoPushed());
+    yield put(song.actions.undoPushed());
     yield put(actions.newPointSet(newPoint));
     return;
   }
@@ -32,7 +32,7 @@ function* update() {
 
   const offset = shared.helpers.getPointOffset(previousPoint, newPoint);
 
-  yield put(notes.actions.selectedNotesMoved(offset));
+  yield put(song.actions.selectedNotesMoved(offset));
 
   yield put(actions.newPointSet(newPoint));
 }
