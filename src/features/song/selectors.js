@@ -1,63 +1,87 @@
-import { filter, flow, get, getOr, includes, map, some } from 'lodash/fp';
+import { defaultTo, filter, pipe, get, includes, map, some } from 'lodash/fp';
 import shared from '../shared';
 import { NAME } from './constants';
 
-export const getActiveSequenceId = state =>
-  get('activeSequenceId')(state[NAME]);
+export const getActiveSequenceId = pipe(
+  get(NAME),
+  get('activeSequenceId'),
+);
 
-export const getBPM = state =>
-  getOr(shared.constants.defaultBPM)('bpm')(state[NAME]);
+export const getBPM = pipe(
+  get(NAME),
+  get('bpm'),
+  defaultTo(shared.constants.defaultBPM),
+);
 
-export const getId = state =>
-  getOr('')('id')(state[NAME]);
+export const getId = pipe(
+  get(NAME),
+  get('id'),
+  defaultTo(''),
+);
 
-export const getMeasureCount = state =>
-  getOr(1)('measureCount')(state[NAME]);
+export const getMeasureCount = pipe(
+  get(NAME),
+  get('measureCount'),
+  defaultTo(1),
+);
 
-export const getName = state =>
-  getOr('')('name')(state[NAME]);
+export const getName = pipe(
+  get(NAME),
+  get('name'),
+  defaultTo(''),
+);
 
-export const getNotesDict = state =>
-  get('notes.dict')(state[NAME]);
+export const getNotesDict = pipe(
+  get(NAME),
+  get('notes.dict'),
+);
 
-export const getNotesIds = state =>
-  get('notes.ids')(state[NAME]);
+export const getNotesIds = pipe(
+  get(NAME),
+  get('notes.ids'),
+);
 
-export const getSequencesDict = state =>
-  get('sequences.dict')(state[NAME]);
+export const getSequencesDict = pipe(
+  get(NAME),
+  get('sequences.dict'),
+);
 
-export const getSequencesIds = state =>
-  get('sequences.ids')(state[NAME]);
+export const getSequencesIds = pipe(
+  get(NAME),
+  get('sequences.ids'),
+);
 
-export const getTracksDict = state =>
-  get('tracks.dict')(state[NAME]);
+export const getTracksDict = pipe(
+  get(NAME),
+  get('tracks.dict'),
+);
 
-export const getTracksIds = state =>
-  get('tracks.ids')(state[NAME]);
-
+export const getTracksIds = pipe(
+  get(NAME),
+  get('tracks.ids'),
+);
 
 // --- Notes ---
 
-export const getNoteById = id =>
-  flow(
-    getNotesDict,
-    getOr({})(id),
-  );
+export const getNoteById = id => pipe(
+  getNotesDict,
+  get(id),
+  defaultTo({}),
+);
 
-export const getNotes = state =>
-  flow(
-    getNotesIds,
-    map(id => getNoteById(id)(state)),
-  )(state);
+export const getNotes = state => pipe(
+  getNotesIds,
+  map(id => getNoteById(id)(state)),
+)(state);
 
 export const getNotesBySequenceId = sequenceId =>
-  flow(
+  pipe(
     getNotes,
     filter({ sequenceId }),
   );
 
 export const getNotesBySequenceIds = sequenceIds =>
-  flow(
+  pipe(
     getNotes,
     filter(n => includes(n.sequenceId)(sequenceIds)),
   );
@@ -65,39 +89,40 @@ export const getNotesBySequenceIds = sequenceIds =>
 
 // --- Sequence ---
 
-export const getSequenceById = id => flow(
+export const getSequenceById = id => pipe(
   getSequencesDict,
-  getOr({})(id),
+  get(id),
+  defaultTo({}),
 );
 
 export const getSequences = state =>
-  flow(
+  pipe(
     getSequencesIds,
     map(id => getSequenceById(id)(state)),
   )(state);
 
 export const getSequencesByTrackId = trackId =>
-  flow(
+  pipe(
     getSequences,
     filter({ trackId }),
   );
 
 export const getSequencesByTrackIds = trackIds =>
-  flow(
+  pipe(
     getSequences,
     filter(n => includes(n.trackId)(trackIds)),
   );
 
 const getDeepSequence = state => sequence => ({
   ...sequence,
-  notes: flow(
+  notes: pipe(
     getNotes,
     filter({ sequenceId: sequence.id }),
   )(state),
 });
 
 export const getDeepSequences = state =>
-  flow(
+  pipe(
     getSequences,
     map(getDeepSequence(state)),
   )(state);
@@ -106,19 +131,20 @@ export const getDeepSequences = state =>
 // --- Active Sequence ---
 
 export const getActiveSequence = state =>
-  flow(
+  pipe(
     getActiveSequenceId,
     id => getSequenceById(id)(state),
   )(state);
 
 export const getActiveSequenceMeasureCount =
-  flow(
+  pipe(
     getActiveSequence,
-    getOr(0)('measureCount'),
+    get('measureCount'),
+    defaultTo(0),
   );
 
 export const getActiveSequenceNotes = state =>
-  flow(
+  pipe(
     getNotes,
     filter({ sequenceId: getActiveSequenceId(state) }),
   )(state);
@@ -127,47 +153,48 @@ export const getActiveSequenceNotes = state =>
 // --- Tracks ---
 
 export const getTrackById = id =>
-  flow(
+  pipe(
     getTracksDict,
-    getOr({})(id),
+    get(id),
+    defaultTo({}),
   );
 
 export const getTracks = state =>
-  flow(
+  pipe(
     getTracksIds,
     map(id => getTrackById(id)(state)),
   )(state);
 
 const getDeepTrack = state => track => ({
   ...track,
-  sequences: flow(
+  sequences: pipe(
     getDeepSequences,
     filter({ trackId: track.id }),
   )(state),
 });
 
 export const getDeepTracks = state =>
-  flow(
+  pipe(
     getTracks,
     map(getDeepTrack(state)),
   )(state);
 
 export const getMutedTrackIds =
-  flow(
+  pipe(
     getTracks,
     filter('isMuted'),
     map('id'),
   );
 
 export const getSoloingTrackIds =
-  flow(
+  pipe(
     getTracks,
     filter('isSoloing'),
     map('id'),
   );
 
 export const getIsAnyTrackSoloing =
-  flow(
+  pipe(
     getTracks,
     some('isSoloing'),
   );
@@ -194,4 +221,7 @@ export const getSong = state => ({
   },
 });
 
-export const getStringifiedSong = state => JSON.stringify(getSong(state));
+export const getStringifiedSong = pipe(
+  getSong,
+  JSON.stringify,
+);

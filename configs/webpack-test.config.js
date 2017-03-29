@@ -21,6 +21,9 @@ module.exports = {
     filename: '[name].js',
     chunkFilename: '[id].chunk.js',
   },
+  performance: {
+    hints: false,
+  },
   resolve: {
     extensions: ['.js'],
   },

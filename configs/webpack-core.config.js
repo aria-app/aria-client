@@ -38,6 +38,9 @@ module.exports = {
       },
     ],
   },
+  performance: {
+    hints: false,
+  },
   externals: {
     'react/addons': true,
     'react/lib/ExecutionEnvironment': true,

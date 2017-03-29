@@ -1,3 +1,4 @@
+import { isEqual, negate, pipe } from 'lodash/fp';
 import * as constants from './constants';
 
 const get = state => state[constants.NAME];
@@ -11,5 +12,7 @@ export const getSongSequence = state => get(state).songSequence;
 export const getStartPoint = state => get(state).startPoint;
 export const getSynths = state => get(state).synths;
 
-export const getIsPlaying = state =>
-  getPlaybackState(state) !== constants.playbackStates.STOPPED;
+export const getIsPlaying = pipe(
+  getPlaybackState,
+  negate(isEqual(constants.playbackStates.STOPPED)),
+);

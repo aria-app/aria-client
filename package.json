@@ -72,7 +72,6 @@
     "sinon": "2.0.0-pre.3",
     "style-loader": "0.13.1",
     "surge": "^0.18.0",
-    "wallaby-webpack": "0.0.32",
     "web-audio-test-api": "0.5.2",
     "webpack": "2.1.0-beta.28",
     "webpack-dev-server": "1.16.1",
