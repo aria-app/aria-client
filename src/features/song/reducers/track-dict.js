@@ -1,11 +1,10 @@
-import { difference, map, omit, without } from 'lodash/fp';
-import { combineReducers } from 'redux';
+import { omit } from 'lodash/fp';
 import shared from '../../shared';
 import * as actions from '../actions';
 
 const { setAtIds } = shared.helpers;
 
-const dict = (state = {}, action) => {
+export const trackDict = (state = {}, action) => {
   switch (action.type) {
     case actions.SONG_LOADED:
       return action.song.tracks.dict;
@@ -46,28 +45,3 @@ const dict = (state = {}, action) => {
       return state;
   }
 };
-
-const ids = (state = [], action) => {
-  switch (action.type) {
-    case actions.SONG_LOADED:
-      return action.song.tracks.ids;
-    case actions.TRACK_DELETED:
-      return without([action.id])(state);
-    case actions.TRACKS_ADDED:
-      return [
-        ...state,
-        ...map('id')(action.tracks),
-      ];
-    case actions.TRACKS_DELETED:
-      return difference(state)(action.ids);
-    case actions.TRACKS_SET:
-      return map('id')(action.tracks);
-    default:
-      return state;
-  }
-};
-
-export default combineReducers({
-  dict,
-  ids,
-});

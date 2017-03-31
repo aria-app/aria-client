@@ -2,10 +2,6 @@ import { defaultTo, filter, identity, pipe, get, includes, map, some } from 'lod
 import shared from '../shared';
 import { NAME } from './constants';
 
-export const getRedos = state => get(state).redos;
-export const getSelectedIds = state => get(state).selectedIds;
-export const getUndos = state => get(state).undos;
-
 export const getActiveSequenceId = pipe(
   get(NAME),
   get('activeSequenceId'),
@@ -37,12 +33,24 @@ export const getName = pipe(
 
 export const getNotesDict = pipe(
   get(NAME),
-  get('notes.dict'),
+  get('noteDict'),
 );
 
 export const getNotesIds = pipe(
   get(NAME),
-  get('notes.ids'),
+  get('noteIds'),
+);
+
+export const getRedos = pipe(
+  get(NAME),
+  get('redos'),
+  defaultTo([]),
+);
+
+export const getSelectedNoteIds = pipe(
+  get(NAME),
+  get('selectedNoteIds'),
+  defaultTo([]),
 );
 
 export const getSequencesDict = pipe(
@@ -63,6 +71,12 @@ export const getTracksDict = pipe(
 export const getTracksIds = pipe(
   get(NAME),
   get('tracks.ids'),
+);
+
+export const getUndos = pipe(
+  get(NAME),
+  get('undos'),
+  defaultTo([]),
 );
 
 // --- Notes ---
@@ -232,13 +246,13 @@ export const getStringifiedSong = pipe(
 
 export const getAreSomeNotesSelected =
   pipe(
-    getSelectedIds,
+    getSelectedNoteIds,
     some(identity),
   );
 
 const isSelectedNote = state => note =>
   pipe(
-    getSelectedIds,
+    getSelectedNoteIds,
     includes(note.id),
   )(state);
 

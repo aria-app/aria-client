@@ -1,11 +1,10 @@
-import { difference, map, omit } from 'lodash/fp';
-import { combineReducers } from 'redux';
+import { omit } from 'lodash/fp';
 import shared from '../../shared';
 import * as actions from '../actions';
 
 const { setAtIds } = shared.helpers;
 
-const dict = (state = {}, action) => {
+export const sequenceDict = (state = {}, action) => {
   switch (action.type) {
     case actions.SEQUENCES_ADDED:
     case actions.SEQUENCES_UPDATED:
@@ -44,23 +43,3 @@ const dict = (state = {}, action) => {
       return state;
   }
 };
-
-const ids = (state = [], action) => {
-  switch (action.type) {
-    case actions.SEQUENCES_ADDED:
-      return state.concat(map('id')(action.sequences));
-    case actions.SEQUENCES_DELETED:
-      return difference(state)(action.ids);
-    case actions.SEQUENCES_SET:
-      return map('id')(action.sequences);
-    case actions.SONG_LOADED:
-      return action.song.sequences.ids;
-    default:
-      return state;
-  }
-};
-
-export default combineReducers({
-  dict,
-  ids,
-});
