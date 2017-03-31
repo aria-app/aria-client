@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { Sequencer } from '../sequencer/sequencer';
-import sequencingPosition from '../../../sequencing-position';
 import song from '../../../song';
 import * as actions from '../../actions';
 import * as selectors from '../../selectors';
@@ -18,5 +17,4 @@ export const SequencerContainer = connect(state => ({
   onSelectedNotesResize: song.actions.selectedNotesResized,
   onSequenceClose: song.actions.sequenceClosed,
   onToolSelect: actions.toolSelected,
-  onVerticalScroll: sequencingPosition.actions.scrolledVertically,
 })(Sequencer);

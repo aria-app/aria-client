@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import selecting from '../../../selecting';
@@ -16,22 +17,24 @@ export class Grid extends React.Component {
   static propTypes = {
     isPanning: React.PropTypes.bool,
     measureCount: React.PropTypes.number,
-    onHorizontalScroll: React.PropTypes.func.isRequired,
-    onMouseMove: React.PropTypes.func.isRequired,
     onPanningStart: React.PropTypes.func.isRequired,
+    onPanningStop: React.PropTypes.func.isRequired,
     onPanningUpdate: React.PropTypes.func.isRequired,
     sequencerContentRef: React.PropTypes.object,
     toolType: React.PropTypes.string,
   }
 
-  constructor(props) {
-    super(props);
-    this.elementRef = {};
-  }
+  state = {
+    mousePoint: {
+      x: -1,
+      y: -1,
+    },
+  };
 
   render() {
     return h('.grid', {
       onMouseDown: this.handleMouseDown,
+      onMouseLeave: this.handleMouseLeave,
       onMouseMove: this.handleMouseMove,
       onScroll: this.handleScroll,
       ref: this.setRef,
@@ -40,7 +43,9 @@ export class Grid extends React.Component {
         style: this.getWrapperStyle(),
       }, [
         h(SlotsContainer),
-        h(NotesContainer),
+        h(NotesContainer, {
+          mousePoint: this.state.mousePoint,
+        }),
         h(FenceContainer),
         h(SequencerTimelineContainer),
       ]),
@@ -63,34 +68,41 @@ export class Grid extends React.Component {
     }
   }
 
+  handleMouseLeave = () => {
+    this.setState({
+      mousePoint: {
+        x: -1,
+        y: -1,
+      },
+    });
+    this.props.onPanningStop();
+  };
+
   handleMouseMove = (e) => {
-    this.props.onMouseMove(getMousePoint(
-      this.elementRef,
+    const mousePoint = getMousePoint(
+      e.currentTarget,
       this.props.sequencerContentRef,
       e,
-    ));
+    );
+
+    this.setState((state) => {
+      if (isEqual(state.mousePoint, mousePoint)) return {};
+      return { mousePoint };
+    });
 
     if (this.props.isPanning) {
       this.updatePanningWithElements(e);
     }
   }
 
-  handleScroll = (e) => {
-    this.props.onHorizontalScroll(Math.floor(e.target.scrollLeft / 40));
-  }
-
-  setRef = (ref) => {
-    this.elementRef = ref;
-  }
-
   startPanningWithElements = e => this.props.onPanningStart(
-    this.elementRef,
+    e.currentTarget,
     this.props.sequencerContentRef,
     e,
   )
 
   updatePanningWithElements = e => this.props.onPanningUpdate(
-    this.elementRef,
+    e.currentTarget,
     this.props.sequencerContentRef,
     e,
   )

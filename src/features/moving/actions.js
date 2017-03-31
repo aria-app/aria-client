@@ -18,6 +18,7 @@ export const stopped = () => ({
   type: STOPPED,
 });
 
-export const updated = () => ({
+export const updated = point => ({
   type: UPDATED,
+  point,
 });

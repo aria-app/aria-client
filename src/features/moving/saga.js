@@ -1,7 +1,6 @@
-import { isEmpty, isEqual } from 'lodash/fp';
+import { isEmpty } from 'lodash/fp';
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import sequencingPosition from '../sequencing-position';
 import shared from '../shared';
 import song from '../song';
 import * as actions from './actions';
@@ -18,23 +17,20 @@ function* start() {
   }
 }
 
-function* update() {
-  const newPoint = yield select(sequencingPosition.selectors.getMousePoint);
+function* update({ point }) {
   const previousPoint = yield select(selectors.getNewPoint);
 
   if (isEmpty(previousPoint)) {
     yield put(song.actions.undoPushed());
-    yield put(actions.newPointSet(newPoint));
+    yield put(actions.newPointSet(point));
     return;
   }
 
-  if (isEqual(previousPoint, newPoint)) return;
-
-  const offset = shared.helpers.getPointOffset(previousPoint, newPoint);
+  const offset = shared.helpers.getPointOffset(previousPoint, point);
 
   yield put(song.actions.selectedNotesMoved(offset));
 
-  yield put(actions.newPointSet(newPoint));
+  yield put(actions.newPointSet(point));
 }
 
 export default function* saga() {

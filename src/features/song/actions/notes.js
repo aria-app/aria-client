@@ -34,8 +34,9 @@ export const allNotesSelected = () => ({
   type: ALL_NOTES_SELECTED,
 });
 
-export const noteDrawn = () => ({
+export const noteDrawn = point => ({
   type: NOTE_DRAWN,
+  point,
 });
 
 export const noteErased = note => ({

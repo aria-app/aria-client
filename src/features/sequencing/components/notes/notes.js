@@ -106,7 +106,7 @@ export class Notes extends React.Component {
       this.props.onMoveStart();
     } else if (this.props.toolType === SELECT) {
       const isAdditive = e.ctrlKey || e.metaKey;
-      this.props.onSelectStart(isAdditive);
+      this.props.onSelectStart(isAdditive, this.props.mousePoint);
     }
 
     return false;
@@ -114,12 +114,12 @@ export class Notes extends React.Component {
 
   handleMouseMove = (e) => {
     if (this.props.isMoving) {
-      this.props.onMoveUpdate();
+      this.props.onMoveUpdate(this.props.mousePoint);
     } else if (this.props.isResizing) {
-      this.props.onResizeUpdate();
+      this.props.onResizeUpdate(this.props.mousePoint);
     } else if (this.props.isSelecting) {
       const isAdditive = e.ctrlKey || e.metaKey;
-      this.props.onSelectUpdate(isAdditive);
+      this.props.onSelectUpdate(isAdditive, this.props.mousePoint);
     }
   }
 
@@ -132,7 +132,7 @@ export class Notes extends React.Component {
     ) return;
 
     if (this.props.toolType === toolTypes.DRAW) {
-      this.props.onDraw();
+      this.props.onDraw(this.props.mousePoint);
     }
   }
 
@@ -169,7 +169,7 @@ export class Notes extends React.Component {
       const isAdditive = e.ctrlKey || e.metaKey;
       this.props.onNotePreview(last(note.points));
       this.props.onNoteSelect(note, isAdditive);
-      this.props.onResizeStart();
+      this.props.onResizeStart(this.props.mousePoint);
     }
 
     e.stopPropagation();

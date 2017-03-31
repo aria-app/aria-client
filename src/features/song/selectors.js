@@ -55,22 +55,22 @@ export const getSelectedNoteIds = pipe(
 
 export const getSequencesDict = pipe(
   get(NAME),
-  get('sequences.dict'),
+  get('sequenceDict'),
 );
 
 export const getSequencesIds = pipe(
   get(NAME),
-  get('sequences.ids'),
+  get('sequenceIds'),
 );
 
 export const getTracksDict = pipe(
   get(NAME),
-  get('tracks.dict'),
+  get('trackDict'),
 );
 
 export const getTracksIds = pipe(
   get(NAME),
-  get('tracks.ids'),
+  get('trackIds'),
 );
 
 export const getUndos = pipe(

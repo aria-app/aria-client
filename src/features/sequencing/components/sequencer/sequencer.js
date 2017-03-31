@@ -18,7 +18,6 @@ export class Sequencer extends React.Component {
     onSelectedNotesResize: React.PropTypes.func.isRequired,
     onSequenceClose: React.PropTypes.func.isRequired,
     onToolSelect: React.PropTypes.func.isRequired,
-    onVerticalScroll: React.PropTypes.func.isRequired,
     toolType: React.PropTypes.string.isRequired,
   }
 
@@ -145,10 +144,6 @@ export class Sequencer extends React.Component {
 
   handleToolbarSelectToolButtonClick = () => {
     this.props.onToolSelect(SELECT);
-  }
-
-  onContentScroll = (e) => {
-    this.props.onVerticalScroll(Math.floor(e.target.scrollTop / 40));
   }
 
   setContentRef = (ref) => {

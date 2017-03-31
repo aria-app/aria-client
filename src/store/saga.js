@@ -5,7 +5,6 @@ import playing from '../features/playing';
 import resizing from '../features/resizing';
 import selecting from '../features/selecting';
 import sequencing from '../features/sequencing';
-import sequencingPosition from '../features/sequencing-position';
 import shared from '../features/shared';
 import shortcuts from '../features/shortcuts';
 import song from '../features/song';
@@ -21,7 +20,6 @@ export default function* saga() {
     resizing.saga(),
     selecting.saga(),
     sequencing.saga(),
-    sequencingPosition.saga(),
     shared.saga(),
     shortcuts.saga(),
     song.saga(),

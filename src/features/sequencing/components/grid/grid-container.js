@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { Grid } from '../grid/grid';
 import panning from '../../../panning';
-import sequencingPosition from '../../../sequencing-position';
 import song from '../../../song';
 import * as selectors from '../../selectors';
 
@@ -11,8 +10,7 @@ export const GridContainer = connect(state => ({
   measureCount: song.selectors.getActiveSequenceMeasureCount(state),
   toolType: selectors.getToolType(state),
 }), {
-  onHorizontalScroll: sequencingPosition.actions.scrolledHorizontally,
-  onMouseMove: sequencingPosition.actions.mouseMoved,
   onPanningStart: panning.actions.started,
+  onPanningStop: panning.actions.stopped,
   onPanningUpdate: panning.actions.updated,
 })(Grid);

@@ -1,7 +1,6 @@
 import { first, isEmpty, isEqual, last, map, some, throttle, without } from 'lodash/fp';
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import sequencingPosition from '../sequencing-position';
 import shared from '../shared';
 import shortcuts from '../shortcuts';
 import * as actions from './actions';
@@ -79,9 +78,8 @@ function* deleteSelectedNotes() {
   yield put(actions.someNotesDeleted(selectedNotes));
 }
 
-function* drawNote() {
+function* drawNote({ point }) {
   const activeSequenceId = yield select(selectors.getActiveSequenceId);
-  const point = yield select(sequencingPosition.selectors.getMousePoint);
 
   yield put(actions.notePreviewed(point));
   yield put(actions.notesAdded([

@@ -11,8 +11,10 @@ export const newPointSet = newPoint => ({
   newPoint,
 });
 
-export const started = () => ({
+export const started = (isAdditive, point) => ({
   type: STARTED,
+  isAdditive,
+  point,
 });
 
 export const startPointSet = startPoint => ({
@@ -24,6 +26,8 @@ export const stopped = () => ({
   type: STOPPED,
 });
 
-export const updated = () => ({
+export const updated = (isAdditive, point) => ({
   type: UPDATED,
+  isAdditive,
+  point,
 });
