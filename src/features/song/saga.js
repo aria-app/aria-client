@@ -119,14 +119,14 @@ function* moveNotes({ notes, offset }) {
     (helpers.somePointOutside(map(n => n.points[0])(updatedNotes), measureCount)) ||
     (helpers.somePointOutside(map(n => n.points[1])(updatedNotes), measureCount))
   ) return;
-
+  console.log('to preview');
   yield put(actions.notePreviewed(first(updatedNotes[0].points)));
   yield put(actions.notesUpdated(updatedNotes));
 }
 
 function* moveSelected({ offset }) {
   const selectedNotes = yield select(selectors.getSelectedNotes);
-
+  console.log('move selected');
   if (isEmpty(selectedNotes)) return;
 
   yield put(actions.notesMoved(selectedNotes, offset));
@@ -193,7 +193,7 @@ function* resize({ notes, change }) {
   if (
     (movingLeft && anyNoteBent && willBeMinLength) ||
     (movingLeft && willBeNegative) ||
-    (change.y !== 0 && some(n => (last(n.points).x - first(n.points).x) === 0))(notes)
+    (change.y !== 0 && some(n => (last(n.points).x - first(n.points).x) === 0)(notes))
   ) return;
 
   const updatedNotes = notes

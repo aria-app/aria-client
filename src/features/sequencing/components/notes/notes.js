@@ -1,4 +1,4 @@
-import { find, first, last } from 'lodash/fp';
+import { find, first, includes, isEqual, last } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -10,21 +10,15 @@ const { showIf } = shared.helpers;
 
 export class Notes extends React.Component {
   static propTypes = {
-    isMoving: React.PropTypes.bool.isRequired,
-    isPanning: React.PropTypes.bool.isRequired,
-    isResizing: React.PropTypes.bool.isRequired,
-    isSelecting: React.PropTypes.bool.isRequired,
     measureCount: React.PropTypes.number.isRequired,
     mousePoint: React.PropTypes.object.isRequired,
     notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     onDraw: React.PropTypes.func.isRequired,
     onErase: React.PropTypes.func.isRequired,
-    onMoveStart: React.PropTypes.func.isRequired,
-    onMoveUpdate: React.PropTypes.func.isRequired,
+    onMove: React.PropTypes.func.isRequired,
     onNotePreview: React.PropTypes.func.isRequired,
     onNoteSelect: React.PropTypes.func.isRequired,
-    onResizeStart: React.PropTypes.func.isRequired,
-    onResizeUpdate: React.PropTypes.func.isRequired,
+    onResize: React.PropTypes.func.isRequired,
     onSelectStart: React.PropTypes.func.isRequired,
     onSelectUpdate: React.PropTypes.func.isRequired,
     selectedNotes: React.PropTypes.arrayOf(
@@ -33,9 +27,24 @@ export class Notes extends React.Component {
     toolType: React.PropTypes.string.isRequired,
   }
 
+  state = {
+    isMoving: false,
+    isResizing: false,
+  };
+
+  componentDidUpdate(prevProps) {
+    const hasNotMoved = isEqual(prevProps.mousePoint, this.props.mousePoint);
+    const isOffscreen = this.props.mousePoint.x === -1;
+
+    if (hasNotMoved || isOffscreen) return;
+
+    this.handleMove(prevProps.mousePoint);
+  }
+
   render() {
     return h('.notes', {
       onMouseDown: this.handleMouseDown,
+      onMouseLeave: this.handleMouseLeave,
       onMouseMove: this.handleMouseMove,
       onMouseUp: this.handleMouseUp,
       style: this.getStyle(),
@@ -91,37 +100,53 @@ export class Notes extends React.Component {
     };
   }
 
-  handleMouseDown = (e) => {
-    const { MOVE, SELECT } = toolTypes;
+  // handleMouseDown = (e) => {
+  //   const { SELECT } = toolTypes;
+  //
+  //   if (this.props.toolType === SELECT) {
+  //     const isAdditive = e.ctrlKey || e.metaKey;
+  //     this.props.onSelectStart(isAdditive, this.props.mousePoint);
+  //   }
+  //
+  //   return false;
+  // }
 
-    if (this.props.toolType === MOVE) {
-      this.props.onMoveStart();
-    } else if (this.props.toolType === SELECT) {
-      const isAdditive = e.ctrlKey || e.metaKey;
-      this.props.onSelectStart(isAdditive, this.props.mousePoint);
+  handleMouseLeave = () => {
+    if (this.state.isMoving) {
+      this.stopMoving();
     }
 
-    return false;
+    if (this.state.isResizing) {
+      this.stopResizing();
+    }
   }
 
-  handleMouseMove = (e) => {
-    if (this.props.isMoving) {
-      this.props.onMoveUpdate(this.props.mousePoint);
-    } else if (this.props.isResizing) {
-      this.props.onResizeUpdate(this.props.mousePoint);
-    } else if (this.props.isSelecting) {
-      const isAdditive = e.ctrlKey || e.metaKey;
-      this.props.onSelectUpdate(isAdditive, this.props.mousePoint);
+  handleMove = (prevMousePoint) => {
+    const delta = shared.helpers.getPointOffset(
+      prevMousePoint,
+      this.props.mousePoint,
+    );
+
+    if (this.state.isMoving) {
+      this.props.onMove(delta);
+    } else if (this.state.isResizing) {
+      this.props.onResize(delta);
     }
+
+    // else if (this.props.isSelecting) {
+    //   const isAdditive = e.ctrlKey || e.metaKey;
+    //   this.props.onSelectUpdate(isAdditive, this.props.mousePoint);
+    // }
   }
 
   handleMouseUp = () => {
-    if (
-      this.props.isMoving ||
-      this.props.isPanning ||
-      this.props.isResizing ||
-      this.props.isSelecting
-    ) return;
+    if (this.state.isMoving) {
+      this.stopMoving();
+    }
+
+    if (this.state.isResizing) {
+      this.stopResizing();
+    }
 
     if (this.props.toolType === toolTypes.DRAW) {
       this.props.onDraw(this.props.mousePoint);
@@ -129,17 +154,17 @@ export class Notes extends React.Component {
   }
 
   handleNoteMouseDown = (note, e) => {
-    const { DRAW, SELECT } = toolTypes;
-
-    if (
-      this.props.toolType !== DRAW &&
-      this.props.toolType !== SELECT
-    ) return true;
+    // const { DRAW, SELECT } = toolTypes;
+    //
+    // if (this.props.toolType !== DRAW && this.props.toolType !== SELECT
+    // ) return true;
 
     const isAdditive = e.ctrlKey || e.metaKey;
     this.props.onNotePreview(first(note.points));
-    this.props.onNoteSelect(note, isAdditive);
-    this.props.onMoveStart();
+    if (!includes(note, this.props.selectedNotes)) {
+      this.props.onNoteSelect(note, isAdditive);
+    }
+    this.startMoving();
     e.stopPropagation();
     return false;
   }
@@ -153,17 +178,31 @@ export class Notes extends React.Component {
   }
 
   handleNoteEndpointMouseDown = (note, e) => {
-    const { DRAW, MOVE, SELECT } = toolTypes;
+    const { DRAW, SELECT } = toolTypes;
 
-    if (this.props.toolType === MOVE) {
-      this.props.onMoveStart();
-    } else if (this.props.toolType === DRAW || this.props.toolType === SELECT) {
+    if (this.props.toolType === DRAW || this.props.toolType === SELECT) {
       const isAdditive = e.ctrlKey || e.metaKey;
       this.props.onNotePreview(last(note.points));
       this.props.onNoteSelect(note, isAdditive);
-      this.props.onResizeStart(this.props.mousePoint);
+      this.startResizing();
     }
 
     e.stopPropagation();
   }
+
+  startMoving = () => this.setState({
+    isMoving: true,
+  });
+
+  startResizing = () => this.setState({
+    isResizing: true,
+  });
+
+  stopMoving = () => this.setState({
+    isMoving: false,
+  });
+
+  stopResizing = () => this.setState({
+    isResizing: false,
+  });
 }

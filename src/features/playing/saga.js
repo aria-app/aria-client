@@ -83,6 +83,7 @@ export default function* saga() {
     takeEvery(actions.NOTE_PREVIEWED, previewNote),
     takeEvery(actions.ALL_INSTRUMENTS_RELEASED, releaseAll),
     takeEvery(song.actions.TRACKS_ADDED, addNewChannels),
+    takeEvery(song.actions.NOTE_PREVIEWED, previewNote),
     takeEvery(song.actions.SONG_LOADED, initialize),
     takeEvery(song.actions.BPM_SET, setBPM),
     takeEvery(song.actions.TRACK_SYNTH_TYPE_SET, changeTrackInstrumentType),

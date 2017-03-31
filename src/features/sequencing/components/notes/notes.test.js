@@ -14,28 +14,6 @@ describe('Notes Component', () => {
     expect(component.length).toEqual(1);
   });
 
-  it('should invoke move start event on mouse down when move tool is selected', () => {
-    const onMoveStart = sinon.spy();
-    const component = shallow(h(Notes, {
-      ...getRequiredProps(),
-      toolType: toolTypes.MOVE,
-      onMoveStart,
-    }));
-    component.simulate('mousedown');
-    expect(onMoveStart.calledOnce).toEqual(true);
-  });
-
-  it('should not invoke move start event on mouse down when move tool is not selected', () => {
-    const onMoveStart = sinon.spy();
-    const component = shallow(h(Notes, {
-      ...getRequiredProps(),
-      toolType: toolTypes.PAN,
-      onMoveStart,
-    }));
-    component.simulate('mousedown');
-    expect(onMoveStart.called).toEqual(false);
-  });
-
   it('should invoke select start event with true on mouse down when select tool is selected and ctrl key is held', () => {
     const onSelectStart = sinon.spy();
     const component = shallow(h(Notes, {
@@ -87,50 +65,6 @@ describe('Notes Component', () => {
     }));
     component.simulate('mousedown');
     expect(onSelectStart.called).toEqual(false);
-  });
-
-  it('should invoke move update event on mouse move when moving', () => {
-    const onMoveUpdate = sinon.spy();
-    const component = shallow(h(Notes, {
-      ...getRequiredProps(),
-      isMoving: true,
-      onMoveUpdate,
-    }));
-    component.simulate('mousemove');
-    expect(onMoveUpdate.calledOnce).toEqual(true);
-  });
-
-  it('should not invoke move update event on mouse move when not moving', () => {
-    const onMoveUpdate = sinon.spy();
-    const component = shallow(h(Notes, {
-      ...getRequiredProps(),
-      isMoving: false,
-      onMoveUpdate,
-    }));
-    component.simulate('mousemove');
-    expect(onMoveUpdate.called).toEqual(false);
-  });
-
-  it('should invoke resize update event on mouse move when resizing', () => {
-    const onResizeUpdate = sinon.spy();
-    const component = shallow(h(Notes, {
-      ...getRequiredProps(),
-      isResizing: true,
-      onResizeUpdate,
-    }));
-    component.simulate('mousemove');
-    expect(onResizeUpdate.calledOnce).toEqual(true);
-  });
-
-  it('should not invoke resizing update event on mouse move when not resizing', () => {
-    const onResizeUpdate = sinon.spy();
-    const component = shallow(h(Notes, {
-      ...getRequiredProps(),
-      isResizing: false,
-      onResizeUpdate,
-    }));
-    component.simulate('mousemove');
-    expect(onResizeUpdate.called).toEqual(false);
   });
 
   it('should invoke select update event with true on mouse move when selecting and ctrl key is held', () => {

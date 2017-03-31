@@ -24,6 +24,9 @@ export class Panner extends React.PureComponent {
       onMouseLeave: this.handleMouseLeave,
       onMouseMove: this.handleMouseMove,
       onMouseUp: this.handleMouseUp,
+      style: {
+        pointerEvents: this.props.isEnabled ? 'all' : 'none',
+      },
     });
   }
 

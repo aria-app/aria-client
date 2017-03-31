@@ -16,7 +16,10 @@ const { toolTypes } = shared.constants;
 
 export class Grid extends React.Component {
   static propTypes = {
+    areSomeNotesSelected: React.PropTypes.bool,
     measureCount: React.PropTypes.number,
+    onMove: React.PropTypes.func.isRequired,
+    onResize: React.PropTypes.func.isRequired,
     sequencerContentRef: React.PropTypes.object,
     toolType: React.PropTypes.string,
   }
@@ -30,7 +33,6 @@ export class Grid extends React.Component {
 
   render() {
     return h('.grid', {
-      onMouseDown: this.handleMouseDown,
       onMouseLeave: this.handleMouseLeave,
       onMouseMove: this.handleMouseMove,
       onScroll: this.handleScroll,
@@ -42,6 +44,8 @@ export class Grid extends React.Component {
         h(SlotsContainer),
         h(NotesContainer, {
           mousePoint: this.state.mousePoint,
+          onMove: this.handleNotesContainerMove,
+          onResize: this.handleNotesContainerResize,
         }),
         h(FenceContainer),
         h(Panner, {
@@ -87,6 +91,12 @@ export class Grid extends React.Component {
       return { mousePoint };
     });
   }
+
+  handleNotesContainerMove = delta =>
+    this.props.onMove(delta);
+
+  handleNotesContainerResize = delta =>
+    this.props.onResize(delta);
 
   handlePannerScrollLeftChange = (scrollLeft) => {
     this.elementRef.scrollLeft = scrollLeft;

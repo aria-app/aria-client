@@ -46,7 +46,7 @@ export const noteErased = note => ({
 
 export const notePreviewed = point => ({
   type: NOTE_PREVIEWED,
-  point,
+  payload: point,
 });
 
 export const noteSelected = (note, isAdditive) => ({

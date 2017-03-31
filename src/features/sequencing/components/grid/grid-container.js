@@ -5,6 +5,10 @@ import * as selectors from '../../selectors';
 
 // wallaby-ignore
 export const GridContainer = connect(state => ({
+  areSomeNotesSelected: song.selectors.getAreSomeNotesSelected(state),
   measureCount: song.selectors.getActiveSequenceMeasureCount(state),
   toolType: selectors.getToolType(state),
-}))(Grid);
+}), {
+  onMove: song.actions.selectedNotesMoved,
+  onResize: song.actions.selectedNotesSizeChanged,
+})(Grid);
