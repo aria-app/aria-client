@@ -1,12 +1,10 @@
 import { connect } from 'react-redux';
 import { Notes } from '../notes/notes';
-import playing from '../../../playing';
-import selecting from '../../../selecting';
+import playback from '../../../playback';
 import song from '../../../song';
 import * as selectors from '../../selectors';
 
 export const NotesContainer = connect(state => ({
-  isSelecting: selecting.selectors.getIsSelecting(state),
   measureCount: song.selectors.getActiveSequenceMeasureCount(state),
   notes: song.selectors.getActiveSequenceNotes(state),
   selectedNotes: song.selectors.getSelectedNotes(state),
@@ -14,8 +12,6 @@ export const NotesContainer = connect(state => ({
 }), {
   onDraw: song.actions.noteDrawn,
   onErase: song.actions.noteErased,
-  onNotePreview: playing.actions.notePreviewed,
+  onNotePreview: playback.actions.notePreviewed,
   onNoteSelect: song.actions.noteSelected,
-  onSelectStart: selecting.actions.started,
-  onSelectUpdate: selecting.actions.updated,
 })(Notes);

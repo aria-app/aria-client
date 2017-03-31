@@ -1,7 +1,7 @@
 import { compose, filter, first, isEmpty, range, uniqBy } from 'lodash/fp';
 import { eventChannel, takeEvery } from 'redux-saga';
 import { call, fork, put, select, take } from 'redux-saga/effects';
-import playing from '../playing';
+import playback from '../playback';
 import shared from '../shared';
 import shortcuts from '../shortcuts';
 import song from '../song';
@@ -83,7 +83,7 @@ function* pause() {
       Tone.pauseTransport();
     });
 
-    yield put(playing.actions.allInstrumentsReleased());
+    yield put(playback.actions.allInstrumentsReleased());
   }
 }
 
@@ -122,7 +122,7 @@ function* sequenceStep({ payload }) {
 
     for (let i = 0; i < notesAtStep.length; i += 1) {
       const note = notesAtStep[i];
-      yield put(playing.actions.notePlayed({
+      yield put(playback.actions.notePlayed({
         channelId: sequence.trackId,
         note,
         time,
@@ -145,7 +145,7 @@ function* setTransportPosition({ measures }) {
   const position = helpers.measuresToTime(measures);
   Tone.setTransportPosition(position);
   yield put(actions.songPositionSet(measures * 32));
-  yield put(playing.actions.allInstrumentsReleased());
+  yield put(playback.actions.allInstrumentsReleased());
 }
 
 function* songSequenceStep(action) {
@@ -158,7 +158,7 @@ function* stop() {
     yield call(() => {
       Tone.stopTransport();
     });
-    yield put(playing.actions.allInstrumentsReleased());
+    yield put(playback.actions.allInstrumentsReleased());
   }
 }
 

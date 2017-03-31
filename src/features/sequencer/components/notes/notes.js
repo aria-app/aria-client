@@ -1,4 +1,4 @@
-import { find, first, includes, isEqual, last } from 'lodash/fp';
+import { compose, find, first, includes, isEqual, last, split } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -19,8 +19,6 @@ export class Notes extends React.Component {
     onNotePreview: React.PropTypes.func.isRequired,
     onNoteSelect: React.PropTypes.func.isRequired,
     onResize: React.PropTypes.func.isRequired,
-    onSelectStart: React.PropTypes.func.isRequired,
-    onSelectUpdate: React.PropTypes.func.isRequired,
     selectedNotes: React.PropTypes.arrayOf(
       React.PropTypes.object,
     ).isRequired,
@@ -28,6 +26,7 @@ export class Notes extends React.Component {
   }
 
   state = {
+    isDrawing: false,
     isMoving: false,
     isResizing: false,
   };
@@ -46,9 +45,10 @@ export class Notes extends React.Component {
       onMouseLeave: this.handleMouseLeave,
       onMouseMove: this.handleMouseMove,
       onMouseUp: this.handleMouseUp,
+      ref: this.setRef,
       style: this.getStyle(),
     }, [
-      showIf(this.getIsDrawing())(
+      showIf(this.getIsDrawingEnabled())(
         h(Note, {
           className: 'notes__note--ghost',
           isSelected: false,
@@ -83,7 +83,7 @@ export class Notes extends React.Component {
     };
   }
 
-  getIsDrawing() {
+  getIsDrawingEnabled() {
     return this.props.toolType === toolTypes.DRAW;
   }
 
@@ -99,18 +99,23 @@ export class Notes extends React.Component {
     };
   }
 
-  // handleMouseDown = (e) => {
-  //   const { SELECT } = toolTypes;
-  //
-  //   if (this.props.toolType === SELECT) {
-  //     const isAdditive = e.ctrlKey || e.metaKey;
-  //     this.props.onSelectStart(isAdditive, this.props.mousePoint);
-  //   }
-  //
-  //   return false;
-  // }
+  handleMouseDown = () => {
+    const { DRAW } = toolTypes;
 
-  handleMouseLeave = () => {
+    if (this.props.toolType === DRAW) {
+      this.startDrawing();
+    }
+  }
+
+  handleMouseLeave = (e) => {
+    const primaryClassName = `.${compose(first, split(' '))(e.target.className)}`;
+    const isDescendant = !!this.elementRef.querySelector(primaryClassName);
+    if (isDescendant) return;
+
+    if (this.state.isDrawing) {
+      this.stopDrawing();
+    }
+
     if (this.state.isMoving) {
       this.stopMoving();
     }
@@ -131,14 +136,14 @@ export class Notes extends React.Component {
     } else if (this.state.isResizing) {
       this.props.onResize(delta);
     }
-
-    // else if (this.props.isSelecting) {
-    //   const isAdditive = e.ctrlKey || e.metaKey;
-    //   this.props.onSelectUpdate(isAdditive, this.props.mousePoint);
-    // }
   }
 
   handleMouseUp = () => {
+    if (this.state.isDrawing) {
+      this.props.onDraw(this.props.mousePoint);
+      this.stopDrawing();
+    }
+
     if (this.state.isMoving) {
       this.stopMoving();
     }
@@ -146,26 +151,20 @@ export class Notes extends React.Component {
     if (this.state.isResizing) {
       this.stopResizing();
     }
-
-    if (this.props.toolType === toolTypes.DRAW) {
-      this.props.onDraw(this.props.mousePoint);
-    }
   }
 
   handleNoteMouseDown = (note, e) => {
-    // const { DRAW, SELECT } = toolTypes;
-    //
-    // if (this.props.toolType !== DRAW && this.props.toolType !== SELECT
-    // ) return true;
-
     const isAdditive = e.ctrlKey || e.metaKey;
+
     this.props.onNotePreview(first(note.points));
+
     if (!includes(note, this.props.selectedNotes)) {
       this.props.onNoteSelect(note, isAdditive);
     }
+
     this.startMoving();
+
     e.stopPropagation();
-    return false;
   }
 
   handleNoteMouseUp = (note) => {
@@ -189,12 +188,24 @@ export class Notes extends React.Component {
     e.stopPropagation();
   }
 
+  setRef = (ref) => {
+    this.elementRef = ref;
+  }
+
+  startDrawing = () => this.setState({
+    isDrawing: true,
+  });
+
   startMoving = () => this.setState({
     isMoving: true,
   });
 
   startResizing = () => this.setState({
     isResizing: true,
+  });
+
+  stopDrawing = () => this.setState({
+    isDrawing: false,
   });
 
   stopMoving = () => this.setState({

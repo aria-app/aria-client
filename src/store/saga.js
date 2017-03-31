@@ -1,21 +1,21 @@
 import app from '../features/app';
-import playing from '../features/playing';
-import sequencing from '../features/sequencing';
+import playback from '../features/playback';
+import sequencer from '../features/sequencer';
 import shared from '../features/shared';
 import shortcuts from '../features/shortcuts';
 import song from '../features/song';
-import tracking from '../features/tracking';
+import tracker from '../features/tracker';
 import transport from '../features/transport';
 
 export default function* saga() {
   yield [
     app.saga(),
-    playing.saga(),
-    sequencing.saga(),
+    playback.saga(),
+    sequencer.saga(),
     shared.saga(),
     shortcuts.saga(),
     song.saga(),
-    tracking.saga(),
+    tracker.saga(),
     transport.saga(),
   ];
 }

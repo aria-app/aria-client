@@ -1,18 +1,18 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import contextMenu from '../../../context-menu';
-import sequencing from '../../../sequencing';
+import sequencer from '../../../sequencer';
 import shared from '../../../shared';
-import tracking from '../../../tracking';
+import tracker from '../../../tracker';
 import { BPMModalContainer } from '../bpm-modal/bpm-modal-container';
 import { UploadOverlayContainer } from '../upload-overlay/upload-overlay-container';
 import { SongToolbarContainer } from '../song-toolbar/song-toolbar-container';
 import './app.scss';
 
 const { ContextMenuContainer } = contextMenu.components;
-const { SequencerContainer } = sequencing.components;
+const { SequencerContainer } = sequencer.components;
 const { hideIf, showIf } = shared.helpers;
-const { Tracker } = tracking.components;
+const { Tracker } = tracker.components;
 
 export class App extends React.Component {
   static propTypes = {

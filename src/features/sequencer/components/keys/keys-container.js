@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { Keys } from '../keys/keys';
-import playing from '../../../playing';
+import playback from '../../../playback';
 
 // wallaby-ignore
 export const KeysContainer = connect(() => ({}), {
-  onNotePreview: playing.actions.notePreviewed,
+  onNotePreview: playback.actions.notePreviewed,
 })(Keys);

@@ -2,16 +2,16 @@ import h from 'react-hyperscript';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import contextMenu from '../../../context-menu';
-import sequencing from '../../../sequencing';
-import tracking from '../../../tracking';
+import sequencer from '../../../sequencer';
+import tracker from '../../../tracker';
 import { BPMModalContainer } from '../bpm-modal/bpm-modal-container';
 import { SongToolbarContainer } from '../song-toolbar/song-toolbar-container';
 import { UploadOverlayContainer } from '../upload-overlay/upload-overlay-container';
 import { App } from './app';
 
 const { ContextMenuContainer } = contextMenu.components;
-const { SequencerContainer } = sequencing.components;
-const { Tracker } = tracking.components;
+const { SequencerContainer } = sequencer.components;
+const { Tracker } = tracker.components;
 
 describe('App Component', () => {
   it('should be defined', () => {
