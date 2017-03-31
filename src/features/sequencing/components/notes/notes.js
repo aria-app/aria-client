@@ -1,7 +1,6 @@
 import { find, first, last } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
-import classnames from 'classnames';
 import shared from '../../../shared';
 import { Note } from '../note/note';
 import './notes.scss';
@@ -36,7 +35,6 @@ export class Notes extends React.Component {
 
   render() {
     return h('.notes', {
-      className: this.getCursorClasses(),
       onMouseDown: this.handleMouseDown,
       onMouseMove: this.handleMouseMove,
       onMouseUp: this.handleMouseUp,
@@ -59,12 +57,6 @@ export class Notes extends React.Component {
         note,
       })),
     ]);
-  }
-
-  getCursorClasses() {
-    return classnames({
-      'notes--grab': this.props.toolType === toolTypes.PAN,
-    });
   }
 
   getGhostNoteNote() {

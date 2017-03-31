@@ -14,22 +14,6 @@ describe('Notes Component', () => {
     expect(component.length).toEqual(1);
   });
 
-  it('should have grab class when pan tool is selected', () => {
-    const component = shallow(h(Notes, {
-      ...getRequiredProps(),
-      toolType: toolTypes.PAN,
-    }));
-    expect(component.prop('className')).toContain('notes--grab');
-  });
-
-  it('should not have grab class when pan tool is not selected', () => {
-    const component = shallow(h(Notes, {
-      ...getRequiredProps(),
-      toolType: toolTypes.DRAW,
-    }));
-    expect(component.prop('className')).not.toContain('notes--grab');
-  });
-
   it('should invoke move start event on mouse down when move tool is selected', () => {
     const onMoveStart = sinon.spy();
     const component = shallow(h(Notes, {
@@ -202,12 +186,11 @@ describe('Notes Component', () => {
     expect(onSelectUpdate.called).toEqual(false);
   });
 
-  it('should invoke draw event on mouse up when draw tool is selected and not moving, panning, resizing, or selecting', () => {
+  it('should invoke draw event on mouse up when draw tool is selected and not moving, resizing, or selecting', () => {
     const onDraw = sinon.spy();
     const component = shallow(h(Notes, {
       ...getRequiredProps(),
       isMoving: false,
-      isPanning: false,
       isResizing: false,
       isSelecting: false,
       toolType: toolTypes.DRAW,
@@ -222,7 +205,6 @@ describe('Notes Component', () => {
     const component = shallow(h(Notes, {
       ...getRequiredProps(),
       isMoving: false,
-      isPanning: false,
       isResizing: false,
       isSelecting: false,
       toolType: toolTypes.PAN,
@@ -237,22 +219,6 @@ describe('Notes Component', () => {
     const component = shallow(h(Notes, {
       ...getRequiredProps(),
       isMoving: true,
-      isPanning: false,
-      isResizing: false,
-      isSelecting: false,
-      toolType: toolTypes.DRAW,
-      onDraw,
-    }));
-    component.simulate('mouseup');
-    expect(onDraw.called).toEqual(false);
-  });
-
-  it('should not invoke draw event on mouse up when panning', () => {
-    const onDraw = sinon.spy();
-    const component = shallow(h(Notes, {
-      ...getRequiredProps(),
-      isMoving: false,
-      isPanning: true,
       isResizing: false,
       isSelecting: false,
       toolType: toolTypes.DRAW,
@@ -267,7 +233,6 @@ describe('Notes Component', () => {
     const component = shallow(h(Notes, {
       ...getRequiredProps(),
       isMoving: false,
-      isPanning: false,
       isResizing: true,
       isSelecting: false,
       toolType: toolTypes.DRAW,
@@ -282,7 +247,6 @@ describe('Notes Component', () => {
     const component = shallow(h(Notes, {
       ...getRequiredProps(),
       isMoving: false,
-      isPanning: false,
       isResizing: false,
       isSelecting: true,
       toolType: toolTypes.DRAW,
@@ -1289,7 +1253,6 @@ describe('Notes Component', () => {
 function getRequiredProps() {
   return {
     isMoving: false,
-    isPanning: false,
     isResizing: false,
     isSelecting: false,
     measureCount: 1,

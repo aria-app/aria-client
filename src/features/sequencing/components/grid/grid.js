@@ -7,6 +7,7 @@ import {
   SequencerTimelineContainer,
 } from '../sequencer-timeline-container/sequencer-timeline-container';
 import { NotesContainer } from '../notes/notes-container';
+import { Panner } from '../panner/panner';
 import { SlotsContainer } from '../slots/slots-container';
 import './grid.scss';
 
@@ -15,11 +16,7 @@ const { toolTypes } = shared.constants;
 
 export class Grid extends React.Component {
   static propTypes = {
-    isPanning: React.PropTypes.bool,
     measureCount: React.PropTypes.number,
-    onPanningStart: React.PropTypes.func.isRequired,
-    onPanningStop: React.PropTypes.func.isRequired,
-    onPanningUpdate: React.PropTypes.func.isRequired,
     sequencerContentRef: React.PropTypes.object,
     toolType: React.PropTypes.string,
   }
@@ -47,10 +44,19 @@ export class Grid extends React.Component {
           mousePoint: this.state.mousePoint,
         }),
         h(FenceContainer),
+        h(Panner, {
+          isEnabled: this.getIsPannerEnabled(),
+          onScrollLeftChange: this.handlePannerScrollLeftChange,
+          onScrollTopChange: this.handlePannerScrollTopChange,
+          scrollLeftEl: this.elementRef,
+          scrollTopEl: this.props.sequencerContentRef,
+        }),
         h(SequencerTimelineContainer),
       ]),
     ]);
   }
+
+  getIsPannerEnabled = () => this.props.toolType === toolTypes.PAN;
 
   getWrapperStyle() {
     return {
@@ -60,14 +66,6 @@ export class Grid extends React.Component {
     };
   }
 
-  handleMouseDown = (e) => {
-    const { PAN } = toolTypes;
-
-    if (this.props.toolType === PAN) {
-      this.startPanningWithElements(e);
-    }
-  }
-
   handleMouseLeave = () => {
     this.setState({
       mousePoint: {
@@ -75,7 +73,6 @@ export class Grid extends React.Component {
         y: -1,
       },
     });
-    this.props.onPanningStop();
   };
 
   handleMouseMove = (e) => {
@@ -89,23 +86,19 @@ export class Grid extends React.Component {
       if (isEqual(state.mousePoint, mousePoint)) return {};
       return { mousePoint };
     });
-
-    if (this.props.isPanning) {
-      this.updatePanningWithElements(e);
-    }
   }
 
-  startPanningWithElements = e => this.props.onPanningStart(
-    e.currentTarget,
-    this.props.sequencerContentRef,
-    e,
-  )
+  handlePannerScrollLeftChange = (scrollLeft) => {
+    this.elementRef.scrollLeft = scrollLeft;
+  };
 
-  updatePanningWithElements = e => this.props.onPanningUpdate(
-    e.currentTarget,
-    this.props.sequencerContentRef,
-    e,
-  )
+  handlePannerScrollTopChange = (scrollTop) => {
+    this.props.sequencerContentRef.scrollTop = scrollTop;
+  };
+
+  setRef = (ref) => {
+    this.elementRef = ref;
+  }
 }
 
 function getMousePoint(scrollLeftEl, scrollTopEl, e) {
