@@ -11,4 +11,5 @@ export const GridContainer = connect(state => ({
 }), {
   onMove: song.actions.selectedNotesMoved,
   onResize: song.actions.selectedNotesSizeChanged,
+  onSelect: song.actions.notesSelectedInArea,
 })(Grid);

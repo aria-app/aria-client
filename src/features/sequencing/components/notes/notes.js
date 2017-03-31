@@ -34,9 +34,8 @@ export class Notes extends React.Component {
 
   componentDidUpdate(prevProps) {
     const hasNotMoved = isEqual(prevProps.mousePoint, this.props.mousePoint);
-    const isOffscreen = this.props.mousePoint.x === -1;
 
-    if (hasNotMoved || isOffscreen) return;
+    if (hasNotMoved) return;
 
     this.handleMove(prevProps.mousePoint);
   }

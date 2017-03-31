@@ -8,6 +8,7 @@ export const NOTE_PREVIEWED = `${NAME}/NOTE_PREVIEWED`;
 export const NOTE_SELECTED = `${NAME}/NOTE_SELECTED`;
 export const NOTES_DUPLICATED = `${NAME}/NOTES_DUPLICATED`;
 export const NOTES_MOVED = `${NAME}/NOTES_MOVED`;
+export const NOTES_SELECTED_IN_AREA = `${NAME}/NOTES_SELECTED_IN_AREA`;
 export const SOME_NOTES_DELETED = `${NAME}/SOME_NOTES_DELETED`;
 export const NOTES_RESIZED = `${NAME}/NOTES_RESIZED`;
 export const NOTES_SELECTED = `${NAME}/NOTES_SELECTED`;
@@ -63,6 +64,11 @@ export const notesMoved = (notes, offset) => ({
   type: NOTES_MOVED,
   notes,
   offset,
+});
+
+export const notesSelectedInArea = payload => ({
+  type: NOTES_SELECTED_IN_AREA,
+  payload,
 });
 
 export const someNotesDeleted = notes => ({

@@ -1,17 +1,16 @@
 import { isEqual } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
-import selecting from '../../../selecting';
 import shared from '../../../shared';
 import {
   SequencerTimelineContainer,
 } from '../sequencer-timeline-container/sequencer-timeline-container';
 import { NotesContainer } from '../notes/notes-container';
 import { Panner } from '../panner/panner';
+import { Selector } from '../selector/selector';
 import { SlotsContainer } from '../slots/slots-container';
 import './grid.scss';
 
-const { FenceContainer } = selecting.components;
 const { toolTypes } = shared.constants;
 
 export class Grid extends React.Component {
@@ -20,6 +19,7 @@ export class Grid extends React.Component {
     measureCount: React.PropTypes.number,
     onMove: React.PropTypes.func.isRequired,
     onResize: React.PropTypes.func.isRequired,
+    onSelect: React.PropTypes.func.isRequired,
     sequencerContentRef: React.PropTypes.object,
     toolType: React.PropTypes.string,
   }
@@ -42,12 +42,17 @@ export class Grid extends React.Component {
         style: this.getWrapperStyle(),
       }, [
         h(SlotsContainer),
-        h(NotesContainer, {
+        h(Selector, {
+          isEnabled: this.getIsSelectorEnabled(),
           mousePoint: this.state.mousePoint,
-          onMove: this.handleNotesContainerMove,
-          onResize: this.handleNotesContainerResize,
-        }),
-        h(FenceContainer),
+          onSelect: this.handleSelectorSelect,
+        }, [
+          h(NotesContainer, {
+            mousePoint: this.state.mousePoint,
+            onMove: this.handleNotesContainerMove,
+            onResize: this.handleNotesContainerResize,
+          }),
+        ]),
         h(Panner, {
           isEnabled: this.getIsPannerEnabled(),
           onScrollLeftChange: this.handlePannerScrollLeftChange,
@@ -61,6 +66,8 @@ export class Grid extends React.Component {
   }
 
   getIsPannerEnabled = () => this.props.toolType === toolTypes.PAN;
+
+  getIsSelectorEnabled = () => this.props.toolType === toolTypes.SELECT;
 
   getWrapperStyle() {
     return {
@@ -105,6 +112,9 @@ export class Grid extends React.Component {
   handlePannerScrollTopChange = (scrollTop) => {
     this.props.sequencerContentRef.scrollTop = scrollTop;
   };
+
+  handleSelectorSelect = selectionInfo =>
+    this.props.onSelect(selectionInfo);
 
   setRef = (ref) => {
     this.elementRef = ref;

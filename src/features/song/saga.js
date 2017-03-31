@@ -119,14 +119,14 @@ function* moveNotes({ notes, offset }) {
     (helpers.somePointOutside(map(n => n.points[0])(updatedNotes), measureCount)) ||
     (helpers.somePointOutside(map(n => n.points[1])(updatedNotes), measureCount))
   ) return;
-  console.log('to preview');
+
   yield put(actions.notePreviewed(first(updatedNotes[0].points)));
   yield put(actions.notesUpdated(updatedNotes));
 }
 
 function* moveSelected({ offset }) {
   const selectedNotes = yield select(selectors.getSelectedNotes);
-  console.log('move selected');
+
   if (isEmpty(selectedNotes)) return;
 
   yield put(actions.notesMoved(selectedNotes, offset));
@@ -238,6 +238,31 @@ function* selectAll() {
   yield put(actions.notesSelected(notes));
 }
 
+function* selectInArea({ payload }) {
+  const { endPoint, isAdditive, startPoint } = payload;
+  const allNotes = yield select(selectors.getActiveSequenceNotes);
+  const selectedNotes = yield select(selectors.getSelectedNotes);
+
+  const notesToSelect = helpers.getNotesInArea(
+    startPoint,
+    endPoint,
+    allNotes,
+  );
+
+  if (isAdditive) {
+    yield put(actions.notesSelected([
+      ...selectedNotes,
+      ...notesToSelect,
+    ]));
+  } else {
+    yield put(actions.notesSelected(notesToSelect));
+  }
+
+  if (isEqual(startPoint, endPoint)) {
+    yield put(actions.allNotesDeselected());
+  }
+}
+
 function* shiftDownOctave() {
   const selectedNotes = yield select(selectors.getSelectedNotes);
 
@@ -323,6 +348,7 @@ export default function* saga() {
     takeEvery(actions.NOTE_ERASED, erase),
     takeEvery(actions.NOTES_DUPLICATED, duplicateSelectedNotes),
     takeEvery(actions.NOTES_MOVED, moveNotes),
+    takeEvery(actions.NOTES_SELECTED_IN_AREA, selectInArea),
     takeEvery(actions.SOME_NOTES_DELETED, deleteNotes),
     takeEvery(actions.NOTES_RESIZED, resize),
     takeEvery(actions.REDO_POPPED, redo),
