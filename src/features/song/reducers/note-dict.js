@@ -1,4 +1,4 @@
-import { omit } from 'lodash/fp';
+import { map, omit } from 'lodash/fp';
 import shared from '../../shared';
 import * as actions from '../actions';
 
@@ -9,10 +9,9 @@ export const noteDict = (state = {}, action) => {
     case actions.NOTES_ADDED:
     case actions.NOTES_MOVE_COMMITTED:
     case actions.NOTES_RESIZE_COMMITTED:
-    case actions.NOTES_UPDATED:
       return setAtIds(action.notes, state);
-    case actions.NOTES_DELETED:
-      return omit(action.ids)(state);
+    case actions.NOTES_DELETE_COMMITTED:
+      return omit(map('id')(action.ids))(state);
     case actions.NOTES_SET:
       return setAtIds(action.notes, state);
     case actions.SONG_LOADED:

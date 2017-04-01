@@ -6,7 +6,7 @@ export const selectedNoteIds = (state = [], action) => {
   switch (action.type) {
     case actions.ALL_NOTES_DESELECTED:
     case shortcuts.actions.DESELECT:
-    case actions.SOME_NOTES_DELETED:
+    case actions.NOTES_DELETED:
     case actions.SEQUENCE_CLOSED:
       return [];
     case actions.NOTE_SELECTED:

@@ -25,11 +25,11 @@ describe('Song noteIds reducer', () => {
     expect(next).toEqual(expected);
   });
 
-  it('should handle NOTES_DELETED', () => {
+  it('should handle NOTES_DELETE_COMMITTED', () => {
     const previous = ['n1', 'n2'];
     const expected = ['n1'];
     const action = {
-      type: actions.NOTES_DELETED,
+      type: actions.NOTES_DELETE_COMMITTED,
       ids: ['n2'],
     };
     const next = reducer(previous, action);

@@ -67,7 +67,7 @@ function* changeSelectedNotesSize({ change }) {
 }
 
 function* deleteNotes({ notes }) {
-  yield put(actions.notesDeleted(map('id')(notes)));
+  yield put(actions.notesDeleteCommitted(notes));
 }
 
 function* deleteSelectedNotes() {
@@ -75,7 +75,7 @@ function* deleteSelectedNotes() {
 
   if (isEmpty(selectedNotes)) return;
 
-  yield put(actions.someNotesDeleted(selectedNotes));
+  yield put(actions.notesDeleted(selectedNotes));
 }
 
 function* drawNote({ payload }) {
@@ -104,7 +104,7 @@ function* duplicateSelectedNotes() {
 }
 
 function* erase(action) {
-  yield put(actions.someNotesDeleted([action.note]));
+  yield put(actions.notesDeleted([action.note]));
 }
 
 function* moveNotes({ notes, offset }) {
@@ -224,7 +224,7 @@ function* resizeSelected(action) {
     ],
   }));
 
-  yield put(actions.notesUpdated(updatedNotes));
+  yield put(actions.notesResizeCommitted(updatedNotes));
 }
 
 function* selectAll() {
@@ -256,7 +256,7 @@ function* selectInArea({ payload }) {
   }
 
   if (isEqual(startPoint, endPoint)) {
-    yield put(actions.allNotesDeselected());
+    yield put(actions.notesDeselected());
   }
 }
 
@@ -305,10 +305,9 @@ export default function* saga() {
       actions.MEASURE_COUNT_SET,
       actions.NAME_SET,
       actions.NOTES_ADDED,
-      actions.NOTES_DELETED,
+      actions.NOTES_DELETE_COMMITTED,
       actions.NOTES_DUPLICATED,
       actions.NOTES_SET,
-      actions.NOTES_UPDATED,
       actions.SEQUENCE_ADDED_TO_TRACK,
       actions.SEQUENCE_CLOSED,
       actions.SEQUENCE_EXTENDED,
@@ -335,18 +334,18 @@ export default function* saga() {
     takeEvery(actions.NOTE_DRAWN, pushUndo),
     takeEvery(actions.NOTE_ERASED, pushUndo),
     takeEvery(actions.NOTES_DUPLICATED, pushUndo),
-    takeEvery(actions.SOME_NOTES_DELETED, pushUndo),
+    takeEvery(actions.NOTES_DELETED, pushUndo),
     takeEvery(actions.SELECTED_NOTES_MOVED_OCTAVE_DOWN, pushUndo),
     takeEvery(actions.SELECTED_NOTES_MOVED_OCTAVE_UP, pushUndo),
     takeEvery(actions.SELECTED_NOTES_POSITION_NUDGED, pushUndo),
     takeEvery(actions.SELECTED_NOTES_SIZE_NUDGED, pushUndo),
-    takeEvery(actions.ALL_NOTES_SELECTED, selectAll),
     takeEvery(actions.NOTE_DRAWN, drawNote),
     takeEvery(actions.NOTE_ERASED, erase),
+    takeEvery(actions.NOTES_ALL_SELECTED, selectAll),
     takeEvery(actions.NOTES_DUPLICATED, duplicateSelectedNotes),
     takeEvery(actions.NOTES_MOVED, moveNotes),
     takeEvery(actions.NOTES_SELECTED_IN_AREA, selectInArea),
-    takeEvery(actions.SOME_NOTES_DELETED, deleteNotes),
+    takeEvery(actions.NOTES_DELETED, deleteNotes),
     takeEvery(actions.NOTES_RESIZED, resize),
     takeEvery(actions.REDO_POPPED, redo),
     takeEvery(actions.REDO_PUSHED, pushRedo),

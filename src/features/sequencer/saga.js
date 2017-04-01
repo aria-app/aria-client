@@ -13,7 +13,7 @@ function* handleToolTypeSelected({ toolType }) {
   const previousToolType = yield select(selectors.getToolType);
 
   if (includes([toolTypes.DRAW, toolTypes.ERASE], toolType)) {
-    yield put(song.actions.allNotesDeselected());
+    yield put(song.actions.notesDeselected());
   }
 
   yield put(actions.toolTypeSet(toolType, previousToolType));
