@@ -1,4 +1,4 @@
-import { compose, find, first, includes, isEqual, last, split } from 'lodash/fp';
+import { find, first, includes, isEqual, last } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -6,14 +6,12 @@ import { Note } from '../note/note';
 import './notes.scss';
 
 const { toolTypes } = shared.constants;
-const { showIf } = shared.helpers;
 
 export class Notes extends React.Component {
   static propTypes = {
     measureCount: React.PropTypes.number.isRequired,
     mousePoint: React.PropTypes.object.isRequired,
     notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    onDraw: React.PropTypes.func.isRequired,
     onErase: React.PropTypes.func.isRequired,
     onMove: React.PropTypes.func.isRequired,
     onNotePreview: React.PropTypes.func.isRequired,
@@ -26,7 +24,6 @@ export class Notes extends React.Component {
   }
 
   state = {
-    isDrawing: false,
     isMoving: false,
     isResizing: false,
   };
@@ -36,7 +33,7 @@ export class Notes extends React.Component {
 
     if (hasNotMoved) return;
 
-    this.handleMove(prevProps.mousePoint);
+    this.handleMousePointChange(prevProps.mousePoint);
   }
 
   render() {
@@ -48,13 +45,6 @@ export class Notes extends React.Component {
       ref: this.setRef,
       style: this.getStyle(),
     }, [
-      showIf(this.getIsDrawingEnabled())(
-        h(Note, {
-          className: 'notes__note--ghost',
-          isSelected: false,
-          note: this.getGhostNoteNote(),
-        }),
-      ),
       ...this.props.notes.map(note => h(Note, {
         className: 'notes__note',
         key: note.id,
@@ -65,26 +55,6 @@ export class Notes extends React.Component {
         note,
       })),
     ]);
-  }
-
-  getGhostNoteNote() {
-    const point = this.props.mousePoint;
-    return {
-      points: [
-        {
-          x: point ? point.x : 0,
-          y: point ? point.y : 0,
-        },
-        {
-          x: point ? point.x + 1 : 0,
-          y: point ? point.y : 0,
-        },
-      ],
-    };
-  }
-
-  getIsDrawingEnabled() {
-    return this.props.toolType === toolTypes.DRAW;
   }
 
   getIsNoteSelected(note) {
@@ -99,23 +69,7 @@ export class Notes extends React.Component {
     };
   }
 
-  handleMouseDown = () => {
-    const { DRAW } = toolTypes;
-
-    if (this.props.toolType === DRAW) {
-      this.startDrawing();
-    }
-  }
-
-  handleMouseLeave = (e) => {
-    const primaryClassName = `.${compose(first, split(' '))(e.target.className)}`;
-    const isDescendant = !!this.elementRef.querySelector(primaryClassName);
-    if (isDescendant) return;
-
-    if (this.state.isDrawing) {
-      this.stopDrawing();
-    }
-
+  handleMouseLeave = () => {
     if (this.state.isMoving) {
       this.stopMoving();
     }
@@ -125,7 +79,7 @@ export class Notes extends React.Component {
     }
   }
 
-  handleMove = (prevMousePoint) => {
+  handleMousePointChange = (prevMousePoint) => {
     const delta = shared.helpers.getPointOffset(
       prevMousePoint,
       this.props.mousePoint,
@@ -139,11 +93,6 @@ export class Notes extends React.Component {
   }
 
   handleMouseUp = () => {
-    if (this.state.isDrawing) {
-      this.props.onDraw(this.props.mousePoint);
-      this.stopDrawing();
-    }
-
     if (this.state.isMoving) {
       this.stopMoving();
     }
@@ -192,20 +141,12 @@ export class Notes extends React.Component {
     this.elementRef = ref;
   }
 
-  startDrawing = () => this.setState({
-    isDrawing: true,
-  });
-
   startMoving = () => this.setState({
     isMoving: true,
   });
 
   startResizing = () => this.setState({
     isResizing: true,
-  });
-
-  stopDrawing = () => this.setState({
-    isDrawing: false,
   });
 
   stopMoving = () => this.setState({

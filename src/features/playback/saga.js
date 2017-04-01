@@ -43,7 +43,15 @@ function* playNote({ payload }) {
   channel.instrument.playNote(note, time);
 }
 
-function* previewNote({ payload }) {
+function* previewNoteFirstPoint({ payload }) {
+  const { y } = payload.points[0];
+  const sequence = yield select(song.selectors.getActiveSequence);
+  const channel = yield select(selectors.getChannelById(sequence.trackId));
+  const name = shared.helpers.getNoteName(y);
+  channel.instrument.previewNote(name);
+}
+
+function* previewPoint({ payload }) {
   const { y } = payload;
   const sequence = yield select(song.selectors.getActiveSequence);
   const channel = yield select(selectors.getChannelById(sequence.trackId));
@@ -80,10 +88,11 @@ export default function* saga() {
   yield [
     takeEvery(actions.INSTRUMENT_DISPOSED, disposeInstruments),
     takeEvery(actions.NOTE_PLAYED, playNote),
-    takeEvery(actions.NOTE_PREVIEWED, previewNote),
+    takeEvery(actions.NOTE_PREVIEWED, previewPoint),
     takeEvery(actions.ALL_INSTRUMENTS_RELEASED, releaseAll),
     takeEvery(song.actions.TRACKS_ADDED, addNewChannels),
-    takeEvery(song.actions.NOTE_PREVIEWED, previewNote),
+    takeEvery(song.actions.NOTE_PREVIEWED, previewPoint),
+    takeEvery(song.actions.NOTE_SELECTED, previewNoteFirstPoint),
     takeEvery(song.actions.SONG_LOADED, initialize),
     takeEvery(song.actions.BPM_SET, setBPM),
     takeEvery(song.actions.TRACK_SYNTH_TYPE_SET, changeTrackInstrumentType),

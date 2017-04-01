@@ -6,6 +6,7 @@ import {
   SequencerTimelineContainer,
 } from '../sequencer-timeline-container/sequencer-timeline-container';
 import { NotesContainer } from '../notes/notes-container';
+import { Drawer } from '../drawer/drawer';
 import { Panner } from '../panner/panner';
 import { Selector } from '../selector/selector';
 import { SlotsContainer } from '../slots/slots-container';
@@ -17,6 +18,7 @@ export class Grid extends React.Component {
   static propTypes = {
     areSomeNotesSelected: React.PropTypes.bool,
     measureCount: React.PropTypes.number,
+    onDraw: React.PropTypes.func.isRequired,
     onMove: React.PropTypes.func.isRequired,
     onResize: React.PropTypes.func.isRequired,
     onSelect: React.PropTypes.func.isRequired,
@@ -42,6 +44,11 @@ export class Grid extends React.Component {
         style: this.getWrapperStyle(),
       }, [
         h(SlotsContainer),
+        h(Drawer, {
+          isEnabled: this.getIsDrawerEnabled(),
+          mousePoint: this.state.mousePoint,
+          onDraw: this.handleDrawerDraw,
+        }),
         h(Selector, {
           isEnabled: this.getIsSelectorEnabled(),
           mousePoint: this.state.mousePoint,
@@ -65,6 +72,8 @@ export class Grid extends React.Component {
     ]);
   }
 
+  getIsDrawerEnabled = () => this.props.toolType === toolTypes.DRAW;
+
   getIsPannerEnabled = () => this.props.toolType === toolTypes.PAN;
 
   getIsSelectorEnabled = () => this.props.toolType === toolTypes.SELECT;
@@ -76,6 +85,9 @@ export class Grid extends React.Component {
         : 0,
     };
   }
+
+  handleDrawerDraw = point =>
+    this.props.onDraw(point);
 
   handleMouseLeave = () => {
     this.setState({
