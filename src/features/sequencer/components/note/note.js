@@ -99,9 +99,7 @@ export class Note extends React.Component {
     const isAdditive = e.ctrlKey || e.metaKey;
 
     if (this.props.isSelectEnabled) {
-      if (!this.props.isSelected) {
-        this.props.onSelect(this.props.note, isAdditive);
-      }
+      this.props.onSelect(this.props.note, isAdditive);
 
       this.props.onMoveStart();
 

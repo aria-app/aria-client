@@ -78,13 +78,12 @@ function* deleteSelectedNotes() {
   yield put(actions.someNotesDeleted(selectedNotes));
 }
 
-function* drawNote({ point }) {
+function* drawNote({ payload }) {
   const activeSequenceId = yield select(selectors.getActiveSequenceId);
 
-  yield put(actions.notePreviewed(point));
   yield put(actions.notesAdded([
     helpers.createNote({
-      points: [point, { x: point.x + 1, y: point.y }],
+      points: [payload, { x: payload.x + 1, y: payload.y }],
       sequenceId: activeSequenceId,
     }),
   ]));
@@ -120,8 +119,7 @@ function* moveNotes({ notes, offset }) {
     (helpers.somePointOutside(map(n => n.points[1])(updatedNotes), measureCount))
   ) return;
 
-  yield put(actions.notePreviewed(first(updatedNotes[0].points)));
-  yield put(actions.notesUpdated(updatedNotes));
+  yield put(actions.notesMoveCommitted(updatedNotes));
 }
 
 function* moveSelected({ offset }) {
@@ -207,8 +205,7 @@ function* resize({ notes, change }) {
 
   if (helpers.somePointOutside(map(n => n.points[1])(updatedNotes), measureCount)) return;
 
-  yield put(actions.notePreviewed(last(updatedNotes[0].points)));
-  yield put(actions.notesUpdated(updatedNotes));
+  yield put(actions.notesResizeCommitted(updatedNotes));
 }
 
 function* resizeSelected(action) {

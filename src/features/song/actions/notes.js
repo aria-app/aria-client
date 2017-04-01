@@ -4,12 +4,13 @@ export const ALL_NOTES_DESELECTED = `${NAME}/ALL_NOTES_DESELECTED`;
 export const ALL_NOTES_SELECTED = `${NAME}/ALL_NOTES_SELECTED`;
 export const NOTE_DRAWN = `${NAME}/NOTE_DRAWN`;
 export const NOTE_ERASED = `${NAME}/NOTE_ERASED`;
-export const NOTE_PREVIEWED = `${NAME}/NOTE_PREVIEWED`;
 export const NOTE_SELECTED = `${NAME}/NOTE_SELECTED`;
 export const NOTES_DUPLICATED = `${NAME}/NOTES_DUPLICATED`;
+export const NOTES_MOVE_COMMITTED = `${NAME}/NOTES_MOVE_COMMITTED`;
 export const NOTES_MOVED = `${NAME}/NOTES_MOVED`;
 export const NOTES_SELECTED_IN_AREA = `${NAME}/NOTES_SELECTED_IN_AREA`;
 export const SOME_NOTES_DELETED = `${NAME}/SOME_NOTES_DELETED`;
+export const NOTES_RESIZE_COMMITTED = `${NAME}/NOTES_RESIZE_COMMITTED`;
 export const NOTES_RESIZED = `${NAME}/NOTES_RESIZED`;
 export const NOTES_SELECTED = `${NAME}/NOTES_SELECTED`;
 export const REDO_POPPED = `${NAME}/REDO_POPPED`;
@@ -35,19 +36,14 @@ export const allNotesSelected = () => ({
   type: ALL_NOTES_SELECTED,
 });
 
-export const noteDrawn = point => ({
+export const noteDrawn = payload => ({
   type: NOTE_DRAWN,
-  point,
+  payload,
 });
 
 export const noteErased = note => ({
   type: NOTE_ERASED,
   note,
-});
-
-export const notePreviewed = point => ({
-  type: NOTE_PREVIEWED,
-  payload: point,
 });
 
 export const noteSelected = (note, isAdditive) => ({
@@ -58,6 +54,11 @@ export const noteSelected = (note, isAdditive) => ({
 
 export const notesDuplicated = () => ({
   type: NOTES_DUPLICATED,
+});
+
+export const notesMoveCommitted = notes => ({
+  type: NOTES_MOVE_COMMITTED,
+  notes,
 });
 
 export const notesMoved = (notes, offset) => ({
@@ -73,6 +74,11 @@ export const notesSelectedInArea = payload => ({
 
 export const someNotesDeleted = notes => ({
   type: SOME_NOTES_DELETED,
+  notes,
+});
+
+export const notesResizeCommitted = notes => ({
+  type: NOTES_RESIZE_COMMITTED,
   notes,
 });
 

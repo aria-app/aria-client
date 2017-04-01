@@ -97,6 +97,80 @@ describe('Song noteDict reducer', () => {
     expect(next).toEqual(expected);
   });
 
+  it('should handle NOTES_MOVE_COMMITTED', () => {
+    const previous = {
+      n1: {
+        id: 'n1',
+        points: [{ x: 0, y: 3 }, { x: 2, y: 3 }],
+        sequenceId: 's1',
+      },
+      n2: {
+        id: 'n2',
+        points: [{ x: 0, y: 3 }, { x: 2, y: 3 }],
+        sequenceId: 's1',
+      },
+    };
+    const expected = {
+      n1: {
+        id: 'n1',
+        points: [{ x: 0, y: 3 }, { x: 2, y: 3 }],
+        sequenceId: 's1',
+      },
+      n2: {
+        id: 'n2',
+        points: [{ x: 0, y: 4 }, { x: 2, y: 4 }],
+        sequenceId: 's1',
+      },
+    };
+    const action = {
+      type: actions.NOTES_MOVE_COMMITTED,
+      notes: [{
+        id: 'n2',
+        points: [{ x: 0, y: 4 }, { x: 2, y: 4 }],
+        sequenceId: 's1',
+      }],
+    };
+    const next = reducer(previous, action);
+    expect(next).toEqual(expected);
+  });
+
+  it('should handle NOTES_RESIZE_COMMITTED', () => {
+    const previous = {
+      n1: {
+        id: 'n1',
+        points: [{ x: 0, y: 3 }, { x: 2, y: 3 }],
+        sequenceId: 's1',
+      },
+      n2: {
+        id: 'n2',
+        points: [{ x: 0, y: 3 }, { x: 2, y: 3 }],
+        sequenceId: 's1',
+      },
+    };
+    const expected = {
+      n1: {
+        id: 'n1',
+        points: [{ x: 0, y: 3 }, { x: 2, y: 3 }],
+        sequenceId: 's1',
+      },
+      n2: {
+        id: 'n2',
+        points: [{ x: 0, y: 4 }, { x: 2, y: 4 }],
+        sequenceId: 's1',
+      },
+    };
+    const action = {
+      type: actions.NOTES_RESIZE_COMMITTED,
+      notes: [{
+        id: 'n2',
+        points: [{ x: 0, y: 4 }, { x: 2, y: 4 }],
+        sequenceId: 's1',
+      }],
+    };
+    const next = reducer(previous, action);
+    expect(next).toEqual(expected);
+  });
+
   it('should handle NOTES_UPDATED', () => {
     const previous = {
       n1: {

@@ -7,6 +7,8 @@ const { setAtIds } = shared.helpers;
 export const noteDict = (state = {}, action) => {
   switch (action.type) {
     case actions.NOTES_ADDED:
+    case actions.NOTES_MOVE_COMMITTED:
+    case actions.NOTES_RESIZE_COMMITTED:
     case actions.NOTES_UPDATED:
       return setAtIds(action.notes, state);
     case actions.NOTES_DELETED:

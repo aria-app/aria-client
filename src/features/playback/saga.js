@@ -1,3 +1,4 @@
+import { first, last } from 'lodash/fp';
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import shared from '../shared';
@@ -41,6 +42,22 @@ function* playNote({ payload }) {
   const channel = yield select(selectors.getChannelById(channelId));
 
   channel.instrument.playNote(note, time);
+}
+
+function* previewFirstNoteFirstPoint({ notes }) {
+  const { y } = first(first(notes).points);
+  const sequence = yield select(song.selectors.getActiveSequence);
+  const channel = yield select(selectors.getChannelById(sequence.trackId));
+  const name = shared.helpers.getNoteName(y);
+  channel.instrument.previewNote(name);
+}
+
+function* previewFirstNoteLastPoint({ notes }) {
+  const { y } = last(first(notes).points);
+  const sequence = yield select(song.selectors.getActiveSequence);
+  const channel = yield select(selectors.getChannelById(sequence.trackId));
+  const name = shared.helpers.getNoteName(y);
+  channel.instrument.previewNote(name);
 }
 
 function* previewNoteFirstPoint({ note }) {
@@ -91,8 +108,10 @@ export default function* saga() {
     takeEvery(actions.NOTE_PREVIEWED, previewPoint),
     takeEvery(actions.ALL_INSTRUMENTS_RELEASED, releaseAll),
     takeEvery(song.actions.TRACKS_ADDED, addNewChannels),
-    takeEvery(song.actions.NOTE_PREVIEWED, previewPoint),
+    takeEvery(song.actions.NOTE_DRAWN, previewPoint),
     takeEvery(song.actions.NOTE_SELECTED, previewNoteFirstPoint),
+    takeEvery(song.actions.NOTES_MOVE_COMMITTED, previewFirstNoteFirstPoint),
+    takeEvery(song.actions.NOTES_RESIZE_COMMITTED, previewFirstNoteLastPoint),
     takeEvery(song.actions.SONG_LOADED, initialize),
     takeEvery(song.actions.BPM_SET, setBPM),
     takeEvery(song.actions.TRACK_SYNTH_TYPE_SET, changeTrackInstrumentType),
