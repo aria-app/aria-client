@@ -102,7 +102,6 @@ export class Note extends React.Component {
       if (!this.props.isSelected) {
         this.props.onSelect(this.props.note, isAdditive);
       }
-      console.log('heyo');
 
       this.props.onMoveStart();
 

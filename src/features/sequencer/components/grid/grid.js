@@ -87,7 +87,6 @@ export class Grid extends React.Component {
   }
 
   handleDrawerDraw = (point) => {
-    console.log('draw', point);
     this.props.onDraw(point);
   };
 

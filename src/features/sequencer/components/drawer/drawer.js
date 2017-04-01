@@ -64,7 +64,6 @@ export class Drawer extends React.PureComponent {
   getIsDrawing = () => this.state.isDrawing;
 
   handleMouseDown = () => {
-    console.log('draw internal');
     this.setState({
       isDrawing: true,
     });

@@ -1,15 +1,12 @@
 import h from 'react-hyperscript';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import selecting from '../../../selecting';
 import { NotesContainer } from '../notes/notes-container';
 import {
   SequencerTimelineContainer,
 } from '../sequencer-timeline-container/sequencer-timeline-container';
 import { SlotsContainer } from '../slots/slots-container';
 import { Grid } from './grid';
-
-const { FenceContainer } = selecting.components;
 
 describe('Grid Component', () => {
   it('should be defined', () => {
@@ -90,16 +87,6 @@ describe('Grid Component', () => {
       }));
       const notesContainerEl = component.find(NotesContainer);
       expect(notesContainerEl.length).toEqual(1);
-    });
-  });
-
-  describe('child component FenceContainer', () => {
-    it('should be defined', () => {
-      const component = shallow(h(Grid, {
-        ...getRequiredProps(),
-      }));
-      const fenceContainerEl = component.find(FenceContainer);
-      expect(fenceContainerEl.length).toEqual(1);
     });
   });
 
