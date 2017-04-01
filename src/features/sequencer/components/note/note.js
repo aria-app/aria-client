@@ -7,11 +7,14 @@ import './note.scss';
 export class Note extends React.Component {
   static propTypes = {
     className: React.PropTypes.string,
+    isEraseEnabled: React.PropTypes.bool.isRequired,
+    isSelectEnabled: React.PropTypes.bool.isRequired,
     isSelected: React.PropTypes.bool.isRequired,
     note: React.PropTypes.object.isRequired,
-    onEndpointMouseDown: React.PropTypes.func,
-    onMouseDown: React.PropTypes.func,
-    onMouseUp: React.PropTypes.func,
+    onErase: React.PropTypes.func.isRequired,
+    onMoveStart: React.PropTypes.func.isRequired,
+    onResizeStart: React.PropTypes.func.isRequired,
+    onSelect: React.PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -83,18 +86,34 @@ export class Note extends React.Component {
   }
 
   handleEndPointMouseDown = (e) => {
-    if (!this.props.onEndpointMouseDown) return;
-    this.props.onEndpointMouseDown(this.props.note, e);
+    if (this.props.isSelectEnabled) {
+      const isAdditive = e.ctrlKey || e.metaKey;
+      this.props.onSelect(this.props.note, isAdditive);
+      this.props.onResizeStart();
+    }
+
+    e.stopPropagation();
   }
 
   handleStartPointMouseDown = (e) => {
-    if (!this.props.onMouseDown) return;
-    this.props.onMouseDown(this.props.note, e);
+    const isAdditive = e.ctrlKey || e.metaKey;
+
+    if (this.props.isSelectEnabled) {
+      if (!this.props.isSelected) {
+        this.props.onSelect(this.props.note, isAdditive);
+      }
+      console.log('heyo');
+
+      this.props.onMoveStart();
+
+      e.stopPropagation();
+    }
   }
 
-  handleStartPointMouseUp = (e) => {
-    if (!this.props.onMouseUp) return;
-    this.props.onMouseUp(this.props.note, e);
+  handleStartPointMouseUp = () => {
+    if (this.props.isEraseEnabled) {
+      this.props.onErase(this.props.note);
+    }
   }
 }
 

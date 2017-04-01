@@ -6,6 +6,7 @@ import { Note } from '../note/note';
 import './drawer.scss';
 
 const { showIf } = shared.helpers;
+const noop = () => {};
 
 export class Drawer extends React.PureComponent {
   static propTypes = {
@@ -31,7 +32,13 @@ export class Drawer extends React.PureComponent {
       showIf(this.props.isEnabled)(
         h(Note, {
           className: 'notes__note--ghost',
+          isEraseEnabled: false,
           isSelected: false,
+          isSelectEnabled: false,
+          onErase: noop,
+          onMoveStart: noop,
+          onResizeStart: noop,
+          onSelect: noop,
           note: this.getGhostNoteNote(),
         }),
       ),
@@ -57,6 +64,7 @@ export class Drawer extends React.PureComponent {
   getIsDrawing = () => this.state.isDrawing;
 
   handleMouseDown = () => {
+    console.log('draw internal');
     this.setState({
       isDrawing: true,
     });

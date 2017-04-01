@@ -86,8 +86,10 @@ export class Grid extends React.Component {
     };
   }
 
-  handleDrawerDraw = point =>
+  handleDrawerDraw = (point) => {
+    console.log('draw', point);
     this.props.onDraw(point);
+  };
 
   handleMouseLeave = () => {
     this.setState({

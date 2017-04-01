@@ -43,8 +43,8 @@ function* playNote({ payload }) {
   channel.instrument.playNote(note, time);
 }
 
-function* previewNoteFirstPoint({ payload }) {
-  const { y } = payload.points[0];
+function* previewNoteFirstPoint({ note }) {
+  const { y } = note.points[0];
   const sequence = yield select(song.selectors.getActiveSequence);
   const channel = yield select(selectors.getChannelById(sequence.trackId));
   const name = shared.helpers.getNoteName(y);
