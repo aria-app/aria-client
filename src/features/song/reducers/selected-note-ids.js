@@ -4,7 +4,7 @@ import * as actions from '../actions';
 
 export const selectedNoteIds = (state = [], action) => {
   switch (action.type) {
-    case actions.ALL_NOTES_DESELECTED:
+    case actions.NOTES_DESELECTED:
     case shortcuts.actions.DESELECT:
     case actions.NOTES_DELETED:
     case actions.SEQUENCE_CLOSED:
@@ -18,6 +18,7 @@ export const selectedNoteIds = (state = [], action) => {
       return !includes(action.note.id)(state)
         ? [action.note.id]
         : state;
+    case actions.NOTES_ADDED:
     case actions.NOTES_SELECTED:
       return map('id')(action.notes);
     default:

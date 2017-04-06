@@ -155,9 +155,7 @@ function* songSequenceStep(action) {
 
 function* stop() {
   if (Tone.getTransportState() !== 'stopped') {
-    yield call(() => {
-      Tone.stopTransport();
-    });
+    Tone.stopTransport();
     yield put(playback.actions.allInstrumentsReleased());
   }
 }

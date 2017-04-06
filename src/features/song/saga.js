@@ -63,11 +63,7 @@ function* changeSelectedNotesSize({ change }) {
 
   if (isEmpty(selectedNotes)) return;
 
-  yield put(actions.notesResized(selectedNotes, change));
-}
-
-function* deleteNotes({ notes }) {
-  yield put(actions.notesDeleteCommitted(notes));
+  yield put(actions.notesResizeStarted(selectedNotes, change));
 }
 
 function* deleteSelectedNotes() {
@@ -100,7 +96,6 @@ function* duplicateSelectedNotes() {
   }));
 
   yield put(actions.notesAdded(newNotes));
-  yield put(actions.notesSelected(newNotes));
 }
 
 function* erase(action) {
@@ -119,7 +114,7 @@ function* moveNotes({ notes, offset }) {
     (helpers.somePointOutside(map(n => n.points[1])(updatedNotes), measureCount))
   ) return;
 
-  yield put(actions.notesMoveCommitted(updatedNotes));
+  yield put(actions.notesMoveSucceeded(updatedNotes));
 }
 
 function* moveSelected({ offset }) {
@@ -127,7 +122,7 @@ function* moveSelected({ offset }) {
 
   if (isEmpty(selectedNotes)) return;
 
-  yield put(actions.notesMoved(selectedNotes, offset));
+  yield put(actions.notesMoveStarted(selectedNotes, offset));
 }
 
 function* nudgeSelectedNotesPosition({ change }) {
@@ -136,7 +131,7 @@ function* nudgeSelectedNotesPosition({ change }) {
   if (isEmpty(selectedNotes)) return;
 
   yield call(pushUndo);
-  yield put(actions.notesMoved(selectedNotes, change));
+  yield put(actions.notesMoveStarted(selectedNotes, change));
 }
 
 function* nudgeSelectedNotesSize({ change }) {
@@ -205,7 +200,7 @@ function* resize({ notes, change }) {
 
   if (helpers.somePointOutside(map(n => n.points[1])(updatedNotes), measureCount)) return;
 
-  yield put(actions.notesResizeCommitted(updatedNotes));
+  yield put(actions.notesResizeSucceeded(updatedNotes));
 }
 
 function* resizeSelected(action) {
@@ -224,7 +219,7 @@ function* resizeSelected(action) {
     ],
   }));
 
-  yield put(actions.notesResizeCommitted(updatedNotes));
+  yield put(actions.notesResizeSucceeded(updatedNotes));
 }
 
 function* selectAll() {
@@ -265,7 +260,7 @@ function* shiftDownOctave() {
 
   if (isEmpty(selectedNotes)) return;
 
-  yield put(actions.notesMoved(selectedNotes, {
+  yield put(actions.notesMoveStarted(selectedNotes, {
     x: 0,
     y: 12,
   }));
@@ -276,7 +271,7 @@ function* shiftUpOctave() {
 
   if (isEmpty(selectedNotes)) return;
 
-  yield put(actions.notesMoved(selectedNotes, {
+  yield put(actions.notesMoveStarted(selectedNotes, {
     x: 0,
     y: -12,
   }));
@@ -305,8 +300,10 @@ export default function* saga() {
       actions.MEASURE_COUNT_SET,
       actions.NAME_SET,
       actions.NOTES_ADDED,
-      actions.NOTES_DELETE_COMMITTED,
+      actions.NOTES_DELETED,
       actions.NOTES_DUPLICATED,
+      actions.NOTES_MOVE_SUCCEEDED,
+      actions.NOTES_RESIZE_SUCCEEDED,
       actions.NOTES_SET,
       actions.SEQUENCE_ADDED_TO_TRACK,
       actions.SEQUENCE_CLOSED,
@@ -343,10 +340,9 @@ export default function* saga() {
     takeEvery(actions.NOTE_ERASED, erase),
     takeEvery(actions.NOTES_ALL_SELECTED, selectAll),
     takeEvery(actions.NOTES_DUPLICATED, duplicateSelectedNotes),
-    takeEvery(actions.NOTES_MOVED, moveNotes),
+    takeEvery(actions.NOTES_MOVE_STARTED, moveNotes),
+    takeEvery(actions.NOTES_RESIZE_STARTED, resize),
     takeEvery(actions.NOTES_SELECTED_IN_AREA, selectInArea),
-    takeEvery(actions.NOTES_DELETED, deleteNotes),
-    takeEvery(actions.NOTES_RESIZED, resize),
     takeEvery(actions.REDO_POPPED, redo),
     takeEvery(actions.REDO_PUSHED, pushRedo),
     takeEvery(actions.SELECTED_NOTES_MOVED, moveSelected),

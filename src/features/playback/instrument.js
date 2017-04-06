@@ -61,7 +61,7 @@ export default class Instrument {
 
     Tone.scheduleOnceOnTransport(() => {
       if (voice && voice.envelope) {
-        voice.triggerRelease();
+        // voice.triggerRelease();
         this.makeVoiceAvailable(voice);
       }
     }, `+(${length} - 0:0:0.1)`);

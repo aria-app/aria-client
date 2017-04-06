@@ -5,7 +5,7 @@ export const noteIds = (state = [], action) => {
   switch (action.type) {
     case actions.NOTES_ADDED:
       return concat(state)(map('id')(action.notes));
-    case actions.NOTES_DELETE_COMMITTED:
+    case actions.NOTES_DELETED:
       return difference(state)(map('id')(action.notes));
     case actions.NOTES_SET:
       return map('id')(action.notes);

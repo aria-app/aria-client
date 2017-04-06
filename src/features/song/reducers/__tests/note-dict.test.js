@@ -42,7 +42,7 @@ describe('Song noteDict reducer', () => {
     expect(next).toEqual(expected);
   });
 
-  it('should handle NOTES_DELETE_COMMITTED', () => {
+  it('should handle NOTES_DELETED', () => {
     const previous = {
       n1: {
         id: 'n1',
@@ -63,7 +63,7 @@ describe('Song noteDict reducer', () => {
       },
     };
     const action = {
-      type: actions.NOTES_DELETE_COMMITTED,
+      type: actions.NOTES_DELETED,
       ids: ['n2'],
     };
     const next = reducer(previous, action);
@@ -97,7 +97,7 @@ describe('Song noteDict reducer', () => {
     expect(next).toEqual(expected);
   });
 
-  it('should handle NOTES_MOVE_COMMITTED', () => {
+  it('should handle NOTES_MOVE_SUCCEEDED', () => {
     const previous = {
       n1: {
         id: 'n1',
@@ -123,7 +123,7 @@ describe('Song noteDict reducer', () => {
       },
     };
     const action = {
-      type: actions.NOTES_MOVE_COMMITTED,
+      type: actions.NOTES_MOVE_SUCCEEDED,
       notes: [{
         id: 'n2',
         points: [{ x: 0, y: 4 }, { x: 2, y: 4 }],
@@ -134,7 +134,7 @@ describe('Song noteDict reducer', () => {
     expect(next).toEqual(expected);
   });
 
-  it('should handle NOTES_RESIZE_COMMITTED', () => {
+  it('should handle NOTES_RESIZE_SUCCEEDED', () => {
     const previous = {
       n1: {
         id: 'n1',
@@ -160,44 +160,7 @@ describe('Song noteDict reducer', () => {
       },
     };
     const action = {
-      type: actions.NOTES_RESIZE_COMMITTED,
-      notes: [{
-        id: 'n2',
-        points: [{ x: 0, y: 4 }, { x: 2, y: 4 }],
-        sequenceId: 's1',
-      }],
-    };
-    const next = reducer(previous, action);
-    expect(next).toEqual(expected);
-  });
-
-  it('should handle NOTES_UPDATED', () => {
-    const previous = {
-      n1: {
-        id: 'n1',
-        points: [{ x: 0, y: 3 }, { x: 2, y: 3 }],
-        sequenceId: 's1',
-      },
-      n2: {
-        id: 'n2',
-        points: [{ x: 0, y: 3 }, { x: 2, y: 3 }],
-        sequenceId: 's1',
-      },
-    };
-    const expected = {
-      n1: {
-        id: 'n1',
-        points: [{ x: 0, y: 3 }, { x: 2, y: 3 }],
-        sequenceId: 's1',
-      },
-      n2: {
-        id: 'n2',
-        points: [{ x: 0, y: 4 }, { x: 2, y: 4 }],
-        sequenceId: 's1',
-      },
-    };
-    const action = {
-      type: actions.NOTES_UPDATED,
+      type: actions.NOTES_RESIZE_SUCCEEDED,
       notes: [{
         id: 'n2',
         points: [{ x: 0, y: 4 }, { x: 2, y: 4 }],
