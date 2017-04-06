@@ -1,6 +1,7 @@
 import { NAME } from './constants';
 
-export const PLAYBACK_PAUSED = `${NAME}/PAUSE`;
+export const NOTE_TRIGGERED = `${NAME}/NOTE_TRIGGERED`;
+export const PLAYBACK_PAUSED = `${NAME}/PLAYBACK_PAUSED`;
 export const PLAYBACK_STARTED = `${NAME}/PLAYBACK_STARTED`;
 export const PLAYBACK_STOPPED = `${NAME}/PLAYBACK_STOPPED`;
 export const PLAYBACK_TOGGLED = `${NAME}/PLAYBACK_TOGGLED`;
@@ -13,6 +14,11 @@ export const SONG_SEQUENCE_SET = `${NAME}/SONG_SEQUENCE_SET`;
 export const SONG_SEQUENCE_STEP_TRIGGERED = `${NAME}/SONG_SEQUENCE_STEP_TRIGGERED`;
 export const START_POINT_SET = `${NAME}/START_POINT_SET`;
 export const TRANSPORT_POSITION_SET = `${NAME}/TRANSPORT_POSITION_SET`;
+
+export const noteTriggered = payload => ({
+  type: NOTE_TRIGGERED,
+  payload,
+});
 
 export const playbackPaused = () => ({
   type: PLAYBACK_PAUSED,

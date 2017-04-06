@@ -8,7 +8,7 @@ const { scale } = shared.constants;
 
 export class Keys extends React.Component {
   static propTypes = {
-    onNotePreview: React.PropTypes.func.isRequired,
+    onKeyPress: React.PropTypes.func.isRequired,
   }
 
   render() {
@@ -25,7 +25,7 @@ export class Keys extends React.Component {
   }
 
   handleKeyPress = (step) => {
-    this.props.onNotePreview({
+    this.props.onKeyPress({
       y: step.y,
     });
   }

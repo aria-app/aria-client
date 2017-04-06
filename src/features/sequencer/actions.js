@@ -1,7 +1,13 @@
 import { NAME } from './constants';
 
+export const KEY_PRESSED = `${NAME}/KEY_PRESSED`;
 export const TOOL_SELECTED = `${NAME}/TOOL_SELECTED`;
 export const TOOL_TYPE_SET = `${NAME}/TOOL_TYPE_SET`;
+
+export const keyPressed = payload => ({
+  type: KEY_PRESSED,
+  payload,
+});
 
 export const toolSelected = toolType => ({
   type: TOOL_SELECTED,

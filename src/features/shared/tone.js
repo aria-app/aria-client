@@ -35,9 +35,11 @@ const mockSynth = {
   toMaster: () => mockSynth,
 };
 
-function createSynth(...args) {
+function createSynth(options) {
   if (!isWebAudioSupported) return mockSynth;
-  return new Tone.Synth(...args);
+  const synth = new Tone.PolySynth(5);
+  synth.set(options);
+  return synth;
 }
 
 function getTransportState() {

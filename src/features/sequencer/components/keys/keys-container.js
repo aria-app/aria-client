@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { Keys } from '../keys/keys';
-import playback from '../../../playback';
+import * as actions from '../../actions';
 
 export const KeysContainer = connect(() => ({}), {
-  onNotePreview: playback.actions.notePreviewed,
+  onKeyPress: actions.keyPressed,
 })(Keys);

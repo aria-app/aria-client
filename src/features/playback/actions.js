@@ -1,16 +1,10 @@
 import { NAME } from './constants';
 
-export const ALL_INSTRUMENTS_RELEASED = `${NAME}/ALL_INSTRUMENTS_RELEASED`;
 export const CHANNEL_ADDED = `${NAME}/CHANNEL_ADDED`;
 export const CHANNELS_SET = `${NAME}/CHANNELS_SET`;
 export const INSTRUMENT_DISPOSED = `${NAME}/INSTRUMENT_DISPOSED`;
 export const NOTE_PLAYED = `${NAME}/NOTE_PLAYED`;
 export const NOTE_PREVIEWED = `${NAME}/NOTE_PREVIEWED`;
-
-
-export const allInstrumentsReleased = () => ({
-  type: ALL_INSTRUMENTS_RELEASED,
-});
 
 export const channelAdded = channel => ({
   type: CHANNEL_ADDED,

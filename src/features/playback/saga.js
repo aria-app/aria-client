@@ -1,8 +1,11 @@
 import { first, last } from 'lodash/fp';
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
+import sequencer from '../sequencer';
 import shared from '../shared';
+import shortcuts from '../shortcuts';
 import song from '../song';
+import transport from '../transport';
 import * as actions from './actions';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
@@ -104,9 +107,8 @@ function* setChannels({ tracks }) {
 export default function* saga() {
   yield [
     takeEvery(actions.INSTRUMENT_DISPOSED, disposeInstruments),
-    takeEvery(actions.NOTE_PLAYED, playNote),
-    takeEvery(actions.NOTE_PREVIEWED, previewPoint),
-    takeEvery(actions.ALL_INSTRUMENTS_RELEASED, releaseAll),
+    takeEvery(sequencer.actions.KEY_PRESSED, previewPoint),
+    takeEvery(shortcuts.actions.PLAYBACK_STOP, releaseAll),
     takeEvery(song.actions.TRACKS_ADDED, addNewChannels),
     takeEvery(song.actions.NOTE_DRAWN, previewPoint),
     takeEvery(song.actions.NOTE_SELECTED, previewNoteFirstPoint),
@@ -116,6 +118,10 @@ export default function* saga() {
     takeEvery(song.actions.BPM_SET, setBPM),
     takeEvery(song.actions.TRACK_SYNTH_TYPE_SET, changeTrackInstrumentType),
     takeEvery(song.actions.TRACKS_SET, setChannels),
+    takeEvery(transport.actions.NOTE_TRIGGERED, playNote),
+    takeEvery(transport.actions.PLAYBACK_PAUSED, releaseAll),
+    takeEvery(transport.actions.PLAYBACK_STOPPED, releaseAll),
+    takeEvery(transport.actions.TRANSPORT_POSITION_SET, releaseAll),
   ];
 }
 

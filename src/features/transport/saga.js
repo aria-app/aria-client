@@ -1,7 +1,6 @@
 import { compose, filter, first, isEmpty, range, uniqBy } from 'lodash/fp';
 import { eventChannel, takeEvery } from 'redux-saga';
 import { call, fork, put, select, take } from 'redux-saga/effects';
-import playback from '../playback';
 import shared from '../shared';
 import shortcuts from '../shortcuts';
 import song from '../song';
@@ -82,8 +81,6 @@ function* pause() {
     yield call(() => {
       Tone.pauseTransport();
     });
-
-    yield put(playback.actions.allInstrumentsReleased());
   }
 }
 
@@ -111,10 +108,6 @@ function* sequenceStep({ payload }) {
 
   if ((!track.isMuted && !(isAnyTrackSoloing && !track.isSoloing)) || isActiveSequence) {
     const notes = yield select(song.selectors.getNotesBySequenceId(sequence.id));
-    // const notesAtStep = _(notes)
-    //   .filter(note => _.first(note.points).x === step)
-    //   .uniqBy(note => _.first(note.points).y)
-    //   .value();
     const notesAtStep = compose(
       uniqBy(note => first(note.points).y),
       filter(note => first(note.points).x === step),
@@ -122,7 +115,7 @@ function* sequenceStep({ payload }) {
 
     for (let i = 0; i < notesAtStep.length; i += 1) {
       const note = notesAtStep[i];
-      yield put(playback.actions.notePlayed({
+      yield put(actions.noteTriggered({
         channelId: sequence.trackId,
         note,
         time,
@@ -145,7 +138,6 @@ function* setTransportPosition({ measures }) {
   const position = helpers.measuresToTime(measures);
   Tone.setTransportPosition(position);
   yield put(actions.songPositionSet(measures * 32));
-  yield put(playback.actions.allInstrumentsReleased());
 }
 
 function* songSequenceStep(action) {
@@ -155,17 +147,16 @@ function* songSequenceStep(action) {
 
 function* stop() {
   if (Tone.getTransportState() !== 'stopped') {
-    Tone.stopTransport();
-    yield put(playback.actions.allInstrumentsReleased());
+    yield call(Tone.stopTransport);
   }
 }
 
 function* togglePlayPause() {
   const playbackState = yield select(selectors.getPlaybackState);
   if (playbackState === STARTED) {
-    yield* play();
+    yield put(actions.playbackStarted());
   } else {
-    yield* pause();
+    yield put(actions.playbackPaused());
   }
 }
 
