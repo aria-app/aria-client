@@ -1,7 +1,5 @@
 import { first, last } from 'lodash/fp';
-import shared from '../shared';
-
-const { Tone } = shared;
+import Tone from '../tone';
 
 export default class Instrument {
   dispose() {
@@ -13,13 +11,12 @@ export default class Instrument {
   }
 
   playNote(note, time) {
-    const name = shared.helpers.getNoteName(first(note.points).y);
-    const length = shared.helpers.sizeToTime(last(note.points).x - first(note.points).x);
+    const name = helpers.getNoteName(first(note.points).y);
+    const length = helpers.sizeToTime(last(note.points).x - first(note.points).x);
     this.voice.triggerAttackRelease(name, length, time);
   }
 
   previewNote(name) {
-    this.voice.releaseAll();
     this.voice.triggerAttackRelease(name, '16n');
   }
 

@@ -2,12 +2,11 @@ import { clamp, times } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import transport from '../../../transport';
 import './ruler.scss';
 
 const { Icon } = shared.components;
+const { STARTED } = shared.constants.playbackStates;
 const { hideIf } = shared.helpers;
-const { STARTED } = transport.constants.playbackStates;
 const notesPerMeasure = 32;
 const measurePreviewWidth = notesPerMeasure * 2;
 

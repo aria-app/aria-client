@@ -3,7 +3,7 @@ import h from 'react-hyperscript';
 import contextMenu from '../../../context-menu';
 import sequencer from '../../../sequencer';
 import shared from '../../../shared';
-import tracker from '../../../tracker';
+import trackView from '../../../track-view';
 import { BPMModalContainer } from '../bpm-modal/bpm-modal-container';
 import { UploadOverlayContainer } from '../upload-overlay/upload-overlay-container';
 import { SongToolbarContainer } from '../song-toolbar/song-toolbar-container';
@@ -12,7 +12,7 @@ import './app.scss';
 const { ContextMenuContainer } = contextMenu.components;
 const { SequencerContainer } = sequencer.components;
 const { hideIf, showIf } = shared.helpers;
-const { Tracker } = tracker.components;
+const { Tracker } = trackView.components;
 
 export class App extends React.Component {
   static propTypes = {

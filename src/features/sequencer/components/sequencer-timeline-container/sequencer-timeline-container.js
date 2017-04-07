@@ -1,9 +1,8 @@
 import { connect } from 'react-redux';
 import shared from '../../../shared';
-import transport from '../../../transport';
 
-// wallaby-ignore
-export const SequencerTimelineContainer = connect(state => ({
-  isVisible: transport.selectors.getIsPlaying(state),
-  offset: transport.selectors.getPosition(state) * 40,
+// TODO: Add appropriate state connections back when available
+export const SequencerTimelineContainer = connect(() => ({
+  isVisible: false,
+  offset: 0 * 40,
 }))(shared.components.Timeline);

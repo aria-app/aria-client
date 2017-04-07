@@ -1,7 +1,7 @@
 import { compose, filter, first, isEmpty, range, uniqBy } from 'lodash/fp';
 import { eventChannel, takeEvery } from 'redux-saga';
 import { call, fork, put, select, take } from 'redux-saga/effects';
-import shared from '../shared';
+import Tone from '../../audio-server/tone';
 import shortcuts from '../shortcuts';
 import song from '../song';
 import * as actions from './actions';
@@ -9,7 +9,6 @@ import * as constants from './constants';
 import * as helpers from './helpers';
 import * as selectors from './selectors';
 
-const { Tone } = shared;
 const { STARTED } = constants.playbackStates;
 
 function* createSequences() {

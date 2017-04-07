@@ -1,17 +1,16 @@
 import { connect } from 'react-redux';
 import song from '../../../song';
-import transport from '../../../transport';
 import { Ruler } from '../ruler/ruler';
 import * as actions from '../../actions';
 
-// wallaby-ignore
+// TODO: Add appropriate state connections back when available
 export const RulerContainer = connect(state => ({
   measureCount: song.selectors.getMeasureCount(state),
-  playbackState: transport.selectors.getPlaybackState(state),
+  playbackState: 'stopped',
 }), {
-  onPause: transport.actions.playbackPaused,
-  onPlay: transport.actions.playbackStarted,
-  onPositionSet: transport.actions.transportPositionSet,
+  onPause: () => {},
+  onPlay: () => {},
+  onPositionSet: () => {},
   onSongExtend: actions.songExtended,
   onSongShorten: actions.songShortened,
 })(Ruler);

@@ -1,9 +1,9 @@
 import h from 'react-hyperscript';
 import { shallow } from 'enzyme';
-import transport from '../../../transport';
+import shared from '../../../shared';
 import { SongToolbar } from './song-toolbar';
 
-const { playbackStates } = transport.constants;
+const { PAUSED, STARTED, STOPPED } = shared.constants.playbackStates;
 
 describe('SongToolbar Component', () => {
   it('should be defined', () => {
@@ -42,7 +42,7 @@ describe('SongToolbar Component', () => {
     it('should be active when playback state is started', () => {
       const component = shallow(h(SongToolbar, {
         ...getDefaultProps(),
-        playbackState: playbackStates.STARTED,
+        playbackState: STARTED,
       }));
       const playbackButtonsPlayButtonEl = component.dive().find('.song-toolbar__playback-buttons__play-button');
       expect(playbackButtonsPlayButtonEl.prop('isActive')).toEqual(true);
@@ -51,7 +51,7 @@ describe('SongToolbar Component', () => {
     it('should not be active when playback state is not started', () => {
       const component = shallow(h(SongToolbar, {
         ...getDefaultProps(),
-        playbackState: playbackStates.STOPPED,
+        playbackState: STOPPED,
       }));
       const playbackButtonsPlayButtonEl = component.dive().find('.song-toolbar__playback-buttons__play-button');
       expect(playbackButtonsPlayButtonEl.prop('isActive')).toEqual(false);
@@ -81,7 +81,7 @@ describe('SongToolbar Component', () => {
     it('should be active when playback state is paused', () => {
       const component = shallow(h(SongToolbar, {
         ...getDefaultProps(),
-        playbackState: playbackStates.PAUSED,
+        playbackState: PAUSED,
       }));
       const playbackButtonsPauseButtonEl = component.dive().find('.song-toolbar__playback-buttons__pause-button');
       expect(playbackButtonsPauseButtonEl.prop('isActive')).toEqual(true);
@@ -90,7 +90,7 @@ describe('SongToolbar Component', () => {
     it('should not be active when playback state is not paused', () => {
       const component = shallow(h(SongToolbar, {
         ...getDefaultProps(),
-        playbackState: playbackStates.STOPPED,
+        playbackState: STOPPED,
       }));
       const playbackButtonsPauseButtonEl = component.dive().find('.song-toolbar__playback-buttons__pause-button');
       expect(playbackButtonsPauseButtonEl.prop('isActive')).toEqual(false);
@@ -120,7 +120,7 @@ describe('SongToolbar Component', () => {
     it('should be active when playback state is stopped', () => {
       const component = shallow(h(SongToolbar, {
         ...getDefaultProps(),
-        playbackState: playbackStates.STOPPED,
+        playbackState: STOPPED,
       }));
       const playbackButtonsStopButtonEl = component.dive().find('.song-toolbar__playback-buttons__stop-button');
       expect(playbackButtonsStopButtonEl.prop('isActive')).toEqual(true);
@@ -129,7 +129,7 @@ describe('SongToolbar Component', () => {
     it('should not be active when playback state is not stopped', () => {
       const component = shallow(h(SongToolbar, {
         ...getDefaultProps(),
-        playbackState: playbackStates.PAUSED,
+        playbackState: PAUSED,
       }));
       const playbackButtonsStopButtonEl = component.dive().find('.song-toolbar__playback-buttons__stop-button');
       expect(playbackButtonsStopButtonEl.prop('isActive')).toEqual(false);

@@ -1,11 +1,10 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import transport from '../../../transport';
 import './song-toolbar.scss';
 
 const { Button, DownloadButton, IconButton, Toolbar } = shared.components;
-const { PAUSED, STARTED, STOPPED } = transport.constants.playbackStates;
+const { PAUSED, STARTED, STOPPED } = shared.constants.playbackStates;
 
 export class SongToolbar extends React.Component {
   static propTypes = {

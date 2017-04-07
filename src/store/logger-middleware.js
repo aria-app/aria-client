@@ -1,14 +1,11 @@
 import { includes } from 'lodash/fp';
 import createLogger from 'redux-logger';
-import playback from '../features/playback';
 import shared from '../features/shared';
 import shortcuts from '../features/shortcuts';
 import song from '../features/song';
 import transport from '../features/transport';
 
 const typesToSkip = [
-  playback.actions.NOTE_PLAYED,
-  playback.actions.CHANNELS_SET,
   shared.actions.INITIALIZED,
   shared.actions.WINDOW_HEIGHT_CHANGED,
   shared.actions.WINDOW_WIDTH_CHANGED,
