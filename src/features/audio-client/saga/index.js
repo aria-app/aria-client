@@ -1,18 +1,18 @@
 import { takeEvery } from 'redux-saga';
 import { requestKeyPreview } from './request-key-preview';
 import { subscribeToPosition } from './subscribe-to-position';
-import sequenceView from '../../sequence-view';
+import sequenceData from '../../sequence-data';
 import shared from '../../shared';
 
 export default function* saga() {
   yield [
-    takeEvery(sequenceView.actions.KEY_PRESSED, requestKeyPreview),
+    takeEvery(sequenceData.actions.KEY_PRESSED, requestKeyPreview),
     takeEvery(shared.actions.INITIALIZED, subscribeToPosition),
   ];
 }
 
 // Saga
-// sequenceView.actions.KEY_PRESSED, requestKeyPreview
+// sequenceData.actions.KEY_PRESSED, requestKeyPreview
 //  -> request a note preview from audio server
 // shared.actions.INITIALIZED, subscribeToPosition
 //  -> Use fast event channel from server to dispatch position updates
@@ -33,8 +33,11 @@ export default function* saga() {
 // sequence = {
 //   trackId: 'a',
 //   data: [[{ name: 'C4', length: '(4 * 32n)' }][][][] ... 32x total ... [][][]],
+//   position: 2, // Offset by 2 measures
 // };
-// All names in sequence data will be played during given slot
+// All names in sequence `data` will be played during given slot
+// track = { id: 'a', type: 'square' };
+// song = { measureCount: 4 };
 //
 
 // export const NOTE_PREVIEW_REQUESTED = `${NAME}/NOTE_PREVIEW_REQUESTED`;

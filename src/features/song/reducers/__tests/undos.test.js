@@ -1,3 +1,4 @@
+import sequenceData from '../../../sequence-data';
 import * as actions from '../../actions';
 import { undos as reducer } from '../undos';
 
@@ -14,7 +15,7 @@ describe('Song undos reducer', () => {
     const previous = [[{}]];
     const expected = [];
     const action = {
-      type: actions.SEQUENCE_CLOSED,
+      type: sequenceData.actions.SEQUENCE_CLOSED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);

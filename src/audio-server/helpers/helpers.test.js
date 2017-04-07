@@ -24,26 +24,4 @@ describe('Playing Helpers', () => {
       expect(() => helpers.createChannel(track)).toThrow();
     });
   });
-
-  describe('getNoteName', () => {
-    it('should return correct name, given y position', () => {
-      const expected = 'C3';
-      const result = helpers.getNoteName(47);
-
-      expect(result).toEqual(expected);
-    });
-  });
-
-  describe('sizeToTime', () => {
-    it('should return correctly formatted time', () => {
-      const size = 2;
-      const expected = '(3 * 32n)';
-      expect(helpers.sizeToTime(size)).toEqual(expected);
-    });
-
-    it('should throw if size is not number', () => {
-      const size = '2';
-      expect(() => helpers.sizeToTime(size)).toThrow();
-    });
-  });
 });

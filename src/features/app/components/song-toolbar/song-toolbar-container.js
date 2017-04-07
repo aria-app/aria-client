@@ -10,7 +10,6 @@ export const SongToolbarContainer = connect(state => ({
   stringifiedSong: song.selectors.getStringifiedSong(state),
 }), {
   onBPMModalOpen: actions.bpmModalOpened,
-  onDownload: song.actions.download,
   onPause: () => {},
   onPlay: () => {},
   onStop: () => {},

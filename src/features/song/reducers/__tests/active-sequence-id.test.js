@@ -1,3 +1,4 @@
+import sequenceData from '../../../sequence-data';
 import * as actions from '../../actions';
 import { activeSequenceId as reducer } from '../active-sequence-id';
 
@@ -14,7 +15,7 @@ describe('Song activeSequenceId reducer', () => {
     const previous = 'sequence-1';
     const expected = '';
     const action = {
-      type: actions.SEQUENCE_CLOSED,
+      type: sequenceData.actions.SEQUENCE_CLOSED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);

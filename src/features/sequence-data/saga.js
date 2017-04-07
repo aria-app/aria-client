@@ -1,9 +1,7 @@
-import { includes } from 'lodash/fp';
 import { takeEvery } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
 import shared from '../shared';
 import shortcuts from '../shortcuts';
-import song from '../song';
 import * as actions from './actions';
 import * as selectors from './selectors';
 
@@ -11,10 +9,6 @@ const { toolTypes } = shared.constants;
 
 function* handleToolTypeSelected({ toolType }) {
   const previousToolType = yield select(selectors.getToolType);
-
-  if (includes([toolTypes.DRAW, toolTypes.ERASE], toolType)) {
-    yield put(song.actions.notesDeselected());
-  }
 
   yield put(actions.toolTypeSet(toolType, previousToolType));
 }

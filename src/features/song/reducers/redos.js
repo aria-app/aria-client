@@ -1,12 +1,11 @@
+import { createReducer } from 'redux-create-reducer';
+import sequenceData from '../../sequence-data';
 import * as actions from '../actions';
 
-export const redos = (state = [], action) => {
-  switch (action.type) {
-    case actions.REDOS_SET:
-      return action.redos;
-    case actions.SEQUENCE_CLOSED:
-      return [];
-    default:
-      return state;
-  }
-};
+export const redos = createReducer([], {
+  [actions.REDOS_SET]: (state, action) =>
+    action.redos,
+
+  [sequenceData.actions.SEQUENCE_CLOSED]: () =>
+    [],
+});

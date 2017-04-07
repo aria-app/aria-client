@@ -1,17 +1,17 @@
 import { concat, difference, map } from 'lodash/fp';
+import { createReducer } from 'redux-create-reducer';
 import * as actions from '../actions';
 
-export const noteIds = (state = [], action) => {
-  switch (action.type) {
-    case actions.NOTES_ADDED:
-      return concat(state)(map('id')(action.notes));
-    case actions.NOTES_DELETED:
-      return difference(state)(map('id')(action.notes));
-    case actions.NOTES_SET:
-      return map('id')(action.notes);
-    case actions.SONG_LOADED:
-      return action.song.notes.ids;
-    default:
-      return state;
-  }
-};
+export const noteIds = createReducer([], {
+  [actions.NOTES_ADDED]: (state, action) =>
+    concat(state)(map('id')(action.notes)),
+
+  [actions.NOTES_DELETED]: (state, action) =>
+    difference(state)(map('id')(action.notes)),
+
+  [actions.NOTES_SET]: (state, action) =>
+    map('id')(action.notes),
+
+  [actions.SONG_LOADED]: (state, action) =>
+    action.song.notes.ids,
+});

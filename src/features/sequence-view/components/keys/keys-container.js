@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { Keys } from '../keys/keys';
-import * as actions from '../../actions';
+import sequenceData from '../../../sequence-data';
 
 export const KeysContainer = connect(() => ({}), {
-  onKeyPress: actions.keyPressed,
+  onKeyPress: sequenceData.actions.keyPressed,
 })(Keys);

@@ -1,4 +1,3 @@
-import { first, last } from 'lodash/fp';
 import Tone from '../tone';
 
 export default class Instrument {

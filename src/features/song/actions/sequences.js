@@ -1,7 +1,6 @@
 import { NAME } from '../constants';
 
 export const SEQUENCE_ADDED_TO_TRACK = `${NAME}/SEQUENCE_ADDED_TO_TRACK`;
-export const SEQUENCE_CLOSED = `${NAME}/SEQUENCE_CLOSED`;
 export const SEQUENCE_EXTENDED = `${NAME}/SEQUENCE_EXTENDED`;
 export const SEQUENCE_NUDGED_LEFT = `${NAME}/SEQUENCE_NUDGED_LEFT`;
 export const SEQUENCE_NUDGED_RIGHT = `${NAME}/SEQUENCE_NUDGED_RIGHT`;
@@ -16,10 +15,6 @@ export const sequenceAddedToTrack = (id, position) => ({
   type: SEQUENCE_ADDED_TO_TRACK,
   position,
   id,
-});
-
-export const sequenceClosed = () => ({
-  type: SEQUENCE_CLOSED,
 });
 
 export const sequenceExtended = id => ({

@@ -2,7 +2,7 @@ import shared from '../shared';
 import * as actions from './actions';
 import reducer from './reducer';
 
-describe('Sequencing Reducer', () => {
+describe('Sequence Data Reducer', () => {
   it('should return the initial state', () => {
     const previous = undefined;
     const expected = {

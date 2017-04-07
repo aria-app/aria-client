@@ -1,4 +1,5 @@
 import shortcuts from '../../../shortcuts';
+import sequenceData from '../../../sequence-data';
 import * as actions from '../../actions';
 import { selectedNoteIds as reducer } from '../selected-note-ids';
 
@@ -15,7 +16,7 @@ describe('Song selectedNoteIds reducer', () => {
     const previous = ['id1', 'id2'];
     const expected = [];
     const action = {
-      type: actions.ALL_NOTES_DESELECTED,
+      type: sequenceData.actions.ALL_NOTES_DESELECTED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -45,7 +46,7 @@ describe('Song selectedNoteIds reducer', () => {
     const previous = ['id1', 'id2'];
     const expected = [];
     const action = {
-      type: actions.SEQUENCE_CLOSED,
+      type: sequenceData.actions.SEQUENCE_CLOSED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
@@ -56,7 +57,7 @@ describe('Song selectedNoteIds reducer', () => {
     const previous = [];
     const expected = [note.id];
     const action = {
-      type: actions.NOTE_SELECTED,
+      type: sequenceData.actions.NOTE_SELECTED,
       note,
     };
     const next = reducer(previous, action);

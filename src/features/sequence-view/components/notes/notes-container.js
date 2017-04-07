@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 import { Notes } from '../notes/notes';
 import song from '../../../song';
-import * as selectors from '../../selectors';
+import sequenceData from '../../../sequence-data';
 
 export const NotesContainer = connect(state => ({
   measureCount: song.selectors.getActiveSequenceMeasureCount(state),
   notes: song.selectors.getActiveSequenceNotes(state),
   selectedNotes: song.selectors.getSelectedNotes(state),
-  toolType: selectors.getToolType(state),
+  toolType: sequenceData.selectors.getToolType(state),
 }), {
-  onErase: song.actions.noteErased,
-  onSelect: song.actions.noteSelected,
+  onErase: sequenceData.actions.noteErased,
+  onSelect: sequenceData.actions.noteSelected,
 })(Notes);

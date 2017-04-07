@@ -1,12 +1,11 @@
+import { createReducer } from 'redux-create-reducer';
+import sequenceData from '../../sequence-data';
 import * as actions from '../actions';
 
-export const undos = (state = [], action) => {
-  switch (action.type) {
-    case actions.UNDOS_SET:
-      return action.undos;
-    case actions.SEQUENCE_CLOSED:
-      return [];
-    default:
-      return state;
-  }
-};
+export const undos = createReducer([], {
+  [actions.UNDOS_SET]: (state, action) =>
+    action.undos,
+
+  [sequenceData.actions.SEQUENCE_CLOSED]: () =>
+    [],
+});

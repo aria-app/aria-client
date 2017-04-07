@@ -1,14 +1,14 @@
+import { createReducer } from 'redux-create-reducer';
+import sequenceData from '../../sequence-data';
 import * as actions from '../actions';
 
-export const activeSequenceId = (state = '', action) => {
-  switch (action.type) {
-    case actions.SONG_LOADED:
-      return action.song.activeSequenceId;
-    case actions.SEQUENCE_CLOSED:
-      return '';
-    case actions.SEQUENCE_OPENED:
-      return action.id;
-    default:
-      return state;
-  }
-};
+export const activeSequenceId = createReducer('', {
+  [actions.SEQUENCE_OPENED]: (state, action) =>
+    action.id,
+
+  [actions.SONG_LOADED]: (state, action) =>
+    action.song.activeSequenceId,
+
+  [sequenceData.actions.SEQUENCE_CLOSED]: () =>
+    '',
+});

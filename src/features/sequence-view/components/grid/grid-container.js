@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
 import { Grid } from '../grid/grid';
 import song from '../../../song';
-import * as selectors from '../../selectors';
+import sequenceData from '../../../sequence-data';
 
 export const GridContainer = connect(state => ({
   areSomeNotesSelected: song.selectors.getAreSomeNotesSelected(state),
   measureCount: song.selectors.getActiveSequenceMeasureCount(state),
-  toolType: selectors.getToolType(state),
+  toolType: sequenceData.selectors.getToolType(state),
 }), {
-  onDraw: song.actions.noteDrawn,
-  onMove: song.actions.selectedNotesMoved,
-  onResize: song.actions.selectedNotesSizeChanged,
-  onSelect: song.actions.notesSelectedInArea,
+  onDraw: sequenceData.actions.noteDrawn,
+  onMove: sequenceData.actions.selectedNotesMoved,
+  onResize: sequenceData.actions.selectedNotesSizeChanged,
+  onSelect: sequenceData.actions.notesSelectedInArea,
 })(Grid);
