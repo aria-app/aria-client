@@ -1,13 +1,13 @@
 import { first, isEmpty, isEqual, last, map, some, throttle, without } from 'lodash/fp';
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import sequenceData from '../sequence-data';
-import shared from '../shared';
-import shortcuts from '../shortcuts';
-import * as actions from './actions';
-import * as helpers from './helpers';
-import * as selectors from './selectors';
-import sampleSong from './sample-song';
+import sequenceData from '../../sequence-data';
+import shared from '../../shared';
+import shortcuts from '../../shortcuts';
+import * as actions from '../actions';
+import * as helpers from '../helpers';
+import * as selectors from '../selectors';
+import sampleSong from '../sample-song';
 
 function* createAndAddTrack() {
   const track = helpers.createTrack();
@@ -73,17 +73,6 @@ function* deleteSelectedNotes() {
   if (isEmpty(selectedNotes)) return;
 
   yield put(actions.notesDeleted(selectedNotes));
-}
-
-function* drawNote({ payload }) {
-  const activeSequenceId = yield select(selectors.getActiveSequenceId);
-
-  yield put(actions.notesAdded([
-    helpers.createNote({
-      points: [payload, { x: payload.x + 1, y: payload.y }],
-      sequenceId: activeSequenceId,
-    }),
-  ]));
 }
 
 function* duplicateSelectedNotes() {
@@ -357,7 +346,6 @@ export default function* saga() {
     // ),
     takeEvery(actions.UNDO_POPPED, undo),
     takeEvery(actions.UNDO_PUSHED, pushUndo),
-    takeEvery(sequenceData.actions.NOTE_DRAWN, drawNote),
     takeEvery(sequenceData.actions.NOTES_SELECTED_IN_AREA, selectInArea),
     takeEvery(sequenceData.actions.SELECTED_NOTES_DELETED, deleteSelectedNotes),
     takeEvery(sequenceData.actions.SELECTED_NOTES_MOVED, moveSelected),

@@ -1,5 +1,6 @@
 import { concat, difference, map } from 'lodash/fp';
 import { createReducer } from 'redux-create-reducer';
+import sequenceData from '../../sequence-data';
 import * as actions from '../actions';
 
 export const noteIds = createReducer([], {
@@ -14,4 +15,7 @@ export const noteIds = createReducer([], {
 
   [actions.SONG_LOADED]: (state, action) =>
     action.song.notes.ids,
+
+  [sequenceData.actions.NOTE_DRAWN]: (state, action) =>
+    concat(state)(action.payload.id),
 });

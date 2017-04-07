@@ -16,6 +16,7 @@ const { toolTypes } = shared.constants;
 
 export class Grid extends React.Component {
   static propTypes = {
+    activeSequenceId: React.PropTypes.string,
     areSomeNotesSelected: React.PropTypes.bool,
     measureCount: React.PropTypes.number,
     onDraw: React.PropTypes.func.isRequired,
@@ -45,6 +46,7 @@ export class Grid extends React.Component {
       }, [
         h(SlotsContainer),
         h(Drawer, {
+          activeSequenceId: this.props.activeSequenceId,
           isEnabled: this.getIsDrawerEnabled(),
           mousePoint: this.state.mousePoint,
           onDraw: this.handleDrawerDraw,
@@ -86,9 +88,8 @@ export class Grid extends React.Component {
     };
   }
 
-  handleDrawerDraw = (point) => {
-    this.props.onDraw(point);
-  };
+  handleDrawerDraw = note =>
+    this.props.onDraw(note);
 
   handleMouseLeave = () => {
     this.setState({

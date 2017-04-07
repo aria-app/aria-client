@@ -2,6 +2,7 @@ import { compose, first, split } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
+import song from '../../../song';
 import { Note } from '../note/note';
 import './drawer.scss';
 
@@ -10,6 +11,7 @@ const noop = () => {};
 
 export class Drawer extends React.PureComponent {
   static propTypes = {
+    activeSequenceId: React.PropTypes.string.isRequired,
     isEnabled: React.PropTypes.bool.isRequired,
     mousePoint: React.PropTypes.object.isRequired,
     onDraw: React.PropTypes.func.isRequired,
@@ -83,7 +85,11 @@ export class Drawer extends React.PureComponent {
 
   handleMouseUp = () => {
     if (!this.getIsDrawing()) return;
-    this.props.onDraw(this.props.mousePoint);
+    const point = this.props.mousePoint;
+    this.props.onDraw(song.helpers.createNote({
+      points: [point, { x: point.x + 1, y: point.y }],
+      sequenceId: this.props.activeSequenceId,
+    }));
     this.setState({
       isDrawing: false,
     });
