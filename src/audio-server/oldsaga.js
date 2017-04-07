@@ -1,7 +1,6 @@
 // import { first, last } from 'lodash/fp';
 // import { takeEvery } from 'redux-saga';
 // import { call, put, select } from 'redux-saga/effects';
-// import sequencer from '../sequencer';
 // import shortcuts from '../shortcuts';
 // import song from '../song';
 // import transport from '../transport';

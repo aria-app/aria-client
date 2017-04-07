@@ -4,9 +4,9 @@ export const KEY_PRESSED = `${NAME}/KEY_PRESSED`;
 export const TOOL_SELECTED = `${NAME}/TOOL_SELECTED`;
 export const TOOL_TYPE_SET = `${NAME}/TOOL_TYPE_SET`;
 
-export const keyPressed = payload => ({
+export const keyPressed = key => ({
   type: KEY_PRESSED,
-  payload,
+  payload: key,
 });
 
 export const toolSelected = toolType => ({

@@ -1,24 +1,8 @@
 import isNumber from 'lodash/fp/isNumber';
-import * as constants from './constants';
-import Instrument from './instrument';
-
-export function createChannel(track) {
-  if (!track.id) {
-    throw new Error('Tracks must have an id');
-  }
-
-  if (!track.synthType) {
-    throw new Error('Tracks must have a synthType');
-  }
-
-  return {
-    id: track.id,
-    instrument: Instrument.create(track.id, track.synthType),
-  };
-}
+import shared from '../../shared';
 
 export function getNoteName(y) {
-  const octaveNumber = ((constants.octaveRange.length - 1) - Math.floor(y / 12));
+  const octaveNumber = ((shared.constants.octaveRange.length - 1) - Math.floor(y / 12));
   const letter = getLetter(y);
   return `${letter}${octaveNumber}`;
 }

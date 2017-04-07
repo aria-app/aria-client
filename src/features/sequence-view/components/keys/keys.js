@@ -25,9 +25,7 @@ export class Keys extends React.Component {
   }
 
   handleKeyPress = (step) => {
-    this.props.onKeyPress({
-      y: step.y,
-    });
+    this.props.onKeyPress(step.y);
   }
 }
 

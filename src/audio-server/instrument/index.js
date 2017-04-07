@@ -10,14 +10,8 @@ export default class Instrument {
     return this.voice.oscillator.type;
   }
 
-  playNote(note, time) {
-    const name = helpers.getNoteName(first(note.points).y);
-    const length = helpers.sizeToTime(last(note.points).x - first(note.points).x);
+  playNote(name, length, time) {
     this.voice.triggerAttackRelease(name, length, time);
-  }
-
-  previewNote(name) {
-    this.voice.triggerAttackRelease(name, '16n');
   }
 
   release() {

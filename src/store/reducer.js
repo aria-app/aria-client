@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import app from '../features/app';
 import contextMenu from '../features/context-menu';
-import sequencer from '../features/sequencer';
+import sequenceView from '../features/sequence-view';
 import shared from '../features/shared';
 import shortcuts from '../features/shortcuts';
 import song from '../features/song';
@@ -11,7 +11,7 @@ import transport from '../features/transport';
 export default combineReducers({
   [app.constants.NAME]: app.reducer,
   [contextMenu.constants.NAME]: contextMenu.reducer,
-  [sequencer.constants.NAME]: sequencer.reducer,
+  [sequenceView.constants.NAME]: sequenceView.reducer,
   [shared.constants.NAME]: shared.reducer,
   [shortcuts.constants.NAME]: shortcuts.reducer,
   [song.constants.NAME]: song.reducer,
