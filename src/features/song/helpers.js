@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { first, some } from 'lodash/fp';
+import { first, isEqual, some } from 'lodash/fp';
 import shared from '../shared';
 
 export function addPoints(a, b) {
@@ -69,6 +69,7 @@ export function getIsInside(start, end, target) {
 }
 
 export function getNotesInArea(start, end, allNotes) {
+  if (isEqual(start, end)) return [];
   return allNotes.filter(n => getIsInside(start, end, first(n.points)));
 }
 

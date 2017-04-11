@@ -6,7 +6,7 @@ import {
   SequencerTimelineContainer,
 } from '../sequencer-timeline-container/sequencer-timeline-container';
 import { NotesContainer } from '../notes/notes-container';
-import { Drawer } from '../drawer/drawer';
+import { DrawLayer } from '../draw-layer/draw-layer';
 import { Panner } from '../panner/panner';
 import { Selector } from '../selector/selector';
 import { SlotsContainer } from '../slots/slots-container';
@@ -16,15 +16,17 @@ const { toolTypes } = shared.constants;
 
 export class Grid extends React.Component {
   static propTypes = {
-    activeSequenceId: React.PropTypes.string,
-    areSomeNotesSelected: React.PropTypes.bool,
-    measureCount: React.PropTypes.number,
+    activeSequenceId: React.PropTypes.string.isRequired,
+    areSomeNotesSelected: React.PropTypes.bool.isRequired,
+    measureCount: React.PropTypes.number.isRequired,
+    notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     onDraw: React.PropTypes.func.isRequired,
     onMove: React.PropTypes.func.isRequired,
     onResize: React.PropTypes.func.isRequired,
-    onSelect: React.PropTypes.func.isRequired,
+    onSelectInArea: React.PropTypes.func.isRequired,
+    selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     sequencerContentRef: React.PropTypes.object,
-    toolType: React.PropTypes.string,
+    toolType: React.PropTypes.string.isRequired,
   }
 
   state = {
@@ -45,16 +47,18 @@ export class Grid extends React.Component {
         style: this.getWrapperStyle(),
       }, [
         h(SlotsContainer),
-        h(Drawer, {
+        h(DrawLayer, {
           activeSequenceId: this.props.activeSequenceId,
-          isEnabled: this.getIsDrawerEnabled(),
+          isEnabled: this.getIsDrawLayerEnabled(),
           mousePoint: this.state.mousePoint,
-          onDraw: this.handleDrawerDraw,
+          onDraw: this.handleDrawLayerDraw,
         }),
         h(Selector, {
           isEnabled: this.getIsSelectorEnabled(),
           mousePoint: this.state.mousePoint,
+          notes: this.props.notes,
           onSelect: this.handleSelectorSelect,
+          selectedNotes: this.props.selectedNotes,
         }, [
           h(NotesContainer, {
             mousePoint: this.state.mousePoint,
@@ -74,7 +78,7 @@ export class Grid extends React.Component {
     ]);
   }
 
-  getIsDrawerEnabled = () => this.props.toolType === toolTypes.DRAW;
+  getIsDrawLayerEnabled = () => this.props.toolType === toolTypes.DRAW;
 
   getIsPannerEnabled = () => this.props.toolType === toolTypes.PAN;
 
@@ -88,7 +92,7 @@ export class Grid extends React.Component {
     };
   }
 
-  handleDrawerDraw = note =>
+  handleDrawLayerDraw = note =>
     this.props.onDraw(note);
 
   handleMouseLeave = () => {
@@ -128,7 +132,7 @@ export class Grid extends React.Component {
   };
 
   handleSelectorSelect = selectionInfo =>
-    this.props.onSelect(selectionInfo);
+    this.props.onSelectInArea(selectionInfo);
 
   setRef = (ref) => {
     this.elementRef = ref;

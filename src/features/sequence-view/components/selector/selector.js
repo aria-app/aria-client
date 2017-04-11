@@ -9,7 +9,9 @@ export class Selector extends React.PureComponent {
     children: React.PropTypes.node.isRequired,
     isEnabled: React.PropTypes.bool.isRequired,
     mousePoint: React.PropTypes.object.isRequired,
+    notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     onSelect: React.PropTypes.func.isRequired,
+    selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   }
 
   state = {
@@ -55,8 +57,11 @@ export class Selector extends React.PureComponent {
     this.props.onSelect({
       endPoint: this.props.mousePoint,
       isAdditive: e.ctrlKey || e.metaKey,
+      notes: this.props.notes,
+      selectedNotes: this.props.selectedNotes,
       startPoint: this.state.startPoint,
     });
+
     this.setState({
       startPoint: {},
     });

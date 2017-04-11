@@ -4,12 +4,12 @@ import h from 'react-hyperscript';
 import shared from '../../../shared';
 import song from '../../../song';
 import { Note } from '../note/note';
-import './drawer.scss';
+import './draw-layer.scss';
 
 const { showIf } = shared.helpers;
 const noop = () => {};
 
-export class Drawer extends React.PureComponent {
+export class DrawLayer extends React.PureComponent {
   static propTypes = {
     activeSequenceId: React.PropTypes.string.isRequired,
     isEnabled: React.PropTypes.bool.isRequired,
@@ -22,7 +22,7 @@ export class Drawer extends React.PureComponent {
   }
 
   render() {
-    return h('.drawer', {
+    return h('.draw-layer', {
       onMouseDown: this.handleMouseDown,
       onMouseLeave: this.handleMouseLeave,
       onMouseUp: this.handleMouseUp,
@@ -33,7 +33,7 @@ export class Drawer extends React.PureComponent {
     }, [
       showIf(this.props.isEnabled)(
         h(Note, {
-          className: 'notes__note--ghost',
+          className: 'draw-layer__note--ghost',
           isEraseEnabled: false,
           isSelected: false,
           isSelectEnabled: false,

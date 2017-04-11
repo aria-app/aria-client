@@ -216,31 +216,6 @@ function* selectAll() {
   yield put(actions.notesSelected(notes));
 }
 
-function* selectInArea({ payload }) {
-  const { endPoint, isAdditive, startPoint } = payload;
-  const allNotes = yield select(selectors.getActiveSequenceNotes);
-  const selectedNotes = yield select(selectors.getSelectedNotes);
-
-  const notesToSelect = helpers.getNotesInArea(
-    startPoint,
-    endPoint,
-    allNotes,
-  );
-
-  if (isAdditive) {
-    yield put(actions.notesSelected([
-      ...selectedNotes,
-      ...notesToSelect,
-    ]));
-  } else {
-    yield put(actions.notesSelected(notesToSelect));
-  }
-
-  if (isEqual(startPoint, endPoint)) {
-    yield put(actions.notesDeselected());
-  }
-}
-
 function* shiftDownOctave() {
   const selectedNotes = yield select(selectors.getSelectedNotes);
 
@@ -346,7 +321,6 @@ export default function* saga() {
     // ),
     takeEvery(actions.UNDO_POPPED, undo),
     takeEvery(actions.UNDO_PUSHED, pushUndo),
-    takeEvery(sequenceData.actions.NOTES_SELECTED_IN_AREA, selectInArea),
     takeEvery(sequenceData.actions.SELECTED_NOTES_DELETED, deleteSelectedNotes),
     takeEvery(sequenceData.actions.SELECTED_NOTES_MOVED, moveSelected),
     takeEvery(sequenceData.actions.SELECTED_NOTES_MOVED_OCTAVE_DOWN, shiftDownOctave),
