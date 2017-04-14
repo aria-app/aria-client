@@ -1,5 +1,7 @@
+import first from 'lodash/fp/first';
+import isEqual from 'lodash/fp/isEqual';
+import some from 'lodash/fp/some';
 import { v4 } from 'uuid';
-import { first, isEqual, some } from 'lodash/fp';
 import shared from '../shared';
 
 export function addPoints(a, b) {
@@ -68,6 +70,15 @@ export function getIsInside(start, end, target) {
     && y1 <= ty && ty <= y2;
 }
 
+export function getIsSomePointOutside(measureCount) {
+  return some(point =>
+    point.x < 0 ||
+    point.x > ((measureCount * 8) * 4) - 1 ||
+    point.y < 0 ||
+    point.y > (shared.constants.octaveRange.length * 12) - 1,
+  );
+}
+
 export function getNotesInArea(start, end, allNotes) {
   if (isEqual(start, end)) return [];
   return allNotes.filter(n => getIsInside(start, end, first(n.points)));
@@ -75,16 +86,4 @@ export function getNotesInArea(start, end, allNotes) {
 
 export function getType(synth) {
   return synth.voices[0].oscillator.type;
-}
-
-export function somePointOutside(points, measureCount) {
-  const totalSlotsX = ((measureCount * 8) * 4) - 1;
-  const totalSlotsY = (shared.constants.octaveRange.length * 12) - 1;
-
-  return some(point =>
-    point.x < 0
-    || point.x > totalSlotsX
-    || point.y < 0
-    || point.y > totalSlotsY,
-  )(points);
 }

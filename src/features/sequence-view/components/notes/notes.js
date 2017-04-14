@@ -1,4 +1,12 @@
-import { find, includes, isEqual } from 'lodash/fp';
+import compose from 'lodash/fp/compose';
+import find from 'lodash/fp/find';
+import first from 'lodash/fp/first';
+import get from 'lodash/fp/get';
+import includes from 'lodash/fp/includes';
+import isEqual from 'lodash/fp/isEqual';
+import last from 'lodash/fp/last';
+import map from 'lodash/fp/map';
+import some from 'lodash/fp/some';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -98,7 +106,7 @@ export class Notes extends React.Component {
     if (this.state.isMoving) {
       this.props.onMove(delta);
     } else if (this.state.isResizing) {
-      this.props.onResize(delta);
+      this.handleResize(delta);
     }
   }
 
@@ -128,6 +136,48 @@ export class Notes extends React.Component {
   handleNoteSelect = (...args) =>
     this.props.onSelect(...args);
 
+  handleResize = (delta) => {
+    const isMovingLeft = delta.x < 0;
+
+    const pointSets = map(get('points'), this.props.selectedNotes);
+
+    const isAnyNoteBent = some(
+      points => last(points).y - first(points).y !== 0,
+    )(pointSets);
+
+    const willAnyBeMinLength = some(
+      points => (last(points).x - first(points).x) <= 1,
+    )(pointSets);
+
+    const willAnyBeNegative = some(
+      points => (last(points).x - first(points).x) <= 0,
+    )(pointSets);
+
+    const willAnyBeVertical = (
+      delta.y !== 0 &&
+      some(n => (last(n.points).x - first(n.points).x) === 0)(this.props.selectedNotes)
+    );
+
+    const willGoOutside = compose(
+      getIsSomePointOutside(this.props.measureCount),
+      map(compose(addPoints(delta), last)),
+    )(pointSets);
+
+    const isResizeInvalid = (
+      (isMovingLeft && isAnyNoteBent && willAnyBeMinLength) ||
+      (isMovingLeft && willAnyBeNegative) ||
+      willAnyBeVertical ||
+      willGoOutside
+    );
+
+    if (isResizeInvalid) return;
+
+    this.props.onResize({
+      notes: this.props.selectedNotes,
+      delta,
+    });
+  }
+
   stopMoving = () => this.setState({
     isMoving: false,
   });
@@ -135,4 +185,20 @@ export class Notes extends React.Component {
   stopResizing = () => this.setState({
     isResizing: false,
   });
+}
+
+function addPoints(b) {
+  return a => ({
+    x: a.x + b.x,
+    y: a.y + b.y,
+  });
+}
+
+function getIsSomePointOutside(measureCount) {
+  return some(point =>
+    point.x < 0 ||
+    point.x > ((measureCount * 8) * 4) - 1 ||
+    point.y < 0 ||
+    point.y > (shared.constants.octaveRange.length * 12) - 1,
+  );
 }

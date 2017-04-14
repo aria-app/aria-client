@@ -1,4 +1,4 @@
-import { first, isEmpty, isEqual, last, map, some, throttle, without } from 'lodash/fp';
+import { first, isEmpty, isEqual, last, map, throttle, without } from 'lodash/fp';
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import sequenceData from '../../sequence-data';
@@ -59,14 +59,6 @@ function* saveToLocalStorage() {
   throttledSave(song);
 }
 
-function* changeSelectedNotesSize({ change }) {
-  const selectedNotes = yield select(selectors.getSelectedNotes);
-
-  if (isEmpty(selectedNotes)) return;
-
-  yield put(actions.notesResizeStarted(selectedNotes, change));
-}
-
 function* deleteSelectedNotes() {
   const selectedNotes = yield select(selectors.getSelectedNotes);
 
@@ -96,8 +88,8 @@ function* moveNotes({ notes, offset }) {
   }));
 
   if (
-    (helpers.somePointOutside(map(n => n.points[0])(updatedNotes), measureCount)) ||
-    (helpers.somePointOutside(map(n => n.points[1])(updatedNotes), measureCount))
+    (helpers.getIsSomePointOutside(map(n => n.points[0])(updatedNotes), measureCount)) ||
+    (helpers.getIsSomePointOutside(map(n => n.points[1])(updatedNotes), measureCount))
   ) return;
 
   yield put(actions.notesMoveSucceeded(updatedNotes));
@@ -160,33 +152,6 @@ function* redo() {
   ]));
   yield put(actions.notesSet(last(redos)));
   yield put(actions.redosSet(redos.slice(0, redos.length - 1)));
-}
-
-function* resize({ notes, change }) {
-  const measureCount = yield select(selectors.getActiveSequenceMeasureCount);
-  const movingLeft = change.x < 0;
-  const anyNoteBent = some(n => (last(n.points).y - first(n.points).y) !== 0)(notes);
-  const willBeMinLength = some(n => (last(n.points).x - first(n.points).x) <= 1)(notes);
-  const willBeNegative = some(n => (last(n.points).x - first(n.points).x) <= 0)(notes);
-
-  if (
-    (movingLeft && anyNoteBent && willBeMinLength) ||
-    (movingLeft && willBeNegative) ||
-    (change.y !== 0 && some(n => (last(n.points).x - first(n.points).x) === 0)(notes))
-  ) return;
-
-  const updatedNotes = notes
-    .map(note => ({
-      ...note,
-      points: [
-        ...note.points.slice(0, note.points.length - 1),
-        helpers.addPoints(last(note.points), change),
-      ],
-    }));
-
-  if (helpers.somePointOutside(map(n => n.points[1])(updatedNotes), measureCount)) return;
-
-  yield put(actions.notesResizeSucceeded(updatedNotes));
 }
 
 function* resizeSelected(action) {
@@ -264,7 +229,6 @@ export default function* saga() {
       actions.NOTES_DELETED,
       actions.NOTES_DUPLICATED,
       actions.NOTES_MOVE_SUCCEEDED,
-      actions.NOTES_RESIZE_SUCCEEDED,
       actions.NOTES_SET,
       actions.SEQUENCE_ADDED_TO_TRACK,
       actions.SEQUENCE_EXTENDED,
@@ -286,6 +250,7 @@ export default function* saga() {
       actions.TRACKS_DELETED,
       actions.TRACKS_SET,
       actions.TRACKS_UPDATED,
+      sequenceData.actions.SELECTED_NOTES_SIZE_CHANGED,
       sequenceData.actions.SEQUENCE_CLOSED,
     ], saveToLocalStorage),
     takeEvery(shared.actions.INITIALIZED, initialize),
@@ -302,7 +267,6 @@ export default function* saga() {
     takeEvery(actions.NOTES_ALL_SELECTED, selectAll),
     takeEvery(actions.NOTES_DUPLICATED, duplicateSelectedNotes),
     takeEvery(actions.NOTES_MOVE_STARTED, moveNotes),
-    takeEvery(actions.NOTES_RESIZE_STARTED, resize),
     takeEvery(actions.REDO_POPPED, redo),
     takeEvery(actions.REDO_PUSHED, pushRedo),
     takeEvery(actions.SELECTED_NOTES_POSITION_NUDGED, nudgeSelectedNotesPosition),
@@ -326,7 +290,6 @@ export default function* saga() {
     takeEvery(sequenceData.actions.SELECTED_NOTES_MOVED_OCTAVE_DOWN, shiftDownOctave),
     takeEvery(sequenceData.actions.SELECTED_NOTES_MOVED_OCTAVE_UP, shiftUpOctave),
     takeEvery(sequenceData.actions.SELECTED_NOTES_RESIZED, resizeSelected),
-    takeEvery(sequenceData.actions.SELECTED_NOTES_SIZE_CHANGED, changeSelectedNotesSize),
     takeEvery(shortcuts.actions.DELETE, deleteSelectedNotes),
     takeEvery(shortcuts.actions.DESELECT, deleteSelectedNotes),
     takeEvery(shortcuts.actions.DUPLICATE, duplicateSelectedNotes),

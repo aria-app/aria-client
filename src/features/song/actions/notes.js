@@ -7,7 +7,6 @@ export const NOTES_DESELECTED = `${NAME}/NOTES_DESELECTED`;
 export const NOTES_DUPLICATED = `${NAME}/NOTES_DUPLICATED`;
 export const NOTES_MOVE_STARTED = `${NAME}/NOTES_MOVE_STARTED`;
 export const NOTES_MOVE_SUCCEEDED = `${NAME}/NOTES_MOVE_SUCCEEDED`;
-export const NOTES_RESIZE_STARTED = `${NAME}/NOTES_RESIZE_STARTED`;
 export const NOTES_RESIZE_SUCCEEDED = `${NAME}/NOTES_RESIZE_SUCCEEDED`;
 export const NOTES_SELECTED = `${NAME}/NOTES_SELECTED`;
 export const NOTES_SET = `${NAME}/NOTES_SET`;
@@ -39,12 +38,6 @@ export const notesMoveStarted = (notes, offset) => ({
 export const notesMoveSucceeded = notes => ({
   type: NOTES_MOVE_SUCCEEDED,
   notes,
-});
-
-export const notesResizeStarted = (notes, change) => ({
-  type: NOTES_RESIZE_STARTED,
-  notes,
-  change,
 });
 
 export const notesResizeSucceeded = notes => ({

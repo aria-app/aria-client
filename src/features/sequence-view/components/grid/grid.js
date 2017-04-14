@@ -61,9 +61,11 @@ export class Grid extends React.Component {
           selectedNotes: this.props.selectedNotes,
         }, [
           h(NotesContainer, {
+            measureCount: this.props.measureCount,
             mousePoint: this.state.mousePoint,
             onMove: this.handleNotesContainerMove,
             onResize: this.handleNotesContainerResize,
+            selectedNotes: this.props.selectedNotes,
           }),
         ]),
         h(Panner, {
@@ -120,8 +122,8 @@ export class Grid extends React.Component {
   handleNotesContainerMove = delta =>
     this.props.onMove(delta);
 
-  handleNotesContainerResize = delta =>
-    this.props.onResize(delta);
+  handleNotesContainerResize = payload =>
+    this.props.onResize(payload);
 
   handlePannerScrollLeftChange = (scrollLeft) => {
     this.elementRef.scrollLeft = scrollLeft;

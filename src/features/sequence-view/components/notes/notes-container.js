@@ -6,7 +6,6 @@ import sequenceData from '../../../sequence-data';
 export const NotesContainer = connect(state => ({
   measureCount: song.selectors.getActiveSequenceMeasureCount(state),
   notes: song.selectors.getActiveSequenceNotes(state),
-  selectedNotes: song.selectors.getSelectedNotes(state),
   toolType: sequenceData.selectors.getToolType(state),
 }), {
   onErase: sequenceData.actions.noteErased,

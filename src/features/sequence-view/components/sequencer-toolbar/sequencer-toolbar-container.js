@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import { Sequencer } from '../sequencer/sequencer';
+import { SequencerToolbar } from './sequencer-toolbar';
 import song from '../../../song';
 import sequenceData from '../../../sequence-data';
 
-export const SequencerContainer = connect(state => ({
+export const SequencerToolbarContainer = connect(state => ({
   activeSequenceId: song.selectors.getActiveSequenceId(state),
   areSomeNotesSelected: song.selectors.getAreSomeNotesSelected(state),
   toolType: sequenceData.selectors.getToolType(state),
@@ -15,4 +15,4 @@ export const SequencerContainer = connect(state => ({
   onSelectedNotesResize: sequenceData.actions.selectedNotesResized,
   onSequenceClose: sequenceData.actions.sequenceClosed,
   onToolSelect: sequenceData.actions.toolSelected,
-})(Sequencer);
+})(SequencerToolbar);

@@ -68,9 +68,9 @@ export const selectedNotesResized = size => ({
   size,
 });
 
-export const selectedNotesSizeChanged = change => ({
+export const selectedNotesSizeChanged = payload => ({
   type: SELECTED_NOTES_SIZE_CHANGED,
-  change,
+  payload,
 });
 
 export const sequenceClosed = () => ({

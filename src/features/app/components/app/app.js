@@ -10,7 +10,7 @@ import { SongToolbarContainer } from '../song-toolbar/song-toolbar-container';
 import './app.scss';
 
 const { ContextMenuContainer } = contextMenu.components;
-const { SequencerContainer } = sequenceView.components;
+const { Sequencer } = sequenceView.components;
 const { hideIf, showIf } = shared.helpers;
 const { Tracker } = trackView.components;
 
@@ -27,7 +27,7 @@ export class App extends React.Component {
       onDrop: this.handleDrop,
     }, [
       showIf(this.props.isSequenceOpen)(
-        h(SequencerContainer),
+        h(Sequencer),
       ),
       hideIf(this.props.isSequenceOpen)(
         h(Tracker),
