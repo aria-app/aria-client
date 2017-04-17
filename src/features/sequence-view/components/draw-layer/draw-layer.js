@@ -86,10 +86,12 @@ export class DrawLayer extends React.PureComponent {
   handleMouseUp = () => {
     if (!this.getIsDrawing()) return;
     const point = this.props.mousePoint;
-    this.props.onDraw(song.helpers.createNote({
-      points: [point, { x: point.x + 1, y: point.y }],
-      sequenceId: this.props.activeSequenceId,
-    }));
+    this.props.onDraw({
+      note: song.helpers.createNote({
+        points: [point, { x: point.x + 1, y: point.y }],
+        sequenceId: this.props.activeSequenceId,
+      }),
+    });
     this.setState({
       isDrawing: false,
     });

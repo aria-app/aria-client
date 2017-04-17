@@ -1,14 +1,15 @@
 import first from 'lodash/fp/first';
 import isEqual from 'lodash/fp/isEqual';
+import map from 'lodash/fp/map';
 import some from 'lodash/fp/some';
 import { v4 } from 'uuid';
 import shared from '../shared';
 
-export function addPoints(a, b) {
-  return {
+export function addPoints(b) {
+  return a => ({
     x: a.x + b.x,
     y: a.y + b.y,
-  };
+  });
 }
 
 export function createNote({ id, points, sequenceId }) {
@@ -57,6 +58,11 @@ export function createTrack(options) {
     volume: 0,
   };
 }
+
+export const duplicateNotes = map(note => createNote({
+  points: note.points,
+  sequenceId: note.sequenceId,
+}));
 
 export function getIsInside(start, end, target) {
   const tx = target.x;

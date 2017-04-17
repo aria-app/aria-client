@@ -7,10 +7,49 @@ import * as selectors from './selectors';
 
 const { toolTypes } = shared.constants;
 
-function* handleToolTypeSelected({ toolType }) {
+function* selectDrawTool() {
   const previousToolType = yield select(selectors.getToolType);
 
-  yield put(actions.toolTypeSet(toolType, previousToolType));
+  yield put(actions.toolTypeSet({
+    previousToolType,
+    toolType: toolTypes.DRAW,
+  }));
+}
+
+function* selectEraseTool() {
+  const previousToolType = yield select(selectors.getToolType);
+
+  yield put(actions.toolTypeSet({
+    previousToolType,
+    toolType: toolTypes.ERASE,
+  }));
+}
+
+function* selectPanTool() {
+  const previousToolType = yield select(selectors.getToolType);
+
+  yield put(actions.toolTypeSet({
+    previousToolType,
+    toolType: toolTypes.PAN,
+  }));
+}
+
+function* selectSelectTool() {
+  const previousToolType = yield select(selectors.getToolType);
+
+  yield put(actions.toolTypeSet({
+    previousToolType,
+    toolType: toolTypes.SELECT,
+  }));
+}
+
+function* selectTool({ payload }) {
+  const previousToolType = yield select(selectors.getToolType);
+
+  yield put(actions.toolTypeSet({
+    toolType: payload.toolType,
+    previousToolType,
+  }));
 }
 
 function* startPanning() {
@@ -18,7 +57,9 @@ function* startPanning() {
 
   if (currentToolType === toolTypes.PAN) return;
 
-  yield put(actions.toolSelected(toolTypes.PAN));
+  yield put(actions.toolSelected({
+    toolType: toolTypes.PAN,
+  }));
 }
 
 function* stopPanning() {
@@ -29,28 +70,19 @@ function* stopPanning() {
     previousToolType === toolTypes.PAN
   ) return;
 
-  yield put(actions.toolSelected(previousToolType));
+  yield put(actions.toolSelected({
+    toolType: previousToolType,
+  }));
 }
 
 export default function* saga() {
   yield [
-    takeEvery(actions.TOOL_SELECTED, handleToolTypeSelected),
+    takeEvery(actions.TOOL_SELECTED, selectTool),
     takeEvery(shortcuts.actions.PAN_HELD, startPanning),
     takeEvery(shortcuts.actions.PAN_RELEASED, stopPanning),
-    takeEvery(shortcuts.actions.SELECT_TOOL_D,
-      () => handleToolTypeSelected({ toolType: toolTypes.DRAW }),
-    ),
-    takeEvery(shortcuts.actions.SELECT_TOOL_E,
-      () => handleToolTypeSelected({ toolType: toolTypes.ERASE }),
-    ),
-    takeEvery(shortcuts.actions.SELECT_TOOL_M,
-      () => handleToolTypeSelected({ toolType: toolTypes.MOVE }),
-    ),
-    takeEvery(shortcuts.actions.SELECT_TOOL_P,
-      () => handleToolTypeSelected({ toolType: toolTypes.PAN }),
-    ),
-    takeEvery(shortcuts.actions.SELECT_TOOL_S,
-      () => handleToolTypeSelected({ toolType: toolTypes.SELECT }),
-    ),
+    takeEvery(shortcuts.actions.SELECT_TOOL_D, selectDrawTool),
+    takeEvery(shortcuts.actions.SELECT_TOOL_E, selectEraseTool),
+    takeEvery(shortcuts.actions.SELECT_TOOL_P, selectPanTool),
+    takeEvery(shortcuts.actions.SELECT_TOOL_S, selectSelectTool),
   ];
 }

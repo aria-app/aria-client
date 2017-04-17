@@ -4,21 +4,20 @@ export const KEY_PRESSED = `${NAME}/KEY_PRESSED`;
 export const NOTE_DRAWN = `${NAME}/NOTE_DRAWN`;
 export const NOTE_ERASED = `${NAME}/NOTE_ERASED`;
 export const NOTE_SELECTED = `${NAME}/NOTE_SELECTED`;
+export const NOTES_DRAGGED = `${NAME}/NOTES_DRAGGED`;
 export const NOTES_DUPLICATED = `${NAME}/NOTES_DUPLICATED`;
+export const NOTES_MOVED_OCTAVE_DOWN = `${NAME}/NOTES_MOVED_OCTAVE_DOWN`;
+export const NOTES_MOVED_OCTAVE_UP = `${NAME}/NOTES_MOVED_OCTAVE_UP`;
+export const NOTES_RESIZED = `${NAME}/NOTES_RESIZED`;
 export const NOTES_SELECTED_IN_AREA = `${NAME}/NOTES_SELECTED_IN_AREA`;
-export const SELECTED_NOTES_DELETED = `${NAME}/SELECTED_NOTES_DELETED`;
-export const SELECTED_NOTES_MOVED = `${NAME}/SELECTED_NOTES_MOVED`;
-export const SELECTED_NOTES_MOVED_OCTAVE_DOWN = `${NAME}/SELECTED_NOTES_MOVED_OCTAVE_DOWN`;
-export const SELECTED_NOTES_MOVED_OCTAVE_UP = `${NAME}/SELECTED_NOTES_MOVED_OCTAVE_UP`;
-export const SELECTED_NOTES_RESIZED = `${NAME}/SELECTED_NOTES_RESIZED`;
-export const SELECTED_NOTES_SIZE_CHANGED = `${NAME}/SELECTED_NOTES_SIZE_CHANGED`;
+export const NOTES_DELETED = `${NAME}/NOTES_DELETED`;
 export const SEQUENCE_CLOSED = `${NAME}/SEQUENCE_CLOSED`;
 export const TOOL_SELECTED = `${NAME}/TOOL_SELECTED`;
 export const TOOL_TYPE_SET = `${NAME}/TOOL_TYPE_SET`;
 
-export const keyPressed = key => ({
+export const keyPressed = payload => ({
   type: KEY_PRESSED,
-  payload: key,
+  payload,
 });
 
 export const noteDrawn = payload => ({
@@ -26,19 +25,44 @@ export const noteDrawn = payload => ({
   payload,
 });
 
-export const noteErased = note => ({
+export const noteErased = payload => ({
   type: NOTE_ERASED,
-  payload: note,
+  payload,
 });
 
-export const noteSelected = (note, isAdditive) => ({
+export const noteSelected = payload => ({
   type: NOTE_SELECTED,
-  isAdditive,
-  note,
+  payload,
 });
 
-export const notesDuplicated = () => ({
+export const notesDeleted = payload => ({
+  type: NOTES_DELETED,
+  payload,
+});
+
+export const notesDragged = payload => ({
+  type: NOTES_DRAGGED,
+  payload,
+});
+
+export const notesDuplicated = payload => ({
   type: NOTES_DUPLICATED,
+  payload,
+});
+
+export const notesMovedOctaveDown = payload => ({
+  type: NOTES_MOVED_OCTAVE_DOWN,
+  payload,
+});
+
+export const notesMovedOctaveUp = payload => ({
+  type: NOTES_MOVED_OCTAVE_UP,
+  payload,
+});
+
+export const notesResized = payload => ({
+  type: NOTES_RESIZED,
+  payload,
 });
 
 export const notesSelectedInArea = payload => ({
@@ -46,44 +70,16 @@ export const notesSelectedInArea = payload => ({
   payload,
 });
 
-export const selectedNotesDeleted = () => ({
-  type: SELECTED_NOTES_DELETED,
-});
-
-export const selectedNotesMoved = offset => ({
-  type: SELECTED_NOTES_MOVED,
-  offset,
-});
-
-export const selectedNotesMovedOctaveDown = () => ({
-  type: SELECTED_NOTES_MOVED_OCTAVE_DOWN,
-});
-
-export const selectedNotesMovedOctaveUp = () => ({
-  type: SELECTED_NOTES_MOVED_OCTAVE_UP,
-});
-
-export const selectedNotesResized = size => ({
-  type: SELECTED_NOTES_RESIZED,
-  size,
-});
-
-export const selectedNotesSizeChanged = payload => ({
-  type: SELECTED_NOTES_SIZE_CHANGED,
-  payload,
-});
-
 export const sequenceClosed = () => ({
   type: SEQUENCE_CLOSED,
 });
 
-export const toolSelected = toolType => ({
+export const toolSelected = payload => ({
   type: TOOL_SELECTED,
-  toolType,
+  payload,
 });
 
-export const toolTypeSet = (toolType, previousToolType) => ({
+export const toolTypeSet = payload => ({
   type: TOOL_TYPE_SET,
-  previousToolType,
-  toolType,
+  payload,
 });

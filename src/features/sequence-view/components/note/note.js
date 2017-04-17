@@ -87,30 +87,34 @@ export class Note extends React.Component {
 
   handleEndPointMouseDown = (e) => {
     if (this.props.isSelectEnabled) {
-      const isAdditive = e.ctrlKey || e.metaKey;
-      this.props.onSelect(this.props.note, isAdditive);
+      this.select(e);
       this.props.onResizeStart();
+      e.stopPropagation();
     }
-
-    e.stopPropagation();
   }
 
   handleStartPointMouseDown = (e) => {
-    const isAdditive = e.ctrlKey || e.metaKey;
-
     if (this.props.isSelectEnabled) {
-      this.props.onSelect(this.props.note, isAdditive);
-
+      this.select(e);
       this.props.onMoveStart();
-
       e.stopPropagation();
     }
   }
 
   handleStartPointMouseUp = () => {
     if (this.props.isEraseEnabled) {
-      this.props.onErase(this.props.note);
+      this.props.onErase({
+        note: this.props.note,
+      });
     }
+  }
+
+  select = (e) => {
+    if (this.props.isSelected) return;
+    this.props.onSelect({
+      note: this.props.note,
+      isAdditive: e.ctrlKey || e.metaKey,
+    });
   }
 }
 

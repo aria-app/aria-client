@@ -4,15 +4,14 @@ import song from '../../../song';
 import sequenceData from '../../../sequence-data';
 
 export const SequencerToolbarContainer = connect(state => ({
-  activeSequenceId: song.selectors.getActiveSequenceId(state),
   areSomeNotesSelected: song.selectors.getAreSomeNotesSelected(state),
+  selectedNotes: song.selectors.getSelectedNotes(state),
   toolType: sequenceData.selectors.getToolType(state),
 }), {
-  onSelectedNotesDelete: sequenceData.actions.selectedNotesDeleted,
-  onSelectedNotesDuplicate: sequenceData.actions.notesDuplicated,
-  onSelectedNotesOctaveDown: sequenceData.actions.selectedNotesMovedOctaveDown,
-  onSelectedNotesOctaveUp: sequenceData.actions.selectedNotesMovedOctaveUp,
-  onSelectedNotesResize: sequenceData.actions.selectedNotesResized,
-  onSequenceClose: sequenceData.actions.sequenceClosed,
+  onClose: sequenceData.actions.sequenceClosed,
+  onDelete: sequenceData.actions.notesDeleted,
+  onDuplicate: sequenceData.actions.notesDuplicated,
+  onOctaveDown: sequenceData.actions.notesMovedOctaveDown,
+  onOctaveUp: sequenceData.actions.notesMovedOctaveUp,
   onToolSelect: sequenceData.actions.toolSelected,
 })(SequencerToolbar);

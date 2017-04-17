@@ -20,8 +20,8 @@ export class Notes extends React.Component {
     measureCount: React.PropTypes.number.isRequired,
     mousePoint: React.PropTypes.object.isRequired,
     notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    onDrag: React.PropTypes.func.isRequired,
     onErase: React.PropTypes.func.isRequired,
-    onMove: React.PropTypes.func.isRequired,
     onResize: React.PropTypes.func.isRequired,
     onSelect: React.PropTypes.func.isRequired,
     selectedNotes: React.PropTypes.arrayOf(
@@ -104,7 +104,10 @@ export class Notes extends React.Component {
     );
 
     if (this.state.isMoving) {
-      this.props.onMove(delta);
+      this.props.onDrag({
+        notes: this.props.selectedNotes,
+        delta,
+      });
     } else if (this.state.isResizing) {
       this.handleResize(delta);
     }

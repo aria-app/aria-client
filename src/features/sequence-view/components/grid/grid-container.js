@@ -12,7 +12,7 @@ export const GridContainer = connect(state => ({
   toolType: sequenceData.selectors.getToolType(state),
 }), {
   onDraw: sequenceData.actions.noteDrawn,
-  onMove: sequenceData.actions.selectedNotesMoved,
-  onResize: sequenceData.actions.selectedNotesSizeChanged,
+  onDrag: sequenceData.actions.notesDragged,
+  onResize: sequenceData.actions.notesResized,
   onSelectInArea: sequenceData.actions.notesSelectedInArea,
 })(Grid);

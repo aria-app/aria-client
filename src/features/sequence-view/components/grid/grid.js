@@ -12,7 +12,7 @@ import { Selector } from '../selector/selector';
 import { SlotsContainer } from '../slots/slots-container';
 import './grid.scss';
 
-const { toolTypes } = shared.constants;
+const { DRAW, PAN, SELECT } = shared.constants.toolTypes;
 
 export class Grid extends React.Component {
   static propTypes = {
@@ -20,8 +20,8 @@ export class Grid extends React.Component {
     areSomeNotesSelected: React.PropTypes.bool.isRequired,
     measureCount: React.PropTypes.number.isRequired,
     notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    onDrag: React.PropTypes.func.isRequired,
     onDraw: React.PropTypes.func.isRequired,
-    onMove: React.PropTypes.func.isRequired,
     onResize: React.PropTypes.func.isRequired,
     onSelectInArea: React.PropTypes.func.isRequired,
     selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
@@ -63,7 +63,7 @@ export class Grid extends React.Component {
           h(NotesContainer, {
             measureCount: this.props.measureCount,
             mousePoint: this.state.mousePoint,
-            onMove: this.handleNotesContainerMove,
+            onDrag: this.handleNotesContainerMove,
             onResize: this.handleNotesContainerResize,
             selectedNotes: this.props.selectedNotes,
           }),
@@ -80,11 +80,11 @@ export class Grid extends React.Component {
     ]);
   }
 
-  getIsDrawLayerEnabled = () => this.props.toolType === toolTypes.DRAW;
+  getIsDrawLayerEnabled = () => this.props.toolType === DRAW;
 
-  getIsPannerEnabled = () => this.props.toolType === toolTypes.PAN;
+  getIsPannerEnabled = () => this.props.toolType === PAN;
 
-  getIsSelectorEnabled = () => this.props.toolType === toolTypes.SELECT;
+  getIsSelectorEnabled = () => this.props.toolType === SELECT;
 
   getWrapperStyle() {
     return {
@@ -119,11 +119,9 @@ export class Grid extends React.Component {
     });
   }
 
-  handleNotesContainerMove = delta =>
-    this.props.onMove(delta);
+  handleNotesContainerMove = this.props.onDrag;
 
-  handleNotesContainerResize = payload =>
-    this.props.onResize(payload);
+  handleNotesContainerResize = this.props.onResize;
 
   handlePannerScrollLeftChange = (scrollLeft) => {
     this.elementRef.scrollLeft = scrollLeft;
