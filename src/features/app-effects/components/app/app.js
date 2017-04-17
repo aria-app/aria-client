@@ -1,7 +1,7 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import contextMenu from '../../../context-menu';
-import sequenceView from '../../../sequence-view';
+import sequenceEffects from '../../../sequence-effects';
 import shared from '../../../shared';
 import trackView from '../../../track-view';
 import { BPMModalContainer } from '../bpm-modal/bpm-modal-container';
@@ -10,7 +10,7 @@ import { SongToolbarContainer } from '../song-toolbar/song-toolbar-container';
 import './app.scss';
 
 const { ContextMenuContainer } = contextMenu.components;
-const { Sequencer } = sequenceView.components;
+const { Sequencer } = sequenceEffects.components;
 const { hideIf, showIf } = shared.helpers;
 const { Tracker } = trackView.components;
 

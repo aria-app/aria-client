@@ -1,6 +1,6 @@
-import app from '../features/app';
+import appEffects from '../features/app-effects';
 import audioClient from '../features/audio-client';
-import sequenceData from '../features/sequence-data';
+import sequenceEffects from '../features/sequence-effects';
 import shared from '../features/shared';
 import shortcuts from '../features/shortcuts';
 import song from '../features/song';
@@ -8,9 +8,9 @@ import trackView from '../features/track-view';
 
 export default function* saga() {
   yield [
-    app.saga(),
+    appEffects.saga(),
     audioClient.saga(),
-    sequenceData.saga(),
+    sequenceEffects.saga(),
     shared.saga(),
     shortcuts.saga(),
     song.saga(),

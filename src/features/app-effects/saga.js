@@ -1,7 +1,7 @@
 import { takeEvery } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import song from '../song';
-import * as actions from './actions';
+import appData from '../app-data';
 
 const reader = new FileReader();
 
@@ -29,6 +29,6 @@ function* loadSongFromFile({ payload }) {
 
 export default function* saga() {
   yield [
-    takeEvery(actions.FILE_DROPPED, loadSongFromFile),
+    takeEvery(appData.actions.FILE_DROPPED, loadSongFromFile),
   ];
 }

@@ -2,82 +2,81 @@ import { takeEvery } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
 import shared from '../shared';
 import shortcuts from '../shortcuts';
-import * as actions from './actions';
-import * as selectors from './selectors';
+import sequenceData from '../sequence-data';
 
 const { toolTypes } = shared.constants;
 
 function* selectDrawTool() {
-  const previousToolType = yield select(selectors.getToolType);
+  const previousToolType = yield select(sequenceData.selectors.getToolType);
 
-  yield put(actions.toolTypeSet({
+  yield put(sequenceData.actions.toolTypeSet({
     previousToolType,
     toolType: toolTypes.DRAW,
   }));
 }
 
 function* selectEraseTool() {
-  const previousToolType = yield select(selectors.getToolType);
+  const previousToolType = yield select(sequenceData.selectors.getToolType);
 
-  yield put(actions.toolTypeSet({
+  yield put(sequenceData.actions.toolTypeSet({
     previousToolType,
     toolType: toolTypes.ERASE,
   }));
 }
 
 function* selectPanTool() {
-  const previousToolType = yield select(selectors.getToolType);
+  const previousToolType = yield select(sequenceData.selectors.getToolType);
 
-  yield put(actions.toolTypeSet({
+  yield put(sequenceData.actions.toolTypeSet({
     previousToolType,
     toolType: toolTypes.PAN,
   }));
 }
 
 function* selectSelectTool() {
-  const previousToolType = yield select(selectors.getToolType);
+  const previousToolType = yield select(sequenceData.selectors.getToolType);
 
-  yield put(actions.toolTypeSet({
+  yield put(sequenceData.actions.toolTypeSet({
     previousToolType,
     toolType: toolTypes.SELECT,
   }));
 }
 
 function* selectTool({ payload }) {
-  const previousToolType = yield select(selectors.getToolType);
+  const previousToolType = yield select(sequenceData.selectors.getToolType);
 
-  yield put(actions.toolTypeSet({
+  yield put(sequenceData.actions.toolTypeSet({
     toolType: payload.toolType,
     previousToolType,
   }));
 }
 
 function* startPanning() {
-  const currentToolType = yield select(selectors.getToolType);
+  const currentToolType = yield select(sequenceData.selectors.getToolType);
 
   if (currentToolType === toolTypes.PAN) return;
 
-  yield put(actions.toolSelected({
+  yield put(sequenceData.actions.toolSelected({
     toolType: toolTypes.PAN,
   }));
 }
 
 function* stopPanning() {
-  const previousToolType = yield select(selectors.getPreviousToolType);
+  const previousToolType = yield select(sequenceData.selectors.getPreviousToolType);
 
   if (
     !previousToolType ||
     previousToolType === toolTypes.PAN
   ) return;
 
-  yield put(actions.toolSelected({
+  yield put(sequenceData.actions.toolSelected({
     toolType: previousToolType,
   }));
 }
 
 export default function* saga() {
   yield [
-    takeEvery(actions.TOOL_SELECTED, selectTool),
+    takeEvery(sequenceData.actions.TOOL_SELECTED, selectTool),
     takeEvery(shortcuts.actions.PAN_HELD, startPanning),
     takeEvery(shortcuts.actions.PAN_RELEASED, stopPanning),
     takeEvery(shortcuts.actions.SELECT_TOOL_D, selectDrawTool),

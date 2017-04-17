@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { SongToolbar } from './song-toolbar';
 import song from '../../../song';
-import * as actions from '../../actions';
+import appData from '../../../app-data';
 
 // TODO: Add appropriate state connections back when available
 export const SongToolbarContainer = connect(state => ({
@@ -9,7 +9,7 @@ export const SongToolbarContainer = connect(state => ({
   playbackState: 'stopped',
   stringifiedSong: song.selectors.getStringifiedSong(state),
 }), {
-  onBPMModalOpen: actions.bpmModalOpened,
+  onBPMModalOpen: appData.actions.bpmModalOpened,
   onPause: () => {},
   onPlay: () => {},
   onStop: () => {},

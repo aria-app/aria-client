@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import app from '../features/app';
+import appData from '../features/app-data';
 import contextMenu from '../features/context-menu';
 import sequenceData from '../features/sequence-data';
 import shared from '../features/shared';
@@ -9,7 +9,7 @@ import trackView from '../features/track-view';
 import transport from '../features/transport';
 
 export default combineReducers({
-  [app.constants.NAME]: app.reducer,
+  [appData.constants.NAME]: appData.reducer,
   [contextMenu.constants.NAME]: contextMenu.reducer,
   [sequenceData.constants.NAME]: sequenceData.reducer,
   [shared.constants.NAME]: shared.reducer,
