@@ -1,4 +1,3 @@
-export * from './bpm';
 export * from './id';
 export * from './measure-count';
 export * from './name';

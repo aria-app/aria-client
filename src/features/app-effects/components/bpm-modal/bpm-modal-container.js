@@ -8,5 +8,5 @@ export const BPMModalContainer = connect(state => ({
   isOpen: appData.selectors.getIsBPMModalOpen(state),
 }), {
   onConfirm: appData.actions.bpmModalClosed,
-  onBPMChange: song.actions.bpmSet,
+  onBPMChange: appData.actions.bpmSet,
 })(BPMModal);

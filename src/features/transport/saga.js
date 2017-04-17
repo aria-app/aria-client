@@ -2,6 +2,7 @@ import { compose, filter, first, isEmpty, range, uniqBy } from 'lodash/fp';
 import { eventChannel, takeEvery } from 'redux-saga';
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import Tone from '../../audio-server/tone';
+import appData from '../app-data';
 import shortcuts from '../shortcuts';
 import song from '../song';
 import * as actions from './actions';
@@ -211,7 +212,7 @@ export default function* saga() {
       song.actions.SEQUENCES_SET,
       song.actions.SEQUENCES_UPDATED,
     ], updateSequences),
-    takeEvery(song.actions.BPM_SET, setBPM),
+    takeEvery(appData.actions.BPM_SET, setBPM),
     takeEvery(song.actions.SEQUENCE_CLOSED, loopSong),
     takeEvery(song.actions.SEQUENCE_OPENED, loopSequence),
     takeEvery(song.actions.SONG_EXTENDED, updateSong),

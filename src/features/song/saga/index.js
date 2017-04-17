@@ -1,6 +1,7 @@
-import { first, isEmpty, isEqual, last, map, throttle, without } from 'lodash/fp';
+import { isEmpty, isEqual, last, map, throttle, without } from 'lodash/fp';
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
+import appData from '../../app-data';
 import sequenceData from '../../sequence-data';
 import shared from '../../shared';
 import shortcuts from '../../shortcuts';
@@ -172,7 +173,6 @@ export default function* saga() {
     takeEvery(actions.TRACK_CREATED_AND_ADDED, createAndAddTrack),
     takeEvery(actions.TRACKS_DELETED, deleteSequencesFromTracks),
     takeEvery([
-      actions.BPM_SET,
       actions.ID_SET,
       actions.MEASURE_COUNT_SET,
       actions.NAME_SET,
@@ -201,6 +201,7 @@ export default function* saga() {
       actions.TRACKS_DELETED,
       actions.TRACKS_SET,
       actions.TRACKS_UPDATED,
+      appData.actions.BPM_SET,
       sequenceData.actions.NOTE_DRAWN,
       sequenceData.actions.NOTE_ERASED,
       sequenceData.actions.NOTES_DRAGGED,
