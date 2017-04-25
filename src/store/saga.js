@@ -4,7 +4,7 @@ import sequenceEffects from '../features/sequence-effects';
 import shared from '../features/shared';
 import shortcuts from '../features/shortcuts';
 import song from '../features/song';
-import trackView from '../features/track-view';
+import tracksEffects from '../features/tracks-effects';
 
 export default function* saga() {
   yield [
@@ -14,6 +14,6 @@ export default function* saga() {
     shared.saga(),
     shortcuts.saga(),
     song.saga(),
-    trackView.saga(),
+    tracksEffects.saga(),
   ];
 }

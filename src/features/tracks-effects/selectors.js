@@ -1,6 +1,6 @@
 import song from '../song';
 import { NAME } from './constants';
-
+// Need to remove dependency on song in these selectors so that song can reference tracksData
 const get = state => state[NAME];
 
 export const getRedos = state => get(state).redos;

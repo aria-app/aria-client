@@ -1,1 +1,1 @@
-export const NAME = 'sequence-data';
+export const NAME = 'sequence';

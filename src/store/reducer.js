@@ -5,7 +5,7 @@ import sequenceData from '../features/sequence-data';
 import shared from '../features/shared';
 import shortcuts from '../features/shortcuts';
 import song from '../features/song';
-import trackView from '../features/track-view';
+import tracksData from '../features/tracks-data';
 import transport from '../features/transport';
 
 export default combineReducers({
@@ -15,6 +15,6 @@ export default combineReducers({
   [shared.constants.NAME]: shared.reducer,
   [shortcuts.constants.NAME]: shortcuts.reducer,
   [song.constants.NAME]: song.reducer,
-  [trackView.constants.NAME]: trackView.reducer,
+  [tracksData.constants.NAME]: tracksData.reducer,
   [transport.constants.NAME]: transport.reducer,
 });

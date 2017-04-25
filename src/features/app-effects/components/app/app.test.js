@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import contextMenu from '../../../context-menu';
 import sequenceEffects from '../../../sequence-effects';
-import trackView from '../../../track-view';
+import trackEffects from '../../../track-effects';
 import { BPMModalContainer } from '../bpm-modal/bpm-modal-container';
 import { SongToolbarContainer } from '../song-toolbar/song-toolbar-container';
 import { UploadOverlayContainer } from '../upload-overlay/upload-overlay-container';
@@ -11,7 +11,7 @@ import { App } from './app';
 
 const { ContextMenuContainer } = contextMenu.components;
 const { SequencerContainer } = sequenceEffects.components;
-const { Tracker } = trackView.components;
+const { Tracker } = trackEffects.components;
 
 describe('App Component', () => {
   it('should be defined', () => {

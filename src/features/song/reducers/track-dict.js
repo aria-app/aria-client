@@ -1,6 +1,8 @@
-import { omit } from 'lodash/fp';
+import map from 'lodash/fp/map';
+import omit from 'lodash/fp/omit';
 import { createReducer } from 'redux-create-reducer';
 import shared from '../../shared';
+import tracksData from '../../tracks-data';
 import * as actions from '../actions';
 
 const { setAtIds } = shared.helpers;
@@ -28,8 +30,8 @@ export const trackDict = createReducer({}, {
 
   [actions.TRACK_SYNTH_TYPE_SET]: (state, action) =>
     shared.helpers.setAtIds([{
-      ...state[action.id],
-      synthType: action.synthType,
+      ...state[action.payload.track.id],
+      synthType: action.payload.synthType,
     }], state),
 
   [actions.TRACKS_ADDED]: (state, action) =>
@@ -43,4 +45,7 @@ export const trackDict = createReducer({}, {
 
   [actions.TRACKS_UPDATED]: (state, action) =>
     setAtIds(action.tracks, state),
+
+  [tracksData.actions.TRACK_DELETED]: (state, action) =>
+    omit(action.payload.track.id)(state),
 });

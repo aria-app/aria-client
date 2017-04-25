@@ -3,11 +3,12 @@ import { put, select } from 'redux-saga/effects';
 import shared from '../shared';
 import shortcuts from '../shortcuts';
 import sequenceData from '../sequence-data';
+import * as selectors from './selectors';
 
 const { toolTypes } = shared.constants;
 
 function* selectDrawTool() {
-  const previousToolType = yield select(sequenceData.selectors.getToolType);
+  const previousToolType = yield select(selectors.getToolType);
 
   yield put(sequenceData.actions.toolTypeSet({
     previousToolType,
@@ -16,7 +17,7 @@ function* selectDrawTool() {
 }
 
 function* selectEraseTool() {
-  const previousToolType = yield select(sequenceData.selectors.getToolType);
+  const previousToolType = yield select(selectors.getToolType);
 
   yield put(sequenceData.actions.toolTypeSet({
     previousToolType,
@@ -25,7 +26,7 @@ function* selectEraseTool() {
 }
 
 function* selectPanTool() {
-  const previousToolType = yield select(sequenceData.selectors.getToolType);
+  const previousToolType = yield select(selectors.getToolType);
 
   yield put(sequenceData.actions.toolTypeSet({
     previousToolType,
@@ -34,7 +35,7 @@ function* selectPanTool() {
 }
 
 function* selectSelectTool() {
-  const previousToolType = yield select(sequenceData.selectors.getToolType);
+  const previousToolType = yield select(selectors.getToolType);
 
   yield put(sequenceData.actions.toolTypeSet({
     previousToolType,
@@ -43,7 +44,7 @@ function* selectSelectTool() {
 }
 
 function* selectTool({ payload }) {
-  const previousToolType = yield select(sequenceData.selectors.getToolType);
+  const previousToolType = yield select(selectors.getToolType);
 
   yield put(sequenceData.actions.toolTypeSet({
     toolType: payload.toolType,
@@ -52,7 +53,7 @@ function* selectTool({ payload }) {
 }
 
 function* startPanning() {
-  const currentToolType = yield select(sequenceData.selectors.getToolType);
+  const currentToolType = yield select(selectors.getToolType);
 
   if (currentToolType === toolTypes.PAN) return;
 
@@ -62,7 +63,7 @@ function* startPanning() {
 }
 
 function* stopPanning() {
-  const previousToolType = yield select(sequenceData.selectors.getPreviousToolType);
+  const previousToolType = yield select(selectors.getPreviousToolType);
 
   if (
     !previousToolType ||

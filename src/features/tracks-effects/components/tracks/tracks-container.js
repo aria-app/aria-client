@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import contextMenu from '../../../context-menu';
 import song from '../../../song';
-import { Tracks } from '../tracks/tracks';
-import * as actions from '../../actions';
+import tracksData from '../../../tracks-data';
 import * as selectors from '../../selectors';
+import { Tracks } from './tracks';
 
 // wallaby-ignore
 export const TracksContainer = connect(state => ({
@@ -13,13 +13,13 @@ export const TracksContainer = connect(state => ({
   songMeasureCount: song.selectors.getMeasureCount(state),
   tracks: song.selectors.getDeepTracks(state),
 }), {
-  onSequenceAdd: actions.sequenceAddedToTrack,
+  onSequenceAdd: tracksData.actions.sequenceAddedToTrack,
   onSequenceContextMenu: contextMenu.actions.contextMenuOpened,
-  onSequenceDeselect: actions.sequenceDeselected,
+  onSequenceDeselect: tracksData.actions.sequenceDeselected,
   onSequenceOpen: song.actions.sequenceOpened,
-  onSequenceSelect: actions.sequenceSelected,
-  onTrackAdd: actions.trackCreatedAndAdded,
-  onTrackIsMutedToggle: actions.trackIsMutedToggled,
-  onTrackIsSoloingToggle: actions.trackIsSoloingToggled,
-  onTrackStage: actions.trackEditingStarted,
+  onSequenceSelect: tracksData.actions.sequenceSelected,
+  onTrackAdd: tracksData.actions.trackCreatedAndAdded,
+  onTrackIsMutedToggle: tracksData.actions.trackIsMutedToggled,
+  onTrackIsSoloingToggle: tracksData.actions.trackIsSoloingToggled,
+  onTrackStage: tracksData.actions.trackEditingStarted,
 })(Tracks);

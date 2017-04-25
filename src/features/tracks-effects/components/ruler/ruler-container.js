@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import song from '../../../song';
-import { Ruler } from '../ruler/ruler';
-import * as actions from '../../actions';
+import tracksData from '../../../tracks-data';
+import { Ruler } from './ruler';
 
 // TODO: Add appropriate state connections back when available
 export const RulerContainer = connect(state => ({
@@ -11,6 +11,6 @@ export const RulerContainer = connect(state => ({
   onPause: () => {},
   onPlay: () => {},
   onPositionSet: () => {},
-  onSongExtend: actions.songExtended,
-  onSongShorten: actions.songShortened,
+  onSongExtend: tracksData.actions.songExtended,
+  onSongShorten: tracksData.actions.songShortened,
 })(Ruler);

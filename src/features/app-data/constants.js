@@ -1,1 +1,1 @@
-export const NAME = 'app-data';
+export const NAME = 'app';

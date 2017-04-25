@@ -1,5 +1,8 @@
-import { difference, map, without } from 'lodash/fp';
+import difference from 'lodash/fp/difference';
+import map from 'lodash/fp/map';
+import without from 'lodash/fp/without';
 import { createReducer } from 'redux-create-reducer';
+import tracksData from '../../tracks-data';
 import * as actions from '../actions';
 
 export const trackIds = createReducer([], {
@@ -19,4 +22,7 @@ export const trackIds = createReducer([], {
 
   [actions.TRACKS_SET]: (state, action) =>
     map('id')(action.tracks),
+
+  [tracksData.actions.TRACK_DELETED]: (state, action) =>
+    without(action.payload.track.id)(state),
 });

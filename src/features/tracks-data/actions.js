@@ -16,10 +16,12 @@ export const SEQUENCE_DESELECTED = `${NAME}/SEQUENCE_DESELECTED`;
 export const SEQUENCE_SELECTED = `${NAME}/SEQUENCE_SELECTED`;
 export const SONG_EXTENDED = `${NAME}/SONG_EXTENDED`;
 export const SONG_SHORTENED = `${NAME}/SONG_SHORTENED`;
+export const TRACK_DELETED = `${NAME}/TRACK_DELETED`;
 export const TRACK_EDITING_FINISHED = `${NAME}/TRACK_EDITING_FINISHED`;
 export const TRACK_EDITING_STARTED = `${NAME}/TRACK_EDITING_STARTED`;
 export const TRACK_IS_MUTED_TOGGLED = `${NAME}/TRACK_IS_MUTED_TOGGLED`;
 export const TRACK_IS_SOLOING_TOGGLED = `${NAME}/TRACK_IS_SOLOING_TOGGLED`;
+export const TRACK_SYNTH_TYPE_SET = `${NAME}/TRACK_SYNTH_TYPE_SET`;
 export const UNDO_POPPED = `${NAME}/UNDO_POPPED`;
 export const UNDO_PUSHED = `${NAME}/UNDO_PUSHED`;
 export const UNDOS_SET = `${NAME}/UNDOS_SET`;
@@ -98,6 +100,11 @@ export const trackCreatedAndAdded = () => ({
   type: TRACK_CREATED_AND_ADDED,
 });
 
+export const trackDeleted = payload => ({
+  type: TRACK_EDITING_FINISHED,
+  payload,
+});
+
 export const trackEditingFinished = () => ({
   type: TRACK_EDITING_FINISHED,
 });
@@ -115,6 +122,11 @@ export const trackIsMutedToggled = id => ({
 export const trackIsSoloingToggled = id => ({
   type: TRACK_IS_SOLOING_TOGGLED,
   id,
+});
+
+export const trackSynthTypeSet = payload => ({
+  type: TRACK_SYNTH_TYPE_SET,
+  payload,
 });
 
 export const undoPopped = () => ({

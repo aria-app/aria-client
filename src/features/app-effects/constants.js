@@ -1,1 +1,1 @@
-export const NAME = 'app-effects';
+export const NAME = 'app';

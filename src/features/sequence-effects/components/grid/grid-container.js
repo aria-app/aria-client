@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
-import { Grid } from '../grid/grid';
 import song from '../../../song';
 import sequenceData from '../../../sequence-data';
+import * as selectors from '../../selectors';
+import { Grid } from './grid';
 
 export const GridContainer = connect(state => ({
   activeSequenceId: song.selectors.getActiveSequenceId(state),
@@ -9,7 +10,7 @@ export const GridContainer = connect(state => ({
   measureCount: song.selectors.getActiveSequenceMeasureCount(state),
   notes: song.selectors.getActiveSequenceNotes(state),
   selectedNotes: song.selectors.getSelectedNotes(state),
-  toolType: sequenceData.selectors.getToolType(state),
+  toolType: selectors.getToolType(state),
 }), {
   onDraw: sequenceData.actions.noteDrawn,
   onDrag: sequenceData.actions.notesDragged,

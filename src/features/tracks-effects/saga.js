@@ -4,7 +4,7 @@ import { put, select } from 'redux-saga/effects';
 import contextMenu from '../context-menu';
 import shortcuts from '../shortcuts';
 import song from '../song';
-import * as actions from './actions';
+import tracksData from '../tracks-data';
 import * as constants from './constants';
 import * as selectors from './selectors';
 
@@ -21,7 +21,7 @@ function* contextMenuItemSelected({ item }) {
 
   switch (item.action) {
     case DELETE_SEQUENCE:
-      return yield put(actions.sequenceDeleted([item.id]));
+      return yield put(tracksData.actions.sequenceDeleted([item.id]));
     default:
       return undefined;
   }
@@ -91,7 +91,7 @@ function* pushRedo() {
   const sequences = yield select(song.selectors.getSequences);
   const tracks = yield select(song.selectors.getTracks);
   const redos = yield select(selectors.getRedos);
-  yield put(actions.redosSet([
+  yield put(tracksData.actions.redosSet([
     ...redos,
     { sequences, tracks },
   ]));
@@ -112,11 +112,11 @@ function* pushUndo() {
     (isEqual(last(undos).tracks, tracks))
   ) return;
 
-  yield put(actions.undosSet([
+  yield put(tracksData.actions.undosSet([
     ...undos,
     { sequences, tracks },
   ]));
-  yield put(actions.redosSet([]));
+  yield put(tracksData.actions.redosSet([]));
 }
 
 function* redo() {
@@ -130,13 +130,13 @@ function* redo() {
   const tracks = yield select(song.selectors.getTracks);
   const undos = yield select(selectors.getUndos);
 
-  yield put(actions.undosSet([
+  yield put(tracksData.actions.undosSet([
     ...undos,
     { sequences, tracks },
   ]));
   yield put(song.actions.sequencesSet(last(redos).sequences));
   yield put(song.actions.tracksSet(last(redos).tracks));
-  yield put(actions.redosSet(redos.slice(0, redos.length - 1)));
+  yield put(tracksData.actions.redosSet(redos.slice(0, redos.length - 1)));
 }
 
 function* shortenSelectedSequence() {
@@ -166,41 +166,41 @@ function* undo() {
 
   if (isEmpty(undos)) return;
 
-  yield put(actions.redoPushed());
+  yield put(tracksData.actions.redoPushed());
   yield put(song.actions.sequencesSet(last(undos).sequences));
   yield put(song.actions.tracksSet(last(undos).tracks));
-  yield put(actions.undosSet(undos.slice(0, undos.length - 1)));
+  yield put(tracksData.actions.undosSet(undos.slice(0, undos.length - 1)));
 }
 
 export default function* saga() {
   yield [
-    takeEvery(actions.SELECTED_SEQUENCE_DELETED, pushUndo),
-    takeEvery(actions.SELECTED_SEQUENCE_EXTENDED, pushUndo),
-    takeEvery(actions.SELECTED_SEQUENCE_NUDGED_LEFT, pushUndo),
-    takeEvery(actions.SELECTED_SEQUENCE_NUDGED_RIGHT, pushUndo),
-    takeEvery(actions.SELECTED_SEQUENCE_SHORTENED, pushUndo),
-    takeEvery(actions.SEQUENCE_ADDED_TO_TRACK, pushUndo),
-    takeEvery(actions.SONG_EXTENDED, pushUndo),
-    takeEvery(actions.SONG_SHORTENED, pushUndo),
-    takeEvery(actions.TRACK_CREATED_AND_ADDED, pushUndo),
-    takeEvery(actions.TRACK_IS_MUTED_TOGGLED, pushUndo),
-    takeEvery(actions.TRACK_IS_SOLOING_TOGGLED, pushUndo),
-    takeEvery(actions.UNDO_PUSHED, pushUndo),
-    takeEvery(actions.TRACK_CREATED_AND_ADDED, addNewTrack),
-    takeEvery(actions.REDO_POPPED, redo),
-    takeEvery(actions.REDO_PUSHED, pushRedo),
-    takeEvery(actions.SELECTED_SEQUENCE_DELETED, deleteSelectedSequence),
-    takeEvery(actions.SELECTED_SEQUENCE_EXTENDED, extendSelectedSequence),
-    takeEvery(actions.SELECTED_SEQUENCE_NUDGED_LEFT, nudgeSelectedSequenceLeft),
-    takeEvery(actions.SELECTED_SEQUENCE_NUDGED_RIGHT, nudgeSelectedSequenceRight),
-    takeEvery(actions.SELECTED_SEQUENCE_OPENED, openSelectedSequence),
-    takeEvery(actions.SELECTED_SEQUENCE_SHORTENED, shortenSelectedSequence),
-    takeEvery(actions.SEQUENCE_ADDED_TO_TRACK, addSequenceToTrack),
-    takeEvery(actions.SONG_EXTENDED, extendSong),
-    takeEvery(actions.SONG_SHORTENED, shortenSong),
-    takeEvery(actions.TRACK_IS_MUTED_TOGGLED, toggleTrackIsMuted),
-    takeEvery(actions.TRACK_IS_SOLOING_TOGGLED, toggleTrackIsSoloing),
-    takeEvery(actions.UNDO_POPPED, undo),
+    takeEvery(tracksData.actions.SELECTED_SEQUENCE_DELETED, pushUndo),
+    takeEvery(tracksData.actions.SELECTED_SEQUENCE_EXTENDED, pushUndo),
+    takeEvery(tracksData.actions.SELECTED_SEQUENCE_NUDGED_LEFT, pushUndo),
+    takeEvery(tracksData.actions.SELECTED_SEQUENCE_NUDGED_RIGHT, pushUndo),
+    takeEvery(tracksData.actions.SELECTED_SEQUENCE_SHORTENED, pushUndo),
+    takeEvery(tracksData.actions.SEQUENCE_ADDED_TO_TRACK, pushUndo),
+    takeEvery(tracksData.actions.SONG_EXTENDED, pushUndo),
+    takeEvery(tracksData.actions.SONG_SHORTENED, pushUndo),
+    takeEvery(tracksData.actions.TRACK_CREATED_AND_ADDED, pushUndo),
+    takeEvery(tracksData.actions.TRACK_IS_MUTED_TOGGLED, pushUndo),
+    takeEvery(tracksData.actions.TRACK_IS_SOLOING_TOGGLED, pushUndo),
+    takeEvery(tracksData.actions.UNDO_PUSHED, pushUndo),
+    takeEvery(tracksData.actions.TRACK_CREATED_AND_ADDED, addNewTrack),
+    takeEvery(tracksData.actions.REDO_POPPED, redo),
+    takeEvery(tracksData.actions.REDO_PUSHED, pushRedo),
+    takeEvery(tracksData.actions.SELECTED_SEQUENCE_DELETED, deleteSelectedSequence),
+    takeEvery(tracksData.actions.SELECTED_SEQUENCE_EXTENDED, extendSelectedSequence),
+    takeEvery(tracksData.actions.SELECTED_SEQUENCE_NUDGED_LEFT, nudgeSelectedSequenceLeft),
+    takeEvery(tracksData.actions.SELECTED_SEQUENCE_NUDGED_RIGHT, nudgeSelectedSequenceRight),
+    takeEvery(tracksData.actions.SELECTED_SEQUENCE_OPENED, openSelectedSequence),
+    takeEvery(tracksData.actions.SELECTED_SEQUENCE_SHORTENED, shortenSelectedSequence),
+    takeEvery(tracksData.actions.SEQUENCE_ADDED_TO_TRACK, addSequenceToTrack),
+    takeEvery(tracksData.actions.SONG_EXTENDED, extendSong),
+    takeEvery(tracksData.actions.SONG_SHORTENED, shortenSong),
+    takeEvery(tracksData.actions.TRACK_IS_MUTED_TOGGLED, toggleTrackIsMuted),
+    takeEvery(tracksData.actions.TRACK_IS_SOLOING_TOGGLED, toggleTrackIsSoloing),
+    takeEvery(tracksData.actions.UNDO_POPPED, undo),
     takeEvery(contextMenu.actions.CONTEXT_MENU_ITEM_SELECTED, contextMenuItemSelected),
     takeEvery(shortcuts.actions.DELETE, pushUndo),
     takeEvery(shortcuts.actions.DELETE, deleteSelectedSequence),

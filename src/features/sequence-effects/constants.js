@@ -1,1 +1,1 @@
-export const NAME = 'sequence-effects';
+export const NAME = 'sequence';
