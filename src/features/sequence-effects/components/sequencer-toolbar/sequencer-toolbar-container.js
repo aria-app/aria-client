@@ -6,6 +6,7 @@ import { SequencerToolbar } from './sequencer-toolbar';
 
 export const SequencerToolbarContainer = connect(state => ({
   areSomeNotesSelected: song.selectors.getAreSomeNotesSelected(state),
+  measureCount: song.selectors.getActiveSequenceMeasureCount(state),
   selectedNotes: song.selectors.getSelectedNotes(state),
   toolType: selectors.getToolType(state),
 }), {

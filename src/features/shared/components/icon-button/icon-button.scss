@@ -41,7 +41,13 @@ $icon-button__background__background-color--press: transparentize($neutral-10, 0
       fill: $icon-button__fill--active;
     }
   }
-  &:active {
+  &--disabled {
+    cursor: not-allowed;
+    .icon-button__icon {
+      opacity: 0.5;
+    }
+  }
+  &:not(.icon-button--disabled):active {
     .icon-button__background {
       background-color: $icon-button__background__background-color--press;
       transition: background-color 0s ease;

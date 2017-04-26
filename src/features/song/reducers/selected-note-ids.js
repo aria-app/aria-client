@@ -10,9 +10,6 @@ const toggleInArray = x => xs =>
   (includes(x, xs) ? without(x, xs) : [...xs, x]);
 
 export const selectedNoteIds = createReducer([], {
-  [sequenceData.actions.NOTE_DRAWN]: (state, action) =>
-    [action.payload.note.id],
-
   [sequenceData.actions.NOTE_ERASED]: () =>
     [],
 

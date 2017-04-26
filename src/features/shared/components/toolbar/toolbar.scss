@@ -51,7 +51,7 @@ $toolbar__icon-button__background--active--alternate: rgba(0, 0, 0, 0.25);
     .icon * {
       fill: $toolbar__icon__fill--alternate;
     }
-    .icon-button:active .icon-button__background {
+    .icon-button:not(.icon-button--disabled):active .icon-button__background {
       background-color: $toolbar__icon-button__background--active--alternate;
     }
   }
