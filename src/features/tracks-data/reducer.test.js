@@ -101,7 +101,7 @@ describe('Tracking Reducer', () => {
     expect(next).toEqual(expected);
   });
 
-  it('should handle song/SEQUENCE_OPENED', () => {
+  it('should handle SEQUENCE_OPENED', () => {
     const previous = {
       redos: [],
       selectedSequenceId: 's1',
@@ -115,7 +115,7 @@ describe('Tracking Reducer', () => {
       undos: [],
     };
     const action = {
-      type: song.actions.SEQUENCE_OPENED,
+      type: actions.SEQUENCE_OPENED,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);

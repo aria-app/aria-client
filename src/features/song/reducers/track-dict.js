@@ -1,16 +1,13 @@
-import map from 'lodash/fp/map';
 import omit from 'lodash/fp/omit';
 import { createReducer } from 'redux-create-reducer';
 import shared from '../../shared';
+import appData from '../../app-data';
 import tracksData from '../../tracks-data';
 import * as actions from '../actions';
 
 const { setAtIds } = shared.helpers;
 
 export const trackDict = createReducer({}, {
-  [actions.SONG_LOADED]: (state, action) =>
-    action.song.tracks.dict,
-
   [actions.TRACK_DELETED]: (state, action) =>
     omit(action.id)(state),
 
@@ -45,6 +42,9 @@ export const trackDict = createReducer({}, {
 
   [actions.TRACKS_UPDATED]: (state, action) =>
     setAtIds(action.tracks, state),
+
+  [appData.actions.SONG_LOADED]: (state, action) =>
+    action.payload.tracks.dict,
 
   [tracksData.actions.TRACK_DELETED]: (state, action) =>
     omit(action.payload.track.id)(state),

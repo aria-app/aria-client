@@ -13,6 +13,7 @@ export const SELECTED_SEQUENCE_SHORTENED = `${NAME}/SELECTED_SEQUENCE_SHORTENED`
 export const SEQUENCE_ADDED_TO_TRACK = `${NAME}/SEQUENCE_ADDED_TO_TRACK`;
 export const SEQUENCE_DELETED = `${NAME}/SEQUENCE_DELETED`;
 export const SEQUENCE_DESELECTED = `${NAME}/SEQUENCE_DESELECTED`;
+export const SEQUENCE_OPENED = `${NAME}/SEQUENCE_OPENED`;
 export const SEQUENCE_SELECTED = `${NAME}/SEQUENCE_SELECTED`;
 export const SONG_EXTENDED = `${NAME}/SONG_EXTENDED`;
 export const SONG_SHORTENED = `${NAME}/SONG_SHORTENED`;
@@ -81,6 +82,11 @@ export const sequenceDeleted = () => ({
 
 export const sequenceDeselected = () => ({
   type: SEQUENCE_DESELECTED,
+});
+
+export const sequenceOpened = payload => ({
+  type: SEQUENCE_OPENED,
+  payload,
 });
 
 export const sequenceSelected = id => ({

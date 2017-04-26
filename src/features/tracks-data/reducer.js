@@ -9,12 +9,12 @@ function redos(state = [], action) {
       return state;
   }
 }
-// TODO: Handle SEQUENCE_OPENED
+
 const selectedSequenceId = (state = '', action) => {
   switch (action.type) {
     case actions.SEQUENCE_DELETED:
     case actions.SEQUENCE_DESELECTED:
-    // case song.actions.SEQUENCE_OPENED:
+    case actions.SEQUENCE_OPENED:
       return '';
     case actions.SEQUENCE_SELECTED:
       return action.id;

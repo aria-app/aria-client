@@ -1,4 +1,5 @@
 import { createReducer } from 'redux-create-reducer';
+import appData from '../../app-data';
 import * as actions from '../actions';
 
 export const measureCount = createReducer(1, {
@@ -8,9 +9,9 @@ export const measureCount = createReducer(1, {
   [actions.SONG_EXTENDED]: state =>
     state + 1,
 
-  [actions.SONG_LOADED]: (state, action) =>
-    action.song.measureCount,
-
   [actions.SONG_SHORTENED]: state =>
     (state > 1 ? state - 1 : state),
+
+  [appData.actions.SONG_LOADED]: (state, action) =>
+    action.payload.measureCount,
 });

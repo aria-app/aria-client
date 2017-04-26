@@ -4,7 +4,6 @@ export const SEQUENCE_ADDED_TO_TRACK = `${NAME}/SEQUENCE_ADDED_TO_TRACK`;
 export const SEQUENCE_EXTENDED = `${NAME}/SEQUENCE_EXTENDED`;
 export const SEQUENCE_NUDGED_LEFT = `${NAME}/SEQUENCE_NUDGED_LEFT`;
 export const SEQUENCE_NUDGED_RIGHT = `${NAME}/SEQUENCE_NUDGED_RIGHT`;
-export const SEQUENCE_OPENED = `${NAME}/SEQUENCE_OPENED`;
 export const SEQUENCE_SHORTENED = `${NAME}/SEQUENCE_SHORTENED`;
 export const SEQUENCES_ADDED = `${NAME}/SEQUENCES_ADDED`;
 export const SEQUENCES_DELETED = `${NAME}/SEQUENCES_DELETED`;
@@ -29,11 +28,6 @@ export const sequenceNudgedLeft = id => ({
 
 export const sequenceNudgedRight = id => ({
   type: SEQUENCE_NUDGED_RIGHT,
-  id,
-});
-
-export const sequenceOpened = id => ({
-  type: SEQUENCE_OPENED,
   id,
 });
 

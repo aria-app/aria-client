@@ -16,7 +16,7 @@ export const TracksContainer = connect(state => ({
   onSequenceAdd: tracksData.actions.sequenceAddedToTrack,
   onSequenceContextMenu: contextMenu.actions.contextMenuOpened,
   onSequenceDeselect: tracksData.actions.sequenceDeselected,
-  onSequenceOpen: song.actions.sequenceOpened,
+  onSequenceOpen: tracksData.actions.sequenceOpened,
   onSequenceSelect: tracksData.actions.sequenceSelected,
   onTrackAdd: tracksData.actions.trackCreatedAndAdded,
   onTrackIsMutedToggle: tracksData.actions.trackIsMutedToggled,

@@ -6,6 +6,7 @@ export const BPM_SET = `${NAME}/BPM_SET`;
 export const FILE_DRAG_CANCELLED = `${NAME}/FILE_DRAG_CANCELLED`;
 export const FILE_DRAG_STARTED = `${NAME}/FILE_DRAG_STARTED`;
 export const FILE_DROPPED = `${NAME}/FILE_DROPPED`;
+export const SONG_LOADED = `${NAME}/SONG_LOADED`;
 
 export const bpmModalClosed = () => ({
   type: BPM_MODAL_CLOSED,
@@ -31,4 +32,9 @@ export const fileDragStarted = () => ({
 export const fileDropped = file => ({
   type: FILE_DROPPED,
   payload: file,
+});
+
+export const songLoaded = payload => ({
+  type: SONG_LOADED,
+  payload,
 });

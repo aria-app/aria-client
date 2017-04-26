@@ -8,7 +8,6 @@ import shortcuts from '../../shortcuts';
 import * as actions from '../actions';
 import * as helpers from '../helpers';
 import * as selectors from '../selectors';
-import sampleSong from '../sample-song';
 
 function* createAndAddTrack() {
   const track = helpers.createTrack();
@@ -37,18 +36,6 @@ function* deleteSequencesFromTracks({ ids }) {
   const sequenceIds = map('id')(sequences);
 
   yield put(actions.sequencesDeleted(sequenceIds));
-}
-
-function* initialize() {
-  const localStorageSong = localStorage.getItem(
-    shared.constants.localStorageKey,
-  );
-
-  const initialSong = localStorageSong
-    ? JSON.parse(localStorageSong)
-    : sampleSong;
-
-  yield put(actions.songLoaded(initialSong));
 }
 
 const throttledSave = throttle(500)((song) => {
@@ -211,7 +198,6 @@ export default function* saga() {
       sequenceData.actions.NOTES_RESIZED,
       sequenceData.actions.SEQUENCE_CLOSED,
     ], saveToLocalStorage),
-    takeEvery(shared.actions.INITIALIZED, initialize),
     takeEvery([
       actions.NOTES_DUPLICATED,
       actions.NOTES_DELETED,
