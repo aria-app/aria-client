@@ -89,8 +89,11 @@ export class Tracks extends React.Component {
   }
 
   handleClick = (e) => {
-    this.props.onSequenceDeselect();
     e.stopPropagation();
+
+    if (!this.props.selectedSequenceId) return;
+
+    this.props.onSequenceDeselect();
   }
 
   handleTrackSelect = (trackId) => {

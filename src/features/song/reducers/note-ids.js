@@ -4,18 +4,8 @@ import without from 'lodash/fp/without';
 import { createReducer } from 'redux-create-reducer';
 import appData from '../../app-data';
 import sequenceData from '../../sequence-data';
-import * as actions from '../actions';
 
 export const noteIds = createReducer([], {
-  [actions.NOTES_ADDED]: (state, action) =>
-    [...state, map('id')(action.notes)],
-
-  [actions.NOTES_DELETED]: (state, action) =>
-    difference(state)(map('id')(action.notes)),
-
-  [actions.NOTES_SET]: (state, action) =>
-    map('id')(action.notes),
-
   [appData.actions.SONG_LOADED]: (state, action) =>
     action.payload.notes.ids,
 
@@ -26,5 +16,8 @@ export const noteIds = createReducer([], {
     without(state)(action.payload.note.id),
 
   [sequenceData.actions.NOTES_DELETED]: (state, action) =>
-    difference(state)(map('id')(action.payload.notes)),
+    difference(state)(map('id', action.payload.notes)),
+
+  [sequenceData.actions.NOTES_DUPLICATED]: (state, action) =>
+    [...state, ...map('id', action.notes)],
 });

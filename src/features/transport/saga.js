@@ -3,7 +3,6 @@ import { eventChannel, takeEvery } from 'redux-saga';
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import Tone from '../../audio-server/tone';
 import appData from '../app-data';
-import shortcuts from '../shortcuts';
 import sequenceData from '../sequence-data';
 import tracksData from '../tracks-data';
 import song from '../song';
@@ -213,8 +212,6 @@ export default function* saga() {
     takeEvery(appData.actions.BPM_SET, setBPM),
     takeEvery(appData.actions.SONG_LOADED, initialize),
     takeEvery(sequenceData.actions.SEQUENCE_CLOSED, loopSong),
-    takeEvery(shortcuts.actions.PLAYBACK_STOP, stop),
-    takeEvery(shortcuts.actions.PLAYBACK_TOGGLE, togglePlayPause),
     takeEvery(tracksData.actions.SEQUENCE_OPENED, loopSequence),
     takeEvery(tracksData.actions.SONG_EXTENDED, updateSong),
     takeEvery(tracksData.actions.SONG_SHORTENED, updateSong),

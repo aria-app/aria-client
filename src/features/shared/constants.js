@@ -6,10 +6,9 @@ export const defaultBPM = 120;
 
 export const localStorageKey = 'currentSong';
 
-export const minBPM = 60;
 export const maxBPM = 400;
 
-export const bpmRange = rangeStep(minBPM, maxBPM + 1, 10);
+export const minBPM = 60;
 
 export const octaveRange = [0, 1, 2, 3, 4, 5, 6];
 
@@ -25,18 +24,6 @@ export const synthTypes = {
   SINE: 'sine',
   SQUARE: 'square',
 };
-
-export const toolTypes = {
-  DRAW: 'DRAW',
-  ERASE: 'ERASE',
-  SELECT: 'SELECT',
-  MOVE: 'MOVE',
-  PAN: 'PAN',
-};
-
-export const defaultSynthType = synthTypes.SQUARE;
-
-export const defaultToolType = toolTypes.SELECT;
 
 export const scale = [
   { name: 'B6', y: 0 },
@@ -124,3 +111,17 @@ export const scale = [
   { name: 'C#0', y: 82 },
   { name: 'C0', y: 83 },
 ];
+
+export const toolTypes = {
+  DRAW: 'DRAW',
+  ERASE: 'ERASE',
+  SELECT: 'SELECT',
+  MOVE: 'MOVE',
+  PAN: 'PAN',
+};
+
+export const bpmRange = rangeStep(minBPM, maxBPM + 1, 10);
+
+export const defaultSynthType = synthTypes.SQUARE;
+
+export const defaultToolType = toolTypes.SELECT;

@@ -9,6 +9,10 @@ export const NotesContainer = connect(state => ({
   notes: song.selectors.getActiveSequenceNotes(state),
   toolType: selectors.getToolType(state),
 }), {
+  onDeselectAll: sequenceData.actions.notesAllDeselected,
+  onDuplicate: sequenceData.actions.notesDuplicated,
   onErase: sequenceData.actions.noteErased,
+  onNudge: sequenceData.actions.notesNudged,
   onSelect: sequenceData.actions.noteSelected,
+  onSelectAll: sequenceData.actions.notesAllSelected,
 })(Notes);

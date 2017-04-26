@@ -3,27 +3,35 @@ import find from 'lodash/fp/find';
 import first from 'lodash/fp/first';
 import get from 'lodash/fp/get';
 import includes from 'lodash/fp/includes';
+import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
 import last from 'lodash/fp/last';
 import map from 'lodash/fp/map';
 import some from 'lodash/fp/some';
 import React from 'react';
 import h from 'react-hyperscript';
+import keydown from 'react-keydown';
 import shared from '../../../shared';
+import song from '../../../song';
 import { Note } from '../note/note';
 import './notes.scss';
 
 const { toolTypes } = shared.constants;
+const { someNoteWillMoveOutside } = song.helpers;
 
 export class Notes extends React.Component {
   static propTypes = {
     measureCount: React.PropTypes.number.isRequired,
     mousePoint: React.PropTypes.object.isRequired,
     notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    onDeselectAll: React.PropTypes.func.isRequired,
     onDrag: React.PropTypes.func.isRequired,
+    onDuplicate: React.PropTypes.func.isRequired,
     onErase: React.PropTypes.func.isRequired,
+    onNudge: React.PropTypes.func.isRequired,
     onResize: React.PropTypes.func.isRequired,
     onSelect: React.PropTypes.func.isRequired,
+    onSelectAll: React.PropTypes.func.isRequired,
     selectedNotes: React.PropTypes.arrayOf(
       React.PropTypes.object,
     ).isRequired,
@@ -45,6 +53,7 @@ export class Notes extends React.Component {
 
   render() {
     return h('.notes', {
+      tabIndex: '0',
       onMouseLeave: this.handleMouseLeave,
       onMouseUp: this.handleMouseUp,
       style: this.getStyle(),
@@ -62,6 +71,26 @@ export class Notes extends React.Component {
         note,
       })),
     ]);
+  }
+
+  @keydown('ctrl+d', 'meta+d')
+  deselectAll(e) {
+    e.preventDefault();
+
+    if (isEmpty(this.props.selectedNotes)) return;
+
+    this.props.onDeselectAll();
+  }
+
+  @keydown('ctrl+shift+d', 'meta+shift+d')
+  duplicate(e) {
+    e.preventDefault();
+
+    if (isEmpty(this.props.selectedNotes)) return;
+
+    this.props.onDuplicate({
+      notes: song.helpers.duplicateNotes(this.props.selectedNotes),
+    });
   }
 
   getIsNoteSelected(note) {
@@ -86,7 +115,7 @@ export class Notes extends React.Component {
   }
 
   handleMouseLeave = (e) => {
-    if (includes('note')(e.target.className)) return;
+    if (includes('note', e.target.className)) return;
 
     if (this.state.isMoving) {
       this.stopMoving();
@@ -178,6 +207,52 @@ export class Notes extends React.Component {
     this.props.onResize({
       notes: this.props.selectedNotes,
       delta,
+    });
+  }
+
+  nudge = (e, delta) => {
+    e.preventDefault();
+
+    if (isEmpty(this.props.selectedNotes)) return;
+
+    if (someNoteWillMoveOutside(
+      this.props.measureCount,
+      delta,
+      this.props.selectedNotes,
+    )) return;
+
+    this.props.onNudge({
+      ids: map(get('id'), this.props.selectedNotes),
+      delta,
+    });
+  }
+
+  @keydown('down');
+  nudgeDown(e) {
+    this.nudge(e, { x: 0, y: 1 });
+  }
+
+  @keydown('left');
+  nudgeLeft(e) {
+    this.nudge(e, { x: -1, y: 0 });
+  }
+
+  @keydown('right');
+  nudgeRight(e) {
+    this.nudge(e, { x: 1, y: 0 });
+  }
+
+  @keydown('up');
+  nudgeUp(e) {
+    this.nudge(e, { x: 0, y: -1 });
+  }
+
+  @keydown('ctrl+a', 'meta+a')
+  selectAll() {
+    if (this.props.notes.length === this.props.selectedNotes.length) return;
+
+    this.props.onSelectAll({
+      ids: map(get('id'), this.props.notes),
     });
   }
 

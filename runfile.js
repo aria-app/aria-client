@@ -11,7 +11,7 @@ const tasks = {
   },
 
   deploy() {
-    tasks.clean();
+    tasks.build();
     run('surge ./public zen-sequencer.surge.sh');
   },
 

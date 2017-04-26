@@ -33,8 +33,8 @@ const initialNotes = [
   helpers.createNote({
     sequenceId: initialSequences[0].id,
     points: [
-      { x: 0, y: 35 },
-      { x: 1, y: 35 },
+      { x: 2, y: 40 },
+      { x: 3, y: 40 },
     ],
   }),
 ];

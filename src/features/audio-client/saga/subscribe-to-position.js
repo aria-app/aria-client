@@ -1,5 +1,5 @@
-import { call } from 'redux-saga/effects';
+// import { call } from 'redux-saga/effects';
 
 export function* subscribeToPosition() {
-  yield call(() => console.log('Subscribing to position'));
+  // yield call(() => console.log('Subscribing to position'));
 }

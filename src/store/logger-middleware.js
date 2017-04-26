@@ -2,7 +2,6 @@ import { includes } from 'lodash/fp';
 import createLogger from 'redux-logger';
 import shared from '../features/shared';
 import shortcuts from '../features/shortcuts';
-import song from '../features/song';
 import transport from '../features/transport';
 
 const typesToSkip = [
@@ -11,9 +10,6 @@ const typesToSkip = [
   shared.actions.WINDOW_WIDTH_CHANGED,
   shortcuts.actions.PAN_HELD,
   shortcuts.actions.PAN_RELEASED,
-  shortcuts.actions.PLAYBACK_STOP,
-  shortcuts.actions.PLAYBACK_TOGGLE,
-  song.actions.SONG_LOADED,
   transport.actions.PLAYBACK_STARTED,
   transport.actions.PLAYBACK_STOPPED,
   transport.actions.POSITION_SET,

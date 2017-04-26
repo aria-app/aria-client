@@ -7,27 +7,7 @@ import * as actions from './actions';
 import * as selectors from './selectors';
 
 const shortcuts = [
-  { onPress: actions.DELETE, combos: ['backspace', 'del'] },
-  { onPress: actions.DESELECT, combos: ['ctrl+d', 'meta+d'] },
-  { onPress: actions.DUPLICATE, combos: ['ctrl+shift+d', 'meta+shift+d'] },
-  { onPress: actions.NUDGE_ALT_DOWN, combos: ['ctrl+down', 'meta+down'] },
-  { onPress: actions.NUDGE_ALT_LEFT, combos: ['ctrl+left', 'meta+left'] },
-  { onPress: actions.NUDGE_ALT_RIGHT, combos: ['ctrl+right', 'meta+right'] },
-  { onPress: actions.NUDGE_ALT_UP, combos: ['ctrl+up', 'meta+up'] },
-  { onPress: actions.NUDGE_DOWN, combos: ['down'] },
-  { onPress: actions.NUDGE_LEFT, combos: ['left'] },
-  { onPress: actions.NUDGE_RIGHT, combos: ['right'] },
-  { onPress: actions.NUDGE_UP, combos: ['up'] },
-  { onPress: actions.PLAYBACK_STOP, combos: ['escape'] },
-  { onPress: actions.PLAYBACK_TOGGLE, combos: ['enter'] },
-  { onPress: actions.REDO, combos: ['ctrl+y', 'meta+y'] },
-  { onPress: actions.SELECT_ALL, combos: ['ctrl+a', 'meta+a'] },
-  { onPress: actions.SELECT_TOOL_D, combos: ['d'] },
-  { onPress: actions.SELECT_TOOL_E, combos: ['e'] },
-  { onPress: actions.SELECT_TOOL_M, combos: ['m'] },
-  { onPress: actions.SELECT_TOOL_P, combos: ['p'] },
-  { onPress: actions.SELECT_TOOL_S, combos: ['s'] },
-  { onPress: actions.UNDO, combos: ['ctrl+z', 'meta+z'] },
+  // { onPress: actions.SELECT_TOOL_S, combos: ['s'] },
   {
     onPress: actions.PAN_HELD,
     onRelease: actions.PAN_RELEASED,

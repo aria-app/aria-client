@@ -42,8 +42,14 @@ export class Sequence extends React.Component {
   }
 
   handleClick = (e) => {
-    this.props.onSelect(this.props.sequence.id);
     e.stopPropagation();
+
+    if (this.props.isSelected) {
+      this.props.onOpen(this.props.sequence.id);
+      return;
+    }
+
+    this.props.onSelect(this.props.sequence.id);
   }
 
   handleContextMenu = (e) => {
@@ -59,12 +65,8 @@ export class Sequence extends React.Component {
       x: e.pageX,
       y: e.pageY,
     });
-    e.preventDefault();
-    e.stopPropagation();
-  }
 
-  handleDoubleClick = (e) => {
-    this.props.onOpen(this.props.sequence.id);
+    e.preventDefault();
     e.stopPropagation();
   }
 }

@@ -5,24 +5,11 @@ import { createReducer } from 'redux-create-reducer';
 import appData from '../../app-data';
 import sequenceData from '../../sequence-data';
 import shared from '../../shared';
-import * as actions from '../actions';
 import * as helpers from '../helpers';
 
 const { setAtIds } = shared.helpers;
 
 export const noteDict = createReducer({}, {
-  [actions.NOTES_ADDED]: (state, action) =>
-    setAtIds(action.notes, state),
-
-  [actions.NOTES_DELETED]: (state, action) =>
-    omit(map('id')(action.notes))(state),
-
-  [actions.NOTES_MOVE_SUCCEEDED]: (state, action) =>
-    setAtIds(action.notes, state),
-
-  [actions.NOTES_SET]: (state, action) =>
-    setAtIds(action.notes, state),
-
   [appData.actions.SONG_LOADED]: (state, action) =>
     action.payload.notes.dict,
 
@@ -43,6 +30,9 @@ export const noteDict = createReducer({}, {
       points: note.points.map(helpers.addPoints(action.payload.delta)),
     }), action.payload.notes), state),
 
+  [sequenceData.actions.NOTES_DUPLICATED]: (state, action) =>
+    setAtIds(action.notes, state),
+
   [sequenceData.actions.NOTES_MOVED_OCTAVE_DOWN]: (state, action) =>
     setAtIds(map(note => ({
       ...note,
@@ -60,6 +50,12 @@ export const noteDict = createReducer({}, {
         y: -12,
       })),
     }), action.payload.notes), state),
+
+  [sequenceData.actions.NOTES_NUDGED]: (state, action) =>
+    setAtIds(map(id => ({
+      ...state[id],
+      points: state[id].points.map(helpers.addPoints(action.delta)),
+    }), action.ids), state),
 
   [sequenceData.actions.NOTES_RESIZED]: (state, action) =>
     setAtIds(map(note => ({

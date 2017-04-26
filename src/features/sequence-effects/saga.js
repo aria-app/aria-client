@@ -7,42 +7,6 @@ import * as selectors from './selectors';
 
 const { toolTypes } = shared.constants;
 
-function* selectDrawTool() {
-  const previousToolType = yield select(selectors.getToolType);
-
-  yield put(sequenceData.actions.toolTypeSet({
-    previousToolType,
-    toolType: toolTypes.DRAW,
-  }));
-}
-
-function* selectEraseTool() {
-  const previousToolType = yield select(selectors.getToolType);
-
-  yield put(sequenceData.actions.toolTypeSet({
-    previousToolType,
-    toolType: toolTypes.ERASE,
-  }));
-}
-
-function* selectPanTool() {
-  const previousToolType = yield select(selectors.getToolType);
-
-  yield put(sequenceData.actions.toolTypeSet({
-    previousToolType,
-    toolType: toolTypes.PAN,
-  }));
-}
-
-function* selectSelectTool() {
-  const previousToolType = yield select(selectors.getToolType);
-
-  yield put(sequenceData.actions.toolTypeSet({
-    previousToolType,
-    toolType: toolTypes.SELECT,
-  }));
-}
-
 function* selectTool({ payload }) {
   const previousToolType = yield select(selectors.getToolType);
 
@@ -80,9 +44,5 @@ export default function* saga() {
     takeEvery(sequenceData.actions.TOOL_SELECTED, selectTool),
     takeEvery(shortcuts.actions.PAN_HELD, startPanning),
     takeEvery(shortcuts.actions.PAN_RELEASED, stopPanning),
-    takeEvery(shortcuts.actions.SELECT_TOOL_D, selectDrawTool),
-    takeEvery(shortcuts.actions.SELECT_TOOL_E, selectEraseTool),
-    takeEvery(shortcuts.actions.SELECT_TOOL_P, selectPanTool),
-    takeEvery(shortcuts.actions.SELECT_TOOL_S, selectSelectTool),
   ];
 }

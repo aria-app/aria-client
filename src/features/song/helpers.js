@@ -1,4 +1,6 @@
+import compose from 'lodash/fp/compose';
 import first from 'lodash/fp/first';
+import get from 'lodash/fp/get';
 import isEqual from 'lodash/fp/isEqual';
 import map from 'lodash/fp/map';
 import some from 'lodash/fp/some';
@@ -76,7 +78,16 @@ export function getIsInside(start, end, target) {
     && y1 <= ty && ty <= y2;
 }
 
-export function getIsSomePointOutside(measureCount) {
+export function getNotesInArea(start, end, allNotes) {
+  if (isEqual(start, end)) return [];
+  return allNotes.filter(n => getIsInside(start, end, first(n.points)));
+}
+
+export function getType(synth) {
+  return synth.voices[0].oscillator.type;
+}
+
+export function isOutOfBounds(measureCount) {
   return some(point =>
     point.x < 0 ||
     point.x > ((measureCount * 8) * 4) - 1 ||
@@ -85,11 +96,11 @@ export function getIsSomePointOutside(measureCount) {
   );
 }
 
-export function getNotesInArea(start, end, allNotes) {
-  if (isEqual(start, end)) return [];
-  return allNotes.filter(n => getIsInside(start, end, first(n.points)));
-}
-
-export function getType(synth) {
-  return synth.voices[0].oscillator.type;
+export function someNoteWillMoveOutside(measureCount, delta, notes) {
+  const hasPointOutside = compose(
+    isOutOfBounds(measureCount),
+    map(addPoints(delta)),
+    get('points'),
+  );
+  return some(hasPointOutside, notes);
 }
