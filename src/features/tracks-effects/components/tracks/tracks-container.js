@@ -5,7 +5,6 @@ import tracksData from '../../../tracks-data';
 import * as selectors from '../../selectors';
 import { Tracks } from './tracks';
 
-// wallaby-ignore
 export const TracksContainer = connect(state => ({
   mutedTrackIds: song.selectors.getMutedTrackIds(state),
   soloingTrackIds: song.selectors.getSoloingTrackIds(state),
@@ -13,12 +12,12 @@ export const TracksContainer = connect(state => ({
   songMeasureCount: song.selectors.getMeasureCount(state),
   tracks: song.selectors.getDeepTracks(state),
 }), {
-  onSequenceAdd: tracksData.actions.sequenceAddedToTrack,
+  onSequenceAdd: tracksData.actions.sequenceAdded,
   onSequenceContextMenu: contextMenu.actions.contextMenuOpened,
   onSequenceDeselect: tracksData.actions.sequenceDeselected,
   onSequenceOpen: tracksData.actions.sequenceOpened,
   onSequenceSelect: tracksData.actions.sequenceSelected,
-  onTrackAdd: tracksData.actions.trackCreatedAndAdded,
+  onTrackAdd: tracksData.actions.trackAdded,
   onTrackIsMutedToggle: tracksData.actions.trackIsMutedToggled,
   onTrackIsSoloingToggle: tracksData.actions.trackIsSoloingToggled,
   onTrackStage: tracksData.actions.trackEditingStarted,

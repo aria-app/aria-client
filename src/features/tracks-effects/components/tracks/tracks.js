@@ -40,7 +40,7 @@ export class Tracks extends React.Component {
       ...this.props.tracks.map(track => h(Track, {
         isMuted: this.getIsTrackMuted(track),
         isSoloing: this.getIsTrackSoloing(track),
-        onSequenceAdd: this.props.onSequenceAdd,
+        onSequenceAdd: this.handleTrackSequenceAdd,
         onSequenceContextMenu: this.props.onSequenceContextMenu,
         onSequenceOpen: this.props.onSequenceOpen,
         onSequenceSelect: this.props.onSequenceSelect,
@@ -53,7 +53,7 @@ export class Tracks extends React.Component {
       })),
       h('.tracks__add-button', {
         style: this.getAddButtonStyle(),
-        onClick: this.props.onTrackAdd,
+        onClick: this.handleAddButtonClick,
       }, [
         h(Icon, {
           className: 'tracks__add-button__icon',
@@ -81,6 +81,13 @@ export class Tracks extends React.Component {
     return includes(track.id)(this.props.soloingTrackIds);
   }
 
+  handleAddButtonClick = () => {
+    this.props.onTrackAdd({
+      sequenceId: shared.helpers.getId(),
+      trackId: shared.helpers.getId(),
+    });
+  }
+
   handleClick = (e) => {
     this.props.onSequenceDeselect();
     e.stopPropagation();
@@ -89,4 +96,11 @@ export class Tracks extends React.Component {
   handleTrackSelect = (trackId) => {
     this.props.onTrackStage(trackId);
   }
+
+  handleTrackSequenceAdd = ({ position, trackId }) =>
+    this.props.onSequenceAdd({
+      sequenceId: shared.helpers.getId(),
+      position,
+      trackId,
+    });
 }

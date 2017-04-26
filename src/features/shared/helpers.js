@@ -1,3 +1,7 @@
+import { v4 } from 'uuid';
+
+export const getId = () => v4();
+
 export function getPointOffset(start, end) {
   return {
     x: end.x - start.x,

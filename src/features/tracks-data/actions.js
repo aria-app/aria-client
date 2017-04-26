@@ -1,22 +1,21 @@
 import { NAME } from './constants';
 
-export const TRACK_CREATED_AND_ADDED = `${NAME}/TRACK_CREATED_AND_ADDED`;
 export const REDO_POPPED = `${NAME}/REDO_POPPED`;
 export const REDO_PUSHED = `${NAME}/PUSH_REDO`;
 export const REDOS_SET = `${NAME}/REDOS_SET`;
-export const SELECTED_SEQUENCE_DELETED = `${NAME}/SELECTED_SEQUENCE_DELETED`;
-export const SELECTED_SEQUENCE_EXTENDED = `${NAME}/SELECTED_SEQUENCE_EXTENDED`;
 export const SELECTED_SEQUENCE_NUDGED_LEFT = `${NAME}/SELECTED_SEQUENCE_NUDGED_LEFT`;
 export const SELECTED_SEQUENCE_NUDGED_RIGHT = `${NAME}/SELECTED_SEQUENCE_NUDGED_RIGHT`;
 export const SELECTED_SEQUENCE_OPENED = `${NAME}/SELECTED_SEQUENCE_OPENED`;
-export const SELECTED_SEQUENCE_SHORTENED = `${NAME}/SELECTED_SEQUENCE_SHORTENED`;
-export const SEQUENCE_ADDED_TO_TRACK = `${NAME}/SEQUENCE_ADDED_TO_TRACK`;
+export const SEQUENCE_ADDED = `${NAME}/SEQUENCE_ADDED`;
 export const SEQUENCE_DELETED = `${NAME}/SEQUENCE_DELETED`;
 export const SEQUENCE_DESELECTED = `${NAME}/SEQUENCE_DESELECTED`;
+export const SEQUENCE_EXTENDED = `${NAME}/SEQUENCE_EXTENDED`;
 export const SEQUENCE_OPENED = `${NAME}/SEQUENCE_OPENED`;
 export const SEQUENCE_SELECTED = `${NAME}/SEQUENCE_SELECTED`;
+export const SEQUENCE_SHORTENED = `${NAME}/SEQUENCE_SHORTENED`;
 export const SONG_EXTENDED = `${NAME}/SONG_EXTENDED`;
 export const SONG_SHORTENED = `${NAME}/SONG_SHORTENED`;
+export const TRACK_ADDED = `${NAME}/TRACK_ADDED`;
 export const TRACK_DELETED = `${NAME}/TRACK_DELETED`;
 export const TRACK_EDITING_FINISHED = `${NAME}/TRACK_EDITING_FINISHED`;
 export const TRACK_EDITING_STARTED = `${NAME}/TRACK_EDITING_STARTED`;
@@ -40,16 +39,6 @@ export const redosSet = redos => ({
   redos,
 });
 
-export const selectedSequenceDeleted = id => ({
-  type: SELECTED_SEQUENCE_DELETED,
-  id,
-});
-
-export const selectedSequenceExtended = id => ({
-  type: SELECTED_SEQUENCE_EXTENDED,
-  id,
-});
-
 export const selectedSequenceNudgedLeft = id => ({
   type: SELECTED_SEQUENCE_NUDGED_LEFT,
   id,
@@ -65,23 +54,25 @@ export const selectedSequenceOpened = id => ({
   id,
 });
 
-export const selectedSequenceShortened = id => ({
-  type: SELECTED_SEQUENCE_SHORTENED,
-  id,
-});
-
-export const sequenceAddedToTrack = (id, position) => ({
-  type: SEQUENCE_ADDED_TO_TRACK,
-  id,
+export const sequenceAdded = ({ position, sequenceId, trackId }) => ({
+  type: SEQUENCE_ADDED,
   position,
+  sequenceId,
+  trackId,
 });
 
-export const sequenceDeleted = () => ({
+export const sequenceDeleted = id => ({
   type: SEQUENCE_DELETED,
+  id,
 });
 
 export const sequenceDeselected = () => ({
   type: SEQUENCE_DESELECTED,
+});
+
+export const sequenceExtended = id => ({
+  type: SEQUENCE_EXTENDED,
+  id,
 });
 
 export const sequenceOpened = payload => ({
@@ -94,6 +85,11 @@ export const sequenceSelected = id => ({
   id,
 });
 
+export const sequenceShortened = id => ({
+  type: SEQUENCE_SHORTENED,
+  id,
+});
+
 export const songExtended = () => ({
   type: SONG_EXTENDED,
 });
@@ -102,8 +98,10 @@ export const songShortened = () => ({
   type: SONG_SHORTENED,
 });
 
-export const trackCreatedAndAdded = () => ({
-  type: TRACK_CREATED_AND_ADDED,
+export const trackAdded = ({ sequence, track }) => ({
+  type: TRACK_ADDED,
+  sequence,
+  track,
 });
 
 export const trackDeleted = payload => ({

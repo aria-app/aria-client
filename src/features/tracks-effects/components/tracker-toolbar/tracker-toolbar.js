@@ -1,3 +1,5 @@
+import isEmpty from 'lodash/fp/isEmpty';
+import negate from 'lodash/fp/negate';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -7,13 +9,13 @@ const { IconButton, Toolbar } = shared.components;
 
 export class TrackerToolbar extends React.Component {
   static propTypes = {
-    onSelectedSequenceDelete: React.PropTypes.func.isRequired,
-    onSelectedSequenceExtend: React.PropTypes.func.isRequired,
     onSelectedSequenceMoveLeft: React.PropTypes.func.isRequired,
     onSelectedSequenceMoveRight: React.PropTypes.func.isRequired,
     onSelectedSequenceOpen: React.PropTypes.func.isRequired,
-    onSelectedSequenceShorten: React.PropTypes.func.isRequired,
-    selectedSequenceId: React.PropTypes.string.isRequired,
+    onSequenceDelete: React.PropTypes.func.isRequired,
+    onSequenceExtend: React.PropTypes.func.isRequired,
+    onSequenceShorten: React.PropTypes.func.isRequired,
+    selectedSequence: React.PropTypes.object.isRequired,
   }
 
   render() {
@@ -31,12 +33,12 @@ export class TrackerToolbar extends React.Component {
           h(IconButton, {
             className: 'tracker-toolbar__sequence-actions__delete',
             icon: 'trash',
-            onClick: this.props.onSelectedSequenceDelete,
+            onClick: this.handleSequenceActionsDeleteClick,
           }),
           h(IconButton, {
             className: 'tracker-toolbar__sequence-actions__shorten',
             icon: 'long-arrow-left',
-            onClick: this.props.onSelectedSequenceShorten,
+            onClick: this.handleSequenceActionsShortenClick,
           }),
           h(IconButton, {
             className: 'tracker-toolbar__sequence-actions__move-left',
@@ -51,14 +53,24 @@ export class TrackerToolbar extends React.Component {
           h(IconButton, {
             className: 'tracker-toolbar__sequence-actions__extend',
             icon: 'long-arrow-right',
-            onClick: this.props.onSelectedSequenceExtend,
+            onClick: this.handleSequenceActionsExtendClick,
           }),
         ]),
       ],
     });
   }
 
-  getIsAlternate() {
-    return !!this.props.selectedSequenceId;
+  getIsAlternate = () =>
+    negate(isEmpty)(this.props.selectedSequence);
+
+  handleSequenceActionsDeleteClick = () =>
+    this.props.onSequenceDelete(this.props.selectedSequence.id);
+
+  handleSequenceActionsExtendClick = () =>
+    this.props.onSequenceExtend(this.props.selectedSequence.id);
+
+  handleSequenceActionsShortenClick = () => {
+    if (this.props.selectedSequence.measureCount < 2) return;
+    this.props.onSequenceShorten(this.props.selectedSequence.id);
   }
 }

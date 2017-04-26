@@ -4,6 +4,7 @@ import shared from '../../shared';
 import appData from '../../app-data';
 import tracksData from '../../tracks-data';
 import * as actions from '../actions';
+import * as helpers from '../helpers';
 
 const { setAtIds } = shared.helpers;
 
@@ -45,6 +46,11 @@ export const trackDict = createReducer({}, {
 
   [appData.actions.SONG_LOADED]: (state, action) =>
     action.payload.tracks.dict,
+
+  [tracksData.actions.TRACK_ADDED]: (state, action) =>
+    setAtIds([helpers.createTrack({
+      id: action.trackId,
+    })], state),
 
   [tracksData.actions.TRACK_DELETED]: (state, action) =>
     omit(action.payload.track.id)(state),

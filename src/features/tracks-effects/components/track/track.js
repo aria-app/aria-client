@@ -116,7 +116,10 @@ export class Track extends React.Component {
   }
 
   handleBodySequencesAddButtonClick = () => {
-    this.props.onSequenceAdd(this.props.track.id, this.getAddPosition());
+    this.props.onSequenceAdd({
+      position: this.getAddPosition(),
+      trackId: this.props.track.id,
+    });
   }
 
   handleBodySequencesSequenceOpen = (sequenceId) => {
