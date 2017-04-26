@@ -1,4 +1,4 @@
-import { isEmpty, map, throttle } from 'lodash/fp';
+import { isEmpty, throttle } from 'lodash/fp';
 import { takeEvery } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
 import appData from '../../app-data';
@@ -9,23 +9,6 @@ import tracksData from '../../tracks-data';
 import * as actions from '../actions';
 import * as helpers from '../helpers';
 import * as selectors from '../selectors';
-
-function* addSequenceToTrack({ position, id }) {
-  yield put(actions.sequencesAdded([
-    helpers.createSequence({
-      measureCount: 1,
-      trackId: id,
-      position,
-    }),
-  ]));
-}
-
-function* deleteSequencesFromTracks({ ids }) {
-  const sequences = yield select(selectors.getSequencesByTrackIds(ids));
-  const sequenceIds = map('id')(sequences);
-
-  yield put(actions.sequencesDeleted(sequenceIds));
-}
 
 const throttledSave = throttle(500)((song) => {
   localStorage.setItem(shared.constants.localStorageKey, JSON.stringify(song));
@@ -79,44 +62,6 @@ function* selectAll() {
 
 export default function* saga() {
   yield [
-    takeEvery(actions.SEQUENCE_ADDED_TO_TRACK, addSequenceToTrack),
-    takeEvery(actions.TRACKS_DELETED, deleteSequencesFromTracks),
-    takeEvery([
-      actions.ID_SET,
-      actions.MEASURE_COUNT_SET,
-      actions.NAME_SET,
-      actions.NOTES_ADDED,
-      actions.NOTES_DELETED,
-      actions.NOTES_DUPLICATED,
-      actions.NOTES_MOVE_SUCCEEDED,
-      actions.NOTES_SET,
-      actions.SEQUENCE_ADDED_TO_TRACK,
-      actions.SEQUENCE_NUDGED_LEFT,
-      actions.SEQUENCE_NUDGED_RIGHT,
-      actions.SEQUENCES_ADDED,
-      actions.SEQUENCES_DELETED,
-      actions.SEQUENCES_SET,
-      actions.SEQUENCES_UPDATED,
-      actions.SONG_EXTENDED,
-      actions.SONG_SHORTENED,
-      actions.TRACK_IS_MUTED_TOGGLED,
-      actions.TRACK_IS_SOLOING_TOGGLED,
-      actions.TRACK_SYNTH_TYPE_SET,
-      actions.TRACKS_ADDED,
-      actions.TRACKS_DELETED,
-      actions.TRACKS_SET,
-      actions.TRACKS_UPDATED,
-      appData.actions.BPM_SET,
-      sequenceData.actions.NOTE_DRAWN,
-      sequenceData.actions.NOTE_ERASED,
-      sequenceData.actions.NOTES_DRAGGED,
-      sequenceData.actions.NOTES_DUPLICATED,
-      sequenceData.actions.NOTES_MOVED_OCTAVE_DOWN,
-      sequenceData.actions.NOTES_MOVED_OCTAVE_UP,
-      sequenceData.actions.NOTES_RESIZED,
-      sequenceData.actions.SEQUENCE_CLOSED,
-      tracksData.actions.TRACK_CREATED_AND_ADDED,
-    ], saveToLocalStorage),
     takeEvery(actions.NOTES_ALL_SELECTED, selectAll),
     takeEvery(actions.NOTES_DUPLICATED, duplicateSelectedNotes),
     takeEvery(actions.SELECTED_NOTES_POSITION_NUDGED, nudgeSelectedNotesPosition),
@@ -136,5 +81,28 @@ export default function* saga() {
       () => nudgeSelectedNotesPosition({ change: { x: 0, y: -1 } }),
     ),
     takeEvery(shortcuts.actions.SELECT_ALL, selectAll),
+    // Save to local storage
+    takeEvery(actions.NOTES_ADDED, saveToLocalStorage),
+    takeEvery(actions.NOTES_DELETED, saveToLocalStorage),
+    takeEvery(actions.NOTES_DUPLICATED, saveToLocalStorage),
+    takeEvery(actions.NOTES_MOVE_SUCCEEDED, saveToLocalStorage),
+    takeEvery(actions.NOTES_SET, saveToLocalStorage),
+    takeEvery(appData.actions.BPM_SET, saveToLocalStorage),
+    takeEvery(sequenceData.actions.NOTE_DRAWN, saveToLocalStorage),
+    takeEvery(sequenceData.actions.NOTE_ERASED, saveToLocalStorage),
+    takeEvery(sequenceData.actions.NOTES_DRAGGED, saveToLocalStorage),
+    takeEvery(sequenceData.actions.NOTES_DUPLICATED, saveToLocalStorage),
+    takeEvery(sequenceData.actions.NOTES_MOVED_OCTAVE_DOWN, saveToLocalStorage),
+    takeEvery(sequenceData.actions.NOTES_MOVED_OCTAVE_UP, saveToLocalStorage),
+    takeEvery(sequenceData.actions.NOTES_RESIZED, saveToLocalStorage),
+    takeEvery(sequenceData.actions.SEQUENCE_CLOSED, saveToLocalStorage),
+    takeEvery(tracksData.actions.SEQUENCE_NUDGED_LEFT, saveToLocalStorage),
+    takeEvery(tracksData.actions.SEQUENCE_NUDGED_RIGHT, saveToLocalStorage),
+    takeEvery(tracksData.actions.SONG_EXTENDED, saveToLocalStorage),
+    takeEvery(tracksData.actions.SONG_SHORTENED, saveToLocalStorage),
+    takeEvery(tracksData.actions.TRACK_ADDED, saveToLocalStorage),
+    takeEvery(tracksData.actions.TRACK_IS_MUTED_TOGGLED, saveToLocalStorage),
+    takeEvery(tracksData.actions.TRACK_IS_SOLOING_TOGGLED, saveToLocalStorage),
+    takeEvery(tracksData.actions.TRACK_SYNTH_TYPE_SET, saveToLocalStorage),
   ];
 }

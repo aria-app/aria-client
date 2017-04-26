@@ -49,7 +49,7 @@ export class Ruler extends React.Component {
       ]),
       h('.ruler__song-length-button', [
         h('.ruler__song-length-button__side.ruler__song-length-button__side--left', {
-          onClick: this.props.onSongShorten,
+          onClick: this.handleSongLengthButtonSideLeftClick,
         }, [
           h(Icon, {
             className: 'ruler__song-length-button__side__icon ruler__song-length-button__side--left__icon',
@@ -58,7 +58,7 @@ export class Ruler extends React.Component {
           }),
         ]),
         h('.ruler__song-length-button__side.ruler__song-length-button__side--right', {
-          onClick: this.props.onSongExtend,
+          onClick: this.handleSongLengthButtonSideRightClick,
         }, [
           h(Icon, {
             className: 'ruler__song-length-button__side__icon ruler__song-length-button__side--right__icon',
@@ -79,6 +79,14 @@ export class Ruler extends React.Component {
       width: this.props.measureCount * measurePreviewWidth,
     };
   }
+
+  handleSongLengthButtonSideLeftClick = () => {
+    if (this.props.measureCount < 2) return;
+    this.props.onSongShorten();
+  };
+
+  handleSongLengthButtonSideRightClick = () =>
+    this.props.onSongExtend();
 
   holdPosition = (e) => {
     e.persist();

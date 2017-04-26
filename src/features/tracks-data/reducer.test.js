@@ -1,5 +1,4 @@
 import * as actions from './actions';
-import song from '../song';
 import reducer from './reducer';
 
 describe('Tracking Reducer', () => {
@@ -12,30 +11,6 @@ describe('Tracking Reducer', () => {
       undos: [],
     };
     const action = {};
-    const next = reducer(previous, action);
-    expect(next).toEqual(expected);
-  });
-
-  it('should handle REDOS_SET', () => {
-    const redos = [
-      [{}],
-    ];
-    const previous = {
-      redos: [],
-      selectedSequenceId: '',
-      stagedTrackId: '',
-      undos: [],
-    };
-    const expected = {
-      selectedSequenceId: '',
-      stagedTrackId: '',
-      undos: [],
-      redos,
-    };
-    const action = {
-      type: actions.REDOS_SET,
-      redos,
-    };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
   });
@@ -157,30 +132,6 @@ describe('Tracking Reducer', () => {
     const action = {
       type: actions.TRACK_EDITING_STARTED,
       id: 't1',
-    };
-    const next = reducer(previous, action);
-    expect(next).toEqual(expected);
-  });
-
-  it('should handle UNDOS_SET', () => {
-    const undos = [
-      [{}],
-    ];
-    const previous = {
-      redos: [],
-      selectedSequenceId: '',
-      stagedTrackId: '',
-      undos: [],
-    };
-    const expected = {
-      redos: [],
-      selectedSequenceId: '',
-      stagedTrackId: '',
-      undos,
-    };
-    const action = {
-      type: actions.UNDOS_SET,
-      undos,
     };
     const next = reducer(previous, action);
     expect(next).toEqual(expected);

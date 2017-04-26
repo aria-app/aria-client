@@ -11,5 +11,5 @@ export const activeSequenceId = createReducer('', {
     '',
 
   [tracksData.actions.SEQUENCE_OPENED]: (state, action) =>
-    action.payload,
+    action.id,
 });

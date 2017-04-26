@@ -1,11 +1,7 @@
 import { NAME } from './constants';
 
-export const REDO_POPPED = `${NAME}/REDO_POPPED`;
-export const REDO_PUSHED = `${NAME}/PUSH_REDO`;
-export const REDOS_SET = `${NAME}/REDOS_SET`;
-export const SELECTED_SEQUENCE_NUDGED_LEFT = `${NAME}/SELECTED_SEQUENCE_NUDGED_LEFT`;
-export const SELECTED_SEQUENCE_NUDGED_RIGHT = `${NAME}/SELECTED_SEQUENCE_NUDGED_RIGHT`;
-export const SELECTED_SEQUENCE_OPENED = `${NAME}/SELECTED_SEQUENCE_OPENED`;
+export const SEQUENCE_NUDGED_LEFT = `${NAME}/SEQUENCE_NUDGED_LEFT`;
+export const SEQUENCE_NUDGED_RIGHT = `${NAME}/SEQUENCE_NUDGED_RIGHT`;
 export const SEQUENCE_ADDED = `${NAME}/SEQUENCE_ADDED`;
 export const SEQUENCE_DELETED = `${NAME}/SEQUENCE_DELETED`;
 export const SEQUENCE_DESELECTED = `${NAME}/SEQUENCE_DESELECTED`;
@@ -22,37 +18,6 @@ export const TRACK_EDITING_STARTED = `${NAME}/TRACK_EDITING_STARTED`;
 export const TRACK_IS_MUTED_TOGGLED = `${NAME}/TRACK_IS_MUTED_TOGGLED`;
 export const TRACK_IS_SOLOING_TOGGLED = `${NAME}/TRACK_IS_SOLOING_TOGGLED`;
 export const TRACK_SYNTH_TYPE_SET = `${NAME}/TRACK_SYNTH_TYPE_SET`;
-export const UNDO_POPPED = `${NAME}/UNDO_POPPED`;
-export const UNDO_PUSHED = `${NAME}/UNDO_PUSHED`;
-export const UNDOS_SET = `${NAME}/UNDOS_SET`;
-
-export const redoPopped = () => ({
-  type: REDO_POPPED,
-});
-
-export const redoPushed = () => ({
-  type: REDO_PUSHED,
-});
-
-export const redosSet = redos => ({
-  type: REDOS_SET,
-  redos,
-});
-
-export const selectedSequenceNudgedLeft = id => ({
-  type: SELECTED_SEQUENCE_NUDGED_LEFT,
-  id,
-});
-
-export const selectedSequenceNudgedRight = id => ({
-  type: SELECTED_SEQUENCE_NUDGED_RIGHT,
-  id,
-});
-
-export const selectedSequenceOpened = id => ({
-  type: SELECTED_SEQUENCE_OPENED,
-  id,
-});
 
 export const sequenceAdded = ({ position, sequenceId, trackId }) => ({
   type: SEQUENCE_ADDED,
@@ -75,9 +40,19 @@ export const sequenceExtended = id => ({
   id,
 });
 
-export const sequenceOpened = payload => ({
+export const sequenceNudgedLeft = id => ({
+  type: SEQUENCE_NUDGED_LEFT,
+  id,
+});
+
+export const sequenceNudgedRight = id => ({
+  type: SEQUENCE_NUDGED_RIGHT,
+  id,
+});
+
+export const sequenceOpened = id => ({
   type: SEQUENCE_OPENED,
-  payload,
+  id,
 });
 
 export const sequenceSelected = id => ({
@@ -98,15 +73,16 @@ export const songShortened = () => ({
   type: SONG_SHORTENED,
 });
 
-export const trackAdded = ({ sequence, track }) => ({
+export const trackAdded = ({ sequenceId, trackId }) => ({
   type: TRACK_ADDED,
-  sequence,
-  track,
+  sequenceId,
+  trackId,
 });
 
-export const trackDeleted = payload => ({
-  type: TRACK_EDITING_FINISHED,
-  payload,
+export const trackDeleted = ({ id, sequenceIds }) => ({
+  type: TRACK_DELETED,
+  id,
+  sequenceIds,
 });
 
 export const trackEditingFinished = () => ({
@@ -131,17 +107,4 @@ export const trackIsSoloingToggled = id => ({
 export const trackSynthTypeSet = payload => ({
   type: TRACK_SYNTH_TYPE_SET,
   payload,
-});
-
-export const undoPopped = () => ({
-  type: UNDO_POPPED,
-});
-
-export const undoPushed = () => ({
-  type: UNDO_PUSHED,
-});
-
-export const undosSet = undos => ({
-  type: UNDOS_SET,
-  undos,
 });

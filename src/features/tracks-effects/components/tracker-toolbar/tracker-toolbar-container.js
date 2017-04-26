@@ -6,10 +6,10 @@ import { TrackerToolbar } from './tracker-toolbar';
 export const TrackerToolbarContainer = connect(state => ({
   selectedSequence: selectors.getSelectedSequence(state),
 }), {
-  onSelectedSequenceMoveLeft: tracksData.actions.selectedSequenceNudgedLeft,
-  onSelectedSequenceMoveRight: tracksData.actions.selectedSequenceNudgedRight,
-  onSelectedSequenceOpen: tracksData.actions.selectedSequenceOpened,
   onSequenceDelete: tracksData.actions.sequenceDeleted,
   onSequenceExtend: tracksData.actions.sequenceExtended,
+  onSequenceMoveLeft: tracksData.actions.sequenceNudgedLeft,
+  onSequenceMoveRight: tracksData.actions.sequenceNudgedRight,
+  onSequenceOpen: tracksData.actions.sequenceOpened,
   onSequenceShorten: tracksData.actions.sequenceShortened,
 })(TrackerToolbar);

@@ -1,4 +1,5 @@
-import { isEmpty } from 'lodash/fp';
+import isEmpty from 'lodash/fp/isEmpty';
+import map from 'lodash/fp/map';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -13,6 +14,7 @@ export class TrackEditingModal extends React.Component {
     onDismiss: React.PropTypes.func.isRequired,
     onSynthTypeSet: React.PropTypes.func.isRequired,
     stagedTrack: React.PropTypes.object.isRequired,
+    stagedTrackSequences: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   }
 
   render() {
@@ -56,7 +58,8 @@ export class TrackEditingModal extends React.Component {
 
   handleContentDeleteButtonClick = () => {
     this.props.onDelete({
-      track: this.props.stagedTrack,
+      sequenceIds: map('id')(this.props.stagedTrackSequences),
+      id: this.props.stagedTrack.id,
     });
   }
 

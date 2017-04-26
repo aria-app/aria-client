@@ -4,6 +4,8 @@ import { call, fork, put, select, take } from 'redux-saga/effects';
 import Tone from '../../audio-server/tone';
 import appData from '../app-data';
 import shortcuts from '../shortcuts';
+import sequenceData from '../sequence-data';
+import tracksData from '../tracks-data';
 import song from '../song';
 import * as actions from './actions';
 import * as constants from './constants';
@@ -203,23 +205,19 @@ export default function* saga() {
     takeEvery(actions.TRANSPORT_POSITION_SET, setTransportPosition),
     takeEvery([
       actions.SEQUENCES_UPDATED,
-      song.actions.SEQUENCE_EXTENDED,
-      song.actions.SEQUENCE_NUDGED_LEFT,
-      song.actions.SEQUENCE_NUDGED_RIGHT,
-      song.actions.SEQUENCE_SHORTENED,
-      song.actions.SEQUENCES_ADDED,
-      song.actions.SEQUENCES_DELETED,
-      song.actions.SEQUENCES_SET,
-      song.actions.SEQUENCES_UPDATED,
+      tracksData.actions.SEQUENCE_EXTENDED,
+      tracksData.actions.SEQUENCE_NUDGED_LEFT,
+      tracksData.actions.SEQUENCE_NUDGED_RIGHT,
+      tracksData.actions.SEQUENCE_SHORTENED,
     ], updateSequences),
     takeEvery(appData.actions.BPM_SET, setBPM),
-    takeEvery(song.actions.SEQUENCE_CLOSED, loopSong),
-    takeEvery(song.actions.SEQUENCE_OPENED, loopSequence),
-    takeEvery(song.actions.SONG_EXTENDED, updateSong),
-    takeEvery(song.actions.SONG_LOADED, initialize),
-    takeEvery(song.actions.SONG_SHORTENED, updateSong),
+    takeEvery(appData.actions.SONG_LOADED, initialize),
+    takeEvery(sequenceData.actions.SEQUENCE_CLOSED, loopSong),
     takeEvery(shortcuts.actions.PLAYBACK_STOP, stop),
     takeEvery(shortcuts.actions.PLAYBACK_TOGGLE, togglePlayPause),
+    takeEvery(tracksData.actions.SEQUENCE_OPENED, loopSequence),
+    takeEvery(tracksData.actions.SONG_EXTENDED, updateSong),
+    takeEvery(tracksData.actions.SONG_SHORTENED, updateSong),
   ];
 }
 

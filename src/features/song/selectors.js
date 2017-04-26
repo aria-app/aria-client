@@ -41,12 +41,6 @@ export const getNotesIds = pipe(
   get('noteIds'),
 );
 
-export const getRedos = pipe(
-  get(NAME),
-  get('redos'),
-  defaultTo([]),
-);
-
 export const getSelectedNoteIds = pipe(
   get(NAME),
   get('selectedNoteIds'),
@@ -71,12 +65,6 @@ export const getTracksDict = pipe(
 export const getTracksIds = pipe(
   get(NAME),
   get('trackIds'),
-);
-
-export const getUndos = pipe(
-  get(NAME),
-  get('undos'),
-  defaultTo([]),
 );
 
 // --- Notes ---

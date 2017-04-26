@@ -6,13 +6,11 @@ import { measureCount } from './measure-count';
 import { name } from './name';
 import { noteDict } from './note-dict';
 import { noteIds } from './note-ids';
-import { redos } from './redos';
 import { selectedNoteIds } from './selected-note-ids';
 import { sequenceDict } from './sequence-dict';
 import { sequenceIds } from './sequence-ids';
 import { trackDict } from './track-dict';
 import { trackIds } from './track-ids';
-import { undos } from './undos';
 
 export default combineReducers({
   activeSequenceId,
@@ -22,11 +20,9 @@ export default combineReducers({
   name,
   noteDict,
   noteIds,
-  redos,
   selectedNoteIds,
   sequenceDict,
   sequenceIds,
   trackDict,
   trackIds,
-  undos,
 });

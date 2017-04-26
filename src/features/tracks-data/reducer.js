@@ -1,15 +1,6 @@
 import { combineReducers } from 'redux';
 import * as actions from './actions';
 
-function redos(state = [], action) {
-  switch (action.type) {
-    case actions.REDOS_SET:
-      return action.redos;
-    default:
-      return state;
-  }
-}
-
 const selectedSequenceId = (state = '', action) => {
   switch (action.type) {
     case actions.SEQUENCE_DELETED:
@@ -34,18 +25,7 @@ const stagedTrackId = (state = '', action) => {
   }
 };
 
-function undos(state = [], action) {
-  switch (action.type) {
-    case actions.UNDOS_SET:
-      return action.undos;
-    default:
-      return state;
-  }
-}
-
 export default combineReducers({
-  redos,
   selectedSequenceId,
   stagedTrackId,
-  undos,
 });

@@ -5,6 +5,7 @@ import { TrackEditingModal } from './track-editing-modal';
 
 export const TrackEditingModalContainer = connect(state => ({
   stagedTrack: selectors.getStagedTrack(state),
+  stagedTrackSequences: selectors.getStagedTrackSequences(state),
 }), {
   onDelete: tracksData.actions.trackDeleted,
   onDismiss: tracksData.actions.trackEditingFinished,

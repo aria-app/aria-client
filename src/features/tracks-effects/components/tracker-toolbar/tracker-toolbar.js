@@ -9,11 +9,11 @@ const { IconButton, Toolbar } = shared.components;
 
 export class TrackerToolbar extends React.Component {
   static propTypes = {
-    onSelectedSequenceMoveLeft: React.PropTypes.func.isRequired,
-    onSelectedSequenceMoveRight: React.PropTypes.func.isRequired,
-    onSelectedSequenceOpen: React.PropTypes.func.isRequired,
     onSequenceDelete: React.PropTypes.func.isRequired,
     onSequenceExtend: React.PropTypes.func.isRequired,
+    onSequenceMoveLeft: React.PropTypes.func.isRequired,
+    onSequenceMoveRight: React.PropTypes.func.isRequired,
+    onSequenceOpen: React.PropTypes.func.isRequired,
     onSequenceShorten: React.PropTypes.func.isRequired,
     selectedSequence: React.PropTypes.object.isRequired,
   }
@@ -28,7 +28,7 @@ export class TrackerToolbar extends React.Component {
           h(IconButton, {
             className: 'tracker-toolbar__sequence-actions__open',
             icon: 'pencil',
-            onClick: this.props.onSelectedSequenceOpen,
+            onClick: this.handleSequenceActionsOpenClick,
           }),
           h(IconButton, {
             className: 'tracker-toolbar__sequence-actions__delete',
@@ -43,12 +43,12 @@ export class TrackerToolbar extends React.Component {
           h(IconButton, {
             className: 'tracker-toolbar__sequence-actions__move-left',
             icon: 'arrow-left',
-            onClick: this.props.onSelectedSequenceMoveLeft,
+            onClick: this.handleSequenceActionsMoveLeftClick,
           }),
           h(IconButton, {
             className: 'tracker-toolbar__sequence-actions__move-right',
             icon: 'arrow-right',
-            onClick: this.props.onSelectedSequenceMoveRight,
+            onClick: this.handleSequenceActionsMoveRightClick,
           }),
           h(IconButton, {
             className: 'tracker-toolbar__sequence-actions__extend',
@@ -68,6 +68,15 @@ export class TrackerToolbar extends React.Component {
 
   handleSequenceActionsExtendClick = () =>
     this.props.onSequenceExtend(this.props.selectedSequence.id);
+
+  handleSequenceActionsMoveLeftClick = () =>
+    this.props.onSequenceMoveLeft(this.props.selectedSequence.id);
+
+  handleSequenceActionsMoveRightClick = () =>
+    this.props.onSequenceMoveRight(this.props.selectedSequence.id);
+
+  handleSequenceActionsOpenClick = () =>
+    this.props.onSequenceOpen(this.props.selectedSequence.id);
 
   handleSequenceActionsShortenClick = () => {
     if (this.props.selectedSequence.measureCount < 2) return;
