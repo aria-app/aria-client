@@ -6,6 +6,6 @@ import { UploadOverlay } from './upload-overlay';
 export const UploadOverlayContainer = connect(state => ({
   isFileOver: selectors.getIsFileOver(state),
 }), {
-  onFileDragCancel: appData.actions.fileDragCancelled,
-  onFileDrop: appData.actions.fileDropped,
+  onCancel: appData.actions.fileDragCancelled,
+  onUpload: appData.actions.songLoaded,
 })(UploadOverlay);

@@ -4,13 +4,14 @@ import h from 'react-hyperscript';
 import shared from '../../../shared';
 import './upload-overlay.scss';
 
+const reader = new FileReader();
 const { showIf } = shared.helpers;
 
 export class UploadOverlay extends React.Component {
   static propTypes = {
     isFileOver: React.PropTypes.bool.isRequired,
-    onFileDragCancel: React.PropTypes.func.isRequired,
-    onFileDrop: React.PropTypes.func.isRequired,
+    onCancel: React.PropTypes.func.isRequired,
+    onUpload: React.PropTypes.func.isRequired,
   }
 
   render() {
@@ -36,18 +37,31 @@ export class UploadOverlay extends React.Component {
   }
 
   handleDragLeave = () => {
-    this.props.onFileDragCancel();
+    this.props.onCancel();
   }
 
   handleDrop = (e) => {
     const files = e.dataTransfer.files;
     if (!isEmpty(files)) {
-      this.props.onFileDrop(files[0]);
+      getFileContents(files[0])
+        .then(this.props.onUpload)
+        .catch(this.props.onCancel);
     } else {
-      this.props.onFileDragCancel();
+      this.props.onCancel();
     }
     e.preventDefault();
     e.stopPropagation();
     return false;
   }
+}
+
+function getFileContents(file) {
+  return new Promise((resolve) => {
+    reader.onload = (e) => {
+      const data = e.target.result;
+      reader.onload = undefined;
+      resolve(JSON.parse(data));
+    };
+    reader.readAsText(file);
+  });
 }

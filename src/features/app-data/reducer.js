@@ -17,7 +17,7 @@ const isFileOver = (state = false, action) => {
     case actions.FILE_DRAG_STARTED:
       return true;
     case actions.FILE_DRAG_CANCELLED:
-    case actions.FILE_DROPPED:
+    case actions.SONG_LOADED:
       return false;
     default:
       return state;
