@@ -16,7 +16,6 @@ export const NOTES_SELECTED_IN_AREA = `${NAME}/NOTES_SELECTED_IN_AREA`;
 export const NOTES_DELETED = `${NAME}/NOTES_DELETED`;
 export const SEQUENCE_CLOSED = `${NAME}/SEQUENCE_CLOSED`;
 export const TOOL_SELECTED = `${NAME}/TOOL_SELECTED`;
-export const TOOL_TYPE_SET = `${NAME}/TOOL_TYPE_SET`;
 
 export const keyPressed = payload => ({
   type: KEY_PRESSED,
@@ -92,12 +91,8 @@ export const sequenceClosed = () => ({
   type: SEQUENCE_CLOSED,
 });
 
-export const toolSelected = payload => ({
+export const toolSelected = ({ previousToolType, toolType }) => ({
   type: TOOL_SELECTED,
-  payload,
-});
-
-export const toolTypeSet = payload => ({
-  type: TOOL_TYPE_SET,
-  payload,
+  previousToolType,
+  toolType,
 });

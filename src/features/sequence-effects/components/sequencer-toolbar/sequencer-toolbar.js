@@ -137,11 +137,13 @@ export class SequencerToolbar extends React.Component {
   handleDrawToolButtonClick = () =>
     this.props.onToolSelect({
       toolType: DRAW,
+      previousToolType: this.props.toolType,
     });
 
   handleEraseToolButtonClick = () =>
     this.props.onToolSelect({
       toolType: ERASE,
+      previousToolType: this.props.toolType,
     });
 
   handleOctaveDownButtonClick = () =>
@@ -157,10 +159,12 @@ export class SequencerToolbar extends React.Component {
   handlePanToolButtonClick = () =>
     this.props.onToolSelect({
       toolType: PAN,
+      previousToolType: this.props.toolType,
     });
 
   handleSelectToolButtonClick = () =>
     this.props.onToolSelect({
       toolType: SELECT,
+      previousToolType: this.props.toolType,
     });
 }
