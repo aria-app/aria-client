@@ -34,9 +34,9 @@ export class Sequencer extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.contentRef) return;
-    this.contentRef.scrollTop = getCenteredScroll(
-      this.contentRef,
+    if (!this.contentElementRef) return;
+    this.contentElementRef.scrollTop = getCenteredScroll(
+      this.contentElementRef,
     );
   }
 
@@ -54,20 +54,15 @@ export class Sequencer extends React.Component {
             activeSequenceId: this.props.activeSequenceId,
             measureCount: this.props.measureCount,
             notes: this.props.notes,
-            onDelete: this.props.onDelete,
-            onDeselectAll: this.props.onDeselectAll,
             onDrag: this.props.onDrag,
             onDraw: this.props.onDraw,
-            onDuplicate: this.props.onDuplicate,
             onErase: this.props.onErase,
-            onNudge: this.props.onNudge,
             onResize: this.props.onResize,
             onSelect: this.props.onSelect,
-            onSelectAll: this.props.onSelectAll,
             onSelectInArea: this.props.onSelectInArea,
             selectedNotes: this.props.selectedNotes,
+            sequencerContentRef: this.contentElementRef,
             toolType: this.props.toolType,
-            sequencerContentRef: this.contentRef,
           }),
         ]),
       ]),
@@ -152,7 +147,7 @@ export class Sequencer extends React.Component {
   }
 
   setContentRef = (ref) => {
-    this.contentRef = ref;
+    this.contentElementRef = ref;
     this.forceUpdate();
   }
 }

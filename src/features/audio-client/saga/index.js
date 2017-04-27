@@ -1,12 +1,12 @@
 import { takeEvery } from 'redux-saga';
-import { requestKeyPreview } from './request-key-preview';
+// import { requestKeyPreview } from './request-key-preview';
 import { subscribeToPosition } from './subscribe-to-position';
-import sequenceData from '../../sequence-data';
+// import sequenceData from '../../sequence-data';
 import shared from '../../shared';
 
 export default function* saga() {
   yield [
-    takeEvery(sequenceData.actions.KEY_PRESSED, requestKeyPreview),
+    // takeEvery(sequenceData.actions.KEY_PRESSED, requestKeyPreview),
     takeEvery(shared.actions.INITIALIZED, subscribeToPosition),
   ];
 }

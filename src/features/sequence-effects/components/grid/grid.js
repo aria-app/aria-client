@@ -17,16 +17,11 @@ export class Grid extends React.Component {
     activeSequenceId: React.PropTypes.string.isRequired,
     measureCount: React.PropTypes.number.isRequired,
     notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    onDelete: React.PropTypes.func.isRequired,
-    onDeselectAll: React.PropTypes.func.isRequired,
     onDrag: React.PropTypes.func.isRequired,
     onDraw: React.PropTypes.func.isRequired,
-    onDuplicate: React.PropTypes.func.isRequired,
     onErase: React.PropTypes.func.isRequired,
-    onNudge: React.PropTypes.func.isRequired,
     onResize: React.PropTypes.func.isRequired,
     onSelect: React.PropTypes.func.isRequired,
-    onSelectAll: React.PropTypes.func.isRequired,
     onSelectInArea: React.PropTypes.func.isRequired,
     selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     sequencerContentRef: React.PropTypes.object,
@@ -42,7 +37,6 @@ export class Grid extends React.Component {
 
   render() {
     return h('.grid', {
-      onMouseLeave: this.handleMouseLeave,
       onMouseMove: this.handleMouseMove,
       onScroll: this.handleScroll,
       ref: this.setRef,
@@ -61,25 +55,19 @@ export class Grid extends React.Component {
           isEnabled: this.getIsSelectorEnabled(),
           mousePoint: this.state.mousePoint,
           notes: this.props.notes,
-          onSelect: this.handleSelectorSelect,
+          onSelect: this.props.onSelectInArea,
           selectedNotes: this.props.selectedNotes,
         }, [
           h(Notes, {
             measureCount: this.props.measureCount,
             mousePoint: this.state.mousePoint,
             notes: this.props.notes,
-            onDrag: this.handleNotesContainerMove,
-            onResize: this.handleNotesContainerResize,
+            onDrag: this.props.onDrag,
+            onErase: this.props.onErase,
+            onResize: this.props.onResize,
+            onSelect: this.props.onSelect,
             selectedNotes: this.props.selectedNotes,
             toolType: this.props.toolType,
-
-            onDelete: this.props.onDelete,
-            onDeselectAll: this.props.onDeselectAll,
-            onDuplicate: this.props.onDuplicate,
-            onErase: this.props.onErase,
-            onNudge: this.props.onNudge,
-            onSelect: this.props.onSelect,
-            onSelectAll: this.props.onSelectAll,
           }),
         ]),
         h(Panner, {
@@ -111,15 +99,6 @@ export class Grid extends React.Component {
   handleDrawLayerDraw = note =>
     this.props.onDraw(note);
 
-  handleMouseLeave = () => {
-    this.setState({
-      mousePoint: {
-        x: -1,
-        y: -1,
-      },
-    });
-  };
-
   handleMouseMove = (e) => {
     const mousePoint = getMousePoint(
       e.currentTarget,
@@ -133,10 +112,6 @@ export class Grid extends React.Component {
     });
   }
 
-  handleNotesContainerMove = this.props.onDrag;
-
-  handleNotesContainerResize = this.props.onResize;
-
   handlePannerScrollLeftChange = (scrollLeft) => {
     this.elementRef.scrollLeft = scrollLeft;
   };
@@ -144,9 +119,6 @@ export class Grid extends React.Component {
   handlePannerScrollTopChange = (scrollTop) => {
     this.props.sequencerContentRef.scrollTop = scrollTop;
   };
-
-  handleSelectorSelect = selectionInfo =>
-    this.props.onSelectInArea(selectionInfo);
 
   setRef = (ref) => {
     this.elementRef = ref;

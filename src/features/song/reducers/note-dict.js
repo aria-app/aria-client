@@ -25,10 +25,7 @@ export const noteDict = createReducer({}, {
     omit(action.ids)(state),
 
   [sequenceData.actions.NOTES_DRAGGED]: (state, action) =>
-    setAtIds(map(note => ({
-      ...note,
-      points: note.points.map(helpers.addPoints(action.payload.delta)),
-    }), action.payload.notes), state),
+    setAtIds(action.notes, state),
 
   [sequenceData.actions.NOTES_DUPLICATED]: (state, action) =>
     setAtIds(action.notes, state),
@@ -58,11 +55,5 @@ export const noteDict = createReducer({}, {
     }), action.ids), state),
 
   [sequenceData.actions.NOTES_RESIZED]: (state, action) =>
-    setAtIds(map(note => ({
-      ...note,
-      points: [
-        ...note.points.slice(0, note.points.length - 1),
-        helpers.addPoints(action.payload.delta)(last(note.points)),
-      ],
-    }), action.payload.notes), state),
+    setAtIds(action.notes, state),
 });

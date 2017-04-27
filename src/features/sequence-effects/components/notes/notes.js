@@ -10,52 +10,49 @@ import some from 'lodash/fp/some';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
+import song from '../../../song';
 import { Note } from '../note/note';
 import './notes.scss';
-
-const { toolTypes } = shared.constants;
 
 export class Notes extends React.Component {
   static propTypes = {
     measureCount: React.PropTypes.number.isRequired,
     mousePoint: React.PropTypes.object.isRequired,
     notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    onDelete: React.PropTypes.func.isRequired,
-    onDeselectAll: React.PropTypes.func.isRequired,
     onDrag: React.PropTypes.func.isRequired,
-    onDuplicate: React.PropTypes.func.isRequired,
     onErase: React.PropTypes.func.isRequired,
-    onNudge: React.PropTypes.func.isRequired,
     onResize: React.PropTypes.func.isRequired,
     onSelect: React.PropTypes.func.isRequired,
-    onSelectAll: React.PropTypes.func.isRequired,
-    selectedNotes: React.PropTypes.arrayOf(
-      React.PropTypes.object,
-    ).isRequired,
+    selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     toolType: React.PropTypes.string.isRequired,
   }
 
   state = {
-    isMoving: false,
+    isDragging: false,
     isResizing: false,
+    stagedNotes: [],
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.selectedNotes, nextProps.selectedNotes)) {
+      this.setState({
+        stagedNotes: nextProps.selectedNotes,
+      });
+    }
+  }
+
   componentDidUpdate(prevProps) {
-    const hasNotMoved = isEqual(prevProps.mousePoint, this.props.mousePoint);
-
-    if (hasNotMoved) return;
-
-    this.handleMousePointChange(prevProps.mousePoint);
+    if (!isEqual(prevProps.mousePoint, this.props.mousePoint)) {
+      this.handleMousePointChange(prevProps.mousePoint);
+    }
   }
 
   render() {
     return h('.notes', {
-      tabIndex: '0',
-      onMouseLeave: this.handleMouseLeave,
       onMouseUp: this.handleMouseUp,
       style: this.getStyle(),
     }, [
-      ...this.props.notes.map(note => h(Note, {
+      ...this.getNotes().map(note => h(Note, {
         className: 'notes__note',
         key: note.id,
         isEraseEnabled: this.getIsNoteEraseEnabled(),
@@ -70,37 +67,47 @@ export class Notes extends React.Component {
     ]);
   }
 
+  dragStagedNotes = (delta) => {
+    if (song.helpers.someNoteWillMoveOutside(
+      this.props.measureCount,
+      delta,
+      this.state.stagedNotes,
+    )) return;
+
+    this.setState(state => ({
+      stagedNotes: map(note => ({
+        ...note,
+        points: note.points.map(addPoints(delta)),
+      }), state.stagedNotes),
+    }));
+  };
+
   getIsNoteSelected(note) {
     return !!find({
       id: note.id,
     })(this.props.selectedNotes);
   }
 
-  getIsNoteEraseEnabled = () => includes(this.props.toolType)([
-    toolTypes.ERASE,
-  ]);
+  getIsNoteEraseEnabled = () =>
+    includes(this.props.toolType, [
+      shared.constants.toolTypes.ERASE,
+    ]);
 
-  getIsNoteSelectEnabled = () => includes(this.props.toolType)([
-    toolTypes.DRAW,
-    toolTypes.SELECT,
-  ]);
+  getIsNoteSelectEnabled = () =>
+    includes(this.props.toolType, [
+      shared.constants.toolTypes.DRAW,
+      shared.constants.toolTypes.SELECT,
+    ]);
+
+  getNotes = () =>
+    this.props.notes.map(note => find({
+      id: note.id,
+    }, this.state.stagedNotes) || note);
 
   getStyle() {
     return {
       width: this.props.measureCount * 4 * 8 * 40,
     };
-  }
-
-  handleMouseLeave = (e) => {
-    if (includes('note', e.target.className)) return;
-
-    if (this.state.isMoving) {
-      this.stopMoving();
-    }
-
-    if (this.state.isResizing) {
-      this.stopResizing();
-    }
   }
 
   handleMousePointChange = (prevMousePoint) => {
@@ -109,19 +116,17 @@ export class Notes extends React.Component {
       this.props.mousePoint,
     );
 
-    if (this.state.isMoving) {
-      this.props.onDrag({
-        notes: this.props.selectedNotes,
-        delta,
-      });
+
+    if (this.state.isDragging) {
+      this.dragStagedNotes(delta);
     } else if (this.state.isResizing) {
       this.handleResize(delta);
     }
   }
 
   handleMouseUp = () => {
-    if (this.state.isMoving) {
-      this.stopMoving();
+    if (this.state.isDragging) {
+      this.stopDragging();
     }
 
     if (this.state.isResizing) {
@@ -133,38 +138,34 @@ export class Notes extends React.Component {
     this.props.onErase(note);
 
   handleNoteMoveStart = () =>
-    this.setState({
-      isMoving: true,
-    });
+    this.setState(() => ({
+      isDragging: true,
+    }));
 
   handleNoteResizeStart = () =>
-    this.setState({
+    this.setState(() => ({
       isResizing: true,
-    });
+    }));
+
 
   handleNoteSelect = (...args) =>
     this.props.onSelect(...args);
 
   handleResize = (delta) => {
-    const isMovingLeft = delta.x < 0;
-
-    const pointSets = map(get('points'), this.props.selectedNotes);
-
+    const isDraggingLeft = delta.x < 0;
+    const pointSets = map(get('points'), this.state.stagedNotes);
     const isAnyNoteBent = some(
       points => last(points).y - first(points).y !== 0,
     )(pointSets);
-
     const willAnyBeMinLength = some(
       points => (last(points).x - first(points).x) <= 1,
     )(pointSets);
-
     const willAnyBeNegative = some(
       points => (last(points).x - first(points).x) <= 0,
     )(pointSets);
-
     const willAnyBeVertical = (
       delta.y !== 0 &&
-      some(n => (last(n.points).x - first(n.points).x) === 0)(this.props.selectedNotes)
+      some(n => (last(n.points).x - first(n.points).x) === 0)(this.state.stagedNotes)
     );
 
     const willGoOutside = compose(
@@ -173,27 +174,37 @@ export class Notes extends React.Component {
     )(pointSets);
 
     const isResizeInvalid = (
-      (isMovingLeft && isAnyNoteBent && willAnyBeMinLength) ||
-      (isMovingLeft && willAnyBeNegative) ||
+      (isDraggingLeft && isAnyNoteBent && willAnyBeMinLength) ||
+      (isDraggingLeft && willAnyBeNegative) ||
       willAnyBeVertical ||
       willGoOutside
     );
 
     if (isResizeInvalid) return;
 
-    this.props.onResize({
-      notes: this.props.selectedNotes,
-      delta,
-    });
+    this.resizeStagedNotes(delta);
   }
 
-  stopMoving = () => this.setState({
-    isMoving: false,
-  });
+  resizeStagedNotes = delta =>
+    this.setState(state => ({
+      stagedNotes: map(note => ({
+        ...note,
+        points: [
+          ...note.points.slice(0, note.points.length - 1),
+          addPoints(delta)(last(note.points)),
+        ],
+      }), state.stagedNotes),
+    }));
 
-  stopResizing = () => this.setState({
-    isResizing: false,
-  });
+  stopDragging = () => {
+    this.props.onDrag({ notes: this.state.stagedNotes });
+    this.setState({ isDragging: false });
+  };
+
+  stopResizing = () => {
+    this.props.onResize({ notes: this.state.stagedNotes });
+    this.setState({ isResizing: false });
+  };
 }
 
 function addPoints(b) {

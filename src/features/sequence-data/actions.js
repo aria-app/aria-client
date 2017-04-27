@@ -52,9 +52,9 @@ export const notesDeleted = ({ ids }) => ({
   ids,
 });
 
-export const notesDragged = payload => ({
+export const notesDragged = ({ notes }) => ({
   type: NOTES_DRAGGED,
-  payload,
+  notes,
 });
 
 export const notesDuplicated = ({ notes }) => ({
@@ -78,9 +78,9 @@ export const notesNudged = ({ delta, ids }) => ({
   ids,
 });
 
-export const notesResized = payload => ({
+export const notesResized = ({ notes }) => ({
   type: NOTES_RESIZED,
-  payload,
+  notes,
 });
 
 export const notesSelectedInArea = payload => ({
