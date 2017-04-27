@@ -73,6 +73,17 @@ export class Notes extends React.Component {
     ]);
   }
 
+  @keydown('backspace', 'del')
+  delete(e) {
+    e.preventDefault();
+
+    if (isEmpty(this.props.selectedNotes)) return;
+
+    this.props.onDelete({
+      ids: map(get('id'), this.props.selectedNotes),
+    });
+  }
+
   @keydown('ctrl+d', 'meta+d')
   deselectAll(e) {
     e.preventDefault();

@@ -12,6 +12,7 @@ export const SequencerToolbarContainer = connect(state => ({
 }), {
   onClose: sequenceData.actions.sequenceClosed,
   onDelete: sequenceData.actions.notesDeleted,
+  onDeselect: sequenceData.actions.notesAllDeselected,
   onDuplicate: sequenceData.actions.notesDuplicated,
   onOctaveDown: sequenceData.actions.notesMovedOctaveDown,
   onOctaveUp: sequenceData.actions.notesMovedOctaveUp,

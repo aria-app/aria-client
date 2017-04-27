@@ -1,3 +1,4 @@
+import map from 'lodash/fp/map';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -14,6 +15,7 @@ export class SequencerToolbar extends React.Component {
     measureCount: React.PropTypes.number.isRequired,
     onClose: React.PropTypes.func.isRequired,
     onDelete: React.PropTypes.func.isRequired,
+    onDeselect: React.PropTypes.func.isRequired,
     onDuplicate: React.PropTypes.func.isRequired,
     onOctaveDown: React.PropTypes.func.isRequired,
     onOctaveUp: React.PropTypes.func.isRequired,
@@ -56,10 +58,10 @@ export class SequencerToolbar extends React.Component {
       ],
       alternateRightItems: [
         h(IconButton, {
-          className: 'sequencer__toolbar__close-button',
+          className: 'sequencer__toolbar__deselect-button',
           icon: 'close',
-          onClick: this.props.onClose,
-          toolTip: 'Back to tracks',
+          onClick: this.handleDeselectButtonClick,
+          toolTip: 'Deselect notes',
         }),
       ],
       leftItems: [
@@ -119,23 +121,17 @@ export class SequencerToolbar extends React.Component {
 
   handleDeleteButtonClick = () => {
     this.props.onDelete({
-      notes: this.props.selectedNotes,
+      ids: map('id', this.props.selectedNotes),
     });
+  }
+
+  handleDeselectButtonClick = () => {
+    this.props.onDeselect();
   }
 
   handleDuplicateButtonClick = () =>
     this.props.onDuplicate({
       notes: song.helpers.duplicateNotes(this.props.selectedNotes),
-    });
-
-  handleOctaveDownButtonClick = () =>
-    this.props.onOctaveDown({
-      notes: this.props.selectedNotes,
-    });
-
-  handleOctaveUpButtonClick = () =>
-    this.props.onOctaveUp({
-      notes: this.props.selectedNotes,
     });
 
   handleDrawToolButtonClick = () =>
@@ -146,6 +142,16 @@ export class SequencerToolbar extends React.Component {
   handleEraseToolButtonClick = () =>
     this.props.onToolSelect({
       toolType: ERASE,
+    });
+
+  handleOctaveDownButtonClick = () =>
+    this.props.onOctaveDown({
+      notes: this.props.selectedNotes,
+    });
+
+  handleOctaveUpButtonClick = () =>
+    this.props.onOctaveUp({
+      notes: this.props.selectedNotes,
     });
 
   handlePanToolButtonClick = () =>

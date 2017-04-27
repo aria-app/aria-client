@@ -47,9 +47,9 @@ export const notesAllSelected = ({ ids }) => ({
   ids,
 });
 
-export const notesDeleted = payload => ({
+export const notesDeleted = ({ ids }) => ({
   type: NOTES_DELETED,
-  payload,
+  ids,
 });
 
 export const notesDragged = payload => ({

@@ -16,7 +16,7 @@ export const noteIds = createReducer([], {
     without(state)(action.payload.note.id),
 
   [sequenceData.actions.NOTES_DELETED]: (state, action) =>
-    difference(state)(map('id', action.payload.notes)),
+    difference(state)(action.ids),
 
   [sequenceData.actions.NOTES_DUPLICATED]: (state, action) =>
     [...state, ...map('id', action.notes)],

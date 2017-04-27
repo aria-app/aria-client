@@ -22,7 +22,7 @@ export const noteDict = createReducer({}, {
     omit(action.payload.note.id, state),
 
   [sequenceData.actions.NOTES_DELETED]: (state, action) =>
-    omit(map('id')(action.payload.notes))(state),
+    omit(action.ids)(state),
 
   [sequenceData.actions.NOTES_DRAGGED]: (state, action) =>
     setAtIds(map(note => ({
