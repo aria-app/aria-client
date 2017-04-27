@@ -1,9 +1,16 @@
+import get from 'lodash/fp/get';
+import isEmpty from 'lodash/fp/isEmpty';
+import map from 'lodash/fp/map';
 import React from 'react';
 import h from 'react-hyperscript';
+import keydown from 'react-keydown';
+import song from '../../../song';
 import { Grid } from '../grid/grid';
 import { Keys } from '../keys/keys';
 import { SequencerToolbarContainer } from '../sequencer-toolbar/sequencer-toolbar-container';
 import './sequencer.scss';
+
+const { someNoteWillMoveOutside } = song.helpers;
 
 export class Sequencer extends React.Component {
   static propTypes = {
@@ -65,6 +72,83 @@ export class Sequencer extends React.Component {
         ]),
       ]),
     ]);
+  }
+
+  @keydown('backspace', 'del')
+  delete(e) {
+    e.preventDefault();
+
+    if (isEmpty(this.props.selectedNotes)) return;
+
+    this.props.onDelete({
+      ids: map(get('id'), this.props.selectedNotes),
+    });
+  }
+
+  @keydown('ctrl+d', 'meta+d')
+  deselectAll(e) {
+    e.preventDefault();
+
+    if (isEmpty(this.props.selectedNotes)) return;
+
+    this.props.onDeselectAll();
+  }
+
+  @keydown('ctrl+shift+d', 'meta+shift+d')
+  duplicate(e) {
+    e.preventDefault();
+
+    if (isEmpty(this.props.selectedNotes)) return;
+
+    this.props.onDuplicate({
+      notes: song.helpers.duplicateNotes(this.props.selectedNotes),
+    });
+  }
+
+  nudge = (e, delta) => {
+    e.preventDefault();
+
+    if (isEmpty(this.props.selectedNotes)) return;
+
+    if (someNoteWillMoveOutside(
+      this.props.measureCount,
+      delta,
+      this.props.selectedNotes,
+    )) return;
+
+    this.props.onNudge({
+      ids: map(get('id'), this.props.selectedNotes),
+      delta,
+    });
+  }
+
+  @keydown('down');
+  nudgeDown(e) {
+    this.nudge(e, { x: 0, y: 1 });
+  }
+
+  @keydown('left');
+  nudgeLeft(e) {
+    this.nudge(e, { x: -1, y: 0 });
+  }
+
+  @keydown('right');
+  nudgeRight(e) {
+    this.nudge(e, { x: 1, y: 0 });
+  }
+
+  @keydown('up');
+  nudgeUp(e) {
+    this.nudge(e, { x: 0, y: -1 });
+  }
+
+  @keydown('ctrl+a', 'meta+a')
+  selectAll() {
+    if (this.props.notes.length === this.props.selectedNotes.length) return;
+
+    this.props.onSelectAll({
+      ids: map(get('id'), this.props.notes),
+    });
   }
 
   setContentRef = (ref) => {
