@@ -2,13 +2,11 @@ import { isEqual } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import {
-  SequencerTimelineContainer,
-} from '../sequencer-timeline-container/sequencer-timeline-container';
-import { NotesContainer } from '../notes/notes-container';
 import { DrawLayer } from '../draw-layer/draw-layer';
+import { Notes } from '../notes/notes';
 import { Panner } from '../panner/panner';
 import { Selector } from '../selector/selector';
+import { SequencerTimelineContainer } from '../sequencer-timeline-container/sequencer-timeline-container';
 import { SlotsContainer } from '../slots/slots-container';
 import './grid.scss';
 
@@ -17,12 +15,18 @@ const { DRAW, PAN, SELECT } = shared.constants.toolTypes;
 export class Grid extends React.Component {
   static propTypes = {
     activeSequenceId: React.PropTypes.string.isRequired,
-    areSomeNotesSelected: React.PropTypes.bool.isRequired,
     measureCount: React.PropTypes.number.isRequired,
     notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    onDelete: React.PropTypes.func.isRequired,
+    onDeselectAll: React.PropTypes.func.isRequired,
     onDrag: React.PropTypes.func.isRequired,
     onDraw: React.PropTypes.func.isRequired,
+    onDuplicate: React.PropTypes.func.isRequired,
+    onErase: React.PropTypes.func.isRequired,
+    onNudge: React.PropTypes.func.isRequired,
     onResize: React.PropTypes.func.isRequired,
+    onSelect: React.PropTypes.func.isRequired,
+    onSelectAll: React.PropTypes.func.isRequired,
     onSelectInArea: React.PropTypes.func.isRequired,
     selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     sequencerContentRef: React.PropTypes.object,
@@ -60,12 +64,22 @@ export class Grid extends React.Component {
           onSelect: this.handleSelectorSelect,
           selectedNotes: this.props.selectedNotes,
         }, [
-          h(NotesContainer, {
+          h(Notes, {
             measureCount: this.props.measureCount,
             mousePoint: this.state.mousePoint,
+            notes: this.props.notes,
             onDrag: this.handleNotesContainerMove,
             onResize: this.handleNotesContainerResize,
             selectedNotes: this.props.selectedNotes,
+            toolType: this.props.toolType,
+
+            onDelete: this.props.onDelete,
+            onDeselectAll: this.props.onDeselectAll,
+            onDuplicate: this.props.onDuplicate,
+            onErase: this.props.onErase,
+            onNudge: this.props.onNudge,
+            onSelect: this.props.onSelect,
+            onSelectAll: this.props.onSelectAll,
           }),
         ]),
         h(Panner, {

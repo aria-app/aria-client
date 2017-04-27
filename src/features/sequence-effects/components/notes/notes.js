@@ -24,6 +24,7 @@ export class Notes extends React.Component {
     measureCount: React.PropTypes.number.isRequired,
     mousePoint: React.PropTypes.object.isRequired,
     notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    onDelete: React.PropTypes.func.isRequired,
     onDeselectAll: React.PropTypes.func.isRequired,
     onDrag: React.PropTypes.func.isRequired,
     onDuplicate: React.PropTypes.func.isRequired,

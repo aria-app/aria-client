@@ -1,1 +1,1 @@
-export { Sequencer } from './sequencer/sequencer';
+export { SequencerContainer } from './sequencer/sequencer-container';
