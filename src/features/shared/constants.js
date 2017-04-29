@@ -4,6 +4,10 @@ export const NAME = 'shared';
 
 export const defaultBPM = 120;
 
+export const defaultMeasureCount = 4;
+
+export const defaultSongName = 'New Song';
+
 export const localStorageKey = 'currentSong';
 
 export const maxBPM = 400;

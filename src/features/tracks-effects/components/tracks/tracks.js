@@ -69,19 +69,15 @@ export class Tracks extends React.Component {
     ]);
   }
 
-  getAddButtonStyle() {
-    return {
-      width: (this.props.songMeasureCount * 64) + 84,
-    };
-  }
+  getAddButtonStyle = () => ({
+    width: (this.props.songMeasureCount * 64) + 84,
+  });
 
-  getIsTrackMuted(track) {
-    return includes(track)(this.props.mutedTrackIds);
-  }
+  getIsTrackMuted = track =>
+    includes(track.id, this.props.mutedTrackIds);
 
-  getIsTrackSoloing(track) {
-    return includes(track)(this.props.soloingTrackIds);
-  }
+  getIsTrackSoloing = track =>
+    includes(track.id, this.props.soloingTrackIds);
 
   handleAddButtonClick = () => {
     const track = song.helpers.createTrack();

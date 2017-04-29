@@ -1,5 +1,6 @@
 export { createNote } from './createNote';
 export { createSequence } from './createSequence';
+export { createSong } from './createSong';
 export { createTrack } from './createTrack';
 export { duplicateNotes } from './duplicateNotes';
 export { getNotesInArea } from './getNotesInArea';

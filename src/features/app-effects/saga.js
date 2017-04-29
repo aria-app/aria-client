@@ -4,6 +4,8 @@ import appData from '../app-data';
 import shared from '../shared';
 import song from '../song';
 
+const { createSong } = song.helpers;
+
 function* initialize() {
   const localStorageSong = localStorage.getItem(
     shared.constants.localStorageKey,
@@ -11,7 +13,7 @@ function* initialize() {
 
   const initialSong = localStorageSong
     ? JSON.parse(localStorageSong)
-    : song.sampleSong;
+    : createSong();
 
   yield put(appData.actions.songLoaded({
     song: initialSong,

@@ -175,14 +175,12 @@ export class Notes extends React.Component {
       map(resizeNote(delta)),
     )(this.state.stagedNotes);
 
-    const isResizeInvalid = (
+    if (
       (isDraggingLeft && isAnyNoteBent && willAnyBeMinLength) ||
       (isDraggingLeft && willAnyBeNegative) ||
       willAnyBeVertical ||
       willGoOutside
-    );
-
-    if (isResizeInvalid) return;
+    ) return;
 
     this.resizeStagedNotes(delta);
   }
