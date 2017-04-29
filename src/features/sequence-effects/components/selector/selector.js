@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash/fp';
+import isEmpty from 'lodash/fp/isEmpty';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -31,14 +31,11 @@ export class Selector extends React.PureComponent {
     }, [
       this.props.children,
       h(Fence, {
-        isSelecting: this.getIsSelecting(),
         endPoint: this.props.mousePoint,
         startPoint: this.state.startPoint,
       }),
     ]);
   }
-
-  getIsSelecting = () => !isEmpty(this.state.startPoint);
 
   getIsEnabled = () =>
     this.props.toolType === shared.constants.toolTypes.SELECT;
@@ -50,14 +47,14 @@ export class Selector extends React.PureComponent {
   }
 
   handleMouseLeave = () => {
-    if (!this.getIsSelecting()) return;
+    if (isEmpty(this.state.startPoint)) return;
     this.setState({
       startPoint: {},
     });
   }
 
   handleMouseUp = (e) => {
-    if (!this.getIsSelecting()) return;
+    if (isEmpty(this.state.startPoint)) return;
     this.props.onSelect({
       endPoint: this.props.mousePoint,
       isAdditive: e.ctrlKey || e.metaKey,

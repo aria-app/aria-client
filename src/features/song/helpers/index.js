@@ -1,3 +1,4 @@
+export { addPoints } from './addPoints';
 export { createNote } from './createNote';
 export { createSequence } from './createSequence';
 export { createSong } from './createSong';

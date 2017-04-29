@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import { Icon } from '../icon/icon';
 import './icon-button.scss';
 
-export class IconButton extends React.Component {
+export class IconButton extends React.PureComponent {
   static propTypes = {
     className: React.PropTypes.string,
     icon: React.PropTypes.string.isRequired,

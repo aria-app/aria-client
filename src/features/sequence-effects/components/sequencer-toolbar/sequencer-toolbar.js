@@ -9,7 +9,7 @@ const { IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
 const { someNoteWillMoveOutside } = song.helpers;
 
-export class SequencerToolbar extends React.Component {
+export class SequencerToolbar extends React.PureComponent {
   static propTypes = {
     measureCount: React.PropTypes.number.isRequired,
     onClose: React.PropTypes.func.isRequired,

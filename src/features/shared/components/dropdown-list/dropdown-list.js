@@ -8,7 +8,7 @@ import { Icon } from '../icon/icon';
 import { IconButton } from '../icon-button/icon-button';
 import './dropdown-list.scss';
 
-export class DropdownList extends React.Component {
+export class DropdownList extends React.PureComponent {
   static propTypes = {
     className: React.PropTypes.string,
     icon: React.PropTypes.string,
@@ -188,6 +188,8 @@ export class DropdownList extends React.Component {
 
   setPopupRef = (ref) => {
     this.popupRef = ref;
+
+    this.forceUpdate();
 
     if (!this.popupRef) return;
 

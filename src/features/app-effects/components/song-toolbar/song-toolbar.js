@@ -6,7 +6,7 @@ import './song-toolbar.scss';
 const { Button, DownloadButton, IconButton, Toolbar } = shared.components;
 const { PAUSED, STARTED, STOPPED } = shared.constants.playbackStates;
 
-export class SongToolbar extends React.Component {
+export class SongToolbar extends React.PureComponent {
   static propTypes = {
     bpm: React.PropTypes.number.isRequired,
     onBPMModalOpen: React.PropTypes.func.isRequired,

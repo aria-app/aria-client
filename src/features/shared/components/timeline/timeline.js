@@ -3,7 +3,7 @@ import h from 'react-hyperscript';
 import StylePropType from 'react-style-proptype';
 import './timeline.scss';
 
-export class Timeline extends React.Component {
+export class Timeline extends React.PureComponent {
   static propTypes = {
     className: React.PropTypes.string,
     isVisible: React.PropTypes.bool,

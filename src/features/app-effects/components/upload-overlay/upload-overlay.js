@@ -7,7 +7,7 @@ import './upload-overlay.scss';
 const reader = new FileReader();
 const { showIf } = shared.helpers;
 
-export class UploadOverlay extends React.Component {
+export class UploadOverlay extends React.PureComponent {
   static propTypes = {
     isFileOver: React.PropTypes.bool.isRequired,
     onCancel: React.PropTypes.func.isRequired,

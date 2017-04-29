@@ -5,7 +5,7 @@ import { showIf } from '../../helpers';
 import icons from './icons';
 import './icon.scss';
 
-export class Icon extends React.Component {
+export class Icon extends React.PureComponent {
   static propTypes = {
     className: React.PropTypes.string,
     icon: React.PropTypes.oneOf(Object.keys(icons).concat([''])),

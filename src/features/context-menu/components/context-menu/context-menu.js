@@ -8,7 +8,7 @@ import './context-menu.scss';
 const { Icon } = shared.components;
 const { showIf } = shared.helpers;
 
-export class ContextMenu extends React.Component {
+export class ContextMenu extends React.PureComponent {
   static propTypes = {
     className: React.PropTypes.string,
     isOpen: React.PropTypes.bool.isRequired,

@@ -1,4 +1,5 @@
-import { isEmpty, isEqual } from 'lodash/fp';
+import isEmpty from 'lodash/fp/isEmpty';
+import isEqual from 'lodash/fp/isEqual';
 import React from 'react';
 import h from 'react-hyperscript';
 import './fence.scss';
@@ -6,7 +7,6 @@ import './fence.scss';
 export class Fence extends React.PureComponent {
   static propTypes = {
     endPoint: React.PropTypes.object.isRequired,
-    isSelecting: React.PropTypes.bool.isRequired,
     startPoint: React.PropTypes.object.isRequired,
   }
 
@@ -22,7 +22,7 @@ export class Fence extends React.PureComponent {
   }
 
   getDisplay() {
-    const isSelecting = this.props.isSelecting;
+    const isSelecting = this.getIsSelecting();
     const start = this.props.startPoint;
     const end = this.props.endPoint;
     const hasMoved = !isEqual(start, end);
@@ -36,6 +36,9 @@ export class Fence extends React.PureComponent {
     if (isEmpty(start) || isEmpty(end)) return 0;
     return (Math.abs(this.props.endPoint.y - start.y) + 1) * 40;
   }
+
+  getIsSelecting = () =>
+    !isEmpty(this.props.startPoint);
 
   getTransform() {
     const start = this.props.startPoint;

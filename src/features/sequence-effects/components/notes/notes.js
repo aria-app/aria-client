@@ -1,8 +1,6 @@
 import compose from 'lodash/fp/compose';
-import find from 'lodash/fp/find';
 import first from 'lodash/fp/first';
 import get from 'lodash/fp/get';
-import includes from 'lodash/fp/includes';
 import isEqual from 'lodash/fp/isEqual';
 import last from 'lodash/fp/last';
 import map from 'lodash/fp/map';
@@ -14,7 +12,7 @@ import song from '../../../song';
 import { Note } from '../note/note';
 import './notes.scss';
 
-const { resizeNote, translateNote } = song.helpers;
+const { addPoints, resizeNote, translateNote } = song.helpers;
 
 export class Notes extends React.PureComponent {
   static propTypes = {
@@ -30,18 +28,11 @@ export class Notes extends React.PureComponent {
   }
 
   state = {
+    dragDelta: { x: 0, y: 0 },
+    resizeDelta: { x: 0, y: 0 },
     isDragging: false,
     isResizing: false,
-    stagedNotes: [],
   };
-
-  componentWillReceiveProps(nextProps) {
-    if (!isEqual(this.props.selectedNotes, nextProps.selectedNotes)) {
-      this.setState({
-        stagedNotes: nextProps.selectedNotes,
-      });
-    }
-  }
 
   componentDidUpdate(prevProps) {
     if (!isEqual(prevProps.mousePoint, this.props.mousePoint)) {
@@ -57,51 +48,39 @@ export class Notes extends React.PureComponent {
       ...this.getNotes().map(note => h(Note, {
         className: 'notes__note',
         key: note.id,
-        isEraseEnabled: this.getIsNoteEraseEnabled(),
-        isSelected: this.getIsNoteSelected(note),
-        isSelectEnabled: this.getIsNoteSelectEnabled(),
         onErase: this.handleNoteErase,
         onMoveStart: this.handleNoteMoveStart,
         onResizeStart: this.handleNoteResizeStart,
         onSelect: this.handleNoteSelect,
+        selectedNotes: this.props.selectedNotes,
+        toolType: this.props.toolType,
         note,
       })),
     ]);
   }
 
+  applyTransforms = notes => map(compose(
+    resizeNote(this.state.resizeDelta),
+    translateNote(this.state.dragDelta),
+  ))(notes);
+
   dragStagedNotes = (delta) => {
     if (song.helpers.someNoteWillMoveOutside(
       this.props.measureCount,
       delta,
-      this.state.stagedNotes,
+      this.getSelectedNotes(),
     )) return;
 
     this.setState(state => ({
-      stagedNotes: map(translateNote(delta), state.stagedNotes),
+      dragDelta: addPoints(delta, state.dragDelta),
     }));
   };
 
-  getIsNoteSelected(note) {
-    return !!find({
-      id: note.id,
-    })(this.props.selectedNotes);
-  }
-
-  getIsNoteEraseEnabled = () =>
-    includes(this.props.toolType, [
-      shared.constants.toolTypes.ERASE,
-    ]);
-
-  getIsNoteSelectEnabled = () =>
-    includes(this.props.toolType, [
-      shared.constants.toolTypes.DRAW,
-      shared.constants.toolTypes.SELECT,
-    ]);
-
   getNotes = () =>
-    this.props.notes.map(note => find({
-      id: note.id,
-    }, this.state.stagedNotes) || note);
+    this.applyTransforms(this.props.notes);
+
+  getSelectedNotes = () =>
+    this.applyTransforms(this.props.selectedNotes);
 
   getStyle() {
     return {
@@ -138,16 +117,17 @@ export class Notes extends React.PureComponent {
 
   handleNoteMoveStart = () =>
     this.setState(() => ({
+      dragDelta: { x: 0, y: 0 },
       isDragging: true,
     }));
 
   handleNoteResizeStart = () =>
     this.setState(() => ({
       isResizing: true,
+      resizeDelta: { x: 0, y: 0 },
     }));
 
-
-  handleNoteSelect = ({ isAdditive, note }) =>
+  handleNoteSelect = (isAdditive, note) =>
     this.props.onSelect({
       isAdditive,
       note,
@@ -155,7 +135,7 @@ export class Notes extends React.PureComponent {
 
   handleResize = (delta) => {
     const isDraggingLeft = delta.x < 0;
-    const pointSets = map(get('points'), this.state.stagedNotes);
+    const pointSets = map(get('points'), this.getSelectedNotes());
     const isAnyNoteBent = some(
       points => last(points).y - first(points).y !== 0,
     )(pointSets);
@@ -167,13 +147,13 @@ export class Notes extends React.PureComponent {
     )(pointSets);
     const willAnyBeVertical = (
       delta.y !== 0 &&
-      some(n => (last(n.points).x - first(n.points).x) === 0)(this.state.stagedNotes)
+      some(n => (last(n.points).x - first(n.points).x) === 0, this.getSelectedNotes())
     );
 
     const willGoOutside = compose(
       getIsSomePointOutside(this.props.measureCount),
       map(resizeNote(delta)),
-    )(this.state.stagedNotes);
+    )(this.getSelectedNotes());
 
     if (
       (isDraggingLeft && isAnyNoteBent && willAnyBeMinLength) ||
@@ -187,17 +167,23 @@ export class Notes extends React.PureComponent {
 
   resizeStagedNotes = delta =>
     this.setState(state => ({
-      stagedNotes: map(resizeNote(delta), state.stagedNotes),
+      resizeDelta: addPoints(delta, state.resizeDelta),
     }));
 
   stopDragging = () => {
-    this.props.onDrag({ notes: this.state.stagedNotes });
-    this.setState({ isDragging: false });
+    this.props.onDrag({ notes: this.getSelectedNotes() });
+    this.setState({
+      dragDelta: { x: 0, y: 0 },
+      isDragging: false,
+    });
   };
 
   stopResizing = () => {
-    this.props.onResize({ notes: this.state.stagedNotes });
-    this.setState({ isResizing: false });
+    this.props.onResize({ notes: this.getSelectedNotes() });
+    this.setState({
+      isResizing: false,
+      resizeDelta: { x: 0, y: 0 },
+    });
   };
 }
 

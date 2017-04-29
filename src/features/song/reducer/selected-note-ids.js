@@ -1,4 +1,7 @@
-import { includes, map, without } from 'lodash/fp';
+import curry from 'lodash/fp/curry';
+import includes from 'lodash/fp/includes';
+import map from 'lodash/fp/map';
+import without from 'lodash/fp/without';
 import { createReducer } from 'redux-create-reducer';
 import sequenceData from '../../sequence-data';
 import shared from '../../shared';
@@ -6,8 +9,8 @@ import * as helpers from '../helpers';
 
 const { DRAW, ERASE } = shared.constants.toolTypes;
 
-const toggleInArray = x => xs =>
-  (includes(x, xs) ? without(x, xs) : [...xs, x]);
+const toggleInArray = curry((x, xs) =>
+  (includes(x, xs) ? without([x], xs) : [...xs, x]));
 
 export const selectedNoteIds = createReducer([], {
   [sequenceData.actions.NOTE_ERASED]: () =>

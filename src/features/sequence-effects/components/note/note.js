@@ -1,20 +1,23 @@
-import { first, last } from 'lodash/fp';
+import find from 'lodash/fp/find';
+import first from 'lodash/fp/first';
+import includes from 'lodash/fp/includes';
+import last from 'lodash/fp/last';
 import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
+import shared from '../../../shared';
 import './note.scss';
 
 export class Note extends React.PureComponent {
   static propTypes = {
     className: React.PropTypes.string,
-    isEraseEnabled: React.PropTypes.bool.isRequired,
-    isSelectEnabled: React.PropTypes.bool.isRequired,
-    isSelected: React.PropTypes.bool.isRequired,
     note: React.PropTypes.object.isRequired,
     onErase: React.PropTypes.func.isRequired,
     onMoveStart: React.PropTypes.func.isRequired,
     onResizeStart: React.PropTypes.func.isRequired,
     onSelect: React.PropTypes.func.isRequired,
+    selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    toolType: React.PropTypes.string.isRequired,
   }
 
   static defaultProps = {
@@ -46,7 +49,7 @@ export class Note extends React.PureComponent {
 
   getClassName() {
     return classnames({
-      'note--active': this.props.isSelected,
+      'note--active': this.getIsSelected(),
     }, this.props.className);
   }
 
@@ -78,6 +81,23 @@ export class Note extends React.PureComponent {
     };
   }
 
+  getIsSelected() {
+    return !!find({
+      id: this.props.note.id,
+    })(this.props.selectedNotes);
+  }
+
+  getIsEraseEnabled = () =>
+    includes(this.props.toolType, [
+      shared.constants.toolTypes.ERASE,
+    ]);
+
+  getIsSelectEnabled = () =>
+    includes(this.props.toolType, [
+      shared.constants.toolTypes.DRAW,
+      shared.constants.toolTypes.SELECT,
+    ]);
+
   getStyle() {
     const { x, y } = first(this.props.note.points);
     return {
@@ -86,7 +106,7 @@ export class Note extends React.PureComponent {
   }
 
   handleEndPointMouseDown = (e) => {
-    if (this.props.isSelectEnabled) {
+    if (this.getIsSelectEnabled()) {
       this.select(e);
       this.props.onResizeStart();
       e.stopPropagation();
@@ -94,7 +114,7 @@ export class Note extends React.PureComponent {
   }
 
   handleStartPointMouseDown = (e) => {
-    if (this.props.isSelectEnabled) {
+    if (this.getIsSelectEnabled()) {
       this.select(e);
       this.props.onMoveStart();
       e.stopPropagation();
@@ -102,7 +122,7 @@ export class Note extends React.PureComponent {
   }
 
   handleStartPointMouseUp = () => {
-    if (this.props.isEraseEnabled) {
+    if (this.getIsEraseEnabled()) {
       this.props.onErase({
         note: this.props.note,
       });
@@ -110,11 +130,10 @@ export class Note extends React.PureComponent {
   }
 
   select = (e) => {
-    if (this.props.isSelected) return;
-    this.props.onSelect({
-      note: this.props.note,
-      isAdditive: e.ctrlKey || e.metaKey,
-    });
+    this.props.onSelect(
+      e.ctrlKey || e.metaKey,
+      this.props.note,
+    );
   }
 }
 

@@ -6,7 +6,7 @@ import { Button } from '../button/button';
 import { Toolbar } from '../toolbar/toolbar';
 import './modal.scss';
 
-export class Modal extends React.Component {
+export class Modal extends React.PureComponent {
   static propTypes = {
     cancelText: React.PropTypes.string,
     children: React.PropTypes.node,

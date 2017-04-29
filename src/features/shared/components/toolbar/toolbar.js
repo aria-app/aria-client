@@ -4,7 +4,7 @@ import StylePropType from 'react-style-proptype';
 import classnames from 'classnames';
 import './toolbar.scss';
 
-export class Toolbar extends React.Component {
+export class Toolbar extends React.PureComponent {
   static propTypes = {
     alternateLeftItems: React.PropTypes.node,
     alternateRightItems: React.PropTypes.node,

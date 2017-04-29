@@ -3,7 +3,7 @@ import h from 'react-hyperscript';
 import StylePropType from 'react-style-proptype';
 import './button.scss';
 
-export class Button extends React.Component {
+export class Button extends React.PureComponent {
   static propTypes = {
     className: React.PropTypes.string,
     onClick: React.PropTypes.func,

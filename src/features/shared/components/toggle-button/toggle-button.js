@@ -3,7 +3,7 @@ import h from 'react-hyperscript';
 import classnames from 'classnames';
 import './toggle-button.scss';
 
-export class ToggleButton extends React.Component {
+export class ToggleButton extends React.PureComponent {
   static propTypes = {
     className: React.PropTypes.string,
     isActive: React.PropTypes.bool,

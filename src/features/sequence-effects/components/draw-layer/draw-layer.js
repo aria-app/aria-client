@@ -34,14 +34,13 @@ export class DrawLayer extends React.PureComponent {
       showIf(this.getIsEnabled())(
         h(Note, {
           className: 'draw-layer__note--ghost',
-          isEraseEnabled: false,
-          isSelected: false,
-          isSelectEnabled: false,
           onErase: noop,
           onMoveStart: noop,
           onResizeStart: noop,
           onSelect: noop,
           note: this.getGhostNoteNote(),
+          selectedNotes: [],
+          toolType: '',
         }),
       ),
     ]);
