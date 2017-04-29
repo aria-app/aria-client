@@ -14,11 +14,14 @@ export class SequencerToolbar extends React.Component {
     measureCount: React.PropTypes.number.isRequired,
     onClose: React.PropTypes.func.isRequired,
     onDelete: React.PropTypes.func.isRequired,
-    onDeselect: React.PropTypes.func.isRequired,
+    onDeselectAll: React.PropTypes.func.isRequired,
+    onDrawToolSelect: React.PropTypes.func.isRequired,
     onDuplicate: React.PropTypes.func.isRequired,
+    onEraseToolSelect: React.PropTypes.func.isRequired,
     onOctaveDown: React.PropTypes.func.isRequired,
     onOctaveUp: React.PropTypes.func.isRequired,
-    onToolSelect: React.PropTypes.func.isRequired,
+    onPanToolSelect: React.PropTypes.func.isRequired,
+    onSelectToolSelect: React.PropTypes.func.isRequired,
     selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     toolType: React.PropTypes.string.isRequired,
   }
@@ -31,27 +34,27 @@ export class SequencerToolbar extends React.Component {
         h(IconButton, {
           className: 'sequencer__toolbar__delete-button',
           icon: 'trash',
-          onClick: this.handleDeleteButtonClick,
+          onClick: this.props.onDelete,
           toolTip: 'Delete',
         }),
         h(IconButton, {
           className: 'sequencer__toolbar__duplicate-button',
           icon: 'clone',
-          onClick: this.handleDuplicateButtonClick,
+          onClick: this.props.onDuplicate,
           toolTip: 'Duplicate',
         }),
         h(IconButton, {
           className: 'sequencer__toolbar__octave-up-button',
           icon: 'arrow-up',
           isDisabled: this.getIsOctaveUpButtonDisabled(),
-          onClick: this.handleOctaveUpButtonClick,
+          onClick: this.props.onOctaveUp,
           toolTip: 'Octave up',
         }),
         h(IconButton, {
           className: 'sequencer__toolbar__octave-down-button',
           icon: 'arrow-down',
           isDisabled: this.getIsOctaveDownButtonDisabled(),
-          onClick: this.handleOctaveDownButtonClick,
+          onClick: this.props.onOctaveDown,
           toolTip: 'Octave down',
         }),
       ],
@@ -59,7 +62,7 @@ export class SequencerToolbar extends React.Component {
         h(IconButton, {
           className: 'sequencer__toolbar__deselect-button',
           icon: 'close',
-          onClick: this.handleDeselectButtonClick,
+          onClick: this.props.onDeselectAll,
           toolTip: 'Deselect notes',
         }),
       ],
@@ -68,28 +71,28 @@ export class SequencerToolbar extends React.Component {
           className: 'sequencer__toolbar__select-tool-button',
           isActive: this.props.toolType === SELECT,
           icon: 'mouse-pointer',
-          onClick: this.handleSelectToolButtonClick,
+          onClick: this.props.onSelectToolSelect,
           toolTip: 'Select',
         }),
         h(IconButton, {
           className: 'sequencer__toolbar__draw-tool-button',
           isActive: this.props.toolType === DRAW,
           icon: 'pencil',
-          onClick: this.handleDrawToolButtonClick,
+          onClick: this.props.onDrawToolSelect,
           toolTip: 'Draw',
         }),
         h(IconButton, {
           className: 'sequencer__toolbar__erase-tool-button',
           isActive: this.props.toolType === ERASE,
           icon: 'eraser',
-          onClick: this.handleEraseToolButtonClick,
+          onClick: this.props.onEraseToolSelect,
           toolTip: 'Erase',
         }),
         h(IconButton, {
           className: 'sequencer__toolbar__pan-tool-button',
           isActive: this.props.toolType === PAN,
           icon: 'hand-paper-o',
-          onClick: this.handlePanToolButtonClick,
+          onClick: this.props.onPanToolSelect,
           toolTip: 'Pan',
         }),
       ],
@@ -117,53 +120,4 @@ export class SequencerToolbar extends React.Component {
       { x: 0, y: -12 },
       this.props.selectedNotes,
     );
-
-  handleDeleteButtonClick = () => {
-    this.props.onDelete({
-      ids: this.props.selectedNotes,
-    });
-  }
-
-  handleDeselectButtonClick = () => {
-    this.props.onDeselect();
-  }
-
-  handleDuplicateButtonClick = () =>
-    this.props.onDuplicate({
-      notes: song.helpers.duplicateNotes(this.props.selectedNotes),
-    });
-
-  handleDrawToolButtonClick = () =>
-    this.props.onToolSelect({
-      toolType: DRAW,
-      previousToolType: this.props.toolType,
-    });
-
-  handleEraseToolButtonClick = () =>
-    this.props.onToolSelect({
-      toolType: ERASE,
-      previousToolType: this.props.toolType,
-    });
-
-  handleOctaveDownButtonClick = () =>
-    this.props.onOctaveDown({
-      notes: this.props.selectedNotes,
-    });
-
-  handleOctaveUpButtonClick = () =>
-    this.props.onOctaveUp({
-      notes: this.props.selectedNotes,
-    });
-
-  handlePanToolButtonClick = () =>
-    this.props.onToolSelect({
-      toolType: PAN,
-      previousToolType: this.props.toolType,
-    });
-
-  handleSelectToolButtonClick = () =>
-    this.props.onToolSelect({
-      toolType: SELECT,
-      previousToolType: this.props.toolType,
-    });
 }

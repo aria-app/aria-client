@@ -2,19 +2,23 @@ import isEmpty from 'lodash/fp/isEmpty';
 import React from 'react';
 import h from 'react-hyperscript';
 import keydown from 'react-keydown';
+import shared from '../../../shared';
 import song from '../../../song';
 import { Grid } from '../grid/grid';
 import { Keys } from '../keys/keys';
-import { SequencerToolbarContainer } from '../sequencer-toolbar/sequencer-toolbar-container';
+import { SequencerToolbar } from '../sequencer-toolbar/sequencer-toolbar';
 import './sequencer.scss';
 
+const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
 const { someNoteWillMoveOutside } = song.helpers;
 
 export class Sequencer extends React.Component {
   static propTypes = {
     activeSequenceId: React.PropTypes.string.isRequired,
+    areSomeNotesSelected: React.PropTypes.bool.isRequired,
     measureCount: React.PropTypes.number.isRequired,
     notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    onClose: React.PropTypes.func.isRequired,
     onDelete: React.PropTypes.func.isRequired,
     onDeselectAll: React.PropTypes.func.isRequired,
     onDrag: React.PropTypes.func.isRequired,
@@ -23,10 +27,13 @@ export class Sequencer extends React.Component {
     onErase: React.PropTypes.func.isRequired,
     onKeyPress: React.PropTypes.func.isRequired,
     onNudge: React.PropTypes.func.isRequired,
+    onOctaveDown: React.PropTypes.func.isRequired,
+    onOctaveUp: React.PropTypes.func.isRequired,
     onResize: React.PropTypes.func.isRequired,
     onSelect: React.PropTypes.func.isRequired,
     onSelectAll: React.PropTypes.func.isRequired,
     onSelectInArea: React.PropTypes.func.isRequired,
+    onToolSelect: React.PropTypes.func.isRequired,
     selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     toolType: React.PropTypes.string.isRequired,
   }
@@ -40,7 +47,22 @@ export class Sequencer extends React.Component {
 
   render() {
     return h('.sequencer', [
-      h(SequencerToolbarContainer),
+      h(SequencerToolbar, {
+        areSomeNotesSelected: this.props.areSomeNotesSelected,
+        measureCount: this.props.measureCount,
+        onClose: this.handleToolbarClose,
+        onDelete: this.handleToolbarDelete,
+        onDeselectAll: this.handleToolbarDeselect,
+        onDrawToolSelect: this.handleToolbarDrawToolSelect,
+        onDuplicate: this.handleToolbarDuplicate,
+        onEraseToolSelect: this.handleToolbarEraseToolSelect,
+        onOctaveDown: this.handleToolbarOctaveDown,
+        onOctaveUp: this.handleToolbarOctaveUp,
+        onPanToolSelect: this.handleToolbarPanToolSelect,
+        onSelectToolSelect: this.handleToolbarSelectToolSelect,
+        selectedNotes: this.props.selectedNotes,
+        toolType: this.props.toolType,
+      }),
       h('.sequencer__content', {
         ref: this.setContentRef,
       }, [
@@ -97,6 +119,60 @@ export class Sequencer extends React.Component {
       notes: song.helpers.duplicateNotes(this.props.selectedNotes),
     });
   }
+
+  handleToolbarClose = () => {
+    this.props.onClose();
+  }
+
+  handleToolbarDelete = () => {
+    this.props.onDelete({
+      notes: this.props.selectedNotes,
+    });
+  }
+
+  handleToolbarDeselect = () => {
+    this.props.onDeselectAll();
+  }
+
+  handleToolbarDrawToolSelect = () =>
+    this.props.onToolSelect({
+      toolType: DRAW,
+      previousToolType: this.props.toolType,
+    });
+
+  handleToolbarDuplicate = () =>
+    this.props.onDuplicate({
+      notes: song.helpers.duplicateNotes(this.props.selectedNotes),
+    });
+
+  handleToolbarEraseToolSelect = () =>
+    this.props.onToolSelect({
+      toolType: ERASE,
+      previousToolType: this.props.toolType,
+    });
+
+  handleToolbarOctaveDown = () =>
+    this.props.onOctaveDown({
+      notes: this.props.selectedNotes,
+    });
+
+  handleToolbarOctaveUp = () =>
+    this.props.onOctaveUp({
+      notes: this.props.selectedNotes,
+    });
+
+  handleToolbarPanToolSelect = () =>
+    this.props.onToolSelect({
+      toolType: PAN,
+      previousToolType: this.props.toolType,
+    });
+
+  handleToolbarSelectToolSelect = () =>
+    this.props.onToolSelect({
+      toolType: SELECT,
+      previousToolType: this.props.toolType,
+    });
+
 
   nudge = (e, delta) => {
     e.preventDefault();
