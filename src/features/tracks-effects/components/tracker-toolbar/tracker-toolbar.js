@@ -7,7 +7,7 @@ import './tracker-toolbar.scss';
 
 const { IconButton, Toolbar } = shared.components;
 
-export class TrackerToolbar extends React.Component {
+export class TrackerToolbar extends React.PureComponent {
   static propTypes = {
     onSequenceDelete: React.PropTypes.func.isRequired,
     onSequenceExtend: React.PropTypes.func.isRequired,

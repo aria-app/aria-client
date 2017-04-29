@@ -6,7 +6,7 @@ import './slots.scss';
 
 const { scale } = shared.constants;
 
-export class Slots extends React.Component {
+export class Slots extends React.PureComponent {
   static propTypes = {
     measureCount: React.PropTypes.number.isRequired,
   }

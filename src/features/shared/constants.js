@@ -14,6 +14,8 @@ export const maxBPM = 400;
 
 export const minBPM = 60;
 
+export const notesPerMeasure = 32;
+
 export const octaveRange = [0, 1, 2, 3, 4, 5, 6];
 
 export const playbackStates = {

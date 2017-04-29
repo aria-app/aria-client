@@ -1,3 +1,4 @@
+import map from 'lodash/fp/map';
 import omit from 'lodash/fp/omit';
 import { createReducer } from 'redux-create-reducer';
 import appData from '../../app-data';
@@ -12,6 +13,9 @@ export const sequenceDict = createReducer({}, {
 
   [tracksData.actions.SEQUENCE_ADDED]: (state, action) =>
     setAtIds([action.sequence], state),
+
+  [tracksData.actions.SEQUENCE_DELETED]: (state, action) =>
+    omit(action.sequence.id, state),
 
   [tracksData.actions.SEQUENCE_EXTENDED]: (state, action) =>
     setAtIds([{
@@ -43,5 +47,5 @@ export const sequenceDict = createReducer({}, {
     setAtIds([action.sequence], state),
 
   [tracksData.actions.TRACK_DELETED]: (state, action) =>
-    omit(action.sequence.id, state),
+    omit(map('id', action.sequences), state),
 });

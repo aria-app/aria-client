@@ -7,10 +7,9 @@ import './ruler.scss';
 const { Icon } = shared.components;
 const { STARTED } = shared.constants.playbackStates;
 const { hideIf } = shared.helpers;
-const notesPerMeasure = 32;
-const measurePreviewWidth = notesPerMeasure * 2;
+const measurePreviewWidth = shared.constants.notesPerMeasure * 2;
 
-export class Ruler extends React.Component {
+export class Ruler extends React.PureComponent {
   static propTypes = {
     measureCount: React.PropTypes.number.isRequired,
     onPause: React.PropTypes.func.isRequired,

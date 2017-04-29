@@ -3,42 +3,46 @@ import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
 import song from '../../../song';
-import { RulerContainer } from '../ruler/ruler-container';
+import { Ruler } from '../ruler/ruler';
 import { Track } from '../track/track';
 import './tracks.scss';
 
 const { Icon } = shared.components;
 const { createSequence } = song.helpers;
 
-export class Tracks extends React.Component {
+export class Tracks extends React.PureComponent {
   static propTypes = {
-    mutedTrackIds: React.PropTypes.arrayOf(
-      React.PropTypes.string,
-    ).isRequired,
+    mutedTrackIds: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     onSequenceAdd: React.PropTypes.func.isRequired,
     onSequenceContextMenu: React.PropTypes.func.isRequired,
     onSequenceDeselect: React.PropTypes.func.isRequired,
     onSequenceOpen: React.PropTypes.func.isRequired,
     onSequenceSelect: React.PropTypes.func.isRequired,
+    onSongExtend: React.PropTypes.func.isRequired,
+    onSongShorten: React.PropTypes.func.isRequired,
     onTrackAdd: React.PropTypes.func.isRequired,
     onTrackIsMutedToggle: React.PropTypes.func.isRequired,
     onTrackIsSoloingToggle: React.PropTypes.func.isRequired,
     onTrackStage: React.PropTypes.func.isRequired,
     selectedSequenceId: React.PropTypes.string,
-    soloingTrackIds: React.PropTypes.arrayOf(
-      React.PropTypes.string,
-    ).isRequired,
+    soloingTrackIds: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     songMeasureCount: React.PropTypes.number.isRequired,
-    tracks: React.PropTypes.arrayOf(
-      React.PropTypes.object,
-    ).isRequired,
+    tracks: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   }
 
   render() {
     return h('.tracks', {
       onClick: this.handleClick,
     }, [
-      h(RulerContainer),
+      h(Ruler, {
+        measureCount: this.props.songMeasureCount,
+        onPause: () => {},
+        onPlay: () => {},
+        onPositionSet: () => {},
+        onSongExtend: this.props.onSongExtend,
+        onSongShorten: this.props.onSongShorten,
+        playbackState: 'stopped',
+      }),
       ...this.props.tracks.map(track => h(Track, {
         isMuted: this.getIsTrackMuted(track),
         isSoloing: this.getIsTrackSoloing(track),
@@ -107,11 +111,10 @@ export class Tracks extends React.Component {
       track,
     });
 
-  handleTrackSelect = (trackId) => {
+  handleTrackSelect = track =>
     this.props.onTrackStage({
-      trackId,
+      track,
     });
-  }
 
   handleTrackSequenceAdd = (track, position) =>
     this.props.onSequenceAdd({

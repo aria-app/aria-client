@@ -16,7 +16,7 @@ import './notes.scss';
 
 const { resizeNote, translateNote } = song.helpers;
 
-export class Notes extends React.Component {
+export class Notes extends React.PureComponent {
   static propTypes = {
     measureCount: React.PropTypes.number.isRequired,
     mousePoint: React.PropTypes.object.isRequired,

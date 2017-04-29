@@ -12,7 +12,6 @@ const initialTracks = [
 const initialSequences = [
   createSequence({
     trackId: initialTracks[0].id,
-    position: 0,
   }),
 ];
 

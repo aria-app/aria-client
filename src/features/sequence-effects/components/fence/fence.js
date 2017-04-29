@@ -3,7 +3,7 @@ import React from 'react';
 import h from 'react-hyperscript';
 import './fence.scss';
 
-export class Fence extends React.Component {
+export class Fence extends React.PureComponent {
   static propTypes = {
     endPoint: React.PropTypes.object.isRequired,
     isSelecting: React.PropTypes.bool.isRequired,

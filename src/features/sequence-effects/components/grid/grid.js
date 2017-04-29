@@ -12,7 +12,7 @@ import './grid.scss';
 const { Timeline } = shared.components;
 const { DRAW, PAN, SELECT } = shared.constants.toolTypes;
 
-export class Grid extends React.Component {
+export class Grid extends React.PureComponent {
   static propTypes = {
     activeSequenceId: React.PropTypes.string.isRequired,
     measureCount: React.PropTypes.number.isRequired,
@@ -127,6 +127,7 @@ export class Grid extends React.Component {
 
   setRef = (ref) => {
     this.elementRef = ref;
+    this.forceUpdate();
   }
 }
 

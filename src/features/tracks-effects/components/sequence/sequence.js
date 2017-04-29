@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import * as constants from '../../constants';
 import './sequence.scss';
 
-export class Sequence extends React.Component {
+export class Sequence extends React.PureComponent {
   static propTypes = {
     className: React.PropTypes.string,
     isSelected: React.PropTypes.bool.isRequired,

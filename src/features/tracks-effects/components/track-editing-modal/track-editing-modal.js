@@ -1,5 +1,4 @@
 import isEmpty from 'lodash/fp/isEmpty';
-import map from 'lodash/fp/map';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -8,7 +7,7 @@ import './track-editing-modal.scss';
 const { Button, DropdownList, Modal } = shared.components;
 const { synthTypes } = shared.constants;
 
-export class TrackEditingModal extends React.Component {
+export class TrackEditingModal extends React.PureComponent {
   static propTypes = {
     onDelete: React.PropTypes.func.isRequired,
     onDismiss: React.PropTypes.func.isRequired,

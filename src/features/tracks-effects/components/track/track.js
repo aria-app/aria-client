@@ -8,7 +8,7 @@ import './track.scss';
 
 const { Icon } = shared.components;
 
-export class Track extends React.Component {
+export class Track extends React.PureComponent {
   static propTypes = {
     isMuted: React.PropTypes.bool.isRequired,
     isSoloing: React.PropTypes.bool.isRequired,

@@ -12,7 +12,7 @@ import './app.scss';
 const { ContextMenuContainer } = contextMenu.components;
 const { SequencerContainer } = sequenceEffects.components;
 const { hideIf, showIf } = shared.helpers;
-const { Tracker } = tracksEffects.components;
+const { TrackerContainer } = tracksEffects.components;
 
 export class App extends React.Component {
   static propTypes = {
@@ -30,7 +30,7 @@ export class App extends React.Component {
         h(SequencerContainer),
       ),
       hideIf(this.props.isSequenceOpen)(
-        h(Tracker),
+        h(TrackerContainer),
       ),
       h(SongToolbarContainer),
       h(BPMModalContainer),

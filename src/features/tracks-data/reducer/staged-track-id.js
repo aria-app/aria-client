@@ -6,5 +6,5 @@ export default createReducer('', {
     '',
 
   [actions.TRACK_EDITING_STARTED]: (state, action) =>
-    action.sequence.id,
+    action.track.id,
 });

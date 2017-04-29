@@ -12,7 +12,7 @@ import './sequencer.scss';
 const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
 const { someNoteWillMoveOutside } = song.helpers;
 
-export class Sequencer extends React.Component {
+export class Sequencer extends React.PureComponent {
   static propTypes = {
     activeSequenceId: React.PropTypes.string.isRequired,
     areSomeNotesSelected: React.PropTypes.bool.isRequired,

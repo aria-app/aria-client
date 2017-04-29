@@ -4,7 +4,7 @@ import h from 'react-hyperscript';
 import classnames from 'classnames';
 import './note.scss';
 
-export class Note extends React.Component {
+export class Note extends React.PureComponent {
   static propTypes = {
     className: React.PropTypes.string,
     isEraseEnabled: React.PropTypes.bool.isRequired,

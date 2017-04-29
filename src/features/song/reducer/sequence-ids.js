@@ -11,6 +11,9 @@ export const sequenceIds = createReducer([], {
   [tracksData.actions.SEQUENCE_ADDED]: (state, action) =>
     [...state, action.sequence.id],
 
+  [tracksData.actions.SEQUENCE_DELETED]: (state, action) =>
+    without([action.sequence.id], state),
+
   [tracksData.actions.TRACK_ADDED]: (state, action) =>
     [...state, action.sequence.id],
 

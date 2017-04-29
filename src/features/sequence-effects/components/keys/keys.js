@@ -6,7 +6,7 @@ import './keys.scss';
 
 const { scale } = shared.constants;
 
-export class Keys extends React.Component {
+export class Keys extends React.PureComponent {
   static propTypes = {
     onKeyPress: React.PropTypes.func.isRequired,
   }
