@@ -6,7 +6,7 @@ import { DrawLayer } from '../draw-layer/draw-layer';
 import { Notes } from '../notes/notes';
 import { Panner } from '../panner/panner';
 import { Selector } from '../selector/selector';
-import { SlotsContainer } from '../slots/slots-container';
+import { Slots } from '../slots/slots';
 import './grid.scss';
 
 const { Timeline } = shared.components;
@@ -44,7 +44,9 @@ export class Grid extends React.Component {
       h('.grid__wrapper', {
         style: this.getWrapperStyle(),
       }, [
-        h(SlotsContainer),
+        h(Slots, {
+          measureCount: this.props.measureCount,
+        }),
         h(DrawLayer, {
           activeSequenceId: this.props.activeSequenceId,
           isEnabled: this.getIsDrawLayerEnabled(),
