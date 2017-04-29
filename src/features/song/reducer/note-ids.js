@@ -7,16 +7,16 @@ import sequenceData from '../../sequence-data';
 
 export const noteIds = createReducer([], {
   [appData.actions.SONG_LOADED]: (state, action) =>
-    action.payload.notes.ids,
+    action.song.notes.ids,
 
   [sequenceData.actions.NOTE_DRAWN]: (state, action) =>
-    [...state, action.payload.note.id],
+    [...state, action.note.id],
 
   [sequenceData.actions.NOTE_ERASED]: (state, action) =>
-    without(state)(action.payload.note.id),
+    without(state, action.note.id),
 
   [sequenceData.actions.NOTES_DELETED]: (state, action) =>
-    difference(state)(action.ids),
+    difference(state, map('id', action.notes)),
 
   [sequenceData.actions.NOTES_DUPLICATED]: (state, action) =>
     [...state, ...map('id', action.notes)],

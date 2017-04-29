@@ -12,5 +12,5 @@ export default createReducer('', {
     '',
 
   [actions.SEQUENCE_SELECTED]: (state, action) =>
-    action.id,
+    action.sequence.id,
 });

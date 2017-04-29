@@ -8,7 +8,9 @@ function* contextMenuItemSelected({ item }) {
   const { DELETE_SEQUENCE } = constants.contextMenuActions;
 
   if (item.action === DELETE_SEQUENCE) {
-    yield put(tracksData.actions.sequenceDeleted(item.id));
+    yield put(tracksData.actions.sequenceDeleted({
+      sequence: item.sequence,
+    }));
   }
 }
 

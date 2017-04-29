@@ -3,5 +3,5 @@ import appData from '../../app-data';
 
 export const name = createReducer('', {
   [appData.actions.SONG_LOADED]: (state, action) =>
-    action.payload.name,
+    action.song.name,
 });

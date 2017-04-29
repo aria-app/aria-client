@@ -97,7 +97,7 @@ export class Grid extends React.Component {
   }
 
   handleDrawLayerDraw = note =>
-    this.props.onDraw(note);
+    this.props.onDraw({ note });
 
   handleMouseMove = (e) => {
     const mousePoint = getMousePoint(

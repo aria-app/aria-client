@@ -64,22 +64,34 @@ export class TrackerToolbar extends React.Component {
     negate(isEmpty)(this.props.selectedSequence);
 
   handleSequenceActionsDeleteClick = () =>
-    this.props.onSequenceDelete(this.props.selectedSequence.id);
+    this.props.onSequenceDelete({
+      sequence: this.props.selectedSequence,
+    });
 
   handleSequenceActionsExtendClick = () =>
-    this.props.onSequenceExtend(this.props.selectedSequence.id);
+    this.props.onSequenceExtend({
+      sequence: this.props.selectedSequence,
+    });
 
   handleSequenceActionsMoveLeftClick = () =>
-    this.props.onSequenceMoveLeft(this.props.selectedSequence.id);
+    this.props.onSequenceMoveLeft({
+      sequence: this.props.selectedSequence,
+    });
 
   handleSequenceActionsMoveRightClick = () =>
-    this.props.onSequenceMoveRight(this.props.selectedSequence.id);
+    this.props.onSequenceMoveRight({
+      sequence: this.props.selectedSequence,
+    });
 
   handleSequenceActionsOpenClick = () =>
-    this.props.onSequenceOpen(this.props.selectedSequence.id);
+    this.props.onSequenceOpen({
+      sequence: this.props.selectedSequence,
+    });
 
   handleSequenceActionsShortenClick = () => {
     if (this.props.selectedSequence.measureCount < 2) return;
-    this.props.onSequenceShorten(this.props.selectedSequence.id);
+    this.props.onSequenceShorten({
+      sequence: this.props.selectedSequence,
+    });
   }
 }

@@ -1,6 +1,4 @@
-import get from 'lodash/fp/get';
 import isEmpty from 'lodash/fp/isEmpty';
-import map from 'lodash/fp/map';
 import React from 'react';
 import h from 'react-hyperscript';
 import keydown from 'react-keydown';
@@ -76,7 +74,7 @@ export class Sequencer extends React.Component {
     if (isEmpty(this.props.selectedNotes)) return;
 
     this.props.onDelete({
-      ids: map(get('id'), this.props.selectedNotes),
+      ids: this.props.selectedNotes,
     });
   }
 
@@ -112,7 +110,7 @@ export class Sequencer extends React.Component {
     )) return;
 
     this.props.onNudge({
-      ids: map(get('id'), this.props.selectedNotes),
+      notes: this.props.selectedNotes,
       delta,
     });
   }
@@ -142,7 +140,7 @@ export class Sequencer extends React.Component {
     if (this.props.notes.length === this.props.selectedNotes.length) return;
 
     this.props.onSelectAll({
-      ids: map(get('id'), this.props.notes),
+      ids: this.props.notes,
     });
   }
 

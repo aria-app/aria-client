@@ -102,31 +102,31 @@ export class Track extends React.Component {
   }
 
   handleBodyHeaderClick = () => {
-    this.props.onTrackSelect(this.props.track.id);
+    this.props.onTrackSelect(this.props.track);
   }
 
   handleBodyHeaderActionsActionMuteClick = (e) => {
-    this.props.onTrackIsMutedToggle(this.props.track.id);
+    this.props.onTrackIsMutedToggle(this.props.track);
     e.stopPropagation();
   }
 
   handleBodyHeaderActionsActionSoloClick = (e) => {
-    this.props.onTrackIsSoloingToggle(this.props.track.id);
+    this.props.onTrackIsSoloingToggle(this.props.track);
     e.stopPropagation();
   }
 
   handleBodySequencesAddButtonClick = () => {
-    this.props.onSequenceAdd({
-      position: this.getAddPosition(),
-      trackId: this.props.track.id,
-    });
+    this.props.onSequenceAdd(
+      this.props.track,
+      this.getAddPosition(),
+    );
   }
 
-  handleBodySequencesSequenceOpen = (sequenceId) => {
-    this.props.onSequenceOpen(sequenceId);
+  handleBodySequencesSequenceOpen = (sequence) => {
+    this.props.onSequenceOpen(sequence);
   }
 
-  handleBodySequencesSequenceSelect = (sequenceId) => {
-    this.props.onSequenceSelect(sequenceId);
+  handleBodySequencesSequenceSelect = (sequence) => {
+    this.props.onSequenceSelect(sequence);
   }
 }

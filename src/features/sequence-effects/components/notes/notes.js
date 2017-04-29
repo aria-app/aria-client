@@ -135,7 +135,7 @@ export class Notes extends React.Component {
   }
 
   handleNoteErase = note =>
-    this.props.onErase(note);
+    this.props.onErase({ note });
 
   handleNoteMoveStart = () =>
     this.setState(() => ({
@@ -148,8 +148,11 @@ export class Notes extends React.Component {
     }));
 
 
-  handleNoteSelect = (...args) =>
-    this.props.onSelect(...args);
+  handleNoteSelect = ({ isAdditive, note }) =>
+    this.props.onSelect({
+      isAdditive,
+      note,
+    });
 
   handleResize = (delta) => {
     const isDraggingLeft = delta.x < 0;

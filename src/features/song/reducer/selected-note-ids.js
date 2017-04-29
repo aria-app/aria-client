@@ -14,15 +14,15 @@ export const selectedNoteIds = createReducer([], {
     [],
 
   [sequenceData.actions.NOTE_SELECTED]: (state, action) =>
-    (action.payload.isAdditive
-      ? toggleInArray(action.payload.note.id)(state)
-      : [action.payload.note.id]),
+    (action.isAdditive
+      ? toggleInArray(action.note.id, state)
+      : [action.note.id]),
 
   [sequenceData.actions.NOTES_ALL_DESELECTED]: () =>
     [],
 
   [sequenceData.actions.NOTES_ALL_SELECTED]: (state, action) =>
-    action.ids,
+    map('id', action.notes),
 
   [sequenceData.actions.NOTES_DELETED]: () =>
     [],
@@ -32,13 +32,13 @@ export const selectedNoteIds = createReducer([], {
 
   [sequenceData.actions.NOTES_SELECTED_IN_AREA]: (state, action) => {
     const idsInArea = map('id', helpers.getNotesInArea(
-      action.payload.startPoint,
-      action.payload.endPoint,
-      action.payload.notes,
+      action.startPoint,
+      action.endPoint,
+      action.notes,
     ));
-    const selectedIds = map('id', action.payload.selectedNotes);
+    const selectedIds = map('id', action.selectedNotes);
 
-    return action.payload.isAdditive
+    return action.isAdditive
       ? [...selectedIds, ...idsInArea]
       : idsInArea;
   },

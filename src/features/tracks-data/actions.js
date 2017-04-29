@@ -19,50 +19,48 @@ export const TRACK_IS_MUTED_TOGGLED = `${NAME}/TRACK_IS_MUTED_TOGGLED`;
 export const TRACK_IS_SOLOING_TOGGLED = `${NAME}/TRACK_IS_SOLOING_TOGGLED`;
 export const TRACK_SYNTH_TYPE_SET = `${NAME}/TRACK_SYNTH_TYPE_SET`;
 
-export const sequenceAdded = ({ position, sequenceId, trackId }) => ({
+export const sequenceAdded = ({ sequence }) => ({
   type: SEQUENCE_ADDED,
-  position,
-  sequenceId,
-  trackId,
+  sequence,
 });
 
-export const sequenceDeleted = id => ({
+export const sequenceDeleted = ({ sequence }) => ({
   type: SEQUENCE_DELETED,
-  id,
+  sequence,
 });
 
 export const sequenceDeselected = () => ({
   type: SEQUENCE_DESELECTED,
 });
 
-export const sequenceExtended = id => ({
+export const sequenceExtended = ({ sequence }) => ({
   type: SEQUENCE_EXTENDED,
-  id,
+  sequence,
 });
 
-export const sequenceNudgedLeft = id => ({
+export const sequenceNudgedLeft = ({ sequence }) => ({
   type: SEQUENCE_NUDGED_LEFT,
-  id,
+  sequence,
 });
 
-export const sequenceNudgedRight = id => ({
+export const sequenceNudgedRight = ({ sequence }) => ({
   type: SEQUENCE_NUDGED_RIGHT,
-  id,
+  sequence,
 });
 
-export const sequenceOpened = id => ({
+export const sequenceOpened = ({ sequence }) => ({
   type: SEQUENCE_OPENED,
-  id,
+  sequence,
 });
 
-export const sequenceSelected = id => ({
+export const sequenceSelected = ({ sequence }) => ({
   type: SEQUENCE_SELECTED,
-  id,
+  sequence,
 });
 
-export const sequenceShortened = id => ({
+export const sequenceShortened = ({ sequence }) => ({
   type: SEQUENCE_SHORTENED,
-  id,
+  sequence,
 });
 
 export const songExtended = () => ({
@@ -73,38 +71,39 @@ export const songShortened = () => ({
   type: SONG_SHORTENED,
 });
 
-export const trackAdded = ({ sequenceId, trackId }) => ({
+export const trackAdded = ({ sequence, track }) => ({
   type: TRACK_ADDED,
-  sequenceId,
-  trackId,
+  sequence,
+  track,
 });
 
-export const trackDeleted = ({ id, sequenceIds }) => ({
+export const trackDeleted = ({ sequences, track }) => ({
   type: TRACK_DELETED,
-  id,
-  sequenceIds,
+  sequences,
+  track,
 });
 
 export const trackEditingFinished = () => ({
   type: TRACK_EDITING_FINISHED,
 });
 
-export const trackEditingStarted = id => ({
+export const trackEditingStarted = ({ track }) => ({
   type: TRACK_EDITING_STARTED,
-  id,
+  track,
 });
 
-export const trackIsMutedToggled = id => ({
+export const trackIsMutedToggled = ({ track }) => ({
   type: TRACK_IS_MUTED_TOGGLED,
-  id,
+  track,
 });
 
-export const trackIsSoloingToggled = id => ({
+export const trackIsSoloingToggled = ({ track }) => ({
   type: TRACK_IS_SOLOING_TOGGLED,
-  id,
+  track,
 });
 
-export const trackSynthTypeSet = payload => ({
+export const trackSynthTypeSet = ({ synthType, track }) => ({
   type: TRACK_SYNTH_TYPE_SET,
-  payload,
+  synthType,
+  track,
 });

@@ -15,9 +15,9 @@ export const bpmModalOpened = () => ({
   type: BPM_MODAL_OPENED,
 });
 
-export const bpmSet = payload => ({
+export const bpmSet = ({ bpm }) => ({
   type: BPM_SET,
-  payload,
+  bpm,
 });
 
 export const fileDragCancelled = () => ({
@@ -28,7 +28,7 @@ export const fileDragStarted = () => ({
   type: FILE_DRAG_STARTED,
 });
 
-export const songLoaded = payload => ({
+export const songLoaded = ({ song }) => ({
   type: SONG_LOADED,
-  payload,
+  song,
 });

@@ -58,14 +58,14 @@ export class TrackEditingModal extends React.Component {
 
   handleContentDeleteButtonClick = () => {
     this.props.onDelete({
-      sequenceIds: map('id')(this.props.stagedTrackSequences),
-      id: this.props.stagedTrack.id,
+      sequences: this.props.stagedTrackSequences,
+      track: this.props.stagedTrack,
     });
   }
 
   handleContentSynthDropdownListSelectedIdChange = (synthType) => {
     this.props.onSynthTypeSet({
-      track: this.props.stagedTrack.id,
+      track: this.props.stagedTrack,
       synthType,
     });
   }

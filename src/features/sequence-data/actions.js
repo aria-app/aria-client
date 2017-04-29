@@ -17,38 +17,39 @@ export const NOTES_DELETED = `${NAME}/NOTES_DELETED`;
 export const SEQUENCE_CLOSED = `${NAME}/SEQUENCE_CLOSED`;
 export const TOOL_SELECTED = `${NAME}/TOOL_SELECTED`;
 
-export const keyPressed = payload => ({
+export const keyPressed = ({ y }) => ({
   type: KEY_PRESSED,
-  payload,
+  y,
 });
 
-export const noteDrawn = payload => ({
+export const noteDrawn = ({ note }) => ({
   type: NOTE_DRAWN,
-  payload,
+  note,
 });
 
-export const noteErased = payload => ({
+export const noteErased = ({ note }) => ({
   type: NOTE_ERASED,
-  payload,
+  note,
 });
 
-export const noteSelected = payload => ({
+export const noteSelected = ({ isAdditive, note }) => ({
   type: NOTE_SELECTED,
-  payload,
+  isAdditive,
+  note,
 });
 
 export const notesAllDeselected = () => ({
   type: NOTES_ALL_DESELECTED,
 });
 
-export const notesAllSelected = ({ ids }) => ({
+export const notesAllSelected = ({ notes }) => ({
   type: NOTES_ALL_SELECTED,
-  ids,
+  notes,
 });
 
-export const notesDeleted = ({ ids }) => ({
+export const notesDeleted = ({ notes }) => ({
   type: NOTES_DELETED,
-  ids,
+  notes,
 });
 
 export const notesDragged = ({ notes }) => ({
@@ -61,20 +62,20 @@ export const notesDuplicated = ({ notes }) => ({
   notes,
 });
 
-export const notesMovedOctaveDown = payload => ({
+export const notesMovedOctaveDown = ({ notes }) => ({
   type: NOTES_MOVED_OCTAVE_DOWN,
-  payload,
+  notes,
 });
 
-export const notesMovedOctaveUp = payload => ({
+export const notesMovedOctaveUp = ({ notes }) => ({
   type: NOTES_MOVED_OCTAVE_UP,
-  payload,
+  notes,
 });
 
-export const notesNudged = ({ delta, ids }) => ({
+export const notesNudged = ({ delta, notes }) => ({
   type: NOTES_NUDGED,
   delta,
-  ids,
+  notes,
 });
 
 export const notesResized = ({ notes }) => ({
@@ -82,9 +83,19 @@ export const notesResized = ({ notes }) => ({
   notes,
 });
 
-export const notesSelectedInArea = payload => ({
+export const notesSelectedInArea = ({
+  endPoint,
+  isAdditive,
+  notes,
+  selectedNotes,
+  startPoint,
+}) => ({
   type: NOTES_SELECTED_IN_AREA,
-  payload,
+  endPoint,
+  isAdditive,
+  notes,
+  selectedNotes,
+  startPoint,
 });
 
 export const sequenceClosed = () => ({

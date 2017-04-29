@@ -13,7 +13,9 @@ function* initialize() {
     ? JSON.parse(localStorageSong)
     : song.sampleSong;
 
-  yield put(appData.actions.songLoaded(initialSong));
+  yield put(appData.actions.songLoaded({
+    song: initialSong,
+  }));
 }
 
 export default function* saga() {

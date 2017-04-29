@@ -1,4 +1,5 @@
 import compose from 'lodash/fp/compose';
+import curry from 'lodash/fp/curry';
 import first from 'lodash/fp/first';
 import get from 'lodash/fp/get';
 import isEqual from 'lodash/fp/isEqual';
@@ -7,12 +8,10 @@ import some from 'lodash/fp/some';
 import { v4 } from 'uuid';
 import shared from '../shared';
 
-export function addPoints(b) {
-  return a => ({
-    x: a.x + b.x,
-    y: a.y + b.y,
-  });
-}
+export const addPoints = curry((b, a) => ({
+  x: a.x + b.x,
+  y: a.y + b.y,
+}));
 
 export function createNote({ id, points, sequenceId }) {
   if (typeof points === 'undefined') {
@@ -104,3 +103,8 @@ export function someNoteWillMoveOutside(measureCount, delta, notes) {
   );
   return some(hasPointOutside, notes);
 }
+
+export const translateNote = curry((delta, note) => ({
+  ...note,
+  points: map(addPoints(delta), note.points),
+}));

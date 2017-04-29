@@ -4,7 +4,7 @@ import tracksData from '../../tracks-data';
 
 export const measureCount = createReducer(1, {
   [appData.actions.SONG_LOADED]: (state, action) =>
-    action.payload.measureCount,
+    action.song.measureCount,
 
   [tracksData.actions.SONG_EXTENDED]: state =>
     state + 1,

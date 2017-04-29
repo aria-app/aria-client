@@ -2,11 +2,13 @@ import { includes } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
+import song from '../../../song';
 import { RulerContainer } from '../ruler/ruler-container';
 import { Track } from '../track/track';
 import './tracks.scss';
 
 const { Icon } = shared.components;
+const { createSequence } = song.helpers;
 
 export class Tracks extends React.Component {
   static propTypes = {
@@ -42,10 +44,10 @@ export class Tracks extends React.Component {
         isSoloing: this.getIsTrackSoloing(track),
         onSequenceAdd: this.handleTrackSequenceAdd,
         onSequenceContextMenu: this.props.onSequenceContextMenu,
-        onSequenceOpen: this.props.onSequenceOpen,
-        onSequenceSelect: this.props.onSequenceSelect,
-        onTrackIsMutedToggle: this.props.onTrackIsMutedToggle,
-        onTrackIsSoloingToggle: this.props.onTrackIsSoloingToggle,
+        onSequenceOpen: this.handleTrackSequenceOpen,
+        onSequenceSelect: this.handleTrackSequenceSelect,
+        onTrackIsMutedToggle: this.handleTrackIsMutedToggle,
+        onTrackIsSoloingToggle: this.handleTrackIsSoloingToggle,
         onTrackSelect: this.handleTrackSelect,
         selectedSequenceId: this.props.selectedSequenceId,
         songMeasureCount: this.props.songMeasureCount,
@@ -74,17 +76,21 @@ export class Tracks extends React.Component {
   }
 
   getIsTrackMuted(track) {
-    return includes(track.id)(this.props.mutedTrackIds);
+    return includes(track)(this.props.mutedTrackIds);
   }
 
   getIsTrackSoloing(track) {
-    return includes(track.id)(this.props.soloingTrackIds);
+    return includes(track)(this.props.soloingTrackIds);
   }
 
   handleAddButtonClick = () => {
+    const track = song.helpers.createTrack();
     this.props.onTrackAdd({
-      sequenceId: shared.helpers.getId(),
-      trackId: shared.helpers.getId(),
+      sequence: createSequence({
+        measureCount: 1,
+        trackId: track.id,
+      }),
+      track,
     });
   }
 
@@ -96,14 +102,38 @@ export class Tracks extends React.Component {
     this.props.onSequenceDeselect();
   }
 
+  handleTrackIsMutedToggle = track =>
+    this.props.onTrackIsMutedToggle({
+      track,
+    });
+
+  handleTrackIsSoloingToggle = track =>
+    this.props.onTrackIsSoloingToggle({
+      track,
+    });
+
   handleTrackSelect = (trackId) => {
-    this.props.onTrackStage(trackId);
+    this.props.onTrackStage({
+      trackId,
+    });
   }
 
-  handleTrackSequenceAdd = ({ position, trackId }) =>
+  handleTrackSequenceAdd = (track, position) =>
     this.props.onSequenceAdd({
-      sequenceId: shared.helpers.getId(),
-      position,
-      trackId,
+      sequence: createSequence({
+        measureCount: 1,
+        trackId: track.id,
+        position,
+      }),
+    });
+
+  handleTrackSequenceOpen = sequence =>
+    this.props.onSequenceOpen({
+      sequence,
+    });
+
+  handleTrackSequenceSelect = sequence =>
+    this.props.onSequenceSelect({
+      sequence,
     });
 }

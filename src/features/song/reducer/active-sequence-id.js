@@ -5,11 +5,11 @@ import tracksData from '../../tracks-data';
 
 export const activeSequenceId = createReducer('', {
   [appData.actions.SONG_LOADED]: (state, action) =>
-    action.payload.activeSequenceId,
+    action.song.activeSequenceId,
 
   [sequenceData.actions.SEQUENCE_CLOSED]: () =>
     '',
 
   [tracksData.actions.SEQUENCE_OPENED]: (state, action) =>
-    action.id,
+    action.sequence.id,
 });

@@ -12,5 +12,5 @@ export const bpm = createReducer(120, {
     clampBPM(action.bpm),
 
   [appData.actions.SONG_LOADED]: (state, action) =>
-    action.payload.bpm,
+    action.song.bpm,
 });

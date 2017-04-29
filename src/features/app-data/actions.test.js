@@ -32,16 +32,4 @@ describe('App Actions', () => {
       expect(result).toEqual(expected);
     });
   });
-
-  describe('fileDropped', () => {
-    it('should return action with type FILE_DROPPED and payload equal to file argument', () => {
-      const file = {};
-      const expected = {
-        type: actions.FILE_DROPPED,
-        payload: file,
-      };
-      const result = actions.fileDropped(file);
-      expect(result).toEqual(expected);
-    });
-  });
 });

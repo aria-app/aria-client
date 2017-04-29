@@ -1,4 +1,3 @@
-import map from 'lodash/fp/map';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -121,7 +120,7 @@ export class SequencerToolbar extends React.Component {
 
   handleDeleteButtonClick = () => {
     this.props.onDelete({
-      ids: map('id', this.props.selectedNotes),
+      ids: this.props.selectedNotes,
     });
   }
 

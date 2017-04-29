@@ -45,11 +45,11 @@ export class Sequence extends React.Component {
     e.stopPropagation();
 
     if (this.props.isSelected) {
-      this.props.onOpen(this.props.sequence.id);
+      this.props.onOpen(this.props.sequence);
       return;
     }
 
-    this.props.onSelect(this.props.sequence.id);
+    this.props.onSelect(this.props.sequence);
   }
 
   handleContextMenu = (e) => {
@@ -57,7 +57,7 @@ export class Sequence extends React.Component {
       {
         text: 'Delete',
         action: constants.contextMenuActions.DELETE_SEQUENCE,
-        id: this.props.sequence.id,
+        sequence: this.props.sequence,
       },
     ];
 
