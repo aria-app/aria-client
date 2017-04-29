@@ -14,6 +14,8 @@ import song from '../../../song';
 import { Note } from '../note/note';
 import './notes.scss';
 
+const { resizeNote, translateNote } = song.helpers;
+
 export class Notes extends React.Component {
   static propTypes = {
     measureCount: React.PropTypes.number.isRequired,
@@ -75,10 +77,7 @@ export class Notes extends React.Component {
     )) return;
 
     this.setState(state => ({
-      stagedNotes: map(note => ({
-        ...note,
-        points: note.points.map(addPoints(delta)),
-      }), state.stagedNotes),
+      stagedNotes: map(translateNote(delta), state.stagedNotes),
     }));
   };
 
@@ -173,8 +172,8 @@ export class Notes extends React.Component {
 
     const willGoOutside = compose(
       getIsSomePointOutside(this.props.measureCount),
-      map(compose(addPoints(delta), last)),
-    )(pointSets);
+      map(resizeNote(delta)),
+    )(this.state.stagedNotes);
 
     const isResizeInvalid = (
       (isDraggingLeft && isAnyNoteBent && willAnyBeMinLength) ||
@@ -190,13 +189,7 @@ export class Notes extends React.Component {
 
   resizeStagedNotes = delta =>
     this.setState(state => ({
-      stagedNotes: map(note => ({
-        ...note,
-        points: [
-          ...note.points.slice(0, note.points.length - 1),
-          addPoints(delta)(last(note.points)),
-        ],
-      }), state.stagedNotes),
+      stagedNotes: map(resizeNote(delta), state.stagedNotes),
     }));
 
   stopDragging = () => {
@@ -208,13 +201,6 @@ export class Notes extends React.Component {
     this.props.onResize({ notes: this.state.stagedNotes });
     this.setState({ isResizing: false });
   };
-}
-
-function addPoints(b) {
-  return a => ({
-    x: a.x + b.x,
-    y: a.y + b.y,
-  });
 }
 
 function getIsSomePointOutside(measureCount) {

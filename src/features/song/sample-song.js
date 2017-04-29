@@ -14,7 +14,6 @@ const initialTracks = [
 const initialSequences = [
   helpers.createSequence({
     trackId: initialTracks[0].id,
-    measureCount: 1,
     position: 0,
   }),
   // helpers.createSequence({

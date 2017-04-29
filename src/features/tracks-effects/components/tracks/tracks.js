@@ -87,7 +87,6 @@ export class Tracks extends React.Component {
     const track = song.helpers.createTrack();
     this.props.onTrackAdd({
       sequence: createSequence({
-        measureCount: 1,
         trackId: track.id,
       }),
       track,
@@ -121,7 +120,6 @@ export class Tracks extends React.Component {
   handleTrackSequenceAdd = (track, position) =>
     this.props.onSequenceAdd({
       sequence: createSequence({
-        measureCount: 1,
         trackId: track.id,
         position,
       }),

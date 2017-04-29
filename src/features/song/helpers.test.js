@@ -68,15 +68,6 @@ describe('Song Helpers', () => {
       expect(expected).toEqual(result);
     });
 
-    it('should throw if measureCount is undefined', () => {
-      const fn = () => helpers.createSequence({
-        id: 's1',
-        position: 1,
-        trackId: 't1',
-      });
-      expect(fn).toThrow();
-    });
-
     it('should throw if position is undefined', () => {
       const fn = () => helpers.createSequence({
         id: 's1',
