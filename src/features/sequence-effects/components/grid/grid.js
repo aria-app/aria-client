@@ -6,10 +6,10 @@ import { DrawLayer } from '../draw-layer/draw-layer';
 import { Notes } from '../notes/notes';
 import { Panner } from '../panner/panner';
 import { Selector } from '../selector/selector';
-import { SequencerTimelineContainer } from '../sequencer-timeline-container/sequencer-timeline-container';
 import { SlotsContainer } from '../slots/slots-container';
 import './grid.scss';
 
+const { Timeline } = shared.components;
 const { DRAW, PAN, SELECT } = shared.constants.toolTypes;
 
 export class Grid extends React.Component {
@@ -77,7 +77,10 @@ export class Grid extends React.Component {
           scrollLeftEl: this.elementRef,
           scrollTopEl: this.props.sequencerContentRef,
         }),
-        h(SequencerTimelineContainer),
+        h(Timeline, {
+          isVisible: false,
+          offset: 0 * 40,
+        }),
       ]),
     ]);
   }
