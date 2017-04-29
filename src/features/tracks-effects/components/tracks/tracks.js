@@ -1,4 +1,3 @@
-import { includes } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -44,8 +43,7 @@ export class Tracks extends React.PureComponent {
         playbackState: 'stopped',
       }),
       ...this.props.tracks.map(track => h(Track, {
-        isMuted: this.getIsTrackMuted(track),
-        isSoloing: this.getIsTrackSoloing(track),
+        mutedTrackIds: this.props.mutedTrackIds,
         onSequenceAdd: this.handleTrackSequenceAdd,
         onSequenceContextMenu: this.props.onSequenceContextMenu,
         onSequenceOpen: this.handleTrackSequenceOpen,
@@ -54,6 +52,7 @@ export class Tracks extends React.PureComponent {
         onTrackIsSoloingToggle: this.handleTrackIsSoloingToggle,
         onTrackSelect: this.handleTrackSelect,
         selectedSequenceId: this.props.selectedSequenceId,
+        soloingTrackIds: this.props.mutedTrackIds,
         songMeasureCount: this.props.songMeasureCount,
         track,
       })),
@@ -76,12 +75,6 @@ export class Tracks extends React.PureComponent {
   getAddButtonStyle = () => ({
     width: (this.props.songMeasureCount * 64) + 84,
   });
-
-  getIsTrackMuted = track =>
-    includes(track.id, this.props.mutedTrackIds);
-
-  getIsTrackSoloing = track =>
-    includes(track.id, this.props.soloingTrackIds);
 
   handleAddButtonClick = () => {
     const track = song.helpers.createTrack();

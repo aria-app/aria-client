@@ -1,4 +1,5 @@
-import { max } from 'lodash/fp';
+import includes from 'lodash/fp/includes';
+import max from 'lodash/fp/max';
 import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
@@ -10,8 +11,7 @@ const { Icon } = shared.components;
 
 export class Track extends React.PureComponent {
   static propTypes = {
-    isMuted: React.PropTypes.bool.isRequired,
-    isSoloing: React.PropTypes.bool.isRequired,
+    mutedTrackIds: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     onSequenceAdd: React.PropTypes.func.isRequired,
     onSequenceContextMenu: React.PropTypes.func.isRequired,
     onSequenceOpen: React.PropTypes.func.isRequired,
@@ -20,6 +20,7 @@ export class Track extends React.PureComponent {
     onTrackIsSoloingToggle: React.PropTypes.func.isRequired,
     onTrackSelect: React.PropTypes.func.isRequired,
     selectedSequenceId: React.PropTypes.string,
+    soloingTrackIds: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     songMeasureCount: React.PropTypes.number.isRequired,
     track: React.PropTypes.object.isRequired,
   }
@@ -48,10 +49,10 @@ export class Track extends React.PureComponent {
           style: this.getBodySequencesStyle(),
         }, [
           ...this.props.track.sequences.map(sequence => h(Sequence, {
-            isSelected: this.getIsSequenceSelected(sequence),
             onContextMenu: this.props.onSequenceContextMenu,
             onOpen: this.handleBodySequencesSequenceOpen,
             onSelect: this.handleBodySequencesSequenceSelect,
+            selectedSequenceId: this.props.selectedSequenceId,
             sequence,
           })),
           h('.track__body__sequences__add-button', {
@@ -75,13 +76,13 @@ export class Track extends React.PureComponent {
 
   getBodyHeaderActionsActionMuteClassName() {
     return classnames({
-      'track__body__header__actions__action--active': this.props.isMuted,
+      'track__body__header__actions__action--active': this.getIsMuted(),
     });
   }
 
   getBodyHeaderActionsActionSoloClassName() {
     return classnames({
-      'track__body__header__actions__action--active': this.props.isSoloing,
+      'track__body__header__actions__action--active': this.getIsSoloing(),
     });
   }
 
@@ -97,9 +98,11 @@ export class Track extends React.PureComponent {
     };
   }
 
-  getIsSequenceSelected(sequence) {
-    return sequence.id === this.props.selectedSequenceId;
-  }
+  getIsMuted = () =>
+    includes(this.props.track.id, this.props.mutedTrackIds);
+
+  getIsSoloing = () =>
+    includes(this.props.track.id, this.props.soloingTrackIds);
 
   handleBodyHeaderClick = () => {
     this.props.onTrackSelect(this.props.track);

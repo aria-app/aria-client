@@ -7,10 +7,10 @@ import './sequence.scss';
 export class Sequence extends React.PureComponent {
   static propTypes = {
     className: React.PropTypes.string,
-    isSelected: React.PropTypes.bool.isRequired,
     onContextMenu: React.PropTypes.func.isRequired,
     onOpen: React.PropTypes.func.isRequired,
     onSelect: React.PropTypes.func.isRequired,
+    selectedSequenceId: React.PropTypes.string.isRequired,
     sequence: React.PropTypes.object.isRequired,
   }
 
@@ -30,9 +30,12 @@ export class Sequence extends React.PureComponent {
 
   getClassName() {
     return classnames({
-      'sequence--active': this.props.isSelected,
+      'sequence--active': this.getIsSelected(),
     }, this.props.className);
   }
+
+  getIsSelected = () =>
+    this.props.sequence.id === this.props.selectedSequenceId;
 
   getStyle() {
     return {
@@ -44,7 +47,7 @@ export class Sequence extends React.PureComponent {
   handleClick = (e) => {
     e.stopPropagation();
 
-    if (this.props.isSelected) {
+    if (this.getIsSelected()) {
       this.props.onOpen(this.props.sequence);
       return;
     }
