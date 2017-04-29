@@ -8,7 +8,7 @@ const { PAUSED, STARTED, STOPPED } = shared.constants.playbackStates;
 
 export class SongToolbar extends React.Component {
   static propTypes = {
-    BPM: React.PropTypes.number.isRequired,
+    bpm: React.PropTypes.number.isRequired,
     onBPMModalOpen: React.PropTypes.func.isRequired,
     onPause: React.PropTypes.func.isRequired,
     onPlay: React.PropTypes.func.isRequired,
@@ -51,7 +51,7 @@ export class SongToolbar extends React.Component {
         }),
         h(Button, {
           className: 'song-toolbar__set-bpm-button',
-          text: `BPM ${this.props.BPM}`,
+          text: `BPM ${this.props.bpm}`,
           onClick: this.props.onBPMModalOpen,
         }),
         h(DownloadButton, {

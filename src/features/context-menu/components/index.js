@@ -1,1 +1,1 @@
-export { ContextMenuContainer } from './context-menu/context-menu-container';
+export { ContextMenu } from './context-menu/context-menu';

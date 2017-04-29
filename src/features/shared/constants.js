@@ -126,7 +126,7 @@ export const toolTypes = {
   PAN: 'PAN',
 };
 
-export const bpmRange = rangeStep(minBPM, maxBPM + 1, 10);
+export const bpmRange = rangeStep(10, minBPM, maxBPM + 1);
 
 export const defaultSynthType = synthTypes.SQUARE;
 

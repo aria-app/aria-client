@@ -12,9 +12,7 @@ export class ContextMenu extends React.Component {
   static propTypes = {
     className: React.PropTypes.string,
     isOpen: React.PropTypes.bool.isRequired,
-    items: React.PropTypes.arrayOf(
-      React.PropTypes.object,
-    ).isRequired,
+    items: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     onIsOpenChange: React.PropTypes.func.isRequired,
     onSelect: React.PropTypes.func.isRequired,
     position: React.PropTypes.shape({
