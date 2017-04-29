@@ -1,7 +1,7 @@
-import { includes } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
+import { Key } from '../key/key';
 import './keys.scss';
 
 const { scale } = shared.constants;
@@ -13,28 +13,19 @@ export class Keys extends React.PureComponent {
 
   render() {
     return h('.keys', [
-      ...scale.map(step => h('.keys__key', {
-        className: getKeyClasses(step),
-        onMouseUp: () => this.handleKeyPress(step),
-      }, [
-        h('.keys__key__label', [
-          step.name,
-        ]),
-      ])),
+      ...this.getScale().map(step => h(Key, {
+        key: step.y,
+        onMouseUp: this.handleKeyMouseUp,
+        step,
+      })),
     ]);
   }
 
-  handleKeyPress = (step) => {
+  getScale = () => scale;
+
+  handleKeyMouseUp = (step) => {
     this.props.onKeyPress({
       y: step.y,
     });
   }
-}
-
-function getKeyClasses(step) {
-  const letter = step.name.slice(0, 1).toLowerCase();
-  const suffix = includes('#')(step.name)
-    ? 'sharp'
-    : '';
-  return `keys__key--${letter}${suffix}`;
 }

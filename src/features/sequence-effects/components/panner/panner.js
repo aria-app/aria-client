@@ -2,15 +2,16 @@ import { isEmpty } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
+import shared from '../../../shared';
 import './panner.scss';
 
 export class Panner extends React.PureComponent {
   static propTypes = {
-    isEnabled: React.PropTypes.bool.isRequired,
     onScrollLeftChange: React.PropTypes.func.isRequired,
     onScrollTopChange: React.PropTypes.func.isRequired,
     scrollLeftEl: React.PropTypes.object,
     scrollTopEl: React.PropTypes.object,
+    toolType: React.PropTypes.string.isRequired,
   }
 
   state = {
@@ -25,16 +26,19 @@ export class Panner extends React.PureComponent {
       onMouseMove: this.handleMouseMove,
       onMouseUp: this.handleMouseUp,
       style: {
-        pointerEvents: this.props.isEnabled ? 'all' : 'none',
+        pointerEvents: this.getIsEnabled() ? 'all' : 'none',
       },
     });
   }
 
   getClassName = () => classnames({
-    'panner--grab': this.props.isEnabled,
+    'panner--grab': this.getIsEnabled(),
   });
 
   getIsPanning = () => !isEmpty(this.state.startPoint);
+
+  getIsEnabled = () =>
+    this.props.toolType === shared.constants.toolTypes.PAN;
 
   getStartPoint(e) {
     return {
@@ -46,7 +50,6 @@ export class Panner extends React.PureComponent {
   }
 
   handleMouseDown = (e) => {
-    if (!this.props.isEnabled) return;
     e.preventDefault();
     e.stopPropagation();
 

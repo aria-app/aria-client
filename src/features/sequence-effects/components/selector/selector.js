@@ -1,17 +1,18 @@
 import { isEmpty } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
+import shared from '../../../shared';
 import { Fence } from '../fence/fence';
 import './selector.scss';
 
 export class Selector extends React.PureComponent {
   static propTypes = {
     children: React.PropTypes.node.isRequired,
-    isEnabled: React.PropTypes.bool.isRequired,
     mousePoint: React.PropTypes.object.isRequired,
     notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     onSelect: React.PropTypes.func.isRequired,
     selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    toolType: React.PropTypes.string.isRequired,
   }
 
   state = {
@@ -25,7 +26,7 @@ export class Selector extends React.PureComponent {
       onMouseLeave: this.handleMouseLeave,
       onMouseUp: this.handleMouseUp,
       style: {
-        pointerEvents: this.props.isEnabled ? 'all' : 'none',
+        pointerEvents: this.getIsEnabled() ? 'all' : 'none',
       },
     }, [
       this.props.children,
@@ -38,6 +39,9 @@ export class Selector extends React.PureComponent {
   }
 
   getIsSelecting = () => !isEmpty(this.state.startPoint);
+
+  getIsEnabled = () =>
+    this.props.toolType === shared.constants.toolTypes.SELECT;
 
   handleMouseDown = () => {
     this.setState({

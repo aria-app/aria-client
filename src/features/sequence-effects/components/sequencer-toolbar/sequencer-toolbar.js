@@ -1,3 +1,4 @@
+import isEmpty from 'lodash/fp/isEmpty';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -10,7 +11,6 @@ const { someNoteWillMoveOutside } = song.helpers;
 
 export class SequencerToolbar extends React.Component {
   static propTypes = {
-    areSomeNotesSelected: React.PropTypes.bool.isRequired,
     measureCount: React.PropTypes.number.isRequired,
     onClose: React.PropTypes.func.isRequired,
     onDelete: React.PropTypes.func.isRequired,
@@ -29,7 +29,7 @@ export class SequencerToolbar extends React.Component {
   render() {
     return h(Toolbar, {
       className: 'sequencer-toolbar',
-      isAlternate: this.props.areSomeNotesSelected,
+      isAlternate: this.getAreSomeNotesSelected(),
       alternateLeftItems: [
         h(IconButton, {
           className: 'sequencer__toolbar__delete-button',
@@ -106,6 +106,9 @@ export class SequencerToolbar extends React.Component {
       ],
     });
   }
+
+  getAreSomeNotesSelected = () =>
+    !isEmpty(this.props.selectedNotes);
 
   getIsOctaveDownButtonDisabled = () =>
     someNoteWillMoveOutside(

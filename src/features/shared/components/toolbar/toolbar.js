@@ -26,6 +26,7 @@ export class Toolbar extends React.Component {
   render() {
     return h('.toolbar', {
       className: this.getClassName(),
+      style: this.props.style,
     }, [
       h('.toolbar__left', {}, this.getLeftItems()),
       h('.toolbar__right', {}, this.getRightItems()),

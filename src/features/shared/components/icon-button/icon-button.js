@@ -22,6 +22,7 @@ export class IconButton extends React.Component {
     return h('.icon-button', {
       className: this.getClassName(),
       onClick: this.handleClick,
+      style: this.props.style,
       title: this.props.toolTip,
     }, [
       h('.icon-button__background'),

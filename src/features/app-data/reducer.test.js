@@ -76,20 +76,4 @@ describe('App Reducer', () => {
     const next = reducer(previous, action);
     expect(next).toEqual(expected);
   });
-
-  it('should handle FILE_DROPPED', () => {
-    const previous = {
-      isBPMModalOpen: false,
-      isFileOver: true,
-    };
-    const expected = {
-      isBPMModalOpen: false,
-      isFileOver: false,
-    };
-    const action = {
-      type: actions.FILE_DROPPED,
-    };
-    const next = reducer(previous, action);
-    expect(next).toEqual(expected);
-  });
 });

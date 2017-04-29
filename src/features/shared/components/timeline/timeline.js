@@ -13,18 +13,14 @@ export class Timeline extends React.Component {
 
   render() {
     return h('.timeline', {
-      style: {
-        display: this.getDisplay(),
-        transform: this.getTransform(),
-      },
+      className: this.props.className,
+      style: this.getStyle(),
     });
   }
 
-  getDisplay() {
-    return this.props.isVisible ? 'block' : 'none';
-  }
-
-  getTransform() {
-    return `translateX(${this.props.offset}px)`;
-  }
+  getStyle = () => ({
+    ...this.props.style,
+    display: this.props.isVisible ? 'block' : 'none',
+    transform: `translateX(${this.props.offset}px)`,
+  });
 }

@@ -10,7 +10,6 @@ import { Slots } from '../slots/slots';
 import './grid.scss';
 
 const { Timeline } = shared.components;
-const { DRAW, PAN, SELECT } = shared.constants.toolTypes;
 
 export class Grid extends React.PureComponent {
   static propTypes = {
@@ -49,16 +48,16 @@ export class Grid extends React.PureComponent {
         }),
         h(DrawLayer, {
           activeSequenceId: this.props.activeSequenceId,
-          isEnabled: this.getIsDrawLayerEnabled(),
           mousePoint: this.state.mousePoint,
           onDraw: this.handleDrawLayerDraw,
+          toolType: this.props.toolType,
         }),
         h(Selector, {
-          isEnabled: this.getIsSelectorEnabled(),
           mousePoint: this.state.mousePoint,
           notes: this.props.notes,
           onSelect: this.props.onSelectInArea,
           selectedNotes: this.props.selectedNotes,
+          toolType: this.props.toolType,
         }, [
           h(Notes, {
             measureCount: this.props.measureCount,
@@ -73,11 +72,11 @@ export class Grid extends React.PureComponent {
           }),
         ]),
         h(Panner, {
-          isEnabled: this.getIsPannerEnabled(),
           onScrollLeftChange: this.handlePannerScrollLeftChange,
           onScrollTopChange: this.handlePannerScrollTopChange,
           scrollLeftEl: this.elementRef,
           scrollTopEl: this.props.sequencerContentRef,
+          toolType: this.props.toolType,
         }),
         h(Timeline, {
           isVisible: false,
@@ -86,12 +85,6 @@ export class Grid extends React.PureComponent {
       ]),
     ]);
   }
-
-  getIsDrawLayerEnabled = () => this.props.toolType === DRAW;
-
-  getIsPannerEnabled = () => this.props.toolType === PAN;
-
-  getIsSelectorEnabled = () => this.props.toolType === SELECT;
 
   getWrapperStyle() {
     return {

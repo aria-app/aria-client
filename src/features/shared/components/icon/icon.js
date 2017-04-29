@@ -16,6 +16,7 @@ export class Icon extends React.Component {
   render() {
     return h('.icon', {
       className: this.props.className,
+      style: this.props.style,
     }, [
       h('.icon__content', [
         showIf(!!this.loadIcon())(

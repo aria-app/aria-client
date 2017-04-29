@@ -15,7 +15,6 @@ const { someNoteWillMoveOutside } = song.helpers;
 export class Sequencer extends React.PureComponent {
   static propTypes = {
     activeSequenceId: React.PropTypes.string.isRequired,
-    areSomeNotesSelected: React.PropTypes.bool.isRequired,
     measureCount: React.PropTypes.number.isRequired,
     notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     onClose: React.PropTypes.func.isRequired,
@@ -48,7 +47,6 @@ export class Sequencer extends React.PureComponent {
   render() {
     return h('.sequencer', [
       h(SequencerToolbar, {
-        areSomeNotesSelected: this.props.areSomeNotesSelected,
         measureCount: this.props.measureCount,
         onClose: this.handleToolbarClose,
         onDelete: this.handleToolbarDelete,
@@ -96,7 +94,7 @@ export class Sequencer extends React.PureComponent {
     if (isEmpty(this.props.selectedNotes)) return;
 
     this.props.onDelete({
-      ids: this.props.selectedNotes,
+      notes: this.props.selectedNotes,
     });
   }
 
@@ -216,7 +214,7 @@ export class Sequencer extends React.PureComponent {
     if (this.props.notes.length === this.props.selectedNotes.length) return;
 
     this.props.onSelectAll({
-      ids: this.props.notes,
+      notes: this.props.notes,
     });
   }
 

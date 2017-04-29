@@ -2,20 +2,6 @@ import shared from '../shared';
 import * as helpers from './helpers';
 
 describe('Song Helpers', () => {
-  describe('addPoints', () => {
-    it('should return add point, given two points', () => {
-      const expected = {
-        x: 24,
-        y: 15,
-      };
-      const result = helpers.addPoints(
-        { x: 16, y: 7 },
-        { x: 8, y: 8 },
-      );
-      expect(result).toEqual(expected);
-    });
-  });
-
   describe('createNote', () => {
     it('should return correctly formatted note', () => {
       const expected = {
@@ -104,80 +90,6 @@ describe('Song Helpers', () => {
         volume: 0,
       });
       expect(result).toEqual(expected);
-    });
-  });
-
-  describe('getIsInside', () => {
-    it('should return true, given a note between points with positive offset', () => {
-      const start = {
-        x: 0,
-        y: 0,
-      };
-      const end = {
-        x: 10,
-        y: 10,
-      };
-      const target = {
-        x: 5,
-        y: 5,
-      };
-      const result = helpers.getIsInside(start, end, target);
-
-      expect(result).toEqual(true);
-    });
-
-    it('should return true, given a note between points with negative offset', () => {
-      const start = {
-        x: 10,
-        y: 10,
-      };
-      const end = {
-        x: 0,
-        y: 0,
-      };
-      const target = {
-        x: 5,
-        y: 5,
-      };
-      const result = helpers.getIsInside(start, end, target);
-
-      expect(result).toEqual(true);
-    });
-
-    it('should return false, given a note outside points with positive offset', () => {
-      const start = {
-        x: 0,
-        y: 0,
-      };
-      const end = {
-        x: 10,
-        y: 10,
-      };
-      const target = {
-        x: 11,
-        y: 11,
-      };
-      const result = helpers.getIsInside(start, end, target);
-
-      expect(result).toEqual(false);
-    });
-
-    it('should return false, given a note outside points with negative offset', () => {
-      const start = {
-        x: 10,
-        y: 10,
-      };
-      const end = {
-        x: 0,
-        y: 0,
-      };
-      const target = {
-        x: 11,
-        y: 11,
-      };
-      const result = helpers.getIsInside(start, end, target);
-
-      expect(result).toEqual(false);
     });
   });
 });
