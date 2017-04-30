@@ -1,4 +1,3 @@
-import getOr from 'lodash/fp/getOr';
 import isEqual from 'lodash/fp/isEqual';
 import React from 'react';
 import h from 'react-hyperscript';
@@ -22,7 +21,6 @@ export class Grid extends React.PureComponent {
     onResize: React.PropTypes.func.isRequired,
     onSelect: React.PropTypes.func.isRequired,
     onSelectInArea: React.PropTypes.func.isRequired,
-    scrollTop: React.PropTypes.number.isRequired,
     selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     sequencerContentRef: React.PropTypes.object,
     toolType: React.PropTypes.string.isRequired,
@@ -33,13 +31,11 @@ export class Grid extends React.PureComponent {
       x: -1,
       y: -1,
     },
-    scrollLeft: 0,
   };
 
   render() {
     return h('.grid', {
       onMouseMove: this.handleMouseMove,
-      onScroll: this.handleScroll,
       ref: this.setRef,
     }, [
       h('.grid__wrapper', {
@@ -47,10 +43,6 @@ export class Grid extends React.PureComponent {
       }, [
         h(Slots, {
           measureCount: this.props.measureCount,
-          scrollLeft: this.state.scrollLeft,
-          scrollLeftElement: this.elementRef,
-          scrollTop: this.props.scrollTop,
-          scrollTopElement: this.props.sequencerContentRef,
         }),
         h(DrawLayer, {
           mousePoint: this.state.mousePoint,
@@ -118,14 +110,6 @@ export class Grid extends React.PureComponent {
 
   handlePannerScrollTopChange = (scrollTop) => {
     this.props.sequencerContentRef.scrollTop = scrollTop;
-  };
-
-  handleScroll = () => {
-    const scrollLeft = toSlotNumber(getOr(0, 'elementRef.scrollLeft', this));
-
-    if (isEqual(scrollLeft, this.state.scrollLeft)) return;
-
-    this.setState({ scrollLeft });
   };
 
   handleSelectorSelect = (startPoint, isAdditive) =>

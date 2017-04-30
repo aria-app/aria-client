@@ -1,6 +1,4 @@
-import getOr from 'lodash/fp/getOr';
 import isEmpty from 'lodash/fp/isEmpty';
-import isEqual from 'lodash/fp/isEqual';
 import React from 'react';
 import h from 'react-hyperscript';
 import keydown from 'react-keydown';
@@ -41,10 +39,6 @@ export class Sequencer extends React.PureComponent {
     windowWidth: React.PropTypes.number.isRequired,
   }
 
-  state = {
-    contentScrollTop: 0,
-  };
-
   componentDidMount() {
     if (!this.contentElementRef) return;
     this.contentElementRef.scrollTop = getCenteredScroll(
@@ -70,7 +64,6 @@ export class Sequencer extends React.PureComponent {
         toolType: this.props.toolType,
       }),
       h('.sequencer__content', {
-        onScroll: this.handleContentScroll,
         ref: this.setContentRef,
       }, [
         h('.sequencer__content__wrapper', [
@@ -87,7 +80,6 @@ export class Sequencer extends React.PureComponent {
             onResize: this.handleGridResize,
             onSelect: this.handleGridSelect,
             onSelectInArea: this.handleGridSelectInArea,
-            scrollTop: this.state.contentScrollTop,
             selectedNotes: this.props.selectedNotes,
             sequencerContentRef: this.contentElementRef,
             toolType: this.props.toolType,
@@ -129,14 +121,6 @@ export class Sequencer extends React.PureComponent {
       notes: duplicateNotes(this.props.selectedNotes),
     });
   }
-
-  handleContentScroll = () => {
-    const contentScrollTop = toSlotNumber(getOr(0, 'contentElementRef.scrollTop', this));
-
-    if (isEqual(contentScrollTop, this.state.contentScrollTop)) return;
-
-    this.setState({ contentScrollTop });
-  };
 
   handleGridDrag = notes =>
     this.props.onDrag({ notes });
@@ -278,8 +262,4 @@ export class Sequencer extends React.PureComponent {
 
 function getCenteredScroll(el) {
   return (el.scrollHeight / 2) - (el.offsetHeight / 2);
-}
-
-function toSlotNumber(n) {
-  return Math.floor(n / 40);
 }
