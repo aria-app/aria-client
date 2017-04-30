@@ -26,32 +26,34 @@ export class TrackerToolbar extends React.PureComponent {
       alternateLeftItems: [
         h('.tracker-toolbar__sequence-actions', [
           h(IconButton, {
-            className: 'tracker-toolbar__sequence-actions__open',
+            className: 'tracker-toolbar__sequence-actions__open-button',
             icon: 'pencil',
             onClick: this.props.onSequenceOpen,
           }),
           h(IconButton, {
-            className: 'tracker-toolbar__sequence-actions__delete',
+            className: 'tracker-toolbar__sequence-actions__delete-button',
             icon: 'trash',
             onClick: this.props.onSequenceDelete,
           }),
           h(IconButton, {
-            className: 'tracker-toolbar__sequence-actions__shorten',
+            className: 'tracker-toolbar__sequence-actions__shorten-button',
             icon: 'long-arrow-left',
+            isDisabled: this.getIsShortenButtonDisabled(),
             onClick: this.props.onSequenceShorten,
           }),
           h(IconButton, {
-            className: 'tracker-toolbar__sequence-actions__move-left',
+            className: 'tracker-toolbar__sequence-actions__move-left-button',
             icon: 'arrow-left',
+            isDisabled: this.getIsMoveLeftButtonDisabled(),
             onClick: this.props.onSequenceMoveLeft,
           }),
           h(IconButton, {
-            className: 'tracker-toolbar__sequence-actions__move-right',
+            className: 'tracker-toolbar__sequence-actions__move-right-button',
             icon: 'arrow-right',
             onClick: this.props.onSequenceMoveRight,
           }),
           h(IconButton, {
-            className: 'tracker-toolbar__sequence-actions__extend',
+            className: 'tracker-toolbar__sequence-actions__extend-button',
             icon: 'long-arrow-right',
             onClick: this.props.onSequenceExtend,
           }),
@@ -62,4 +64,10 @@ export class TrackerToolbar extends React.PureComponent {
 
   getIsAlternate = () =>
     negate(isEmpty)(this.props.selectedSequence);
+
+  getIsMoveLeftButtonDisabled = () =>
+    this.props.selectedSequence.position < 1;
+
+  getIsShortenButtonDisabled = () =>
+    this.props.selectedSequence.measureCount < 2;
 }

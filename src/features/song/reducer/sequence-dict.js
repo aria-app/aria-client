@@ -26,9 +26,7 @@ export const sequenceDict = createReducer({}, {
   [tracksData.actions.SEQUENCE_NUDGED_LEFT]: (state, action) =>
     setAtIds([{
       ...action.sequence,
-      position: action.sequence.position === 0
-        ? 0
-        : action.sequence.position - 1,
+      position: action.sequence.position - 1,
     }], state),
 
   [tracksData.actions.SEQUENCE_NUDGED_RIGHT]: (state, action) =>
