@@ -86,12 +86,6 @@ export const getNotesBySequenceId = sequenceId =>
     filter({ sequenceId }),
   );
 
-export const getNotesBySequenceIds = sequenceIds =>
-  pipe(
-    getNotes,
-    filter(n => includes(n.sequenceId)(sequenceIds)),
-  );
-
 
 // --- Sequence ---
 
@@ -111,12 +105,6 @@ export const getSequencesByTrackId = trackId =>
   pipe(
     getSequences,
     filter({ trackId }),
-  );
-
-export const getSequencesByTrackIds = trackIds =>
-  pipe(
-    getSequences,
-    filter(n => includes(n.trackId)(trackIds)),
   );
 
 const getDeepSequence = state => sequence => ({
