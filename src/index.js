@@ -11,6 +11,12 @@ const { AppContainer } = appEffects.components;
 
 store.dispatch(shared.actions.initialized());
 
+// Disable back button
+history.pushState(null, null, location.href);
+window.onpopstate = () => {
+  window.history.go(1);
+};
+
 render(
   h(Provider, {
     store,
