@@ -5,9 +5,9 @@ import without from 'lodash/fp/without';
 import { createReducer } from 'redux-create-reducer';
 import sequenceData from '../../sequence-data';
 import shared from '../../shared';
-import * as helpers from '../helpers';
 
 const { DRAW, ERASE } = shared.constants.toolTypes;
+const { getNotesInArea } = shared.helpers;
 
 const toggleInArray = curry((x, xs) =>
   (includes(x, xs) ? without([x], xs) : [...xs, x]));
@@ -34,7 +34,7 @@ export const selectedNoteIds = createReducer([], {
     map('id', action.notes),
 
   [sequenceData.actions.NOTES_SELECTED_IN_AREA]: (state, action) => {
-    const idsInArea = map('id', helpers.getNotesInArea(
+    const idsInArea = map('id', getNotesInArea(
       action.startPoint,
       action.endPoint,
       action.notes,

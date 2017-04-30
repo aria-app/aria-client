@@ -4,9 +4,8 @@ import { createReducer } from 'redux-create-reducer';
 import appData from '../../app-data';
 import sequenceData from '../../sequence-data';
 import shared from '../../shared';
-import { translateNote } from '../helpers';
 
-const { setAtIds } = shared.helpers;
+const { setAtIds, translateNote } = shared.helpers;
 
 const octaveDownDelta = { x: 0, y: 12 };
 const octaveUpDelta = { x: 0, y: -12 };

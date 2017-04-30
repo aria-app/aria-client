@@ -1,10 +1,10 @@
+import classnames from 'classnames';
 import find from 'lodash/fp/find';
 import first from 'lodash/fp/first';
 import includes from 'lodash/fp/includes';
 import last from 'lodash/fp/last';
 import React from 'react';
 import h from 'react-hyperscript';
-import classnames from 'classnames';
 import shared from '../../../shared';
 import './note.scss';
 

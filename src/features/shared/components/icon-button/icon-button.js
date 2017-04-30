@@ -1,4 +1,3 @@
-import invokeArgs from 'lodash/fp/invokeArgs';
 import React from 'react';
 import h from 'react-hyperscript';
 import StylePropType from 'react-style-proptype';
@@ -12,7 +11,7 @@ export class IconButton extends React.PureComponent {
     icon: React.PropTypes.string.isRequired,
     isActive: React.PropTypes.bool,
     isDisabled: React.PropTypes.bool,
-    onClick: React.PropTypes.func,
+    onClick: React.PropTypes.func.isRequired,
     size: React.PropTypes.oneOf(['small', 'regular', 'large', '']),
     style: StylePropType,
     toolTip: React.PropTypes.string,
@@ -42,8 +41,8 @@ export class IconButton extends React.PureComponent {
   }
 
   handleClick = (e) => {
-    if (this.props.isDisabled) return undefined;
+    if (this.props.isDisabled) return;
 
-    return invokeArgs('props.onClick', [e], this);
+    this.props.onClick(e);
   };
 }

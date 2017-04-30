@@ -1,0 +1,30 @@
+@import '../../../../styles/constants';
+@import '../../../../styles/palette';
+
+$context-menu-item__height: 48px;
+$context-menu-item__padding: $margin-s;
+$context-menu-item__color: $color-inverted;
+$context-menu-item__background-color--hover: $neutral-7;
+$context-menu-item__icon__margin-right: $margin-s;
+
+.context-menu-item {
+  display: flex;
+  align-items: center;
+  height: $context-menu-item__height;
+  padding-left: $context-menu-item__padding;
+  padding-right: $context-menu-item__padding;
+  color: $context-menu-item__color;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  overflow: hidden;
+  &__icon {
+    margin-right: $context-menu-item__icon__margin-right;
+    svg * {
+      fill: $context-menu-item__color;
+    }
+  }
+  &:hover {
+    background-color: $context-menu-item__background-color--hover;
+  }
+}

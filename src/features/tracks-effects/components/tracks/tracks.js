@@ -1,13 +1,12 @@
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import song from '../../../song';
 import { Ruler } from '../ruler/ruler';
 import { Track } from '../track/track';
 import './tracks.scss';
 
 const { Icon } = shared.components;
-const { createSequence } = song.helpers;
+const { createSequence, createTrack } = shared.helpers;
 
 export class Tracks extends React.PureComponent {
   static propTypes = {
@@ -52,7 +51,7 @@ export class Tracks extends React.PureComponent {
         onTrackIsSoloingToggle: this.handleTrackIsSoloingToggle,
         onTrackSelect: this.handleTrackSelect,
         selectedSequenceId: this.props.selectedSequenceId,
-        soloingTrackIds: this.props.mutedTrackIds,
+        soloingTrackIds: this.props.soloingTrackIds,
         songMeasureCount: this.props.songMeasureCount,
         track,
       })),
@@ -77,7 +76,7 @@ export class Tracks extends React.PureComponent {
   });
 
   handleAddButtonClick = () => {
-    const track = song.helpers.createTrack();
+    const track = createTrack();
     this.props.onTrackAdd({
       sequence: createSequence({
         trackId: track.id,

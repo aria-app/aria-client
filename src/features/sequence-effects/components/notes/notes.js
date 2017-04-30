@@ -8,11 +8,10 @@ import some from 'lodash/fp/some';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import song from '../../../song';
 import { Note } from '../note/note';
 import './notes.scss';
 
-const { addPoints, resizeNote, translateNote } = song.helpers;
+const { addPoints, resizeNote, someNoteWillMoveOutside, translateNote } = shared.helpers;
 
 export class Notes extends React.PureComponent {
   static propTypes = {
@@ -65,7 +64,7 @@ export class Notes extends React.PureComponent {
   ))(notes);
 
   dragStagedNotes = (delta) => {
-    if (song.helpers.someNoteWillMoveOutside(
+    if (someNoteWillMoveOutside(
       this.props.measureCount,
       delta,
       this.getSelectedNotes(),

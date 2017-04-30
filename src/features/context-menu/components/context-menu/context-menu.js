@@ -3,9 +3,9 @@ import React from 'react';
 import h from 'react-hyperscript';
 import StylePropType from 'react-style-proptype';
 import shared from '../../../shared';
+import { ContextMenuItem } from '../context-menu-item/context-menu-item';
 import './context-menu.scss';
 
-const { Icon } = shared.components;
 const { showIf } = shared.helpers;
 
 export class ContextMenu extends React.PureComponent {
@@ -37,19 +37,11 @@ export class ContextMenu extends React.PureComponent {
             style: this.getOverlayPopupStyle(),
           }, [
             h('.context-menu__overlay__popup__list', [
-              ...this.props.items.map(item => h('.context-menu__overlay__popup__list__item', {
-                onClick: e => this.handleOverlayPopupListItemClick(item, e),
-              }, [
-                showIf(item.icon)(
-                  h(Icon, {
-                    className: 'context-menu__overlay__popup__list__item__icon',
-                    icon: item.icon,
-                  }),
-                ),
-                h('.context-menu__overlay__popup__list__item__text', [
-                  item.text,
-                ]),
-              ])),
+              ...this.props.items.map(item => h(ContextMenuItem, {
+                key: item.text,
+                onClick: this.handleOverlayPopupListItemClick,
+                item,
+              })),
             ]),
           ]),
         ]),

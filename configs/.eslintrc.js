@@ -83,6 +83,6 @@ module.exports = {
     ],
     'react/sort-prop-types': 2,
     'react/style-prop-object': 2,
-    // 'react/no-unused-prop-types': 2,
+    'react/no-unused-prop-types': 2,
   },
 }

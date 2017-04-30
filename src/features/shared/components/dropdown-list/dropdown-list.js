@@ -1,9 +1,9 @@
-import { find, isEqual } from 'lodash/fp';
+import find from 'lodash/fp/find';
 import React from 'react';
 import StylePropType from 'react-style-proptype';
-import classnames from 'classnames';
 import h from 'react-hyperscript';
 import { hideIf, showIf } from '../../helpers';
+import { DropdownListItem } from '../dropdown-list-item/dropdown-list-item';
 import { Icon } from '../icon/icon';
 import { IconButton } from '../icon-button/icon-button';
 import './dropdown-list.scss';
@@ -86,34 +86,17 @@ export class DropdownList extends React.PureComponent {
           style: this.getPopupStyle(),
         }, [
           h('.dropdown-list__popup__list', [
-            ...this.props.items.map(item => h('.dropdown-list__popup__list__item', {
-              className: this.getPopupListItemClassName(item),
-              onClick: () => this.handlePopupListItemClick(item),
-            }, [
-              item.text,
-            ])),
+            ...this.props.items.map(item => h(DropdownListItem, {
+              className: 'dropdown-list__popup__list__item',
+              onClick: this.handlePopupListItemClick,
+              selectedId: this.props.selectedId,
+              selectedItem: this.props.selectedItem,
+              item,
+            })),
           ]),
         ]),
       ),
     ]);
-  }
-
-  getIsItemSelected(item) {
-    if (this.props.selectedItem) {
-      return isEqual(item, this.props.selectedItem);
-    }
-
-    if (this.props.selectedId) {
-      return item.id === this.props.selectedId;
-    }
-
-    return false;
-  }
-
-  getPopupListItemClassName(item) {
-    return classnames({
-      'dropdown-list__popup__list__item--active': this.getIsItemSelected(item),
-    });
   }
 
   getPopupStyle() {

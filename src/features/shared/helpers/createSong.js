@@ -1,6 +1,6 @@
 import { map } from 'lodash/fp';
 import { v4 } from 'uuid';
-import shared from '../../shared';
+import * as constants from '../constants';
 import { createNote } from './createNote';
 import { createSequence } from './createSequence';
 import { createTrack } from './createTrack';
@@ -28,10 +28,10 @@ const initialNotes = [
 export function createSong() {
   return {
     activeSequenceId: '',
-    bpm: shared.constants.defaultBPM,
+    bpm: constants.defaultBPM,
     id: v4(),
-    measureCount: shared.constants.defaultMeasureCount,
-    name: shared.constants.defaultSongName,
+    measureCount: constants.defaultMeasureCount,
+    name: constants.defaultSongName,
     notes: {
       dict: initialNotes.reduce((acc, cur) =>
         ({ ...acc, [cur.id]: cur }),

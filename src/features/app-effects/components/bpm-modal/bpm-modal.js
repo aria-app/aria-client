@@ -1,3 +1,4 @@
+import map from 'lodash/fp/map';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -5,7 +6,9 @@ import './bpm-modal.scss';
 
 const { DropdownList, Modal } = shared.components;
 const { bpmRange } = shared.constants;
-const bpmRangeItems = getBPMRangeItems();
+const getBPMRangeItem = x => ({ id: x, text: String(x) });
+const bpmRangeItems = map(getBPMRangeItem, bpmRange);
+
 
 export class BPMModal extends React.PureComponent {
   static propTypes = {
@@ -37,11 +40,4 @@ export class BPMModal extends React.PureComponent {
   handleContentDropdownListSelect = (value) => {
     this.props.onBPMChange(value);
   }
-}
-
-export function getBPMRangeItems() {
-  return bpmRange.map(n => ({
-    id: n,
-    text: String(n),
-  }));
 }

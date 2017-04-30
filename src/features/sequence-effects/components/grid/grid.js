@@ -13,7 +13,6 @@ const { Timeline } = shared.components;
 
 export class Grid extends React.PureComponent {
   static propTypes = {
-    activeSequenceId: React.PropTypes.string.isRequired,
     measureCount: React.PropTypes.number.isRequired,
     notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     onDrag: React.PropTypes.func.isRequired,
@@ -47,9 +46,8 @@ export class Grid extends React.PureComponent {
           measureCount: this.props.measureCount,
         }),
         h(DrawLayer, {
-          activeSequenceId: this.props.activeSequenceId,
           mousePoint: this.state.mousePoint,
-          onDraw: this.handleDrawLayerDraw,
+          onDraw: this.props.onDraw,
           toolType: this.props.toolType,
         }),
         h(Selector, {
@@ -93,9 +91,6 @@ export class Grid extends React.PureComponent {
         : 0,
     };
   }
-
-  handleDrawLayerDraw = note =>
-    this.props.onDraw({ note });
 
   handleMouseMove = (e) => {
     const mousePoint = getMousePoint(

@@ -2,7 +2,6 @@ import { compose, first, split } from 'lodash/fp';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import song from '../../../song';
 import { Note } from '../note/note';
 import './draw-layer.scss';
 
@@ -11,7 +10,6 @@ const noop = () => {};
 
 export class DrawLayer extends React.PureComponent {
   static propTypes = {
-    activeSequenceId: React.PropTypes.string.isRequired,
     mousePoint: React.PropTypes.object.isRequired,
     onDraw: React.PropTypes.func.isRequired,
     toolType: React.PropTypes.string.isRequired,
@@ -88,10 +86,7 @@ export class DrawLayer extends React.PureComponent {
   handleMouseUp = () => {
     if (!this.getIsDrawing()) return;
     const point = this.props.mousePoint;
-    this.props.onDraw(song.helpers.createNote({
-      points: [point, { x: point.x + 1, y: point.y }],
-      sequenceId: this.props.activeSequenceId,
-    }));
+    this.props.onDraw(point);
     this.setState({
       isDrawing: false,
     });

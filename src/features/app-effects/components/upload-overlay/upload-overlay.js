@@ -44,7 +44,7 @@ export class UploadOverlay extends React.PureComponent {
     const files = e.dataTransfer.files;
     if (!isEmpty(files)) {
       getFileContents(files[0])
-        .then(song => this.props.onUpload({ song }))
+        .then(this.props.onUpload)
         .catch(this.props.onCancel);
     } else {
       this.props.onCancel();

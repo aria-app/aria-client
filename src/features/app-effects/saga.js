@@ -2,9 +2,8 @@ import { takeEvery } from 'redux-saga';
 import { put } from 'redux-saga/effects';
 import appData from '../app-data';
 import shared from '../shared';
-import song from '../song';
 
-const { createSong } = song.helpers;
+const { createSong } = shared.helpers;
 
 function* initialize() {
   const localStorageSong = localStorage.getItem(

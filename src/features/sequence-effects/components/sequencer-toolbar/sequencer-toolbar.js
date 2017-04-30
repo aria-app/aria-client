@@ -2,12 +2,11 @@ import isEmpty from 'lodash/fp/isEmpty';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import song from '../../../song';
 import './sequencer-toolbar.scss';
 
 const { IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
-const { someNoteWillMoveOutside } = song.helpers;
+const { someNoteWillMoveOutside } = shared.helpers;
 
 export class SequencerToolbar extends React.PureComponent {
   static propTypes = {

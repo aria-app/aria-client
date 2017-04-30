@@ -3,14 +3,13 @@ import React from 'react';
 import h from 'react-hyperscript';
 import keydown from 'react-keydown';
 import shared from '../../../shared';
-import song from '../../../song';
 import { Grid } from '../grid/grid';
 import { Keys } from '../keys/keys';
 import { SequencerToolbar } from '../sequencer-toolbar/sequencer-toolbar';
 import './sequencer.scss';
 
 const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
-const { someNoteWillMoveOutside } = song.helpers;
+const { createNote, duplicateNotes, someNoteWillMoveOutside } = shared.helpers;
 
 export class Sequencer extends React.PureComponent {
   static propTypes = {
@@ -114,9 +113,17 @@ export class Sequencer extends React.PureComponent {
     if (isEmpty(this.props.selectedNotes)) return;
 
     this.props.onDuplicate({
-      notes: song.helpers.duplicateNotes(this.props.selectedNotes),
+      notes: duplicateNotes(this.props.selectedNotes),
     });
   }
+
+  handleGridDraw = point =>
+    this.props.onDraw({
+      note: createNote({
+        points: [point, { x: point.x + 1, y: point.y }],
+        sequenceId: this.props.activeSequenceId,
+      }),
+    });
 
   handleToolbarClose = () => {
     this.props.onClose();
@@ -140,7 +147,7 @@ export class Sequencer extends React.PureComponent {
 
   handleToolbarDuplicate = () =>
     this.props.onDuplicate({
-      notes: song.helpers.duplicateNotes(this.props.selectedNotes),
+      notes: duplicateNotes(this.props.selectedNotes),
     });
 
   handleToolbarEraseToolSelect = () =>

@@ -82,7 +82,7 @@ export class App extends React.PureComponent {
       h(UploadOverlay, {
         isFileOver: this.props.isFileOver,
         onCancel: this.props.onUploadCancel,
-        onUpload: this.props.onUpload,
+        onUpload: this.handleUploadOverlayUpload,
       }),
     ]);
   }
@@ -90,6 +90,11 @@ export class App extends React.PureComponent {
   handleBPMModalBPMChange = bpm =>
     this.props.onBPMChange({
       bpm,
+    });
+
+  handleUploadOverlayUpload = data =>
+    this.props.onUpload({
+      song: data,
     });
 
   handleDragEnter = (e) => {
