@@ -1,4 +1,5 @@
-import { isEqual } from 'lodash/fp';
+import getOr from 'lodash/fp/getOr';
+import isEqual from 'lodash/fp/isEqual';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -21,6 +22,7 @@ export class Grid extends React.PureComponent {
     onResize: React.PropTypes.func.isRequired,
     onSelect: React.PropTypes.func.isRequired,
     onSelectInArea: React.PropTypes.func.isRequired,
+    scrollTop: React.PropTypes.number.isRequired,
     selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     sequencerContentRef: React.PropTypes.object,
     toolType: React.PropTypes.string.isRequired,
@@ -31,6 +33,7 @@ export class Grid extends React.PureComponent {
       x: -1,
       y: -1,
     },
+    scrollLeft: 0,
   };
 
   render() {
@@ -44,6 +47,10 @@ export class Grid extends React.PureComponent {
       }, [
         h(Slots, {
           measureCount: this.props.measureCount,
+          scrollLeft: this.state.scrollLeft,
+          scrollLeftElement: this.elementRef,
+          scrollTop: this.props.scrollTop,
+          scrollTopElement: this.props.sequencerContentRef,
         }),
         h(DrawLayer, {
           mousePoint: this.state.mousePoint,
@@ -113,17 +120,24 @@ export class Grid extends React.PureComponent {
     this.props.sequencerContentRef.scrollTop = scrollTop;
   };
 
+  handleScroll = () => {
+    const scrollLeft = toSlotNumber(getOr(0, 'elementRef.scrollLeft', this));
+
+    if (isEqual(scrollLeft, this.state.scrollLeft)) return;
+
+    this.setState({ scrollLeft });
+  };
+
   handleSelectorSelect = (startPoint, isAdditive) =>
     this.props.onSelectInArea(startPoint, this.state.mousePoint, isAdditive);
 
   setRef = (ref) => {
     this.elementRef = ref;
-    this.forceUpdate();
+    this.handleScroll();
   }
 }
 
 function getMousePoint(scrollLeftEl, scrollTopEl, e) {
-  const toSlotNumber = num => Math.floor(num / 40);
   const x = e.pageX || 0;
   const y = e.pageY || 0;
   const offsetLeft = scrollLeftEl.offsetLeft || 0;
@@ -135,4 +149,8 @@ function getMousePoint(scrollLeftEl, scrollTopEl, e) {
     x: toSlotNumber((x - offsetLeft) + scrollLeft),
     y: toSlotNumber((y - offsetTop) + scrollTop),
   };
+}
+
+function toSlotNumber(n) {
+  return Math.floor(n / 40);
 }

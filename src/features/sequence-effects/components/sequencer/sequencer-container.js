@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import song from '../../../song';
 import sequenceData from '../../../sequence-data';
+import shared from '../../../shared';
 import * as selectors from '../../selectors';
 import { Sequencer } from './sequencer';
 
@@ -10,6 +11,8 @@ export const SequencerContainer = connect(state => ({
   notes: song.selectors.getActiveSequenceNotes(state),
   selectedNotes: song.selectors.getSelectedNotes(state),
   toolType: selectors.getToolType(state),
+  windowHeight: shared.selectors.getWindowHeight(state),
+  windowWidth: shared.selectors.getWindowWidth(state),
 }), {
   onClose: sequenceData.actions.sequenceClosed,
   onDelete: sequenceData.actions.notesDeleted,
