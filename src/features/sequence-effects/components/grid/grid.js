@@ -53,7 +53,7 @@ export class Grid extends React.PureComponent {
         h(Selector, {
           mousePoint: this.state.mousePoint,
           notes: this.props.notes,
-          onSelect: this.props.onSelectInArea,
+          onSelect: this.handleSelectorSelect,
           selectedNotes: this.props.selectedNotes,
           toolType: this.props.toolType,
         }, [
@@ -112,6 +112,9 @@ export class Grid extends React.PureComponent {
   handlePannerScrollTopChange = (scrollTop) => {
     this.props.sequencerContentRef.scrollTop = scrollTop;
   };
+
+  handleSelectorSelect = (startPoint, isAdditive) =>
+    this.props.onSelectInArea(startPoint, this.state.mousePoint, isAdditive);
 
   setRef = (ref) => {
     this.elementRef = ref;

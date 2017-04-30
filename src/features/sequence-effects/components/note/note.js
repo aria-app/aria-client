@@ -107,17 +107,17 @@ export class Note extends React.PureComponent {
 
   handleEndPointMouseDown = (e) => {
     if (this.getIsSelectEnabled()) {
+      e.stopPropagation();
       this.select(e);
       this.props.onResizeStart();
-      e.stopPropagation();
     }
   }
 
   handleStartPointMouseDown = (e) => {
     if (this.getIsSelectEnabled()) {
+      e.stopPropagation();
       this.select(e);
       this.props.onMoveStart();
-      e.stopPropagation();
     }
   }
 
@@ -129,12 +129,11 @@ export class Note extends React.PureComponent {
     }
   }
 
-  select = (e) => {
+  select = e =>
     this.props.onSelect(
       e.ctrlKey || e.metaKey,
       this.props.note,
     );
-  }
 }
 
 function is32ndNote(note) {

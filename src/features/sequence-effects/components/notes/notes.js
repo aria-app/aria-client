@@ -47,10 +47,10 @@ export class Notes extends React.PureComponent {
       ...this.getNotes().map(note => h(Note, {
         className: 'notes__note',
         key: note.id,
-        onErase: this.handleNoteErase,
+        onErase: this.props.onErase,
         onMoveStart: this.handleNoteMoveStart,
         onResizeStart: this.handleNoteResizeStart,
-        onSelect: this.handleNoteSelect,
+        onSelect: this.props.onSelect,
         selectedNotes: this.props.selectedNotes,
         toolType: this.props.toolType,
         note,
@@ -62,18 +62,6 @@ export class Notes extends React.PureComponent {
     resizeNote(this.state.resizeDelta),
     translateNote(this.state.dragDelta),
   ))(notes);
-
-  dragStagedNotes = (delta) => {
-    if (someNoteWillMoveOutside(
-      this.props.measureCount,
-      delta,
-      this.getSelectedNotes(),
-    )) return;
-
-    this.setState(state => ({
-      dragDelta: addPoints(delta, state.dragDelta),
-    }));
-  };
 
   getNotes = () =>
     this.applyTransforms(this.props.notes);
@@ -95,7 +83,7 @@ export class Notes extends React.PureComponent {
 
 
     if (this.state.isDragging) {
-      this.dragStagedNotes(delta);
+      this.updateDragDelta(delta);
     } else if (this.state.isResizing) {
       this.handleResize(delta);
     }
@@ -111,9 +99,6 @@ export class Notes extends React.PureComponent {
     }
   }
 
-  handleNoteErase = note =>
-    this.props.onErase({ note });
-
   handleNoteMoveStart = () =>
     this.setState(() => ({
       dragDelta: { x: 0, y: 0 },
@@ -125,12 +110,6 @@ export class Notes extends React.PureComponent {
       isResizing: true,
       resizeDelta: { x: 0, y: 0 },
     }));
-
-  handleNoteSelect = (isAdditive, note) =>
-    this.props.onSelect({
-      isAdditive,
-      note,
-    });
 
   handleResize = (delta) => {
     const isDraggingLeft = delta.x < 0;
@@ -161,16 +140,11 @@ export class Notes extends React.PureComponent {
       willGoOutside
     ) return;
 
-    this.resizeStagedNotes(delta);
+    this.updateResizeDelta(delta);
   }
 
-  resizeStagedNotes = delta =>
-    this.setState(state => ({
-      resizeDelta: addPoints(delta, state.resizeDelta),
-    }));
-
   stopDragging = () => {
-    this.props.onDrag({ notes: this.getSelectedNotes() });
+    this.props.onDrag(this.getSelectedNotes());
     this.setState({
       dragDelta: { x: 0, y: 0 },
       isDragging: false,
@@ -178,12 +152,29 @@ export class Notes extends React.PureComponent {
   };
 
   stopResizing = () => {
-    this.props.onResize({ notes: this.getSelectedNotes() });
+    this.props.onResize(this.getSelectedNotes());
     this.setState({
       isResizing: false,
       resizeDelta: { x: 0, y: 0 },
     });
   };
+
+  updateDragDelta = (delta) => {
+    if (someNoteWillMoveOutside(
+      this.props.measureCount,
+      delta,
+      this.getSelectedNotes(),
+    )) return;
+
+    this.setState(state => ({
+      dragDelta: addPoints(delta, state.dragDelta),
+    }));
+  };
+
+  updateResizeDelta = delta =>
+    this.setState(state => ({
+      resizeDelta: addPoints(delta, state.resizeDelta),
+    }));
 }
 
 function getIsSomePointOutside(measureCount) {

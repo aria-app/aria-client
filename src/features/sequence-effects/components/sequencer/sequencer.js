@@ -71,12 +71,12 @@ export class Sequencer extends React.PureComponent {
             activeSequenceId: this.props.activeSequenceId,
             measureCount: this.props.measureCount,
             notes: this.props.notes,
-            onDrag: this.props.onDrag,
-            onDraw: this.props.onDraw,
-            onErase: this.props.onErase,
-            onResize: this.props.onResize,
-            onSelect: this.props.onSelect,
-            onSelectInArea: this.props.onSelectInArea,
+            onDrag: this.handleGridDrag,
+            onDraw: this.handleGridDraw,
+            onErase: this.handleGridErase,
+            onResize: this.handleGridResize,
+            onSelect: this.handleGridSelect,
+            onSelectInArea: this.handleGridSelectInArea,
             selectedNotes: this.props.selectedNotes,
             sequencerContentRef: this.contentElementRef,
             toolType: this.props.toolType,
@@ -117,12 +117,36 @@ export class Sequencer extends React.PureComponent {
     });
   }
 
+  handleGridDrag = notes =>
+    this.props.onDrag({ notes });
+
   handleGridDraw = point =>
     this.props.onDraw({
       note: createNote({
         points: [point, { x: point.x + 1, y: point.y }],
         sequenceId: this.props.activeSequenceId,
       }),
+    });
+
+  handleGridErase = note =>
+    this.props.onErase({ note });
+
+  handleGridResize = notes =>
+    this.props.onResize({ notes });
+
+  handleGridSelect = (isAdditive, note) =>
+    this.props.onSelect({
+      isAdditive,
+      note,
+    });
+
+  handleGridSelectInArea = (startPoint, endPoint, isAdditive) =>
+    this.props.onSelectInArea({
+      notes: this.props.notes,
+      selectedNotes: this.props.selectedNotes,
+      endPoint,
+      isAdditive,
+      startPoint,
     });
 
   handleToolbarClose = () => {
