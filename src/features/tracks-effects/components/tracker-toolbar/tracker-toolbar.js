@@ -28,32 +28,32 @@ export class TrackerToolbar extends React.PureComponent {
           h(IconButton, {
             className: 'tracker-toolbar__sequence-actions__open',
             icon: 'pencil',
-            onClick: this.handleSequenceActionsOpenClick,
+            onClick: this.props.onSequenceOpen,
           }),
           h(IconButton, {
             className: 'tracker-toolbar__sequence-actions__delete',
             icon: 'trash',
-            onClick: this.handleSequenceActionsDeleteClick,
+            onClick: this.props.onSequenceDelete,
           }),
           h(IconButton, {
             className: 'tracker-toolbar__sequence-actions__shorten',
             icon: 'long-arrow-left',
-            onClick: this.handleSequenceActionsShortenClick,
+            onClick: this.props.onSequenceShorten,
           }),
           h(IconButton, {
             className: 'tracker-toolbar__sequence-actions__move-left',
             icon: 'arrow-left',
-            onClick: this.handleSequenceActionsMoveLeftClick,
+            onClick: this.props.onSequenceMoveLeft,
           }),
           h(IconButton, {
             className: 'tracker-toolbar__sequence-actions__move-right',
             icon: 'arrow-right',
-            onClick: this.handleSequenceActionsMoveRightClick,
+            onClick: this.props.onSequenceMoveRight,
           }),
           h(IconButton, {
             className: 'tracker-toolbar__sequence-actions__extend',
             icon: 'long-arrow-right',
-            onClick: this.handleSequenceActionsExtendClick,
+            onClick: this.props.onSequenceExtend,
           }),
         ]),
       ],
@@ -62,36 +62,4 @@ export class TrackerToolbar extends React.PureComponent {
 
   getIsAlternate = () =>
     negate(isEmpty)(this.props.selectedSequence);
-
-  handleSequenceActionsDeleteClick = () =>
-    this.props.onSequenceDelete({
-      sequence: this.props.selectedSequence,
-    });
-
-  handleSequenceActionsExtendClick = () =>
-    this.props.onSequenceExtend({
-      sequence: this.props.selectedSequence,
-    });
-
-  handleSequenceActionsMoveLeftClick = () =>
-    this.props.onSequenceMoveLeft({
-      sequence: this.props.selectedSequence,
-    });
-
-  handleSequenceActionsMoveRightClick = () =>
-    this.props.onSequenceMoveRight({
-      sequence: this.props.selectedSequence,
-    });
-
-  handleSequenceActionsOpenClick = () =>
-    this.props.onSequenceOpen({
-      sequence: this.props.selectedSequence,
-    });
-
-  handleSequenceActionsShortenClick = () => {
-    if (this.props.selectedSequence.measureCount < 2) return;
-    this.props.onSequenceShorten({
-      sequence: this.props.selectedSequence,
-    });
-  }
 }

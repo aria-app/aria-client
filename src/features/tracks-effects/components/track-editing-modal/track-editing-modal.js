@@ -45,29 +45,25 @@ export class TrackEditingModal extends React.PureComponent {
     ]);
   }
 
-  getIsOpen() {
-    return !isEmpty(this.props.stagedTrack);
-  }
+  getIsOpen = () =>
+    !isEmpty(this.props.stagedTrack);
 
-  getSelectedId() {
-    return this.props.stagedTrack
+  getSelectedId = () =>
+    (this.props.stagedTrack
       ? this.props.stagedTrack.synthType
-      : '';
-  }
+      : '');
 
-  handleContentDeleteButtonClick = () => {
-    this.props.onDelete({
-      sequences: this.props.stagedTrackSequences,
-      track: this.props.stagedTrack,
-    });
-  }
+  handleContentDeleteButtonClick = () =>
+    this.props.onDelete(
+      this.props.stagedTrack,
+      this.props.stagedTrackSequences,
+    );
 
-  handleContentSynthDropdownListSelectedIdChange = (synthType) => {
-    this.props.onSynthTypeSet({
-      track: this.props.stagedTrack,
+  handleContentSynthDropdownListSelectedIdChange = synthType =>
+    this.props.onSynthTypeSet(
+      this.props.stagedTrack,
       synthType,
-    });
-  }
+    );
 }
 
 export function getSynthTypeList() {

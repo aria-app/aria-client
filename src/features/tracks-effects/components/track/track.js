@@ -50,8 +50,8 @@ export class Track extends React.PureComponent {
         }, [
           ...this.props.track.sequences.map(sequence => h(Sequence, {
             onContextMenu: this.props.onSequenceContextMenu,
-            onOpen: this.handleBodySequencesSequenceOpen,
-            onSelect: this.handleBodySequencesSequenceSelect,
+            onOpen: this.props.onSequenceOpen,
+            onSelect: this.props.onSequenceSelect,
             selectedSequenceId: this.props.selectedSequenceId,
             sequence,
           })),
@@ -109,13 +109,13 @@ export class Track extends React.PureComponent {
   }
 
   handleBodyHeaderActionsActionMuteClick = (e) => {
-    this.props.onTrackIsMutedToggle(this.props.track);
     e.stopPropagation();
+    this.props.onTrackIsMutedToggle(this.props.track);
   }
 
   handleBodyHeaderActionsActionSoloClick = (e) => {
-    this.props.onTrackIsSoloingToggle(this.props.track);
     e.stopPropagation();
+    this.props.onTrackIsSoloingToggle(this.props.track);
   }
 
   handleBodySequencesAddButtonClick = () => {

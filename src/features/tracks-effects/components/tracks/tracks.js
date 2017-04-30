@@ -6,7 +6,6 @@ import { Track } from '../track/track';
 import './tracks.scss';
 
 const { Icon } = shared.components;
-const { createSequence, createTrack } = shared.helpers;
 
 export class Tracks extends React.PureComponent {
   static propTypes = {
@@ -43,13 +42,13 @@ export class Tracks extends React.PureComponent {
       }),
       ...this.props.tracks.map(track => h(Track, {
         mutedTrackIds: this.props.mutedTrackIds,
-        onSequenceAdd: this.handleTrackSequenceAdd,
+        onSequenceAdd: this.props.onSequenceAdd,
         onSequenceContextMenu: this.props.onSequenceContextMenu,
-        onSequenceOpen: this.handleTrackSequenceOpen,
-        onSequenceSelect: this.handleTrackSequenceSelect,
-        onTrackIsMutedToggle: this.handleTrackIsMutedToggle,
-        onTrackIsSoloingToggle: this.handleTrackIsSoloingToggle,
-        onTrackSelect: this.handleTrackSelect,
+        onSequenceOpen: this.props.onSequenceOpen,
+        onSequenceSelect: this.props.onSequenceSelect,
+        onTrackIsMutedToggle: this.props.onTrackIsMutedToggle,
+        onTrackIsSoloingToggle: this.props.onTrackIsSoloingToggle,
+        onTrackSelect: this.props.onTrackStage,
         selectedSequenceId: this.props.selectedSequenceId,
         soloingTrackIds: this.props.soloingTrackIds,
         songMeasureCount: this.props.songMeasureCount,
@@ -57,7 +56,7 @@ export class Tracks extends React.PureComponent {
       })),
       h('.tracks__add-button', {
         style: this.getAddButtonStyle(),
-        onClick: this.handleAddButtonClick,
+        onClick: this.props.onTrackAdd,
       }, [
         h(Icon, {
           className: 'tracks__add-button__icon',
@@ -75,16 +74,6 @@ export class Tracks extends React.PureComponent {
     width: (this.props.songMeasureCount * 64) + 84,
   });
 
-  handleAddButtonClick = () => {
-    const track = createTrack();
-    this.props.onTrackAdd({
-      sequence: createSequence({
-        trackId: track.id,
-      }),
-      track,
-    });
-  }
-
   handleClick = (e) => {
     e.stopPropagation();
 
@@ -92,37 +81,4 @@ export class Tracks extends React.PureComponent {
 
     this.props.onSequenceDeselect();
   }
-
-  handleTrackIsMutedToggle = track =>
-    this.props.onTrackIsMutedToggle({
-      track,
-    });
-
-  handleTrackIsSoloingToggle = track =>
-    this.props.onTrackIsSoloingToggle({
-      track,
-    });
-
-  handleTrackSelect = track =>
-    this.props.onTrackStage({
-      track,
-    });
-
-  handleTrackSequenceAdd = (track, position) =>
-    this.props.onSequenceAdd({
-      sequence: createSequence({
-        trackId: track.id,
-        position,
-      }),
-    });
-
-  handleTrackSequenceOpen = sequence =>
-    this.props.onSequenceOpen({
-      sequence,
-    });
-
-  handleTrackSequenceSelect = sequence =>
-    this.props.onSequenceSelect({
-      sequence,
-    });
 }
