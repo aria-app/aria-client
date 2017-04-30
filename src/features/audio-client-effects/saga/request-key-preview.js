@@ -1,12 +1,11 @@
 import { call } from 'redux-saga/effects';
 import { getNoteName } from '../helpers';
-import { playNote } from '../../../audio-server';
+import AudioServer from '../../../audio-server';
 
 export function* requestKeyPreview({ y }) {
   yield call(
-    playNote,
+    AudioServer.playNote,
     getNoteName(y),
     '16n',
   );
-  // const length = sizeToTime(last(note.points).x - first(note.points).x);
 }

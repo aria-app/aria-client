@@ -1,12 +1,23 @@
 import { takeEvery } from 'redux-saga';
-// import { requestKeyPreview } from './request-key-preview';
+import { requestKeyPreview } from './request-key-preview';
+import requestSequencePost from './requestSequencePost';
+import { requestPlaybackPause } from './requestPlaybackPause';
+import { requestPlaybackStart } from './requestPlaybackStart';
+import { requestPlaybackStop } from './requestPlaybackStop';
+import { subscribeToPlaybackState } from './subscribeToPlaybackState';
 import { subscribeToPosition } from './subscribe-to-position';
-// import sequenceData from '../../sequence-data';
+import appData from '../../app-data';
+import sequenceData from '../../sequence-data';
 import shared from '../../shared';
 
 export default function* saga() {
   yield [
-    // takeEvery(sequenceData.actions.KEY_PRESSED, requestKeyPreview),
+    takeEvery(appData.actions.PLAYBACK_PAUSE_REQUESTED, requestPlaybackPause),
+    takeEvery(appData.actions.PLAYBACK_START_REQUESTED, requestPlaybackStart),
+    takeEvery(appData.actions.PLAYBACK_STOP_REQUESTED, requestPlaybackStop),
+    takeEvery(sequenceData.actions.KEY_PRESSED, requestKeyPreview),
+    takeEvery('*', requestSequencePost),
+    takeEvery(shared.actions.INITIALIZED, subscribeToPlaybackState),
     takeEvery(shared.actions.INITIALIZED, subscribeToPosition),
   ];
 }
@@ -16,9 +27,11 @@ export default function* saga() {
 //  -> request a note preview from audio server
 // shared.actions.INITIALIZED, subscribeToPosition
 //  -> Use fast event channel from server to dispatch position updates
+// shared.actions.INITIALIZED, subscribeToPlaybackState
+//  -> Use fast event channel from server to dispatch playbackState updates
 
 // Overview
-// initialized            -> client gets position subscription
+// initialized            -> client gets subscriptions
 // notes updated          -> client sends updated sequence to server
 // pause requested        -> client sends pause request to server
 // play requested         -> client sends play request to server

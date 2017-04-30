@@ -5,6 +5,9 @@ export const BPM_MODAL_OPENED = `${NAME}/BPM_MODAL_OPENED`;
 export const BPM_SET = `${NAME}/BPM_SET`;
 export const FILE_DRAG_CANCELLED = `${NAME}/FILE_DRAG_CANCELLED`;
 export const FILE_DRAG_STARTED = `${NAME}/FILE_DRAG_STARTED`;
+export const PLAYBACK_PAUSE_REQUESTED = `${NAME}/PLAYBACK_PAUSE_REQUESTED`;
+export const PLAYBACK_START_REQUESTED = `${NAME}/PLAYBACK_START_REQUESTED`;
+export const PLAYBACK_STOP_REQUESTED = `${NAME}/PLAYBACK_STOP_REQUESTED`;
 export const SONG_LOADED = `${NAME}/SONG_LOADED`;
 
 export const bpmModalClosed = () => ({
@@ -26,6 +29,18 @@ export const fileDragCancelled = () => ({
 
 export const fileDragStarted = () => ({
   type: FILE_DRAG_STARTED,
+});
+
+export const playbackPauseRequested = () => ({
+  type: PLAYBACK_PAUSE_REQUESTED,
+});
+
+export const playbackStartRequested = () => ({
+  type: PLAYBACK_START_REQUESTED,
+});
+
+export const playbackStopRequested = () => ({
+  type: PLAYBACK_STOP_REQUESTED,
 });
 
 export const songLoaded = ({ song }) => ({

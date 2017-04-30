@@ -4,6 +4,7 @@ import contextMenu from '../../../context-menu';
 import shared from '../../../shared';
 import song from '../../../song';
 import appData from '../../../app-data';
+import audioClientEffects from '../../../audio-client-effects';
 import * as selectors from '../../selectors';
 
 export const AppContainer = connect(state => ({
@@ -11,7 +12,7 @@ export const AppContainer = connect(state => ({
   isFileOver: selectors.getIsFileOver(state),
   isBPMModalOpen: selectors.getIsBPMModalOpen(state),
   isSequenceOpen: !!song.selectors.getActiveSequenceId(state),
-  playbackState: 'stopped',
+  playbackState: audioClientEffects.selectors.getPlaybackState(state),
   stringifiedSong: song.selectors.getStringifiedSong(state),
   isContextMenuOpen: contextMenu.selectors.getIsContextMenuOpen(state),
   contextMenuItems: contextMenu.selectors.getContextMenuItems(state),
@@ -25,9 +26,9 @@ export const AppContainer = connect(state => ({
   onBPMChange: appData.actions.bpmSet,
   onBPMModalOpen: appData.actions.bpmModalOpened,
   onFileDragStart: appData.actions.fileDragStarted,
-  onPause: () => {},
-  onPlay: () => {},
-  onStop: () => {},
+  onPause: appData.actions.playbackPauseRequested,
+  onPlay: appData.actions.playbackStartRequested,
+  onStop: appData.actions.playbackStopRequested,
   onUpload: appData.actions.songLoaded,
   onUploadCancel: appData.actions.fileDragCancelled,
 })(App);

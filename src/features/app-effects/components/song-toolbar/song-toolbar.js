@@ -24,22 +24,16 @@ export class SongToolbar extends React.PureComponent {
       leftItems: [
         h('.song-toolbar__playback-buttons', [
           h(IconButton, {
-            className: 'song-toolbar__playback-buttons__play-button',
-            isActive: this.props.playbackState === STARTED,
-            icon: 'play',
-            onClick: this.props.onPlay,
-          }),
-          h(IconButton, {
-            className: 'song-toolbar__playback-buttons__pause-button',
-            isActive: this.props.playbackState === PAUSED,
-            icon: 'pause',
-            onClick: this.props.onPause,
+            className: 'song-toolbar__playback-buttons__play-pause-button',
+            isActive: this.getIsPlayPauseButtonActive(),
+            icon: this.getPlayPauseButtonIcon(),
+            onClick: this.handlePlayPauseButtonClick,
           }),
           h(IconButton, {
             className: 'song-toolbar__playback-buttons__stop-button',
             isActive: this.props.playbackState === STOPPED,
             icon: 'stop',
-            onClick: this.props.onStop,
+            onClick: this.handleStopButtonClick,
           }),
         ]),
       ],
@@ -64,8 +58,33 @@ export class SongToolbar extends React.PureComponent {
     });
   }
 
+  getIsPlayPauseButtonActive = () => (
+    this.props.playbackState === STARTED ||
+    this.props.playbackState === PAUSED
+  );
+
+  getPlayPauseButtonIcon = () => ({
+    PAUSED: 'play',
+    STARTED: 'pause',
+    STOPPED: 'play',
+  })[this.props.playbackState];
+
   handleClearCacheClick = () => {
     window.localStorage.removeItem('currentSong');
     window.location.reload();
   }
+
+  handlePlayPauseButtonClick = () => {
+    if (this.props.playbackState === STARTED) {
+      this.props.onPause();
+      return;
+    }
+
+    this.props.onPlay();
+  };
+
+  handleStopButtonClick = () => {
+    if (this.props.playbackState === STOPPED) return;
+    this.props.onStop();
+  };
 }

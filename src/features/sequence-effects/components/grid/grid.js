@@ -117,7 +117,6 @@ export class Grid extends React.PureComponent {
 
   setRef = (ref) => {
     this.elementRef = ref;
-    this.handleScroll();
   }
 }
 

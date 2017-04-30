@@ -1,5 +1,3 @@
-import Instrument from './instrument';
+import Server from './Server';
 
-const instrument = Instrument.create('a', 'square');
-
-export const playNote = instrument.playNote.bind(instrument);
+export default Server.create();

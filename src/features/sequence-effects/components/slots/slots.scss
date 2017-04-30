@@ -1,41 +1,5 @@
 @import '../../../../styles/palette';
 
-$slots__row--c__section__divider-color: $neutral-4;
-$slots__column__width: 40px;
-$slots__column__fill__background-color: $neutral-3;
-$slots__column__fill__border-radius: 20%;
-$slots__column__fill__box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
-$slots__stripe__background-color: $neutral-4;
-$slots__stripe__width: 320px;
-
 .slots {
-  &__column {
-    bottom: 0;
-    position: absolute;
-    top: 0;
-    width: $slots__column__width;
-    &__slot {
-      height: 40px;
-      left: 0;
-      position: absolute;
-      right: 0;
-      &__fill {
-        background-color: $slots__column__fill__background-color;
-        border-radius: $slots__column__fill__border-radius;
-        bottom: 14px;
-        box-shadow: $slots__column__fill__box-shadow;
-        left: 14px;
-        position: absolute;
-        right: 14px;
-        top: 14px;
-      }
-    }
-  }
-  &__stripe {
-    background-color: $slots__stripe__background-color;
-    bottom: 0;
-    position: absolute;
-    top: 0;
-    width: $slots__stripe__width;
-  }
+
 }

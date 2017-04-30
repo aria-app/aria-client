@@ -232,7 +232,7 @@ function songSequenceStepsChannelFactory(measureCount) {
       (time, step) => {
         emit(actions.songSequenceStepTriggered({ step, time }));
       },
-      range(0)(measureCount * 32),
+      range(0, measureCount * 32),
       '32n',
     );
     sequence.loop = false;
