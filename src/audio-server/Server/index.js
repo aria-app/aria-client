@@ -1,24 +1,37 @@
+import invoke from 'lodash/fp/invoke';
 import range from 'lodash/fp/range';
-import Tone from 'tone';
+import without from 'lodash/fp/without';
 import * as constants from '../constants';
+import * as helpers from '../helpers';
 import Instrument from '../instrument';
-import { createSequence } from '../Sequence';
+import { createPlaybackSequence } from '../PlaybackSequence';
+import Tone from '../tone';
 
 class Server {
+  instrument = Instrument.create('a', 'square');
+  playbackSequenceDict = {};
+  playbackSequenceIds = [];
   playbackStateSubscribers = [];
   positionSubscribers = [];
-  previewInstrument = Instrument.create('a', 'square');
+  songPart = {};
 
   constructor() {
-    Tone.Transport.on('pause', this.handlePause);
-    Tone.Transport.on('start', this.handleStart);
-    Tone.Transport.on('stop', this.handleStop);
-    const sequence = new Tone.Sequence(() => {
-      // console.log('time', time);
-      // console.log('step', step);
-    }, range(0, 32), '32n');
-    sequence.start(0);
+    Tone.onPause(this.handlePause);
+    Tone.onStart(this.handleStart);
+    Tone.onStop(this.handleStop);
   }
+
+  addPlaybackSequence = (playbackSequence) => {
+    this.playbackSequenceDict = {
+      ...this.playbackSequenceDict,
+      [playbackSequence.id]: playbackSequence,
+    };
+
+    this.playbackSequenceIds = [
+      ...this.playbackSequenceIds,
+      playbackSequence.id,
+    ];
+  };
 
   handlePause = () => {
     this.playbackStateSubscribers.forEach(sub =>
@@ -46,20 +59,59 @@ class Server {
   };
 
   pause = () => {
-    Tone.Transport.pause();
+    Tone.pauseTransport();
   }
 
-  playNote = (...args) =>
-    this.previewInstrument.playNote(...args);
+  playNote = (name, length, time) =>
+    this.instrument.playNote(name, length, time);
 
-  postSequence = (sequence, notes) =>
-    createSequence(sequence, notes);
+  postSequence = (sequence, notes) => {
+    const playbackSequence = createPlaybackSequence(sequence, notes, this);
+
+    this.addPlaybackSequence(playbackSequence);
+  };
+
+  postSong = (song) => {
+    const end = helpers.measuresToTime(song.measureCount);
+
+    // eslint-disable-next-line lodash-fp/no-unused-result
+    invoke('songPart.dispose', this);
+
+    this.songPart = Tone.createPart(
+      () => {},
+      range(0, song.measureCount * 32),
+      '32n',
+    );
+
+    this.songPart.start(0);
+    Tone.setTransportLoopPoints('0', end);
+    Tone.setTransportLoop(true);
+  };
 
   start = () =>
-    Tone.Transport.start();
+    Tone.startTransport();
 
   stop = () => {
-    Tone.Transport.stop();
+    Tone.stopTransport();
+  };
+
+  updatePlaybackSequence = (playbackSequence) => {
+    this.playbackSequenceDict[playbackSequence.id].part.dispose();
+
+    this.playbackSequenceDict = {
+      [playbackSequence.id]: playbackSequence,
+    };
+
+    this.playbackSequenceIds = [
+      ...without([playbackSequence.id], this.playbackSequenceIds),
+      playbackSequence.id,
+    ];
+  };
+
+  updateSequence = (sequence, notes) => {
+    const playbackSequence = createPlaybackSequence(sequence, notes, this);
+
+    this.updatePlaybackSequence(playbackSequence);
   };
 }
 

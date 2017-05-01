@@ -8,9 +8,9 @@ import saga from './saga';
 const sagaMiddleware = createSagaMiddleware();
 
 const middleware = applyMiddleware(
-  loggerMiddleware,
-  persistMiddleware,
   sagaMiddleware,
+  persistMiddleware,
+  loggerMiddleware,
 );
 
 const store = createStore(reducer, middleware);

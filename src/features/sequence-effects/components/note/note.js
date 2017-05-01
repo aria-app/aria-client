@@ -123,9 +123,7 @@ export class Note extends React.PureComponent {
 
   handleStartPointMouseUp = () => {
     if (this.getIsEraseEnabled()) {
-      this.props.onErase({
-        note: this.props.note,
-      });
+      this.props.onErase(this.props.note);
     }
   }
 

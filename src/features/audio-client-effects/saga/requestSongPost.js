@@ -2,18 +2,17 @@ import { takeEvery } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import AudioServer from '../../../audio-server';
 import song from '../../song';
-import tracksData from '../../tracks-data';
+import appData from '../../app-data';
 
-export function* request({ sequence }) {
-  const notes = yield select(song.selectors.getNotesBySequenceId(sequence.id));
-  yield call(AudioServer.postSequence, sequence, notes);
+export function* request() {
+  const updatedSong = yield select(song.selectors.getSong);
+  yield call(AudioServer.postSong, updatedSong);
 }
 
 export default function* () {
   yield [
     takeEvery([
-      tracksData.actions.SEQUENCE_ADDED,
-      tracksData.actions.TRACK_ADDED,
+      appData.actions.SONG_LOADED,
     ], request),
   ];
 }

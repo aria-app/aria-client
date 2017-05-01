@@ -5,6 +5,7 @@ import isEqual from 'lodash/fp/isEqual';
 import last from 'lodash/fp/last';
 import map from 'lodash/fp/map';
 import some from 'lodash/fp/some';
+import without from 'lodash/fp/without';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -63,8 +64,10 @@ export class Notes extends React.PureComponent {
     translateNote(this.state.dragDelta),
   ))(notes);
 
-  getNotes = () =>
-    this.applyTransforms(this.props.notes);
+  getNotes = () => [
+    ...this.applyTransforms(this.props.selectedNotes),
+    ...without(this.props.selectedNotes, this.props.notes),
+  ];
 
   getSelectedNotes = () =>
     this.applyTransforms(this.props.selectedNotes);

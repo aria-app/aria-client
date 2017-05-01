@@ -1,9 +1,13 @@
 import { takeEvery } from 'redux-saga';
+import { fork } from 'redux-saga/effects';
 import { requestKeyPreview } from './request-key-preview';
-import requestSequencePost from './requestSequencePost';
 import { requestPlaybackPause } from './requestPlaybackPause';
 import { requestPlaybackStart } from './requestPlaybackStart';
 import { requestPlaybackStop } from './requestPlaybackStop';
+import requestSequencePost from './requestSequencePost';
+import requestSequenceUpdate from './requestSequenceUpdate';
+import requestSequencesPost from './requestSequencesPost';
+import requestSongPost from './requestSongPost';
 import { subscribeToPlaybackState } from './subscribeToPlaybackState';
 import { subscribeToPosition } from './subscribe-to-position';
 import appData from '../../app-data';
@@ -16,9 +20,12 @@ export default function* saga() {
     takeEvery(appData.actions.PLAYBACK_START_REQUESTED, requestPlaybackStart),
     takeEvery(appData.actions.PLAYBACK_STOP_REQUESTED, requestPlaybackStop),
     takeEvery(sequenceData.actions.KEY_PRESSED, requestKeyPreview),
-    takeEvery('*', requestSequencePost),
     takeEvery(shared.actions.INITIALIZED, subscribeToPlaybackState),
     takeEvery(shared.actions.INITIALIZED, subscribeToPosition),
+    fork(requestSequencePost),
+    fork(requestSequenceUpdate),
+    fork(requestSequencesPost),
+    fork(requestSongPost),
   ];
 }
 

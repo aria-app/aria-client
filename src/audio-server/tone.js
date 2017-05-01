@@ -9,10 +9,13 @@ if (isWebAudioSupported) {
 }
 
 export default {
-  createSequence,
+  createPart,
   createSynth,
   getTransportState,
   getTransportTime,
+  onPause,
+  onStart,
+  onStop,
   pauseTransport,
   scheduleOnceOnTransport,
   setTransportBPM,
@@ -23,7 +26,7 @@ export default {
   stopTransport,
 };
 
-function createSequence(...args) {
+function createPart(...args) {
   if (!isWebAudioSupported) return {};
   return new Tone.Sequence(...args);
 }
@@ -50,6 +53,21 @@ function getTransportState() {
 function getTransportTime(...args) {
   if (!isWebAudioSupported) return '';
   return new Tone.TransportTime(...args).toBarsBeatsSixteenths();
+}
+
+function onPause(...args) {
+  if (!isWebAudioSupported) return;
+  Tone.Transport.on('pause', ...args);
+}
+
+function onStart(...args) {
+  if (!isWebAudioSupported) return;
+  Tone.Transport.on('start', ...args);
+}
+
+function onStop(...args) {
+  if (!isWebAudioSupported) return;
+  Tone.Transport.on('stop', ...args);
 }
 
 function pauseTransport(...args) {

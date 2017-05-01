@@ -2,19 +2,50 @@ import { takeEvery } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import AudioServer from '../../../audio-server';
 import song from '../../song';
+import sequenceData from '../../sequence-data';
 import tracksData from '../../tracks-data';
 
-export function* request({ sequence }) {
-  const notes = yield select(song.selectors.getNotesBySequenceId(sequence.id));
-  yield call(AudioServer.postSequence, sequence, notes);
+export function* requestUpdateFromNoteChange({ note }) {
+  const sequence = yield select(song.selectors.getSequenceById(note.sequenceId));
+  const sequenceNotes = yield select(song.selectors.getNotesBySequenceId(sequence.id));
+  yield call(AudioServer.updateSequence, sequence, sequenceNotes);
+}
+
+export function* requestUpdateFromNotesChange({ notes }) {
+  const sequence = yield select(song.selectors.getSequenceById(notes[0].sequenceId));
+  const sequenceNotes = yield select(song.selectors.getNotesBySequenceId(sequence.id));
+  yield call(AudioServer.updateSequence, sequence, sequenceNotes);
+}
+
+export function* requestUpdateFromSequenceChange({ sequence }) {
+  const updatedSequence = yield select(song.selectors.getSequenceById(sequence.id));
+  const sequenceNotes = yield select(song.selectors.getNotesBySequenceId(updatedSequence.id));
+  yield call(AudioServer.updateSequence, updatedSequence, sequenceNotes);
 }
 
 export default function* () {
   yield [
     takeEvery([
+      sequenceData.actions.NOTE_DRAWN,
+      sequenceData.actions.NOTE_ERASED,
+    ], requestUpdateFromNoteChange),
+    takeEvery([
+      sequenceData.actions.NOTES_DRAGGED,
+      sequenceData.actions.NOTES_DUPLICATED,
+      sequenceData.actions.NOTES_MOVED_OCTAVE_DOWN,
+      sequenceData.actions.NOTES_MOVED_OCTAVE_UP,
+      sequenceData.actions.NOTES_NUDGED,
+      sequenceData.actions.NOTES_RESIZED,
+      sequenceData.actions.NOTES_DELETED,
+    ], requestUpdateFromNotesChange),
+    takeEvery([
+      tracksData.actions.SEQUENCE_NUDGED_LEFT,
+      tracksData.actions.SEQUENCE_NUDGED_RIGHT,
       tracksData.actions.SEQUENCE_ADDED,
-      tracksData.actions.TRACK_ADDED,
-    ], request),
+      tracksData.actions.SEQUENCE_DELETED,
+      tracksData.actions.SEQUENCE_EXTENDED,
+      tracksData.actions.SEQUENCE_SHORTENED,
+    ], requestUpdateFromSequenceChange),
   ];
 }
 

@@ -1,4 +1,3 @@
-import difference from 'lodash/fp/difference';
 import map from 'lodash/fp/map';
 import without from 'lodash/fp/without';
 import { createReducer } from 'redux-create-reducer';
@@ -13,10 +12,10 @@ export const noteIds = createReducer([], {
     [...state, action.note.id],
 
   [sequenceData.actions.NOTE_ERASED]: (state, action) =>
-    without(state, action.note.id),
+    without([action.note.id], state),
 
   [sequenceData.actions.NOTES_DELETED]: (state, action) =>
-    difference(state, map('id', action.notes)),
+    without(map('id', action.notes), state),
 
   [sequenceData.actions.NOTES_DUPLICATED]: (state, action) =>
     [...state, ...map('id', action.notes)],
