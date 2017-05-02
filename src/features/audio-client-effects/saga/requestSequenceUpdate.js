@@ -8,19 +8,28 @@ import tracksData from '../../tracks-data';
 export function* requestUpdateFromNoteChange({ note }) {
   const sequence = yield select(song.selectors.getSequenceById(note.sequenceId));
   const sequenceNotes = yield select(song.selectors.getNotesBySequenceId(sequence.id));
-  yield call(AudioServer.updateSequence, sequence, sequenceNotes);
+  yield call(AudioServer.sequences.update, {
+    ...sequence,
+    notes: sequenceNotes,
+  });
 }
 
 export function* requestUpdateFromNotesChange({ notes }) {
   const sequence = yield select(song.selectors.getSequenceById(notes[0].sequenceId));
   const sequenceNotes = yield select(song.selectors.getNotesBySequenceId(sequence.id));
-  yield call(AudioServer.updateSequence, sequence, sequenceNotes);
+  yield call(AudioServer.sequences.update, {
+    ...sequence,
+    notes: sequenceNotes,
+  });
 }
 
 export function* requestUpdateFromSequenceChange({ sequence }) {
   const updatedSequence = yield select(song.selectors.getSequenceById(sequence.id));
   const sequenceNotes = yield select(song.selectors.getNotesBySequenceId(updatedSequence.id));
-  yield call(AudioServer.updateSequence, updatedSequence, sequenceNotes);
+  yield call(AudioServer.sequences.update, {
+    ...updatedSequence,
+    notes: sequenceNotes,
+  });
 }
 
 export default function* () {
@@ -41,8 +50,6 @@ export default function* () {
     takeEvery([
       tracksData.actions.SEQUENCE_NUDGED_LEFT,
       tracksData.actions.SEQUENCE_NUDGED_RIGHT,
-      tracksData.actions.SEQUENCE_ADDED,
-      tracksData.actions.SEQUENCE_DELETED,
       tracksData.actions.SEQUENCE_EXTENDED,
       tracksData.actions.SEQUENCE_SHORTENED,
     ], requestUpdateFromSequenceChange),

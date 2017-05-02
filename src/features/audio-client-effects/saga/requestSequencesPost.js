@@ -10,7 +10,10 @@ export function* request() {
   for (let i = 0; i < sequences.length; i += 1) {
     const sequence = sequences[i];
     const notes = yield select(song.selectors.getNotesBySequenceId(sequence.id));
-    yield call(AudioServer.postSequence, sequence, notes);
+    yield call(AudioServer.sequences.post, {
+      ...sequence,
+      notes,
+    });
   }
 }
 

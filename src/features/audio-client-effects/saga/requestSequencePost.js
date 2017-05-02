@@ -6,7 +6,10 @@ import tracksData from '../../tracks-data';
 
 export function* request({ sequence }) {
   const notes = yield select(song.selectors.getNotesBySequenceId(sequence.id));
-  yield call(AudioServer.postSequence, sequence, notes);
+  yield call(AudioServer.sequences.post, {
+    ...sequence,
+    notes,
+  });
 }
 
 export default function* () {

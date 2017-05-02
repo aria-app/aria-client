@@ -14,5 +14,5 @@ export function* subscribeToPlaybackState() {
 }
 
 function playbackStateChannelFactory() {
-  return eventChannel(emit => AudioServer.onPlaybackStateChange(emit));
+  return eventChannel(emit => AudioServer.playback.onStateChange(emit));
 }

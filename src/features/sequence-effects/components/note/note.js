@@ -116,6 +116,10 @@ export class Note extends React.PureComponent {
   handleStartPointMouseDown = (e) => {
     if (this.getIsSelectEnabled()) {
       e.stopPropagation();
+      if (this.getIsSelected() && !(e.ctrlKey || e.metaKey)) {
+        this.props.onMoveStart();
+        return;
+      }
       this.select(e);
       this.props.onMoveStart();
     }

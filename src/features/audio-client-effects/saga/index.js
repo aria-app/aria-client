@@ -4,10 +4,10 @@ import { requestKeyPreview } from './request-key-preview';
 import { requestPlaybackPause } from './requestPlaybackPause';
 import { requestPlaybackStart } from './requestPlaybackStart';
 import { requestPlaybackStop } from './requestPlaybackStop';
+import requestSequenceDelete from './requestSequenceDelete';
 import requestSequencePost from './requestSequencePost';
 import requestSequenceUpdate from './requestSequenceUpdate';
 import requestSequencesPost from './requestSequencesPost';
-import requestSongPost from './requestSongPost';
 import { subscribeToPlaybackState } from './subscribeToPlaybackState';
 import { subscribeToPosition } from './subscribe-to-position';
 import appData from '../../app-data';
@@ -22,10 +22,10 @@ export default function* saga() {
     takeEvery(sequenceData.actions.KEY_PRESSED, requestKeyPreview),
     takeEvery(shared.actions.INITIALIZED, subscribeToPlaybackState),
     takeEvery(shared.actions.INITIALIZED, subscribeToPosition),
+    fork(requestSequenceDelete),
     fork(requestSequencePost),
     fork(requestSequenceUpdate),
     fork(requestSequencesPost),
-    fork(requestSongPost),
   ];
 }
 

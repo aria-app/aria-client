@@ -1,3 +1,7 @@
-import Server from './Server';
+import playback from './playback';
+import sequences from './sequences';
 
-export default Server.create();
+export default {
+  playback,
+  sequences,
+};

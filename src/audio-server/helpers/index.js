@@ -3,7 +3,7 @@ import first from 'lodash/fp/first';
 import getOr from 'lodash/fp/getOr';
 import last from 'lodash/fp/last';
 import * as constants from '../constants';
-import Instrument from '../instrument';
+import Instrument from '../Instrument';
 
 export function createChannel(track) {
   if (!track.id) {
