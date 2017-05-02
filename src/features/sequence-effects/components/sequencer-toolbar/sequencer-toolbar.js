@@ -67,6 +67,14 @@ export class SequencerToolbar extends React.PureComponent {
       ],
       leftItems: [
         h(IconButton, {
+          className: 'sequencer__toolbar__close-button',
+          icon: 'arrow-left',
+          onClick: this.props.onClose,
+          toolTip: 'Back to tracks',
+        }),
+      ],
+      rightItems: [
+        h(IconButton, {
           className: 'sequencer__toolbar__select-tool-button',
           isActive: this.props.toolType === SELECT,
           icon: 'mouse-pointer',
@@ -93,14 +101,6 @@ export class SequencerToolbar extends React.PureComponent {
           icon: 'hand-paper-o',
           onClick: this.props.onPanToolSelect,
           toolTip: 'Pan',
-        }),
-      ],
-      rightItems: [
-        h(IconButton, {
-          className: 'sequencer__toolbar__close-button',
-          icon: 'close',
-          onClick: this.props.onClose,
-          toolTip: 'Back to tracks',
         }),
       ],
     });
