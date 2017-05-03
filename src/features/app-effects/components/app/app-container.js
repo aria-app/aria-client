@@ -5,12 +5,11 @@ import shared from '../../../shared';
 import song from '../../../song';
 import appData from '../../../app-data';
 import audioClientEffects from '../../../audio-client-effects';
-import * as selectors from '../../selectors';
 
 export const AppContainer = connect(state => ({
   bpm: song.selectors.getBPM(state),
-  isFileOver: selectors.getIsFileOver(state),
-  isBPMModalOpen: selectors.getIsBPMModalOpen(state),
+  isFileOver: appData.selectors.getIsFileOver(state),
+  isBPMModalOpen: appData.selectors.getIsBPMModalOpen(state),
   isSequenceOpen: !!song.selectors.getActiveSequenceId(state),
   playbackState: audioClientEffects.selectors.getPlaybackState(state),
   stringifiedSong: song.selectors.getStringifiedSong(state),

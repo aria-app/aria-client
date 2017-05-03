@@ -9,7 +9,7 @@ export const TrackerContainer = connect(state => ({
   mutedTrackIds: song.selectors.getMutedTrackIds(state),
   soloingTrackIds: song.selectors.getSoloingTrackIds(state),
   selectedSequence: selectors.getSelectedSequence(state),
-  selectedSequenceId: selectors.getSelectedSequenceId(state),
+  selectedSequenceId: tracksData.selectors.getSelectedSequenceId(state),
   songMeasureCount: song.selectors.getMeasureCount(state),
   stagedTrack: selectors.getStagedTrack(state),
   stagedTrackSequences: selectors.getStagedTrackSequences(state),
