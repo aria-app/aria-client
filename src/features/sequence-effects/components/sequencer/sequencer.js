@@ -225,22 +225,22 @@ export class Sequencer extends React.PureComponent {
     });
   }
 
-  @keydown('down');
+  @keydown('down')
   nudgeDown(e) {
     this.nudge(e, { x: 0, y: 1 });
   }
 
-  @keydown('left');
+  @keydown('left')
   nudgeLeft(e) {
     this.nudge(e, { x: -1, y: 0 });
   }
 
-  @keydown('right');
+  @keydown('right')
   nudgeRight(e) {
     this.nudge(e, { x: 1, y: 0 });
   }
 
-  @keydown('up');
+  @keydown('up')
   nudgeUp(e) {
     this.nudge(e, { x: 0, y: -1 });
   }

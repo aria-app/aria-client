@@ -23,7 +23,9 @@ module.exports = {
         loader: 'babel',
         query: {
           plugins: [
-            'transform-flow-strip-types',
+            'lodash',
+            'transform-class-properties',
+            'transform-decorators-legacy',
           ],
           presets: [
             'es2015',

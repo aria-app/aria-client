@@ -16,8 +16,8 @@ function* startPanning() {
 }
 
 function* stopPanning() {
-  const toolType = yield select(sequenceData.selectors.getToolType);
   const previousToolType = yield select(sequenceData.selectors.getPreviousToolType);
+  const toolType = yield select(sequenceData.selectors.getToolType);
 
   yield put(sequenceData.actions.toolSelected({
     toolType: previousToolType,
