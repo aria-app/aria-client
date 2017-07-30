@@ -1,5 +1,5 @@
 import isNil from 'lodash/fp/isNil';
-import { v4 } from 'uuid';
+import shortid from 'shortid';
 
 export function createNote({ id, points, sequenceId }) {
   if (isNil(points)) {
@@ -11,7 +11,7 @@ export function createNote({ id, points, sequenceId }) {
   }
 
   return {
-    id: id || v4(),
+    id: id || shortid.generate(),
     points,
     sequenceId,
   };

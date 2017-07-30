@@ -1,5 +1,5 @@
 import { map } from 'lodash/fp';
-import { v4 } from 'uuid';
+import shortid from 'shortid';
 import * as constants from '../constants';
 import { createNote } from './createNote';
 import { createSequence } from './createSequence';
@@ -29,7 +29,7 @@ export function createSong() {
   return {
     activeSequenceId: '',
     bpm: constants.defaultBPM,
-    id: v4(),
+    id: shortid.generate(),
     measureCount: constants.defaultMeasureCount,
     name: constants.defaultSongName,
     notes: {

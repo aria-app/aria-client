@@ -1,5 +1,5 @@
 import isNil from 'lodash/fp/isNil';
-import { v4 } from 'uuid';
+import shortid from 'shortid';
 
 export function createSequence({ id, measureCount, position, trackId }) {
   if (isNil(trackId)) {
@@ -7,7 +7,7 @@ export function createSequence({ id, measureCount, position, trackId }) {
   }
 
   return {
-    id: id || v4(),
+    id: id || shortid.generate(),
     measureCount: measureCount || 1,
     position: position || 0,
     trackId,
