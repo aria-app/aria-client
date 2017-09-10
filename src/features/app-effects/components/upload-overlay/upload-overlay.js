@@ -1,4 +1,5 @@
 import { isEmpty } from 'lodash/fp';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -9,9 +10,9 @@ const { showIf } = shared.helpers;
 
 export class UploadOverlay extends React.PureComponent {
   static propTypes = {
-    isFileOver: React.PropTypes.bool.isRequired,
-    onCancel: React.PropTypes.func.isRequired,
-    onUpload: React.PropTypes.func.isRequired,
+    isFileOver: PropTypes.bool.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    onUpload: PropTypes.func.isRequired,
   }
 
   render() {

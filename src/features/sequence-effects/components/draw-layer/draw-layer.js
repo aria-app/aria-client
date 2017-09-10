@@ -1,4 +1,5 @@
 import { compose, first, split } from 'lodash/fp';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -10,9 +11,9 @@ const noop = () => {};
 
 export class DrawLayer extends React.PureComponent {
   static propTypes = {
-    mousePoint: React.PropTypes.object.isRequired,
-    onDraw: React.PropTypes.func.isRequired,
-    toolType: React.PropTypes.string.isRequired,
+    mousePoint: PropTypes.object.isRequired,
+    onDraw: PropTypes.func.isRequired,
+    toolType: PropTypes.string.isRequired,
   }
 
   state = {

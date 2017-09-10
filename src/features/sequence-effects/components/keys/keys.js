@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -8,7 +9,7 @@ const { scale } = shared.constants;
 
 export class Keys extends React.PureComponent {
   static propTypes = {
-    onKeyPress: React.PropTypes.func.isRequired,
+    onKeyPress: PropTypes.func.isRequired,
   }
 
   render() {

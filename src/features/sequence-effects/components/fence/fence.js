@@ -1,13 +1,14 @@
 import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import './fence.scss';
 
 export class Fence extends React.PureComponent {
   static propTypes = {
-    endPoint: React.PropTypes.object.isRequired,
-    startPoint: React.PropTypes.object.isRequired,
+    endPoint: PropTypes.object.isRequired,
+    startPoint: PropTypes.object.isRequired,
   }
 
   render() {

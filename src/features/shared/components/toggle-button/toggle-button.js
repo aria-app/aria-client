@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
@@ -5,10 +6,10 @@ import './toggle-button.scss';
 
 export class ToggleButton extends React.PureComponent {
   static propTypes = {
-    className: React.PropTypes.string,
-    isActive: React.PropTypes.bool,
-    onClick: React.PropTypes.func,
-    text: React.PropTypes.string,
+    className: PropTypes.string,
+    isActive: PropTypes.bool,
+    onClick: PropTypes.func,
+    text: PropTypes.string,
   }
 
   render() {

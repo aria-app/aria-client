@@ -3,6 +3,7 @@ import find from 'lodash/fp/find';
 import first from 'lodash/fp/first';
 import includes from 'lodash/fp/includes';
 import last from 'lodash/fp/last';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -10,14 +11,14 @@ import './note.scss';
 
 export class Note extends React.PureComponent {
   static propTypes = {
-    className: React.PropTypes.string,
-    note: React.PropTypes.object.isRequired,
-    onErase: React.PropTypes.func.isRequired,
-    onMoveStart: React.PropTypes.func.isRequired,
-    onResizeStart: React.PropTypes.func.isRequired,
-    onSelect: React.PropTypes.func.isRequired,
-    selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    toolType: React.PropTypes.string.isRequired,
+    className: PropTypes.string,
+    note: PropTypes.object.isRequired,
+    onErase: PropTypes.func.isRequired,
+    onMoveStart: PropTypes.func.isRequired,
+    onResizeStart: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    toolType: PropTypes.string.isRequired,
   }
 
   static defaultProps = {

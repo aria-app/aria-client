@@ -1,19 +1,19 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import StylePropType from 'react-style-proptype';
 import classnames from 'classnames';
 import './toolbar.scss';
 
 export class Toolbar extends React.PureComponent {
   static propTypes = {
-    alternateLeftItems: React.PropTypes.node,
-    alternateRightItems: React.PropTypes.node,
-    className: React.PropTypes.string,
-    isAlternate: React.PropTypes.bool,
-    leftItems: React.PropTypes.node,
-    position: React.PropTypes.oneOf(['bottom', 'top']),
-    rightItems: React.PropTypes.node,
-    style: StylePropType,
+    alternateLeftItems: PropTypes.node,
+    alternateRightItems: PropTypes.node,
+    className: PropTypes.string,
+    isAlternate: PropTypes.bool,
+    leftItems: PropTypes.node,
+    position: PropTypes.oneOf(['bottom', 'top']),
+    rightItems: PropTypes.node,
+    style: PropTypes.object,
   }
 
   static defaultProps = {

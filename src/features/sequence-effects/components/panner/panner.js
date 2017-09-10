@@ -1,4 +1,5 @@
 import { isEmpty } from 'lodash/fp';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
@@ -7,11 +8,11 @@ import './panner.scss';
 
 export class Panner extends React.PureComponent {
   static propTypes = {
-    onScrollLeftChange: React.PropTypes.func.isRequired,
-    onScrollTopChange: React.PropTypes.func.isRequired,
-    scrollLeftEl: React.PropTypes.object,
-    scrollTopEl: React.PropTypes.object,
-    toolType: React.PropTypes.string.isRequired,
+    onScrollLeftChange: PropTypes.func.isRequired,
+    onScrollTopChange: PropTypes.func.isRequired,
+    scrollLeftEl: PropTypes.object,
+    scrollTopEl: PropTypes.object,
+    toolType: PropTypes.string.isRequired,
   }
 
   state = {

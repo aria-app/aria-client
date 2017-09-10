@@ -1,12 +1,13 @@
 import { includes } from 'lodash/fp';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import './key.scss';
 
 export class Key extends React.PureComponent {
   static propTypes = {
-    onMouseUp: React.PropTypes.func.isRequired,
-    step: React.PropTypes.object,
+    onMouseUp: PropTypes.func.isRequired,
+    step: PropTypes.object,
   }
 
   render() {

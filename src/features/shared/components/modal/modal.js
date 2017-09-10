@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import StylePropType from 'react-style-proptype';
 import { showIf } from '../../helpers';
 import { Button } from '../button/button';
 import { Toolbar } from '../toolbar/toolbar';
@@ -8,15 +8,15 @@ import './modal.scss';
 
 export class Modal extends React.PureComponent {
   static propTypes = {
-    cancelText: React.PropTypes.string,
-    children: React.PropTypes.node,
-    className: React.PropTypes.string,
-    confirmText: React.PropTypes.string,
-    isOpen: React.PropTypes.bool,
-    onCancel: React.PropTypes.func,
-    onConfirm: React.PropTypes.func,
-    style: StylePropType,
-    titleText: React.PropTypes.string,
+    cancelText: PropTypes.string,
+    children: PropTypes.node,
+    className: PropTypes.string,
+    confirmText: PropTypes.string,
+    isOpen: PropTypes.bool,
+    onCancel: PropTypes.func,
+    onConfirm: PropTypes.func,
+    style: PropTypes.object,
+    titleText: PropTypes.string,
   }
 
   static defaultProps = {

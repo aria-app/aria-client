@@ -1,4 +1,5 @@
 import isEmpty from 'lodash/fp/isEmpty';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import keydown from 'react-keydown';
@@ -14,29 +15,29 @@ const { createNote, duplicateNotes, someNoteWillMoveOutside } = shared.helpers;
 
 export class Sequencer extends React.PureComponent {
   static propTypes = {
-    activeSequenceId: React.PropTypes.string.isRequired,
-    measureCount: React.PropTypes.number.isRequired,
-    notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    onClose: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired,
-    onDeselectAll: React.PropTypes.func.isRequired,
-    onDrag: React.PropTypes.func.isRequired,
-    onDraw: React.PropTypes.func.isRequired,
-    onDuplicate: React.PropTypes.func.isRequired,
-    onErase: React.PropTypes.func.isRequired,
-    onKeyPress: React.PropTypes.func.isRequired,
-    onNudge: React.PropTypes.func.isRequired,
-    onOctaveDown: React.PropTypes.func.isRequired,
-    onOctaveUp: React.PropTypes.func.isRequired,
-    onResize: React.PropTypes.func.isRequired,
-    onSelect: React.PropTypes.func.isRequired,
-    onSelectAll: React.PropTypes.func.isRequired,
-    onSelectInArea: React.PropTypes.func.isRequired,
-    onToolSelect: React.PropTypes.func.isRequired,
-    selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    toolType: React.PropTypes.string.isRequired,
-    windowHeight: React.PropTypes.number.isRequired,
-    windowWidth: React.PropTypes.number.isRequired,
+    activeSequenceId: PropTypes.string.isRequired,
+    measureCount: PropTypes.number.isRequired,
+    notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onClose: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onDeselectAll: PropTypes.func.isRequired,
+    onDrag: PropTypes.func.isRequired,
+    onDraw: PropTypes.func.isRequired,
+    onDuplicate: PropTypes.func.isRequired,
+    onErase: PropTypes.func.isRequired,
+    onKeyPress: PropTypes.func.isRequired,
+    onNudge: PropTypes.func.isRequired,
+    onOctaveDown: PropTypes.func.isRequired,
+    onOctaveUp: PropTypes.func.isRequired,
+    onResize: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    onSelectAll: PropTypes.func.isRequired,
+    onSelectInArea: PropTypes.func.isRequired,
+    onToolSelect: PropTypes.func.isRequired,
+    selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    toolType: PropTypes.string.isRequired,
+    windowHeight: PropTypes.number.isRequired,
+    windowWidth: PropTypes.number.isRequired,
   }
 
   componentDidMount() {

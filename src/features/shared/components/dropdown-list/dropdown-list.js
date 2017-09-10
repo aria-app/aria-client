@@ -1,6 +1,6 @@
 import find from 'lodash/fp/find';
+import PropTypes from 'prop-types';
 import React from 'react';
-import StylePropType from 'react-style-proptype';
 import h from 'react-hyperscript';
 import { hideIf, showIf } from '../../helpers';
 import { DropdownListItem } from '../dropdown-list-item/dropdown-list-item';
@@ -10,30 +10,30 @@ import './dropdown-list.scss';
 
 export class DropdownList extends React.PureComponent {
   static propTypes = {
-    className: React.PropTypes.string,
-    icon: React.PropTypes.string,
-    items: React.PropTypes.arrayOf(React.PropTypes.shape({
-      id: React.PropTypes.oneOfType([
-        React.PropTypes.number,
-        React.PropTypes.string,
+    className: PropTypes.string,
+    icon: PropTypes.string,
+    items: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
       ]),
-      text: React.PropTypes.string,
+      text: PropTypes.string,
     })).isRequired,
-    onSelectedIdChange: React.PropTypes.func,
-    onSelectedItemChange: React.PropTypes.func,
-    selectedId: React.PropTypes.oneOfType([
-      React.PropTypes.number,
-      React.PropTypes.string,
+    onSelectedIdChange: PropTypes.func,
+    onSelectedItemChange: PropTypes.func,
+    selectedId: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
     ]),
-    selectedItem: React.PropTypes.shape({
-      id: React.PropTypes.oneOfType([
-        React.PropTypes.number,
-        React.PropTypes.string,
+    selectedItem: PropTypes.shape({
+      id: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
       ]),
-      text: React.PropTypes.string,
+      text: PropTypes.string,
     }),
-    style: StylePropType,
-    text: React.PropTypes.string,
+    style: PropTypes.object,
+    text: PropTypes.string,
   }
 
   constructor(props) {

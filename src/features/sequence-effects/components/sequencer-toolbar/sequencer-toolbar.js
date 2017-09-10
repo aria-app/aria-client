@@ -1,4 +1,5 @@
 import isEmpty from 'lodash/fp/isEmpty';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -10,19 +11,19 @@ const { someNoteWillMoveOutside } = shared.helpers;
 
 export class SequencerToolbar extends React.PureComponent {
   static propTypes = {
-    measureCount: React.PropTypes.number.isRequired,
-    onClose: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired,
-    onDeselectAll: React.PropTypes.func.isRequired,
-    onDrawToolSelect: React.PropTypes.func.isRequired,
-    onDuplicate: React.PropTypes.func.isRequired,
-    onEraseToolSelect: React.PropTypes.func.isRequired,
-    onOctaveDown: React.PropTypes.func.isRequired,
-    onOctaveUp: React.PropTypes.func.isRequired,
-    onPanToolSelect: React.PropTypes.func.isRequired,
-    onSelectToolSelect: React.PropTypes.func.isRequired,
-    selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    toolType: React.PropTypes.string.isRequired,
+    measureCount: PropTypes.number.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onDeselectAll: PropTypes.func.isRequired,
+    onDrawToolSelect: PropTypes.func.isRequired,
+    onDuplicate: PropTypes.func.isRequired,
+    onEraseToolSelect: PropTypes.func.isRequired,
+    onOctaveDown: PropTypes.func.isRequired,
+    onOctaveUp: PropTypes.func.isRequired,
+    onPanToolSelect: PropTypes.func.isRequired,
+    onSelectToolSelect: PropTypes.func.isRequired,
+    selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    toolType: PropTypes.string.isRequired,
   }
 
   render() {

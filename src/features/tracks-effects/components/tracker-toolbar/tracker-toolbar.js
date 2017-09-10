@@ -1,5 +1,6 @@
 import isEmpty from 'lodash/fp/isEmpty';
 import negate from 'lodash/fp/negate';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -9,13 +10,13 @@ const { IconButton, Toolbar } = shared.components;
 
 export class TrackerToolbar extends React.PureComponent {
   static propTypes = {
-    onSequenceDelete: React.PropTypes.func.isRequired,
-    onSequenceExtend: React.PropTypes.func.isRequired,
-    onSequenceMoveLeft: React.PropTypes.func.isRequired,
-    onSequenceMoveRight: React.PropTypes.func.isRequired,
-    onSequenceOpen: React.PropTypes.func.isRequired,
-    onSequenceShorten: React.PropTypes.func.isRequired,
-    selectedSequence: React.PropTypes.object.isRequired,
+    onSequenceDelete: PropTypes.func.isRequired,
+    onSequenceExtend: PropTypes.func.isRequired,
+    onSequenceMoveLeft: PropTypes.func.isRequired,
+    onSequenceMoveRight: PropTypes.func.isRequired,
+    onSequenceOpen: PropTypes.func.isRequired,
+    onSequenceShorten: PropTypes.func.isRequired,
+    selectedSequence: PropTypes.object.isRequired,
   }
 
   render() {

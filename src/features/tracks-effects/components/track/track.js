@@ -1,5 +1,6 @@
 import includes from 'lodash/fp/includes';
 import max from 'lodash/fp/max';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
@@ -11,18 +12,18 @@ const { Icon } = shared.components;
 
 export class Track extends React.PureComponent {
   static propTypes = {
-    mutedTrackIds: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    onSequenceAdd: React.PropTypes.func.isRequired,
-    onSequenceContextMenu: React.PropTypes.func.isRequired,
-    onSequenceOpen: React.PropTypes.func.isRequired,
-    onSequenceSelect: React.PropTypes.func.isRequired,
-    onTrackIsMutedToggle: React.PropTypes.func.isRequired,
-    onTrackIsSoloingToggle: React.PropTypes.func.isRequired,
-    onTrackSelect: React.PropTypes.func.isRequired,
-    selectedSequenceId: React.PropTypes.string,
-    soloingTrackIds: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    songMeasureCount: React.PropTypes.number.isRequired,
-    track: React.PropTypes.object.isRequired,
+    mutedTrackIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    onSequenceAdd: PropTypes.func.isRequired,
+    onSequenceContextMenu: PropTypes.func.isRequired,
+    onSequenceOpen: PropTypes.func.isRequired,
+    onSequenceSelect: PropTypes.func.isRequired,
+    onTrackIsMutedToggle: PropTypes.func.isRequired,
+    onTrackIsSoloingToggle: PropTypes.func.isRequired,
+    onTrackSelect: PropTypes.func.isRequired,
+    selectedSequenceId: PropTypes.string,
+    soloingTrackIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    songMeasureCount: PropTypes.number.isRequired,
+    track: PropTypes.object.isRequired,
   }
 
   render() {

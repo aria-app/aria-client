@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import contextMenu from '../../../context-menu';
@@ -16,31 +17,31 @@ const { TrackerContainer } = tracksEffects.components;
 
 export class App extends React.PureComponent {
   static propTypes = {
-    bpm: React.PropTypes.number.isRequired,
-    contextMenuItems: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    contextMenuPosition: React.PropTypes.shape({
-      x: React.PropTypes.number,
-      y: React.PropTypes.number,
+    bpm: PropTypes.number.isRequired,
+    contextMenuItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+    contextMenuPosition: PropTypes.shape({
+      x: PropTypes.number,
+      y: PropTypes.number,
     }).isRequired,
-    isBPMModalOpen: React.PropTypes.bool.isRequired,
-    isContextMenuOpen: React.PropTypes.bool.isRequired,
-    isFileOver: React.PropTypes.bool.isRequired,
-    isSequenceOpen: React.PropTypes.bool.isRequired,
-    onBPMChange: React.PropTypes.func.isRequired,
-    onBPMModalConfirm: React.PropTypes.func.isRequired,
-    onBPMModalOpen: React.PropTypes.func.isRequired,
-    onContextMenuIsOpenChange: React.PropTypes.func.isRequired,
-    onContextMenuSelect: React.PropTypes.func.isRequired,
-    onFileDragStart: React.PropTypes.func.isRequired,
-    onPause: React.PropTypes.func.isRequired,
-    onPlay: React.PropTypes.func.isRequired,
-    onStop: React.PropTypes.func.isRequired,
-    onUpload: React.PropTypes.func.isRequired,
-    onUploadCancel: React.PropTypes.func.isRequired,
-    playbackState: React.PropTypes.string.isRequired,
-    stringifiedSong: React.PropTypes.string.isRequired,
-    windowHeight: React.PropTypes.number.isRequired,
-    windowWidth: React.PropTypes.number.isRequired,
+    isBPMModalOpen: PropTypes.bool.isRequired,
+    isContextMenuOpen: PropTypes.bool.isRequired,
+    isFileOver: PropTypes.bool.isRequired,
+    isSequenceOpen: PropTypes.bool.isRequired,
+    onBPMChange: PropTypes.func.isRequired,
+    onBPMModalConfirm: PropTypes.func.isRequired,
+    onBPMModalOpen: PropTypes.func.isRequired,
+    onContextMenuIsOpenChange: PropTypes.func.isRequired,
+    onContextMenuSelect: PropTypes.func.isRequired,
+    onFileDragStart: PropTypes.func.isRequired,
+    onPause: PropTypes.func.isRequired,
+    onPlay: PropTypes.func.isRequired,
+    onStop: PropTypes.func.isRequired,
+    onUpload: PropTypes.func.isRequired,
+    onUploadCancel: PropTypes.func.isRequired,
+    playbackState: PropTypes.string.isRequired,
+    stringifiedSong: PropTypes.string.isRequired,
+    windowHeight: PropTypes.number.isRequired,
+    windowWidth: PropTypes.number.isRequired,
   }
 
   render() {

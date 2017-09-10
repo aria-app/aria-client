@@ -1,4 +1,5 @@
 import isEqual from 'lodash/fp/isEqual';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -13,17 +14,17 @@ const { Timeline } = shared.components;
 
 export class Grid extends React.PureComponent {
   static propTypes = {
-    measureCount: React.PropTypes.number.isRequired,
-    notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    onDrag: React.PropTypes.func.isRequired,
-    onDraw: React.PropTypes.func.isRequired,
-    onErase: React.PropTypes.func.isRequired,
-    onResize: React.PropTypes.func.isRequired,
-    onSelect: React.PropTypes.func.isRequired,
-    onSelectInArea: React.PropTypes.func.isRequired,
-    selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    sequencerContentRef: React.PropTypes.object,
-    toolType: React.PropTypes.string.isRequired,
+    measureCount: PropTypes.number.isRequired,
+    notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onDrag: PropTypes.func.isRequired,
+    onDraw: PropTypes.func.isRequired,
+    onErase: PropTypes.func.isRequired,
+    onResize: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    onSelectInArea: PropTypes.func.isRequired,
+    selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    sequencerContentRef: PropTypes.object,
+    toolType: PropTypes.string.isRequired,
   }
 
   state = {

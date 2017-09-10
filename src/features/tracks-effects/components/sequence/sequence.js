@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
@@ -6,12 +7,12 @@ import './sequence.scss';
 
 export class Sequence extends React.PureComponent {
   static propTypes = {
-    className: React.PropTypes.string,
-    onContextMenu: React.PropTypes.func.isRequired,
-    onOpen: React.PropTypes.func.isRequired,
-    onSelect: React.PropTypes.func.isRequired,
-    selectedSequenceId: React.PropTypes.string.isRequired,
-    sequence: React.PropTypes.object.isRequired,
+    className: PropTypes.string,
+    onContextMenu: PropTypes.func.isRequired,
+    onOpen: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    selectedSequenceId: PropTypes.string.isRequired,
+    sequence: PropTypes.object.isRequired,
   }
 
   render() {

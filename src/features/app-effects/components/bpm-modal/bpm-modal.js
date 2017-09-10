@@ -1,4 +1,5 @@
 import map from 'lodash/fp/map';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -12,10 +13,10 @@ const bpmRangeItems = map(getBPMRangeItem, bpmRange);
 
 export class BPMModal extends React.PureComponent {
   static propTypes = {
-    bpm: React.PropTypes.number.isRequired,
-    isOpen: React.PropTypes.bool.isRequired,
-    onBPMChange: React.PropTypes.func.isRequired,
-    onConfirm: React.PropTypes.func.isRequired,
+    bpm: PropTypes.number.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    onBPMChange: PropTypes.func.isRequired,
+    onConfirm: PropTypes.func.isRequired,
   }
 
   render() {

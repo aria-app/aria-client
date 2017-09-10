@@ -1,4 +1,5 @@
 import range from 'lodash/fp/range';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import { neutral } from '../../../../styles/palette';
@@ -9,7 +10,7 @@ const { scale } = shared.constants;
 
 export class Slots extends React.PureComponent {
   static propTypes = {
-    measureCount: React.PropTypes.number.isRequired,
+    measureCount: PropTypes.number.isRequired,
   }
 
   render() {

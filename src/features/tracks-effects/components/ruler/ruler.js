@@ -1,4 +1,5 @@
 import { clamp, times } from 'lodash/fp';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -11,13 +12,13 @@ const measurePreviewWidth = shared.constants.notesPerMeasure * 2;
 
 export class Ruler extends React.PureComponent {
   static propTypes = {
-    measureCount: React.PropTypes.number.isRequired,
-    onPause: React.PropTypes.func.isRequired,
-    onPlay: React.PropTypes.func.isRequired,
-    onPositionSet: React.PropTypes.func.isRequired,
-    onSongExtend: React.PropTypes.func.isRequired,
-    onSongShorten: React.PropTypes.func.isRequired,
-    playbackState: React.PropTypes.string.isRequired,
+    measureCount: PropTypes.number.isRequired,
+    onPause: PropTypes.func.isRequired,
+    onPlay: PropTypes.func.isRequired,
+    onPositionSet: PropTypes.func.isRequired,
+    onSongExtend: PropTypes.func.isRequired,
+    onSongShorten: PropTypes.func.isRequired,
+    playbackState: PropTypes.string.isRequired,
   }
 
   render() {

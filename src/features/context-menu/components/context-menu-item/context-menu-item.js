@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import StylePropType from 'react-style-proptype';
 import shared from '../../../shared';
 import './context-menu-item.scss';
 
@@ -9,10 +9,9 @@ const { showIf } = shared.helpers;
 
 export class ContextMenuItem extends React.PureComponent {
   static propTypes = {
-    className: React.PropTypes.string,
-    item: React.PropTypes.object.isRequired,
-    onClick: React.PropTypes.func.isRequired,
-    style: StylePropType,
+    className: PropTypes.string,
+    item: PropTypes.object.isRequired,
+    onClick: PropTypes.func.isRequired,
   }
 
   render() {

@@ -1,7 +1,7 @@
 import { clamp } from 'lodash/fp';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import StylePropType from 'react-style-proptype';
 import shared from '../../../shared';
 import { ContextMenuItem } from '../context-menu-item/context-menu-item';
 import './context-menu.scss';
@@ -10,18 +10,17 @@ const { showIf } = shared.helpers;
 
 export class ContextMenu extends React.PureComponent {
   static propTypes = {
-    className: React.PropTypes.string,
-    isOpen: React.PropTypes.bool.isRequired,
-    items: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    onIsOpenChange: React.PropTypes.func.isRequired,
-    onSelect: React.PropTypes.func.isRequired,
-    position: React.PropTypes.shape({
-      x: React.PropTypes.number,
-      y: React.PropTypes.number,
+    className: PropTypes.string,
+    isOpen: PropTypes.bool.isRequired,
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onIsOpenChange: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    position: PropTypes.shape({
+      x: PropTypes.number,
+      y: PropTypes.number,
     }).isRequired,
-    style: StylePropType,
-    windowHeight: React.PropTypes.number.isRequired,
-    windowWidth: React.PropTypes.number.isRequired,
+    windowHeight: PropTypes.number.isRequired,
+    windowWidth: PropTypes.number.isRequired,
   }
 
   render() {

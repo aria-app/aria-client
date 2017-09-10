@@ -6,6 +6,7 @@ import last from 'lodash/fp/last';
 import map from 'lodash/fp/map';
 import some from 'lodash/fp/some';
 import without from 'lodash/fp/without';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -16,15 +17,15 @@ const { addPoints, resizeNote, someNoteWillMoveOutside, translateNote } = shared
 
 export class Notes extends React.PureComponent {
   static propTypes = {
-    measureCount: React.PropTypes.number.isRequired,
-    mousePoint: React.PropTypes.object.isRequired,
-    notes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    onDrag: React.PropTypes.func.isRequired,
-    onErase: React.PropTypes.func.isRequired,
-    onResize: React.PropTypes.func.isRequired,
-    onSelect: React.PropTypes.func.isRequired,
-    selectedNotes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    toolType: React.PropTypes.string.isRequired,
+    measureCount: PropTypes.number.isRequired,
+    mousePoint: PropTypes.object.isRequired,
+    notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onDrag: PropTypes.func.isRequired,
+    onErase: PropTypes.func.isRequired,
+    onResize: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    toolType: PropTypes.string.isRequired,
   }
 
   state = {

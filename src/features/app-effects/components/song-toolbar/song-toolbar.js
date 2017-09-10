@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -8,13 +9,13 @@ const { PAUSED, STARTED, STOPPED } = shared.constants.playbackStates;
 
 export class SongToolbar extends React.PureComponent {
   static propTypes = {
-    bpm: React.PropTypes.number.isRequired,
-    onBPMModalOpen: React.PropTypes.func.isRequired,
-    onPause: React.PropTypes.func.isRequired,
-    onPlay: React.PropTypes.func.isRequired,
-    onStop: React.PropTypes.func.isRequired,
-    playbackState: React.PropTypes.string.isRequired,
-    stringifiedSong: React.PropTypes.string.isRequired,
+    bpm: PropTypes.number.isRequired,
+    onBPMModalOpen: PropTypes.func.isRequired,
+    onPause: PropTypes.func.isRequired,
+    onPlay: PropTypes.func.isRequired,
+    onStop: PropTypes.func.isRequired,
+    playbackState: PropTypes.string.isRequired,
+    stringifiedSong: PropTypes.string.isRequired,
   }
 
   render() {

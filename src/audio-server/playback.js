@@ -1,5 +1,4 @@
 import forEach from 'lodash/fp/forEach';
-import S from 'sanctuary';
 import * as constants from './constants';
 import Instrument from './Instrument';
 import Tone from './tone';
@@ -30,21 +29,21 @@ export default {
 
 function handlePause() {
   forEach(
-    S.T(constants.playbackStates.PAUSED),
+    cb => cb(constants.playbackStates.PAUSED),
     playbackStateSubscribers,
   );
 }
 
 function handleStart() {
   forEach(
-    S.T(constants.playbackStates.STARTED),
+    cb => cb(constants.playbackStates.STARTED),
     playbackStateSubscribers,
   );
 }
 
 function handleStop() {
   forEach(
-    S.T(constants.playbackStates.STOPPED),
+    cb => cb(constants.playbackStates.STOPPED),
     playbackStateSubscribers,
   );
 }

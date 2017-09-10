@@ -1,4 +1,5 @@
 import isEmpty from 'lodash/fp/isEmpty';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -9,11 +10,11 @@ const { synthTypes } = shared.constants;
 
 export class TrackEditingModal extends React.PureComponent {
   static propTypes = {
-    onDelete: React.PropTypes.func.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    onSynthTypeSet: React.PropTypes.func.isRequired,
-    stagedTrack: React.PropTypes.object.isRequired,
-    stagedTrackSequences: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    onSynthTypeSet: PropTypes.func.isRequired,
+    stagedTrack: PropTypes.object.isRequired,
+    stagedTrackSequences: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   render() {

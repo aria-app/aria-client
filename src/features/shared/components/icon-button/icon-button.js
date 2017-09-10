@@ -1,20 +1,20 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import StylePropType from 'react-style-proptype';
 import classnames from 'classnames';
 import { Icon } from '../icon/icon';
 import './icon-button.scss';
 
 export class IconButton extends React.PureComponent {
   static propTypes = {
-    className: React.PropTypes.string,
-    icon: React.PropTypes.string.isRequired,
-    isActive: React.PropTypes.bool,
-    isDisabled: React.PropTypes.bool,
-    onClick: React.PropTypes.func.isRequired,
-    size: React.PropTypes.oneOf(['small', 'regular', 'large', '']),
-    style: StylePropType,
-    toolTip: React.PropTypes.string,
+    className: PropTypes.string,
+    icon: PropTypes.string.isRequired,
+    isActive: PropTypes.bool,
+    isDisabled: PropTypes.bool,
+    onClick: PropTypes.func.isRequired,
+    size: PropTypes.oneOf(['small', 'regular', 'large', '']),
+    style: PropTypes.object,
+    toolTip: PropTypes.string,
   }
 
   render() {

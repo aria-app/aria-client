@@ -1,14 +1,14 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import StylePropType from 'react-style-proptype';
 import './button.scss';
 
 export class Button extends React.PureComponent {
   static propTypes = {
-    className: React.PropTypes.string,
-    onClick: React.PropTypes.func,
-    style: StylePropType,
-    text: React.PropTypes.string,
+    className: PropTypes.string,
+    onClick: PropTypes.func,
+    style: PropTypes.object,
+    text: PropTypes.string,
   }
 
   render() {

@@ -1,14 +1,14 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import StylePropType from 'react-style-proptype';
 import './timeline.scss';
 
 export class Timeline extends React.PureComponent {
   static propTypes = {
-    className: React.PropTypes.string,
-    isVisible: React.PropTypes.bool,
-    offset: React.PropTypes.number.isRequired,
-    style: StylePropType,
+    className: PropTypes.string,
+    isVisible: PropTypes.bool,
+    offset: PropTypes.number.isRequired,
+    style: PropTypes.object,
   }
 
   render() {

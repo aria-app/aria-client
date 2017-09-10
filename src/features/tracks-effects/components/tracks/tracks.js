@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -9,22 +10,22 @@ const { Icon } = shared.components;
 
 export class Tracks extends React.PureComponent {
   static propTypes = {
-    mutedTrackIds: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    onSequenceAdd: React.PropTypes.func.isRequired,
-    onSequenceContextMenu: React.PropTypes.func.isRequired,
-    onSequenceDeselect: React.PropTypes.func.isRequired,
-    onSequenceOpen: React.PropTypes.func.isRequired,
-    onSequenceSelect: React.PropTypes.func.isRequired,
-    onSongExtend: React.PropTypes.func.isRequired,
-    onSongShorten: React.PropTypes.func.isRequired,
-    onTrackAdd: React.PropTypes.func.isRequired,
-    onTrackIsMutedToggle: React.PropTypes.func.isRequired,
-    onTrackIsSoloingToggle: React.PropTypes.func.isRequired,
-    onTrackStage: React.PropTypes.func.isRequired,
-    selectedSequenceId: React.PropTypes.string,
-    soloingTrackIds: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    songMeasureCount: React.PropTypes.number.isRequired,
-    tracks: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    mutedTrackIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    onSequenceAdd: PropTypes.func.isRequired,
+    onSequenceContextMenu: PropTypes.func.isRequired,
+    onSequenceDeselect: PropTypes.func.isRequired,
+    onSequenceOpen: PropTypes.func.isRequired,
+    onSequenceSelect: PropTypes.func.isRequired,
+    onSongExtend: PropTypes.func.isRequired,
+    onSongShorten: PropTypes.func.isRequired,
+    onTrackAdd: PropTypes.func.isRequired,
+    onTrackIsMutedToggle: PropTypes.func.isRequired,
+    onTrackIsSoloingToggle: PropTypes.func.isRequired,
+    onTrackStage: PropTypes.func.isRequired,
+    selectedSequenceId: PropTypes.string,
+    soloingTrackIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    songMeasureCount: PropTypes.number.isRequired,
+    tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   render() {

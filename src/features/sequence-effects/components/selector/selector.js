@@ -1,4 +1,5 @@
 import isEmpty from 'lodash/fp/isEmpty';
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
@@ -7,10 +8,10 @@ import './selector.scss';
 
 export class Selector extends React.PureComponent {
   static propTypes = {
-    children: React.PropTypes.node.isRequired,
-    mousePoint: React.PropTypes.object.isRequired,
-    onSelect: React.PropTypes.func.isRequired,
-    toolType: React.PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    mousePoint: PropTypes.object.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    toolType: PropTypes.string.isRequired,
   }
 
   state = {

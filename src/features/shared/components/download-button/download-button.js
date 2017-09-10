@@ -1,12 +1,13 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import './download-button.scss';
 
 export class DownloadButton extends React.PureComponent {
   static propTypes = {
-    content: React.PropTypes.string.isRequired,
-    filename: React.PropTypes.string.isRequired,
-    text: React.PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    filename: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
   }
 
   render() {

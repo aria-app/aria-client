@@ -1,33 +1,33 @@
 import isEqual from 'lodash/fp/isEqual';
+import PropTypes from 'prop-types';
 import React from 'react';
-import StylePropType from 'react-style-proptype';
 import classnames from 'classnames';
 import h from 'react-hyperscript';
 import './dropdown-list-item.scss';
 
 export class DropdownListItem extends React.PureComponent {
   static propTypes = {
-    className: React.PropTypes.string,
-    item: React.PropTypes.shape({
-      id: React.PropTypes.oneOfType([
-        React.PropTypes.number,
-        React.PropTypes.string,
+    className: PropTypes.string,
+    item: PropTypes.shape({
+      id: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
       ]),
-      text: React.PropTypes.string,
+      text: PropTypes.string,
     }).isRequired,
-    onClick: React.PropTypes.func.isRequired,
-    selectedId: React.PropTypes.oneOfType([
-      React.PropTypes.number,
-      React.PropTypes.string,
+    onClick: PropTypes.func.isRequired,
+    selectedId: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
     ]),
-    selectedItem: React.PropTypes.shape({
-      id: React.PropTypes.oneOfType([
-        React.PropTypes.number,
-        React.PropTypes.string,
+    selectedItem: PropTypes.shape({
+      id: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
       ]),
-      text: React.PropTypes.string,
+      text: PropTypes.string,
     }),
-    style: StylePropType,
+    style: PropTypes.object,
   }
 
   render() {
