@@ -8,6 +8,7 @@ import requestSequenceDelete from './requestSequenceDelete';
 import requestSequencePost from './requestSequencePost';
 import requestSequenceUpdate from './requestSequenceUpdate';
 import requestSequencesPost from './requestSequencesPost';
+import requestSongUpdate from './requestSongUpdate';
 import { subscribeToPlaybackState } from './subscribeToPlaybackState';
 import { subscribeToPosition } from './subscribe-to-position';
 import appData from '../../app-data';
@@ -26,6 +27,7 @@ export default function* saga() {
     fork(requestSequencePost),
     fork(requestSequenceUpdate),
     fork(requestSequencesPost),
+    fork(requestSongUpdate),
   ];
 }
 
