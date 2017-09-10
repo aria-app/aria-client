@@ -6,7 +6,7 @@ export function createTrack(options) {
     id: (options && options.id) || shortid.generate(),
     isMuted: false,
     isSoloing: false,
-    synthType: (options && options.synthType) || constants.defaultSynthType,
+    voice: (options && options.voice) || constants.defaultVoice,
     volume: 0,
   };
 }

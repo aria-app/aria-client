@@ -17,9 +17,12 @@ export const NOTES_DELETED = `${NAME}/NOTES_DELETED`;
 export const SEQUENCE_CLOSED = `${NAME}/SEQUENCE_CLOSED`;
 export const TOOL_SELECTED = `${NAME}/TOOL_SELECTED`;
 
-export const keyPressed = ({ y }) => ({
+export const keyPressed = ({ pitch, trackId }) => ({
   type: KEY_PRESSED,
-  y,
+  payload: {
+    pitch,
+    trackId,
+  },
 });
 
 export const noteDrawn = ({ note }) => ({

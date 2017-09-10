@@ -7,7 +7,7 @@ const path = require('path');
 const vendor = _(dependencies)
   .omit('babel-polyfill')
   .omit('react-icons')
-  .omit('tone')
+  .omit('dawww')
   .keys()
   .value();
 const webpack = require('webpack');

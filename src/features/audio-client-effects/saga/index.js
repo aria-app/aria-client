@@ -1,42 +1,32 @@
 import { takeEvery } from 'redux-saga';
 import { fork } from 'redux-saga/effects';
-import { requestKeyPreview } from './request-key-preview';
-import { requestPlaybackPause } from './requestPlaybackPause';
-import { requestPlaybackStart } from './requestPlaybackStart';
-import { requestPlaybackStop } from './requestPlaybackStop';
-import requestSequenceDelete from './requestSequenceDelete';
-import requestSequencePost from './requestSequencePost';
-import requestSequenceUpdate from './requestSequenceUpdate';
-import requestSequencesPost from './requestSequencesPost';
-import requestSongUpdate from './requestSongUpdate';
-import { subscribeToPlaybackState } from './subscribeToPlaybackState';
-import { subscribeToPosition } from './subscribe-to-position';
 import appData from '../../app-data';
 import sequenceData from '../../sequence-data';
 import shared from '../../shared';
+import pause from './pause';
+import preview from './preview';
+import start from './start';
+import stop from './stop';
+import subscribeToState from './subscribeToState';
+import updateSong from './updateSong';
 
 export default function* saga() {
   yield [
-    takeEvery(appData.actions.PLAYBACK_PAUSE_REQUESTED, requestPlaybackPause),
-    takeEvery(appData.actions.PLAYBACK_START_REQUESTED, requestPlaybackStart),
-    takeEvery(appData.actions.PLAYBACK_STOP_REQUESTED, requestPlaybackStop),
-    takeEvery(sequenceData.actions.KEY_PRESSED, requestKeyPreview),
-    takeEvery(shared.actions.INITIALIZED, subscribeToPlaybackState),
-    takeEvery(shared.actions.INITIALIZED, subscribeToPosition),
-    fork(requestSequenceDelete),
-    fork(requestSequencePost),
-    fork(requestSequenceUpdate),
-    fork(requestSequencesPost),
-    fork(requestSongUpdate),
+    takeEvery(appData.actions.PLAYBACK_PAUSE_REQUESTED, pause),
+    takeEvery(appData.actions.PLAYBACK_START_REQUESTED, start),
+    takeEvery(appData.actions.PLAYBACK_STOP_REQUESTED, stop),
+    takeEvery(sequenceData.actions.KEY_PRESSED, preview),
+    takeEvery(shared.actions.INITIALIZED, subscribeToState),
+    fork(updateSong),
   ];
 }
 
 // Saga
-// sequenceData.actions.KEY_PRESSED, requestKeyPreview
+// sequenceData.actions.KEY_PRESSED, preview
 //  -> request a note preview from audio server
 // shared.actions.INITIALIZED, subscribeToPosition
 //  -> Use fast event channel from server to dispatch position updates
-// shared.actions.INITIALIZED, subscribeToPlaybackState
+// shared.actions.INITIALIZED, subscribeToState
 //  -> Use fast event channel from server to dispatch playbackState updates
 
 // Overview

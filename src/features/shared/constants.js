@@ -24,13 +24,6 @@ export const playbackStates = {
   STOPPED: 'STOPPED',
 };
 
-export const synthTypes = {
-  PWM: 'pwm',
-  SAWTOOTH: 'sawtooth',
-  SINE: 'sine',
-  SQUARE: 'square',
-};
-
 export const scale = [
   { name: 'B6', y: 0 },
   { name: 'A#6', y: 1 },
@@ -126,8 +119,15 @@ export const toolTypes = {
   PAN: 'PAN',
 };
 
+export const voices = {
+  PWM: 'pwm',
+  SAWTOOTH: 'sawtooth',
+  SINE: 'sine',
+  SQUARE: 'square',
+};
+
 export const bpmRange = rangeStep(10, minBPM, maxBPM + 1);
 
-export const defaultSynthType = synthTypes.SQUARE;
-
 export const defaultToolType = toolTypes.SELECT;
+
+export const defaultVoice = voices.SQUARE;

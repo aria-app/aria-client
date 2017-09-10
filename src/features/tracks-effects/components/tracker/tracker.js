@@ -31,7 +31,7 @@ export class Tracker extends React.PureComponent {
     onTrackIsMutedToggle: PropTypes.func.isRequired,
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
     onTrackStage: PropTypes.func.isRequired,
-    onTrackSynthTypeSet: PropTypes.func.isRequired,
+    onTrackVoiceSet: PropTypes.func.isRequired,
     selectedSequence: PropTypes.object.isRequired,
     selectedSequenceId: PropTypes.string.isRequired,
     soloingTrackIds: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -77,7 +77,7 @@ export class Tracker extends React.PureComponent {
       h(TrackEditingModal, {
         onDelete: this.handleTrackEditingModalDelete,
         onDismiss: this.props.onTrackEditingFinish,
-        onSynthTypeSet: this.handleTrackEditingModalSynthTypeSet,
+        onVoiceSet: this.handleTrackEditingModalVoiceSet,
         stagedTrack: this.props.stagedTrack,
         stagedTrackSequences: this.props.stagedTrackSequences,
       }),
@@ -90,10 +90,10 @@ export class Tracker extends React.PureComponent {
       track,
     });
 
-  handleTrackEditingModalSynthTypeSet = (track, synthType) =>
-    this.props.onTrackSynthTypeSet({
-      synthType,
+  handleTrackEditingModalVoiceSet = (track, voice) =>
+    this.props.onTrackVoiceSet({
       track,
+      voice,
     });
 
   handleTrackerToolbarSequenceDelete = () =>

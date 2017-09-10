@@ -30,9 +30,9 @@ export const tracks = createReducer({}, {
       isMuted: false,
     }], state),
 
-  [tracksData.actions.TRACK_SYNTH_TYPE_SET]: (state, action) =>
+  [tracksData.actions.TRACK_VOICE_SET]: (state, action) =>
     shared.helpers.setAtIds([{
       ...action.track,
-      synthType: action.synthType,
+      voice: action.voice,
     }], state),
 });

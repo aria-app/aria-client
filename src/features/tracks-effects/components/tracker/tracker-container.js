@@ -33,5 +33,5 @@ export const TrackerContainer = connect(state => ({
   onTrackIsMutedToggle: tracksData.actions.trackIsMutedToggled,
   onTrackIsSoloingToggle: tracksData.actions.trackIsSoloingToggled,
   onTrackStage: tracksData.actions.trackEditingStarted,
-  onTrackSynthTypeSet: tracksData.actions.trackSynthTypeSet,
+  onTrackVoiceSet: tracksData.actions.trackVoiceSet,
 })(Tracker);

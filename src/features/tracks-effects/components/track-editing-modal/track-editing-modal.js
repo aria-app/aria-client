@@ -6,13 +6,13 @@ import shared from '../../../shared';
 import './track-editing-modal.scss';
 
 const { Button, DropdownList, Modal } = shared.components;
-const { synthTypes } = shared.constants;
+const { voices } = shared.constants;
 
 export class TrackEditingModal extends React.PureComponent {
   static propTypes = {
     onDelete: PropTypes.func.isRequired,
     onDismiss: PropTypes.func.isRequired,
-    onSynthTypeSet: PropTypes.func.isRequired,
+    onVoiceSet: PropTypes.func.isRequired,
     stagedTrack: PropTypes.object.isRequired,
     stagedTrackSequences: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
@@ -26,15 +26,15 @@ export class TrackEditingModal extends React.PureComponent {
       titleText: 'Edit Track',
     }, [
       h('.track-editing-modal__content', [
-        h('.track-editing-modal__content__synth-dropdown', [
-          h('.track-editing-modal__content__synth-dropdown__label', [
-            'Synth Type:',
+        h('.track-editing-modal__content__voice-dropdown', [
+          h('.track-editing-modal__content__voice-dropdown__label', [
+            'Voice:',
           ]),
           h(DropdownList, {
-            className: 'track-editing-modal__content__synth-dropdown__list',
-            items: getSynthTypeList(),
+            className: 'track-editing-modal__content__voice-dropdown__list',
+            items: getVoiceList(),
             selectedId: this.getSelectedId(),
-            onSelectedIdChange: this.handleContentSynthDropdownListSelectedIdChange,
+            onSelectedIdChange: this.handleContentVoiceDropdownListSelectedIdChange,
           }),
         ]),
         h(Button, {
@@ -51,7 +51,7 @@ export class TrackEditingModal extends React.PureComponent {
 
   getSelectedId = () =>
     (this.props.stagedTrack
-      ? this.props.stagedTrack.synthType
+      ? this.props.stagedTrack.voice
       : '');
 
   handleContentDeleteButtonClick = () =>
@@ -60,16 +60,16 @@ export class TrackEditingModal extends React.PureComponent {
       this.props.stagedTrackSequences,
     );
 
-  handleContentSynthDropdownListSelectedIdChange = synthType =>
-    this.props.onSynthTypeSet(
+  handleContentVoiceDropdownListSelectedIdChange = voice =>
+    this.props.onVoiceSet(
       this.props.stagedTrack,
-      synthType,
+      voice,
     );
 }
 
-export function getSynthTypeList() {
-  return Object.keys(synthTypes).map(key => ({
-    text: synthTypes[key],
-    id: synthTypes[key],
+export function getVoiceList() {
+  return Object.keys(voices).map(key => ({
+    text: voices[key],
+    id: voices[key],
   }));
 }

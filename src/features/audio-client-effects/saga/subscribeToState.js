@@ -1,9 +1,10 @@
 import { eventChannel } from 'redux-saga';
 import { put, take } from 'redux-saga/effects';
-import AudioServer from '../../../audio-server';
+import dawww from '../dawww';
+// eslint-disable-next-line
 import audioClientData from '../../audio-client-data';
 
-export function* subscribeToPlaybackState() {
+export default function* () {
   const playbackStateChannel = playbackStateChannelFactory();
 
   // eslint-disable-next-line no-constant-condition
@@ -14,5 +15,5 @@ export function* subscribeToPlaybackState() {
 }
 
 function playbackStateChannelFactory() {
-  return eventChannel(emit => AudioServer.playback.onStateChange(emit));
+  return eventChannel(emit => dawww.onStateChange(emit));
 }

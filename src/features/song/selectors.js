@@ -1,4 +1,4 @@
-import { defaultTo, filter, identity, pipe, get, includes, map, some } from 'lodash/fp';
+import { defaultTo, filter, identity, pipe, get, getOr, includes, map, some } from 'lodash/fp';
 import shared from '../shared';
 import { NAME } from './constants';
 
@@ -115,6 +115,13 @@ export const getActiveSequence = state =>
   pipe(
     getActiveSequenceId,
     id => getSequenceById(id)(state),
+  )(state);
+
+export const getActiveSequenceTrackId = state =>
+  pipe(
+    getActiveSequenceId,
+    id => getSequenceById(id)(state),
+    getOr('', 'trackId'),
   )(state);
 
 export const getActiveSequenceMeasureCount =

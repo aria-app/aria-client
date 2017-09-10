@@ -17,7 +17,7 @@ export const TRACK_EDITING_FINISHED = `${NAME}/TRACK_EDITING_FINISHED`;
 export const TRACK_EDITING_STARTED = `${NAME}/TRACK_EDITING_STARTED`;
 export const TRACK_IS_MUTED_TOGGLED = `${NAME}/TRACK_IS_MUTED_TOGGLED`;
 export const TRACK_IS_SOLOING_TOGGLED = `${NAME}/TRACK_IS_SOLOING_TOGGLED`;
-export const TRACK_SYNTH_TYPE_SET = `${NAME}/TRACK_SYNTH_TYPE_SET`;
+export const TRACK_VOICE_SET = `${NAME}/TRACK_VOICE_SET`;
 
 export const sequenceAdded = ({ sequence }) => ({
   type: SEQUENCE_ADDED,
@@ -102,8 +102,8 @@ export const trackIsSoloingToggled = ({ track }) => ({
   track,
 });
 
-export const trackSynthTypeSet = ({ synthType, track }) => ({
-  type: TRACK_SYNTH_TYPE_SET,
-  synthType,
+export const trackVoiceSet = ({ track, voice }) => ({
+  type: TRACK_VOICE_SET,
   track,
+  voice,
 });

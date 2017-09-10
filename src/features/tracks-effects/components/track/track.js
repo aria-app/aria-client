@@ -33,7 +33,7 @@ export class Track extends React.PureComponent {
           onClick: this.handleBodyHeaderClick,
         }, [
           h('.track__body__header__title', [
-            this.props.track.synthType,
+            this.props.track.voice,
           ]),
           h('.track__body__header__actions', [
             h('.track__body__header__actions__action.track__body__header__actions__action--mute', {

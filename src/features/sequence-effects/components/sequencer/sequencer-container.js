@@ -6,6 +6,7 @@ import { Sequencer } from './sequencer';
 
 export const SequencerContainer = connect(state => ({
   activeSequenceId: song.selectors.getActiveSequenceId(state),
+  activeSequenceTrackId: song.selectors.getActiveSequenceTrackId(state),
   measureCount: song.selectors.getActiveSequenceMeasureCount(state),
   notes: song.selectors.getActiveSequenceNotes(state),
   selectedNotes: song.selectors.getSelectedNotes(state),

@@ -16,6 +16,7 @@ const { createNote, duplicateNotes, someNoteWillMoveOutside } = shared.helpers;
 export class Sequencer extends React.PureComponent {
   static propTypes = {
     activeSequenceId: PropTypes.string.isRequired,
+    activeSequenceTrackId: PropTypes.string.isRequired,
     measureCount: PropTypes.number.isRequired,
     notes: PropTypes.arrayOf(PropTypes.object).isRequired,
     onClose: PropTypes.func.isRequired,
@@ -69,6 +70,7 @@ export class Sequencer extends React.PureComponent {
       }, [
         h('.sequencer__content__wrapper', [
           h(Keys, {
+            activeSequenceTrackId: this.props.activeSequenceTrackId,
             onKeyPress: this.props.onKeyPress,
           }),
           h(Grid, {

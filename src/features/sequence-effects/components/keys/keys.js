@@ -9,6 +9,7 @@ const { scale } = shared.constants;
 
 export class Keys extends React.PureComponent {
   static propTypes = {
+    activeSequenceTrackId: PropTypes.string.isRequired,
     onKeyPress: PropTypes.func.isRequired,
   }
 
@@ -26,7 +27,8 @@ export class Keys extends React.PureComponent {
 
   handleKeyMouseUp = (step) => {
     this.props.onKeyPress({
-      y: step.y,
+      trackId: this.props.activeSequenceTrackId,
+      pitch: step.y,
     });
   }
 }
