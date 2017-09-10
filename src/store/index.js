@@ -12,9 +12,7 @@ const middlewareEnhancer = applyMiddleware(
   persistMiddleware,
 );
 
-const composeEnhancers = composeWithDevTools({
-  persist: true,
-});
+const composeEnhancers = composeWithDevTools({});
 
 const store = createStore(reducer, composeEnhancers(
   middlewareEnhancer,

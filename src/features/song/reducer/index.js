@@ -4,13 +4,10 @@ import { bpm } from './bpm';
 import { id } from './id';
 import { measureCount } from './measure-count';
 import { name } from './name';
-import { noteDict } from './note-dict';
-import { noteIds } from './note-ids';
+import { notes } from './notes';
 import { selectedNoteIds } from './selected-note-ids';
-import { sequenceDict } from './sequence-dict';
-import { sequenceIds } from './sequence-ids';
-import { trackDict } from './track-dict';
-import { trackIds } from './track-ids';
+import { sequences } from './sequences';
+import { tracks } from './tracks';
 
 export default combineReducers({
   activeSequenceId,
@@ -18,11 +15,8 @@ export default combineReducers({
   id,
   measureCount,
   name,
-  noteDict,
-  noteIds,
+  notes,
   selectedNoteIds,
-  sequenceDict,
-  sequenceIds,
-  trackDict,
-  trackIds,
+  sequences,
+  tracks,
 });

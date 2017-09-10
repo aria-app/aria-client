@@ -7,9 +7,9 @@ import tracksData from '../../tracks-data';
 
 const { setAtIds } = shared.helpers;
 
-export const sequenceDict = createReducer({}, {
+export const sequences = createReducer({}, {
   [appData.actions.SONG_LOADED]: (state, action) =>
-    action.song.sequences.dict,
+    action.song.sequences,
 
   [tracksData.actions.SEQUENCE_ADDED]: (state, action) =>
     setAtIds([action.sequence], state),

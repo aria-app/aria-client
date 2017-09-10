@@ -10,9 +10,9 @@ const { setAtIds, translateNote } = shared.helpers;
 const octaveDownDelta = { x: 0, y: 12 };
 const octaveUpDelta = { x: 0, y: -12 };
 
-export const noteDict = createReducer({}, {
+export const notes = createReducer({}, {
   [appData.actions.SONG_LOADED]: (state, action) =>
-    action.song.notes.dict,
+    action.song.notes,
 
   [sequenceData.actions.NOTE_DRAWN]: (state, action) => ({
     ...state,

@@ -5,7 +5,7 @@ import song from '../../song';
 import appData from '../../app-data';
 
 export function* request() {
-  const sequences = yield select(song.selectors.getSequences);
+  const sequences = yield select(song.selectors.getSequencesArray);
 
   for (let i = 0; i < sequences.length; i += 1) {
     const sequence = sequences[i];

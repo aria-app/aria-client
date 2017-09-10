@@ -31,14 +31,9 @@ export const getName = pipe(
   defaultTo(''),
 );
 
-export const getNotesDict = pipe(
+export const getNotes = pipe(
   get(NAME),
-  get('noteDict'),
-);
-
-export const getNotesIds = pipe(
-  get(NAME),
-  get('noteIds'),
+  get('notes'),
 );
 
 export const getSelectedNoteIds = pipe(
@@ -47,42 +42,33 @@ export const getSelectedNoteIds = pipe(
   defaultTo([]),
 );
 
-export const getSequencesDict = pipe(
+export const getSequences = pipe(
   get(NAME),
-  get('sequenceDict'),
+  get('sequences'),
 );
 
-export const getSequencesIds = pipe(
+export const getTracks = pipe(
   get(NAME),
-  get('sequenceIds'),
-);
-
-export const getTracksDict = pipe(
-  get(NAME),
-  get('trackDict'),
-);
-
-export const getTracksIds = pipe(
-  get(NAME),
-  get('trackIds'),
+  get('tracks'),
 );
 
 // --- Notes ---
 
 export const getNoteById = id => pipe(
-  getNotesDict,
+  getNotes,
   get(id),
   defaultTo({}),
 );
 
-export const getNotes = state => pipe(
-  getNotesIds,
+export const getNotesArray = state => pipe(
+  getNotes,
+  Object.keys,
   map(id => getNoteById(id)(state)),
 )(state);
 
 export const getNotesBySequenceId = sequenceId =>
   pipe(
-    getNotes,
+    getNotesArray,
     filter({ sequenceId }),
   );
 
@@ -90,34 +76,35 @@ export const getNotesBySequenceId = sequenceId =>
 // --- Sequence ---
 
 export const getSequenceById = id => pipe(
-  getSequencesDict,
+  getSequences,
   get(id),
   defaultTo({}),
 );
 
-export const getSequences = state =>
+export const getSequencesArray = state =>
   pipe(
-    getSequencesIds,
+    getSequences,
+    Object.keys,
     map(id => getSequenceById(id)(state)),
   )(state);
 
 export const getSequencesByTrackId = trackId =>
   pipe(
-    getSequences,
+    getSequencesArray,
     filter({ trackId }),
   );
 
 const getDeepSequence = state => sequence => ({
   ...sequence,
   notes: pipe(
-    getNotes,
+    getNotesArray,
     filter({ sequenceId: sequence.id }),
   )(state),
 });
 
 export const getDeepSequences = state =>
   pipe(
-    getSequences,
+    getSequencesArray,
     map(getDeepSequence(state)),
   )(state);
 
@@ -139,7 +126,7 @@ export const getActiveSequenceMeasureCount =
 
 export const getActiveSequenceNotes = state =>
   pipe(
-    getNotes,
+    getNotesArray,
     filter({ sequenceId: getActiveSequenceId(state) }),
   )(state);
 
@@ -148,14 +135,15 @@ export const getActiveSequenceNotes = state =>
 
 export const getTrackById = id =>
   pipe(
-    getTracksDict,
+    getTracks,
     get(id),
     defaultTo({}),
   );
 
-export const getTracks = state =>
+export const getTracksArray = state =>
   pipe(
-    getTracksIds,
+    getTracks,
+    Object.keys,
     map(id => getTrackById(id)(state)),
   )(state);
 
@@ -169,27 +157,27 @@ const getDeepTrack = state => track => ({
 
 export const getDeepTracks = state =>
   pipe(
-    getTracks,
+    getTracksArray,
     map(getDeepTrack(state)),
   )(state);
 
 export const getMutedTrackIds =
   pipe(
-    getTracks,
+    getTracksArray,
     filter('isMuted'),
     map('id'),
   );
 
 export const getSoloingTrackIds =
   pipe(
-    getTracks,
+    getTracksArray,
     filter('isSoloing'),
     map('id'),
   );
 
 export const getIsAnyTrackSoloing =
   pipe(
-    getTracks,
+    getTracksArray,
     some('isSoloing'),
   );
 
@@ -201,18 +189,9 @@ export const getSong = state => ({
   id: getId(state),
   measureCount: getMeasureCount(state),
   name: getName(state),
-  notes: {
-    dict: getNotesDict(state),
-    ids: getNotesIds(state),
-  },
-  sequences: {
-    dict: getSequencesDict(state),
-    ids: getSequencesIds(state),
-  },
-  tracks: {
-    dict: getTracksDict(state),
-    ids: getTracksIds(state),
-  },
+  notes: getNotes(state),
+  sequences: getSequences(state),
+  tracks: getTracks(state),
 });
 
 export const getStringifiedSong = pipe(

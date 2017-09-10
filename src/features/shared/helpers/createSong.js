@@ -1,4 +1,3 @@
-import { map } from 'lodash/fp';
 import shortid from 'shortid';
 import * as constants from '../constants';
 import { createNote } from './createNote';
@@ -32,26 +31,17 @@ export function createSong() {
     id: shortid.generate(),
     measureCount: constants.defaultMeasureCount,
     name: constants.defaultSongName,
-    notes: {
-      dict: initialNotes.reduce((acc, cur) =>
-        ({ ...acc, [cur.id]: cur }),
-        {},
-      ),
-      ids: map('id')(initialNotes),
-    },
-    sequences: {
-      dict: initialSequences.reduce((acc, cur) =>
-        ({ ...acc, [cur.id]: cur }),
-        {},
-      ),
-      ids: map('id')(initialSequences),
-    },
-    tracks: {
-      dict: initialTracks.reduce((acc, cur) =>
-        ({ ...acc, [cur.id]: cur }),
-        {},
-      ),
-      ids: map('id')(initialTracks),
-    },
+    notes: initialNotes.reduce((acc, cur) =>
+      ({ ...acc, [cur.id]: cur }),
+      {},
+    ),
+    sequences: initialSequences.reduce((acc, cur) =>
+      ({ ...acc, [cur.id]: cur }),
+      {},
+    ),
+    tracks: initialTracks.reduce((acc, cur) =>
+      ({ ...acc, [cur.id]: cur }),
+      {},
+    ),
   };
 }

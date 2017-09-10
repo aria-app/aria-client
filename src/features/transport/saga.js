@@ -14,7 +14,7 @@ import * as selectors from './selectors';
 const { STARTED } = constants.playbackStates;
 
 function* createSequences() {
-  const songSequences = yield select(song.selectors.getSequences);
+  const songSequences = yield select(song.selectors.getSequencesArray);
   const sequenceStepsChannel = sequenceStepsChannelFactory(songSequences);
 
   const sequencesSetAction = yield take(sequenceStepsChannel);
@@ -162,7 +162,7 @@ function* togglePlayPause() {
 }
 
 function* updateSequences() {
-  const sequences = yield select(selectors.getSequences);
+  const sequences = yield select(selectors.getSequencesArray);
   sequences.forEach(s => s.dispose());
   yield fork(createSequences);
 }
