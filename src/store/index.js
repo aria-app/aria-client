@@ -1,19 +1,24 @@
 import { applyMiddleware, createStore } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import persistMiddleware from './persist-middleware';
-import loggerMiddleware from './logger-middleware';
 import reducer from './reducer';
 import saga from './saga';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = applyMiddleware(
+const middlewareEnhancer = applyMiddleware(
   sagaMiddleware,
   persistMiddleware,
-  loggerMiddleware,
 );
 
-const store = createStore(reducer, middleware);
+const composeEnhancers = composeWithDevTools({
+  persist: true,
+});
+
+const store = createStore(reducer, composeEnhancers(
+  middlewareEnhancer,
+));
 
 sagaMiddleware.run(saga);
 
