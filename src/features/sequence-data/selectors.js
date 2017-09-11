@@ -1,6 +1,8 @@
+import getOr from 'lodash/fp/getOr';
 import { NAME } from './constants';
 
-const get = state => state[NAME];
+export const getToolType =
+  getOr('', `${NAME}.toolType`);
 
-export const getToolType = state => get(state).toolType;
-export const getPreviousToolType = state => get(state).previousToolType;
+export const getPreviousToolType =
+  getOr('', `${NAME}.previousToolType`);

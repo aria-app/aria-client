@@ -15,7 +15,6 @@ $icon-button__background__background-color--press: transparentize($neutral-10, 0
   width: $icon-button__size;
   height: $icon-button__size;
   position: relative;
-  transition: background-color 0.4s ease-in;
   cursor: pointer;
   &__background {
     display: flex;
@@ -50,7 +49,6 @@ $icon-button__background__background-color--press: transparentize($neutral-10, 0
   &:not(.icon-button--disabled):active {
     .icon-button__background {
       background-color: $icon-button__background__background-color--press;
-      transition: background-color 0s ease;
     }
   }
 }

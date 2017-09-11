@@ -19,7 +19,7 @@
   "dependencies": {
     "babel-polyfill": "6.13.0",
     "classnames": "2.2.3",
-    "dawww": "1.1.1",
+    "dawww": "^1.2.10",
     "kewler": "1.0.8",
     "lodash": "4.17.4",
     "mousetrap": "^1.5.3",

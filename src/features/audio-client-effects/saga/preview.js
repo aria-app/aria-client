@@ -1,8 +1,10 @@
 import getOr from 'lodash/fp/getOr';
+import { takeEvery } from 'redux-saga';
 import { call } from 'redux-saga/effects';
+import sequenceData from '../../sequence-data';
 import dawww from '../dawww';
 
-export default function* (action) {
+function* preview(action) {
   const pitch = getOr(-1, 'payload.pitch', action);
   const trackId = getOr('', 'payload.trackId', action);
 
@@ -11,4 +13,10 @@ export default function* (action) {
     trackId,
     pitch,
   );
+}
+
+export default function* () {
+  yield [
+    takeEvery(sequenceData.actions.KEY_PRESSED, preview),
+  ];
 }

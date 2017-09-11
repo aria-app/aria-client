@@ -1,12 +1,15 @@
 import { connect } from 'react-redux';
 import contextMenu from '../../../context-menu';
 import song from '../../../song';
+import audioClientData from '../../../audio-client-data';
 import tracksData from '../../../tracks-data';
 import * as selectors from '../../selectors';
 import { Tracker } from './tracker';
 
 export const TrackerContainer = connect(state => ({
+  isStopped: audioClientData.selectors.getIsStopped(state),
   mutedTrackIds: song.selectors.getMutedTrackIds(state),
+  position: audioClientData.selectors.getPosition(state),
   soloingTrackIds: song.selectors.getSoloingTrackIds(state),
   selectedSequence: selectors.getSelectedSequence(state),
   selectedSequenceId: tracksData.selectors.getSelectedSequenceId(state),

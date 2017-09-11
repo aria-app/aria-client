@@ -1,6 +1,7 @@
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
+// import audioClientData from '../features/audio-client-data';
 import persistMiddleware from './persist-middleware';
 import reducer from './reducer';
 import saga from './saga';
@@ -12,7 +13,11 @@ const middlewareEnhancer = applyMiddleware(
   persistMiddleware,
 );
 
-const composeEnhancers = composeWithDevTools({});
+const composeEnhancers = composeWithDevTools({
+  actionsBlacklist: [
+    // audioClientData.actions.POSITION_REQUEST_SUCCEEDED,
+  ],
+});
 
 const store = createStore(reducer, composeEnhancers(
   middlewareEnhancer,

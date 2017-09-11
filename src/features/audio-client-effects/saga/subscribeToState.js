@@ -1,8 +1,7 @@
 import { eventChannel } from 'redux-saga';
 import { put, take } from 'redux-saga/effects';
-import dawww from '../dawww';
-// eslint-disable-next-line
 import audioClientData from '../../audio-client-data';
+import dawww from '../dawww';
 
 export default function* () {
   const playbackStateChannel = playbackStateChannelFactory();

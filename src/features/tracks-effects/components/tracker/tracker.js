@@ -12,6 +12,7 @@ const { createSequence, createTrack } = shared.helpers;
 
 export class Tracker extends React.PureComponent {
   static propTypes = {
+    isStopped: PropTypes.bool.isRequired,
     mutedTrackIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceContextMenu: PropTypes.func.isRequired,
@@ -32,6 +33,7 @@ export class Tracker extends React.PureComponent {
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
     onTrackStage: PropTypes.func.isRequired,
     onTrackVoiceSet: PropTypes.func.isRequired,
+    position: PropTypes.number.isRequired,
     selectedSequence: PropTypes.object.isRequired,
     selectedSequenceId: PropTypes.string.isRequired,
     soloingTrackIds: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -71,8 +73,8 @@ export class Tracker extends React.PureComponent {
         tracks: this.props.tracks,
       }),
       h(Timeline, {
-        isVisible: false,
-        offset: (0 * 2) + 100,
+        isVisible: !this.props.isStopped,
+        offset: (this.props.position * 2) + 100,
       }),
       h(TrackEditingModal, {
         onDelete: this.handleTrackEditingModalDelete,
