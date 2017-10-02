@@ -104,7 +104,7 @@ module.exports = {
       appMountId: 'root',
       baseHref: '/',
       inject: false,
-      title: 'Redux CRUD Starter',
+      title: 'Zen Sequencer',
       template: htmlWebpackTemplate,
     }),
     new ExtractTextWebpackPlugin('[name][contenthash].css'),
