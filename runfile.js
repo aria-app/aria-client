@@ -3,34 +3,29 @@ const { run } = require('runjs');
 const tasks = {
   build() {
     tasks.clean();
-    run('webpack --progress --colors --config configs/webpack-prod.config.js');
+    run('');
   },
 
   clean() {
-    run('rimraf public');
+    run('');
   },
 
   deploy() {
     tasks.build();
-    run('surge ./public zen-sequencer.surge.sh');
+    run('');
   },
 
   lint() {
-    run('eslint src');
+    run('');
   },
 
   start() {
     tasks.clean();
-    run('webpack-dev-server --inline --config configs/webpack-dev.config.js');
+    run('');
   },
 
   storybook() {
-    run('start-storybook -p 6006');
-  },
-
-  test() {
-    tasks.clean();
-    run('webpack-dev-server --inline --config configs/webpack-test.config.js --port 5000');
+    run('');
   },
 };
 

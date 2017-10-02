@@ -86,13 +86,15 @@ export class DropdownList extends React.PureComponent {
           style: this.getPopupStyle(),
         }, [
           h('.dropdown-list__popup__list', [
-            ...this.props.items.map(item => h(DropdownListItem, {
-              className: 'dropdown-list__popup__list__item',
-              onClick: this.handlePopupListItemClick,
-              selectedId: this.props.selectedId,
-              selectedItem: this.props.selectedItem,
-              item,
-            })),
+            ...this.props.items.map(item =>
+              h(DropdownListItem, {
+                className: 'dropdown-list__popup__list__item',
+                onClick: this.handlePopupListItemClick,
+                selectedId: this.props.selectedId,
+                selectedItem: this.props.selectedItem,
+                item,
+              }),
+            ),
           ]),
         ]),
       ),
