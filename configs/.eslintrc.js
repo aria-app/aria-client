@@ -20,6 +20,7 @@ module.exports = {
     'react',
   ],
   rules: {
+    'function-paren-newline': 0,
     'import/no-extraneous-dependencies': 0,
     'import/prefer-default-export': 0,
     'linebreak-style': 0,
@@ -31,7 +32,9 @@ module.exports = {
         functions: false,
       },
     ],
+    'object-curly-newline': 0,
     'prefer-const': 2,
+    'prefer-destructuring': 0,
     'react/forbid-prop-types': [
       2,
       {

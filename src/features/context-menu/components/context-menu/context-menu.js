@@ -19,6 +19,7 @@ export class ContextMenu extends React.PureComponent {
       x: PropTypes.number,
       y: PropTypes.number,
     }).isRequired,
+    style: PropTypes.object,
     windowHeight: PropTypes.number.isRequired,
     windowWidth: PropTypes.number.isRequired,
   }

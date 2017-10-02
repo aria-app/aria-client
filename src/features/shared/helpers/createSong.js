@@ -33,15 +33,15 @@ export function createSong() {
     name: constants.defaultSongName,
     notes: initialNotes.reduce((acc, cur) =>
       ({ ...acc, [cur.id]: cur }),
-      {},
+    {},
     ),
     sequences: initialSequences.reduce((acc, cur) =>
       ({ ...acc, [cur.id]: cur }),
-      {},
+    {},
     ),
     tracks: initialTracks.reduce((acc, cur) =>
       ({ ...acc, [cur.id]: cur }),
-      {},
+    {},
     ),
   };
 }

@@ -1,17 +1,14 @@
-const coreConfig = require('./webpack-core.config');
-const merge = require('webpack-merge');
 const path = require('path');
-const webpack = require('webpack');
+const merge = require('webpack-merge');
+const baseConfig = require('./webpack-base.config.js');
 
-module.exports = merge.smart({}, coreConfig, {
+module.exports = merge(baseConfig, {
   devServer: {
+    contentBase: path.join(__dirname, '../dist'),
+    historyApiFallback: true,
     stats: {
       chunks: false,
     },
-    contentBase: path.join(__dirname, '../public'),
   },
-  devtool: 'eval',
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-  ],
+  devtool: 'cheap-eval-source-map',
 });

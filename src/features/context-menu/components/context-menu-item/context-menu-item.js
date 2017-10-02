@@ -12,6 +12,7 @@ export class ContextMenuItem extends React.PureComponent {
     className: PropTypes.string,
     item: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
+    style: PropTypes.object,
   }
 
   render() {

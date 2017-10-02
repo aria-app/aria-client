@@ -46,7 +46,7 @@ export const notes = createReducer({}, {
   [sequenceData.actions.NOTES_NUDGED]: (state, action) =>
     setAtIds(map(translateNote(
       action.delta),
-      action.notes,
+    action.notes,
     ), state),
 
   [sequenceData.actions.NOTES_RESIZED]: (state, action) =>
