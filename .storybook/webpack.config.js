@@ -12,18 +12,17 @@ module.exports = {
     }),
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.scss$/,
-        loader: 'style!css!postcss!sass',
+        loader: 'style-loader!css-loader!postcss-loader!sass-loader',
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel',
-        query: {
+        loader: 'babel-loader',
+        options: {
           plugins: [
-            'lodash',
             'transform-class-properties',
             'transform-decorators-legacy',
           ],

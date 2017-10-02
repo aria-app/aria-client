@@ -1,6 +1,6 @@
 import h from 'react-hyperscript';
-import { storiesOf } from '@kadira/storybook';
-import { text, withKnobs } from '@kadira/storybook-addon-knobs';
+import { storiesOf } from '@storybook/react';
+import { text, withKnobs } from '@storybook/addon-knobs';
 import { Button } from './button';
 
 storiesOf('Button', module)

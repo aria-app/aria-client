@@ -1,6 +1,6 @@
 import h from 'react-hyperscript';
-import { action, storiesOf } from '@kadira/storybook';
-import { number, select, withKnobs } from '@kadira/storybook-addon-knobs';
+import { action, storiesOf } from '@storybook/react';
+import { number, select, withKnobs } from '@storybook/addon-knobs';
 import { Sequencer } from '../sequencer';
 import shared from '../../../../shared';
 import './sequencer-basics.story.scss';

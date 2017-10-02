@@ -1,5 +1,5 @@
 import 'babel-polyfill';
-import { configure } from '@kadira/storybook';
+import { configure } from '@storybook/react';
 import '../src/features/app-effects/components/app/app.scss';
 import '../src/styles/resets.scss';
 
