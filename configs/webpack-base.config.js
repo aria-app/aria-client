@@ -99,7 +99,9 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin([
       path.join(__dirname, '../dist'),
-    ]),
+    ], {
+      root: path.join(__dirname, '../'),
+    }),
     new HtmlWebpackPlugin({
       appMountId: 'root',
       baseHref: '/',
