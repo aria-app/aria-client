@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
+import keydown from 'react-keydown';
 import sequenceEffects from '../../../sequence-effects';
 import shared from '../../../shared';
 import tracksEffects from '../../../tracks-effects';
@@ -10,6 +11,7 @@ import { SongToolbar } from '../song-toolbar/song-toolbar';
 import './app.scss';
 
 const { SequencerContainer } = sequenceEffects.components;
+const { STARTED } = shared.constants.playbackStates;
 const { hideIf, showIf } = shared.helpers;
 const { TrackerContainer } = tracksEffects.components;
 
@@ -91,5 +93,19 @@ export class App extends React.PureComponent {
   handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
+  }
+
+  @keydown('enter')
+  playPause() {
+    if (this.props.playbackState === STARTED) {
+      this.props.onPause();
+    } else {
+      this.props.onPlay();
+    }
+  }
+
+  @keydown('esc')
+  stop() {
+    this.props.onStop();
   }
 }

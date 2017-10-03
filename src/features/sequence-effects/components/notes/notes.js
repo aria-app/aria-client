@@ -107,14 +107,12 @@ export class Notes extends React.PureComponent {
 
   handleNoteMoveStart = () =>
     this.setState(() => ({
-      dragDelta: { x: 0, y: 0 },
       isDragging: true,
     }));
 
   handleNoteResizeStart = () =>
     this.setState(() => ({
       isResizing: true,
-      resizeDelta: { x: 0, y: 0 },
     }));
 
   handleResize = (delta) => {
@@ -150,7 +148,15 @@ export class Notes extends React.PureComponent {
   }
 
   stopDragging = () => {
+    if (isEqual({ x: 0, y: 0 }, this.state.dragDelta)) {
+      this.setState({
+        isDragging: false,
+      });
+      return;
+    }
+
     this.props.onDrag(this.getSelectedNotes());
+
     this.setState({
       dragDelta: { x: 0, y: 0 },
       isDragging: false,
@@ -158,7 +164,15 @@ export class Notes extends React.PureComponent {
   };
 
   stopResizing = () => {
+    if (isEqual({ x: 0, y: 0 }, this.state.resizeDelta)) {
+      this.setState({
+        isResizing: false,
+      });
+      return;
+    }
+
     this.props.onResize(this.getSelectedNotes());
+
     this.setState({
       isResizing: false,
       resizeDelta: { x: 0, y: 0 },
