@@ -41,7 +41,6 @@ $note__point-connector--z-index--active: 200;
       width: $note__point__fill__size;
       height: $note__point__fill__size;
       background-color: $note__point__fill__background-color;
-      transition: background-color 0.1s ease;
       border-radius: $note__point__fill__border-radius;
       box-shadow: $note__point__fill__box-shadow;
     }
@@ -54,7 +53,6 @@ $note__point-connector--z-index--active: 200;
     left: $note__point-connector__left;
     z-index: $note__point-connector--z-index;
     background-color: $note__point-connector__background-color;
-    transition: background-color 0.1s ease;
     transform-origin: left center;
   }
   &:hover:not(.note--active) {

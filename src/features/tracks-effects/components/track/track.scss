@@ -110,10 +110,8 @@ $track__add-button--hover__fill: $neutral-6;
         flex-shrink: 0;
         width: $track__add-button__width;
         border: $track__add-button__border;
-        transition: border-color 0.25s ease;
         svg * {
           fill: $track__add-button__fill;
-          transition: fill 0.25s ease;
         }
         &:hover {
           border-color: $track__add-button--hover__border-color;

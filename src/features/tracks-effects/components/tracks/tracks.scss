@@ -30,9 +30,6 @@ $tracks__add-button__border-radius: 2px;
     border: $tracks__add-button__border;
     border-radius: $tracks__add-button__border-radius;
     cursor: pointer;
-    transition:
-      color 0.25s ease,
-      border-color 0.25s ease;
     &__icon {
       margin-right: $tracks__add-button__icon__margin;
       svg * {

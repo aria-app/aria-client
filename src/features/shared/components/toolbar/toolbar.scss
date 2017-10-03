@@ -30,7 +30,6 @@ $toolbar__icon-button__background--active--alternate: rgba(0, 0, 0, 0.25);
   background-color: $toolbar__background-color;
   border-bottom: $toolbar__border;
   z-index: $toolbar__z-index;
-  transition: background-color 0.25s ease;
   .icon-button + .icon-button {
     margin-left: $toolbar__item__spacing;
   }
