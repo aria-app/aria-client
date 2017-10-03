@@ -1,0 +1,36 @@
+@import '../../../../styles/constants';
+@import '../../../../styles/palette';
+
+$add-track-button__border: 1px solid $neutral-3;
+$add-track-button__border-radius: 2px;
+$add-track-button__color: $neutral-3;
+$add-track-button__height: 84px;
+$add-track-button__padding: $margin-m;
+$add-track-button__icon__margin: $margin-m;
+$add-track-button--active__border-color: $neutral-4;
+$add-track-button--active__color: $neutral-5;
+
+.add-track-button {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  height: $add-track-button__height;
+  padding: $add-track-button__padding;
+  color: $add-track-button__color;
+  border: $add-track-button__border;
+  border-radius: $add-track-button__border-radius;
+  cursor: pointer;
+  &__icon {
+    margin-right: $add-track-button__icon__margin;
+    svg * {
+      fill: $add-track-button__color;
+    }
+  }
+  &:hover {
+    color: $add-track-button--active__color;
+    border-color: $add-track-button--active__border-color;
+    svg * {
+      fill: $add-track-button--active__color;
+    }
+  }
+}

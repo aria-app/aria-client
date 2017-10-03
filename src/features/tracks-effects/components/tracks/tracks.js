@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
+import { AddTrackButton } from '../add-track-button/add-track-button';
 import { Track } from '../track/track';
 import './tracks.scss';
 
-const { Icon, Ruler } = shared.components;
+const { Ruler } = shared.components;
 
 export class Tracks extends React.PureComponent {
   static propTypes = {
@@ -54,25 +55,12 @@ export class Tracks extends React.PureComponent {
           track,
         }),
       ),
-      h('.tracks__add-button', {
-        style: this.getAddButtonStyle(),
+      h(AddTrackButton, {
         onClick: this.props.onTrackAdd,
-      }, [
-        h(Icon, {
-          className: 'tracks__add-button__icon',
-          icon: 'plus',
-          size: 'large',
-        }),
-        h('.tracks__add-button__text', [
-          'Add Track',
-        ]),
-      ]),
+        songMeasureCount: this.props.songMeasureCount,
+      }),
     ]);
   }
-
-  getAddButtonStyle = () => ({
-    width: (this.props.songMeasureCount * 64) + 84,
-  });
 
   handleClick = (e) => {
     e.stopPropagation();
