@@ -14,7 +14,6 @@ export class Track extends React.PureComponent {
   static propTypes = {
     mutedTrackIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
-    onSequenceContextMenu: PropTypes.func.isRequired,
     onSequenceOpen: PropTypes.func.isRequired,
     onSequenceSelect: PropTypes.func.isRequired,
     onTrackIsMutedToggle: PropTypes.func.isRequired,
@@ -49,13 +48,14 @@ export class Track extends React.PureComponent {
         h('.track__body__sequences', {
           style: this.getBodySequencesStyle(),
         }, [
-          ...this.props.track.sequences.map(sequence => h(Sequence, {
-            onContextMenu: this.props.onSequenceContextMenu,
-            onOpen: this.props.onSequenceOpen,
-            onSelect: this.props.onSequenceSelect,
-            selectedSequenceId: this.props.selectedSequenceId,
-            sequence,
-          })),
+          ...this.props.track.sequences.map(sequence =>
+            h(Sequence, {
+              onOpen: this.props.onSequenceOpen,
+              onSelect: this.props.onSequenceSelect,
+              selectedSequenceId: this.props.selectedSequenceId,
+              sequence,
+            }),
+          ),
           h('.track__body__sequences__add-button', {
             onClick: this.handleBodySequencesAddButtonClick,
             style: this.getBodySequencesAddButtonStyle(),

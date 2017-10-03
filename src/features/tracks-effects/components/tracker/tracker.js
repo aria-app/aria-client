@@ -15,7 +15,6 @@ export class Tracker extends React.PureComponent {
     isStopped: PropTypes.bool.isRequired,
     mutedTrackIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
-    onSequenceContextMenu: PropTypes.func.isRequired,
     onSequenceDelete: PropTypes.func.isRequired,
     onSequenceDeselect: PropTypes.func.isRequired,
     onSequenceExtend: PropTypes.func.isRequired,
@@ -57,7 +56,6 @@ export class Tracker extends React.PureComponent {
       h(Tracks, {
         mutedTrackIds: this.props.mutedTrackIds,
         onSequenceAdd: this.handleTracksSequenceAdd,
-        onSequenceContextMenu: this.props.onSequenceContextMenu,
         onSequenceDeselect: this.props.onSequenceDeselect,
         onSequenceOpen: this.handleTracksSequenceOpen,
         onSequenceSelect: this.handleTracksSequenceSelect,

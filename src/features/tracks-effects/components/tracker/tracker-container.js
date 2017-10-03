@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import contextMenu from '../../../context-menu';
 import song from '../../../song';
 import audioClientData from '../../../audio-client-data';
 import tracksData from '../../../tracks-data';
@@ -19,7 +18,6 @@ export const TrackerContainer = connect(state => ({
   tracks: song.selectors.getDeepTracks(state),
 }), {
   onSequenceAdd: tracksData.actions.sequenceAdded,
-  onSequenceContextMenu: contextMenu.actions.contextMenuOpened,
   onSequenceDelete: tracksData.actions.sequenceDeleted,
   onSequenceDeselect: tracksData.actions.sequenceDeselected,
   onSequenceExtend: tracksData.actions.sequenceExtended,

@@ -15,11 +15,13 @@ export class Keys extends React.PureComponent {
 
   render() {
     return h('.keys', [
-      ...this.getScale().map(step => h(Key, {
-        key: step.y,
-        onMouseUp: this.handleKeyMouseUp,
-        step,
-      })),
+      ...this.getScale().map(step =>
+        h(Key, {
+          key: step.y,
+          onMouseUp: this.handleKeyMouseUp,
+          step,
+        }),
+      ),
     ]);
   }
 

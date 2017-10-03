@@ -1,4 +1,5 @@
-import { clamp, times } from 'lodash/fp';
+import clamp from 'lodash/fp/clamp';
+import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
@@ -29,22 +30,26 @@ export class Ruler extends React.PureComponent {
           style: this.getMeasuresStyle(),
           onMouseDown: this.holdPosition,
         }, [
-          ...times(measureIndex => h('.ruler__body__measures__measure', {
-            key: measureIndex,
-            style: getMeasuresMeasureStyle(measureIndex),
-          }, [
-            hideIf(this.getIsLastMeasure(measureIndex))(
-              h('.ruler__body__measures__measure__label', [
-                measureIndex + 1,
-              ]),
-            ),
-            hideIf(this.getIsLastMeasure(measureIndex))(
-              times(eighthIndex => h('.ruler__body__measures__measure__eighth', {
-                key: eighthIndex,
-                style: getMeasuresMeasureEighthStyle(eighthIndex),
-              }), 7),
-            ),
-          ]), this.props.measureCount),
+          ...range(0, this.props.measureCount).map(measureIndex =>
+            h('.ruler__body__measures__measure', {
+              key: measureIndex,
+              style: getMeasuresMeasureStyle(measureIndex),
+            }, [
+              hideIf(this.getIsLastMeasure(measureIndex))(
+                h('.ruler__body__measures__measure__label', [
+                  measureIndex + 1,
+                ]),
+              ),
+              hideIf(this.getIsLastMeasure(measureIndex))(
+                range(0, 7).map(eighthIndex =>
+                  h('.ruler__body__measures__measure__eighth', {
+                    key: eighthIndex,
+                    style: getMeasuresMeasureEighthStyle(eighthIndex),
+                  }),
+                ),
+              ),
+            ]),
+          ),
         ]),
       ]),
       h('.ruler__song-length-button', [

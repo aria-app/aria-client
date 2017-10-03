@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import contextMenu from '../../../context-menu';
 import sequenceEffects from '../../../sequence-effects';
 import shared from '../../../shared';
 import tracksEffects from '../../../tracks-effects';
@@ -10,7 +9,6 @@ import { UploadOverlay } from '../upload-overlay/upload-overlay';
 import { SongToolbar } from '../song-toolbar/song-toolbar';
 import './app.scss';
 
-const { ContextMenu } = contextMenu.components;
 const { SequencerContainer } = sequenceEffects.components;
 const { hideIf, showIf } = shared.helpers;
 const { TrackerContainer } = tracksEffects.components;
@@ -18,20 +16,12 @@ const { TrackerContainer } = tracksEffects.components;
 export class App extends React.PureComponent {
   static propTypes = {
     bpm: PropTypes.number.isRequired,
-    contextMenuItems: PropTypes.arrayOf(PropTypes.object).isRequired,
-    contextMenuPosition: PropTypes.shape({
-      x: PropTypes.number,
-      y: PropTypes.number,
-    }).isRequired,
     isBPMModalOpen: PropTypes.bool.isRequired,
-    isContextMenuOpen: PropTypes.bool.isRequired,
     isFileOver: PropTypes.bool.isRequired,
     isSequenceOpen: PropTypes.bool.isRequired,
     onBPMChange: PropTypes.func.isRequired,
     onBPMModalConfirm: PropTypes.func.isRequired,
     onBPMModalOpen: PropTypes.func.isRequired,
-    onContextMenuIsOpenChange: PropTypes.func.isRequired,
-    onContextMenuSelect: PropTypes.func.isRequired,
     onFileDragStart: PropTypes.func.isRequired,
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
@@ -40,8 +30,6 @@ export class App extends React.PureComponent {
     onUploadCancel: PropTypes.func.isRequired,
     playbackState: PropTypes.string.isRequired,
     stringifiedSong: PropTypes.string.isRequired,
-    windowHeight: PropTypes.number.isRequired,
-    windowWidth: PropTypes.number.isRequired,
   }
 
   render() {
@@ -70,15 +58,6 @@ export class App extends React.PureComponent {
         isOpen: this.props.isBPMModalOpen,
         onBPMChange: this.handleBPMModalBPMChange,
         onConfirm: this.props.onBPMModalConfirm,
-      }),
-      h(ContextMenu, {
-        isOpen: this.props.isContextMenuOpen,
-        items: this.props.contextMenuItems,
-        onIsOpenChange: this.props.onContextMenuIsOpenChange,
-        onSelect: this.props.onContextMenuSelect,
-        position: this.props.contextMenuPosition,
-        windowHeight: this.props.windowHeight,
-        windowWidth: this.props.windowWidth,
       }),
       h(UploadOverlay, {
         isFileOver: this.props.isFileOver,

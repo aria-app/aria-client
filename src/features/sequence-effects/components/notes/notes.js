@@ -46,17 +46,19 @@ export class Notes extends React.PureComponent {
       onMouseUp: this.handleMouseUp,
       style: this.getStyle(),
     }, [
-      ...this.getNotes().map(note => h(Note, {
-        className: 'notes__note',
-        key: note.id,
-        onErase: this.props.onErase,
-        onMoveStart: this.handleNoteMoveStart,
-        onResizeStart: this.handleNoteResizeStart,
-        onSelect: this.props.onSelect,
-        selectedNotes: this.props.selectedNotes,
-        toolType: this.props.toolType,
-        note,
-      })),
+      ...this.getNotes().map(note =>
+        h(Note, {
+          className: 'notes__note',
+          key: note.id,
+          onErase: this.props.onErase,
+          onMoveStart: this.handleNoteMoveStart,
+          onResizeStart: this.handleNoteResizeStart,
+          onSelect: this.props.onSelect,
+          selectedNotes: this.props.selectedNotes,
+          toolType: this.props.toolType,
+          note,
+        }),
+      ),
     ]);
   }
 

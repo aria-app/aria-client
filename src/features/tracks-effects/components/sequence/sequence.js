@@ -2,13 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
-import * as constants from '../../constants';
 import './sequence.scss';
 
 export class Sequence extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
-    onContextMenu: PropTypes.func.isRequired,
     onOpen: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
     selectedSequenceId: PropTypes.string.isRequired,
@@ -20,12 +18,13 @@ export class Sequence extends React.PureComponent {
       className: this.getClassName(),
       style: this.getStyle(),
       onClick: this.handleClick,
-      onContextMenu: this.handleContextMenu,
       onDoubleClick: this.handleDoubleClick,
     }, [
-      ...this.props.sequence.notes.map(note => h('.sequence__note', {
-        style: getNoteStyle(note),
-      })),
+      ...this.props.sequence.notes.map(note =>
+        h('.sequence__note', {
+          style: getNoteStyle(note),
+        }),
+      ),
     ]);
   }
 
@@ -54,24 +53,6 @@ export class Sequence extends React.PureComponent {
     }
 
     this.props.onSelect(this.props.sequence);
-  }
-
-  handleContextMenu = (e) => {
-    const items = [
-      {
-        text: 'Delete',
-        action: constants.contextMenuActions.DELETE_SEQUENCE,
-        sequence: this.props.sequence,
-      },
-    ];
-
-    this.props.onContextMenu(items, {
-      x: e.pageX,
-      y: e.pageY,
-    });
-
-    e.preventDefault();
-    e.stopPropagation();
   }
 }
 
