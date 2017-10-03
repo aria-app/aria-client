@@ -1,15 +1,15 @@
-import includes from 'lodash/fp/includes';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import classnames from 'classnames';
 import { AddSequenceButton } from '../add-sequence-button/add-sequence-button';
 import { Sequence } from '../sequence/sequence';
+import { TrackHeader } from '../track-header/track-header';
 import './track.scss';
 
 export class Track extends React.PureComponent {
   static propTypes = {
-    mutedTrackIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    isMuted: PropTypes.bool.isRequired,
+    isSoloing: PropTypes.bool.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceOpen: PropTypes.func.isRequired,
     onSequenceSelect: PropTypes.func.isRequired,
@@ -17,7 +17,6 @@ export class Track extends React.PureComponent {
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
     onTrackSelect: PropTypes.func.isRequired,
     selectedSequenceId: PropTypes.string,
-    soloingTrackIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     songMeasureCount: PropTypes.number.isRequired,
     track: PropTypes.object.isRequired,
   }
@@ -25,23 +24,14 @@ export class Track extends React.PureComponent {
   render() {
     return h('.track', [
       h('.track__body', [
-        h('.track__body__header', {
-          onClick: this.handleBodyHeaderClick,
-        }, [
-          h('.track__body__header__title', [
-            this.props.track.voice,
-          ]),
-          h('.track__body__header__actions', [
-            h('.track__body__header__actions__action.track__body__header__actions__action--mute', {
-              className: this.getBodyHeaderActionsActionMuteClassName(),
-              onClick: this.handleBodyHeaderActionsActionMuteClick,
-            }, ['M']),
-            h('.track__body__header__actions__action.track__body__header__actions__action--solo', {
-              className: this.getBodyHeaderActionsActionSoloClassName(),
-              onClick: this.handleBodyHeaderActionsActionSoloClick,
-            }, ['S']),
-          ]),
-        ]),
+        h(TrackHeader, {
+          isMuted: this.props.isMuted,
+          isSoloing: this.props.isSoloing,
+          onClick: this.handleHeaderClick,
+          onIsMutedToggle: this.handleHeaderIsMutedToggle,
+          onIsSoloingToggle: this.handleHeaderIsSoloingToggle,
+          track: this.props.track,
+        }),
         h('.track__body__sequences', {
           style: this.getBodySequencesStyle(),
         }, [
@@ -54,7 +44,7 @@ export class Track extends React.PureComponent {
             }),
           ),
           h(AddSequenceButton, {
-            onClick: this.handleBodySequencesAddButtonClick,
+            onClick: this.handleAddSequenceButtonClick,
             track: this.props.track,
           }),
         ]),
@@ -62,48 +52,14 @@ export class Track extends React.PureComponent {
     ]);
   }
 
-  getBodyHeaderActionsActionMuteClassName() {
-    return classnames({
-      'track__body__header__actions__action--active': this.getIsMuted(),
-    });
-  }
+  getBodySequencesStyle = () => ({
+    width: this.props.songMeasureCount * 64,
+  });
 
-  getBodyHeaderActionsActionSoloClassName() {
-    return classnames({
-      'track__body__header__actions__action--active': this.getIsSoloing(),
-    });
-  }
-
-  getBodySequencesStyle() {
-    return {
-      width: this.props.songMeasureCount * 64,
-    };
-  }
-
-  getIsMuted = () =>
-    includes(this.props.track.id, this.props.mutedTrackIds);
-
-  getIsSoloing = () =>
-    includes(this.props.track.id, this.props.soloingTrackIds);
-
-  handleBodyHeaderClick = () => {
-    this.props.onTrackSelect(this.props.track);
-  }
-
-  handleBodyHeaderActionsActionMuteClick = (e) => {
-    e.stopPropagation();
-    this.props.onTrackIsMutedToggle(this.props.track);
-  }
-
-  handleBodyHeaderActionsActionSoloClick = (e) => {
-    e.stopPropagation();
-    this.props.onTrackIsSoloingToggle(this.props.track);
-  }
-
-  handleBodySequencesAddButtonClick = () => {
+  handleAddSequenceButtonClick = (position) => {
     this.props.onSequenceAdd(
       this.props.track,
-      this.getAddPosition(),
+      position,
     );
   }
 
@@ -113,5 +69,17 @@ export class Track extends React.PureComponent {
 
   handleBodySequencesSequenceSelect = (sequence) => {
     this.props.onSequenceSelect(sequence);
+  }
+
+  handleHeaderClick = () => {
+    this.props.onTrackSelect(this.props.track);
+  }
+
+  handleHeaderIsMutedToggle = () => {
+    this.props.onTrackIsMutedToggle(this.props.track);
+  }
+
+  handleHeaderIsSoloingToggle = () => {
+    this.props.onTrackIsSoloingToggle(this.props.track);
   }
 }

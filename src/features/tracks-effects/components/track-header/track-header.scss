@@ -1,0 +1,82 @@
+@import '../../../../styles/constants';
+@import '../../../../styles/palette';
+
+$track-header__background-color: $neutral-8;
+$track-header__border: 1px solid $neutral-5;
+$track-header__color: $neutral-3;
+$track-header__width: 84px;
+$track-header__title__padding: $margin-xs $margin-s;
+$track-header__title__font-size: 0.75em;
+$track-header__action__background-color--hover: $neutral-9;
+$track-header__action__border: 1px solid $neutral-7;
+$track-header__action__font-size: 0.75em;
+$track-header__action__padding: $margin-s;
+$track-header__actions__mute--active__background-color: $error-6;
+$track-header__actions__mute--active__border: 1px solid $error-5;
+$track-header__actions__mute--active__color: $error-4;
+$track-header__actions__mute--active--hover__background-color: $error-7;
+$track-header__actions__solo--active__background-color: $accent-6;
+$track-header__actions__solo--active__border: 1px solid $accent-5;
+$track-header__actions__solo--active__color: $accent-4;
+$track-header__actions__solo--active--hover__background-color: $accent-7;
+
+.track-header {
+  background-color: $track-header__background-color;
+  border-right: $track-header__border;
+  color: $track-header__color;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: $track-header__width;
+  &__title {
+    font-size: $track-header__title__font-size;
+    padding: $track-header__title__padding;
+  }
+  &__actions {
+    display: flex;
+    &__mute,
+    &__solo {
+      align-items: center;
+      border-top: $track-header__action__border;
+      display: flex;
+      flex: 1 1 50%;
+      font-size: $track-header__action__font-size;
+      justify-content: center;
+      padding: $track-header__action__padding;
+      &:hover {
+        background-color: $track-header__action__background-color--hover;
+      }
+    }
+    &__mute {
+      border-right: $track-header__action__border;
+    }
+  }
+  &--muted {
+    .track-header__actions__mute {
+      background-color: $track-header__actions__mute--active__background-color;
+      border-right: $track-header__actions__mute--active__border;
+      border-top: $track-header__actions__mute--active__border;
+      color: $track-header__actions__mute--active__color;
+      &:hover {
+        background-color: $track-header__actions__mute--active--hover__background-color;
+      }
+    }
+    .track-header__actions__solo {
+      border-left: 0;
+    }
+  }
+  &--soloing {
+    .track-header__actions__mute {
+      border-right: 0;
+    }
+    .track-header__actions__solo {
+      background-color: $track-header__actions__solo--active__background-color;
+      border-left: $track-header__actions__solo--active__border;
+      border-top: $track-header__actions__solo--active__border;
+      color: $track-header__actions__solo--active__color;
+      &:hover {
+        background-color: $track-header__actions__solo--active--hover__background-color;
+      }
+    }
+  }
+}

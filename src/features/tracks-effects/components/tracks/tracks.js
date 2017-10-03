@@ -1,3 +1,4 @@
+import includes from 'lodash/fp/includes';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
@@ -42,7 +43,8 @@ export class Tracks extends React.PureComponent {
       }),
       ...this.props.tracks.map(track =>
         h(Track, {
-          mutedTrackIds: this.props.mutedTrackIds,
+          isMuted: this.getIsTrackMuted(track),
+          isSoloing: this.getIsTrackSoloing(track),
           onSequenceAdd: this.props.onSequenceAdd,
           onSequenceOpen: this.props.onSequenceOpen,
           onSequenceSelect: this.props.onSequenceSelect,
@@ -50,7 +52,6 @@ export class Tracks extends React.PureComponent {
           onTrackIsSoloingToggle: this.props.onTrackIsSoloingToggle,
           onTrackSelect: this.props.onTrackStage,
           selectedSequenceId: this.props.selectedSequenceId,
-          soloingTrackIds: this.props.soloingTrackIds,
           songMeasureCount: this.props.songMeasureCount,
           track,
         }),
@@ -61,6 +62,12 @@ export class Tracks extends React.PureComponent {
       }),
     ]);
   }
+
+  getIsTrackMuted = track =>
+    includes(track.id, this.props.mutedTrackIds);
+
+  getIsTrackSoloing = track =>
+    includes(track.id, this.props.soloingTrackIds);
 
   handleClick = (e) => {
     e.stopPropagation();

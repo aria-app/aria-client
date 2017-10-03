@@ -19,7 +19,7 @@ export class AddSequenceButton extends React.PureComponent {
 
   render() {
     return h('.add-sequence-button', {
-      onClick: this.props.onClick,
+      onClick: this.handleClick,
       style: this.getStyle(),
     }, [
       h(Icon, {
@@ -30,16 +30,20 @@ export class AddSequenceButton extends React.PureComponent {
     ]);
   }
 
-  getStyle() {
-    const getPosition = compose(
-      defaultTo(0),
-      max,
-      map(s => s.position + s.measureCount),
-      getOr([], 'props.track.sequences'),
-    );
+  getAddPosition = () => compose(
+    defaultTo(0),
+    max,
+    map(s => s.position + s.measureCount),
+    getOr([], 'props.track.sequences'),
+  )(this);
 
+  getStyle() {
     return {
-      transform: `translateX(${getPosition(this) * 64}px)`,
+      transform: `translateX(${this.getAddPosition() * 64}px)`,
     };
   }
+
+  handleClick = () => {
+    this.props.onClick(this.getAddPosition());
+  };
 }
