@@ -1,14 +1,11 @@
 import includes from 'lodash/fp/includes';
-import max from 'lodash/fp/max';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
-import shared from '../../../shared';
+import { AddSequenceButton } from '../add-sequence-button/add-sequence-button';
 import { Sequence } from '../sequence/sequence';
 import './track.scss';
-
-const { Icon } = shared.components;
 
 export class Track extends React.PureComponent {
   static propTypes = {
@@ -56,23 +53,13 @@ export class Track extends React.PureComponent {
               sequence,
             }),
           ),
-          h('.track__body__sequences__add-button', {
+          h(AddSequenceButton, {
             onClick: this.handleBodySequencesAddButtonClick,
-            style: this.getBodySequencesAddButtonStyle(),
-          }, [
-            h(Icon, {
-              className: 'track__body__sequences__add-button__icon',
-              icon: 'plus',
-              size: 'large',
-            }),
-          ]),
+            track: this.props.track,
+          }),
         ]),
       ]),
     ]);
-  }
-
-  getAddPosition() {
-    return max(this.props.track.sequences.map(s => s.position + s.measureCount)) || 0;
   }
 
   getBodyHeaderActionsActionMuteClassName() {
@@ -90,12 +77,6 @@ export class Track extends React.PureComponent {
   getBodySequencesStyle() {
     return {
       width: this.props.songMeasureCount * 64,
-    };
-  }
-
-  getBodySequencesAddButtonStyle() {
-    return {
-      transform: `translateX(${this.getAddPosition() * 64}px)`,
     };
   }
 
