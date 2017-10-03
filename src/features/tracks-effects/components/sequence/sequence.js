@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
+import { SequenceNote } from '../sequence-note/sequence-note';
 import './sequence.scss';
 
 export class Sequence extends React.PureComponent {
@@ -21,8 +22,9 @@ export class Sequence extends React.PureComponent {
       onDoubleClick: this.handleDoubleClick,
     }, [
       ...this.props.sequence.notes.map(note =>
-        h('.sequence__note', {
-          style: getNoteStyle(note),
+        h(SequenceNote, {
+          key: note.id,
+          note,
         }),
       ),
     ]);
@@ -54,13 +56,6 @@ export class Sequence extends React.PureComponent {
 
     this.props.onSelect(this.props.sequence);
   }
-}
-
-function getNoteStyle(note) {
-  return {
-    transform: `translate(${note.points[0].x * 2}px, ${note.points[0].y}px)`,
-    width: ((note.points[1].x - note.points[0].x) + 1) * 2,
-  };
 }
 
 function measureCountToPx(count) {

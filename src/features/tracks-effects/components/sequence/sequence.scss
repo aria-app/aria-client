@@ -9,10 +9,6 @@ $sequence__background-color--hover: $primary-6;
 $sequence__border: 2px solid $primary-6;
 $sequence__border-color--active: $accent-6;
 $sequence__border-color--hover: $primary-8;
-$sequence__note__width: 2px;
-$sequence__note__height: 1px;
-$sequence__note__background-color: $primary-8;
-$sequence__note__background-color--active: $accent-8;
 
 .sequence {
   display: flex;
@@ -24,20 +20,9 @@ $sequence__note__background-color--active: $accent-8;
   background-color: $sequence__background-color;
   border-right: $sequence__border;
   overflow: hidden;
-  &__note {
-    width: $sequence__note__width;
-    height: $sequence__note__height;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: $sequence__note__background-color;
-  }
   &--active {
     background-color: $sequence__background-color--active;
     border-color: $sequence__border-color--active;
-    .sequence__note {
-      background-color: $sequence__note__background-color--active;
-    }
   }
   &:hover:not(.sequence--active) {
     background-color: $sequence__background-color--hover;

@@ -1,0 +1,15 @@
+@import '../../../../styles/constants';
+@import '../../../../styles/palette';
+
+$sequence-note__width: 2px;
+$sequence-note__height: 1px;
+$sequence-note__background-color: $neutral-10;
+
+.sequence-note {
+  background-color: transparentize($sequence-note__background-color, 0.5);
+  height: $sequence-note__height;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: $sequence-note__width;
+}
