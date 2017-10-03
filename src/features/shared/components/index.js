@@ -4,6 +4,7 @@ export { DropdownList } from './dropdown-list/dropdown-list';
 export { Icon } from './icon/icon';
 export { IconButton } from './icon-button/icon-button';
 export { Modal } from './modal/modal';
+export { Ruler } from './ruler/ruler';
 export { Timeline } from './timeline/timeline';
 export { ToggleButton } from './toggle-button/toggle-button';
 export { Toolbar } from './toolbar/toolbar';

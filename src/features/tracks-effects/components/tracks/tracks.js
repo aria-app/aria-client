@@ -2,11 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import { Ruler } from '../ruler/ruler';
 import { Track } from '../track/track';
 import './tracks.scss';
 
-const { Icon } = shared.components;
+const { Icon, Ruler } = shared.components;
 
 export class Tracks extends React.PureComponent {
   static propTypes = {

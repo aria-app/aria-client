@@ -11,7 +11,7 @@ export function* load(action) {
 }
 
 export function* update() {
-  console.log('update requested');
+  // console.log('update requested');
   const songState = yield select(song.selectors.getSong);
   yield call(dawww.updateSong, songState);
 }
