@@ -3,11 +3,10 @@ import React from 'react';
 import h from 'react-hyperscript';
 import './ruler-eighth.scss';
 
-const measurePreviewWidth = 64;
-
 export class RulerEighth extends React.PureComponent {
   static propTypes = {
     eighthIndex: PropTypes.number.isRequired,
+    measureWidth: PropTypes.number.isRequired,
   }
 
   render() {
@@ -17,6 +16,6 @@ export class RulerEighth extends React.PureComponent {
   }
 
   getStyle = () => ({
-    transform: `translateX(${(this.props.eighthIndex + 1) * (measurePreviewWidth / 8)}px)`,
+    transform: `translateX(${(this.props.eighthIndex + 1) * (this.props.measureWidth / 8)}px)`,
   });
 }

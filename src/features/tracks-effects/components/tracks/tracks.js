@@ -34,6 +34,7 @@ export class Tracks extends React.PureComponent {
     }, [
       h(Ruler, {
         measureCount: this.props.songMeasureCount,
+        measureWidth: 64,
         onPause: () => {},
         onPlay: () => {},
         onPositionSet: () => {},

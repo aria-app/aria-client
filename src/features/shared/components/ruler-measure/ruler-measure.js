@@ -6,12 +6,11 @@ import { hideIf } from '../../helpers';
 import { RulerEighth } from '../ruler-eighth/ruler-eighth';
 import './ruler-measure.scss';
 
-const measurePreviewWidth = 64;
-
 export class RulerMeasure extends React.PureComponent {
   static propTypes = {
     isLastMeasure: PropTypes.bool.isRequired,
     measureIndex: PropTypes.number.isRequired,
+    measureWidth: PropTypes.number.isRequired,
   }
 
   render() {
@@ -27,6 +26,7 @@ export class RulerMeasure extends React.PureComponent {
         range(0, 7).map(eighthIndex =>
           h(RulerEighth, {
             key: eighthIndex,
+            measureWidth: this.props.measureWidth,
             eighthIndex,
           }),
         ),
@@ -35,6 +35,6 @@ export class RulerMeasure extends React.PureComponent {
   }
 
   getStyle = () => ({
-    transform: `translateX(${this.props.measureIndex * measurePreviewWidth}px)`,
+    transform: `translateX(${this.props.measureIndex * this.props.measureWidth}px)`,
   });
 }

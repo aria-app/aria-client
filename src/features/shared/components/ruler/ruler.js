@@ -7,11 +7,10 @@ import { playbackStates } from '../../constants';
 import { RulerMeasure } from '../ruler-measure/ruler-measure';
 import './ruler.scss';
 
-const measurePreviewWidth = 64;
-
 export class Ruler extends React.PureComponent {
   static propTypes = {
     measureCount: PropTypes.number.isRequired,
+    measureWidth: PropTypes.number.isRequired,
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
     onPositionSet: PropTypes.func.isRequired,
@@ -30,6 +29,7 @@ export class Ruler extends React.PureComponent {
             h(RulerMeasure, {
               isLastMeasure: this.getIsLastMeasure(measureIndex),
               key: measureIndex,
+              measureWidth: this.props.measureWidth,
               measureIndex,
             }),
           ),
@@ -44,7 +44,7 @@ export class Ruler extends React.PureComponent {
 
   getMeasuresStyle() {
     return {
-      width: this.props.measureCount * measurePreviewWidth,
+      width: this.props.measureCount * this.props.measureWidth,
     };
   }
 
@@ -52,11 +52,11 @@ export class Ruler extends React.PureComponent {
     e.persist();
     const startingState = this.props.playbackState;
     this.props.onPlay();
-    this.props.onPositionSet((e.pageX - e.target.offsetLeft) / measurePreviewWidth);
+    this.props.onPositionSet((e.pageX - e.target.offsetLeft) / this.props.measureWidth);
     this.props.onPause();
     const moveHandler = (moveE) => {
       const position = moveE.pageX >= e.target.offsetLeft
-        ? (moveE.pageX - e.target.offsetLeft) / measurePreviewWidth
+        ? (moveE.pageX - e.target.offsetLeft) / this.props.measureWidth
         : 0;
       const clampedPosition = clamp(
         0,
