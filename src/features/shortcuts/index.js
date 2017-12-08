@@ -1,13 +1,13 @@
 import * as actions from './actions';
 import * as constants from './constants';
+import logic from './logic';
 import reducer from './reducer';
-import saga from './saga';
 import * as selectors from './selectors';
 
 export default {
   actions,
   constants,
+  logic,
   reducer,
-  saga,
   selectors,
 };

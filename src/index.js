@@ -1,4 +1,5 @@
 import 'babel-polyfill';
+import 'rxjs/add/observable/fromEvent';
 import h from 'react-hyperscript';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';

@@ -37,8 +37,6 @@ export class Sequencer extends React.PureComponent {
     onToolSelect: PropTypes.func.isRequired,
     selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
     toolType: PropTypes.string.isRequired,
-    windowHeight: PropTypes.number.isRequired,
-    windowWidth: PropTypes.number.isRequired,
   }
 
   componentDidMount() {
@@ -86,8 +84,6 @@ export class Sequencer extends React.PureComponent {
             selectedNotes: this.props.selectedNotes,
             sequencerContentRef: this.contentElementRef,
             toolType: this.props.toolType,
-            windowHeight: this.props.windowHeight,
-            windowWidth: this.props.windowWidth,
           }),
         ]),
       ]),

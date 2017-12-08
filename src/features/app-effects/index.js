@@ -1,9 +1,9 @@
 import * as components from './components';
 import * as constants from './constants';
-import saga from './saga';
+import logic from './logic';
 
 export default {
   components,
   constants,
-  saga,
+  logic,
 };

@@ -38,8 +38,6 @@ storiesOf('Sequencer', module)
           [toolTypes.ERASE]: 'Erase',
           [toolTypes.PAN]: 'Pan',
         }, toolTypes.SELECT),
-        windowHeight: window.innerHeight,
-        windowWidth: window.innerWidth,
       }),
     ]),
   );
