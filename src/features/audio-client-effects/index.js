@@ -1,9 +1,9 @@
 import * as constants from './constants';
-import saga from './saga';
+import logic from './logic';
 import * as selectors from './selectors';
 
 export default {
   constants,
-  saga,
+  logic,
   selectors,
 };
