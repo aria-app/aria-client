@@ -9,7 +9,6 @@ const { scale } = shared.constants;
 
 export class Keys extends React.PureComponent {
   static propTypes = {
-    activeSequenceTrackId: PropTypes.string.isRequired,
     onKeyPress: PropTypes.func.isRequired,
   }
 
@@ -18,7 +17,7 @@ export class Keys extends React.PureComponent {
       ...this.getScale().map(step =>
         h(Key, {
           key: step.y,
-          onMouseUp: this.handleKeyMouseUp,
+          onMouseDown: this.handleKeyMouseDown,
           step,
         }),
       ),
@@ -27,10 +26,7 @@ export class Keys extends React.PureComponent {
 
   getScale = () => scale;
 
-  handleKeyMouseUp = (step) => {
-    this.props.onKeyPress({
-      trackId: this.props.activeSequenceTrackId,
-      pitch: step.y,
-    });
+  handleKeyMouseDown = (step) => {
+    this.props.onKeyPress(step.y);
   }
 }

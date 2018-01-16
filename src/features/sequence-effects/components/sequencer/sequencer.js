@@ -10,13 +10,11 @@ import { SequencerToolbar } from '../sequencer-toolbar/sequencer-toolbar';
 import './sequencer.scss';
 
 const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
-const { createNote, duplicateNotes, someNoteWillMoveOutside } = shared.helpers;
+const { duplicateNotes, someNoteWillMoveOutside } = shared.helpers;
 
 
 export class Sequencer extends React.PureComponent {
   static propTypes = {
-    activeSequenceId: PropTypes.string.isRequired,
-    activeSequenceTrackId: PropTypes.string.isRequired,
     measureCount: PropTypes.number.isRequired,
     notes: PropTypes.arrayOf(PropTypes.object).isRequired,
     onClose: PropTypes.func.isRequired,
@@ -36,6 +34,7 @@ export class Sequencer extends React.PureComponent {
     onSelectInArea: PropTypes.func.isRequired,
     onToolSelect: PropTypes.func.isRequired,
     selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    sequence: PropTypes.object.isRequired,
     toolType: PropTypes.string.isRequired,
   }
 
@@ -68,11 +67,9 @@ export class Sequencer extends React.PureComponent {
       }, [
         h('.sequencer__content__wrapper', [
           h(Keys, {
-            activeSequenceTrackId: this.props.activeSequenceTrackId,
-            onKeyPress: this.props.onKeyPress,
+            onKeyPress: this.handleKeysKeyPress,
           }),
           h(Grid, {
-            activeSequenceId: this.props.activeSequenceId,
             measureCount: this.props.measureCount,
             notes: this.props.notes,
             onDrag: this.handleGridDrag,
@@ -126,10 +123,8 @@ export class Sequencer extends React.PureComponent {
 
   handleGridDraw = point =>
     this.props.onDraw({
-      note: createNote({
-        points: [point, { x: point.x + 1, y: point.y }],
-        sequenceId: this.props.activeSequenceId,
-      }),
+      sequence: this.props.sequence,
+      point,
     });
 
   handleGridErase = note =>
@@ -153,6 +148,13 @@ export class Sequencer extends React.PureComponent {
       startPoint,
     });
 
+  handleKeysKeyPress = (pitch) => {
+    this.props.onKeyPress({
+      sequence: this.props.sequence,
+      pitch,
+    });
+  }
+
   handleToolbarClose = () => {
     this.props.onClose();
   }
@@ -169,8 +171,8 @@ export class Sequencer extends React.PureComponent {
 
   handleToolbarDrawToolSelect = () =>
     this.props.onToolSelect({
-      toolType: DRAW,
       previousToolType: this.props.toolType,
+      toolType: DRAW,
     });
 
   handleToolbarDuplicate = () =>
@@ -180,8 +182,8 @@ export class Sequencer extends React.PureComponent {
 
   handleToolbarEraseToolSelect = () =>
     this.props.onToolSelect({
-      toolType: ERASE,
       previousToolType: this.props.toolType,
+      toolType: ERASE,
     });
 
   handleToolbarOctaveDown = () =>
@@ -196,14 +198,14 @@ export class Sequencer extends React.PureComponent {
 
   handleToolbarPanToolSelect = () =>
     this.props.onToolSelect({
-      toolType: PAN,
       previousToolType: this.props.toolType,
+      toolType: PAN,
     });
 
   handleToolbarSelectToolSelect = () =>
     this.props.onToolSelect({
-      toolType: SELECT,
       previousToolType: this.props.toolType,
+      toolType: SELECT,
     });
 
 

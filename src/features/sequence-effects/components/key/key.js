@@ -6,14 +6,14 @@ import './key.scss';
 
 export class Key extends React.PureComponent {
   static propTypes = {
-    onMouseUp: PropTypes.func.isRequired,
+    onMouseDown: PropTypes.func.isRequired,
     step: PropTypes.object,
   }
 
   render() {
     return h('.key', {
       className: this.getClassName(),
-      onMouseUp: this.handleMouseUp,
+      onMouseDown: this.handleMouseDown,
     }, [
       h('.key__label', [
         this.props.step.name,
@@ -29,6 +29,6 @@ export class Key extends React.PureComponent {
     return `key--${letter}${suffix}`;
   };
 
-  handleMouseUp = () =>
-    this.props.onMouseUp(this.props.step);
+  handleMouseDown = () =>
+    this.props.onMouseDown(this.props.step);
 }

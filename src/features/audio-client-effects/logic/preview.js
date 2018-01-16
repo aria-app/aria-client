@@ -7,7 +7,7 @@ export const preview = createLogic({
   type: sequenceData.actions.KEY_PRESSED,
   process({ action }) {
     const pitch = getOr(-1, 'payload.pitch', action);
-    const trackId = getOr('', 'payload.trackId', action);
+    const trackId = getOr('', 'payload.sequence.trackId', action);
 
     dawww.preview(trackId, pitch);
   },

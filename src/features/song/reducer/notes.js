@@ -14,10 +14,17 @@ export const notes = createReducer({}, {
   [appData.actions.SONG_LOADED]: (state, action) =>
     action.song.notes,
 
-  [sequenceData.actions.NOTE_DRAWN]: (state, action) => ({
-    ...state,
-    [action.note.id]: action.note,
-  }),
+  [sequenceData.actions.NOTE_DRAWN]: (state, action) => {
+    const note = shared.helpers.createNote({
+      points: [action.point, { x: action.point.x + 1, y: action.point.y }],
+      sequenceId: action.sequence.id,
+    });
+
+    return {
+      ...state,
+      [note.id]: note,
+    };
+  },
 
   [sequenceData.actions.NOTE_ERASED]: (state, action) =>
     omit(action.note.id, state),

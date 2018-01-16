@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "webpack --config configs/webpack-prod.config.js",
-    "deploy": "surge ./dist zen-sequencer.surge.sh",
+    "deploy": "now --public ./dist",
     "lint": "eslint src",
     "predeploy": "npm run build",
     "start": "webpack-dev-server --config configs/webpack-dev.config.js",
@@ -60,6 +60,7 @@
     "html-webpack-plugin": "2.30.1",
     "html-webpack-template": "5.6.0",
     "node-sass": "4.5.3",
+    "now": "9.1.0",
     "postcss": "6.0.12",
     "postcss-loader": "2.0.6",
     "resolve-url-loader": "2.1.0",

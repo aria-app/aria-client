@@ -17,17 +17,18 @@ export const NOTES_DELETED = `${NAME}/NOTES_DELETED`;
 export const SEQUENCE_CLOSED = `${NAME}/SEQUENCE_CLOSED`;
 export const TOOL_SELECTED = `${NAME}/TOOL_SELECTED`;
 
-export const keyPressed = ({ pitch, trackId }) => ({
+export const keyPressed = ({ pitch, sequence }) => ({
   type: KEY_PRESSED,
   payload: {
     pitch,
-    trackId,
+    sequence,
   },
 });
 
-export const noteDrawn = ({ note }) => ({
+export const noteDrawn = ({ point, sequence }) => ({
   type: NOTE_DRAWN,
-  note,
+  point,
+  sequence,
 });
 
 export const noteErased = ({ note }) => ({

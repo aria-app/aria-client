@@ -1,4 +1,12 @@
-import { defaultTo, filter, identity, pipe, get, getOr, includes, map, some } from 'lodash/fp';
+import defaultTo from 'lodash/fp/defaultTo';
+import filter from 'lodash/fp/filter';
+import identity from 'lodash/fp/identity';
+import pipe from 'lodash/fp/pipe';
+import get from 'lodash/fp/get';
+import getOr from 'lodash/fp/getOr';
+import includes from 'lodash/fp/includes';
+import map from 'lodash/fp/map';
+import some from 'lodash/fp/some';
 import shared from '../shared';
 import { NAME } from './constants';
 
