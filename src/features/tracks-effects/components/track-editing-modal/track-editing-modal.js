@@ -14,7 +14,6 @@ export class TrackEditingModal extends React.PureComponent {
     onDismiss: PropTypes.func.isRequired,
     onVoiceSet: PropTypes.func.isRequired,
     stagedTrack: PropTypes.object.isRequired,
-    stagedTrackSequences: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   render() {
@@ -57,7 +56,6 @@ export class TrackEditingModal extends React.PureComponent {
   handleContentDeleteButtonClick = () =>
     this.props.onDelete(
       this.props.stagedTrack,
-      this.props.stagedTrackSequences,
     );
 
   handleContentVoiceDropdownListSelectedIdChange = voice =>

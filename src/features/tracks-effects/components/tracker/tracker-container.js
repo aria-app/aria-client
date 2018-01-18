@@ -7,14 +7,11 @@ import { Tracker } from './tracker';
 
 export const TrackerContainer = connect(state => ({
   isStopped: audioClientData.selectors.getIsStopped(state),
-  mutedTrackIds: song.selectors.getMutedTrackIds(state),
   position: audioClientData.selectors.getPosition(state),
-  soloingTrackIds: song.selectors.getSoloingTrackIds(state),
   selectedSequence: selectors.getSelectedSequence(state),
   selectedSequenceId: tracksData.selectors.getSelectedSequenceId(state),
   songMeasureCount: song.selectors.getMeasureCount(state),
   stagedTrack: selectors.getStagedTrack(state),
-  stagedTrackSequences: selectors.getStagedTrackSequences(state),
   tracks: song.selectors.getDeepTracks(state),
 }), {
   onSequenceAdd: tracksData.actions.sequenceAdded,

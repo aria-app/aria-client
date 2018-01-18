@@ -9,9 +9,3 @@ export const getStagedTrack = (state) => {
   const track = song.selectors.getTrackById(id)(state);
   return track || {};
 };
-
-export const getStagedTrackSequences = (state) => {
-  const id = tracksData.selectors.getStagedTrackId(state);
-  const sequences = song.selectors.getSequencesByTrackId(id)(state);
-  return sequences || [];
-};

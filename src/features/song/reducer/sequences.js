@@ -1,4 +1,4 @@
-import map from 'lodash/fp/map';
+import reject from 'lodash/fp/reject';
 import omit from 'lodash/fp/omit';
 import { createReducer } from 'redux-create-reducer';
 import appData from '../../app-data';
@@ -45,5 +45,5 @@ export const sequences = createReducer({}, {
     setAtIds([action.sequence], state),
 
   [tracksData.actions.TRACK_DELETED]: (state, action) =>
-    omit(map('id', action.sequences), state),
+    reject(sequence => sequence.trackId === action.track.id, state),
 });

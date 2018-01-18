@@ -1,3 +1,4 @@
+import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
@@ -8,8 +9,6 @@ import './track.scss';
 
 export class Track extends React.PureComponent {
   static propTypes = {
-    isMuted: PropTypes.bool.isRequired,
-    isSoloing: PropTypes.bool.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceOpen: PropTypes.func.isRequired,
     onSequenceSelect: PropTypes.func.isRequired,
@@ -25,8 +24,8 @@ export class Track extends React.PureComponent {
     return h('.track', [
       h('.track__body', [
         h(TrackHeader, {
-          isMuted: this.props.isMuted,
-          isSoloing: this.props.isSoloing,
+          isMuted: getOr(false, 'props.track.isMuted', this),
+          isSoloing: getOr(false, 'props.track.isSoloing', this),
           onClick: this.handleHeaderClick,
           onIsMutedToggle: this.handleHeaderIsMutedToggle,
           onIsSoloingToggle: this.handleHeaderIsSoloingToggle,

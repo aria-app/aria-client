@@ -77,9 +77,8 @@ export const trackAdded = ({ sequence, track }) => ({
   track,
 });
 
-export const trackDeleted = ({ sequences, track }) => ({
+export const trackDeleted = ({ track }) => ({
   type: TRACK_DELETED,
-  sequences,
   track,
 });
 

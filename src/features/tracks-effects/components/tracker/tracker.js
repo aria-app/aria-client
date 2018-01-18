@@ -13,7 +13,6 @@ const { createSequence, createTrack } = shared.helpers;
 export class Tracker extends React.PureComponent {
   static propTypes = {
     isStopped: PropTypes.bool.isRequired,
-    mutedTrackIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceDelete: PropTypes.func.isRequired,
     onSequenceDeselect: PropTypes.func.isRequired,
@@ -35,10 +34,8 @@ export class Tracker extends React.PureComponent {
     position: PropTypes.number.isRequired,
     selectedSequence: PropTypes.object.isRequired,
     selectedSequenceId: PropTypes.string.isRequired,
-    soloingTrackIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     songMeasureCount: PropTypes.number.isRequired,
     stagedTrack: PropTypes.object.isRequired,
-    stagedTrackSequences: PropTypes.arrayOf(PropTypes.object).isRequired,
     tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
@@ -54,7 +51,6 @@ export class Tracker extends React.PureComponent {
         selectedSequence: this.props.selectedSequence,
       }),
       h(Tracks, {
-        mutedTrackIds: this.props.mutedTrackIds,
         onSequenceAdd: this.handleTracksSequenceAdd,
         onSequenceDeselect: this.props.onSequenceDeselect,
         onSequenceOpen: this.handleTracksSequenceOpen,
@@ -66,7 +62,6 @@ export class Tracker extends React.PureComponent {
         onTrackIsSoloingToggle: this.handleTracksTrackIsSoloingToggle,
         onTrackStage: this.handleTracksTrackStage,
         selectedSequenceId: this.props.selectedSequenceId,
-        soloingTrackIds: this.props.soloingTrackIds,
         songMeasureCount: this.props.songMeasureCount,
         tracks: this.props.tracks,
       }),
@@ -79,7 +74,6 @@ export class Tracker extends React.PureComponent {
         onDismiss: this.props.onTrackEditingFinish,
         onVoiceSet: this.handleTrackEditingModalVoiceSet,
         stagedTrack: this.props.stagedTrack,
-        stagedTrackSequences: this.props.stagedTrackSequences,
       }),
     ]);
   }

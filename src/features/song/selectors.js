@@ -74,13 +74,6 @@ export const getNotesArray = state => pipe(
   map(id => getNoteById(id)(state)),
 )(state);
 
-export const getNotesBySequenceId = sequenceId =>
-  pipe(
-    getNotesArray,
-    filter({ sequenceId }),
-  );
-
-
 // --- Sequence ---
 
 export const getSequenceById = id => pipe(
@@ -95,12 +88,6 @@ export const getSequencesArray = state =>
     Object.keys,
     map(id => getSequenceById(id)(state)),
   )(state);
-
-export const getSequencesByTrackId = trackId =>
-  pipe(
-    getSequencesArray,
-    filter({ trackId }),
-  );
 
 const getDeepSequence = state => sequence => ({
   ...sequence,
@@ -123,13 +110,6 @@ export const getActiveSequence = state =>
   pipe(
     getActiveSequenceId,
     id => getSequenceById(id)(state),
-  )(state);
-
-export const getActiveSequenceTrackId = state =>
-  pipe(
-    getActiveSequenceId,
-    id => getSequenceById(id)(state),
-    getOr('', 'trackId'),
   )(state);
 
 export const getActiveSequenceMeasureCount =
@@ -175,26 +155,6 @@ export const getDeepTracks = state =>
     getTracksArray,
     map(getDeepTrack(state)),
   )(state);
-
-export const getMutedTrackIds =
-  pipe(
-    getTracksArray,
-    filter('isMuted'),
-    map('id'),
-  );
-
-export const getSoloingTrackIds =
-  pipe(
-    getTracksArray,
-    filter('isSoloing'),
-    map('id'),
-  );
-
-export const getIsAnyTrackSoloing =
-  pipe(
-    getTracksArray,
-    some('isSoloing'),
-  );
 
 // --- Song ---
 

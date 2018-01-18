@@ -7,6 +7,6 @@ export function createTrack(options) {
     isMuted: false,
     isSoloing: false,
     voice: (options && options.voice) || constants.defaultVoice,
-    volume: 0,
+    volume: -10,
   };
 }

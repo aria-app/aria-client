@@ -1,4 +1,3 @@
-import includes from 'lodash/fp/includes';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
@@ -11,7 +10,6 @@ const { Ruler } = shared.components;
 
 export class Tracks extends React.PureComponent {
   static propTypes = {
-    mutedTrackIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceDeselect: PropTypes.func.isRequired,
     onSequenceOpen: PropTypes.func.isRequired,
@@ -23,7 +21,6 @@ export class Tracks extends React.PureComponent {
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
     onTrackStage: PropTypes.func.isRequired,
     selectedSequenceId: PropTypes.string,
-    soloingTrackIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     songMeasureCount: PropTypes.number.isRequired,
     tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
@@ -44,8 +41,6 @@ export class Tracks extends React.PureComponent {
       }),
       ...this.props.tracks.map(track =>
         h(Track, {
-          isMuted: this.getIsTrackMuted(track),
-          isSoloing: this.getIsTrackSoloing(track),
           onSequenceAdd: this.props.onSequenceAdd,
           onSequenceOpen: this.props.onSequenceOpen,
           onSequenceSelect: this.props.onSequenceSelect,
@@ -63,12 +58,6 @@ export class Tracks extends React.PureComponent {
       }),
     ]);
   }
-
-  getIsTrackMuted = track =>
-    includes(track.id, this.props.mutedTrackIds);
-
-  getIsTrackSoloing = track =>
-    includes(track.id, this.props.soloingTrackIds);
 
   handleClick = (e) => {
     e.stopPropagation();
