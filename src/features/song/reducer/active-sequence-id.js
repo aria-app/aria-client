@@ -1,7 +1,7 @@
 import { createReducer } from 'redux-create-reducer';
 import appData from '../../app-data';
 import sequenceData from '../../sequence-data';
-import tracksData from '../../tracks-data';
+import shared from '../../shared';
 
 export const activeSequenceId = createReducer('', {
   [appData.actions.SONG_LOADED]: (state, action) =>
@@ -10,6 +10,6 @@ export const activeSequenceId = createReducer('', {
   [sequenceData.actions.SEQUENCE_CLOSED]: () =>
     '',
 
-  [tracksData.actions.SEQUENCE_OPENED]: (state, action) =>
+  [shared.actions.SEQUENCE_OPENED]: (state, action) =>
     action.sequence.id,
 });

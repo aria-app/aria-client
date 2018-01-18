@@ -4,7 +4,7 @@ import audioClientData from '../features/audio-client-data';
 import sequenceData from '../features/sequence-data';
 import shortcuts from '../features/shortcuts';
 import song from '../features/song';
-import tracksData from '../features/tracks-data';
+import tracker from '../features/tracker';
 
 export default combineReducers({
   [appData.constants.NAME]: appData.reducer,
@@ -12,5 +12,5 @@ export default combineReducers({
   [sequenceData.constants.NAME]: sequenceData.reducer,
   [shortcuts.constants.NAME]: shortcuts.reducer,
   [song.constants.NAME]: song.reducer,
-  [tracksData.constants.NAME]: tracksData.reducer,
+  [tracker.constants.NAME]: tracker.reducer,
 });

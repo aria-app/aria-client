@@ -1,14 +1,14 @@
 import { createReducer } from 'redux-create-reducer';
 import appData from '../../app-data';
-import tracksData from '../../tracks-data';
+import shared from '../../shared';
 
 export const measureCount = createReducer(1, {
   [appData.actions.SONG_LOADED]: (state, action) =>
     action.song.measureCount,
 
-  [tracksData.actions.SONG_EXTENDED]: state =>
+  [shared.actions.SONG_EXTENDED]: state =>
     state + 1,
 
-  [tracksData.actions.SONG_SHORTENED]: state =>
+  [shared.actions.SONG_SHORTENED]: state =>
     state - 1,
 });

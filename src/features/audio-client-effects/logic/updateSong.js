@@ -1,8 +1,8 @@
 import { createLogic } from 'redux-logic';
 import appData from '../../app-data';
 import sequenceData from '../../sequence-data';
+import shared from '../../shared';
 import song from '../../song';
-import tracksData from '../../tracks-data';
 import dawww from '../dawww';
 
 export const updateSong = createLogic({
@@ -17,20 +17,20 @@ export const updateSong = createLogic({
     sequenceData.actions.NOTES_MOVED_OCTAVE_UP,
     sequenceData.actions.NOTES_NUDGED,
     sequenceData.actions.NOTES_RESIZED,
-    tracksData.actions.SEQUENCE_ADDED,
-    tracksData.actions.SEQUENCE_DELETED,
-    tracksData.actions.SEQUENCE_EXTENDED,
-    tracksData.actions.SEQUENCE_NUDGED_LEFT,
-    tracksData.actions.SEQUENCE_NUDGED_RIGHT,
-    tracksData.actions.SEQUENCE_OPENED,
-    tracksData.actions.SEQUENCE_SHORTENED,
-    tracksData.actions.SONG_EXTENDED,
-    tracksData.actions.SONG_SHORTENED,
-    tracksData.actions.TRACK_ADDED,
-    tracksData.actions.TRACK_DELETED,
-    tracksData.actions.TRACK_IS_MUTED_TOGGLED,
-    tracksData.actions.TRACK_IS_SOLOING_TOGGLED,
-    tracksData.actions.TRACK_VOICE_SET,
+    shared.actions.SEQUENCE_ADDED,
+    shared.actions.SEQUENCE_DELETED,
+    shared.actions.SEQUENCE_EXTENDED,
+    shared.actions.SEQUENCE_NUDGED_LEFT,
+    shared.actions.SEQUENCE_NUDGED_RIGHT,
+    shared.actions.SEQUENCE_OPENED,
+    shared.actions.SEQUENCE_SHORTENED,
+    shared.actions.SONG_EXTENDED,
+    shared.actions.SONG_SHORTENED,
+    shared.actions.TRACK_ADDED,
+    shared.actions.TRACK_DELETED,
+    shared.actions.TRACK_IS_MUTED_TOGGLED,
+    shared.actions.TRACK_IS_SOLOING_TOGGLED,
+    shared.actions.TRACK_VOICE_SET,
   ],
   process({ getState }, dispatch, done) {
     const songState = song.selectors.getSong(getState());

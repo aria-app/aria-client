@@ -4,7 +4,7 @@ import h from 'react-hyperscript';
 import keydown from 'react-keydown';
 import sequenceEffects from '../../../sequence-effects';
 import shared from '../../../shared';
-import tracksEffects from '../../../tracks-effects';
+import tracker from '../../../tracker';
 import { BPMModal } from '../bpm-modal/bpm-modal';
 import { UploadOverlay } from '../upload-overlay/upload-overlay';
 import { SongToolbar } from '../song-toolbar/song-toolbar';
@@ -13,7 +13,7 @@ import './app.scss';
 const { SequencerContainer } = sequenceEffects.components;
 const { STARTED } = shared.constants.playbackStates;
 const { hideIf, showIf } = shared.helpers;
-const { TrackerContainer } = tracksEffects.components;
+const { TrackerContainer } = tracker.components;
 
 export class App extends React.PureComponent {
   static propTypes = {
