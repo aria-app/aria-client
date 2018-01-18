@@ -3,7 +3,6 @@ import filter from 'lodash/fp/filter';
 import identity from 'lodash/fp/identity';
 import pipe from 'lodash/fp/pipe';
 import get from 'lodash/fp/get';
-import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import map from 'lodash/fp/map';
 import some from 'lodash/fp/some';

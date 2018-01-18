@@ -1,14 +1,15 @@
+import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
 import { AddTrackButton } from '../add-track-button/add-track-button';
 import { Track } from '../track/track';
-import './tracks.scss';
+import './track-list.scss';
 
 const { Ruler } = shared.components;
 
-export class Tracks extends React.PureComponent {
+export class TrackList extends React.PureComponent {
   static propTypes = {
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceDeselect: PropTypes.func.isRequired,
@@ -20,13 +21,13 @@ export class Tracks extends React.PureComponent {
     onTrackIsMutedToggle: PropTypes.func.isRequired,
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
     onTrackStage: PropTypes.func.isRequired,
-    selectedSequenceId: PropTypes.string,
+    selectedSequence: PropTypes.object,
     songMeasureCount: PropTypes.number.isRequired,
     tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   render() {
-    return h('.tracks', {
+    return h('.track-list', {
       onClick: this.handleClick,
     }, [
       h(Ruler, {
@@ -47,7 +48,7 @@ export class Tracks extends React.PureComponent {
           onTrackIsMutedToggle: this.props.onTrackIsMutedToggle,
           onTrackIsSoloingToggle: this.props.onTrackIsSoloingToggle,
           onTrackSelect: this.props.onTrackStage,
-          selectedSequenceId: this.props.selectedSequenceId,
+          selectedSequence: this.props.selectedSequence,
           songMeasureCount: this.props.songMeasureCount,
           track,
         }),
@@ -62,7 +63,7 @@ export class Tracks extends React.PureComponent {
   handleClick = (e) => {
     e.stopPropagation();
 
-    if (!this.props.selectedSequenceId) return;
+    if (isEmpty(this.props.selectedSequence)) return;
 
     this.props.onSequenceDeselect();
   }

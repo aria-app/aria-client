@@ -15,7 +15,7 @@ export class Track extends React.PureComponent {
     onTrackIsMutedToggle: PropTypes.func.isRequired,
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
     onTrackSelect: PropTypes.func.isRequired,
-    selectedSequenceId: PropTypes.string,
+    selectedSequence: PropTypes.object,
     songMeasureCount: PropTypes.number.isRequired,
     track: PropTypes.object.isRequired,
   }
@@ -38,7 +38,7 @@ export class Track extends React.PureComponent {
             h(Sequence, {
               onOpen: this.props.onSequenceOpen,
               onSelect: this.props.onSequenceSelect,
-              selectedSequenceId: this.props.selectedSequenceId,
+              selectedSequence: this.props.selectedSequence,
               sequence,
             }),
           ),

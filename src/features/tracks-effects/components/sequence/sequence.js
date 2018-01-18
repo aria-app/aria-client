@@ -10,7 +10,7 @@ export class Sequence extends React.PureComponent {
     className: PropTypes.string,
     onOpen: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
-    selectedSequenceId: PropTypes.string.isRequired,
+    selectedSequence: PropTypes.object.isRequired,
     sequence: PropTypes.object.isRequired,
   }
 
@@ -37,7 +37,7 @@ export class Sequence extends React.PureComponent {
   }
 
   getIsSelected = () =>
-    this.props.sequence.id === this.props.selectedSequenceId;
+    this.props.sequence === this.props.selectedSequence;
 
   getStyle() {
     return {

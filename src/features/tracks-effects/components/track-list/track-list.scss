@@ -1,15 +1,15 @@
 @import '../../../../styles/constants';
 @import '../../../../styles/palette';
 
-$tracks__background-color: $neutral-2;
-$tracks__padding: $margin-m;
+$track-list__background-color: $neutral-2;
+$track-list__padding: $margin-m;
 
-.tracks {
+.track-list {
   align-items: flex-start;
-  background-color: $tracks__background-color;
+  background-color: $track-list__background-color;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
   overflow: auto;
-  padding: $tracks__padding;
+  padding: $track-list__padding;
 }

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import { Tracks } from '../tracks/tracks';
+import { TrackList } from '../track-list/track-list';
 import { TrackerToolbar } from '../tracker-toolbar/tracker-toolbar';
 import { TrackEditingModal } from '../track-editing-modal/track-editing-modal';
 import './tracker.scss';
@@ -33,7 +33,6 @@ export class Tracker extends React.PureComponent {
     onTrackVoiceSet: PropTypes.func.isRequired,
     position: PropTypes.number.isRequired,
     selectedSequence: PropTypes.object.isRequired,
-    selectedSequenceId: PropTypes.string.isRequired,
     songMeasureCount: PropTypes.number.isRequired,
     stagedTrack: PropTypes.object.isRequired,
     tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -50,18 +49,18 @@ export class Tracker extends React.PureComponent {
         onSequenceShorten: this.handleTrackerToolbarSequenceShorten,
         selectedSequence: this.props.selectedSequence,
       }),
-      h(Tracks, {
-        onSequenceAdd: this.handleTracksSequenceAdd,
+      h(TrackList, {
+        onSequenceAdd: this.handleTrackListSequenceAdd,
         onSequenceDeselect: this.props.onSequenceDeselect,
-        onSequenceOpen: this.handleTracksSequenceOpen,
-        onSequenceSelect: this.handleTracksSequenceSelect,
+        onSequenceOpen: this.handleTrackListSequenceOpen,
+        onSequenceSelect: this.handleTrackListSequenceSelect,
         onSongExtend: this.props.onSongExtend,
         onSongShorten: this.props.onSongShorten,
-        onTrackAdd: this.handleTracksTrackAdd,
-        onTrackIsMutedToggle: this.handleTracksTrackIsMutedToggle,
-        onTrackIsSoloingToggle: this.handleTracksTrackIsSoloingToggle,
-        onTrackStage: this.handleTracksTrackStage,
-        selectedSequenceId: this.props.selectedSequenceId,
+        onTrackAdd: this.handleTrackListTrackAdd,
+        onTrackIsMutedToggle: this.handleTrackListTrackIsMutedToggle,
+        onTrackIsSoloingToggle: this.handleTrackListTrackIsSoloingToggle,
+        onTrackStage: this.handleTrackListTrackStage,
+        selectedSequence: this.props.selectedSequence,
         songMeasureCount: this.props.songMeasureCount,
         tracks: this.props.tracks,
       }),
@@ -122,7 +121,7 @@ export class Tracker extends React.PureComponent {
     });
   }
 
-  handleTracksTrackAdd = () => {
+  handleTrackListTrackAdd = () => {
     const track = createTrack();
     this.props.onTrackAdd({
       sequence: createSequence({
@@ -132,17 +131,17 @@ export class Tracker extends React.PureComponent {
     });
   }
 
-  handleTracksTrackIsMutedToggle = track =>
+  handleTrackListTrackIsMutedToggle = track =>
     this.props.onTrackIsMutedToggle({
       track,
     });
 
-  handleTracksTrackIsSoloingToggle = track =>
+  handleTrackListTrackIsSoloingToggle = track =>
     this.props.onTrackIsSoloingToggle({
       track,
     });
 
-  handleTracksSequenceAdd = (track, position) =>
+  handleTrackListSequenceAdd = (track, position) =>
     this.props.onSequenceAdd({
       sequence: createSequence({
         trackId: track.id,
@@ -150,17 +149,17 @@ export class Tracker extends React.PureComponent {
       }),
     });
 
-  handleTracksSequenceOpen = sequence =>
+  handleTrackListSequenceOpen = sequence =>
     this.props.onSequenceOpen({
       sequence,
     });
 
-  handleTracksSequenceSelect = sequence =>
+  handleTrackListSequenceSelect = sequence =>
     this.props.onSequenceSelect({
       sequence,
     });
 
-  handleTracksTrackStage = track =>
+  handleTrackListTrackStage = track =>
     this.props.onTrackStage({
       track,
     });
