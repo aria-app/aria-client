@@ -1,0 +1,15 @@
+@import '../../../../styles/constants';
+@import '../../../../styles/palette';
+
+$track-sequence-note__width: 2px;
+$track-sequence-note__height: 1px;
+$track-sequence-note__background-color: $neutral-10;
+
+.track-sequence-note {
+  background-color: transparentize($track-sequence-note__background-color, 0.5);
+  height: $track-sequence-note__height;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: $track-sequence-note__width;
+}

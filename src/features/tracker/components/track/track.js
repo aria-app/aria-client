@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import { AddSequenceButton } from '../add-sequence-button/add-sequence-button';
-import { Sequence } from '../sequence/sequence';
+import { TrackSequence } from '../track-sequence/track-sequence';
 import { TrackHeader } from '../track-header/track-header';
 import './track.scss';
 
@@ -35,7 +35,7 @@ export class Track extends React.PureComponent {
           style: this.getBodySequencesStyle(),
         }, [
           ...this.props.track.sequences.map(sequence =>
-            h(Sequence, {
+            h(TrackSequence, {
               onOpen: this.props.onSequenceOpen,
               onSelect: this.props.onSequenceSelect,
               selectedSequence: this.props.selectedSequence,

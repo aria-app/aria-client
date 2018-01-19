@@ -1,0 +1,31 @@
+@import '../../../../styles/constants';
+@import '../../../../styles/palette';
+
+$track-sequence__height: 84px;
+$track-sequence__padding: $margin-s;
+$track-sequence__background-color: $primary-5;
+$track-sequence__background-color--active: $accent-5;
+$track-sequence__background-color--hover: $primary-6;
+$track-sequence__border: 2px solid $primary-6;
+$track-sequence__border-color--active: $accent-6;
+$track-sequence__border-color--hover: $primary-8;
+
+.track-sequence {
+  display: flex;
+  height: $track-sequence__height;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: $track-sequence__padding;
+  background-color: $track-sequence__background-color;
+  border-right: $track-sequence__border;
+  overflow: hidden;
+  &--active {
+    background-color: $track-sequence__background-color--active;
+    border-color: $track-sequence__border-color--active;
+  }
+  &:hover:not(.track-sequence--active) {
+    background-color: $track-sequence__background-color--hover;
+    border-color: $track-sequence__border-color--hover;
+  }
+}

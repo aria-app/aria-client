@@ -2,15 +2,15 @@ import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import './sequence-note.scss';
+import './track-sequence-note.scss';
 
-export class SequenceNote extends React.PureComponent {
+export class TrackSequenceNote extends React.PureComponent {
   static propTypes = {
     note: PropTypes.object.isRequired,
   }
 
   render() {
-    return h('.sequence-note', {
+    return h('.track-sequence-note', {
       style: this.getStyle(),
     });
   }

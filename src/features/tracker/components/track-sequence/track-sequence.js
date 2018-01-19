@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
-import { SequenceNote } from '../sequence-note/sequence-note';
-import './sequence.scss';
+import { TrackSequenceNote } from '../track-sequence-note/track-sequence-note';
+import './track-sequence.scss';
 
-export class Sequence extends React.PureComponent {
+export class TrackSequence extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
     onOpen: PropTypes.func.isRequired,
@@ -16,14 +16,14 @@ export class Sequence extends React.PureComponent {
   }
 
   render() {
-    return h('.sequence', {
+    return h('.track-sequence', {
       className: this.getClassName(),
       style: this.getStyle(),
       onClick: this.handleClick,
       onDoubleClick: this.handleDoubleClick,
     }, [
       ...this.props.sequence.notes.map(note =>
-        h(SequenceNote, {
+        h(TrackSequenceNote, {
           key: note.id,
           note,
         }),
@@ -33,7 +33,7 @@ export class Sequence extends React.PureComponent {
 
   getClassName() {
     return classnames({
-      'sequence--active': this.getIsSelected(),
+      'track-sequence--active': this.getIsSelected(),
     }, this.props.className);
   }
 
