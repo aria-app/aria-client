@@ -1,5 +1,5 @@
 import { createLogic } from 'redux-logic';
-import shared from '../../../shared';
+import shared from '../../shared';
 import dawww from '../dawww';
 
 export const loadSong = createLogic({

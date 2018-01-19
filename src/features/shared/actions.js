@@ -6,9 +6,11 @@ export const BPM_SET = `${NAME}/BPM_SET`;
 export const FILE_DRAG_CANCELLED = `${NAME}/FILE_DRAG_CANCELLED`;
 export const FILE_DRAG_STARTED = `${NAME}/FILE_DRAG_STARTED`;
 export const INITIALIZED = `${NAME}/INITIALIZED`;
-export const PLAYBACK_PAUSE_REQUESTED = `${NAME}/PLAYBACK_PAUSE_REQUESTED`;
-export const PLAYBACK_START_REQUESTED = `${NAME}/PLAYBACK_START_REQUESTED`;
-export const PLAYBACK_STOP_REQUESTED = `${NAME}/PLAYBACK_STOP_REQUESTED`;
+export const PLAYBACK_PAUSE_REQUEST_STARTED = `${NAME}/PLAYBACK_PAUSE_REQUEST_STARTED`;
+export const PLAYBACK_START_REQUEST_STARTED = `${NAME}/PLAYBACK_START_REQUEST_STARTED`;
+export const PLAYBACK_STATE_REQUEST_SUCCEEDED = `${NAME}/PLAYBACK_STATE_REQUEST_SUCCEEDED`;
+export const PLAYBACK_STOP_REQUEST_STARTED = `${NAME}/PLAYBACK_STOP_REQUEST_STARTED`;
+export const POSITION_REQUEST_SUCCEEDED = `${NAME}/POSITION_REQUEST_SUCCEEDED`;
 export const SEQUENCE_ADDED = `${NAME}/SEQUENCE_ADDED`;
 export const SEQUENCE_DELETED = `${NAME}/SEQUENCE_DELETED`;
 export const SEQUENCE_DESELECTED = `${NAME}/SEQUENCE_DESELECTED`;
@@ -54,16 +56,26 @@ export const initialized = () => ({
   type: INITIALIZED,
 });
 
-export const playbackPauseRequested = () => ({
-  type: PLAYBACK_PAUSE_REQUESTED,
+export const playbackPauseRequestStarted = () => ({
+  type: PLAYBACK_PAUSE_REQUEST_STARTED,
 });
 
-export const playbackStartRequested = () => ({
-  type: PLAYBACK_START_REQUESTED,
+export const playbackStartRequestStarted = () => ({
+  type: PLAYBACK_START_REQUEST_STARTED,
 });
 
-export const playbackStopRequested = () => ({
-  type: PLAYBACK_STOP_REQUESTED,
+export const playbackStateRequestSucceeded = playbackState => ({
+  type: PLAYBACK_STATE_REQUEST_SUCCEEDED,
+  playbackState,
+});
+
+export const playbackStopRequestStarted = () => ({
+  type: PLAYBACK_STOP_REQUEST_STARTED,
+});
+
+export const positionRequestSucceeded = position => ({
+  type: POSITION_REQUEST_SUCCEEDED,
+  position,
 });
 
 export const sequenceAdded = ({ sequence }) => ({

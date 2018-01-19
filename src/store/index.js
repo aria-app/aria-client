@@ -1,7 +1,7 @@
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogicMiddleware } from 'redux-logic';
-import audioClientData from '../features/audio-client-data';
+import shared from '../features/shared';
 import persistMiddleware from './persist-middleware';
 import logic from './logic';
 import reducer from './reducer';
@@ -15,7 +15,7 @@ const middlewareEnhancer = applyMiddleware(
 
 const composeEnhancers = composeWithDevTools({
   actionsBlacklist: [
-    audioClientData.actions.POSITION_REQUEST_SUCCEEDED,
+    shared.actions.POSITION_REQUEST_SUCCEEDED,
   ],
 });
 

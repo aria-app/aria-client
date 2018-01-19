@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
+import audioClient from '../../../audio-client';
 import shared from '../../../shared';
 import song from '../../../song';
-import audioClientData from '../../../audio-client-data';
 import * as selectors from '../../selectors';
 import { Tracker } from './tracker';
 
 export const TrackerContainer = connect(state => ({
-  isStopped: audioClientData.selectors.getIsStopped(state),
-  position: audioClientData.selectors.getPosition(state),
+  isStopped: audioClient.selectors.getIsStopped(state),
+  position: audioClient.selectors.getPosition(state),
   selectedSequence: selectors.getSelectedSequence(state),
   songMeasureCount: song.selectors.getMeasureCount(state),
   stagedTrack: selectors.getStagedTrack(state),

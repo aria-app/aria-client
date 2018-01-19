@@ -1,3 +1,4 @@
+import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
@@ -36,8 +37,14 @@ export class Sequence extends React.PureComponent {
     }, this.props.className);
   }
 
-  getIsSelected = () =>
-    this.props.sequence === this.props.selectedSequence;
+  getIsSelected = () => {
+    const sequenceId = getOr('', 'props.sequence.id', this);
+    const selectedSequenceId = getOr('', 'props.selectedSequence.id', this);
+
+    if (!selectedSequenceId) return false;
+
+    return sequenceId === selectedSequenceId;
+  };
 
   getStyle() {
     return {
