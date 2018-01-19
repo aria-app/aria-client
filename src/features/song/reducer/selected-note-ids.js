@@ -3,7 +3,6 @@ import includes from 'lodash/fp/includes';
 import map from 'lodash/fp/map';
 import without from 'lodash/fp/without';
 import { createReducer } from 'redux-create-reducer';
-import sequenceData from '../../sequence-data';
 import shared from '../../shared';
 
 const { DRAW, ERASE } = shared.constants.toolTypes;
@@ -13,27 +12,27 @@ const toggleInArray = curry((x, xs) =>
   (includes(x, xs) ? without([x], xs) : [...xs, x]));
 
 export const selectedNoteIds = createReducer([], {
-  [sequenceData.actions.NOTE_ERASED]: () =>
+  [shared.actions.NOTE_ERASED]: () =>
     [],
 
-  [sequenceData.actions.NOTE_SELECTED]: (state, action) =>
+  [shared.actions.NOTE_SELECTED]: (state, action) =>
     (action.isAdditive
       ? toggleInArray(action.note.id, state)
       : [action.note.id]),
 
-  [sequenceData.actions.NOTES_ALL_DESELECTED]: () =>
+  [shared.actions.NOTES_ALL_DESELECTED]: () =>
     [],
 
-  [sequenceData.actions.NOTES_ALL_SELECTED]: (state, action) =>
+  [shared.actions.NOTES_ALL_SELECTED]: (state, action) =>
     map('id', action.notes),
 
-  [sequenceData.actions.NOTES_DELETED]: () =>
+  [shared.actions.NOTES_DELETED]: () =>
     [],
 
-  [sequenceData.actions.NOTES_DUPLICATED]: (state, action) =>
+  [shared.actions.NOTES_DUPLICATED]: (state, action) =>
     map('id', action.notes),
 
-  [sequenceData.actions.NOTES_SELECTED_IN_AREA]: (state, action) => {
+  [shared.actions.NOTES_SELECTED_IN_AREA]: (state, action) => {
     const idsInArea = map('id', getNotesInArea(
       action.startPoint,
       action.endPoint,
@@ -46,10 +45,10 @@ export const selectedNoteIds = createReducer([], {
       : idsInArea;
   },
 
-  [sequenceData.actions.SEQUENCE_CLOSED]: () =>
+  [shared.actions.SEQUENCE_CLOSED]: () =>
     [],
 
-  [sequenceData.actions.TOOL_SELECTED]: (state, action) =>
+  [shared.actions.TOOL_SELECTED]: (state, action) =>
     (includes(action.toolType, [DRAW, ERASE])
       ? []
       : state),

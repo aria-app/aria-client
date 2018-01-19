@@ -1,7 +1,7 @@
 import { createReducer } from 'redux-create-reducer';
-import * as actions from '../actions';
+import shared from '../../shared';
 
 export default createReducer('', {
-  [actions.TOOL_SELECTED]: (state, action) =>
+  [shared.actions.TOOL_SELECTED]: (state, action) =>
     action.previousToolType,
 });

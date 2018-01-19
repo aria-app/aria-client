@@ -1,20 +1,19 @@
 import { createLogic } from 'redux-logic';
-import sequenceData from '../../sequence-data';
 import shared from '../../shared';
 import song from '../../song';
 import dawww from '../dawww';
 
 export const updateSong = createLogic({
   type: [
-    sequenceData.actions.NOTE_DRAWN,
-    sequenceData.actions.NOTE_ERASED,
-    sequenceData.actions.NOTES_DELETED,
-    sequenceData.actions.NOTES_DRAGGED,
-    sequenceData.actions.NOTES_DUPLICATED,
-    sequenceData.actions.NOTES_MOVED_OCTAVE_DOWN,
-    sequenceData.actions.NOTES_MOVED_OCTAVE_UP,
-    sequenceData.actions.NOTES_NUDGED,
-    sequenceData.actions.NOTES_RESIZED,
+    shared.actions.NOTE_DRAWN,
+    shared.actions.NOTE_ERASED,
+    shared.actions.NOTES_DELETED,
+    shared.actions.NOTES_DRAGGED,
+    shared.actions.NOTES_DUPLICATED,
+    shared.actions.NOTES_MOVED_OCTAVE_DOWN,
+    shared.actions.NOTES_MOVED_OCTAVE_UP,
+    shared.actions.NOTES_NUDGED,
+    shared.actions.NOTES_RESIZED,
     shared.actions.BPM_SET,
     shared.actions.SEQUENCE_ADDED,
     shared.actions.SEQUENCE_DELETED,

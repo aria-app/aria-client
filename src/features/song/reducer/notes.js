@@ -1,7 +1,6 @@
 import map from 'lodash/fp/map';
 import omit from 'lodash/fp/omit';
 import { createReducer } from 'redux-create-reducer';
-import sequenceData from '../../sequence-data';
 import shared from '../../shared';
 
 const { setAtIds, translateNote } = shared.helpers;
@@ -13,7 +12,7 @@ export const notes = createReducer({}, {
   [shared.actions.SONG_LOADED]: (state, action) =>
     action.song.notes,
 
-  [sequenceData.actions.NOTE_DRAWN]: (state, action) => {
+  [shared.actions.NOTE_DRAWN]: (state, action) => {
     const note = shared.helpers.createNote({
       points: [action.point, { x: action.point.x + 1, y: action.point.y }],
       sequenceId: action.sequence.id,
@@ -25,36 +24,36 @@ export const notes = createReducer({}, {
     };
   },
 
-  [sequenceData.actions.NOTE_ERASED]: (state, action) =>
+  [shared.actions.NOTE_ERASED]: (state, action) =>
     omit(action.note.id, state),
 
-  [sequenceData.actions.NOTES_DELETED]: (state, action) =>
+  [shared.actions.NOTES_DELETED]: (state, action) =>
     omit(map('id', action.notes), state),
 
-  [sequenceData.actions.NOTES_DRAGGED]: (state, action) =>
+  [shared.actions.NOTES_DRAGGED]: (state, action) =>
     setAtIds(action.notes, state),
 
-  [sequenceData.actions.NOTES_DUPLICATED]: (state, action) =>
+  [shared.actions.NOTES_DUPLICATED]: (state, action) =>
     setAtIds(action.notes, state),
 
-  [sequenceData.actions.NOTES_MOVED_OCTAVE_DOWN]: (state, action) =>
+  [shared.actions.NOTES_MOVED_OCTAVE_DOWN]: (state, action) =>
     setAtIds(map(
       translateNote(octaveDownDelta),
       action.notes,
     ), state),
 
-  [sequenceData.actions.NOTES_MOVED_OCTAVE_UP]: (state, action) =>
+  [shared.actions.NOTES_MOVED_OCTAVE_UP]: (state, action) =>
     setAtIds(map(
       translateNote(octaveUpDelta),
       action.notes,
     ), state),
 
-  [sequenceData.actions.NOTES_NUDGED]: (state, action) =>
+  [shared.actions.NOTES_NUDGED]: (state, action) =>
     setAtIds(map(translateNote(
       action.delta),
     action.notes,
     ), state),
 
-  [sequenceData.actions.NOTES_RESIZED]: (state, action) =>
+  [shared.actions.NOTES_RESIZED]: (state, action) =>
     setAtIds(action.notes, state),
 });

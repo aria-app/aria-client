@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import keydown from 'react-keydown';
-import sequenceEffects from '../../../sequence-effects';
+import sequencer from '../../../sequencer';
 import shared from '../../../shared';
 import tracker from '../../../tracker';
 import { BPMModal } from '../bpm-modal/bpm-modal';
@@ -10,7 +10,7 @@ import { UploadOverlay } from '../upload-overlay/upload-overlay';
 import { SongToolbar } from '../song-toolbar/song-toolbar';
 import './app.scss';
 
-const { SequencerContainer } = sequenceEffects.components;
+const { SequencerContainer } = sequencer.components;
 const { STARTED } = shared.constants.playbackStates;
 const { hideIf, showIf } = shared.helpers;
 const { TrackerContainer } = tracker.components;
