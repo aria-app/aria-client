@@ -1,6 +1,6 @@
 import 'babel-polyfill';
 import { configure } from '@storybook/react';
-import '../src/features/app-effects/components/app/app.scss';
+import '../src/features/app/components/app/app.scss';
 import '../src/styles/resets.scss';
 
 // Disable back button

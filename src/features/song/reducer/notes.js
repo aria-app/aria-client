@@ -1,7 +1,6 @@
 import map from 'lodash/fp/map';
 import omit from 'lodash/fp/omit';
 import { createReducer } from 'redux-create-reducer';
-import appData from '../../app-data';
 import sequenceData from '../../sequence-data';
 import shared from '../../shared';
 
@@ -11,7 +10,7 @@ const octaveDownDelta = { x: 0, y: 12 };
 const octaveUpDelta = { x: 0, y: -12 };
 
 export const notes = createReducer({}, {
-  [appData.actions.SONG_LOADED]: (state, action) =>
+  [shared.actions.SONG_LOADED]: (state, action) =>
     action.song.notes,
 
   [sequenceData.actions.NOTE_DRAWN]: (state, action) => {

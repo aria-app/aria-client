@@ -1,5 +1,4 @@
 import { createLogic } from 'redux-logic';
-import appData from '../../app-data';
 import shared from '../../shared';
 
 export const initialize = createLogic({
@@ -13,7 +12,7 @@ export const initialize = createLogic({
       ? JSON.parse(localStorageSong)
       : shared.helpers.createSong();
 
-    dispatch(appData.actions.songLoaded({
+    dispatch(shared.actions.songLoaded({
       song: initialSong,
     }));
 

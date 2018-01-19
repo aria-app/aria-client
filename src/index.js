@@ -3,7 +3,7 @@ import 'rxjs/add/observable/fromEvent';
 import h from 'react-hyperscript';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import appEffects from './features/app-effects';
+import appEffects from './features/app';
 import shared from './features/shared';
 import store from './store';
 import './styles/resets.scss';

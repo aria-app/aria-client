@@ -1,13 +1,12 @@
 import reject from 'lodash/fp/reject';
 import omit from 'lodash/fp/omit';
 import { createReducer } from 'redux-create-reducer';
-import appData from '../../app-data';
 import shared from '../../shared';
 
 const { setAtIds } = shared.helpers;
 
 export const sequences = createReducer({}, {
-  [appData.actions.SONG_LOADED]: (state, action) =>
+  [shared.actions.SONG_LOADED]: (state, action) =>
     action.song.sequences,
 
   [shared.actions.SEQUENCE_ADDED]: (state, action) =>

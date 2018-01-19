@@ -1,6 +1,14 @@
 import { NAME } from './constants';
 
+export const BPM_MODAL_CLOSED = `${NAME}/BPM_MODAL_CLOSED`;
+export const BPM_MODAL_OPENED = `${NAME}/BPM_MODAL_OPENED`;
+export const BPM_SET = `${NAME}/BPM_SET`;
+export const FILE_DRAG_CANCELLED = `${NAME}/FILE_DRAG_CANCELLED`;
+export const FILE_DRAG_STARTED = `${NAME}/FILE_DRAG_STARTED`;
 export const INITIALIZED = `${NAME}/INITIALIZED`;
+export const PLAYBACK_PAUSE_REQUESTED = `${NAME}/PLAYBACK_PAUSE_REQUESTED`;
+export const PLAYBACK_START_REQUESTED = `${NAME}/PLAYBACK_START_REQUESTED`;
+export const PLAYBACK_STOP_REQUESTED = `${NAME}/PLAYBACK_STOP_REQUESTED`;
 export const SEQUENCE_ADDED = `${NAME}/SEQUENCE_ADDED`;
 export const SEQUENCE_DELETED = `${NAME}/SEQUENCE_DELETED`;
 export const SEQUENCE_DESELECTED = `${NAME}/SEQUENCE_DESELECTED`;
@@ -11,6 +19,7 @@ export const SEQUENCE_OPENED = `${NAME}/SEQUENCE_OPENED`;
 export const SEQUENCE_SELECTED = `${NAME}/SEQUENCE_SELECTED`;
 export const SEQUENCE_SHORTENED = `${NAME}/SEQUENCE_SHORTENED`;
 export const SONG_EXTENDED = `${NAME}/SONG_EXTENDED`;
+export const SONG_LOADED = `${NAME}/SONG_LOADED`;
 export const SONG_SHORTENED = `${NAME}/SONG_SHORTENED`;
 export const TRACK_ADDED = `${NAME}/TRACK_ADDED`;
 export const TRACK_DELETED = `${NAME}/TRACK_DELETED`;
@@ -20,8 +29,41 @@ export const TRACK_IS_MUTED_TOGGLED = `${NAME}/TRACK_IS_MUTED_TOGGLED`;
 export const TRACK_IS_SOLOING_TOGGLED = `${NAME}/TRACK_IS_SOLOING_TOGGLED`;
 export const TRACK_VOICE_SET = `${NAME}/TRACK_VOICE_SET`;
 
+export const bpmModalClosed = () => ({
+  type: BPM_MODAL_CLOSED,
+});
+
+export const bpmModalOpened = () => ({
+  type: BPM_MODAL_OPENED,
+});
+
+export const bpmSet = ({ bpm }) => ({
+  type: BPM_SET,
+  bpm,
+});
+
+export const fileDragCancelled = () => ({
+  type: FILE_DRAG_CANCELLED,
+});
+
+export const fileDragStarted = () => ({
+  type: FILE_DRAG_STARTED,
+});
+
 export const initialized = () => ({
   type: INITIALIZED,
+});
+
+export const playbackPauseRequested = () => ({
+  type: PLAYBACK_PAUSE_REQUESTED,
+});
+
+export const playbackStartRequested = () => ({
+  type: PLAYBACK_START_REQUESTED,
+});
+
+export const playbackStopRequested = () => ({
+  type: PLAYBACK_STOP_REQUESTED,
 });
 
 export const sequenceAdded = ({ sequence }) => ({
@@ -41,6 +83,11 @@ export const sequenceDeselected = () => ({
 export const sequenceExtended = ({ sequence }) => ({
   type: SEQUENCE_EXTENDED,
   sequence,
+});
+
+export const songLoaded = ({ song }) => ({
+  type: SONG_LOADED,
+  song,
 });
 
 export const sequenceNudgedLeft = ({ sequence }) => ({

@@ -1,5 +1,4 @@
 import { createLogic } from 'redux-logic';
-import appData from '../../app-data';
 import sequenceData from '../../sequence-data';
 import shared from '../../shared';
 import song from '../../song';
@@ -7,7 +6,6 @@ import dawww from '../dawww';
 
 export const updateSong = createLogic({
   type: [
-    appData.actions.BPM_SET,
     sequenceData.actions.NOTE_DRAWN,
     sequenceData.actions.NOTE_ERASED,
     sequenceData.actions.NOTES_DELETED,
@@ -17,6 +15,7 @@ export const updateSong = createLogic({
     sequenceData.actions.NOTES_MOVED_OCTAVE_UP,
     sequenceData.actions.NOTES_NUDGED,
     sequenceData.actions.NOTES_RESIZED,
+    shared.actions.BPM_SET,
     shared.actions.SEQUENCE_ADDED,
     shared.actions.SEQUENCE_DELETED,
     shared.actions.SEQUENCE_EXTENDED,
@@ -34,7 +33,7 @@ export const updateSong = createLogic({
   ],
   process({ getState }, dispatch, done) {
     const songState = song.selectors.getSong(getState());
-    // console.log('update requested');
+
     dawww.updateSong(songState);
 
     done();

@@ -1,9 +1,8 @@
 import { createReducer } from 'redux-create-reducer';
-import appData from '../../app-data';
 import shared from '../../shared';
 
 export const measureCount = createReducer(1, {
-  [appData.actions.SONG_LOADED]: (state, action) =>
+  [shared.actions.SONG_LOADED]: (state, action) =>
     action.song.measureCount,
 
   [shared.actions.SONG_EXTENDED]: state =>
