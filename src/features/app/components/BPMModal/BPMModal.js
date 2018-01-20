@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import './bpm-modal.scss';
+import './BPMModal.scss';
 
 const { DropdownList, Modal } = shared.components;
 const { bpmRange } = shared.constants;

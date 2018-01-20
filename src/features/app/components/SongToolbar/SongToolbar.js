@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import './song-toolbar.scss';
+import './SongToolbar.scss';
 
 const { Button, DownloadButton, IconButton, Toolbar } = shared.components;
 const { PAUSED, STARTED, STOPPED } = shared.constants.playbackStates;

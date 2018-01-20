@@ -5,9 +5,9 @@ import keydown from 'react-keydown';
 import sequencer from '../../../sequencer';
 import shared from '../../../shared';
 import tracker from '../../../tracker';
-import { BPMModal } from '../bpm-modal/bpm-modal';
-import { UploadOverlay } from '../upload-overlay/upload-overlay';
-import { SongToolbar } from '../song-toolbar/song-toolbar';
+import { BPMModal } from '../BPMModal/BPMModal';
+import { UploadOverlay } from '../UploadOverlay/UploadOverlay';
+import { SongToolbar } from '../SongToolbar/SongToolbar';
 import './App.scss';
 
 const { SequencerContainer } = sequencer.components;

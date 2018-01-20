@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import './upload-overlay.scss';
+import './UploadOverlay.scss';
 
 const reader = new FileReader();
 const { showIf } = shared.helpers;
