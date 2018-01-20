@@ -2,7 +2,7 @@ import { includes } from 'lodash/fp';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import './key.scss';
+import './Key.scss';
 
 export class Key extends React.PureComponent {
   static propTypes = {

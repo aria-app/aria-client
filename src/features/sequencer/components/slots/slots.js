@@ -4,7 +4,7 @@ import React from 'react';
 import h from 'react-hyperscript';
 import { neutral } from '../../../../styles/palette';
 import shared from '../../../shared';
-import './slots.scss';
+import './Slots.scss';
 
 const { scale } = shared.constants;
 

@@ -3,7 +3,7 @@ import React from 'react';
 import h from 'react-hyperscript';
 import { showIf } from '../../helpers';
 import icons from './icons';
-import './icon.scss';
+import './Icon.scss';
 
 export class Icon extends React.PureComponent {
   static propTypes = {

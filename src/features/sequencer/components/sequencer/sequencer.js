@@ -4,10 +4,10 @@ import React from 'react';
 import h from 'react-hyperscript';
 import keydown from 'react-keydown';
 import shared from '../../../shared';
-import { Grid } from '../grid/grid';
-import { Keys } from '../keys/keys';
-import { SequencerToolbar } from '../sequencer-toolbar/sequencer-toolbar';
-import './sequencer.scss';
+import { Grid } from '../Grid/Grid';
+import { Keys } from '../Keys/Keys';
+import { SequencerToolbar } from '../SequencerToolbar/SequencerToolbar';
+import './Sequencer.scss';
 
 const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
 const { duplicateNotes, someNoteWillMoveOutside } = shared.helpers;

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import isBPMModalOpen from './is-bpm-modal-open';
-import isFileOver from './is-file-over';
+import isBPMModalOpen from './isBPMModalOpen';
+import isFileOver from './isFileOver';
 
 export default combineReducers({
   isBPMModalOpen,

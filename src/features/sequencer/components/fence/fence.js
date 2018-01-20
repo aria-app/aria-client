@@ -3,7 +3,7 @@ import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import './fence.scss';
+import './Fence.scss';
 
 export class Fence extends React.PureComponent {
   static propTypes = {

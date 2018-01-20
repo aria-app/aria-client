@@ -1,1 +1,1 @@
-export { TrackerContainer } from './tracker/tracker-container';
+export { TrackerContainer } from './Tracker/TrackerContainer';

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import './button.scss';
+import './Button.scss';
 
 export class Button extends React.PureComponent {
   static propTypes = {

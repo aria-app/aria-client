@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import { showIf } from '../../helpers';
-import { Button } from '../button/button';
-import { Toolbar } from '../toolbar/toolbar';
-import './modal.scss';
+import { Button } from '../Button/Button';
+import { Toolbar } from '../Toolbar/Toolbar';
+import './Modal.scss';
 
 export class Modal extends React.PureComponent {
   static propTypes = {

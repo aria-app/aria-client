@@ -10,8 +10,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import { Note } from '../note/note';
-import './notes.scss';
+import { Note } from '../Note/Note';
+import './Notes.scss';
 
 const { addPoints, resizeNote, someNoteWillMoveOutside, translateNote } = shared.helpers;
 

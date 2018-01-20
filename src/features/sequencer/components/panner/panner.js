@@ -4,7 +4,7 @@ import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
 import shared from '../../../shared';
-import './panner.scss';
+import './Panner.scss';
 
 export class Panner extends React.PureComponent {
   static propTypes = {

@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import { playbackStates } from '../../constants';
-import { RulerMeasure } from '../ruler-measure/ruler-measure';
-import './ruler.scss';
+import { RulerMeasure } from '../RulerMeasure/RulerMeasure';
+import './Ruler.scss';
 
 export class Ruler extends React.PureComponent {
   static propTypes = {

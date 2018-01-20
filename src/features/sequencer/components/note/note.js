@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import './note.scss';
+import './Note.scss';
 
 export class Note extends React.PureComponent {
   static propTypes = {

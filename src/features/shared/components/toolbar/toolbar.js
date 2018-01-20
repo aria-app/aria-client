@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
-import './toolbar.scss';
+import './Toolbar.scss';
 
 export class Toolbar extends React.PureComponent {
   static propTypes = {

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import { Fence } from '../fence/fence';
-import './selector.scss';
+import { Fence } from '../Fence/Fence';
+import './Selector.scss';
 
 export class Selector extends React.PureComponent {
   static propTypes = {

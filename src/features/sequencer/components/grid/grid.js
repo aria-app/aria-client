@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import { DrawLayer } from '../draw-layer/draw-layer';
-import { Notes } from '../notes/notes';
-import { Panner } from '../panner/panner';
-import { Selector } from '../selector/selector';
-import { Slots } from '../slots/slots';
-import './grid.scss';
+import { DrawLayer } from '../DrawLayer/DrawLayer';
+import { Notes } from '../Notes/Notes';
+import { Panner } from '../Panner/Panner';
+import { Selector } from '../Selector/Selector';
+import { Slots } from '../Slots/Slots';
+import './Grid.scss';
 
 const { Timeline } = shared.components;
 

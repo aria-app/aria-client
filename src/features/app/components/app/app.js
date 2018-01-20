@@ -8,7 +8,7 @@ import tracker from '../../../tracker';
 import { BPMModal } from '../bpm-modal/bpm-modal';
 import { UploadOverlay } from '../upload-overlay/upload-overlay';
 import { SongToolbar } from '../song-toolbar/song-toolbar';
-import './app.scss';
+import './App.scss';
 
 const { SequencerContainer } = sequencer.components;
 const { STARTED } = shared.constants.playbackStates;

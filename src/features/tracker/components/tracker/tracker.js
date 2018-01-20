@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import { TrackList } from '../track-list/track-list';
-import { TrackerToolbar } from '../tracker-toolbar/tracker-toolbar';
-import { TrackEditingModal } from '../track-editing-modal/track-editing-modal';
-import './tracker.scss';
+import { TrackList } from '../TrackList/TrackList';
+import { TrackerToolbar } from '../TrackerToolbar/TrackerToolbar';
+import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
+import './Tracker.scss';
 
 const { Timeline } = shared.components;
 const { createSequence, createTrack } = shared.helpers;

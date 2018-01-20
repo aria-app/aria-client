@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import { Key } from '../key/key';
-import './keys.scss';
+import { Key } from '../Key/Key';
+import './Keys.scss';
 
 const { scale } = shared.constants;
 

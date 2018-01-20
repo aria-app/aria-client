@@ -2,10 +2,10 @@ import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import { AddSequenceButton } from '../add-sequence-button/add-sequence-button';
-import { TrackSequence } from '../track-sequence/track-sequence';
-import { TrackHeader } from '../track-header/track-header';
-import './track.scss';
+import { AddSequenceButton } from '../AddSequenceButton/AddSequenceButton';
+import { TrackSequence } from '../TrackSequence/TrackSequence';
+import { TrackHeader } from '../TrackHeader/TrackHeader';
+import './Track.scss';
 
 export class Track extends React.PureComponent {
   static propTypes = {

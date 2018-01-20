@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import './timeline.scss';
+import './Timeline.scss';
 
 export class Timeline extends React.PureComponent {
   static propTypes = {
