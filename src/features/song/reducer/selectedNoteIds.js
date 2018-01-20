@@ -5,7 +5,6 @@ import without from 'lodash/fp/without';
 import { createReducer } from 'redux-create-reducer';
 import shared from '../../shared';
 
-const { DRAW, ERASE } = shared.constants.toolTypes;
 const { getNotesInArea } = shared.helpers;
 
 const toggleInArray = curry((x, xs) =>
@@ -47,9 +46,4 @@ export const selectedNoteIds = createReducer([], {
 
   [shared.actions.SEQUENCE_CLOSED]: () =>
     [],
-
-  [shared.actions.TOOL_SELECTED]: (state, action) =>
-    (includes(action.toolType, [DRAW, ERASE])
-      ? []
-      : state),
 });

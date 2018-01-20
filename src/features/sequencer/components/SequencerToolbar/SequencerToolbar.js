@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
+import * as constants from '../../constants';
 import './SequencerToolbar.scss';
 
 const { IconButton, Toolbar } = shared.components;
-const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
+const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
 const { someNoteWillMoveOutside } = shared.helpers;
 
 export class SequencerToolbar extends React.PureComponent {

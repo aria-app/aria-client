@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import classnames from 'classnames';
-import shared from '../../../shared';
+import * as constants from '../../constants';
 import './Panner.scss';
 
 export class Panner extends React.PureComponent {
@@ -39,7 +39,7 @@ export class Panner extends React.PureComponent {
   getIsPanning = () => !isEmpty(this.state.startPoint);
 
   getIsEnabled = () =>
-    this.props.toolType === shared.constants.toolTypes.PAN;
+    this.props.toolType === constants.toolTypes.PAN;
 
   getStartPoint(e) {
     return {

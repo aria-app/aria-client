@@ -2,7 +2,7 @@ import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import shared from '../../../shared';
+import * as constants from '../../constants';
 import { Fence } from '../Fence/Fence';
 import './Selector.scss';
 
@@ -37,7 +37,7 @@ export class Selector extends React.PureComponent {
   }
 
   getIsEnabled = () =>
-    this.props.toolType === shared.constants.toolTypes.SELECT;
+    this.props.toolType === constants.toolTypes.SELECT;
 
   handleMouseDown = () => {
     this.setState({

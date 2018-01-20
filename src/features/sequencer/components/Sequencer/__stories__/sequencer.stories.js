@@ -1,11 +1,9 @@
 import h from 'react-hyperscript';
 import { action, storiesOf } from '@storybook/react';
 import { number, select, withKnobs } from '@storybook/addon-knobs';
-import { Sequencer } from '../sequencer';
-import shared from '../../../../shared';
+import { Sequencer } from '../Sequencer';
+import * as constants from '../../../constants';
 import './sequencer-basics.story.scss';
-
-const { toolTypes } = shared.constants;
 
 storiesOf('Sequencer', module)
   .addDecorator(withKnobs)
@@ -33,11 +31,11 @@ storiesOf('Sequencer', module)
         onToolSelect: action('TOOL_SELECTED'),
         selectedNotes: [],
         toolType: select('tool type', {
-          [toolTypes.SELECT]: 'Select',
-          [toolTypes.DRAW]: 'Draw',
-          [toolTypes.ERASE]: 'Erase',
-          [toolTypes.PAN]: 'Pan',
-        }, toolTypes.SELECT),
+          [constants.toolTypes.SELECT]: 'Select',
+          [constants.toolTypes.DRAW]: 'Draw',
+          [constants.toolTypes.ERASE]: 'Erase',
+          [constants.toolTypes.PAN]: 'Pan',
+        }, constants.toolTypes.SELECT),
       }),
     ]),
   );

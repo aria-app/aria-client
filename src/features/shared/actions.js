@@ -36,7 +36,6 @@ export const SEQUENCE_SHORTENED = 'SEQUENCE_SHORTENED';
 export const SONG_EXTENDED = 'SONG_EXTENDED';
 export const SONG_LOADED = 'SONG_LOADED';
 export const SONG_SHORTENED = 'SONG_SHORTENED';
-export const TOOL_SELECTED = 'TOOL_SELECTED';
 export const TRACK_ADDED = 'TRACK_ADDED';
 export const TRACK_DELETED = 'TRACK_DELETED';
 export const TRACK_EDITING_FINISHED = 'TRACK_EDITING_FINISHED';
@@ -236,12 +235,6 @@ export const songExtended = () => ({
 
 export const songShortened = () => ({
   type: SONG_SHORTENED,
-});
-
-export const toolSelected = ({ previousToolType, toolType }) => ({
-  type: TOOL_SELECTED,
-  previousToolType,
-  toolType,
 });
 
 export const trackAdded = ({ sequence, track }) => ({

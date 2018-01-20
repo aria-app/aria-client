@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
+import * as constants from '../../constants';
 import { Note } from '../Note/Note';
 import './DrawLayer.scss';
 
@@ -64,7 +65,7 @@ export class DrawLayer extends React.PureComponent {
   getIsDrawing = () => this.state.isDrawing;
 
   getIsEnabled = () =>
-    this.props.toolType === shared.constants.toolTypes.DRAW;
+    this.props.toolType === constants.toolTypes.DRAW;
 
   handleMouseDown = () => {
     this.setState({

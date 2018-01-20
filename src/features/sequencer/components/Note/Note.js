@@ -6,7 +6,7 @@ import last from 'lodash/fp/last';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import shared from '../../../shared';
+import * as constants from '../../constants';
 import './Note.scss';
 
 export class Note extends React.PureComponent {
@@ -90,13 +90,13 @@ export class Note extends React.PureComponent {
 
   getIsEraseEnabled = () =>
     includes(this.props.toolType, [
-      shared.constants.toolTypes.ERASE,
+      constants.toolTypes.ERASE,
     ]);
 
   getIsSelectEnabled = () =>
     includes(this.props.toolType, [
-      shared.constants.toolTypes.DRAW,
-      shared.constants.toolTypes.SELECT,
+      constants.toolTypes.DRAW,
+      constants.toolTypes.SELECT,
     ]);
 
   getStyle() {

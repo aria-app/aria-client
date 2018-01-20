@@ -4,12 +4,13 @@ import React from 'react';
 import h from 'react-hyperscript';
 import keydown from 'react-keydown';
 import shared from '../../../shared';
+import * as constants from '../../constants';
 import { Grid } from '../Grid/Grid';
 import { Keys } from '../Keys/Keys';
 import { SequencerToolbar } from '../SequencerToolbar/SequencerToolbar';
 import './Sequencer.scss';
 
-const { DRAW, ERASE, PAN, SELECT } = shared.constants.toolTypes;
+const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
 const { duplicateNotes, someNoteWillMoveOutside } = shared.helpers;
 
 
@@ -32,10 +33,16 @@ export class Sequencer extends React.PureComponent {
     onSelect: PropTypes.func.isRequired,
     onSelectAll: PropTypes.func.isRequired,
     onSelectInArea: PropTypes.func.isRequired,
-    onToolSelect: PropTypes.func.isRequired,
     selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
     sequence: PropTypes.object.isRequired,
-    toolType: PropTypes.string.isRequired,
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      previousToolType: SELECT,
+      toolType: SELECT,
+    };
   }
 
   componentDidMount() {
@@ -52,15 +59,15 @@ export class Sequencer extends React.PureComponent {
         onClose: this.handleToolbarClose,
         onDelete: this.handleToolbarDelete,
         onDeselectAll: this.handleToolbarDeselect,
-        onDrawToolSelect: this.handleToolbarDrawToolSelect,
+        onDrawToolSelect: this.activateDrawTool,
         onDuplicate: this.handleToolbarDuplicate,
-        onEraseToolSelect: this.handleToolbarEraseToolSelect,
+        onEraseToolSelect: this.activateEraseTool,
         onOctaveDown: this.handleToolbarOctaveDown,
         onOctaveUp: this.handleToolbarOctaveUp,
-        onPanToolSelect: this.handleToolbarPanToolSelect,
-        onSelectToolSelect: this.handleToolbarSelectToolSelect,
+        onPanToolSelect: this.activatePanTool,
+        onSelectToolSelect: this.activateSelectTool,
         selectedNotes: this.props.selectedNotes,
-        toolType: this.props.toolType,
+        toolType: this.state.toolType,
       }),
       h('.sequencer__content', {
         ref: this.setContentRef,
@@ -80,11 +87,58 @@ export class Sequencer extends React.PureComponent {
             onSelectInArea: this.handleGridSelectInArea,
             selectedNotes: this.props.selectedNotes,
             sequencerContentRef: this.contentElementRef,
-            toolType: this.props.toolType,
+            toolType: this.state.toolType,
           }),
         ]),
       ]),
     ]);
+  }
+
+  @keydown('d')
+  activateDrawTool() {
+    this.setState({
+      toolType: DRAW,
+    });
+  }
+
+  @keydown('space')
+  activatePanOverride(e) {
+    e.preventDefault();
+    if (e.repeat) return;
+    this.setState(state => ({
+      previousToolType: state.toolType,
+      toolType: PAN,
+    }));
+    window.addEventListener('keyup', this.deactivatePanOverride);
+  }
+
+  @keydown('e')
+  activateEraseTool() {
+    this.setState({
+      toolType: ERASE,
+    });
+  }
+
+  @keydown('p')
+  activatePanTool() {
+    this.setState({
+      toolType: PAN,
+    });
+  }
+
+  @keydown('s')
+  activateSelectTool() {
+    this.setState({
+      toolType: SELECT,
+    });
+  }
+
+  deactivatePanOverride = (e) => {
+    if (e.keyCode !== 32) return;
+    this.setState(state => ({
+      toolType: state.previousToolType,
+    }));
+    window.removeEventListener('keyup', this.deactivatePanOverride);
   }
 
   @keydown('backspace', 'del')
@@ -169,21 +223,9 @@ export class Sequencer extends React.PureComponent {
     this.props.onDeselectAll();
   }
 
-  handleToolbarDrawToolSelect = () =>
-    this.props.onToolSelect({
-      previousToolType: this.props.toolType,
-      toolType: DRAW,
-    });
-
   handleToolbarDuplicate = () =>
     this.props.onDuplicate({
       notes: duplicateNotes(this.props.selectedNotes),
-    });
-
-  handleToolbarEraseToolSelect = () =>
-    this.props.onToolSelect({
-      previousToolType: this.props.toolType,
-      toolType: ERASE,
     });
 
   handleToolbarOctaveDown = () =>
@@ -195,19 +237,6 @@ export class Sequencer extends React.PureComponent {
     this.props.onOctaveUp({
       notes: this.props.selectedNotes,
     });
-
-  handleToolbarPanToolSelect = () =>
-    this.props.onToolSelect({
-      previousToolType: this.props.toolType,
-      toolType: PAN,
-    });
-
-  handleToolbarSelectToolSelect = () =>
-    this.props.onToolSelect({
-      previousToolType: this.props.toolType,
-      toolType: SELECT,
-    });
-
 
   nudge = (e, delta) => {
     e.preventDefault();
@@ -255,8 +284,8 @@ export class Sequencer extends React.PureComponent {
     });
   }
 
-  setContentRef = (ref) => {
-    this.contentElementRef = ref;
+  setContentRef = (contentElementRef) => {
+    this.contentElementRef = contentElementRef;
     this.forceUpdate();
   }
 }

@@ -109,14 +109,6 @@ export const scale = [
   { name: 'C0', y: 83 },
 ];
 
-export const toolTypes = {
-  DRAW: 'DRAW',
-  ERASE: 'ERASE',
-  SELECT: 'SELECT',
-  MOVE: 'MOVE',
-  PAN: 'PAN',
-};
-
 export const voices = {
   PWM: 'pwm',
   SAWTOOTH: 'sawtooth',
@@ -125,7 +117,5 @@ export const voices = {
 };
 
 export const bpmRange = rangeStep(10, minBPM, maxBPM + 1);
-
-export const defaultToolType = toolTypes.SELECT;
 
 export const defaultVoice = voices.SQUARE;
