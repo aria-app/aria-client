@@ -37,6 +37,7 @@ export class Grid extends React.PureComponent {
   render() {
     return h('.grid', {
       onMouseMove: this.handleMouseMove,
+      onWheel: this.handleWheel,
       ref: this.setRef,
     }, [
       h('.grid__wrapper', {
@@ -115,6 +116,19 @@ export class Grid extends React.PureComponent {
 
   handleSelectorSelect = (startPoint, isAdditive) =>
     this.props.onSelectInArea(startPoint, this.state.mousePoint, isAdditive);
+
+  handleWheel = (e) => {
+    const el = e.currentTarget;
+    const maxX = el.scrollWidth - el.offsetWidth;
+
+    if (el.scrollLeft + e.deltaX < 0 || el.scrollLeft + e.deltaX > maxX) {
+      const scrollLeft = Math.max(0, Math.min(maxX, this.elementRef.scrollLeft + e.deltaX));
+
+      e.preventDefault();
+
+      this.elementRef.scrollLeft = scrollLeft;
+    }
+  };
 
   setRef = (ref) => {
     this.elementRef = ref;
