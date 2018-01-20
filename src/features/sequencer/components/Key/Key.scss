@@ -1,0 +1,49 @@
+@import '../../../../styles/palette';
+
+$key__height: 40px;
+$key__font-size: 1.0em;
+$key__font-weight: 600;
+$key--ebony__color: $neutral-7;
+$key--ebony__background-color: $neutral-3;
+$key--ivory__color: $neutral-3;
+$key--ivory__background-color: $neutral-7;
+$key--ivory__divider-color: $neutral-6;
+
+.key {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: $key__height;
+  position: relative;
+  font-size: $key__font-size;
+  font-weight: $key__font-weight;
+  cursor: pointer;
+  &__label {
+    display: none;
+  }
+  &--a, &--b, &--c, &--d, &--e, &--f, &--g {
+    color: $key--ivory__color;
+    background-color: $key--ivory__background-color;
+  }
+  &--asharp, &--gsharp, &--fsharp, &--dsharp, &--csharp {
+    color: $key--ebony__color;
+    background-color: $key--ebony__background-color;
+  }
+  &--c, &--f {
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 0px;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 1px;
+      background-color: $key--ivory__divider-color;
+    }
+  }
+  &--c &__label {
+    display: block;
+  }
+}

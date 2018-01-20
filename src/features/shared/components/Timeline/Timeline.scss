@@ -1,0 +1,17 @@
+@import '../../../../styles/palette';
+
+$timeline__width: 2px;
+$timeline__background-color: $neutral-10;
+$timeline__opacity: 0.25;
+
+.timeline {
+  display: block;
+  width: $timeline__width;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: $timeline__background-color;
+  opacity: $timeline__opacity;
+  pointer-events: none;
+}

@@ -1,0 +1,13 @@
+$keys__width: 56px;
+$keys__z-index: 50;
+$keys__box-shadow: 2px 0 5px rgba(0, 0, 0, 0.25);
+
+.keys {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: $keys__width;
+  box-shadow: $keys__box-shadow;
+  overflow: hidden;
+  z-index: $keys__z-index;
+}

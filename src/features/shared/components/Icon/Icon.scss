@@ -1,0 +1,31 @@
+@import '../../../../styles/palette';
+
+$icon__width: 40px;
+$icon__height: 40px;
+$icon__fill: $color;
+$icon__fill--inverted: $color-inverted;
+$icon__content__width: 24px;
+$icon__content__height: 24px;
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: $icon__width;
+  height: $icon__height;
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $icon__content__width;
+    height: $icon__content__height;
+  }
+  svg * {
+    fill: $icon__fill;
+  }
+  &--inverted {
+    svg * {
+      fill: $icon__fill--inverted;
+    }
+  }
+}

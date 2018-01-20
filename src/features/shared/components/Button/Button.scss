@@ -1,0 +1,26 @@
+@import '../../../../styles/palette';
+
+$button__height: 36px;
+$button__padding: 16px;
+$button__background-color: transparent;
+$button__color: $neutral-10;
+$button__border-radius: 2px;
+$button__background-color--active: transparentize($neutral-10, 0.75);
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: $button__height;
+  padding-left: $button__padding;
+  padding-right: $button__padding;
+  background-color: $button__background-color;
+  color: $button__color;
+  text-transform: uppercase;
+  border-radius: $button__border-radius;
+  cursor: pointer;
+  user-select: none!important;
+  &:active {
+    background-color: $button__background-color--active;
+  }
+}
