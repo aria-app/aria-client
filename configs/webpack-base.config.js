@@ -21,7 +21,6 @@ module.exports = {
       'react-hyperscript',
       'react-redux',
       'redux',
-      'redux-saga',
     ],
   },
   module: {
