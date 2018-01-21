@@ -1,8 +1,4 @@
-export const BPM_MODAL_CLOSED = 'BPM_MODAL_CLOSED';
-export const BPM_MODAL_OPENED = 'BPM_MODAL_OPENED';
 export const BPM_SET = 'BPM_SET';
-export const FILE_DRAG_CANCELLED = 'FILE_DRAG_CANCELLED';
-export const FILE_DRAG_STARTED = 'FILE_DRAG_STARTED';
 export const INITIALIZED = 'INITIALIZED';
 export const KEY_PRESSED = 'KEY_PRESSED';
 export const NOTE_DRAWN = 'NOTE_DRAWN';
@@ -44,25 +40,9 @@ export const TRACK_IS_MUTED_TOGGLED = 'TRACK_IS_MUTED_TOGGLED';
 export const TRACK_IS_SOLOING_TOGGLED = 'TRACK_IS_SOLOING_TOGGLED';
 export const TRACK_VOICE_SET = 'TRACK_VOICE_SET';
 
-export const bpmModalClosed = () => ({
-  type: BPM_MODAL_CLOSED,
-});
-
-export const bpmModalOpened = () => ({
-  type: BPM_MODAL_OPENED,
-});
-
 export const bpmSet = ({ bpm }) => ({
   type: BPM_SET,
   bpm,
-});
-
-export const fileDragCancelled = () => ({
-  type: FILE_DRAG_CANCELLED,
-});
-
-export const fileDragStarted = () => ({
-  type: FILE_DRAG_STARTED,
 });
 
 export const initialized = () => ({
