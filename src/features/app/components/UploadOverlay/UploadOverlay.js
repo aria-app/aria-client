@@ -2,11 +2,10 @@ import { isEmpty } from 'lodash/fp';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import shared from '../../../shared';
+import { showIf } from 'react-render-helpers';
 import './UploadOverlay.scss';
 
 const reader = new FileReader();
-const { showIf } = shared.helpers;
 
 export class UploadOverlay extends React.PureComponent {
   static propTypes = {

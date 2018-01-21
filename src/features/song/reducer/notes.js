@@ -13,10 +13,10 @@ export const notes = createReducer({}, {
     action.payload.song.notes,
 
   [shared.actions.NOTE_DRAWN]: (state, action) => {
-    const note = shared.helpers.createNote({
-      points: [action.payload.point, { x: action.payload.point.x + 1, y: action.payload.point.y }],
-      sequenceId: action.payload.sequence.id,
-    });
+    const note = shared.helpers.createNote(
+      action.payload.sequence.id,
+      [action.payload.point, { x: action.payload.point.x + 1, y: action.payload.point.y }],
+    );
 
     return {
       ...state,

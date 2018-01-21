@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import keydown from 'react-keydown';
+import { hideIf, showIf } from 'react-render-helpers';
 import sequencer from '../../../sequencer';
 import shared from '../../../shared';
 import tracker from '../../../tracker';
@@ -12,7 +13,6 @@ import './App.scss';
 
 const { SequencerContainer } = sequencer.components;
 const { STARTED } = shared.constants.playbackStates;
-const { hideIf, showIf } = shared.helpers;
 const { TrackerContainer } = tracker.components;
 
 export class App extends React.PureComponent {

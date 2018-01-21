@@ -8,7 +8,6 @@ import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
 import './Tracker.scss';
 
 const { Timeline } = shared.components;
-const { createSequence, createTrack } = shared.helpers;
 
 export class Tracker extends React.PureComponent {
   static propTypes = {
@@ -50,13 +49,13 @@ export class Tracker extends React.PureComponent {
         selectedSequence: this.props.selectedSequence,
       }),
       h(TrackList, {
-        onSequenceAdd: this.handleTrackListSequenceAdd,
+        onSequenceAdd: this.props.onSequenceAdd,
         onSequenceDeselect: this.props.onSequenceDeselect,
         onSequenceOpen: this.props.onSequenceOpen,
         onSequenceSelect: this.props.onSequenceSelect,
         onSongExtend: this.props.onSongExtend,
         onSongShorten: this.props.onSongShorten,
-        onTrackAdd: this.handleTrackListTrackAdd,
+        onTrackAdd: this.props.onTrackAdd,
         onTrackIsMutedToggle: this.props.onTrackIsMutedToggle,
         onTrackIsSoloingToggle: this.props.onTrackIsSoloingToggle,
         onTrackStage: this.props.onTrackStage,
@@ -96,18 +95,4 @@ export class Tracker extends React.PureComponent {
     if (this.props.selectedSequence.measureCount < 2) return;
     this.props.onSequenceShorten(this.props.selectedSequence);
   }
-
-  handleTrackListTrackAdd = () => {
-    const track = createTrack();
-    this.props.onTrackAdd(
-      track,
-      createSequence({ trackId: track.id }),
-    );
-  }
-
-  handleTrackListSequenceAdd = (track, position) =>
-    this.props.onSequenceAdd(createSequence({
-      trackId: track.id,
-      position,
-    }));
 }

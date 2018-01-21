@@ -2,7 +2,7 @@ import find from 'lodash/fp/find';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import { hideIf, showIf } from '../../helpers';
+import { hideIf, showIf } from 'react-render-helpers';
 import { DropdownListItem } from '../DropdownListItem/DropdownListItem';
 import { Icon } from '../Icon/Icon';
 import { IconButton } from '../IconButton/IconButton';

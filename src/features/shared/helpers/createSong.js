@@ -9,19 +9,17 @@ const initialTracks = [
 ];
 
 const initialSequences = [
-  createSequence({
-    trackId: initialTracks[0].id,
-  }),
+  createSequence(initialTracks[0].id),
 ];
 
 const initialNotes = [
-  createNote({
-    sequenceId: initialSequences[0].id,
-    points: [
+  createNote(
+    initialSequences[0].id,
+    [
       { x: 2, y: 40 },
       { x: 3, y: 40 },
     ],
-  }),
+  ),
 ];
 
 export function createSong() {

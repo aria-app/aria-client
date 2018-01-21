@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import { showIf } from '../../helpers';
+import { showIf } from 'react-render-helpers';
 import icons from './icons';
 import './Icon.scss';
 

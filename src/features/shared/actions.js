@@ -1,3 +1,5 @@
+import * as helpers from './helpers';
+
 export const BPM_SET = 'BPM_SET';
 export const INITIALIZED = 'INITIALIZED';
 export const KEY_PRESSED = 'KEY_PRESSED';
@@ -186,10 +188,10 @@ export const positionRequestSucceeded = position => ({
   },
 });
 
-export const sequenceAdded = sequence => ({
+export const sequenceAdded = (track, position) => ({
   type: SEQUENCE_ADDED,
   payload: {
-    sequence,
+    sequence: helpers.createSequence(track.id, position),
   },
 });
 
@@ -265,13 +267,17 @@ export const songShortened = () => ({
   type: SONG_SHORTENED,
 });
 
-export const trackAdded = (track, sequence) => ({
-  type: TRACK_ADDED,
-  payload: {
-    sequence,
-    track,
-  },
-});
+export const trackAdded = () => {
+  const track = helpers.createTrack();
+
+  return {
+    type: TRACK_ADDED,
+    payload: {
+      sequence: helpers.createSequence(track.id),
+      track,
+    },
+  };
+};
 
 export const trackDeleted = track => ({
   type: TRACK_DELETED,

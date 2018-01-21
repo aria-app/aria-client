@@ -1,7 +1,7 @@
 import isNil from 'lodash/fp/isNil';
 import shortid from 'shortid';
 
-export function createNote({ id, points, sequenceId }) {
+export function createNote(sequenceId, points) {
   if (isNil(points)) {
     throw new Error('Please provide points to createNote');
   }
@@ -11,7 +11,7 @@ export function createNote({ id, points, sequenceId }) {
   }
 
   return {
-    id: id || shortid.generate(),
+    id: shortid.generate(),
     points,
     sequenceId,
   };

@@ -1,12 +1,12 @@
 import shortid from 'shortid';
 import * as constants from '../constants';
 
-export function createTrack(options) {
+export function createTrack(voice = constants.defaultVoice) {
   return {
-    id: (options && options.id) || shortid.generate(),
+    id: shortid.generate(),
     isMuted: false,
     isSoloing: false,
-    voice: (options && options.voice) || constants.defaultVoice,
     volume: -10,
+    voice,
   };
 }

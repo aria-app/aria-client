@@ -2,12 +2,11 @@ import { compose, first, split } from 'lodash/fp';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import shared from '../../../shared';
+import { showIf } from 'react-render-helpers';
 import * as constants from '../../constants';
 import { Note } from '../Note/Note';
 import './DrawLayer.scss';
 
-const { showIf } = shared.helpers;
 const noop = () => {};
 
 export class DrawLayer extends React.PureComponent {

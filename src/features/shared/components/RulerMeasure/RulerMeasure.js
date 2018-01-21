@@ -2,7 +2,7 @@ import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import { hideIf } from '../../helpers';
+import { hideIf } from 'react-render-helpers';
 import { RulerEighth } from '../RulerEighth/RulerEighth';
 import './RulerMeasure.scss';
 
