@@ -13,7 +13,6 @@ import './Sequencer.scss';
 const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
 const { duplicateNotes, someNoteWillMoveOutside } = shared.helpers;
 
-
 export class Sequencer extends React.PureComponent {
   static propTypes = {
     measureCount: PropTypes.number.isRequired,
@@ -34,7 +33,6 @@ export class Sequencer extends React.PureComponent {
     onSelectAll: PropTypes.func.isRequired,
     onSelectInArea: PropTypes.func.isRequired,
     selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
-    sequence: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -56,11 +54,11 @@ export class Sequencer extends React.PureComponent {
     return h('.sequencer', [
       h(SequencerToolbar, {
         measureCount: this.props.measureCount,
-        onClose: this.handleToolbarClose,
-        onDelete: this.handleToolbarDelete,
-        onDeselectAll: this.handleToolbarDeselect,
+        onClose: this.props.onClose,
+        onDelete: this.deleteSelectedNotes.bind(this),
+        onDeselectAll: this.deselectAllNotes.bind(this),
         onDrawToolSelect: this.activateDrawTool.bind(this),
-        onDuplicate: this.handleToolbarDuplicate,
+        onDuplicate: this.duplicateSelectedNotes.bind(this),
         onEraseToolSelect: this.activateEraseTool.bind(this),
         onOctaveDown: this.handleToolbarOctaveDown,
         onOctaveUp: this.handleToolbarOctaveUp,
@@ -74,16 +72,16 @@ export class Sequencer extends React.PureComponent {
       }, [
         h('.sequencer__content__wrapper', [
           h(Keys, {
-            onKeyPress: this.handleKeysKeyPress,
+            onKeyPress: this.props.onKeyPress,
           }),
           h(Grid, {
             measureCount: this.props.measureCount,
             notes: this.props.notes,
-            onDrag: this.handleGridDrag,
-            onDraw: this.handleGridDraw,
-            onErase: this.handleGridErase,
-            onResize: this.handleGridResize,
-            onSelect: this.handleGridSelect,
+            onDrag: this.props.onDrag,
+            onDraw: this.props.onDraw,
+            onErase: this.props.onErase,
+            onResize: this.props.onResize,
+            onSelect: this.props.onSelect,
             onSelectInArea: this.handleGridSelectInArea,
             selectedNotes: this.props.selectedNotes,
             sequencerContentRef: this.contentElementRef,
@@ -142,18 +140,16 @@ export class Sequencer extends React.PureComponent {
   }
 
   @keydown('backspace', 'del')
-  delete(e) {
+  deleteSelectedNotes(e) {
     e.preventDefault();
 
     if (isEmpty(this.props.selectedNotes)) return;
 
-    this.props.onDelete({
-      notes: this.props.selectedNotes,
-    });
+    this.props.onDelete(this.props.selectedNotes);
   }
 
   @keydown('ctrl+d', 'meta+d')
-  deselectAll(e) {
+  deselectAllNotes(e) {
     e.preventDefault();
 
     if (isEmpty(this.props.selectedNotes)) return;
@@ -162,39 +158,13 @@ export class Sequencer extends React.PureComponent {
   }
 
   @keydown('ctrl+shift+d', 'meta+shift+d')
-  duplicate(e) {
+  duplicateSelectedNotes(e) {
     e.preventDefault();
 
     if (isEmpty(this.props.selectedNotes)) return;
 
-    this.props.onDuplicate({
-      notes: duplicateNotes(this.props.selectedNotes),
-    });
+    this.props.onDuplicate(duplicateNotes(this.props.selectedNotes));
   }
-
-  handleGridDrag = (notes) => {
-    this.props.onDrag({ notes });
-  };
-
-  handleGridDraw = (point) => {
-    this.props.onDraw({
-      sequence: this.props.sequence,
-      point,
-    });
-  };
-
-  handleGridErase = (note) => {
-    this.props.onErase({ note });
-  };
-
-  handleGridResize = notes =>
-    this.props.onResize({ notes });
-
-  handleGridSelect = (isAdditive, note) =>
-    this.props.onSelect({
-      isAdditive,
-      note,
-    });
 
   handleGridSelectInArea = (startPoint, endPoint, isAdditive) =>
     this.props.onSelectInArea({
@@ -205,45 +175,13 @@ export class Sequencer extends React.PureComponent {
       startPoint,
     });
 
-  handleKeysKeyPress = (pitch) => {
-    this.props.onKeyPress({
-      sequence: this.props.sequence,
-      pitch,
-    });
-  }
-
-  handleToolbarClose = () => {
-    this.props.onClose();
-  }
-
-  handleToolbarDelete = () => {
-    this.props.onDelete({
-      notes: this.props.selectedNotes,
-    });
-  }
-
-  handleToolbarDeselect = () => {
-    this.props.onDeselectAll();
-  }
-
-  handleToolbarDuplicate = () =>
-    this.props.onDuplicate({
-      notes: duplicateNotes(this.props.selectedNotes),
-    });
-
   handleToolbarOctaveDown = () =>
-    this.props.onOctaveDown({
-      notes: this.props.selectedNotes,
-    });
+    this.props.onOctaveDown(this.props.selectedNotes);
 
   handleToolbarOctaveUp = () =>
-    this.props.onOctaveUp({
-      notes: this.props.selectedNotes,
-    });
+    this.props.onOctaveUp(this.props.selectedNotes);
 
-  nudge = (e, delta) => {
-    e.preventDefault();
-
+  nudge = (delta) => {
     if (isEmpty(this.props.selectedNotes)) return;
 
     if (someNoteWillMoveOutside(
@@ -252,39 +190,38 @@ export class Sequencer extends React.PureComponent {
       this.props.selectedNotes,
     )) return;
 
-    this.props.onNudge({
-      notes: this.props.selectedNotes,
-      delta,
-    });
+    this.props.onNudge(delta, this.props.selectedNotes);
   }
 
   @keydown('down')
   nudgeDown(e) {
-    this.nudge(e, { x: 0, y: 1 });
+    e.preventDefault();
+    this.nudge({ x: 0, y: 1 });
   }
 
   @keydown('left')
   nudgeLeft(e) {
-    this.nudge(e, { x: -1, y: 0 });
+    e.preventDefault();
+    this.nudge({ x: -1, y: 0 });
   }
 
   @keydown('right')
   nudgeRight(e) {
-    this.nudge(e, { x: 1, y: 0 });
+    e.preventDefault();
+    this.nudge({ x: 1, y: 0 });
   }
 
   @keydown('up')
   nudgeUp(e) {
-    this.nudge(e, { x: 0, y: -1 });
+    e.preventDefault();
+    this.nudge({ x: 0, y: -1 });
   }
 
   @keydown('ctrl+a', 'meta+a')
   selectAll() {
     if (this.props.notes.length === this.props.selectedNotes.length) return;
 
-    this.props.onSelectAll({
-      notes: this.props.notes,
-    });
+    this.props.onSelectAll(this.props.notes);
   }
 
   setContentRef = (contentElementRef) => {

@@ -1,11 +1,9 @@
 import defaultTo from 'lodash/fp/defaultTo';
 import filter from 'lodash/fp/filter';
-import identity from 'lodash/fp/identity';
 import pipe from 'lodash/fp/pipe';
 import get from 'lodash/fp/get';
 import includes from 'lodash/fp/includes';
 import map from 'lodash/fp/map';
-import some from 'lodash/fp/some';
 import shared from '../shared';
 import { NAME } from './constants';
 
@@ -172,12 +170,6 @@ export const getStringifiedSong = pipe(
   getSong,
   JSON.stringify,
 );
-
-export const getAreSomeNotesSelected =
-  pipe(
-    getSelectedNoteIds,
-    some(identity),
-  );
 
 const isSelectedNote = state => note =>
   pipe(

@@ -53,10 +53,9 @@ export class TrackEditingModal extends React.PureComponent {
       ? this.props.stagedTrack.voice
       : '');
 
-  handleContentDeleteButtonClick = () =>
-    this.props.onDelete(
-      this.props.stagedTrack,
-    );
+  handleContentDeleteButtonClick = () => {
+    this.props.onDelete(this.props.stagedTrack);
+  };
 
   handleContentVoiceDropdownListSelectedIdChange = voice =>
     this.props.onVoiceSet(

@@ -8,8 +8,8 @@ const clampBPM = clamp(minBPM, maxBPM);
 
 export const bpm = createReducer(120, {
   [shared.actions.BPM_SET]: (state, action) =>
-    clampBPM(action.bpm),
+    clampBPM(action.payload.bpm),
 
   [shared.actions.SONG_LOADED]: (state, action) =>
-    action.song.bpm,
+    action.payload.song.bpm,
 });

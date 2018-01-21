@@ -10,12 +10,12 @@ const octaveUpDelta = { x: 0, y: -12 };
 
 export const notes = createReducer({}, {
   [shared.actions.SONG_LOADED]: (state, action) =>
-    action.song.notes,
+    action.payload.song.notes,
 
   [shared.actions.NOTE_DRAWN]: (state, action) => {
     const note = shared.helpers.createNote({
-      points: [action.point, { x: action.point.x + 1, y: action.point.y }],
-      sequenceId: action.sequence.id,
+      points: [action.payload.point, { x: action.payload.point.x + 1, y: action.payload.point.y }],
+      sequenceId: action.payload.sequence.id,
     });
 
     return {
@@ -25,35 +25,35 @@ export const notes = createReducer({}, {
   },
 
   [shared.actions.NOTE_ERASED]: (state, action) =>
-    omit(action.note.id, state),
+    omit(action.payload.note.id, state),
 
   [shared.actions.NOTES_DELETED]: (state, action) =>
-    omit(map('id', action.notes), state),
+    omit(map('id', action.payload.notes), state),
 
   [shared.actions.NOTES_DRAGGED]: (state, action) =>
-    setAtIds(action.notes, state),
+    setAtIds(action.payload.notes, state),
 
   [shared.actions.NOTES_DUPLICATED]: (state, action) =>
-    setAtIds(action.notes, state),
+    setAtIds(action.payload.notes, state),
 
   [shared.actions.NOTES_MOVED_OCTAVE_DOWN]: (state, action) =>
     setAtIds(map(
       translateNote(octaveDownDelta),
-      action.notes,
+      action.payload.notes,
     ), state),
 
   [shared.actions.NOTES_MOVED_OCTAVE_UP]: (state, action) =>
     setAtIds(map(
       translateNote(octaveUpDelta),
-      action.notes,
+      action.payload.notes,
     ), state),
 
   [shared.actions.NOTES_NUDGED]: (state, action) =>
     setAtIds(map(translateNote(
-      action.delta),
-    action.notes,
+      action.payload.delta),
+    action.payload.notes,
     ), state),
 
   [shared.actions.NOTES_RESIZED]: (state, action) =>
-    setAtIds(action.notes, state),
+    setAtIds(action.payload.notes, state),
 });

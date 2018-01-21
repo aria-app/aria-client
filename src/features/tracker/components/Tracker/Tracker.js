@@ -52,14 +52,14 @@ export class Tracker extends React.PureComponent {
       h(TrackList, {
         onSequenceAdd: this.handleTrackListSequenceAdd,
         onSequenceDeselect: this.props.onSequenceDeselect,
-        onSequenceOpen: this.handleTrackListSequenceOpen,
-        onSequenceSelect: this.handleTrackListSequenceSelect,
+        onSequenceOpen: this.props.onSequenceOpen,
+        onSequenceSelect: this.props.onSequenceSelect,
         onSongExtend: this.props.onSongExtend,
         onSongShorten: this.props.onSongShorten,
         onTrackAdd: this.handleTrackListTrackAdd,
-        onTrackIsMutedToggle: this.handleTrackListTrackIsMutedToggle,
-        onTrackIsSoloingToggle: this.handleTrackListTrackIsSoloingToggle,
-        onTrackStage: this.handleTrackListTrackStage,
+        onTrackIsMutedToggle: this.props.onTrackIsMutedToggle,
+        onTrackIsSoloingToggle: this.props.onTrackIsSoloingToggle,
+        onTrackStage: this.props.onTrackStage,
         selectedSequence: this.props.selectedSequence,
         songMeasureCount: this.props.songMeasureCount,
         tracks: this.props.tracks,
@@ -69,98 +69,45 @@ export class Tracker extends React.PureComponent {
         offset: (this.props.position * 2) + 100,
       }),
       h(TrackEditingModal, {
-        onDelete: this.handleTrackEditingModalDelete,
+        onDelete: this.props.onTrackDelete,
         onDismiss: this.props.onTrackEditingFinish,
-        onVoiceSet: this.handleTrackEditingModalVoiceSet,
+        onVoiceSet: this.props.onTrackVoiceSet,
         stagedTrack: this.props.stagedTrack,
       }),
     ]);
   }
 
-  handleTrackEditingModalDelete = (track, sequences) =>
-    this.props.onTrackDelete({
-      sequences,
-      track,
-    });
-
-  handleTrackEditingModalVoiceSet = (track, voice) =>
-    this.props.onTrackVoiceSet({
-      track,
-      voice,
-    });
-
   handleTrackerToolbarSequenceDelete = () =>
-    this.props.onSequenceDelete({
-      sequence: this.props.selectedSequence,
-    });
+    this.props.onSequenceDelete(this.props.selectedSequence);
 
   handleTrackerToolbarSequenceExtend = () =>
-    this.props.onSequenceExtend({
-      sequence: this.props.selectedSequence,
-    });
+    this.props.onSequenceExtend(this.props.selectedSequence);
 
   handleTrackerToolbarSequenceMoveLeft = () =>
-    this.props.onSequenceMoveLeft({
-      sequence: this.props.selectedSequence,
-    });
+    this.props.onSequenceMoveLeft(this.props.selectedSequence);
 
   handleTrackerToolbarSequenceMoveRight = () =>
-    this.props.onSequenceMoveRight({
-      sequence: this.props.selectedSequence,
-    });
+    this.props.onSequenceMoveRight(this.props.selectedSequence);
 
   handleTrackerToolbarSequenceOpen = () =>
-    this.props.onSequenceOpen({
-      sequence: this.props.selectedSequence,
-    });
+    this.props.onSequenceOpen(this.props.selectedSequence);
 
   handleTrackerToolbarSequenceShorten = () => {
     if (this.props.selectedSequence.measureCount < 2) return;
-    this.props.onSequenceShorten({
-      sequence: this.props.selectedSequence,
-    });
+    this.props.onSequenceShorten(this.props.selectedSequence);
   }
 
   handleTrackListTrackAdd = () => {
     const track = createTrack();
-    this.props.onTrackAdd({
-      sequence: createSequence({
-        trackId: track.id,
-      }),
+    this.props.onTrackAdd(
       track,
-    });
+      createSequence({ trackId: track.id }),
+    );
   }
 
-  handleTrackListTrackIsMutedToggle = track =>
-    this.props.onTrackIsMutedToggle({
-      track,
-    });
-
-  handleTrackListTrackIsSoloingToggle = track =>
-    this.props.onTrackIsSoloingToggle({
-      track,
-    });
-
   handleTrackListSequenceAdd = (track, position) =>
-    this.props.onSequenceAdd({
-      sequence: createSequence({
-        trackId: track.id,
-        position,
-      }),
-    });
-
-  handleTrackListSequenceOpen = sequence =>
-    this.props.onSequenceOpen({
-      sequence,
-    });
-
-  handleTrackListSequenceSelect = sequence =>
-    this.props.onSequenceSelect({
-      sequence,
-    });
-
-  handleTrackListTrackStage = track =>
-    this.props.onTrackStage({
-      track,
-    });
+    this.props.onSequenceAdd(createSequence({
+      trackId: track.id,
+      position,
+    }));
 }

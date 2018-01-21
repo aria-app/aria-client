@@ -40,16 +40,18 @@ export const TRACK_IS_MUTED_TOGGLED = 'TRACK_IS_MUTED_TOGGLED';
 export const TRACK_IS_SOLOING_TOGGLED = 'TRACK_IS_SOLOING_TOGGLED';
 export const TRACK_VOICE_SET = 'TRACK_VOICE_SET';
 
-export const bpmSet = ({ bpm }) => ({
+export const bpmSet = bpm => ({
   type: BPM_SET,
-  bpm,
+  payload: {
+    bpm,
+  },
 });
 
 export const initialized = () => ({
   type: INITIALIZED,
 });
 
-export const keyPressed = ({ pitch, sequence }) => ({
+export const keyPressed = (pitch, sequence) => ({
   type: KEY_PRESSED,
   payload: {
     pitch,
@@ -57,66 +59,88 @@ export const keyPressed = ({ pitch, sequence }) => ({
   },
 });
 
-export const noteDrawn = ({ point, sequence }) => ({
+export const noteDrawn = (point, sequence) => ({
   type: NOTE_DRAWN,
-  point,
-  sequence,
+  payload: {
+    point,
+    sequence,
+  },
 });
 
-export const noteErased = ({ note }) => ({
+export const noteErased = note => ({
   type: NOTE_ERASED,
-  note,
+  payload: {
+    note,
+  },
 });
 
-export const noteSelected = ({ isAdditive, note }) => ({
+export const noteSelected = (note, isAdditive) => ({
   type: NOTE_SELECTED,
-  isAdditive,
-  note,
+  payload: {
+    isAdditive,
+    note,
+  },
 });
 
 export const notesAllDeselected = () => ({
   type: NOTES_ALL_DESELECTED,
 });
 
-export const notesAllSelected = ({ notes }) => ({
+export const notesAllSelected = notes => ({
   type: NOTES_ALL_SELECTED,
-  notes,
+  payload: {
+    notes,
+  },
 });
 
-export const notesDeleted = ({ notes }) => ({
+export const notesDeleted = notes => ({
   type: NOTES_DELETED,
-  notes,
+  payload: {
+    notes,
+  },
 });
 
-export const notesDragged = ({ notes }) => ({
+export const notesDragged = notes => ({
   type: NOTES_DRAGGED,
-  notes,
+  payload: {
+    notes,
+  },
 });
 
-export const notesDuplicated = ({ notes }) => ({
+export const notesDuplicated = notes => ({
   type: NOTES_DUPLICATED,
-  notes,
+  payload: {
+    notes,
+  },
 });
 
-export const notesMovedOctaveDown = ({ notes }) => ({
+export const notesMovedOctaveDown = notes => ({
   type: NOTES_MOVED_OCTAVE_DOWN,
-  notes,
+  payload: {
+    notes,
+  },
 });
 
-export const notesMovedOctaveUp = ({ notes }) => ({
+export const notesMovedOctaveUp = notes => ({
   type: NOTES_MOVED_OCTAVE_UP,
-  notes,
+  payload: {
+    notes,
+  },
 });
 
-export const notesNudged = ({ delta, notes }) => ({
+export const notesNudged = (delta, notes) => ({
   type: NOTES_NUDGED,
-  delta,
-  notes,
+  payload: {
+    delta,
+    notes,
+  },
 });
 
-export const notesResized = ({ notes }) => ({
+export const notesResized = notes => ({
   type: NOTES_RESIZED,
-  notes,
+  payload: {
+    notes,
+  },
 });
 
 export const notesSelectedInArea = ({
@@ -127,11 +151,13 @@ export const notesSelectedInArea = ({
   startPoint,
 }) => ({
   type: NOTES_SELECTED_IN_AREA,
-  endPoint,
-  isAdditive,
-  notes,
-  selectedNotes,
-  startPoint,
+  payload: {
+    endPoint,
+    isAdditive,
+    notes,
+    selectedNotes,
+    startPoint,
+  },
 });
 
 export const playbackPauseRequestStarted = () => ({
@@ -144,7 +170,9 @@ export const playbackStartRequestStarted = () => ({
 
 export const playbackStateRequestSucceeded = playbackState => ({
   type: PLAYBACK_STATE_REQUEST_SUCCEEDED,
-  playbackState,
+  payload: {
+    playbackState,
+  },
 });
 
 export const playbackStopRequestStarted = () => ({
@@ -153,60 +181,80 @@ export const playbackStopRequestStarted = () => ({
 
 export const positionRequestSucceeded = position => ({
   type: POSITION_REQUEST_SUCCEEDED,
-  position,
+  payload: {
+    position,
+  },
 });
 
-export const sequenceAdded = ({ sequence }) => ({
+export const sequenceAdded = sequence => ({
   type: SEQUENCE_ADDED,
-  sequence,
+  payload: {
+    sequence,
+  },
 });
 
 export const sequenceClosed = () => ({
   type: SEQUENCE_CLOSED,
 });
 
-export const sequenceDeleted = ({ sequence }) => ({
+export const sequenceDeleted = sequence => ({
   type: SEQUENCE_DELETED,
-  sequence,
+  payload: {
+    sequence,
+  },
 });
 
 export const sequenceDeselected = () => ({
   type: SEQUENCE_DESELECTED,
 });
 
-export const sequenceExtended = ({ sequence }) => ({
+export const sequenceExtended = sequence => ({
   type: SEQUENCE_EXTENDED,
-  sequence,
+  payload: {
+    sequence,
+  },
 });
 
-export const songLoaded = ({ song }) => ({
+export const songLoaded = song => ({
   type: SONG_LOADED,
-  song,
+  payload: {
+    song,
+  },
 });
 
-export const sequenceNudgedLeft = ({ sequence }) => ({
+export const sequenceNudgedLeft = sequence => ({
   type: SEQUENCE_NUDGED_LEFT,
-  sequence,
+  payload: {
+    sequence,
+  },
 });
 
-export const sequenceNudgedRight = ({ sequence }) => ({
+export const sequenceNudgedRight = sequence => ({
   type: SEQUENCE_NUDGED_RIGHT,
-  sequence,
+  payload: {
+    sequence,
+  },
 });
 
-export const sequenceOpened = ({ sequence }) => ({
+export const sequenceOpened = sequence => ({
   type: SEQUENCE_OPENED,
-  sequence,
+  payload: {
+    sequence,
+  },
 });
 
-export const sequenceSelected = ({ sequence }) => ({
+export const sequenceSelected = sequence => ({
   type: SEQUENCE_SELECTED,
-  sequence,
+  payload: {
+    sequence,
+  },
 });
 
-export const sequenceShortened = ({ sequence }) => ({
+export const sequenceShortened = sequence => ({
   type: SEQUENCE_SHORTENED,
-  sequence,
+  payload: {
+    sequence,
+  },
 });
 
 export const songExtended = () => ({
@@ -217,38 +265,50 @@ export const songShortened = () => ({
   type: SONG_SHORTENED,
 });
 
-export const trackAdded = ({ sequence, track }) => ({
+export const trackAdded = (track, sequence) => ({
   type: TRACK_ADDED,
-  sequence,
-  track,
+  payload: {
+    sequence,
+    track,
+  },
 });
 
-export const trackDeleted = ({ track }) => ({
+export const trackDeleted = track => ({
   type: TRACK_DELETED,
-  track,
+  payload: {
+    track,
+  },
 });
 
 export const trackEditingFinished = () => ({
   type: TRACK_EDITING_FINISHED,
 });
 
-export const trackEditingStarted = ({ track }) => ({
+export const trackEditingStarted = track => ({
   type: TRACK_EDITING_STARTED,
-  track,
+  payload: {
+    track,
+  },
 });
 
-export const trackIsMutedToggled = ({ track }) => ({
+export const trackIsMutedToggled = track => ({
   type: TRACK_IS_MUTED_TOGGLED,
-  track,
+  payload: {
+    track,
+  },
 });
 
-export const trackIsSoloingToggled = ({ track }) => ({
+export const trackIsSoloingToggled = track => ({
   type: TRACK_IS_SOLOING_TOGGLED,
-  track,
+  payload: {
+    track,
+  },
 });
 
-export const trackVoiceSet = ({ track, voice }) => ({
+export const trackVoiceSet = (track, voice) => ({
   type: TRACK_VOICE_SET,
-  track,
-  voice,
+  payload: {
+    track,
+    voice,
+  },
 });

@@ -12,9 +12,7 @@ export const initialize = createLogic({
       ? JSON.parse(localStorageSong)
       : shared.helpers.createSong();
 
-    dispatch(shared.actions.songLoaded({
-      song: initialSong,
-    }));
+    dispatch(shared.actions.songLoaded(initialSong));
 
     done();
   },

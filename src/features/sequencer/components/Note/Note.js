@@ -134,8 +134,8 @@ export class Note extends React.PureComponent {
 
   select = e =>
     this.props.onSelect(
-      e.ctrlKey || e.metaKey,
       this.props.note,
+      e.ctrlKey || e.metaKey,
     );
 }
 

@@ -57,7 +57,7 @@ export class App extends React.PureComponent {
       h(BPMModal, {
         bpm: this.props.bpm,
         isOpen: this.state.isBPMModalOpen,
-        onBPMChange: this.handleBPMModalBPMChange,
+        onBPMChange: this.props.onBPMChange,
         onConfirm: this.handleBPMModalConfirm,
       }),
       h(UploadOverlay, {
@@ -67,12 +67,6 @@ export class App extends React.PureComponent {
       }),
     ]);
   }
-
-  handleBPMModalBPMChange = (bpm) => {
-    this.props.onBPMChange({
-      bpm,
-    });
-  };
 
   handleBPMModalConfirm = () => {
     this.setState({

@@ -24,4 +24,10 @@ export const SequencerContainer = connect(state => ({
   onSelect: shared.actions.noteSelected,
   onSelectAll: shared.actions.notesAllSelected,
   onSelectInArea: shared.actions.notesSelectedInArea,
-})(Sequencer);
+}, (stateProps, dispatchProps, ownProps) => ({
+  ...ownProps,
+  ...stateProps,
+  ...dispatchProps,
+  onDraw: point => dispatchProps.onDraw(point, stateProps.sequence),
+  onKeyPress: pitch => dispatchProps.onKeyPress(pitch, stateProps.sequence),
+}))(Sequencer);

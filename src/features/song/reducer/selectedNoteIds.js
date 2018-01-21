@@ -15,31 +15,31 @@ export const selectedNoteIds = createReducer([], {
     [],
 
   [shared.actions.NOTE_SELECTED]: (state, action) =>
-    (action.isAdditive
-      ? toggleInArray(action.note.id, state)
-      : [action.note.id]),
+    (action.payload.isAdditive
+      ? toggleInArray(action.payload.note.id, state)
+      : [action.payload.note.id]),
 
   [shared.actions.NOTES_ALL_DESELECTED]: () =>
     [],
 
   [shared.actions.NOTES_ALL_SELECTED]: (state, action) =>
-    map('id', action.notes),
+    map('id', action.payload.notes),
 
   [shared.actions.NOTES_DELETED]: () =>
     [],
 
   [shared.actions.NOTES_DUPLICATED]: (state, action) =>
-    map('id', action.notes),
+    map('id', action.payload.notes),
 
   [shared.actions.NOTES_SELECTED_IN_AREA]: (state, action) => {
     const idsInArea = map('id', getNotesInArea(
-      action.startPoint,
-      action.endPoint,
-      action.notes,
+      action.payload.startPoint,
+      action.payload.endPoint,
+      action.payload.notes,
     ));
-    const selectedIds = map('id', action.selectedNotes);
+    const selectedIds = map('id', action.payload.selectedNotes);
 
-    return action.isAdditive
+    return action.payload.isAdditive
       ? [...selectedIds, ...idsInArea]
       : idsInArea;
   },

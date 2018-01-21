@@ -3,5 +3,5 @@ import shared from '../../shared';
 
 export const id = createReducer('', {
   [shared.actions.SONG_LOADED]: (state, action) =>
-    action.song.id,
+    action.payload.song.id,
 });
