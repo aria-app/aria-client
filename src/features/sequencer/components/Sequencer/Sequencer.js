@@ -59,13 +59,13 @@ export class Sequencer extends React.PureComponent {
         onClose: this.handleToolbarClose,
         onDelete: this.handleToolbarDelete,
         onDeselectAll: this.handleToolbarDeselect,
-        onDrawToolSelect: this.activateDrawTool,
+        onDrawToolSelect: this.activateDrawTool.bind(this),
         onDuplicate: this.handleToolbarDuplicate,
-        onEraseToolSelect: this.activateEraseTool,
+        onEraseToolSelect: this.activateEraseTool.bind(this),
         onOctaveDown: this.handleToolbarOctaveDown,
         onOctaveUp: this.handleToolbarOctaveUp,
-        onPanToolSelect: this.activatePanTool,
-        onSelectToolSelect: this.activateSelectTool,
+        onPanToolSelect: this.activatePanTool.bind(this),
+        onSelectToolSelect: this.activateSelectTool.bind(this),
         selectedNotes: this.props.selectedNotes,
         toolType: this.state.toolType,
       }),
@@ -172,17 +172,20 @@ export class Sequencer extends React.PureComponent {
     });
   }
 
-  handleGridDrag = notes =>
+  handleGridDrag = (notes) => {
     this.props.onDrag({ notes });
+  };
 
-  handleGridDraw = point =>
+  handleGridDraw = (point) => {
     this.props.onDraw({
       sequence: this.props.sequence,
       point,
     });
+  };
 
-  handleGridErase = note =>
+  handleGridErase = (note) => {
     this.props.onErase({ note });
+  };
 
   handleGridResize = notes =>
     this.props.onResize({ notes });
