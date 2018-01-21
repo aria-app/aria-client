@@ -18,21 +18,20 @@ const { TrackerContainer } = tracker.components;
 export class App extends React.PureComponent {
   static propTypes = {
     bpm: PropTypes.number.isRequired,
-    isBPMModalOpen: PropTypes.bool.isRequired,
-    isFileOver: PropTypes.bool.isRequired,
     isSequenceOpen: PropTypes.bool.isRequired,
     onBPMChange: PropTypes.func.isRequired,
-    onBPMModalConfirm: PropTypes.func.isRequired,
-    onBPMModalOpen: PropTypes.func.isRequired,
-    onFileDragStart: PropTypes.func.isRequired,
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
     onUpload: PropTypes.func.isRequired,
-    onUploadCancel: PropTypes.func.isRequired,
     playbackState: PropTypes.string.isRequired,
     stringifiedSong: PropTypes.string.isRequired,
   }
+
+  state = {
+    isBPMModalOpen: false,
+    isFileOver: false,
+  };
 
   render() {
     return h('.app', {
@@ -48,7 +47,7 @@ export class App extends React.PureComponent {
       ),
       h(SongToolbar, {
         bpm: this.props.bpm,
-        onBPMModalOpen: this.props.onBPMModalOpen,
+        onBPMModalOpen: this.handleSongToolbarBPMModalOpen,
         onPause: this.props.onPause,
         onPlay: this.props.onPlay,
         onStop: this.props.onStop,
@@ -57,30 +56,34 @@ export class App extends React.PureComponent {
       }),
       h(BPMModal, {
         bpm: this.props.bpm,
-        isOpen: this.props.isBPMModalOpen,
+        isOpen: this.state.isBPMModalOpen,
         onBPMChange: this.handleBPMModalBPMChange,
-        onConfirm: this.props.onBPMModalConfirm,
+        onConfirm: this.handleBPMModalConfirm,
       }),
       h(UploadOverlay, {
-        isFileOver: this.props.isFileOver,
-        onCancel: this.props.onUploadCancel,
+        isFileOver: this.state.isFileOver,
+        onCancel: this.handleUploadOverlayCancel,
         onUpload: this.handleUploadOverlayUpload,
       }),
     ]);
   }
 
-  handleBPMModalBPMChange = bpm =>
+  handleBPMModalBPMChange = (bpm) => {
     this.props.onBPMChange({
       bpm,
     });
+  };
 
-  handleUploadOverlayUpload = data =>
-    this.props.onUpload({
-      song: data,
+  handleBPMModalConfirm = () => {
+    this.setState({
+      isBPMModalOpen: false,
     });
+  }
 
   handleDragEnter = (e) => {
-    this.props.onFileDragStart();
+    this.setState({
+      isFileOver: true,
+    });
     e.preventDefault();
     e.stopPropagation();
   }
@@ -93,6 +96,27 @@ export class App extends React.PureComponent {
   handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
+  }
+
+  handleSongToolbarBPMModalOpen = () => {
+    this.setState({
+      isBPMModalOpen: true,
+    });
+  };
+
+  handleUploadOverlayCancel = () => {
+    this.setState({
+      isFileOver: false,
+    });
+  }
+
+  handleUploadOverlayUpload = (data) => {
+    this.props.onUpload({
+      song: data,
+    });
+    this.setState({
+      isFileOver: false,
+    });
   }
 
   @keydown('enter')
