@@ -17,7 +17,6 @@
     "dawww": "^1.2.10",
     "kewler": "1.0.8",
     "lodash": "4.17.4",
-    "mousetrap": "^1.5.3",
     "prop-types": "15.6.0",
     "react": "16.0.0",
     "react-dom": "16.0.0",
@@ -29,7 +28,6 @@
     "redux-create-reducer": "1.1.1",
     "redux-devtools-extension": "2.13.2",
     "redux-logic": "0.12.3",
-    "redux-saga": "0.10.4",
     "rxjs": "5.5.2",
     "shortid": "2.2.8"
   },
