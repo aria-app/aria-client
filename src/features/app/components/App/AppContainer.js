@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 import audio from '../../../audio';
+import location from '../../../location';
 import shared from '../../../shared';
 import song from '../../../song';
 import { App } from './App';
 
 export const AppContainer = connect(state => ({
   bpm: song.selectors.getBPM(state),
-  isSequenceOpen: !!song.selectors.getActiveSequenceId(state),
+  locationType: location.selectors.getType(state),
   playbackState: audio.selectors.getPlaybackState(state),
   stringifiedSong: song.selectors.getStringifiedSong(state),
 }), {

@@ -25,6 +25,8 @@ export class Tracker extends React.PureComponent {
     onSongShorten: PropTypes.func.isRequired,
     onTrackAdd: PropTypes.func.isRequired,
     onTrackDelete: PropTypes.func.isRequired,
+    onTrackEditingFinish: PropTypes.func.isRequired,
+    onTrackEditingStart: PropTypes.func.isRequired,
     onTrackIsMutedToggle: PropTypes.func.isRequired,
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
     onTrackVoiceSet: PropTypes.func.isRequired,
@@ -32,12 +34,12 @@ export class Tracker extends React.PureComponent {
     sequenceMap: PropTypes.object.isRequired,
     songMeasureCount: PropTypes.number.isRequired,
     trackMap: PropTypes.object.isRequired,
+    trackToEditId: PropTypes.string.isRequired,
     tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   state = {
     selectedSequenceId: '',
-    stagedTrackId: '',
   };
 
   render() {
@@ -61,7 +63,7 @@ export class Tracker extends React.PureComponent {
         onTrackAdd: this.handleTrackListTrackAdd,
         onTrackIsMutedToggle: this.props.onTrackIsMutedToggle,
         onTrackIsSoloingToggle: this.props.onTrackIsSoloingToggle,
-        onTrackStage: this.handleTrackListTrackStage,
+        onTrackStage: this.props.onTrackEditingStart,
         selectedSequence: this.getSelectedSequence(),
         songMeasureCount: this.props.songMeasureCount,
         tracks: this.props.tracks,
@@ -72,7 +74,7 @@ export class Tracker extends React.PureComponent {
       }),
       h(TrackEditingModal, {
         onDelete: this.props.onTrackDelete,
-        onDismiss: this.handleTrackEditingModalDismiss,
+        onDismiss: this.props.onTrackEditingFinish,
         onVoiceSet: this.props.onTrackVoiceSet,
         stagedTrack: this.getStagedTrack(),
       }),
@@ -83,13 +85,7 @@ export class Tracker extends React.PureComponent {
     getOr({}, `props.sequenceMap.${this.state.selectedSequenceId}`, this);
 
   getStagedTrack = () =>
-    getOr({}, `props.trackMap.${this.state.stagedTrackId}`, this);
-
-  handleTrackEditingModalDismiss = () => {
-    this.setState({
-      stagedTrackId: '',
-    });
-  };
+    getOr({}, `props.trackMap.${this.props.trackToEditId}`, this);
 
   handleTrackListSequenceAdd = (track, position) => {
     const sequence = createSequence(track.id, position);
@@ -121,12 +117,6 @@ export class Tracker extends React.PureComponent {
 
     this.setState({
       selectedSequenceId: sequence.id,
-    });
-  };
-
-  handleTrackListTrackStage = (track) => {
-    this.setState({
-      stagedTrackId: track.id,
     });
   };
 

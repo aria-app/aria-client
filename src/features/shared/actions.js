@@ -1,4 +1,5 @@
 export const BPM_SET = 'BPM_SET';
+export const EDIT_TRACK_LOADED = 'EDIT_TRACK_LOADED';
 export const INITIALIZED = 'INITIALIZED';
 export const KEY_PRESSED = 'KEY_PRESSED';
 export const NOTE_DRAWN = 'NOTE_DRAWN';
@@ -16,13 +17,12 @@ export const PLAYBACK_STATE_REQUEST_SUCCEEDED = 'PLAYBACK_STATE_REQUEST_SUCCEEDE
 export const PLAYBACK_STOP_REQUEST_STARTED = 'PLAYBACK_STOP_REQUEST_STARTED';
 export const POSITION_REQUEST_SUCCEEDED = 'POSITION_REQUEST_SUCCEEDED';
 export const SEQUENCE_ADDED = 'SEQUENCE_ADDED';
-export const SEQUENCE_CLOSED = 'SEQUENCE_CLOSED';
 export const SEQUENCE_DELETED = 'SEQUENCE_DELETED';
 export const SEQUENCE_EXTENDED = 'SEQUENCE_EXTENDED';
 export const SEQUENCE_NUDGED_LEFT = 'SEQUENCE_NUDGED_LEFT';
 export const SEQUENCE_NUDGED_RIGHT = 'SEQUENCE_NUDGED_RIGHT';
-export const SEQUENCE_OPENED = 'SEQUENCE_OPENED';
 export const SEQUENCE_SHORTENED = 'SEQUENCE_SHORTENED';
+export const SEQUENCER_LOADED = 'SEQUENCER_LOADED';
 export const SONG_EXTENDED = 'SONG_EXTENDED';
 export const SONG_LOADED = 'SONG_LOADED';
 export const SONG_SHORTENED = 'SONG_SHORTENED';
@@ -31,11 +31,19 @@ export const TRACK_DELETED = 'TRACK_DELETED';
 export const TRACK_IS_MUTED_TOGGLED = 'TRACK_IS_MUTED_TOGGLED';
 export const TRACK_IS_SOLOING_TOGGLED = 'TRACK_IS_SOLOING_TOGGLED';
 export const TRACK_VOICE_SET = 'TRACK_VOICE_SET';
+export const TRACKER_LOADED = 'TRACKER_LOADED';
 
 export const bpmSet = bpm => ({
   type: BPM_SET,
   payload: {
     bpm,
+  },
+});
+
+export const editTrackLoaded = track => ({
+  type: EDIT_TRACK_LOADED,
+  payload: {
+    trackToEditId: track.id,
   },
 });
 
@@ -149,10 +157,6 @@ export const sequenceAdded = sequence => ({
   },
 });
 
-export const sequenceClosed = () => ({
-  type: SEQUENCE_CLOSED,
-});
-
 export const sequenceDeleted = sequence => ({
   type: SEQUENCE_DELETED,
   payload: {
@@ -164,13 +168,6 @@ export const sequenceExtended = sequence => ({
   type: SEQUENCE_EXTENDED,
   payload: {
     sequence,
-  },
-});
-
-export const songLoaded = song => ({
-  type: SONG_LOADED,
-  payload: {
-    song,
   },
 });
 
@@ -188,13 +185,6 @@ export const sequenceNudgedRight = sequence => ({
   },
 });
 
-export const sequenceOpened = sequence => ({
-  type: SEQUENCE_OPENED,
-  payload: {
-    sequence,
-  },
-});
-
 export const sequenceShortened = sequence => ({
   type: SEQUENCE_SHORTENED,
   payload: {
@@ -202,8 +192,22 @@ export const sequenceShortened = sequence => ({
   },
 });
 
+export const sequencerLoaded = sequence => ({
+  type: SEQUENCER_LOADED,
+  payload: {
+    sequenceId: sequence.id,
+  },
+});
+
 export const songExtended = () => ({
   type: SONG_EXTENDED,
+});
+
+export const songLoaded = song => ({
+  type: SONG_LOADED,
+  payload: {
+    song,
+  },
 });
 
 export const songShortened = () => ({
@@ -245,4 +249,8 @@ export const trackVoiceSet = (track, voice) => ({
     track,
     voice,
   },
+});
+
+export const trackerLoaded = () => ({
+  type: TRACKER_LOADED,
 });

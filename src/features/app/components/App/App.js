@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import keydown from 'react-keydown';
-import { hideIf, showIf } from 'react-render-helpers';
 import sequencer from '../../../sequencer';
 import shared from '../../../shared';
 import tracker from '../../../tracker';
@@ -18,7 +17,7 @@ const { TrackerContainer } = tracker.components;
 export class App extends React.PureComponent {
   static propTypes = {
     bpm: PropTypes.number.isRequired,
-    isSequenceOpen: PropTypes.bool.isRequired,
+    locationType: PropTypes.string.isRequired,
     onBPMChange: PropTypes.func.isRequired,
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
@@ -39,12 +38,7 @@ export class App extends React.PureComponent {
       onDragOver: this.handleDragOver,
       onDrop: this.handleDrop,
     }, [
-      showIf(this.props.isSequenceOpen)(
-        h(SequencerContainer),
-      ),
-      hideIf(this.props.isSequenceOpen)(
-        h(TrackerContainer),
-      ),
+      this.getContentComponent(),
       h(SongToolbar, {
         bpm: this.props.bpm,
         onBPMModalOpen: this.handleSongToolbarBPMModalOpen,
@@ -67,6 +61,14 @@ export class App extends React.PureComponent {
       }),
     ]);
   }
+
+  getContentComponent = () => {
+    if (this.props.locationType === shared.actions.SEQUENCER_LOADED) {
+      return h(SequencerContainer);
+    }
+
+    return h(TrackerContainer);
+  };
 
   handleBPMModalConfirm = () => {
     this.setState({

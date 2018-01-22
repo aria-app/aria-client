@@ -3,13 +3,9 @@ import filter from 'lodash/fp/filter';
 import pipe from 'lodash/fp/pipe';
 import get from 'lodash/fp/get';
 import map from 'lodash/fp/map';
+import location from '../location';
 import shared from '../shared';
 import { NAME } from './constants';
-
-export const getActiveSequenceId = pipe(
-  get(NAME),
-  get('activeSequenceId'),
-);
 
 export const getBPM = pipe(
   get(NAME),
@@ -98,7 +94,7 @@ export const getDeepSequences = state =>
 
 export const getActiveSequence = state =>
   pipe(
-    getActiveSequenceId,
+    location.selectors.getSequenceId,
     id => getSequenceById(id)(state),
   )(state);
 
@@ -112,7 +108,7 @@ export const getActiveSequenceMeasureCount =
 export const getActiveSequenceNotes = state =>
   pipe(
     getNotesArray,
-    filter({ sequenceId: getActiveSequenceId(state) }),
+    filter({ sequenceId: location.selectors.getSequenceId(state) }),
   )(state);
 
 
@@ -149,7 +145,6 @@ export const getDeepTracks = state =>
 // --- Song ---
 
 export const getSong = state => ({
-  activeSequenceId: getActiveSequenceId(state),
   bpm: getBPM(state),
   id: getId(state),
   measureCount: getMeasureCount(state),

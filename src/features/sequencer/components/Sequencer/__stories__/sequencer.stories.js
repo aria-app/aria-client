@@ -3,14 +3,13 @@ import { action, storiesOf } from '@storybook/react';
 import { number, select, withKnobs } from '@storybook/addon-knobs';
 import { Sequencer } from '../Sequencer';
 import * as constants from '../../../constants';
-import './sequencer-basics.story.scss';
+import './SequencerBasics.story.scss';
 
 storiesOf('Sequencer', module)
   .addDecorator(withKnobs)
   .add('Basics', () =>
     h('.SequencerBasics', [
       h(Sequencer, {
-        activeSequenceId: 'my-sequence',
         measureCount: number('measure count', 1),
         notes: [],
         onKeyPress: action('KEY_PRESSED'),

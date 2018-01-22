@@ -9,7 +9,7 @@ export const SequencerContainer = connect(state => ({
   notes: song.selectors.getActiveSequenceNotes(state),
   sequence: song.selectors.getActiveSequence(state),
 }), {
-  onClose: shared.actions.sequenceClosed,
+  onClose: shared.actions.trackerLoaded,
   onDelete: shared.actions.notesDeleted,
   onDraw: shared.actions.noteDrawn,
   onDrag: shared.actions.notesDragged,

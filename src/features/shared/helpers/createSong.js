@@ -24,7 +24,6 @@ const initialNotes = [
 
 export function createSong() {
   return {
-    activeSequenceId: '',
     bpm: constants.defaultBPM,
     id: shortid.generate(),
     measureCount: constants.defaultMeasureCount,
