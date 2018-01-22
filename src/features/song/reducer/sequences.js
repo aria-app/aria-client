@@ -43,5 +43,5 @@ export const sequences = createReducer({}, {
     setAtIds([action.payload.sequence], state),
 
   [shared.actions.TRACK_DELETED]: (state, action) =>
-    reject(sequence => sequence.trackId === action.payload.track.id, state),
+    setAtIds(reject(sequence => sequence.trackId === action.payload.track.id, state), {}),
 });
