@@ -15,7 +15,7 @@ export class AddTrackButton extends React.PureComponent {
   render() {
     return h('.add-track-button', {
       style: this.getStyle(),
-      onClick: this.props.onClick,
+      onClick: this.handleClick,
     }, [
       h(Icon, {
         className: 'add-track-button__icon',
@@ -31,4 +31,11 @@ export class AddTrackButton extends React.PureComponent {
   getStyle = () => ({
     width: (this.props.songMeasureCount * 64) + 84,
   });
+
+  handleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.props.onClick();
+  };
 }

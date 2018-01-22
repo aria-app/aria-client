@@ -1,3 +1,4 @@
+import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
@@ -8,34 +9,36 @@ import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
 import './Tracker.scss';
 
 const { Timeline } = shared.components;
+const { createSequence, createTrack } = shared.helpers;
 
 export class Tracker extends React.PureComponent {
   static propTypes = {
     isStopped: PropTypes.bool.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceDelete: PropTypes.func.isRequired,
-    onSequenceDeselect: PropTypes.func.isRequired,
     onSequenceExtend: PropTypes.func.isRequired,
     onSequenceMoveLeft: PropTypes.func.isRequired,
     onSequenceMoveRight: PropTypes.func.isRequired,
     onSequenceOpen: PropTypes.func.isRequired,
-    onSequenceSelect: PropTypes.func.isRequired,
     onSequenceShorten: PropTypes.func.isRequired,
     onSongExtend: PropTypes.func.isRequired,
     onSongShorten: PropTypes.func.isRequired,
     onTrackAdd: PropTypes.func.isRequired,
     onTrackDelete: PropTypes.func.isRequired,
-    onTrackEditingFinish: PropTypes.func.isRequired,
     onTrackIsMutedToggle: PropTypes.func.isRequired,
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
-    onTrackStage: PropTypes.func.isRequired,
     onTrackVoiceSet: PropTypes.func.isRequired,
     position: PropTypes.number.isRequired,
-    selectedSequence: PropTypes.object.isRequired,
+    sequenceMap: PropTypes.object.isRequired,
     songMeasureCount: PropTypes.number.isRequired,
-    stagedTrack: PropTypes.object.isRequired,
+    trackMap: PropTypes.object.isRequired,
     tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
+
+  state = {
+    selectedSequenceId: '',
+    stagedTrackId: '',
+  };
 
   render() {
     return h('.tracker', [
@@ -46,20 +49,20 @@ export class Tracker extends React.PureComponent {
         onSequenceMoveRight: this.handleTrackerToolbarSequenceMoveRight,
         onSequenceOpen: this.handleTrackerToolbarSequenceOpen,
         onSequenceShorten: this.handleTrackerToolbarSequenceShorten,
-        selectedSequence: this.props.selectedSequence,
+        selectedSequence: this.getSelectedSequence(),
       }),
       h(TrackList, {
-        onSequenceAdd: this.props.onSequenceAdd,
-        onSequenceDeselect: this.props.onSequenceDeselect,
+        onSequenceAdd: this.handleTrackListSequenceAdd,
+        onSequenceDeselect: this.handleTrackListSequenceDeselect,
         onSequenceOpen: this.props.onSequenceOpen,
-        onSequenceSelect: this.props.onSequenceSelect,
+        onSequenceSelect: this.handleTrackListSequenceSelect,
         onSongExtend: this.props.onSongExtend,
         onSongShorten: this.props.onSongShorten,
-        onTrackAdd: this.props.onTrackAdd,
+        onTrackAdd: this.handleTrackListTrackAdd,
         onTrackIsMutedToggle: this.props.onTrackIsMutedToggle,
         onTrackIsSoloingToggle: this.props.onTrackIsSoloingToggle,
-        onTrackStage: this.props.onTrackStage,
-        selectedSequence: this.props.selectedSequence,
+        onTrackStage: this.handleTrackListTrackStage,
+        selectedSequence: this.getSelectedSequence(),
         songMeasureCount: this.props.songMeasureCount,
         tracks: this.props.tracks,
       }),
@@ -69,30 +72,86 @@ export class Tracker extends React.PureComponent {
       }),
       h(TrackEditingModal, {
         onDelete: this.props.onTrackDelete,
-        onDismiss: this.props.onTrackEditingFinish,
+        onDismiss: this.handleTrackEditingModalDismiss,
         onVoiceSet: this.props.onTrackVoiceSet,
-        stagedTrack: this.props.stagedTrack,
+        stagedTrack: this.getStagedTrack(),
       }),
     ]);
   }
 
-  handleTrackerToolbarSequenceDelete = () =>
-    this.props.onSequenceDelete(this.props.selectedSequence);
+  getSelectedSequence = () =>
+    getOr({}, `props.sequenceMap.${this.state.selectedSequenceId}`, this);
 
-  handleTrackerToolbarSequenceExtend = () =>
-    this.props.onSequenceExtend(this.props.selectedSequence);
+  getStagedTrack = () =>
+    getOr({}, `props.trackMap.${this.state.stagedTrackId}`, this);
 
-  handleTrackerToolbarSequenceMoveLeft = () =>
-    this.props.onSequenceMoveLeft(this.props.selectedSequence);
+  handleTrackEditingModalDismiss = () => {
+    this.setState({
+      stagedTrackId: '',
+    });
+  };
 
-  handleTrackerToolbarSequenceMoveRight = () =>
-    this.props.onSequenceMoveRight(this.props.selectedSequence);
+  handleTrackListSequenceAdd = (track, position) => {
+    const sequence = createSequence(track.id, position);
 
-  handleTrackerToolbarSequenceOpen = () =>
-    this.props.onSequenceOpen(this.props.selectedSequence);
+    this.props.onSequenceAdd(sequence);
+
+    this.setState({
+      selectedSequenceId: sequence.id,
+    });
+  };
+
+  handleTrackListSequenceDeselect = () => {
+    this.setState({
+      selectedSequenceId: '',
+    });
+  };
+
+  handleTrackListSequenceSelect = (sequence) => {
+    this.setState({
+      selectedSequenceId: sequence.id,
+    });
+  };
+
+  handleTrackListTrackAdd = () => {
+    const track = createTrack();
+    const sequence = createSequence(track.id);
+
+    this.props.onTrackAdd(track, sequence);
+
+    this.setState({
+      selectedSequenceId: sequence.id,
+    });
+  };
+
+  handleTrackListTrackStage = (track) => {
+    this.setState({
+      stagedTrackId: track.id,
+    });
+  };
+
+  handleTrackerToolbarSequenceDelete = () => {
+    this.props.onSequenceDelete(this.getSelectedSequence());
+  };
+
+  handleTrackerToolbarSequenceExtend = () => {
+    this.props.onSequenceExtend(this.getSelectedSequence());
+  };
+
+  handleTrackerToolbarSequenceMoveLeft = () => {
+    this.props.onSequenceMoveLeft(this.getSelectedSequence());
+  };
+
+  handleTrackerToolbarSequenceMoveRight = () => {
+    this.props.onSequenceMoveRight(this.getSelectedSequence());
+  };
+
+  handleTrackerToolbarSequenceOpen = () => {
+    this.props.onSequenceOpen(this.getSelectedSequence());
+  };
 
   handleTrackerToolbarSequenceShorten = () => {
-    if (this.props.selectedSequence.measureCount < 2) return;
-    this.props.onSequenceShorten(this.props.selectedSequence);
+    if (this.getSelectedSequence().measureCount < 2) return;
+    this.props.onSequenceShorten(this.getSelectedSequence());
   }
 }

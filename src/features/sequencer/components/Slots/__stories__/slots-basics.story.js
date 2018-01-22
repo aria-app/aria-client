@@ -1,8 +1,8 @@
 import h from 'react-hyperscript';
 import React from 'react';
-import { Slots } from '../slots';
+import { Slots } from '../Slots';
 // import shared from '../../../../shared';
-import './slots-basics.story.scss';
+import './SlotsBasics.story.scss';
 
 // const { Scroller } = shared.components;
 

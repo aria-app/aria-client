@@ -1,5 +1,3 @@
-import * as helpers from './helpers';
-
 export const BPM_SET = 'BPM_SET';
 export const INITIALIZED = 'INITIALIZED';
 export const KEY_PRESSED = 'KEY_PRESSED';
@@ -20,20 +18,16 @@ export const POSITION_REQUEST_SUCCEEDED = 'POSITION_REQUEST_SUCCEEDED';
 export const SEQUENCE_ADDED = 'SEQUENCE_ADDED';
 export const SEQUENCE_CLOSED = 'SEQUENCE_CLOSED';
 export const SEQUENCE_DELETED = 'SEQUENCE_DELETED';
-export const SEQUENCE_DESELECTED = 'SEQUENCE_DESELECTED';
 export const SEQUENCE_EXTENDED = 'SEQUENCE_EXTENDED';
 export const SEQUENCE_NUDGED_LEFT = 'SEQUENCE_NUDGED_LEFT';
 export const SEQUENCE_NUDGED_RIGHT = 'SEQUENCE_NUDGED_RIGHT';
 export const SEQUENCE_OPENED = 'SEQUENCE_OPENED';
-export const SEQUENCE_SELECTED = 'SEQUENCE_SELECTED';
 export const SEQUENCE_SHORTENED = 'SEQUENCE_SHORTENED';
 export const SONG_EXTENDED = 'SONG_EXTENDED';
 export const SONG_LOADED = 'SONG_LOADED';
 export const SONG_SHORTENED = 'SONG_SHORTENED';
 export const TRACK_ADDED = 'TRACK_ADDED';
 export const TRACK_DELETED = 'TRACK_DELETED';
-export const TRACK_EDITING_FINISHED = 'TRACK_EDITING_FINISHED';
-export const TRACK_EDITING_STARTED = 'TRACK_EDITING_STARTED';
 export const TRACK_IS_MUTED_TOGGLED = 'TRACK_IS_MUTED_TOGGLED';
 export const TRACK_IS_SOLOING_TOGGLED = 'TRACK_IS_SOLOING_TOGGLED';
 export const TRACK_VOICE_SET = 'TRACK_VOICE_SET';
@@ -148,10 +142,10 @@ export const positionRequestSucceeded = position => ({
   },
 });
 
-export const sequenceAdded = (track, position) => ({
+export const sequenceAdded = sequence => ({
   type: SEQUENCE_ADDED,
   payload: {
-    sequence: helpers.createSequence(track.id, position),
+    sequence,
   },
 });
 
@@ -164,10 +158,6 @@ export const sequenceDeleted = sequence => ({
   payload: {
     sequence,
   },
-});
-
-export const sequenceDeselected = () => ({
-  type: SEQUENCE_DESELECTED,
 });
 
 export const sequenceExtended = sequence => ({
@@ -205,13 +195,6 @@ export const sequenceOpened = sequence => ({
   },
 });
 
-export const sequenceSelected = sequence => ({
-  type: SEQUENCE_SELECTED,
-  payload: {
-    sequence,
-  },
-});
-
 export const sequenceShortened = sequence => ({
   type: SEQUENCE_SHORTENED,
   payload: {
@@ -227,31 +210,16 @@ export const songShortened = () => ({
   type: SONG_SHORTENED,
 });
 
-export const trackAdded = () => {
-  const track = helpers.createTrack();
-
-  return {
-    type: TRACK_ADDED,
-    payload: {
-      sequence: helpers.createSequence(track.id),
-      track,
-    },
-  };
-};
-
-export const trackDeleted = track => ({
-  type: TRACK_DELETED,
+export const trackAdded = (track, sequence) => ({
+  type: TRACK_ADDED,
   payload: {
+    sequence,
     track,
   },
 });
 
-export const trackEditingFinished = () => ({
-  type: TRACK_EDITING_FINISHED,
-});
-
-export const trackEditingStarted = track => ({
-  type: TRACK_EDITING_STARTED,
+export const trackDeleted = track => ({
+  type: TRACK_DELETED,
   payload: {
     track,
   },

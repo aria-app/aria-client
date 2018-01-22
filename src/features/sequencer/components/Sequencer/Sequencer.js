@@ -1,4 +1,4 @@
-import filter from 'lodash/fp/filter';
+import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
 import map from 'lodash/fp/map';
@@ -21,6 +21,7 @@ const { duplicateNotes, getNotesInArea, someNoteWillMoveOutside } = shared.helpe
 export class Sequencer extends React.PureComponent {
   static propTypes = {
     measureCount: PropTypes.number.isRequired,
+    noteMap: PropTypes.object.isRequired,
     notes: PropTypes.arrayOf(PropTypes.object).isRequired,
     onClose: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -180,9 +181,9 @@ export class Sequencer extends React.PureComponent {
   }
 
   getSelectedNotes = () =>
-    filter(
-      note => includes(note.id, this.state.selectedNoteIds),
-      this.props.notes,
+    map(
+      id => getOr({}, `props.noteMap.${id}`, this),
+      this.state.selectedNoteIds,
     );
 
   handleGridErase = (note) => {
