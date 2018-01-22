@@ -4,8 +4,9 @@ import get from 'lodash/fp/get';
 import isEqual from 'lodash/fp/isEqual';
 import last from 'lodash/fp/last';
 import map from 'lodash/fp/map';
+import reject from 'lodash/fp/reject';
 import some from 'lodash/fp/some';
-import without from 'lodash/fp/without';
+// import without from 'lodash/fp/without';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
@@ -69,10 +70,14 @@ export class Notes extends React.PureComponent {
 
   getNotes = () => [
     ...this.applyTransforms(this.props.selectedNotes),
-    ...without(this.props.selectedNotes, this.props.notes),
+    ...reject(
+      note => this.props.selectedNotes.map(x => x.id).includes(note.id),
+      this.props.notes,
+    ),
+    // ...without(this.props.selectedNotes, this.props.notes),
   ];
 
-  getSelectedNotes = () =>
+  getTransformedSelectedNotes = () =>
     this.applyTransforms(this.props.selectedNotes);
 
   getStyle() {
@@ -117,7 +122,7 @@ export class Notes extends React.PureComponent {
 
   handleResize = (delta) => {
     const isDraggingLeft = delta.x < 0;
-    const pointSets = map(get('points'), this.getSelectedNotes());
+    const pointSets = map(get('points'), this.getTransformedSelectedNotes());
     const isAnyNoteBent = some(
       points => last(points).y - first(points).y !== 0,
     )(pointSets);
@@ -129,13 +134,13 @@ export class Notes extends React.PureComponent {
     )(pointSets);
     const willAnyBeVertical = (
       delta.y !== 0 &&
-      some(n => (last(n.points).x - first(n.points).x) === 0, this.getSelectedNotes())
+      some(n => (last(n.points).x - first(n.points).x) === 0, this.getTransformedSelectedNotes())
     );
 
     const willGoOutside = compose(
       getIsSomePointOutside(this.props.measureCount),
       map(resizeNote(delta)),
-    )(this.getSelectedNotes());
+    )(this.getTransformedSelectedNotes());
 
     if (
       (isDraggingLeft && isAnyNoteBent && willAnyBeMinLength) ||
@@ -155,7 +160,7 @@ export class Notes extends React.PureComponent {
       return;
     }
 
-    this.props.onDrag(this.getSelectedNotes());
+    this.props.onDrag(this.getTransformedSelectedNotes());
 
     this.setState({
       dragDelta: { x: 0, y: 0 },
@@ -171,7 +176,7 @@ export class Notes extends React.PureComponent {
       return;
     }
 
-    this.props.onResize(this.getSelectedNotes());
+    this.props.onResize(this.getTransformedSelectedNotes());
 
     this.setState({
       isResizing: false,
@@ -183,7 +188,7 @@ export class Notes extends React.PureComponent {
     if (someNoteWillMoveOutside(
       this.props.measureCount,
       delta,
-      this.getSelectedNotes(),
+      this.getTransformedSelectedNotes(),
     )) return;
 
     this.setState(state => ({

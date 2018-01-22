@@ -5,7 +5,6 @@ import { id } from './id';
 import { measureCount } from './measureCount';
 import { name } from './name';
 import { notes } from './notes';
-import { selectedNoteIds } from './selectedNoteIds';
 import { sequences } from './sequences';
 import { tracks } from './tracks';
 
@@ -16,7 +15,6 @@ export default combineReducers({
   measureCount,
   name,
   notes,
-  selectedNoteIds,
   sequences,
   tracks,
 });

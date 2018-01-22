@@ -2,7 +2,6 @@ import defaultTo from 'lodash/fp/defaultTo';
 import filter from 'lodash/fp/filter';
 import pipe from 'lodash/fp/pipe';
 import get from 'lodash/fp/get';
-import includes from 'lodash/fp/includes';
 import map from 'lodash/fp/map';
 import shared from '../shared';
 import { NAME } from './constants';
@@ -39,12 +38,6 @@ export const getName = pipe(
 export const getNotes = pipe(
   get(NAME),
   get('notes'),
-);
-
-export const getSelectedNoteIds = pipe(
-  get(NAME),
-  get('selectedNoteIds'),
-  defaultTo([]),
 );
 
 export const getSequences = pipe(
@@ -170,15 +163,3 @@ export const getStringifiedSong = pipe(
   getSong,
   JSON.stringify,
 );
-
-const isSelectedNote = state => note =>
-  pipe(
-    getSelectedNoteIds,
-    includes(note.id),
-  )(state);
-
-export const getSelectedNotes = state =>
-  pipe(
-    getActiveSequenceNotes,
-    filter(isSelectedNote(state)),
-  )(state);

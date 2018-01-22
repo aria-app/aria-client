@@ -5,16 +5,12 @@ export const INITIALIZED = 'INITIALIZED';
 export const KEY_PRESSED = 'KEY_PRESSED';
 export const NOTE_DRAWN = 'NOTE_DRAWN';
 export const NOTE_ERASED = 'NOTE_ERASED';
-export const NOTE_SELECTED = 'NOTE_SELECTED';
-export const NOTES_ALL_DESELECTED = 'NOTES_ALL_DESELECTED';
-export const NOTES_ALL_SELECTED = 'NOTES_ALL_SELECTED';
 export const NOTES_DRAGGED = 'NOTES_DRAGGED';
 export const NOTES_DUPLICATED = 'NOTES_DUPLICATED';
 export const NOTES_MOVED_OCTAVE_DOWN = 'NOTES_MOVED_OCTAVE_DOWN';
 export const NOTES_MOVED_OCTAVE_UP = 'NOTES_MOVED_OCTAVE_UP';
 export const NOTES_NUDGED = 'NOTES_NUDGED';
 export const NOTES_RESIZED = 'NOTES_RESIZED';
-export const NOTES_SELECTED_IN_AREA = 'NOTES_SELECTED_IN_AREA';
 export const NOTES_DELETED = 'NOTES_DELETED';
 export const PLAYBACK_PAUSE_REQUEST_STARTED = 'PLAYBACK_PAUSE_REQUEST_STARTED';
 export const PLAYBACK_START_REQUEST_STARTED = 'PLAYBACK_START_REQUEST_STARTED';
@@ -76,25 +72,6 @@ export const noteErased = note => ({
   },
 });
 
-export const noteSelected = (note, isAdditive) => ({
-  type: NOTE_SELECTED,
-  payload: {
-    isAdditive,
-    note,
-  },
-});
-
-export const notesAllDeselected = () => ({
-  type: NOTES_ALL_DESELECTED,
-});
-
-export const notesAllSelected = notes => ({
-  type: NOTES_ALL_SELECTED,
-  payload: {
-    notes,
-  },
-});
-
 export const notesDeleted = notes => ({
   type: NOTES_DELETED,
   payload: {
@@ -142,23 +119,6 @@ export const notesResized = notes => ({
   type: NOTES_RESIZED,
   payload: {
     notes,
-  },
-});
-
-export const notesSelectedInArea = ({
-  endPoint,
-  isAdditive,
-  notes,
-  selectedNotes,
-  startPoint,
-}) => ({
-  type: NOTES_SELECTED_IN_AREA,
-  payload: {
-    endPoint,
-    isAdditive,
-    notes,
-    selectedNotes,
-    startPoint,
   },
 });
 

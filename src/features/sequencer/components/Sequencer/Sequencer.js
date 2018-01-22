@@ -1,4 +1,9 @@
+import filter from 'lodash/fp/filter';
+import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
+import map from 'lodash/fp/map';
+import uniq from 'lodash/fp/uniq';
+import without from 'lodash/fp/without';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
@@ -11,7 +16,7 @@ import { SequencerToolbar } from '../SequencerToolbar/SequencerToolbar';
 import './Sequencer.scss';
 
 const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
-const { duplicateNotes, someNoteWillMoveOutside } = shared.helpers;
+const { duplicateNotes, getNotesInArea, someNoteWillMoveOutside } = shared.helpers;
 
 export class Sequencer extends React.PureComponent {
   static propTypes = {
@@ -19,7 +24,6 @@ export class Sequencer extends React.PureComponent {
     notes: PropTypes.arrayOf(PropTypes.object).isRequired,
     onClose: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
-    onDeselectAll: PropTypes.func.isRequired,
     onDrag: PropTypes.func.isRequired,
     onDraw: PropTypes.func.isRequired,
     onDuplicate: PropTypes.func.isRequired,
@@ -29,16 +33,13 @@ export class Sequencer extends React.PureComponent {
     onOctaveDown: PropTypes.func.isRequired,
     onOctaveUp: PropTypes.func.isRequired,
     onResize: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired,
-    onSelectAll: PropTypes.func.isRequired,
-    onSelectInArea: PropTypes.func.isRequired,
-    selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   constructor(props) {
     super(props);
     this.state = {
       previousToolType: SELECT,
+      selectedNoteIds: [],
       toolType: SELECT,
     };
   }
@@ -64,7 +65,7 @@ export class Sequencer extends React.PureComponent {
         onOctaveUp: this.handleToolbarOctaveUp,
         onPanToolSelect: this.activatePanTool.bind(this),
         onSelectToolSelect: this.activateSelectTool.bind(this),
-        selectedNotes: this.props.selectedNotes,
+        selectedNotes: this.getSelectedNotes(),
         toolType: this.state.toolType,
       }),
       h('.sequencer__content', {
@@ -79,11 +80,11 @@ export class Sequencer extends React.PureComponent {
             notes: this.props.notes,
             onDrag: this.props.onDrag,
             onDraw: this.props.onDraw,
-            onErase: this.props.onErase,
+            onErase: this.handleGridErase,
             onResize: this.props.onResize,
-            onSelect: this.props.onSelect,
+            onSelect: this.handleGridSelect,
             onSelectInArea: this.handleGridSelectInArea,
-            selectedNotes: this.props.selectedNotes,
+            selectedNotes: this.getSelectedNotes(),
             sequencerContentRef: this.contentElementRef,
             toolType: this.state.toolType,
           }),
@@ -143,54 +144,92 @@ export class Sequencer extends React.PureComponent {
   deleteSelectedNotes(e) {
     e.preventDefault();
 
-    if (isEmpty(this.props.selectedNotes)) return;
+    if (isEmpty(this.state.selectedNoteIds)) return;
 
-    this.props.onDelete(this.props.selectedNotes);
+    this.props.onDelete(this.getSelectedNotes());
+
+    this.setState({
+      selectedNoteIds: [],
+    });
   }
 
   @keydown('ctrl+d', 'meta+d')
   deselectAllNotes(e) {
     e.preventDefault();
 
-    if (isEmpty(this.props.selectedNotes)) return;
+    if (isEmpty(this.state.selectedNoteIds)) return;
 
-    this.props.onDeselectAll();
+    this.setState({
+      selectedNoteIds: [],
+    });
   }
 
   @keydown('ctrl+shift+d', 'meta+shift+d')
   duplicateSelectedNotes(e) {
     e.preventDefault();
 
-    if (isEmpty(this.props.selectedNotes)) return;
+    if (isEmpty(this.state.selectedNoteIds)) return;
 
-    this.props.onDuplicate(duplicateNotes(this.props.selectedNotes));
+    const duplicatedNotes = duplicateNotes(this.getSelectedNotes());
+
+    this.props.onDuplicate(duplicatedNotes);
+
+    this.setState({
+      selectedNoteIds: map('id', duplicatedNotes),
+    });
   }
 
-  handleGridSelectInArea = (startPoint, endPoint, isAdditive) =>
-    this.props.onSelectInArea({
-      notes: this.props.notes,
-      selectedNotes: this.props.selectedNotes,
-      endPoint,
-      isAdditive,
-      startPoint,
+  getSelectedNotes = () =>
+    filter(
+      note => includes(note.id, this.state.selectedNoteIds),
+      this.props.notes,
+    );
+
+  handleGridErase = (note) => {
+    this.props.onErase(note);
+    this.setState({
+      selectedNoteIds: [],
     });
+  };
+
+  handleGridSelect = (note, isAdditive) => {
+    this.setState(state => ({
+      selectedNoteIds: isAdditive
+        ? toggleInArray(note.id, state.selectedNoteIds)
+        : [note.id],
+    }));
+  };
+
+  handleGridSelectInArea = (startPoint, endPoint, isAdditive) => {
+    const notesInArea = getNotesInArea(
+      startPoint,
+      endPoint,
+      this.props.notes,
+    );
+
+    this.setState(state => ({
+      selectedNoteIds: isAdditive
+        ? uniq([...state.selectedNoteIds, ...map('id', notesInArea)])
+        : map('id', notesInArea),
+    }));
+  };
 
   handleToolbarOctaveDown = () =>
-    this.props.onOctaveDown(this.props.selectedNotes);
+    this.props.onOctaveDown(this.getSelectedNotes());
 
   handleToolbarOctaveUp = () =>
-    this.props.onOctaveUp(this.props.selectedNotes);
+    this.props.onOctaveUp(this.getSelectedNotes());
 
   nudge = (delta) => {
-    if (isEmpty(this.props.selectedNotes)) return;
+    if (isEmpty(this.state.selectedNoteIds)) return;
 
     if (someNoteWillMoveOutside(
       this.props.measureCount,
       delta,
-      this.props.selectedNotes,
+      this.getSelectedNotes(),
     )) return;
 
-    this.props.onNudge(delta, this.props.selectedNotes);
+    this.props.onNudge(delta, this.getSelectedNotes());
   }
 
   @keydown('down')
@@ -219,9 +258,11 @@ export class Sequencer extends React.PureComponent {
 
   @keydown('ctrl+a', 'meta+a')
   selectAll() {
-    if (this.props.notes.length === this.props.selectedNotes.length) return;
+    if (this.props.notes.length === this.state.selectedNoteIds.length) return;
 
-    this.props.onSelectAll(this.props.notes);
+    this.setState({
+      selectedNoteIds: map('id', this.props.notes),
+    });
   }
 
   setContentRef = (contentElementRef) => {
@@ -232,4 +273,10 @@ export class Sequencer extends React.PureComponent {
 
 function getCenteredScroll(el) {
   return (el.scrollHeight / 2) - (el.offsetHeight / 2);
+}
+
+function toggleInArray(item, array) {
+  return includes(item, array)
+    ? without([item], array)
+    : [...array, item];
 }
