@@ -1,3 +1,4 @@
+import Dawww from 'dawww';
 import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -6,7 +7,6 @@ import shared from '../../../shared';
 import './TrackEditingModal.scss';
 
 const { Button, DropdownList, Modal } = shared.components;
-const { voices } = shared.constants;
 
 export class TrackEditingModal extends React.PureComponent {
   static propTypes = {
@@ -65,8 +65,8 @@ export class TrackEditingModal extends React.PureComponent {
 }
 
 export function getVoiceList() {
-  return Object.keys(voices).map(key => ({
-    text: voices[key],
-    id: voices[key],
+  return Object.keys(Dawww.VOICES).map(key => ({
+    text: Dawww.VOICES[key],
+    id: Dawww.VOICES[key],
   }));
 }

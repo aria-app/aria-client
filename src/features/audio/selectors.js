@@ -1,7 +1,7 @@
+import Dawww from 'dawww';
 import compose from 'lodash/fp/compose';
 import getOr from 'lodash/fp/getOr';
 import isEqual from 'lodash/fp/isEqual';
-import shared from '../shared';
 import { NAME } from './constants';
 
 export const getPlaybackState =
@@ -11,6 +11,6 @@ export const getPosition =
   getOr(0, `${NAME}.position`);
 
 export const getIsStopped = compose(
-  isEqual(shared.constants.playbackStates.STOPPED),
+  isEqual(Dawww.PLAYBACK_STATES.STOPPED),
   getPlaybackState,
 );

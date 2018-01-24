@@ -1,3 +1,4 @@
+import Dawww from 'dawww';
 import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -9,7 +10,6 @@ import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
 import './Tracker.scss';
 
 const { Timeline } = shared.components;
-const { createSequence, createTrack } = shared.helpers;
 
 export class Tracker extends React.PureComponent {
   static propTypes = {
@@ -73,7 +73,7 @@ export class Tracker extends React.PureComponent {
         offset: (this.props.position * 2) + 100,
       }),
       h(TrackEditingModal, {
-        onDelete: this.props.onTrackDelete,
+        onDelete: this.handleTrackEditingModalDelete,
         onDismiss: this.props.onTrackEditingFinish,
         onVoiceSet: this.props.onTrackVoiceSet,
         stagedTrack: this.getStagedTrack(),
@@ -87,8 +87,14 @@ export class Tracker extends React.PureComponent {
   getStagedTrack = () =>
     getOr({}, `props.trackMap.${this.props.trackToEditId}`, this);
 
+  handleTrackEditingModalDelete = (track) => {
+    this.props.onTrackDelete(track);
+
+    this.props.onTrackEditingFinish();
+  }
+
   handleTrackListSequenceAdd = (track, position) => {
-    const sequence = createSequence(track.id, position);
+    const sequence = Dawww.createSequence(track.id, position);
 
     this.props.onSequenceAdd(sequence);
 
@@ -110,8 +116,8 @@ export class Tracker extends React.PureComponent {
   };
 
   handleTrackListTrackAdd = () => {
-    const track = createTrack();
-    const sequence = createSequence(track.id);
+    const track = Dawww.createTrack();
+    const sequence = Dawww.createSequence(track.id);
 
     this.props.onTrackAdd(track, sequence);
 

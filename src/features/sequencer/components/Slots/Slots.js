@@ -1,12 +1,10 @@
+import Dawww from 'dawww';
 import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import { neutral } from '../../../../styles/palette';
-import shared from '../../../shared';
 import './Slots.scss';
-
-const { scale } = shared.constants;
 
 export class Slots extends React.PureComponent {
   static propTypes = {
@@ -23,7 +21,7 @@ export class Slots extends React.PureComponent {
 
   getHTML() {
     const slots = range(0, this.props.measureCount * 4 * 8).map(columnNumber =>
-      range(0, scale.length).map(rowNumber =>
+      range(0, Dawww.SCALE.length).map(rowNumber =>
         getSlot(columnNumber, rowNumber),
       ),
     );
@@ -33,8 +31,8 @@ export class Slots extends React.PureComponent {
     return `
       <svg
         width="${this.props.measureCount * 4 * 8 * 40}"
-        height="${scale.length * 40}"
-        viewBox="0 0 ${this.props.measureCount * 4 * 8 * 40} ${scale.length * 40}">
+        height="${Dawww.SCALE.length * 40}"
+        viewBox="0 0 ${this.props.measureCount * 4 * 8 * 40} ${Dawww.SCALE.length * 40}">
         ${stripes}
         ${slots}
       </svg>
@@ -47,7 +45,7 @@ export class Slots extends React.PureComponent {
       x="${((2 * n) + 1) * 320}"
       y="0"
       width="320"
-      height="${scale.length * 40}"
+      height="${Dawww.SCALE.length * 40}"
       rx="2.5"
       ry="2.5"
     ></rect>

@@ -1,20 +1,17 @@
+import Dawww from 'dawww';
 import compose from 'lodash/fp/compose';
 import first from 'lodash/fp/first';
 import get from 'lodash/fp/get';
 import isEqual from 'lodash/fp/isEqual';
 import last from 'lodash/fp/last';
 import map from 'lodash/fp/map';
-import reject from 'lodash/fp/reject';
 import some from 'lodash/fp/some';
-// import without from 'lodash/fp/without';
+import without from 'lodash/fp/without';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import shared from '../../../shared';
 import { Note } from '../Note/Note';
 import './Notes.scss';
-
-const { addPoints, resizeNote, someNoteWillMoveOutside, translateNote } = shared.helpers;
 
 export class Notes extends React.PureComponent {
   static propTypes = {
@@ -64,17 +61,13 @@ export class Notes extends React.PureComponent {
   }
 
   applyTransforms = notes => map(compose(
-    resizeNote(this.state.resizeDelta),
-    translateNote(this.state.dragDelta),
+    Dawww.resizeNote(this.state.resizeDelta),
+    Dawww.translateNote(this.state.dragDelta),
   ))(notes);
 
   getNotes = () => [
     ...this.applyTransforms(this.props.selectedNotes),
-    ...reject(
-      note => this.props.selectedNotes.map(x => x.id).includes(note.id),
-      this.props.notes,
-    ),
-    // ...without(this.props.selectedNotes, this.props.notes),
+    ...without(this.props.selectedNotes, this.props.notes),
   ];
 
   getTransformedSelectedNotes = () =>
@@ -87,7 +80,7 @@ export class Notes extends React.PureComponent {
   }
 
   handleMousePointChange = (prevMousePoint) => {
-    const delta = shared.helpers.getPointOffset(
+    const delta = Dawww.getPointOffset(
       prevMousePoint,
       this.props.mousePoint,
     );
@@ -139,7 +132,7 @@ export class Notes extends React.PureComponent {
 
     const willGoOutside = compose(
       getIsSomePointOutside(this.props.measureCount),
-      map(resizeNote(delta)),
+      map(Dawww.resizeNote(delta)),
     )(this.getTransformedSelectedNotes());
 
     if (
@@ -185,20 +178,20 @@ export class Notes extends React.PureComponent {
   };
 
   updateDragDelta = (delta) => {
-    if (someNoteWillMoveOutside(
+    if (Dawww.someNoteWillMoveOutside(
       this.props.measureCount,
       delta,
       this.getTransformedSelectedNotes(),
     )) return;
 
     this.setState(state => ({
-      dragDelta: addPoints(delta, state.dragDelta),
+      dragDelta: Dawww.addPoints(delta, state.dragDelta),
     }));
   };
 
   updateResizeDelta = delta =>
     this.setState(state => ({
-      resizeDelta: addPoints(delta, state.resizeDelta),
+      resizeDelta: Dawww.addPoints(delta, state.resizeDelta),
     }));
 }
 
@@ -207,6 +200,6 @@ function getIsSomePointOutside(measureCount) {
     point.x < 0 ||
     point.x > ((measureCount * 8) * 4) - 1 ||
     point.y < 0 ||
-    point.y > (shared.constants.octaveRange.length * 12) - 1,
+    point.y > (Dawww.OCTAVE_RANGE.length * 12) - 1,
   );
 }

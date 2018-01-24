@@ -1,3 +1,4 @@
+import Dawww from 'dawww';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
@@ -11,7 +12,7 @@ import { SongToolbar } from '../SongToolbar/SongToolbar';
 import './App.scss';
 
 const { SequencerContainer } = sequencer.components;
-const { STARTED } = shared.constants.playbackStates;
+const { STARTED } = Dawww.PLAYBACK_STATES;
 const { TrackerContainer } = tracker.components;
 
 export class App extends React.PureComponent {

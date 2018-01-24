@@ -1,9 +1,8 @@
+import Dawww from 'dawww';
 import map from 'lodash/fp/map';
 import omit from 'lodash/fp/omit';
 import { createReducer } from 'redux-create-reducer';
 import shared from '../../shared';
-
-const { setAtIds, translateNote } = shared.helpers;
 
 const octaveDownDelta = { x: 0, y: 12 };
 const octaveUpDelta = { x: 0, y: -12 };
@@ -13,7 +12,7 @@ export const notes = createReducer({}, {
     action.payload.song.notes,
 
   [shared.actions.NOTE_DRAWN]: (state, action) => {
-    const note = shared.helpers.createNote(
+    const note = Dawww.createNote(
       action.payload.sequence.id,
       [action.payload.point, { x: action.payload.point.x + 1, y: action.payload.point.y }],
     );
@@ -31,29 +30,29 @@ export const notes = createReducer({}, {
     omit(map('id', action.payload.notes), state),
 
   [shared.actions.NOTES_DRAGGED]: (state, action) =>
-    setAtIds(action.payload.notes, state),
+    Dawww.setAtIds(action.payload.notes, state),
 
   [shared.actions.NOTES_DUPLICATED]: (state, action) =>
-    setAtIds(action.payload.notes, state),
+    Dawww.setAtIds(action.payload.notes, state),
 
   [shared.actions.NOTES_MOVED_OCTAVE_DOWN]: (state, action) =>
-    setAtIds(map(
-      translateNote(octaveDownDelta),
+    Dawww.setAtIds(map(
+      Dawww.translateNote(octaveDownDelta),
       action.payload.notes,
     ), state),
 
   [shared.actions.NOTES_MOVED_OCTAVE_UP]: (state, action) =>
-    setAtIds(map(
-      translateNote(octaveUpDelta),
+    Dawww.setAtIds(map(
+      Dawww.translateNote(octaveUpDelta),
       action.payload.notes,
     ), state),
 
   [shared.actions.NOTES_NUDGED]: (state, action) =>
-    setAtIds(map(translateNote(
+    Dawww.setAtIds(map(Dawww.translateNote(
       action.payload.delta),
     action.payload.notes,
     ), state),
 
   [shared.actions.NOTES_RESIZED]: (state, action) =>
-    setAtIds(action.payload.notes, state),
+    Dawww.setAtIds(action.payload.notes, state),
 });

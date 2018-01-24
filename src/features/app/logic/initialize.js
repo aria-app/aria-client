@@ -1,3 +1,4 @@
+import Dawww from 'dawww';
 import { createLogic } from 'redux-logic';
 import shared from '../../shared';
 
@@ -10,7 +11,7 @@ export const initialize = createLogic({
 
     const initialSong = localStorageSong
       ? JSON.parse(localStorageSong)
-      : shared.helpers.createSong();
+      : Dawww.createSong();
 
     dispatch(shared.actions.songLoaded(initialSong));
 

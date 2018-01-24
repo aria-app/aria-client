@@ -1,3 +1,4 @@
+import Dawww from 'dawww';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -8,7 +9,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import keydown from 'react-keydown';
-import shared from '../../../shared';
 import * as constants from '../../constants';
 import { Grid } from '../Grid/Grid';
 import { Keys } from '../Keys/Keys';
@@ -16,7 +16,6 @@ import { SequencerToolbar } from '../SequencerToolbar/SequencerToolbar';
 import './Sequencer.scss';
 
 const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
-const { duplicateNotes, getNotesInArea, someNoteWillMoveOutside } = shared.helpers;
 
 export class Sequencer extends React.PureComponent {
   static propTypes = {
@@ -171,7 +170,7 @@ export class Sequencer extends React.PureComponent {
 
     if (isEmpty(this.state.selectedNoteIds)) return;
 
-    const duplicatedNotes = duplicateNotes(this.getSelectedNotes());
+    const duplicatedNotes = Dawww.duplicateNotes(this.getSelectedNotes());
 
     this.props.onDuplicate(duplicatedNotes);
 
@@ -202,7 +201,7 @@ export class Sequencer extends React.PureComponent {
   };
 
   handleGridSelectInArea = (startPoint, endPoint, isAdditive) => {
-    const notesInArea = getNotesInArea(
+    const notesInArea = Dawww.getNotesInArea(
       startPoint,
       endPoint,
       this.props.notes,
@@ -224,7 +223,7 @@ export class Sequencer extends React.PureComponent {
   nudge = (delta) => {
     if (isEmpty(this.state.selectedNoteIds)) return;
 
-    if (someNoteWillMoveOutside(
+    if (Dawww.someNoteWillMoveOutside(
       this.props.measureCount,
       delta,
       this.getSelectedNotes(),

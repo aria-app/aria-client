@@ -1,3 +1,4 @@
+import Dawww from 'dawww';
 import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -8,7 +9,6 @@ import './SequencerToolbar.scss';
 
 const { IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
-const { someNoteWillMoveOutside } = shared.helpers;
 
 export class SequencerToolbar extends React.PureComponent {
   static propTypes = {
@@ -112,14 +112,14 @@ export class SequencerToolbar extends React.PureComponent {
     !isEmpty(this.props.selectedNotes);
 
   getIsOctaveDownButtonDisabled = () =>
-    someNoteWillMoveOutside(
+    Dawww.someNoteWillMoveOutside(
       this.props.measureCount,
       { x: 0, y: 12 },
       this.props.selectedNotes,
     );
 
   getIsOctaveUpButtonDisabled = () =>
-    someNoteWillMoveOutside(
+    Dawww.someNoteWillMoveOutside(
       this.props.measureCount,
       { x: 0, y: -12 },
       this.props.selectedNotes,

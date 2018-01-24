@@ -1,9 +1,9 @@
+import Dawww from 'dawww';
 import clamp from 'lodash/fp/clamp';
 import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import { playbackStates } from '../../constants';
 import { RulerMeasure } from '../RulerMeasure/RulerMeasure';
 import './Ruler.scss';
 
@@ -65,7 +65,7 @@ export class Ruler extends React.PureComponent {
       this.props.onPositionSet(clampedPosition);
     };
     const upHandler = () => {
-      if (startingState === playbackStates.STARTED) {
+      if (startingState === Dawww.PLAYBACK_STATES.STARTED) {
         this.props.onPlay();
       }
       if (!window) return;

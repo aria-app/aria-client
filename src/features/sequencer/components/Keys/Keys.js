@@ -1,11 +1,9 @@
+import Dawww from 'dawww';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import shared from '../../../shared';
 import { Key } from '../Key/Key';
 import './Keys.scss';
-
-const { scale } = shared.constants;
 
 export class Keys extends React.PureComponent {
   static propTypes = {
@@ -24,7 +22,7 @@ export class Keys extends React.PureComponent {
     ]);
   }
 
-  getScale = () => scale;
+  getScale = () => Dawww.SCALE;
 
   handleKeyMouseDown = (step) => {
     this.props.onKeyPress(step.y);

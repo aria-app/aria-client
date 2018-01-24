@@ -20,7 +20,6 @@ export const updateSong = createLogic({
     shared.actions.SEQUENCE_EXTENDED,
     shared.actions.SEQUENCE_NUDGED_LEFT,
     shared.actions.SEQUENCE_NUDGED_RIGHT,
-    shared.actions.SEQUENCE_OPENED,
     shared.actions.SEQUENCE_SHORTENED,
     shared.actions.SONG_EXTENDED,
     shared.actions.SONG_SHORTENED,
@@ -32,7 +31,7 @@ export const updateSong = createLogic({
   ],
   process({ getState }, dispatch, done) {
     const songState = song.selectors.getSong(getState());
-
+    console.log(songState);
     dawww.updateSong(songState);
 
     done();

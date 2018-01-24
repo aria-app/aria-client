@@ -1,3 +1,4 @@
+import Dawww from 'dawww';
 import map from 'lodash/fp/map';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -6,9 +7,8 @@ import shared from '../../../shared';
 import './BPMModal.scss';
 
 const { DropdownList, Modal } = shared.components;
-const { bpmRange } = shared.constants;
 const getBPMRangeItem = x => ({ id: x, text: String(x) });
-const bpmRangeItems = map(getBPMRangeItem, bpmRange);
+const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
 
 export class BPMModal extends React.PureComponent {

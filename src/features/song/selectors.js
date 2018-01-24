@@ -4,13 +4,12 @@ import pipe from 'lodash/fp/pipe';
 import get from 'lodash/fp/get';
 import map from 'lodash/fp/map';
 import location from '../location';
-import shared from '../shared';
 import { NAME } from './constants';
 
 export const getBPM = pipe(
   get(NAME),
   get('bpm'),
-  defaultTo(shared.constants.defaultBPM),
+  defaultTo(0),
 );
 
 export const getId = pipe(
