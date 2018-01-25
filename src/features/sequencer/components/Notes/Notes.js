@@ -61,11 +61,7 @@ export class Notes extends React.PureComponent {
   }
 
   applyTransforms = notes => map(compose(
-    (n) => {
-      console.log(this.props);
-      console.log(n);
-      return Dawww.resizeNote(this.state.resizeDelta, n);
-    },
+    Dawww.resizeNote(this.state.resizeDelta),
     Dawww.translateNote(this.state.dragDelta),
   ))(notes);
 

@@ -145,6 +145,7 @@ export const getDeepTracks = state =>
 
 export const getSong = state => ({
   bpm: getBPM(state),
+  focusedSequenceId: location.selectors.getSequenceId(state),
   id: getId(state),
   measureCount: getMeasureCount(state),
   name: getName(state),

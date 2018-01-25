@@ -5,6 +5,7 @@ import dawww from '../dawww';
 
 export const updateSong = createLogic({
   type: [
+    shared.actions.BPM_SET,
     shared.actions.NOTE_DRAWN,
     shared.actions.NOTE_ERASED,
     shared.actions.NOTES_DELETED,
@@ -14,10 +15,11 @@ export const updateSong = createLogic({
     shared.actions.NOTES_MOVED_OCTAVE_UP,
     shared.actions.NOTES_NUDGED,
     shared.actions.NOTES_RESIZED,
-    shared.actions.BPM_SET,
     shared.actions.SEQUENCE_ADDED,
     shared.actions.SEQUENCE_DELETED,
     shared.actions.SEQUENCE_EXTENDED,
+    shared.actions.SEQUENCER_LOADED,
+    shared.actions.TRACKER_LOADED,
     shared.actions.SEQUENCE_NUDGED_LEFT,
     shared.actions.SEQUENCE_NUDGED_RIGHT,
     shared.actions.SEQUENCE_SHORTENED,
@@ -31,7 +33,7 @@ export const updateSong = createLogic({
   ],
   process({ getState }, dispatch, done) {
     const songState = song.selectors.getSong(getState());
-    console.log(songState);
+
     dawww.updateSong(songState);
 
     done();
