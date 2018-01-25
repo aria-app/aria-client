@@ -146,11 +146,13 @@ export class Sequencer extends React.PureComponent {
 
     if (isEmpty(this.state.selectedNoteIds)) return;
 
-    this.props.onDelete(this.getSelectedNotes());
+    const selectedNotes = this.getSelectedNotes();
 
     this.setState({
       selectedNoteIds: [],
     });
+
+    this.props.onDelete(selectedNotes);
   }
 
   @keydown('ctrl+d', 'meta+d')
