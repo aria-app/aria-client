@@ -16,6 +16,7 @@ export const TrackerContainer = connect(state => ({
   tracks: song.selectors.getDeepTracks(state),
 }), {
   onBPMChange: shared.actions.bpmSet,
+  onMeasureCountChange: shared.actions.measureCountSet,
   onSequenceAdd: shared.actions.sequenceAdded,
   onSequenceDelete: shared.actions.sequenceDeleted,
   onSequenceExtend: shared.actions.sequenceExtended,

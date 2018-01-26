@@ -6,6 +6,7 @@ import dawww from '../dawww';
 export const updateSong = createLogic({
   type: [
     shared.actions.BPM_SET,
+    shared.actions.MEASURE_COUNT_SET,
     shared.actions.NOTE_DRAWN,
     shared.actions.NOTE_ERASED,
     shared.actions.NOTES_DELETED,

@@ -17,6 +17,7 @@ export class Tracker extends React.PureComponent {
     bpm: PropTypes.number.isRequired,
     isStopped: PropTypes.bool.isRequired,
     onBPMChange: PropTypes.func.isRequired,
+    onMeasureCountChange: PropTypes.func.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceDelete: PropTypes.func.isRequired,
     onSequenceExtend: PropTypes.func.isRequired,
@@ -81,8 +82,10 @@ export class Tracker extends React.PureComponent {
       h(SongInfoModal, {
         bpm: this.props.bpm,
         isOpen: this.state.isSongInfoModalOpen,
+        measureCount: this.props.songMeasureCount,
         onBPMChange: this.props.onBPMChange,
         onConfirm: this.handleSongInfoModalConfirm,
+        onMeasureCountChange: this.props.onMeasureCountChange,
       }),
       h(TrackEditingModal, {
         onDelete: this.handleTrackEditingModalDelete,

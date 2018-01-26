@@ -2,6 +2,7 @@ export const BPM_SET = 'BPM_SET';
 export const EDIT_TRACK_LOADED = 'EDIT_TRACK_LOADED';
 export const INITIALIZED = 'INITIALIZED';
 export const KEY_PRESSED = 'KEY_PRESSED';
+export const MEASURE_COUNT_SET = 'MEASURE_COUNT_SET';
 export const NOTE_DRAWN = 'NOTE_DRAWN';
 export const NOTE_ERASED = 'NOTE_ERASED';
 export const NOTES_DRAGGED = 'NOTES_DRAGGED';
@@ -56,6 +57,13 @@ export const keyPressed = (pitch, sequence) => ({
   payload: {
     pitch,
     sequence,
+  },
+});
+
+export const measureCountSet = measureCount => ({
+  type: MEASURE_COUNT_SET,
+  payload: {
+    measureCount,
   },
 });
 
