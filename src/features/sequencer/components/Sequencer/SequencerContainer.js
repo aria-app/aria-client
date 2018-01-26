@@ -4,10 +4,10 @@ import song from '../../../song';
 import { Sequencer } from './Sequencer';
 
 export const SequencerContainer = connect(state => ({
-  measureCount: song.selectors.getActiveSequenceMeasureCount(state),
+  measureCount: song.selectors.getFocusedSequenceMeasureCount(state),
   noteMap: song.selectors.getNotes(state),
-  notes: song.selectors.getActiveSequenceNotes(state),
-  sequence: song.selectors.getActiveSequence(state),
+  notes: song.selectors.getFocusedSequenceNotes(state),
+  sequence: song.selectors.getFocusedSequence(state),
 }), {
   onClose: shared.actions.trackerLoaded,
   onDelete: shared.actions.notesDeleted,
