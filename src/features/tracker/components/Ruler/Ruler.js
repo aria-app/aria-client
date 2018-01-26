@@ -9,18 +9,26 @@ import './Ruler.scss';
 
 export class Ruler extends React.PureComponent {
   static propTypes = {
+    bpm: PropTypes.number.isRequired,
     measureCount: PropTypes.number.isRequired,
     measureWidth: PropTypes.number.isRequired,
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
     onPositionSet: PropTypes.func.isRequired,
+    onSongInfoPress: PropTypes.func.isRequired,
     playbackState: PropTypes.string.isRequired,
   }
 
   render() {
     return h('.ruler', [
       h('.ruler__body', [
-        h('.ruler__body__header'),
+        h('.ruler__body__header', {
+          onClick: this.props.onSongInfoPress,
+        }, [
+          h('.ruler__body__header__bpm', [
+            `${this.props.bpm} bpm`,
+          ]),
+        ]),
         h('.ruler__body__measures', {
           style: this.getMeasuresStyle(),
           onMouseDown: this.holdPosition,

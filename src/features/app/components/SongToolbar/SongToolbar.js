@@ -10,8 +10,6 @@ const { PAUSED, STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 
 export class SongToolbar extends React.PureComponent {
   static propTypes = {
-    bpm: PropTypes.number.isRequired,
-    onBPMModalOpen: PropTypes.func.isRequired,
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
@@ -44,11 +42,6 @@ export class SongToolbar extends React.PureComponent {
           className: 'song-toolbar__clear-cache-button',
           text: 'clear cache',
           onClick: this.handleClearCacheClick,
-        }),
-        h(Button, {
-          className: 'song-toolbar__set-bpm-button',
-          text: `BPM ${this.props.bpm}`,
-          onClick: this.props.onBPMModalOpen,
         }),
         h(DownloadButton, {
           className: 'song-toolbar__download-song-button',

@@ -6,6 +6,7 @@ import song from '../../../song';
 import { Tracker } from './Tracker';
 
 export const TrackerContainer = connect(state => ({
+  bpm: song.selectors.getBPM(state),
   isStopped: audio.selectors.getIsStopped(state),
   position: audio.selectors.getPosition(state),
   songMeasureCount: song.selectors.getMeasureCount(state),
@@ -14,6 +15,7 @@ export const TrackerContainer = connect(state => ({
   trackToEditId: location.selectors.getTrackToEditId(state),
   tracks: song.selectors.getDeepTracks(state),
 }), {
+  onBPMChange: shared.actions.bpmSet,
   onSequenceAdd: shared.actions.sequenceAdded,
   onSequenceDelete: shared.actions.sequenceDeleted,
   onSequenceExtend: shared.actions.sequenceExtended,

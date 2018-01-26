@@ -6,7 +6,6 @@ import keydown from 'react-keydown';
 import sequencer from '../../../sequencer';
 import shared from '../../../shared';
 import tracker from '../../../tracker';
-import { BPMModal } from '../BPMModal/BPMModal';
 import { UploadOverlay } from '../UploadOverlay/UploadOverlay';
 import { SongToolbar } from '../SongToolbar/SongToolbar';
 import './App.scss';
@@ -17,9 +16,7 @@ const { TrackerContainer } = tracker.components;
 
 export class App extends React.PureComponent {
   static propTypes = {
-    bpm: PropTypes.number.isRequired,
     locationType: PropTypes.string.isRequired,
-    onBPMChange: PropTypes.func.isRequired,
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
@@ -41,19 +38,11 @@ export class App extends React.PureComponent {
     }, [
       this.getContentComponent(),
       h(SongToolbar, {
-        bpm: this.props.bpm,
-        onBPMModalOpen: this.handleSongToolbarBPMModalOpen,
         onPause: this.props.onPause,
         onPlay: this.props.onPlay,
         onStop: this.props.onStop,
         playbackState: this.props.playbackState,
         stringifiedSong: this.props.stringifiedSong,
-      }),
-      h(BPMModal, {
-        bpm: this.props.bpm,
-        isOpen: this.state.isBPMModalOpen,
-        onBPMChange: this.props.onBPMChange,
-        onConfirm: this.handleBPMModalConfirm,
       }),
       h(UploadOverlay, {
         isFileOver: this.state.isFileOver,
@@ -70,12 +59,6 @@ export class App extends React.PureComponent {
 
     return h(TrackerContainer);
   };
-
-  handleBPMModalConfirm = () => {
-    this.setState({
-      isBPMModalOpen: false,
-    });
-  }
 
   handleDragEnter = (e) => {
     this.setState({
@@ -94,12 +77,6 @@ export class App extends React.PureComponent {
     e.preventDefault();
     e.stopPropagation();
   }
-
-  handleSongToolbarBPMModalOpen = () => {
-    this.setState({
-      isBPMModalOpen: true,
-    });
-  };
 
   handleUploadOverlayCancel = () => {
     this.setState({

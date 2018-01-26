@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
-import './BPMModal.scss';
 
 const { DropdownList, Modal } = shared.components;
 const getBPMRangeItem = x => ({ id: x, text: String(x) });
 const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
 
-export class BPMModal extends React.PureComponent {
+export class SongInfoModal extends React.PureComponent {
   static propTypes = {
     bpm: PropTypes.number.isRequired,
     isOpen: PropTypes.bool.isRequired,
@@ -21,15 +20,15 @@ export class BPMModal extends React.PureComponent {
 
   render() {
     return h(Modal, {
-      className: 'bpm-modal',
+      className: 'song-info-modal',
       confirmText: 'done',
       isOpen: this.props.isOpen,
       onConfirm: this.props.onConfirm,
-      titleText: 'Set BPM',
+      titleText: 'Song Info',
     }, [
-      h('.bpm-modal__content', [
+      h('.song-info-modal__content', [
         h(DropdownList, {
-          className: 'bpm-modal__content__dropdown-list',
+          className: 'song-info-modal__content__dropdown-list',
           items: bpmRangeItems,
           selectedId: this.props.bpm,
           onSelectedIdChange: this.handleContentDropdownListSelect,

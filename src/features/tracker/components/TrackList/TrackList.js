@@ -2,20 +2,20 @@ import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import shared from '../../../shared';
 import { AddTrackButton } from '../AddTrackButton/AddTrackButton';
+import { Ruler } from '../Ruler/Ruler';
 import { Track } from '../Track/Track';
 import './TrackList.scss';
 
-const { Ruler } = shared.components;
-
 export class TrackList extends React.PureComponent {
   static propTypes = {
+    bpm: PropTypes.number.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceDeselect: PropTypes.func.isRequired,
     onSequenceOpen: PropTypes.func.isRequired,
     onSequenceSelect: PropTypes.func.isRequired,
     onSongExtend: PropTypes.func.isRequired,
+    onSongInfoPress: PropTypes.func.isRequired,
     onSongShorten: PropTypes.func.isRequired,
     onTrackAdd: PropTypes.func.isRequired,
     onTrackIsMutedToggle: PropTypes.func.isRequired,
@@ -31,12 +31,14 @@ export class TrackList extends React.PureComponent {
       onClick: this.handleClick,
     }, [
       h(Ruler, {
+        bpm: this.props.bpm,
         measureCount: this.props.songMeasureCount,
         measureWidth: 64,
         onPause: () => {},
         onPlay: () => {},
         onPositionSet: () => {},
         onSongExtend: this.props.onSongExtend,
+        onSongInfoPress: this.props.onSongInfoPress,
         onSongShorten: this.props.onSongShorten,
         playbackState: 'stopped',
       }),

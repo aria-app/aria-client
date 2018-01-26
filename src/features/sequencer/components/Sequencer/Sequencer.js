@@ -9,13 +9,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import keydown from 'react-keydown';
-import * as constants from '../../constants';
+import { toolTypes } from '../../constants';
 import { Grid } from '../Grid/Grid';
 import { Keys } from '../Keys/Keys';
 import { SequencerToolbar } from '../SequencerToolbar/SequencerToolbar';
 import './Sequencer.scss';
-
-const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
 
 export class Sequencer extends React.PureComponent {
   static propTypes = {
@@ -38,9 +36,9 @@ export class Sequencer extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      previousToolType: SELECT,
+      previousToolType: toolTypes.SELECT,
       selectedNoteIds: [],
-      toolType: SELECT,
+      toolType: toolTypes.SELECT,
     };
   }
 
@@ -96,7 +94,7 @@ export class Sequencer extends React.PureComponent {
   @keydown('d')
   activateDrawTool() {
     this.setState({
-      toolType: DRAW,
+      toolType: toolTypes.DRAW,
     });
   }
 
@@ -106,7 +104,7 @@ export class Sequencer extends React.PureComponent {
     if (e.repeat) return;
     this.setState(state => ({
       previousToolType: state.toolType,
-      toolType: PAN,
+      toolType: toolTypes.PAN,
     }));
     window.addEventListener('keyup', this.deactivatePanOverride);
   }
@@ -114,21 +112,21 @@ export class Sequencer extends React.PureComponent {
   @keydown('e')
   activateEraseTool() {
     this.setState({
-      toolType: ERASE,
+      toolType: toolTypes.ERASE,
     });
   }
 
   @keydown('p')
   activatePanTool() {
     this.setState({
-      toolType: PAN,
+      toolType: toolTypes.PAN,
     });
   }
 
   @keydown('s')
   activateSelectTool() {
     this.setState({
-      toolType: SELECT,
+      toolType: toolTypes.SELECT,
     });
   }
 
