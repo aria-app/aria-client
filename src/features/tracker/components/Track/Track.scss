@@ -1,36 +1,19 @@
 @import '../../../../styles/constants';
 @import '../../../../styles/palette';
 
-$track__spacing: $margin-s;
-$track__body__background-color: $neutral-4;
-$track__body__border-radius: 2px;
-$track__body__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-$track__sequences__height: 84px;
-$track__sequences__padding--vertical: 0;
-
 .track {
   align-items: stretch;
+  cursor: pointer;
   display: flex;
   flex: 0 0 auto;
-  margin-bottom: $track__spacing;
+  flex-direction: column;
+  margin-bottom: $margin-s;
   overflow: hidden;
-  &__body {
+  &__sequences {
     align-items: stretch;
-    background-color: $track__body__background-color;
-    border-radius: $track__body__border-radius;
-    box-shadow: $track__body__box-shadow;
-    cursor: pointer;
     display: flex;
-    flex: 1 0 auto;
-    overflow: hidden;
-    &__sequences {
-      align-items: stretch;
-      display: flex;
-      flex-grow: 1;
-      height: $track__sequences__height;
-      padding-bottom: $track__sequences__padding--vertical;
-      padding-top: $track__sequences__padding--vertical;
-      position: relative;
-    }
+    flex-grow: 1;
+    height: 84px;
+    position: relative;
   }
 }

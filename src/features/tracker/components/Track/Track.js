@@ -2,7 +2,7 @@ import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import { AddSequenceButton } from '../AddSequenceButton/AddSequenceButton';
+// import { AddSequenceButton } from '../AddSequenceButton/AddSequenceButton';
 import { TrackSequence } from '../TrackSequence/TrackSequence';
 import { TrackHeader } from '../TrackHeader/TrackHeader';
 import './Track.scss';
@@ -22,31 +22,29 @@ export class Track extends React.PureComponent {
 
   render() {
     return h('.track', [
-      h('.track__body', [
-        h(TrackHeader, {
-          isMuted: getOr(false, 'props.track.isMuted', this),
-          isSoloing: getOr(false, 'props.track.isSoloing', this),
-          onClick: this.handleHeaderClick,
-          onIsMutedToggle: this.handleHeaderIsMutedToggle,
-          onIsSoloingToggle: this.handleHeaderIsSoloingToggle,
-          track: this.props.track,
-        }),
-        h('.track__body__sequences', {
-          style: this.getBodySequencesStyle(),
-        }, [
-          ...this.props.track.sequences.map(sequence =>
-            h(TrackSequence, {
-              onOpen: this.props.onSequenceOpen,
-              onSelect: this.props.onSequenceSelect,
-              selectedSequence: this.props.selectedSequence,
-              sequence,
-            }),
-          ),
-          h(AddSequenceButton, {
-            onClick: this.handleAddSequenceButtonClick,
-            track: this.props.track,
+      h(TrackHeader, {
+        isMuted: getOr(false, 'props.track.isMuted', this),
+        isSoloing: getOr(false, 'props.track.isSoloing', this),
+        onClick: this.handleHeaderClick,
+        onIsMutedToggle: this.handleHeaderIsMutedToggle,
+        onIsSoloingToggle: this.handleHeaderIsSoloingToggle,
+        track: this.props.track,
+      }),
+      h('.track__sequences', {
+        style: this.getBodySequencesStyle(),
+      }, [
+        ...this.props.track.sequences.map(sequence =>
+          h(TrackSequence, {
+            onOpen: this.props.onSequenceOpen,
+            onSelect: this.props.onSequenceSelect,
+            selectedSequence: this.props.selectedSequence,
+            sequence,
           }),
-        ]),
+        ),
+        // h(AddSequenceButton, {
+        //   onClick: this.handleAddSequenceButtonClick,
+        //   track: this.props.track,
+        // }),
       ]),
     ]);
   }

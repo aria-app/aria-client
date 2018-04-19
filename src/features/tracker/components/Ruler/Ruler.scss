@@ -23,25 +23,6 @@ $ruler__body__header__width: 84px;
     border-radius: $ruler__border-radius;
     display: flex;
     margin-right: $ruler__body__margin-right;
-    &__header {
-      background-color: $neutral-8;
-      border-bottom-left-radius: $ruler__border-radius;
-      border-top-left-radius: $ruler__border-radius;
-      display: flex;
-      flex-shrink: 0;
-      width: $ruler__body__header__width;
-      &__bpm {
-        color: $color-inverted;
-        font-size: 0.75em;
-        padding: $margin-xs $margin-s;
-      }
-      &:hover {
-        background-color: $neutral-9;
-      }
-      &:active {
-        background-color: $neutral-7;
-      }
-    }
     &__measures {
       position: relative;
       width: 100%;

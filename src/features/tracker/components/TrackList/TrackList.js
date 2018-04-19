@@ -2,7 +2,7 @@ import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import { AddTrackButton } from '../AddTrackButton/AddTrackButton';
+// import { AddTrackButton } from '../AddTrackButton/AddTrackButton';
 import { Ruler } from '../Ruler/Ruler';
 import { Track } from '../Track/Track';
 import './TrackList.scss';
@@ -55,10 +55,10 @@ export class TrackList extends React.PureComponent {
           track,
         }),
       ),
-      h(AddTrackButton, {
-        onClick: this.props.onTrackAdd,
-        songMeasureCount: this.props.songMeasureCount,
-      }),
+      // h(AddTrackButton, {
+      //   onClick: this.props.onTrackAdd,
+      //   songMeasureCount: this.props.songMeasureCount,
+      // }),
     ]);
   }
 

@@ -5,7 +5,6 @@ import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
 import { TrackList } from '../TrackList/TrackList';
-import { TrackerToolbar } from '../TrackerToolbar/TrackerToolbar';
 import { SongInfoModal } from '../SongInfoModal/SongInfoModal';
 import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
 import './Tracker.scss';
@@ -49,15 +48,6 @@ export class Tracker extends React.PureComponent {
 
   render() {
     return h('.tracker', [
-      h(TrackerToolbar, {
-        onSequenceDelete: this.handleTrackerToolbarSequenceDelete,
-        onSequenceExtend: this.handleTrackerToolbarSequenceExtend,
-        onSequenceMoveLeft: this.handleTrackerToolbarSequenceMoveLeft,
-        onSequenceMoveRight: this.handleTrackerToolbarSequenceMoveRight,
-        onSequenceOpen: this.handleTrackerToolbarSequenceOpen,
-        onSequenceShorten: this.handleTrackerToolbarSequenceShorten,
-        selectedSequence: this.getSelectedSequence(),
-      }),
       h(TrackList, {
         bpm: this.props.bpm,
         onSequenceAdd: this.handleTrackListSequenceAdd,
@@ -77,7 +67,7 @@ export class Tracker extends React.PureComponent {
       }),
       h(Timeline, {
         isVisible: !this.props.isStopped,
-        offset: (this.props.position * 2) + 100,
+        offset: (this.props.position * 2) + 16,
       }),
       h(SongInfoModal, {
         bpm: this.props.bpm,

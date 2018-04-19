@@ -21,6 +21,14 @@ export const textColorInverted = neutral[2];
 export const textColorPrimary = primary[6];
 export const textColorAccent = accent[6];
 
+export const emerald = [
+  '#7BFFF2',
+  '#6AFFB7',
+  '#2BEAA4',
+  '#29965A',
+  '#2A6043',
+];
+
 function getRange(base) {
   return [
     'black', // 0

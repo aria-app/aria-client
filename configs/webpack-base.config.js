@@ -105,6 +105,9 @@ module.exports = {
       appMountId: 'root',
       baseHref: '/',
       inject: false,
+      links: [
+        'https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800',
+      ],
       title: 'Zen Sequencer',
       template: htmlWebpackTemplate,
     }),

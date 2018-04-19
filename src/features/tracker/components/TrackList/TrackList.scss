@@ -1,15 +1,12 @@
 @import '../../../../styles/constants';
 @import '../../../../styles/palette';
 
-$track-list__background-color: $neutral-2;
-$track-list__padding: $margin-m;
-
 .track-list {
   align-items: flex-start;
-  background-color: $track-list__background-color;
+  background-color: $almostblack;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
   overflow: auto;
-  padding: $track-list__padding;
+  padding: 14px $margin-m;
 }

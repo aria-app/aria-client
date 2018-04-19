@@ -48,7 +48,7 @@ export class TrackSequence extends React.PureComponent {
 
   getStyle() {
     return {
-      transform: `translateX(${measureCountToPx(this.props.sequence.position)}px)`,
+      left: measureCountToPx(this.props.sequence.position),
       width: measureCountToPx(this.props.sequence.measureCount),
     };
   }

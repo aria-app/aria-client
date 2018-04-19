@@ -1,31 +1,26 @@
 @import '../../../../styles/constants';
 @import '../../../../styles/palette';
 
-$track-sequence__height: 84px;
-$track-sequence__padding: $margin-s;
-$track-sequence__background-color: $primary-5;
-$track-sequence__background-color--active: $accent-5;
-$track-sequence__background-color--hover: $primary-6;
-$track-sequence__border: 2px solid $primary-6;
-$track-sequence__border-color--active: $accent-6;
-$track-sequence__border-color--hover: $primary-8;
-
 .track-sequence {
   display: flex;
-  height: $track-sequence__height;
+  height: 84px;
   position: absolute;
   top: 0;
   left: 0;
-  padding: $track-sequence__padding;
-  background-color: $track-sequence__background-color;
-  border-right: $track-sequence__border;
+  padding: $margin-s;
+  background-color: $emerald-2;
+  border-right: 2px solid $emerald-0;
   overflow: hidden;
+  transform: scale(1);
+  transition: transform 0.1s ease;
   &--active {
-    background-color: $track-sequence__background-color--active;
-    border-color: $track-sequence__border-color--active;
+    background-color: $almostwhite;
+    border-color: white;
   }
   &:hover:not(.track-sequence--active) {
-    background-color: $track-sequence__background-color--hover;
-    border-color: $track-sequence__border-color--hover;
+    background-color: $emerald-1;
+  }
+  &:active {
+    transform: scale(0.95);
   }
 }
