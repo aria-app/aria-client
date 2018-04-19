@@ -1,23 +1,17 @@
 @import '../../../../styles/constants';
 @import '../../../../styles/palette';
 
-$ruler-measure__width: 64px;
-$ruler-measure__padding: 0 4px;
-$ruler-measure__color: $neutral-5;
-$ruler-measure__border-left: 1px solid $neutral-5;
-$ruler-measure__font-size: 0.75em;
-
 .ruler-measure {
   align-items: flex-end;
-  border-left: $ruler-measure__border-left;
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
   bottom: 0;
-  color: $ruler-measure__color;
+  color: rgba(255, 255, 255, 0.5);
   display: flex;
-  font-size: $ruler-measure__font-size;
+  font-size: 14;
   left: 0;
-  padding: $ruler-measure__padding;
+  padding: 0 4px;
   pointer-events: none;
   position: absolute;
   top: 0;
-  width: $ruler-measure__width;
+  width: 64px;
 }

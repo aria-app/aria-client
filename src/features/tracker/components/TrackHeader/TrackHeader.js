@@ -18,9 +18,7 @@ export class TrackHeader extends React.PureComponent {
     return h('.track-header', {
       onClick: this.props.onClick,
     }, [
-      h('.track-header__title', [
-        this.getTitleText(),
-      ]),
+      this.getTitleText(),
     ]);
   }
 

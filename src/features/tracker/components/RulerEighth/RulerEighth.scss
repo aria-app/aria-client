@@ -1,15 +1,11 @@
 @import '../../../../styles/constants';
 @import '../../../../styles/palette';
 
-$ruler-eighth__background-color: $neutral-4;
-$ruler-eighth__height: 8px;
-$ruler-eighth__width: 1px;
-
 .ruler-eighth {
-  background-color: $ruler-eighth__background-color;
-  height: $ruler-eighth__height;
+  background-color: rgba(255, 255, 255, 0.5);
+  height: 1px;
   left: 0;
   position: absolute;
   top: 0;
-  width: $ruler-eighth__width;
+  width: 1px;
 }

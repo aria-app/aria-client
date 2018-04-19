@@ -20,20 +20,18 @@ export class Ruler extends React.PureComponent {
 
   render() {
     return h('.ruler', [
-      h('.ruler__body', [
-        h('.ruler__body__measures', {
-          style: this.getMeasuresStyle(),
-          onMouseDown: this.holdPosition,
-        }, [
-          ...range(0, this.props.measureCount).map(measureIndex =>
-            h(RulerMeasure, {
-              isLastMeasure: this.getIsLastMeasure(measureIndex),
-              key: measureIndex,
-              measureWidth: this.props.measureWidth,
-              measureIndex,
-            }),
-          ),
-        ]),
+      h('.ruler__measures', {
+        style: this.getMeasuresStyle(),
+        onMouseDown: this.holdPosition,
+      }, [
+        ...range(0, this.props.measureCount).map(measureIndex =>
+          h(RulerMeasure, {
+            isLastMeasure: this.getIsLastMeasure(measureIndex),
+            key: measureIndex,
+            measureWidth: this.props.measureWidth,
+            measureIndex,
+          }),
+        ),
       ]),
     ]);
   }

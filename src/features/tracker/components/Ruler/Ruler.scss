@@ -1,31 +1,14 @@
 @import '../../../../styles/constants';
 @import '../../../../styles/palette';
 
-$ruler__background-color: $neutral-3;
-$ruler__border-radius: 2px;
-$ruler__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-$ruler__height: 42px;
-$ruler__margin-bottom: $margin-s;
-$ruler__time-offset: 84px;
-$ruler__body__margin-right: $margin-s;
-$ruler__body__header__background-color: $neutral-8;
-$ruler__body__header__width: 84px;
-
 .ruler {
   cursor: pointer;
   display: flex;
   flex: 0 0 auto;
-  height: $ruler__height;
-  margin-bottom: $ruler__margin-bottom;
-  &__body {
-    background-color: $ruler__background-color;
-    box-shadow: $ruler__box-shadow;
-    border-radius: $ruler__border-radius;
-    display: flex;
-    margin-right: $ruler__body__margin-right;
-    &__measures {
-      position: relative;
-      width: 100%;
-    }
+  height: 35px;
+  margin-bottom: $margin-m;
+  &__measures {
+    position: relative;
+    width: 100%;
   }
 }
