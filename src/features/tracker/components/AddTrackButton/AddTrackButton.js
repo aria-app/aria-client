@@ -1,10 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import shared from '../../../shared';
 import './AddTrackButton.scss';
-
-const { Icon } = shared.components;
 
 export class AddTrackButton extends React.PureComponent {
   static propTypes = {
@@ -14,23 +11,12 @@ export class AddTrackButton extends React.PureComponent {
 
   render() {
     return h('.add-track-button', {
-      style: this.getStyle(),
       onClick: this.handleClick,
     }, [
-      h(Icon, {
-        className: 'add-track-button__icon',
-        icon: 'plus',
-        size: 'large',
-      }),
-      h('.add-track-button__text', [
-        'Add Track',
-      ]),
+      h('.add-track-button__plus__vertical'),
+      h('.add-track-button__plus__horizontal'),
     ]);
   }
-
-  getStyle = () => ({
-    width: (this.props.songMeasureCount * 64) + 84,
-  });
 
   handleClick = (e) => {
     e.preventDefault();
