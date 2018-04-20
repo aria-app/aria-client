@@ -1,12 +1,8 @@
 @import '../../../../styles/palette';
 
 $icon-button__size: 40px;
-$icon-button__fill: $neutral-10;
 $icon-button__fill--active: $neutral-3;
 $icon-button__background__height: 100%;
-$icon-button__background__background-color--active: $neutral-10;
-$icon-button__background__border-radius: 2px;
-$icon-button__background__background-color--press: transparentize($neutral-10, 0.75);
 
 .icon-button {
   display: flex;
@@ -21,7 +17,6 @@ $icon-button__background__background-color--press: transparentize($neutral-10, 0
     flex-grow: 1;
     flex-shrink: 0;
     height: $icon-button__background__height;
-    border-radius: $icon-button__background__border-radius;
   }
   &__icon {
     position: absolute;
@@ -29,15 +24,12 @@ $icon-button__background__background-color--press: transparentize($neutral-10, 0
     left: 50%;
     transform: translate(-50%, -50%);
     svg * {
-      fill: $icon-button__fill;
+      fill: $almostblack;
     }
   }
   &--active {
     .icon-button__background {
-      background-color: $icon-button__background__background-color--active;
-    }
-    .icon-button__icon  svg * {
-      fill: $icon-button__fill--active;
+      background-color: rgba(0, 0, 0, 0.25);
     }
   }
   &--disabled {
@@ -48,7 +40,7 @@ $icon-button__background__background-color--press: transparentize($neutral-10, 0
   }
   &:not(.icon-button--disabled):active {
     .icon-button__background {
-      background-color: $icon-button__background__background-color--press;
+      background-color: rgba(0, 0, 0, 0.25);
     }
   }
 }

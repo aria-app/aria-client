@@ -3,7 +3,6 @@
 
 $toolbar__height: 56px;
 $toolbar__padding: $margin-s;
-$toolbar__background-color: $neutral-3;
 $toolbar__background-color--alternate: $neutral-9;
 $toolbar__border: none;
 $toolbar__z-index: 100;
@@ -27,7 +26,7 @@ $toolbar__icon-button__background--active--alternate: rgba(0, 0, 0, 0.25);
   position: relative;
   padding-left: $toolbar__padding;
   padding-right: $toolbar__padding;
-  background-color: $toolbar__background-color;
+  background-color: $almostwhite;
   border-bottom: $toolbar__border;
   z-index: $toolbar__z-index;
   .icon-button + .icon-button {

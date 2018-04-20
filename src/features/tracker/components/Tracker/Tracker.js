@@ -108,10 +108,6 @@ export class Tracker extends React.PureComponent {
     const sequence = Dawww.createSequence(track.id, position);
 
     this.props.onSequenceAdd(sequence);
-
-    this.setState({
-      selectedSequenceId: sequence.id,
-    });
   };
 
   handleTrackListSequenceDeselect = () => {
@@ -137,10 +133,6 @@ export class Tracker extends React.PureComponent {
     const sequence = Dawww.createSequence(track.id);
 
     this.props.onTrackAdd(track, sequence);
-
-    this.setState({
-      selectedSequenceId: sequence.id,
-    });
   };
 
   handleTrackerToolbarSequenceDelete = () => {
