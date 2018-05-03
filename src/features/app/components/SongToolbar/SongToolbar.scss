@@ -2,6 +2,7 @@
 @import '../../../../styles/palette';
 
 .song-toolbar {
+  box-shadow: 2px 3px 0 transparentize($almostwhite, 0.5);
   margin-left: $margin-m;
   margin-right: $margin-m;
   margin-bottom: 14px;

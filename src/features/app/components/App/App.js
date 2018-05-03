@@ -8,6 +8,7 @@ import shared from '../../../shared';
 import tracker from '../../../tracker';
 import { UploadOverlay } from '../UploadOverlay/UploadOverlay';
 import { SongToolbar } from '../SongToolbar/SongToolbar';
+import { VFXLayer } from '../VFXLayer/VFXLayer';
 import './App.scss';
 
 const { SequencerContainer } = sequencer.components;
@@ -49,6 +50,7 @@ export class App extends React.PureComponent {
         onCancel: this.handleUploadOverlayCancel,
         onUpload: this.handleUploadOverlayUpload,
       }),
+      h(VFXLayer),
     ]);
   }
 

@@ -28,7 +28,7 @@ $toolbar__icon-button__background--active--alternate: rgba(0, 0, 0, 0.25);
   padding-right: $toolbar__padding;
   background-color: $almostwhite;
   border-bottom: $toolbar__border;
-  z-index: $toolbar__z-index;
+  // z-index: $toolbar__z-index;
   .icon-button + .icon-button {
     margin-left: $toolbar__item__spacing;
   }
