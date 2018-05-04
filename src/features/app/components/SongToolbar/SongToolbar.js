@@ -1,3 +1,4 @@
+import anime from 'animejs';
 import Dawww from 'dawww';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -6,7 +7,7 @@ import shared from '../../../shared';
 import './SongToolbar.scss';
 
 const { Button, DownloadButton, IconButton, Toolbar } = shared.components;
-const { PAUSED, STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
+const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 
 export class SongToolbar extends React.PureComponent {
   static propTypes = {
@@ -17,23 +18,62 @@ export class SongToolbar extends React.PureComponent {
     stringifiedSong: PropTypes.string.isRequired,
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.playbackState === STOPPED && this.props.playbackState !== STOPPED) {
+      this.playbackButtonsStopRef.style.display = 'flex';
+
+      anime({
+        duration: 300,
+        easing: 'easeInOutQuad',
+        targets: this.playbackButtonsStopRef,
+        translateY: -32,
+      });
+    }
+
+    if (prevProps.playbackState !== STOPPED && this.props.playbackState === STOPPED) {
+      anime({
+        complete: () => {
+          setTimeout(() => {
+            this.playbackButtonsStopRef.style.display = 'none';
+          }, 200);
+        },
+        duration: 300,
+        easing: 'easeInOutQuad',
+        targets: this.playbackButtonsStopRef,
+        translateY: 0,
+      });
+    }
+  }
+
   render() {
     return h(Toolbar, {
       className: 'song-toolbar',
       position: 'bottom',
       leftItems: [
+        h('.song-toolbar__song-info', [
+          h('.song-toolbar__song-info__time', [
+            '00:00:05',
+          ]),
+          h('.song-toolbar__song-info__bpm', [
+            `${120} BPM`,
+          ]),
+        ]),
         h('.song-toolbar__playback-buttons', [
           h(IconButton, {
-            className: 'song-toolbar__playback-buttons__play-pause-button',
-            isActive: this.getIsPlayPauseButtonActive(),
-            icon: this.getPlayPauseButtonIcon(),
-            onClick: this.handlePlayPauseButtonClick,
+            className: 'song-toolbar__playback-buttons__stop',
+            icon: 'stop',
+            onClick: this.handlePlaybackButtonsStopClick,
+            getRef: this.setPlaybackButtonsStopRef,
+            size: 'small',
+            style: {
+              display: 'none',
+            },
           }),
           h(IconButton, {
-            className: 'song-toolbar__playback-buttons__stop-button',
-            isActive: this.props.playbackState === STOPPED,
-            icon: 'stop',
-            onClick: this.handleStopButtonClick,
+            className: 'song-toolbar__playback-buttons__play-pause',
+            icon: this.getPlaybackButtonsPlayPauseIcon(),
+            onClick: this.handlePlaybackButtonsPlayPauseClick,
+            size: 'small',
           }),
         ]),
       ],
@@ -53,23 +93,15 @@ export class SongToolbar extends React.PureComponent {
     });
   }
 
-  getIsPlayPauseButtonActive = () => (
-    this.props.playbackState === STARTED ||
-    this.props.playbackState === PAUSED
-  );
-
-  getPlayPauseButtonIcon = () => ({
-    PAUSED: 'play',
-    STARTED: 'pause',
-    STOPPED: 'play',
-  })[this.props.playbackState];
+  getPlaybackButtonsPlayPauseIcon = () =>
+    (this.props.playbackState === STARTED ? 'pause' : 'play');
 
   handleClearCacheClick = () => {
     window.localStorage.removeItem('currentSong');
     window.location.reload();
   }
 
-  handlePlayPauseButtonClick = () => {
+  handlePlaybackButtonsPlayPauseClick = () => {
     if (this.props.playbackState === STARTED) {
       this.props.onPause();
       return;
@@ -78,8 +110,11 @@ export class SongToolbar extends React.PureComponent {
     this.props.onPlay();
   };
 
-  handleStopButtonClick = () => {
-    if (this.props.playbackState === STOPPED) return;
+  handlePlaybackButtonsStopClick = () => {
     this.props.onStop();
+  };
+
+  setPlaybackButtonsStopRef = (playbackButtonsStopRef) => {
+    this.playbackButtonsStopRef = playbackButtonsStopRef;
   };
 }

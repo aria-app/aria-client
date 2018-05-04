@@ -8,6 +8,7 @@ import './IconButton.scss';
 export class IconButton extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
+    getRef: PropTypes.func,
     icon: PropTypes.string.isRequired,
     isActive: PropTypes.bool,
     isDisabled: PropTypes.bool,
@@ -21,6 +22,7 @@ export class IconButton extends React.PureComponent {
     return h('.icon-button', {
       className: this.getClassName(),
       onClick: this.handleClick,
+      ref: this.props.getRef,
       style: this.props.style,
       title: this.props.toolTip,
     }, [

@@ -12,6 +12,7 @@
     "storybook": "start-storybook -p 6006"
   },
   "dependencies": {
+    "animejs": "2.2.0",
     "babel-polyfill": "6.26.0",
     "classnames": "2.2.5",
     "dawww": "1.9.2",
