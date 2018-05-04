@@ -11,7 +11,7 @@
     width: 28px;
     position: absolute;
     right: 0;
-    top: -32px;
+    top: -33px;
     &__play-pause, &__stop {
       background-color: white;
       box-shadow: 2px 2px 0 transparentize(white, 0.5);
@@ -32,8 +32,8 @@
     padding-left: $margin-s;
     padding-right: $margin-s;
     position: absolute;
-    right: 32px;
-    top: -32px;
+    right: 33px;
+    top: -33px;
     &__time {
       font-weight: 600;
       margin-right: $margin-xs;

@@ -23,10 +23,10 @@ export class SongToolbar extends React.PureComponent {
       this.playbackButtonsStopRef.style.display = 'flex';
 
       anime({
-        duration: 300,
-        easing: 'easeInOutQuad',
+        duration: 100,
+        easing: 'easeOutQuad',
         targets: this.playbackButtonsStopRef,
-        translateY: -32,
+        translateY: -33,
       });
     }
 
@@ -37,8 +37,8 @@ export class SongToolbar extends React.PureComponent {
             this.playbackButtonsStopRef.style.display = 'none';
           }, 200);
         },
-        duration: 300,
-        easing: 'easeInOutQuad',
+        duration: 100,
+        easing: 'easeInQuad',
         targets: this.playbackButtonsStopRef,
         translateY: 0,
       });

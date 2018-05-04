@@ -1,11 +1,19 @@
 import isEmpty from 'lodash/fp/isEmpty';
+import times from 'lodash/fp/times';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
+import * as palette from '../../../../styles/palette';
+import shared from '../../../shared';
 import { AddTrackButton } from '../AddTrackButton/AddTrackButton';
 import { Ruler } from '../Ruler/Ruler';
 import { Track } from '../Track/Track';
 import './TrackList.scss';
+
+const { MatrixBox } = shared.components;
+const rowCount = 7;
+const sequenceCount = 6;
+const columnCount = 1 + (4 * sequenceCount);
 
 export class TrackList extends React.PureComponent {
   static propTypes = {
@@ -41,6 +49,37 @@ export class TrackList extends React.PureComponent {
         onSongInfoPress: this.props.onSongInfoPress,
         onSongShorten: this.props.onSongShorten,
         playbackState: 'stopped',
+      }),
+      h(MatrixBox, {
+        fill: palette.emerald[2],
+        matrix: times(
+          row => times(
+            (column) => {
+              if (column === 0 || column % 4 === 0) {
+                if (row === 0 || row === 3 || row === 6) {
+                  return 2;
+                }
+              }
+              return 1;
+            },
+            columnCount,
+          ),
+          rowCount,
+        ),
+        // matrix: [
+        //   [2, 1, 1, 1, 2, 1, 1, 1, 2],
+        //   [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        //   [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        //   [2, 1, 1, 1, 2, 1, 1, 1, 2],
+        //   [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        //   [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        //   [2, 1, 1, 1, 2, 1, 1, 1, 2],
+        // ],
+        style: {
+          height: 84,
+          marginBottom: 16,
+          width: (64 * sequenceCount) + 1,
+        },
       }),
       ...this.props.tracks.map(track =>
         h(Track, {

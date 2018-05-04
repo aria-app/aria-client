@@ -1,0 +1,22 @@
+.matrix-box-small-cross {
+  display: flex;
+  height: 3px;
+  left: -1px;
+  position: absolute;
+  top: -1px;
+  width: 3px;
+  &__horizontal-bar {
+    height: 1px;
+    left: 0;
+    position: absolute;
+    top: 1px;
+    width: 3px;
+  }
+  &__vertical-bar {
+    left: 1px;
+    height: 3px;
+    position: absolute;
+    top: 0;
+    width: 1px;
+  }
+}

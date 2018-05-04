@@ -28,6 +28,12 @@ export const emerald = [
   '#29965A',
   '#2A6043',
 ];
+export const danger = '#FE7C7C';
+export const almostblack = '#1F1F1F';
+export const almostwhite = '#EBEBEB';
+export const subtext = '#5C5C5C';
+export const midgray = '#A3A3A3';
+export const ashgray = '#E0E0E0';
 
 function getRange(base) {
   return [
