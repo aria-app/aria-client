@@ -11,6 +11,7 @@ const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 
 export class SongToolbar extends React.PureComponent {
   static propTypes = {
+    bpm: PropTypes.number,
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
@@ -50,12 +51,14 @@ export class SongToolbar extends React.PureComponent {
       className: 'song-toolbar',
       position: 'bottom',
       leftItems: [
-        h('.song-toolbar__song-info', [
+        h('.song-toolbar__song-info', {
+          onClick: this.
+        }, [
           h('.song-toolbar__song-info__time', [
             '00:00:05',
           ]),
           h('.song-toolbar__song-info__bpm', [
-            `${120} BPM`,
+            `${this.props.bpm} BPM`,
           ]),
         ]),
         h('.song-toolbar__playback-buttons', [

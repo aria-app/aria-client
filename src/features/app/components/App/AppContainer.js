@@ -6,6 +6,7 @@ import song from '../../../song';
 import { App } from './App';
 
 export const AppContainer = connect(state => ({
+  bpm: song.selectors.getBPM(state),
   locationType: location.selectors.getType(state),
   playbackState: audio.selectors.getPlaybackState(state),
   stringifiedSong: song.selectors.getStringifiedSong(state),

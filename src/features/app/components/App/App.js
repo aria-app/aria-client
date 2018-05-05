@@ -17,6 +17,7 @@ const { TrackerContainer } = tracker.components;
 
 export class App extends React.PureComponent {
   static propTypes = {
+    bpm: PropTypes.number.isRequired,
     locationType: PropTypes.string.isRequired,
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
@@ -39,6 +40,7 @@ export class App extends React.PureComponent {
     }, [
       this.getContentComponent(),
       h(SongToolbar, {
+        bpm: this.props.bpm,
         onPause: this.props.onPause,
         onPlay: this.props.onPlay,
         onStop: this.props.onStop,

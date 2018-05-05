@@ -17,8 +17,8 @@
     background-color: $almostwhite;
     border-color: white;
   }
-  &:hover:not(.track-sequence--active) {
-    background-color: $emerald-1;
+  &:hover:not(:active) {
+    transform: scale(1.05);
   }
   &:active {
     transform: scale(0.95);
