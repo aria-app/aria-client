@@ -10,13 +10,11 @@ import './TrackList.scss';
 
 export class TrackList extends React.PureComponent {
   static propTypes = {
-    bpm: PropTypes.number.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceDeselect: PropTypes.func.isRequired,
     onSequenceOpen: PropTypes.func.isRequired,
     onSequenceSelect: PropTypes.func.isRequired,
     onSongExtend: PropTypes.func.isRequired,
-    onSongInfoPress: PropTypes.func.isRequired,
     onSongShorten: PropTypes.func.isRequired,
     onTrackAdd: PropTypes.func.isRequired,
     onTrackIsMutedToggle: PropTypes.func.isRequired,
@@ -32,14 +30,12 @@ export class TrackList extends React.PureComponent {
       onClick: this.handleClick,
     }, [
       h(Ruler, {
-        bpm: this.props.bpm,
         measureCount: this.props.songMeasureCount,
         measureWidth: 64,
         onPause: () => {},
         onPlay: () => {},
         onPositionSet: () => {},
         onSongExtend: this.props.onSongExtend,
-        onSongInfoPress: this.props.onSongInfoPress,
         onSongShorten: this.props.onSongShorten,
         playbackState: 'stopped',
       }),

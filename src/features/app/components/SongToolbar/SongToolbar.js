@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
+import { SongInfoModal } from '../SongInfoModal/SongInfoModal';
 import './SongToolbar.scss';
 
 const { Button, DownloadButton, IconButton, Toolbar } = shared.components;
@@ -12,12 +13,19 @@ const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 export class SongToolbar extends React.PureComponent {
   static propTypes = {
     bpm: PropTypes.number,
+    onBPMChange: PropTypes.func.isRequired,
+    onMeasureCountChange: PropTypes.func.isRequired,
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
     playbackState: PropTypes.string.isRequired,
+    songMeasureCount: PropTypes.number.isRequired,
     stringifiedSong: PropTypes.string.isRequired,
   }
+
+  state = {
+    isSongInfoModalOpen: false,
+  };
 
   componentDidUpdate(prevProps) {
     if (prevProps.playbackState === STOPPED && this.props.playbackState !== STOPPED) {
@@ -51,8 +59,16 @@ export class SongToolbar extends React.PureComponent {
       className: 'song-toolbar',
       position: 'bottom',
       leftItems: [
+        h(SongInfoModal, {
+          bpm: this.props.bpm,
+          isOpen: this.state.isSongInfoModalOpen,
+          measureCount: this.props.songMeasureCount,
+          onBPMChange: this.props.onBPMChange,
+          onConfirm: this.handleSongInfoModalConfirm,
+          onMeasureCountChange: this.props.onMeasureCountChange,
+        }),
         h('.song-toolbar__song-info', {
-          onClick: this.
+          onClick: this.handleSongInfoClick,
         }, [
           h('.song-toolbar__song-info__time', [
             '00:00:05',
@@ -116,6 +132,18 @@ export class SongToolbar extends React.PureComponent {
   handlePlaybackButtonsStopClick = () => {
     this.props.onStop();
   };
+
+  handleSongInfoClick = () => {
+    this.setState({
+      isSongInfoModalOpen: true,
+    });
+  };
+
+  handleSongInfoModalConfirm = () => {
+    this.setState({
+      isSongInfoModalOpen: false,
+    });
+  }
 
   setPlaybackButtonsStopRef = (playbackButtonsStopRef) => {
     this.playbackButtonsStopRef = playbackButtonsStopRef;

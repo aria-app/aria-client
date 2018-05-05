@@ -19,11 +19,14 @@ export class App extends React.PureComponent {
   static propTypes = {
     bpm: PropTypes.number.isRequired,
     locationType: PropTypes.string.isRequired,
+    onBPMChange: PropTypes.func.isRequired,
+    onMeasureCountChange: PropTypes.func.isRequired,
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
     onUpload: PropTypes.func.isRequired,
     playbackState: PropTypes.string.isRequired,
+    songMeasureCount: PropTypes.number.isRequired,
     stringifiedSong: PropTypes.string.isRequired,
   }
 
@@ -41,10 +44,13 @@ export class App extends React.PureComponent {
       this.getContentComponent(),
       h(SongToolbar, {
         bpm: this.props.bpm,
+        onBPMChange: this.props.onBPMChange,
+        onMeasureCountChange: this.props.onMeasureCountChange,
         onPause: this.props.onPause,
         onPlay: this.props.onPlay,
         onStop: this.props.onStop,
         playbackState: this.props.playbackState,
+        songMeasureCount: this.props.songMeasureCount,
         stringifiedSong: this.props.stringifiedSong,
       }),
       h(UploadOverlay, {

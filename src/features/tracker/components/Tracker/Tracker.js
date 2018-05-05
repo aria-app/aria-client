@@ -5,7 +5,6 @@ import React from 'react';
 import h from 'react-hyperscript';
 import shared from '../../../shared';
 import { TrackList } from '../TrackList/TrackList';
-import { SongInfoModal } from '../SongInfoModal/SongInfoModal';
 import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
 import './Tracker.scss';
 
@@ -13,10 +12,7 @@ const { Timeline } = shared.components;
 
 export class Tracker extends React.PureComponent {
   static propTypes = {
-    bpm: PropTypes.number.isRequired,
     isStopped: PropTypes.bool.isRequired,
-    onBPMChange: PropTypes.func.isRequired,
-    onMeasureCountChange: PropTypes.func.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceDelete: PropTypes.func.isRequired,
     onSequenceExtend: PropTypes.func.isRequired,
@@ -49,7 +45,6 @@ export class Tracker extends React.PureComponent {
   render() {
     return h('.tracker', [
       h(TrackList, {
-        bpm: this.props.bpm,
         onSequenceAdd: this.handleTrackListSequenceAdd,
         onSequenceDeselect: this.handleTrackListSequenceDeselect,
         onSequenceOpen: this.props.onSequenceOpen,
@@ -69,14 +64,6 @@ export class Tracker extends React.PureComponent {
         isVisible: !this.props.isStopped,
         offset: (this.props.position * 2) + 16,
       }),
-      h(SongInfoModal, {
-        bpm: this.props.bpm,
-        isOpen: this.state.isSongInfoModalOpen,
-        measureCount: this.props.songMeasureCount,
-        onBPMChange: this.props.onBPMChange,
-        onConfirm: this.handleSongInfoModalConfirm,
-        onMeasureCountChange: this.props.onMeasureCountChange,
-      }),
       h(TrackEditingModal, {
         onDelete: this.handleTrackEditingModalDelete,
         onDismiss: this.props.onTrackEditingFinish,
@@ -91,12 +78,6 @@ export class Tracker extends React.PureComponent {
 
   getStagedTrack = () =>
     getOr({}, `props.trackMap.${this.props.trackToEditId}`, this);
-
-  handleSongInfoModalConfirm = () => {
-    this.setState({
-      isSongInfoModalOpen: false,
-    });
-  }
 
   handleTrackEditingModalDelete = (track) => {
     this.props.onTrackDelete(track);
@@ -119,12 +100,6 @@ export class Tracker extends React.PureComponent {
   handleTrackListSequenceSelect = (sequence) => {
     this.setState({
       selectedSequenceId: sequence.id,
-    });
-  };
-
-  handleTrackListSongInfoPress = () => {
-    this.setState({
-      isSongInfoModalOpen: true,
     });
   };
 

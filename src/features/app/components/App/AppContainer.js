@@ -9,9 +9,12 @@ export const AppContainer = connect(state => ({
   bpm: song.selectors.getBPM(state),
   locationType: location.selectors.getType(state),
   playbackState: audio.selectors.getPlaybackState(state),
+  songMeasureCount: song.selectors.getMeasureCount(state),
   stringifiedSong: song.selectors.getStringifiedSong(state),
 }), {
+  onBPMChange: shared.actions.bpmSet,
   onFileDragStart: shared.actions.fileDragStarted,
+  onMeasureCountChange: shared.actions.measureCountSet,
   onPause: shared.actions.playbackPauseRequestStarted,
   onPlay: shared.actions.playbackStartRequestStarted,
   onStop: shared.actions.playbackStopRequestStarted,

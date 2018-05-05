@@ -11,7 +11,6 @@ const { MatrixBox } = shared.components;
 
 export class Ruler extends React.PureComponent {
   static propTypes = {
-    bpm: PropTypes.number.isRequired,
     measureCount: PropTypes.number.isRequired,
     measureWidth: PropTypes.number.isRequired,
     onPause: PropTypes.func.isRequired,
