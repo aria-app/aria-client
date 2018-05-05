@@ -1,11 +1,13 @@
 import Dawww from 'dawww';
 import clamp from 'lodash/fp/clamp';
-import range from 'lodash/fp/range';
+import times from 'lodash/fp/times';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import { RulerMeasure } from '../RulerMeasure/RulerMeasure';
+import shared from '../../../shared';
 import './Ruler.scss';
+
+const { MatrixBox } = shared.components;
 
 export class Ruler extends React.PureComponent {
   static propTypes = {
@@ -20,25 +22,52 @@ export class Ruler extends React.PureComponent {
 
   render() {
     return h('.ruler', [
-      h('.ruler__measures', {
-        style: this.getMeasuresStyle(),
-        onMouseDown: this.holdPosition,
-      }, [
-        ...range(0, this.props.measureCount).map(measureIndex =>
-          h(RulerMeasure, {
-            isLastMeasure: this.getIsLastMeasure(measureIndex),
-            key: measureIndex,
-            measureWidth: this.props.measureWidth,
-            measureIndex,
-          }),
-        ),
-      ]),
+      h(MatrixBox, {
+        fill: 'white',
+        matrix: this.getMatrix(),
+        style: {
+          height: 35,
+          width: (this.props.measureWidth * this.props.measureCount) + 1,
+        },
+      }),
+      times(i =>
+        h('.ruler__measure-number', {
+          key: i,
+          style: {
+            left: (i * 64) + 6,
+            bottom: 0,
+          },
+        }, [
+          i + 1,
+        ]),
+      this.props.measureCount,
+      ),
     ]);
   }
 
   getIsLastMeasure(measureIndex) {
     return measureIndex === this.props.measureCount;
   }
+
+  getMatrix = () =>
+    times(
+      row => times(
+        (column) => {
+          if (column === 0 || column % 8 === 0) {
+            if (row === 0 || row === 4) {
+              return 2;
+            }
+            return 1;
+          }
+          if (row === 0) {
+            return 1;
+          }
+          return 0;
+        },
+        (this.props.measureCount * 8) + 1,
+      ),
+      5,
+    );
 
   getMeasuresStyle() {
     return {

@@ -8,6 +8,8 @@ import './MatrixBox.scss';
 
 export class MatrixBox extends React.PureComponent {
   static propTypes = {
+    children: PropTypes.node,
+    className: PropTypes.string,
     fill: PropTypes.string,
     matrix: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
     style: PropTypes.object,
@@ -15,6 +17,7 @@ export class MatrixBox extends React.PureComponent {
 
   render() {
     return h('.matrix-box', {
+      className: this.props.className,
       ref: this.setRef,
       style: this.props.style,
     }, [
@@ -27,6 +30,9 @@ export class MatrixBox extends React.PureComponent {
           ),
         ),
       )),
+      h('.matrix-box__content', [
+        this.props.children,
+      ]),
     ]);
   }
 
@@ -53,6 +59,7 @@ export class MatrixBox extends React.PureComponent {
     const top = rowIndex * (height / (rowCount - 1));
 
     return h(component, {
+      key: `${rowIndex}:${columnIndex}`,
       style: {
         backgroundColor: this.props.fill,
         opacity: 0.5,

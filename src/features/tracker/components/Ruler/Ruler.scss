@@ -7,6 +7,12 @@
   flex: 0 0 auto;
   height: 35px;
   margin-bottom: $margin-m;
+  position: relative;
+  &__measure-number {
+    color: transparentize(white, 0.5);
+    font-size: 10px;
+    position: absolute;
+  }
   &__measures {
     position: relative;
     width: 100%;

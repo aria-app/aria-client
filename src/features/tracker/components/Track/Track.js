@@ -1,11 +1,16 @@
 import getOr from 'lodash/fp/getOr';
+import times from 'lodash/fp/times';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
+import * as palette from '../../../../styles/palette';
+import shared from '../../../shared';
 // import { AddSequenceButton } from '../AddSequenceButton/AddSequenceButton';
 import { TrackSequence } from '../TrackSequence/TrackSequence';
 import { TrackHeader } from '../TrackHeader/TrackHeader';
 import './Track.scss';
+
+const { MatrixBox } = shared.components;
 
 export class Track extends React.PureComponent {
   static propTypes = {
@@ -30,17 +35,23 @@ export class Track extends React.PureComponent {
         onIsSoloingToggle: this.handleHeaderIsSoloingToggle,
         track: this.props.track,
       }),
-      h('.track__sequences', {
-        style: this.getBodySequencesStyle(),
+      h(MatrixBox, {
+        className: '.track',
+        fill: palette.emerald[2],
+        matrix: this.getMatrix(),
       }, [
-        ...this.props.track.sequences.map(sequence =>
-          h(TrackSequence, {
-            onOpen: this.props.onSequenceOpen,
-            onSelect: this.props.onSequenceSelect,
-            selectedSequence: this.props.selectedSequence,
-            sequence,
-          }),
-        ),
+        h('.track__sequences', {
+          style: this.getBodySequencesStyle(),
+        }, [
+          ...this.props.track.sequences.map(sequence =>
+            h(TrackSequence, {
+              onOpen: this.props.onSequenceOpen,
+              onSelect: this.props.onSequenceSelect,
+              selectedSequence: this.props.selectedSequence,
+              sequence,
+            }),
+          ),
+        ]),
         // h(AddSequenceButton, {
         //   onClick: this.handleAddSequenceButtonClick,
         //   track: this.props.track,
@@ -52,6 +63,26 @@ export class Track extends React.PureComponent {
   getBodySequencesStyle = () => ({
     width: this.props.songMeasureCount * 64,
   });
+
+  getMatrix = () => {
+    const rowCount = 7;
+    const columnCount = (4 * this.props.songMeasureCount) + 1;
+
+    return times(
+      row => times(
+        (column) => {
+          if (column === 0 || column % 4 === 0) {
+            if (row === 0 || row === 3 || row === 6) {
+              return 2;
+            }
+          }
+          return 1;
+        },
+        columnCount,
+      ),
+      rowCount,
+    );
+  };
 
   handleAddSequenceButtonClick = (position) => {
     this.props.onSequenceAdd(
