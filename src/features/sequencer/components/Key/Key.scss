@@ -1,19 +1,21 @@
 @import '../../../../styles/palette';
 
-$key__height: 40px;
+$key__height: 36px;
 $key__font-size: 1.0em;
 $key--ebony__color: white;
-$key--ebony__background-color: transparent;
+$key--ebony__background-color: transparentize($almostwhite, 0.75);
 $key--ivory__color: $almostblack;
 $key--ivory__background-color: $almostwhite;
 $key--ivory__divider-color: $midgray;
 
 .key {
-  display: flex;
   align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  display: flex;
   height: $key__height;
+  flex-shrink: 0;
+  justify-content: center;
+  margin-bottom: 2px;
+  margin-top: 2px;
   position: relative;
   font-size: $key__font-size;
   cursor: pointer;
@@ -23,23 +25,12 @@ $key--ivory__divider-color: $midgray;
   &--a, &--b, &--c, &--d, &--e, &--f, &--g {
     color: $key--ivory__color;
     background-color: $key--ivory__background-color;
+    box-shadow: 2px 0 0 transparentize($almostwhite, 0.5);
   }
   &--asharp, &--gsharp, &--fsharp, &--dsharp, &--csharp {
     color: $key--ebony__color;
     background-color: $key--ebony__background-color;
-  }
-  &--c, &--f {
-    &:after {
-      content: '';
-      display: block;
-      position: absolute;
-      bottom: 0px;
-      left: 0;
-      right: 0;
-      width: 100%;
-      height: 1px;
-      background-color: $key--ivory__divider-color;
-    }
+    box-shadow: 2px 0 0 transparentize($almostwhite, 0.9);
   }
   &--c &__label {
     display: block;
