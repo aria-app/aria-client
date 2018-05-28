@@ -1,6 +1,7 @@
 import { loadSong } from './loadSong';
 import { pause } from './pause';
 import { preview } from './preview';
+import { previewDrawnNote } from './previewDrawnNote';
 import { start } from './start';
 import { stop } from './stop';
 import { subscribeToPosition } from './subscribeToPosition';
@@ -11,6 +12,7 @@ export default [
   loadSong,
   pause,
   preview,
+  previewDrawnNote,
   start,
   stop,
   subscribeToPosition,
