@@ -12,7 +12,7 @@ $note__point-connector__width: 1px;
 $note__point-connector__height: 12px;
 $note__point-connector__top: 14px;
 $note__point-connector__left: 20px;
-$note__point-connector__background-color: $emerald-3;
+$note__point-connector__background-color: transparentize($emerald-2, 0.5);
 $note__point-connector__background-color--hover: $primary-7;
 $note__point-connector--active__background-color: $accent-6;
 $note__point-connector--z-index: 100;
