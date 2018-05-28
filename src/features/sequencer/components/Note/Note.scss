@@ -23,6 +23,7 @@ $note__point-connector--z-index--active: 200;
   top: 0;
   left: 0;
   pointer-events: none;
+  transition: transform 0.1s ease;
   &__point {
     display: flex;
     align-items: center;
@@ -36,6 +37,7 @@ $note__point-connector--z-index--active: 200;
     z-index: $note__point__fill--z-index;
     pointer-events: all;
     overflow: hidden;
+    transition: transform 0.1s ease;
     &__fill {
       width: $note__point__fill__size;
       height: $note__point__fill__size;
@@ -53,6 +55,7 @@ $note__point-connector--z-index--active: 200;
     z-index: $note__point-connector--z-index;
     background-color: $note__point-connector__background-color;
     transform-origin: left center;
+    transition: transform 0.1s ease;
   }
   &:hover:not(.note--active) {
     .note__point__fill {
