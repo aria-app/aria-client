@@ -7,6 +7,7 @@
   margin-right: $margin-m;
   margin-bottom: 14px;
   &__playback-buttons {
+    cursor: pointer;
     height: 28px;
     width: 28px;
     position: absolute;
@@ -27,6 +28,7 @@
     align-items: center;
     background-color: white;
     box-shadow: 2px 2px 0 transparentize(white, 0.5);
+    cursor: pointer;
     display: flex;
     height: 28px;
     padding-left: $margin-s;
