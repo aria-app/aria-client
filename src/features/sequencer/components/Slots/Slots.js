@@ -3,7 +3,7 @@ import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import { neutral } from '../../../../styles/palette';
+// import * as palette from '../../../../styles/palette';
 import './Slots.scss';
 
 export class Slots extends React.PureComponent {
@@ -41,7 +41,8 @@ export class Slots extends React.PureComponent {
 
   getStripe = n => `
     <rect
-      fill="${neutral[3]}"
+      fill="white"
+      opacity="0.05"
       x="${((2 * n) + 1) * 320}"
       y="0"
       width="320"
@@ -58,17 +59,19 @@ export class Slots extends React.PureComponent {
 function getSlot(column, row) {
   const isEven = x => x % 2 === 0;
   const fill = isEven(Math.floor(column / 8))
-    ? neutral[3]
-    : neutral[2];
+    ? 'white'
+    : 'white';
+  const size = 4;
   return `
     <rect
       fill="${fill}"
-      x="${(column * 40) + 14}"
-      y="${(row * 40) + 14}"
-      width="12"
-      height="12"
-      rx="2.5"
-      ry="2.5"
+      opacity="0.1"
+      x="${(column * 40) + ((40 - size) / 2)}"
+      y="${(row * 40) + ((40 - size) / 2)}"
+      width="${size}"
+      height="${size}"
+      rx="1"
+      ry="1"
     ></rect>
   `;
 }

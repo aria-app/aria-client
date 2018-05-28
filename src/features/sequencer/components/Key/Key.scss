@@ -3,10 +3,10 @@
 $key__height: 40px;
 $key__font-size: 1.0em;
 $key__font-weight: 600;
-$key--ebony__color: $neutral-7;
-$key--ebony__background-color: $neutral-3;
+$key--ebony__color: rgba(255, 255, 255, 0.1);
+$key--ebony__background-color: transparent;
 $key--ivory__color: $neutral-3;
-$key--ivory__background-color: $neutral-7;
+$key--ivory__background-color: rgba(255, 255, 255, 0.1);
 $key--ivory__divider-color: $neutral-6;
 
 .key {

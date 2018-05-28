@@ -55,15 +55,6 @@ $success-7: lighten($success-base, 22.50%);
 $success-8: lighten($success-base, 33.75%);
 $success-9: lighten($success-base, 45.00%);
 
-$color: $neutral-9;
-$color-inverted: $neutral-2;
-$color-primary: $primary-6;
-$color-accent: $accent-6;
-
-$background-color: $neutral-2;
-$background-color-primary: $primary-6;
-$background-color-primary: $accent-6;
-
 $emerald-0: #7BFFF2;
 $emerald-1: #6AFFB7;
 $emerald-2: #2BEAA4;
@@ -75,3 +66,12 @@ $almostwhite: #EBEBEB;
 $subtext: #5C5C5C;
 $midgray: #A3A3A3;
 $ashgray: #E0E0E0;
+
+$color: $almostblack;
+$color-inverted: white;
+$color-primary: $emerald-2;
+$color-accent: $danger;
+
+$background-color: $neutral-2;
+$background-color-primary: $primary-6;
+$background-color-primary: $accent-6;

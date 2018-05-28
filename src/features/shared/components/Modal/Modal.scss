@@ -1,66 +1,52 @@
 @import '../../../../styles/constants';
 @import '../../../../styles/palette';
 
-$modal__z-index: 300;
-$modal__overlay__background-color: rgba(0, 0, 0, 0.50);
-$modal__window__min-width: 320px;
-$modal__window__min-height: 0;
-$modal__window__max-width: 640px;
-$modal__window__max-height: 480px;
-$modal__window__padding: 0;
-$modal__window__background-color: $neutral-3;
-$modal__window__border-radius: 2px;
-$modal__header__padding: $margin-m;
-$modal__header__background-color: $neutral-2;
-$modal__header__font-size: 1.25em;
-$modal__content__padding: $margin-m;
-$modal__actions__background-color: $neutral-2;
-
 .modal {
-  position: fixed;
-  top: 0;
-  right: 0;
   bottom: 0;
   left: 0;
-  z-index: $modal__z-index;
   overflow: hidden;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 300;
   &__overlay {
-    display: flex;
     align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 0;
-    right: 0;
+    background-color: rgba(0, 0, 0, 0.50);
     bottom: 0;
+    display: flex;
+    justify-content: center;
     left: 0;
-    background-color: $modal__overlay__background-color;
     overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
     &__window {
+      background-color: white;
+      box-shadow: 2px 2px 0 transparentize($almostwhite, 0.5);
       display: flex;
       flex-direction: column;
-      min-width: $modal__window__min-width;
-      max-width: $modal__window__max-width;
-      min-height: $modal__window__min-height;
-      max-height: $modal__window__max-height;
-      padding-top: $modal__window__padding;
-      padding-bottom: $modal__window__padding;
-      background-color: $modal__window__background-color;
-      border-radius: $modal__window__border-radius;
+      max-height: 480px;
+      max-width: 640px;
+      min-height: 0;
+      min-width: 320px;
       &__header {
-        padding: $modal__header__padding;
-        background-color: $modal__header__background-color;
-        font-size: $modal__header__font-size;
+        align-items: center;
+        display: flex;
+        height: 56px;
+        padding-left: $margin-m;
+        padding-right: $margin-m;
+        background-color: $ashgray;
+        font-size: 18px;
       }
       &__content {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
         flex-shrink: 1;
-        padding: $modal__content__padding;
+        padding: $margin-m;
       }
       &__actions {
-        background-color: $modal__actions__background-color;
-        box-shadow: none;
+        background-color: white;
       }
     }
   }
