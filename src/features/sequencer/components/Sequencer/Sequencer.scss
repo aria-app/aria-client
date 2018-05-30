@@ -8,6 +8,8 @@
   flex-grow: 1;
   overflow: hidden;
   padding-left: $margin-m;
+  padding-right: $margin-m;
+  position: relative;
   &__content {
     display: flex;
     flex-direction: column;
@@ -20,7 +22,7 @@
       flex-grow: 1;
       flex-shrink: 0;
       padding-top: $margin-m;
-      padding-bottom: 36px;
+      padding-bottom: 30px + 14px + 56px;
     }
   }
 }

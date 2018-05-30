@@ -7,7 +7,7 @@ import shared from '../../../shared';
 import { SongInfoModal } from '../SongInfoModal/SongInfoModal';
 import './SongToolbar.scss';
 
-const { Button, DownloadButton, IconButton, Toolbar } = shared.components;
+const { IconButton, Toolbar } = shared.components;
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 
 export class SongToolbar extends React.PureComponent {
@@ -66,6 +66,7 @@ export class SongToolbar extends React.PureComponent {
           onBPMChange: this.props.onBPMChange,
           onConfirm: this.handleSongInfoModalConfirm,
           onMeasureCountChange: this.props.onMeasureCountChange,
+          stringifiedSong: this.props.stringifiedSong,
         }),
         h('.song-toolbar__song-info', {
           onClick: this.handleSongInfoClick,
@@ -96,29 +97,11 @@ export class SongToolbar extends React.PureComponent {
           }),
         ]),
       ],
-      rightItems: [
-        h(Button, {
-          className: 'song-toolbar__clear-cache-button',
-          text: 'clear cache',
-          onClick: this.handleClearCacheClick,
-        }),
-        h(DownloadButton, {
-          className: 'song-toolbar__download-song-button',
-          content: this.props.stringifiedSong,
-          filename: 'song.json',
-          text: 'Download Song',
-        }),
-      ],
     });
   }
 
   getPlaybackButtonsPlayPauseIcon = () =>
     (this.props.playbackState === STARTED ? 'pause' : 'play');
-
-  handleClearCacheClick = () => {
-    window.localStorage.removeItem('currentSong');
-    window.location.reload();
-  }
 
   handlePlaybackButtonsPlayPauseClick = () => {
     if (this.props.playbackState === STARTED) {

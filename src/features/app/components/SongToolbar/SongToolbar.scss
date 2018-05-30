@@ -3,10 +3,12 @@
 
 .song-toolbar {
   border-top: 1px solid $midgray;
+  bottom: 14px;
   box-shadow: 2px 2px 0 transparentize($almostwhite, 0.5);
-  margin-left: $margin-m;
-  margin-right: $margin-m;
-  margin-bottom: 14px;
+  display: none;
+  position: absolute;
+  right: $margin-m;
+  left: $margin-m;
   &__playback-buttons {
     cursor: pointer;
     height: 28px;

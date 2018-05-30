@@ -1,3 +1,10 @@
+@import '../../../../styles/constants';
+@import '../../../../styles/palette';
+
 .sequencer-toolbar {
-  
+  bottom: 14px;
+  left: $margin-m;
+  position: absolute;
+  right: $margin-m;
+  z-index: 50;
 }

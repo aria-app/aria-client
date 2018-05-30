@@ -4,16 +4,16 @@ $note__point__size: 40px;
 $note__point__fill__z-index--active: 300;
 $note__point__fill__size: 24px;
 $note__point__fill__background-color: $emerald-2;
-$note__point__fill__background-color--hover: $primary-7;
+$note__point__fill__background-color--hover: $emerald-2;
 $note__point__fill__box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-$note__point__fill--active__background-color: $accent-6;
+$note__point__fill--active__background-color: white;
 $note__point__fill--z-index: 150;
 $note__point-connector__width: 1px;
 $note__point-connector__height: 12px;
 $note__point-connector__top: 14px;
 $note__point-connector__left: 20px;
 $note__point-connector__background-color: transparentize($emerald-2, 0.5);
-$note__point-connector__background-color--hover: $primary-7;
+$note__point-connector__background-color--hover: $emerald-2;
 $note__point-connector--active__background-color: $accent-6;
 $note__point-connector--z-index: 100;
 $note__point-connector--z-index--active: 200;
@@ -44,6 +44,12 @@ $note__point-connector--z-index--active: 200;
       background-color: $note__point__fill__background-color;
       border-radius: 2px;
       // box-shadow: $note__point__fill__box-shadow;
+      &:hover:not(:active) {
+        transform: scale(1.05);
+      }
+      &:active {
+        transform: scale(0.95);
+      }
     }
   }
   &__point-connector {
@@ -57,22 +63,14 @@ $note__point-connector--z-index--active: 200;
     transform-origin: left center;
     transition: transform 0.1s ease;
   }
-  &:hover:not(.note--active) {
-    .note__point__fill {
-      background-color: $note__point__fill__background-color--hover;
-    }
-    .note__point-connector {
-      background-color: $note__point-connector__background-color--hover;
-    }
-  }
   &--active {
     z-index: $note__point__fill__z-index--active;
   }
   &--active &__point__fill {
-    background-color: $note__point__fill--active__background-color;
+    background-color: white;
+    box-shadow: 0 0 10px transparentize(white, 0.5);
   }
   &--active &__point-connector {
-    background-color: $note__point-connector--active__background-color;
-    z-index: $note__point-connector--z-index--active;
+    background-color: white;
   }
 }

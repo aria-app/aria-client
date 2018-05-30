@@ -7,7 +7,7 @@ import h from 'react-hyperscript';
 import shared from '../../../shared';
 import './SongInfoModal.scss';
 
-const { DropdownList, Modal } = shared.components;
+const { Button, DownloadButton, DropdownList, Modal } = shared.components;
 const getBPMRangeItem = x => ({ id: x, text: String(x) });
 const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
@@ -20,6 +20,7 @@ export class SongInfoModal extends React.PureComponent {
     onBPMChange: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired,
     onMeasureCountChange: PropTypes.func.isRequired,
+    stringifiedSong: PropTypes.string.isRequired,
   }
 
   render() {
@@ -49,6 +50,17 @@ export class SongInfoModal extends React.PureComponent {
             onClick: this.handleMeasureCountTickerPlusClick,
           }, ['+']),
         ]),
+        h(Button, {
+          className: 'song-toolbar__clear-cache-button',
+          text: 'clear cache',
+          onClick: this.handleClearCacheClick,
+        }),
+        h(DownloadButton, {
+          className: 'song-toolbar__download-song-button',
+          content: this.props.stringifiedSong,
+          filename: 'song.json',
+          text: 'Download Song',
+        }),
       ]),
     ]);
   }
@@ -57,6 +69,11 @@ export class SongInfoModal extends React.PureComponent {
     classnames({
       'song-info-modal__measure-count-ticker__minus--disabled': this.props.measureCount < 2,
     });
+
+  handleClearCacheClick = () => {
+    window.localStorage.removeItem('currentSong');
+    window.location.reload();
+  }
 
   handleContentDropdownListSelect = (value) => {
     this.props.onBPMChange(value);

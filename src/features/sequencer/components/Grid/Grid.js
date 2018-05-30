@@ -86,10 +86,9 @@ export class Grid extends React.PureComponent {
   }
 
   getWrapperStyle() {
-    const rightPadding = 6;
     return {
       width: this.props.measureCount !== undefined
-        ? (this.props.measureCount * 4 * 8 * 40) + rightPadding
+        ? (this.props.measureCount * 4 * 8 * 40)
         : 0,
     };
   }
