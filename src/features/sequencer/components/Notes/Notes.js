@@ -135,6 +135,10 @@ export class Notes extends React.PureComponent {
       map(Dawww.resizeNote(delta)),
     )(this.getTransformedSelectedNotes());
 
+    // Leaving this in place to disable bending until it is
+    // reimplemented in Dawww.
+    if (delta.y !== 0) return;
+
     if (
       (isDraggingLeft && isAnyNoteBent && willAnyBeMinLength) ||
       (isDraggingLeft && willAnyBeNegative) ||
