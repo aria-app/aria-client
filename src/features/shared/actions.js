@@ -6,6 +6,7 @@ export const MEASURE_COUNT_SET = 'MEASURE_COUNT_SET';
 export const NOTE_DRAWN = 'NOTE_DRAWN';
 export const NOTE_ERASED = 'NOTE_ERASED';
 export const NOTES_DRAGGED = 'NOTES_DRAGGED';
+export const NOTES_DRAG_PREVIEWED = 'NOTES_DRAG_PREVIEWED';
 export const NOTES_DUPLICATED = 'NOTES_DUPLICATED';
 export const NOTES_MOVED_OCTAVE_DOWN = 'NOTES_MOVED_OCTAVE_DOWN';
 export const NOTES_MOVED_OCTAVE_UP = 'NOTES_MOVED_OCTAVE_UP';
@@ -93,6 +94,14 @@ export const notesDragged = notes => ({
   type: NOTES_DRAGGED,
   payload: {
     notes,
+  },
+});
+
+export const notesDragPreviewed = (notes, sequence) => ({
+  type: NOTES_DRAG_PREVIEWED,
+  payload: {
+    notes,
+    sequence,
   },
 });
 

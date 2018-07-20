@@ -19,12 +19,17 @@ export class Notes extends React.PureComponent {
     mousePoint: PropTypes.object.isRequired,
     notes: PropTypes.arrayOf(PropTypes.object).isRequired,
     onDrag: PropTypes.func.isRequired,
+    onDragPreview: PropTypes.func.isRequired,
     onErase: PropTypes.func.isRequired,
     onResize: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
     selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
     toolType: PropTypes.string.isRequired,
   }
+
+  static defaultProps = {
+    selectedNotes: [],
+  };
 
   state = {
     dragDelta: { x: 0, y: 0 },
@@ -188,9 +193,12 @@ export class Notes extends React.PureComponent {
       this.getTransformedSelectedNotes(),
     )) return;
 
+
     this.setState(state => ({
       dragDelta: Dawww.addPoints(delta, state.dragDelta),
-    }));
+    }), () => {
+      this.props.onDragPreview(this.getTransformedSelectedNotes());
+    });
   };
 
   updateResizeDelta = delta =>
