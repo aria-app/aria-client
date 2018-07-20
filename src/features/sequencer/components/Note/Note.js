@@ -109,7 +109,11 @@ export class Note extends React.PureComponent {
   handleEndPointMouseDown = (e) => {
     if (this.getIsSelectEnabled()) {
       e.stopPropagation();
-      this.select(e);
+
+      if (!this.getIsSelected()) {
+        this.select(e);
+      }
+
       this.props.onResizeStart();
     }
   }
