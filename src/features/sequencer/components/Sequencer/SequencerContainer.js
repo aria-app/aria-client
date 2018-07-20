@@ -25,5 +25,7 @@ export const SequencerContainer = connect(state => ({
   ...stateProps,
   ...dispatchProps,
   onDraw: point => dispatchProps.onDraw(point, stateProps.sequence),
+  onNudge: (delta, selectedNotes) =>
+    dispatchProps.onNudge(delta, selectedNotes, stateProps.sequence),
   onKeyPress: pitch => dispatchProps.onKeyPress(pitch, stateProps.sequence),
 }))(Sequencer);

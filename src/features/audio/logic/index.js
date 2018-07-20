@@ -2,6 +2,7 @@ import { loadSong } from './loadSong';
 import { pause } from './pause';
 import { preview } from './preview';
 import { previewDrawnNote } from './previewDrawnNote';
+import { previewNudgedNote } from './previewNudgedNote';
 import { start } from './start';
 import { stop } from './stop';
 import { subscribeToPosition } from './subscribeToPosition';
@@ -13,6 +14,7 @@ export default [
   pause,
   preview,
   previewDrawnNote,
+  previewNudgedNote,
   start,
   stop,
   subscribeToPosition,

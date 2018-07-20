@@ -117,11 +117,12 @@ export const notesMovedOctaveUp = notes => ({
   },
 });
 
-export const notesNudged = (delta, notes) => ({
+export const notesNudged = (delta, notes, sequence) => ({
   type: NOTES_NUDGED,
   payload: {
     delta,
     notes,
+    sequence,
   },
 });
 
