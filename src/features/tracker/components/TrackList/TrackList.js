@@ -1,6 +1,7 @@
 import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { SortableContainer } from 'react-sortable-hoc';
 import h from 'react-hyperscript';
 import { AddTrackButton } from '../AddTrackButton/AddTrackButton';
 import { Ruler } from '../Ruler/Ruler';
@@ -20,6 +21,7 @@ export class TrackList extends React.PureComponent {
     onTrackIsMutedToggle: PropTypes.func.isRequired,
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
     onTrackStage: PropTypes.func.isRequired,
+    onTracksOrderChange: PropTypes.func.isRequired,
     selectedSequence: PropTypes.object,
     songMeasureCount: PropTypes.number.isRequired,
     tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -39,19 +41,30 @@ export class TrackList extends React.PureComponent {
         onSongShorten: this.props.onSongShorten,
         playbackState: 'stopped',
       }),
-      ...this.props.tracks.map(track =>
-        h(Track, {
-          onSequenceAdd: this.props.onSequenceAdd,
-          onSequenceOpen: this.props.onSequenceOpen,
-          onSequenceSelect: this.props.onSequenceSelect,
-          onTrackIsMutedToggle: this.props.onTrackIsMutedToggle,
-          onTrackIsSoloingToggle: this.props.onTrackIsSoloingToggle,
-          onTrackSelect: this.props.onTrackStage,
-          selectedSequence: this.props.selectedSequence,
-          songMeasureCount: this.props.songMeasureCount,
-          track,
-        }),
-      ),
+      h(SortableContainer(props =>
+        h('.track-list__tracks', [
+          ...props.items.map((track, index) =>
+            h(Track, {
+              key: `track-${index}`,
+              onSequenceAdd: this.props.onSequenceAdd,
+              onSequenceOpen: this.props.onSequenceOpen,
+              onSequenceSelect: this.props.onSequenceSelect,
+              onTrackIsMutedToggle: this.props.onTrackIsMutedToggle,
+              onTrackIsSoloingToggle: this.props.onTrackIsSoloingToggle,
+              onTrackSelect: this.props.onTrackStage,
+              selectedSequence: this.props.selectedSequence,
+              songMeasureCount: this.props.songMeasureCount,
+              index,
+              track,
+            }),
+          ),
+        ])), {
+        distance: 8,
+        items: this.props.tracks,
+        lockAxis: 'y',
+        onSortEnd: this.handleTracksSortEnd,
+        useDragHandle: true,
+      }),
       h(AddTrackButton, {
         onClick: this.props.onTrackAdd,
         songMeasureCount: this.props.songMeasureCount,
@@ -66,4 +79,10 @@ export class TrackList extends React.PureComponent {
 
     this.props.onSequenceDeselect();
   }
+
+  handleTracksSortEnd = ({ newIndex, oldIndex }) => {
+    if (oldIndex === newIndex) return;
+
+    this.props.onTracksOrderChange(oldIndex, newIndex);
+  };
 }

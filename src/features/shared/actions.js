@@ -34,6 +34,7 @@ export const TRACK_IS_MUTED_TOGGLED = 'TRACK_IS_MUTED_TOGGLED';
 export const TRACK_IS_SOLOING_TOGGLED = 'TRACK_IS_SOLOING_TOGGLED';
 export const TRACK_VOICE_SET = 'TRACK_VOICE_SET';
 export const TRACKER_LOADED = 'TRACKER_LOADED';
+export const TRACKS_ORDER_CHANGED = 'TRACKS_ORDER_CHANGED';
 
 export const bpmSet = bpm => ({
   type: BPM_SET,
@@ -271,4 +272,12 @@ export const trackVoiceSet = (track, voice) => ({
 
 export const trackerLoaded = () => ({
   type: TRACKER_LOADED,
+});
+
+export const tracksOrderChanged = (oldIndex, newIndex) => ({
+  type: TRACKS_ORDER_CHANGED,
+  payload: {
+    newIndex,
+    oldIndex,
+  },
 });

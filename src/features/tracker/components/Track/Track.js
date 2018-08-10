@@ -3,6 +3,7 @@ import times from 'lodash/fp/times';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
+import { SortableElement } from 'react-sortable-hoc';
 import * as palette from '../../../../styles/palette';
 import shared from '../../../shared';
 // import { AddSequenceButton } from '../AddSequenceButton/AddSequenceButton';
@@ -14,6 +15,7 @@ const { MatrixBox } = shared.components;
 
 export class Track extends React.PureComponent {
   static propTypes = {
+    index: PropTypes.number.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceOpen: PropTypes.func.isRequired,
     onSequenceSelect: PropTypes.func.isRequired,
@@ -26,38 +28,40 @@ export class Track extends React.PureComponent {
   }
 
   render() {
-    return h('.track', [
-      h(TrackHeader, {
-        isMuted: getOr(false, 'props.track.isMuted', this),
-        isSoloing: getOr(false, 'props.track.isSoloing', this),
-        onClick: this.handleHeaderClick,
-        onIsMutedToggle: this.handleHeaderIsMutedToggle,
-        onIsSoloingToggle: this.handleHeaderIsSoloingToggle,
-        track: this.props.track,
-      }),
-      h(MatrixBox, {
-        className: '.track',
-        fill: palette.emerald[2],
-        matrix: this.getMatrix(),
-      }, [
-        h('.track__sequences', {
-          style: this.getBodySequencesStyle(),
+    return h(SortableElement(() =>
+      h('.track', [
+        h(TrackHeader, {
+          isMuted: getOr(false, 'props.track.isMuted', this),
+          isSoloing: getOr(false, 'props.track.isSoloing', this),
+          onClick: this.handleHeaderClick,
+          onIsMutedToggle: this.handleHeaderIsMutedToggle,
+          onIsSoloingToggle: this.handleHeaderIsSoloingToggle,
+          track: this.props.track,
+        }),
+        h(MatrixBox, {
+          className: '.track',
+          fill: palette.emerald[2],
+          matrix: this.getMatrix(),
         }, [
-          ...this.props.track.sequences.map(sequence =>
-            h(TrackSequence, {
-              onOpen: this.props.onSequenceOpen,
-              onSelect: this.props.onSequenceSelect,
-              selectedSequence: this.props.selectedSequence,
-              sequence,
-            }),
-          ),
-        ]),
+          h('.track__sequences', {
+            style: this.getBodySequencesStyle(),
+          }, [
+            ...this.props.track.sequences.map(sequence =>
+              h(TrackSequence, {
+                onOpen: this.props.onSequenceOpen,
+                onSelect: this.props.onSequenceSelect,
+                selectedSequence: this.props.selectedSequence,
+                sequence,
+              }),
+            ),
+          ]),
         // h(AddSequenceButton, {
         //   onClick: this.handleAddSequenceButtonClick,
         //   track: this.props.track,
         // }),
+        ]),
       ]),
-    ]);
+    ), { index: this.props.index });
   }
 
   getBodySequencesStyle = () => ({
