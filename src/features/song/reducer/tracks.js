@@ -37,6 +37,12 @@ export const tracks = createReducer({}, {
       voice: action.payload.voice,
     }], state),
 
+  [shared.actions.TRACK_VOLUME_SET]: (state, action) =>
+    Dawww.setAtIds([{
+      ...action.payload.track,
+      volume: action.payload.volume,
+    }], state),
+
   [shared.actions.TRACKS_ORDER_CHANGED]: (state, action) =>
     compose(
       fromPairs,

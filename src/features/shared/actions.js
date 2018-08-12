@@ -33,6 +33,7 @@ export const TRACK_DELETED = 'TRACK_DELETED';
 export const TRACK_IS_MUTED_TOGGLED = 'TRACK_IS_MUTED_TOGGLED';
 export const TRACK_IS_SOLOING_TOGGLED = 'TRACK_IS_SOLOING_TOGGLED';
 export const TRACK_VOICE_SET = 'TRACK_VOICE_SET';
+export const TRACK_VOLUME_SET = 'TRACK_VOLUME_SET';
 export const TRACKER_LOADED = 'TRACKER_LOADED';
 export const TRACKS_ORDER_CHANGED = 'TRACKS_ORDER_CHANGED';
 
@@ -267,6 +268,14 @@ export const trackVoiceSet = (track, voice) => ({
   payload: {
     track,
     voice,
+  },
+});
+
+export const trackVolumeSet = (track, volume) => ({
+  type: TRACK_VOLUME_SET,
+  payload: {
+    track,
+    volume,
   },
 });
 

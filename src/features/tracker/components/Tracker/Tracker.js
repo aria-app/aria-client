@@ -29,6 +29,7 @@ export class Tracker extends React.PureComponent {
     onTrackIsMutedToggle: PropTypes.func.isRequired,
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
     onTrackVoiceSet: PropTypes.func.isRequired,
+    onTrackVolumeSet: PropTypes.func.isRequired,
     onTracksOrderChange: PropTypes.func.isRequired,
     position: PropTypes.number.isRequired,
     sequenceMap: PropTypes.object.isRequired,
@@ -70,6 +71,7 @@ export class Tracker extends React.PureComponent {
         onDelete: this.handleTrackEditingModalDelete,
         onDismiss: this.props.onTrackEditingFinish,
         onVoiceSet: this.props.onTrackVoiceSet,
+        onVolumeSet: this.props.onTrackVolumeSet,
         stagedTrack: this.getStagedTrack(),
       }),
     ]);

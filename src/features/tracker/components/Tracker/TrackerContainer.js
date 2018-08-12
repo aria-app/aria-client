@@ -31,5 +31,6 @@ export const TrackerContainer = connect(state => ({
   onTrackIsMutedToggle: shared.actions.trackIsMutedToggled,
   onTrackIsSoloingToggle: shared.actions.trackIsSoloingToggled,
   onTrackVoiceSet: shared.actions.trackVoiceSet,
+  onTrackVolumeSet: shared.actions.trackVolumeSet,
   onTracksOrderChange: shared.actions.tracksOrderChanged,
 })(Tracker);
