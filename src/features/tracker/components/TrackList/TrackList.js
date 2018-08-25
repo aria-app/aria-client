@@ -20,6 +20,7 @@ export class TrackList extends React.PureComponent {
     onTrackAdd: PropTypes.func.isRequired,
     onTrackIsMutedToggle: PropTypes.func.isRequired,
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
+    onTrackSequencesOrderChange: PropTypes.func.isRequired,
     onTrackStage: PropTypes.func.isRequired,
     onTracksOrderChange: PropTypes.func.isRequired,
     selectedSequence: PropTypes.object,
@@ -41,9 +42,9 @@ export class TrackList extends React.PureComponent {
         onSongShorten: this.props.onSongShorten,
         playbackState: 'stopped',
       }),
-      h(SortableContainer(props =>
+      h(SortableContainer(({ items }) =>
         h('.track-list__tracks', [
-          ...props.items.map((track, index) =>
+          ...items.map((track, index) =>
             h(Track, {
               key: `track-${index}`,
               onSequenceAdd: this.props.onSequenceAdd,
@@ -52,6 +53,7 @@ export class TrackList extends React.PureComponent {
               onTrackIsMutedToggle: this.props.onTrackIsMutedToggle,
               onTrackIsSoloingToggle: this.props.onTrackIsSoloingToggle,
               onTrackSelect: this.props.onTrackStage,
+              onTrackSequencesOrderChange: this.props.onTrackSequencesOrderChange,
               selectedSequence: this.props.selectedSequence,
               songMeasureCount: this.props.songMeasureCount,
               index,

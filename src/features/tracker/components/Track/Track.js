@@ -3,7 +3,7 @@ import times from 'lodash/fp/times';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import { SortableElement } from 'react-sortable-hoc';
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import * as palette from '../../../../styles/palette';
 import shared from '../../../shared';
 // import { AddSequenceButton } from '../AddSequenceButton/AddSequenceButton';
@@ -22,6 +22,7 @@ export class Track extends React.PureComponent {
     onTrackIsMutedToggle: PropTypes.func.isRequired,
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
     onTrackSelect: PropTypes.func.isRequired,
+    onTrackSequencesOrderChange: PropTypes.func.isRequired,
     selectedSequence: PropTypes.object,
     songMeasureCount: PropTypes.number.isRequired,
     track: PropTypes.object.isRequired,
@@ -43,18 +44,27 @@ export class Track extends React.PureComponent {
           fill: palette.emerald[2],
           matrix: this.getMatrix(),
         }, [
-          h('.track__sequences', {
-            style: this.getBodySequencesStyle(),
-          }, [
-            ...this.props.track.sequences.map(sequence =>
-              h(TrackSequence, {
-                onOpen: this.props.onSequenceOpen,
-                onSelect: this.props.onSequenceSelect,
-                selectedSequence: this.props.selectedSequence,
-                sequence,
-              }),
-            ),
-          ]),
+          h(SortableContainer(({ items }) =>
+            h('.track__sequences', {
+              style: this.getBodySequencesStyle(),
+            }, [
+              ...items.map((sequence, index) =>
+                h(TrackSequence, {
+                  key: `track-${index}`,
+                  onOpen: this.props.onSequenceOpen,
+                  onSelect: this.props.onSequenceSelect,
+                  selectedSequence: this.props.selectedSequence,
+                  index,
+                  sequence,
+                }),
+              ),
+            ]),
+          ), {
+            distance: 8,
+            items: this.props.track.sequences,
+            lockAxis: 'x',
+            onSortEnd: this.handleSequencesSortEnd,
+          }),
         // h(AddSequenceButton, {
         //   onClick: this.handleAddSequenceButtonClick,
         //   track: this.props.track,
@@ -114,4 +124,10 @@ export class Track extends React.PureComponent {
   handleHeaderIsSoloingToggle = () => {
     this.props.onTrackIsSoloingToggle(this.props.track);
   }
+
+  handleSequencesSortEnd = ({ newIndex, oldIndex }) => {
+    if (oldIndex === newIndex) return;
+
+    this.props.onTrackSequencesOrderChange(this.props.track, oldIndex, newIndex);
+  };
 }

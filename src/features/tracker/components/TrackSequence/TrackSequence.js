@@ -1,8 +1,9 @@
+import classnames from 'classnames';
 import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import classnames from 'classnames';
+import { SortableElement } from 'react-sortable-hoc';
 import { TrackSequenceNote } from '../TrackSequenceNote/TrackSequenceNote';
 import './TrackSequence.scss';
 
@@ -16,19 +17,21 @@ export class TrackSequence extends React.PureComponent {
   }
 
   render() {
-    return h('.track-sequence', {
-      className: this.getClassName(),
-      style: this.getStyle(),
-      onClick: this.handleClick,
-      onDoubleClick: this.handleDoubleClick,
-    }, [
-      ...this.props.sequence.notes.map(note =>
-        h(TrackSequenceNote, {
-          key: note.id,
-          note,
-        }),
-      ),
-    ]);
+    return h(SortableElement(() =>
+      h('.track-sequence', {
+        className: this.getClassName(),
+        style: this.getStyle(),
+        onClick: this.handleClick,
+        onDoubleClick: this.handleDoubleClick,
+      }, [
+        ...this.props.sequence.notes.map(note =>
+          h(TrackSequenceNote, {
+            key: note.id,
+            note,
+          }),
+        ),
+      ]),
+    ));
   }
 
   getClassName() {
