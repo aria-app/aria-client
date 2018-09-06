@@ -1,4 +1,6 @@
+import find from 'lodash/fp/find';
 import getOr from 'lodash/fp/getOr';
+import range from 'lodash/fp/range';
 import times from 'lodash/fp/times';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -19,10 +21,10 @@ export class Track extends React.PureComponent {
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceOpen: PropTypes.func.isRequired,
     onSequenceSelect: PropTypes.func.isRequired,
+    onSequencesOrderChange: PropTypes.func.isRequired,
     onTrackIsMutedToggle: PropTypes.func.isRequired,
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
     onTrackSelect: PropTypes.func.isRequired,
-    onTrackSequencesOrderChange: PropTypes.func.isRequired,
     selectedSequence: PropTypes.object,
     songMeasureCount: PropTypes.number.isRequired,
     track: PropTypes.object.isRequired,
@@ -48,20 +50,21 @@ export class Track extends React.PureComponent {
             h('.track__sequences', {
               style: this.getBodySequencesStyle(),
             }, [
-              ...items.map((sequence, index) =>
+              items.map(position =>
                 h(TrackSequence, {
-                  key: `track-${index}`,
+                  index: position,
+                  key: `sequence-${position}`,
                   onOpen: this.props.onSequenceOpen,
                   onSelect: this.props.onSequenceSelect,
                   selectedSequence: this.props.selectedSequence,
-                  index,
-                  sequence,
+                  sequence: this.getSequence(position),
                 }),
               ),
             ]),
           ), {
+            axis: 'x',
             distance: 8,
-            items: this.props.track.sequences,
+            items: range(0, this.props.songMeasureCount),
             lockAxis: 'x',
             onSortEnd: this.handleSequencesSortEnd,
           }),
@@ -71,7 +74,10 @@ export class Track extends React.PureComponent {
         // }),
         ]),
       ]),
-    ), { index: this.props.index });
+    ), {
+      collection: 0,
+      index: this.props.index,
+    });
   }
 
   getBodySequencesStyle = () => ({
@@ -96,6 +102,12 @@ export class Track extends React.PureComponent {
       ),
       rowCount,
     );
+  };
+
+  getSequence = (position) => {
+    const sequences = getOr([], 'props.track.sequences', this);
+
+    return find(x => x.position === position, sequences);
   };
 
   handleAddSequenceButtonClick = (position) => {
@@ -128,6 +140,11 @@ export class Track extends React.PureComponent {
   handleSequencesSortEnd = ({ newIndex, oldIndex }) => {
     if (oldIndex === newIndex) return;
 
-    this.props.onTrackSequencesOrderChange(this.props.track, oldIndex, newIndex);
+    const sequence = find(
+      x => x.position === oldIndex,
+      this.props.track.sequences,
+    );
+
+    this.props.onSequencesOrderChange(sequence, newIndex);
   };
 }

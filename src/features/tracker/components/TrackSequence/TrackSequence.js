@@ -10,13 +10,26 @@ import './TrackSequence.scss';
 export class TrackSequence extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
+    index: PropTypes.number.isRequired,
     onOpen: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
     selectedSequence: PropTypes.object.isRequired,
-    sequence: PropTypes.object.isRequired,
+    sequence: PropTypes.object,
   }
 
   render() {
+    if (!this.props.sequence) {
+      return h(SortableElement(() => h('div', {
+        style: {
+          ...this.getStyle(),
+          pointerEvents: 'none',
+        },
+      })), {
+        collection: 1,
+        index: this.props.index,
+      });
+    }
+
     return h(SortableElement(() =>
       h('.track-sequence', {
         className: this.getClassName(),
@@ -31,7 +44,10 @@ export class TrackSequence extends React.PureComponent {
           }),
         ),
       ]),
-    ));
+    ), {
+      collection: 1,
+      index: this.props.index,
+    });
   }
 
   getClassName() {
@@ -49,10 +65,11 @@ export class TrackSequence extends React.PureComponent {
     return sequenceId === selectedSequenceId;
   };
 
-  getStyle() {
+  getStyle = () => {
+    const measureCount = getOr(1, 'props.sequence.measureCount', this);
+
     return {
-      left: measureCountToPx(this.props.sequence.position),
-      width: measureCountToPx(this.props.sequence.measureCount),
+      width: measureCountToPx(measureCount),
     };
   }
 

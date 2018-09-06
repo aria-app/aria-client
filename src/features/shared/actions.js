@@ -32,6 +32,7 @@ export const TRACK_ADDED = 'TRACK_ADDED';
 export const TRACK_DELETED = 'TRACK_DELETED';
 export const TRACK_IS_MUTED_TOGGLED = 'TRACK_IS_MUTED_TOGGLED';
 export const TRACK_IS_SOLOING_TOGGLED = 'TRACK_IS_SOLOING_TOGGLED';
+export const TRACK_SEQUENCES_ORDER_CHANGED = 'TRACK_SEQUENCES_ORDER_CHANGED';
 export const TRACK_VOICE_SET = 'TRACK_VOICE_SET';
 export const TRACK_VOLUME_SET = 'TRACK_VOLUME_SET';
 export const TRACKER_LOADED = 'TRACKER_LOADED';
@@ -260,6 +261,14 @@ export const trackIsSoloingToggled = track => ({
   type: TRACK_IS_SOLOING_TOGGLED,
   payload: {
     track,
+  },
+});
+
+export const trackSequencesOrderChanged = (sequence, position) => ({
+  type: TRACK_SEQUENCES_ORDER_CHANGED,
+  payload: {
+    position,
+    sequence,
   },
 });
 

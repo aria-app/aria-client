@@ -30,6 +30,7 @@ export const updateSong = createLogic({
     shared.actions.TRACK_DELETED,
     shared.actions.TRACK_IS_MUTED_TOGGLED,
     shared.actions.TRACK_IS_SOLOING_TOGGLED,
+    shared.actions.TRACK_SEQUENCES_ORDER_CHANGED,
     shared.actions.TRACK_VOICE_SET,
     shared.actions.TRACK_VOLUME_SET,
   ],

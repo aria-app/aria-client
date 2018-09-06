@@ -138,6 +138,7 @@ export class Tracker extends React.PureComponent {
 
   handleTrackerToolbarSequenceShorten = () => {
     if (this.getSelectedSequence().measureCount < 2) return;
+
     this.props.onSequenceShorten(this.getSelectedSequence());
   }
 }

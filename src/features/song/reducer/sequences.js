@@ -43,4 +43,10 @@ export const sequences = createReducer({}, {
 
   [shared.actions.TRACK_DELETED]: (state, action) =>
     Dawww.setAtIds(reject(sequence => sequence.trackId === action.payload.track.id, state), {}),
+
+  [shared.actions.TRACK_SEQUENCES_ORDER_CHANGED]: (state, action) =>
+    Dawww.setAtIds([{
+      ...action.payload.sequence,
+      position: action.payload.position,
+    }], state),
 });
