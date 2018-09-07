@@ -8,7 +8,6 @@ import h from 'react-hyperscript';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import * as palette from '../../../../styles/palette';
 import shared from '../../../shared';
-// import { AddSequenceButton } from '../AddSequenceButton/AddSequenceButton';
 import { TrackSequence } from '../TrackSequence/TrackSequence';
 import { TrackHeader } from '../TrackHeader/TrackHeader';
 import './Track.scss';

@@ -1,8 +1,10 @@
 import Dawww from 'dawww';
 import getOr from 'lodash/fp/getOr';
+import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
+import keydown from 'react-keydown';
 import shared from '../../../shared';
 import { TrackList } from '../TrackList/TrackList';
 import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
@@ -49,6 +51,7 @@ export class Tracker extends React.PureComponent {
     return h('.tracker', [
       h(TrackList, {
         onSequenceAdd: this.handleTrackListSequenceAdd,
+        onSequenceDelete: this.props.onSequenceDelete,
         onSequenceDeselect: this.handleTrackListSequenceDeselect,
         onSequenceOpen: this.props.onSequenceOpen,
         onSequenceSelect: this.handleTrackListSequenceSelect,
@@ -77,6 +80,17 @@ export class Tracker extends React.PureComponent {
         stagedTrack: this.getStagedTrack(),
       }),
     ]);
+  }
+
+  @keydown('backspace', 'del')
+  deleteSelectedSequence(e) {
+    e.preventDefault();
+
+    const selectedSequence = this.getSelectedSequence();
+
+    if (isNil(selectedSequence)) return;
+
+    this.props.onSequenceDelete(selectedSequence);
   }
 
   getSelectedSequence = () =>
