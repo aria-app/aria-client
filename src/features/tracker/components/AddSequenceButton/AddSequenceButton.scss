@@ -1,26 +1,19 @@
 @import '../../../../styles/constants';
 @import '../../../../styles/palette';
 
-$add-sequence-button__border: 2px solid $neutral-5;
-$add-sequence-button__fill: $neutral-5;
-$add-sequence-button__width: 64px;
-$add-sequence-button--hover__border-color: $neutral-6;
-$add-sequence-button--hover__fill: $neutral-6;
 
 .add-sequence-button {
   align-items: center;
-  border: $add-sequence-button__border;
+  border: 1px solid $emerald-2;
   display: flex;
   flex: 0 0 auto;
   justify-content: center;
-  width: $add-sequence-button__width;
+  opacity: 0;
+  width: 64px;
   svg * {
-    fill: $add-sequence-button__fill;
+    fill: $emerald-2;
   }
   &:hover {
-    border-color: $add-sequence-button--hover__border-color;
-    svg * {
-      fill: $add-sequence-button--hover__fill;
-    }
+    opacity: 1;
   }
 }

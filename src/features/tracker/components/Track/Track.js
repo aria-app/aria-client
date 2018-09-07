@@ -56,6 +56,7 @@ export class Track extends React.PureComponent {
                   key: `sequence-${position}`,
                   onOpen: this.props.onSequenceOpen,
                   onSelect: this.props.onSequenceSelect,
+                  onSequenceAdd: this.handleSequenceAdd,
                   selectedSequence: this.props.selectedSequence,
                   sequence: this.getSequence(position),
                 }),
@@ -67,11 +68,8 @@ export class Track extends React.PureComponent {
             items: range(0, this.props.songMeasureCount),
             lockAxis: 'x',
             onSortEnd: this.handleSequencesSortEnd,
+            useDragHandle: true,
           }),
-        // h(AddSequenceButton, {
-        //   onClick: this.handleAddSequenceButtonClick,
-        //   track: this.props.track,
-        // }),
         ]),
       ]),
     ), {
@@ -110,13 +108,6 @@ export class Track extends React.PureComponent {
     return find(x => x.position === position, sequences);
   };
 
-  handleAddSequenceButtonClick = (position) => {
-    this.props.onSequenceAdd(
-      this.props.track,
-      position,
-    );
-  }
-
   handleBodySequencesSequenceOpen = (sequence) => {
     this.props.onSequenceOpen(sequence);
   }
@@ -137,6 +128,13 @@ export class Track extends React.PureComponent {
     this.props.onTrackIsSoloingToggle(this.props.track);
   }
 
+  handleSequenceAdd = (position) => {
+    this.props.onSequenceAdd(
+      this.props.track,
+      position,
+    );
+  }
+
   handleSequencesSortEnd = ({ newIndex, oldIndex }) => {
     if (oldIndex === newIndex) return;
 
@@ -144,7 +142,11 @@ export class Track extends React.PureComponent {
       x => x.position === oldIndex,
       this.props.track.sequences,
     );
+    const swappedSequence = find(
+      x => x.position === newIndex,
+      this.props.track.sequences,
+    );
 
-    this.props.onSequencesOrderChange(sequence, newIndex);
+    this.props.onSequencesOrderChange(sequence, newIndex, swappedSequence, oldIndex);
   };
 }

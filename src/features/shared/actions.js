@@ -264,11 +264,18 @@ export const trackIsSoloingToggled = track => ({
   },
 });
 
-export const trackSequencesOrderChanged = (sequence, position) => ({
+export const trackSequencesOrderChanged = (
+  sequence,
+  position,
+  swappedSequence,
+  swappedPosition,
+) => ({
   type: TRACK_SEQUENCES_ORDER_CHANGED,
   payload: {
     position,
     sequence,
+    swappedPosition,
+    swappedSequence,
   },
 });
 

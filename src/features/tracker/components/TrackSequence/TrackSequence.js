@@ -3,7 +3,8 @@ import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import { SortableElement } from 'react-sortable-hoc';
+import { SortableElement, SortableHandle } from 'react-sortable-hoc';
+import { AddSequenceButton } from '../AddSequenceButton/AddSequenceButton';
 import { TrackSequenceNote } from '../TrackSequenceNote/TrackSequenceNote';
 import './TrackSequence.scss';
 
@@ -13,17 +14,15 @@ export class TrackSequence extends React.PureComponent {
     index: PropTypes.number.isRequired,
     onOpen: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
+    onSequenceAdd: PropTypes.func.isRequired,
     selectedSequence: PropTypes.object.isRequired,
     sequence: PropTypes.object,
   }
 
   render() {
     if (!this.props.sequence) {
-      return h(SortableElement(() => h('div', {
-        style: {
-          ...this.getStyle(),
-          pointerEvents: 'none',
-        },
+      return h(SortableElement(() => h(AddSequenceButton, {
+        onClick: this.handleAddSequenceButtonClick,
       })), {
         collection: 1,
         index: this.props.index,
@@ -31,19 +30,21 @@ export class TrackSequence extends React.PureComponent {
     }
 
     return h(SortableElement(() =>
-      h('.track-sequence', {
-        className: this.getClassName(),
-        style: this.getStyle(),
-        onClick: this.handleClick,
-        onDoubleClick: this.handleDoubleClick,
-      }, [
-        ...this.props.sequence.notes.map(note =>
-          h(TrackSequenceNote, {
-            key: note.id,
-            note,
-          }),
-        ),
-      ]),
+      h(SortableHandle(() =>
+        h('.track-sequence', {
+          className: this.getClassName(),
+          style: this.getStyle(),
+          onClick: this.handleClick,
+          onDoubleClick: this.handleDoubleClick,
+        }, [
+          ...this.props.sequence.notes.map(note =>
+            h(TrackSequenceNote, {
+              key: note.id,
+              note,
+            }),
+          ),
+        ])),
+      ),
     ), {
       collection: 1,
       index: this.props.index,
@@ -72,6 +73,10 @@ export class TrackSequence extends React.PureComponent {
       width: measureCountToPx(measureCount),
     };
   }
+
+  handleAddSequenceButtonClick = () => {
+    this.props.onSequenceAdd(this.props.index);
+  };
 
   handleClick = (e) => {
     e.stopPropagation();
