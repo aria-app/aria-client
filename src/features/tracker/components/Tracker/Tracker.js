@@ -8,6 +8,7 @@ import keydown from 'react-keydown';
 import shared from '../../../shared';
 import { TrackList } from '../TrackList/TrackList';
 import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
+import { TrackerToolbar } from '../TrackerToolbar/TrackerToolbar';
 import './Tracker.scss';
 
 const { Timeline } = shared.components;
@@ -67,6 +68,15 @@ export class Tracker extends React.PureComponent {
         selectedSequence: this.getSelectedSequence(),
         songMeasureCount: this.props.songMeasureCount,
         tracks: this.props.tracks,
+      }),
+      h(TrackerToolbar, {
+        onSequenceDelete: this.handleTrackerToolbarSequenceDelete,
+        onSequenceExtend: () => {},
+        onSequenceMoveLeft: () => {},
+        onSequenceMoveRight: () => {},
+        onSequenceOpen: () => {},
+        onSequenceShorten: () => {},
+        selectedSequence: this.getSelectedSequence(),
       }),
       h(Timeline, {
         isVisible: !this.props.isStopped,

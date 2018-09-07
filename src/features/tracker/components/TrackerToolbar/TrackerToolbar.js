@@ -19,6 +19,10 @@ export class TrackerToolbar extends React.PureComponent {
     selectedSequence: PropTypes.object.isRequired,
   }
 
+  static defaultProps = {
+    selectedSequence: {},
+  };
+
   render() {
     return h(Toolbar, {
       className: 'tracker-toolbar',
