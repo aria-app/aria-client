@@ -12,11 +12,15 @@ export class TrackSequence extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
     index: PropTypes.number.isRequired,
+    isSelected: PropTypes.bool.isRequired,
     onOpen: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
-    selectedSequence: PropTypes.object.isRequired,
     sequence: PropTypes.object,
+  }
+
+  static defaultProps = {
+    index: 0,
   }
 
   render() {
@@ -53,18 +57,9 @@ export class TrackSequence extends React.PureComponent {
 
   getClassName() {
     return classnames({
-      'track-sequence--active': this.getIsSelected(),
+      'track-sequence--active': this.props.isSelected,
     }, this.props.className);
   }
-
-  getIsSelected = () => {
-    const sequenceId = getOr('', 'props.sequence.id', this);
-    const selectedSequenceId = getOr('', 'props.selectedSequence.id', this);
-
-    if (!selectedSequenceId) return false;
-
-    return sequenceId === selectedSequenceId;
-  };
 
   getStyle = () => {
     const measureCount = getOr(1, 'props.sequence.measureCount', this);
@@ -81,7 +76,7 @@ export class TrackSequence extends React.PureComponent {
   handleClick = (e) => {
     e.stopPropagation();
 
-    if (this.getIsSelected()) {
+    if (this.props.isSelected) {
       this.props.onOpen(this.props.sequence);
       return;
     }

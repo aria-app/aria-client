@@ -52,11 +52,11 @@ export class Track extends React.PureComponent {
               items.map(position =>
                 h(TrackSequence, {
                   index: position,
+                  isSelected: this.getIsSequenceSelected(this.getSequence(position)),
                   key: `sequence-${position}`,
                   onOpen: this.props.onSequenceOpen,
                   onSelect: this.props.onSequenceSelect,
                   onSequenceAdd: this.handleSequenceAdd,
-                  selectedSequence: this.props.selectedSequence,
                   sequence: this.getSequence(position),
                 }),
               ),
@@ -80,6 +80,16 @@ export class Track extends React.PureComponent {
   getBodySequencesStyle = () => ({
     width: this.props.songMeasureCount * 64,
   });
+
+  getIsSequenceSelected = (sequence) => {
+    const sequenceId = getOr('', 'id', sequence);
+    const selectedSequenceId = getOr('', 'props.selectedSequence.id', this);
+
+    if (!selectedSequenceId) return false;
+
+    return sequenceId === selectedSequenceId;
+  }
+
 
   getMatrix = () => {
     const rowCount = 7;
