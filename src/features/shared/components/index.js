@@ -1,3 +1,5 @@
+export { Box } from './Box/Box';
+export { Boxes } from './Boxes/Boxes';
 export { Button } from './Button/Button';
 export { DownloadButton } from './DownloadButton/DownloadButton';
 export { DropdownList } from './DropdownList/DropdownList';
