@@ -6,10 +6,11 @@ import './Box.scss';
 
 export class Box extends React.Component {
   static propTypes = {
+    contentComponent: PropTypes.func,
     item: PropTypes.shape({
       id: PropTypes.any,
       x: PropTypes.number,
-      l: PropTypes.number,
+      length: PropTypes.number,
     }),
     onItemChange: PropTypes.func,
     step: PropTypes.number,
@@ -17,6 +18,7 @@ export class Box extends React.Component {
   };
 
   static defaultProps = {
+    contentComponent: () => null,
     step: 100,
   };
 
@@ -25,7 +27,7 @@ export class Box extends React.Component {
       axis: 'x',
       bounds: 'parent',
       grid: [this.props.step, 0],
-      // handle: '.box__content',
+      cancel: '.box__resizer',
       key: this.props.item.id,
       onDrag: this.handleDrag,
       position: this.getPosition(),
@@ -33,9 +35,10 @@ export class Box extends React.Component {
       h('.box', {
         style: this.getStyle(),
       }, [
-        h('.box__content', [
-          this.props.item.id,
-        ]),
+        h(this.props.contentComponent, {
+          item: this.props.item,
+          step: this.props.step,
+        }),
         h(Draggable, {
           axis: 'x',
           bounds: {
@@ -43,7 +46,6 @@ export class Box extends React.Component {
           },
           grid: [this.props.step, 0],
           onDrag: this.handleResizerDrag,
-          onStart: e => e.stopPropagation(),
           position: this.getResizerPosition(),
         }, [
           h('.box__resizer', {
@@ -60,21 +62,18 @@ export class Box extends React.Component {
   });
 
   getResizerPosition = () => ({
-    x: (this.props.item.l * this.props.step) - 16,
+    x: (this.props.item.length * this.props.step) - 16,
     y: 0,
   });
 
   getStyle = () => ({
-    alignItems: 'center',
-    backgroundColor: 'yellow',
-    border: '1px dashed red',
     display: 'flex',
+    flexDirection: 'column',
     height: '100%',
-    justifyContent: 'center',
     left: 0,
     position: 'absolute',
     top: 0,
-    width: this.props.item.l * this.props.step,
+    width: this.props.item.length * this.props.step,
     ...this.props.style,
   });
 
@@ -86,6 +85,7 @@ export class Box extends React.Component {
     position: 'absolute',
     left: 0,
     top: 0,
+    zIndex: 2,
   });
 
   handleDrag = (e, position) => {
@@ -98,7 +98,7 @@ export class Box extends React.Component {
   handleResizerDrag = (e, position) => {
     this.props.onItemChange({
       ...this.props.item,
-      l: Math.max(1, this.props.item.l + (position.deltaX / this.props.step)),
+      length: Math.max(1, this.props.item.length + (position.deltaX / this.props.step)),
     });
   };
 }

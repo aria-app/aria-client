@@ -17,6 +17,7 @@ export const TrackerContainer = connect(state => ({
 }), {
   onSequenceAdd: shared.actions.sequenceAdded,
   onSequenceDelete: shared.actions.sequenceDeleted,
+  onSequenceEdit: shared.actions.sequenceEdited,
   onSequenceExtend: shared.actions.sequenceExtended,
   onSequenceMoveLeft: shared.actions.sequenceNudgedLeft,
   onSequenceMoveRight: shared.actions.sequenceNudgedRight,
@@ -33,5 +34,4 @@ export const TrackerContainer = connect(state => ({
   onTrackSequencesOrderChange: shared.actions.trackSequencesOrderChanged,
   onTrackVoiceSet: shared.actions.trackVoiceSet,
   onTrackVolumeSet: shared.actions.trackVolumeSet,
-  onTracksOrderChange: shared.actions.tracksOrderChanged,
 })(Tracker);

@@ -3,7 +3,6 @@ import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import { SortableElement, SortableHandle } from 'react-sortable-hoc';
 import { AddSequenceButton } from '../AddSequenceButton/AddSequenceButton';
 import { TrackSequenceNote } from '../TrackSequenceNote/TrackSequenceNote';
 import './TrackSequence.scss';
@@ -15,7 +14,6 @@ export class TrackSequence extends React.PureComponent {
     isSelected: PropTypes.bool.isRequired,
     onOpen: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
-    onSequenceAdd: PropTypes.func.isRequired,
     sequence: PropTypes.object,
   }
 
@@ -25,34 +23,24 @@ export class TrackSequence extends React.PureComponent {
 
   render() {
     if (!this.props.sequence) {
-      return h(SortableElement(() => h(AddSequenceButton, {
+      return h(AddSequenceButton, {
         onClick: this.handleAddSequenceButtonClick,
-      })), {
-        collection: 1,
-        index: this.props.index,
       });
     }
 
-    return h(SortableElement(() =>
-      h(SortableHandle(() =>
-        h('.track-sequence', {
-          className: this.getClassName(),
-          style: this.getStyle(),
-          onClick: this.handleClick,
-          onDoubleClick: this.handleDoubleClick,
-        }, [
-          ...this.props.sequence.notes.map(note =>
-            h(TrackSequenceNote, {
-              key: note.id,
-              note,
-            }),
-          ),
-        ])),
+    return h('.track-sequence', {
+      className: this.getClassName(),
+      style: this.getStyle(),
+      onClick: this.handleClick,
+      onDoubleClick: this.handleDoubleClick,
+    }, [
+      ...this.props.sequence.notes.map(note =>
+        h(TrackSequenceNote, {
+          key: note.id,
+          note,
+        }),
       ),
-    ), {
-      collection: 1,
-      index: this.props.index,
-    });
+    ]);
   }
 
   getClassName() {
@@ -68,10 +56,6 @@ export class TrackSequence extends React.PureComponent {
       width: measureCountToPx(measureCount),
     };
   }
-
-  handleAddSequenceButtonClick = () => {
-    this.props.onSequenceAdd(this.props.index);
-  };
 
   handleClick = (e) => {
     e.stopPropagation();

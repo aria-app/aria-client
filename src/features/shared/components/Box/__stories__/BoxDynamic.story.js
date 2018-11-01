@@ -2,12 +2,22 @@ import React from 'react';
 import h from 'react-hyperscript';
 import { Box, Shell } from '../../../components';
 
+const Content = props =>
+  h('.content', {
+    style: {
+      backgroundColor: 'red',
+      color: 'white',
+      flex: '1 1 auto',
+    },
+  }, [
+    props.item.id,
+  ]);
 
 export class BoxDynamic extends React.Component {
   state = {
     item: {
       id: 0,
-      l: 1,
+      length: 1,
       x: 0,
     },
   };
@@ -26,6 +36,7 @@ export class BoxDynamic extends React.Component {
         },
       }, [
         h(Box, {
+          contentComponent: Content,
           item: this.state.item,
           onItemChange: this.handleItemChange,
           step: 100,

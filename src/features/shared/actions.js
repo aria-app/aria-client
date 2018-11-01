@@ -20,6 +20,7 @@ export const PLAYBACK_STOP_REQUEST_STARTED = 'PLAYBACK_STOP_REQUEST_STARTED';
 export const POSITION_REQUEST_SUCCEEDED = 'POSITION_REQUEST_SUCCEEDED';
 export const SEQUENCE_ADDED = 'SEQUENCE_ADDED';
 export const SEQUENCE_DELETED = 'SEQUENCE_DELETED';
+export const SEQUENCE_EDITED = 'SEQUENCE_EDITED';
 export const SEQUENCE_EXTENDED = 'SEQUENCE_EXTENDED';
 export const SEQUENCE_NUDGED_LEFT = 'SEQUENCE_NUDGED_LEFT';
 export const SEQUENCE_NUDGED_RIGHT = 'SEQUENCE_NUDGED_RIGHT';
@@ -36,7 +37,6 @@ export const TRACK_SEQUENCES_ORDER_CHANGED = 'TRACK_SEQUENCES_ORDER_CHANGED';
 export const TRACK_VOICE_SET = 'TRACK_VOICE_SET';
 export const TRACK_VOLUME_SET = 'TRACK_VOLUME_SET';
 export const TRACKER_LOADED = 'TRACKER_LOADED';
-export const TRACKS_ORDER_CHANGED = 'TRACKS_ORDER_CHANGED';
 
 export const bpmSet = bpm => ({
   type: BPM_SET,
@@ -185,6 +185,13 @@ export const sequenceDeleted = sequence => ({
   },
 });
 
+export const sequenceEdited = sequence => ({
+  type: SEQUENCE_EDITED,
+  payload: {
+    sequence,
+  },
+});
+
 export const sequenceExtended = sequence => ({
   type: SEQUENCE_EXTENDED,
   payload: {
@@ -297,12 +304,4 @@ export const trackVolumeSet = (track, volume) => ({
 
 export const trackerLoaded = () => ({
   type: TRACKER_LOADED,
-});
-
-export const tracksOrderChanged = (oldIndex, newIndex) => ({
-  type: TRACKS_ORDER_CHANGED,
-  payload: {
-    newIndex,
-    oldIndex,
-  },
 });
