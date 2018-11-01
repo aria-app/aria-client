@@ -21,6 +21,7 @@ export const updateSong = createLogic({
     shared.actions.SEQUENCE_EXTENDED,
     shared.actions.SEQUENCER_LOADED,
     shared.actions.TRACKER_LOADED,
+    shared.actions.SEQUENCE_EDITED,
     shared.actions.SEQUENCE_NUDGED_LEFT,
     shared.actions.SEQUENCE_NUDGED_RIGHT,
     shared.actions.SEQUENCE_SHORTENED,
