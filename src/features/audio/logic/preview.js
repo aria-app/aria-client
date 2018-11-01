@@ -4,7 +4,7 @@ import shared from '../../shared';
 import dawww from '../dawww';
 
 export const preview = createLogic({
-  type: shared.actions.KEY_PRESSED,
+  type: shared.actions.PITCH_PREVIEWED,
   process({ action }) {
     const pitch = getOr(-1, 'payload.pitch', action);
     const trackId = getOr('', 'payload.sequence.trackId', action);

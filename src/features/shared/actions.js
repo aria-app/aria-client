@@ -1,18 +1,17 @@
 export const BPM_SET = 'BPM_SET';
 export const EDIT_TRACK_LOADED = 'EDIT_TRACK_LOADED';
 export const INITIALIZED = 'INITIALIZED';
-export const KEY_PRESSED = 'KEY_PRESSED';
 export const MEASURE_COUNT_SET = 'MEASURE_COUNT_SET';
 export const NOTE_DRAWN = 'NOTE_DRAWN';
 export const NOTE_ERASED = 'NOTE_ERASED';
 export const NOTES_DRAGGED = 'NOTES_DRAGGED';
-export const NOTES_DRAG_PREVIEWED = 'NOTES_DRAG_PREVIEWED';
 export const NOTES_DUPLICATED = 'NOTES_DUPLICATED';
 export const NOTES_MOVED_OCTAVE_DOWN = 'NOTES_MOVED_OCTAVE_DOWN';
 export const NOTES_MOVED_OCTAVE_UP = 'NOTES_MOVED_OCTAVE_UP';
 export const NOTES_NUDGED = 'NOTES_NUDGED';
 export const NOTES_RESIZED = 'NOTES_RESIZED';
 export const NOTES_DELETED = 'NOTES_DELETED';
+export const PITCH_PREVIEWED = 'PITCH_PREVIEWED';
 export const PLAYBACK_PAUSE_REQUEST_STARTED = 'PLAYBACK_PAUSE_REQUEST_STARTED';
 export const PLAYBACK_START_REQUEST_STARTED = 'PLAYBACK_START_REQUEST_STARTED';
 export const PLAYBACK_STATE_REQUEST_SUCCEEDED = 'PLAYBACK_STATE_REQUEST_SUCCEEDED';
@@ -56,14 +55,6 @@ export const initialized = () => ({
   type: INITIALIZED,
 });
 
-export const keyPressed = (pitch, sequence) => ({
-  type: KEY_PRESSED,
-  payload: {
-    pitch,
-    sequence,
-  },
-});
-
 export const measureCountSet = measureCount => ({
   type: MEASURE_COUNT_SET,
   payload: {
@@ -97,14 +88,6 @@ export const notesDragged = notes => ({
   type: NOTES_DRAGGED,
   payload: {
     notes,
-  },
-});
-
-export const notesDragPreviewed = (notes, sequence) => ({
-  type: NOTES_DRAG_PREVIEWED,
-  payload: {
-    notes,
-    sequence,
   },
 });
 
@@ -142,6 +125,14 @@ export const notesResized = notes => ({
   type: NOTES_RESIZED,
   payload: {
     notes,
+  },
+});
+
+export const pitchPreviewed = (pitch, sequence) => ({
+  type: PITCH_PREVIEWED,
+  payload: {
+    pitch,
+    sequence,
   },
 });
 

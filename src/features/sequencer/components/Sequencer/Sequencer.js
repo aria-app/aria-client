@@ -23,14 +23,13 @@ export class Sequencer extends React.PureComponent {
     onClose: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onDrag: PropTypes.func.isRequired,
-    onDragPreview: PropTypes.func.isRequired,
     onDraw: PropTypes.func.isRequired,
     onDuplicate: PropTypes.func.isRequired,
     onErase: PropTypes.func.isRequired,
-    onKeyPress: PropTypes.func.isRequired,
     onNudge: PropTypes.func.isRequired,
     onOctaveDown: PropTypes.func.isRequired,
     onOctaveUp: PropTypes.func.isRequired,
+    onPitchPreview: PropTypes.func.isRequired,
     onResize: PropTypes.func.isRequired,
   }
 
@@ -72,14 +71,14 @@ export class Sequencer extends React.PureComponent {
       }, [
         h('.sequencer__content__wrapper', [
           h(Keys, {
-            onKeyPress: this.props.onKeyPress,
+            onKeyPress: this.props.onPitchPreview,
           }),
           h(Grid, {
             measureCount: this.props.measureCount,
             notes: this.props.notes,
             onDrag: this.props.onDrag,
-            onDragPreview: this.props.onDragPreview,
-            onDraw: this.props.onDraw,
+            onDragPreview: this.handleGridDragPreview,
+            onDraw: this.handleGridDraw,
             onErase: this.handleGridErase,
             onResize: this.props.onResize,
             onSelect: this.handleGridSelect,
@@ -187,6 +186,20 @@ export class Sequencer extends React.PureComponent {
       this.state.selectedNoteIds,
     );
 
+  handleGridDragPreview = (notes) => {
+    const pitch = getOr(-1, '[0].points[0].y', notes);
+
+    this.props.onPitchPreview(pitch);
+  };
+
+  handleGridDraw = (point) => {
+    const pitch = getOr(-1, 'y', point);
+
+    this.props.onPitchPreview(pitch);
+
+    this.props.onDraw(point);
+  };
+
   handleGridErase = (note) => {
     this.props.onErase(note);
     this.setState({
@@ -195,6 +208,10 @@ export class Sequencer extends React.PureComponent {
   };
 
   handleGridSelect = (note, isAdditive) => {
+    const pitch = getOr(-1, 'points[0].y', note);
+
+    this.props.onPitchPreview(pitch);
+
     this.setState(state => ({
       selectedNoteIds: isAdditive
         ? toggleInArray(note.id, state.selectedNoteIds)
@@ -231,7 +248,12 @@ export class Sequencer extends React.PureComponent {
       this.getSelectedNotes(),
     )) return;
 
-    this.props.onNudge(delta, this.getSelectedNotes());
+    const selectedNotes = this.getSelectedNotes();
+    const pitch = getOr(-1, '[0].points[0].y', selectedNotes);
+
+    this.props.onPitchPreview(pitch + delta.y);
+
+    this.props.onNudge(delta, selectedNotes);
   }
 
   @keydown('down')

@@ -11,10 +11,10 @@ import './TrackEditingModal.scss';
 
 const { Button, DropdownList, Modal } = shared.components;
 // This should be moved into Dawww.
-const minVolume = -10;
+const minVolume = -20;
 const maxVolume = 0;
 const getVolumeRangeItem = x => ({ id: x, text: String(x) });
-const volumeRangeItems = map(getVolumeRangeItem, range(maxVolume, minVolume));
+const volumeRangeItems = map(getVolumeRangeItem, range(maxVolume, minVolume - 1));
 
 export class TrackEditingModal extends React.PureComponent {
   static propTypes = {

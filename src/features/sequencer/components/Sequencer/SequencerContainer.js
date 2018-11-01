@@ -13,21 +13,19 @@ export const SequencerContainer = connect(state => ({
   onDelete: shared.actions.notesDeleted,
   onDraw: shared.actions.noteDrawn,
   onDrag: shared.actions.notesDragged,
-  onDragPreview: shared.actions.notesDragPreviewed,
   onDuplicate: shared.actions.notesDuplicated,
   onErase: shared.actions.noteErased,
-  onKeyPress: shared.actions.keyPressed,
   onNudge: shared.actions.notesNudged,
   onOctaveDown: shared.actions.notesMovedOctaveDown,
   onOctaveUp: shared.actions.notesMovedOctaveUp,
+  onPitchPreview: shared.actions.pitchPreviewed,
   onResize: shared.actions.notesResized,
 }, (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   ...stateProps,
   ...dispatchProps,
-  onDragPreview: notes => dispatchProps.onDragPreview(notes, stateProps.sequence),
   onDraw: point => dispatchProps.onDraw(point, stateProps.sequence),
   onNudge: (delta, selectedNotes) =>
     dispatchProps.onNudge(delta, selectedNotes, stateProps.sequence),
-  onKeyPress: pitch => dispatchProps.onKeyPress(pitch, stateProps.sequence),
+  onPitchPreview: pitch => dispatchProps.onPitchPreview(pitch, stateProps.sequence),
 }))(Sequencer);
