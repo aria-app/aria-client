@@ -2,7 +2,6 @@ import Dawww from 'dawww';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import keydown from 'react-keydown';
 import sequencer from '../../../sequencer';
 import shared from '../../../shared';
 import tracker from '../../../tracker';
@@ -103,7 +102,7 @@ export class App extends React.PureComponent {
     });
   }
 
-  @keydown('enter')
+  // @keydown('enter')
   playPause() {
     if (this.props.playbackState === STARTED) {
       this.props.onPause();
@@ -112,7 +111,7 @@ export class App extends React.PureComponent {
     }
   }
 
-  @keydown('esc')
+  // @keydown('esc')
   stop() {
     this.props.onStop();
   }

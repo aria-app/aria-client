@@ -8,7 +8,6 @@ import without from 'lodash/fp/without';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import keydown from 'react-keydown';
 import { toolTypes } from '../../constants';
 import { Grid } from '../Grid/Grid';
 import { Keys } from '../Keys/Keys';
@@ -92,14 +91,14 @@ export class Sequencer extends React.PureComponent {
     ]);
   }
 
-  @keydown('d')
+  // @keydown('d')
   activateDrawTool() {
     this.setState({
       toolType: toolTypes.DRAW,
     });
   }
 
-  @keydown('space')
+  // @keydown('space')
   activatePanOverride(e) {
     e.preventDefault();
     if (e.repeat) return;
@@ -110,21 +109,21 @@ export class Sequencer extends React.PureComponent {
     window.addEventListener('keyup', this.deactivatePanOverride);
   }
 
-  @keydown('e')
+  // @keydown('e')
   activateEraseTool() {
     this.setState({
       toolType: toolTypes.ERASE,
     });
   }
 
-  @keydown('p')
+  // @keydown('p')
   activatePanTool() {
     this.setState({
       toolType: toolTypes.PAN,
     });
   }
 
-  @keydown('s')
+  // @keydown('s')
   activateSelectTool() {
     this.setState({
       toolType: toolTypes.SELECT,
@@ -139,7 +138,7 @@ export class Sequencer extends React.PureComponent {
     window.removeEventListener('keyup', this.deactivatePanOverride);
   }
 
-  @keydown('backspace', 'del')
+  // @keydown('backspace', 'del')
   deleteSelectedNotes(e) {
     e.preventDefault();
 
@@ -154,7 +153,7 @@ export class Sequencer extends React.PureComponent {
     this.props.onDelete(selectedNotes);
   }
 
-  @keydown('ctrl+d', 'meta+d')
+  // @keydown('ctrl+d', 'meta+d')
   deselectAllNotes(e) {
     e.preventDefault();
 
@@ -165,7 +164,7 @@ export class Sequencer extends React.PureComponent {
     });
   }
 
-  @keydown('ctrl+shift+d', 'meta+shift+d')
+  // @keydown('ctrl+shift+d', 'meta+shift+d')
   duplicateSelectedNotes(e) {
     e.preventDefault();
 
@@ -256,31 +255,31 @@ export class Sequencer extends React.PureComponent {
     this.props.onNudge(delta, selectedNotes);
   }
 
-  @keydown('down')
+  // @keydown('down')
   nudgeDown(e) {
     e.preventDefault();
     this.nudge({ x: 0, y: 1 });
   }
 
-  @keydown('left')
+  // @keydown('left')
   nudgeLeft(e) {
     e.preventDefault();
     this.nudge({ x: -1, y: 0 });
   }
 
-  @keydown('right')
+  // @keydown('right')
   nudgeRight(e) {
     e.preventDefault();
     this.nudge({ x: 1, y: 0 });
   }
 
-  @keydown('up')
+  // @keydown('up')
   nudgeUp(e) {
     e.preventDefault();
     this.nudge({ x: 0, y: -1 });
   }
 
-  @keydown('ctrl+a', 'meta+a')
+  // @keydown('ctrl+a', 'meta+a')
   selectAll() {
     if (this.props.notes.length === this.state.selectedNoteIds.length) return;
 

@@ -4,7 +4,6 @@ import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import keydown from 'react-keydown';
 import shared from '../../../shared';
 import { TrackList } from '../TrackList/TrackList';
 import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
@@ -92,7 +91,7 @@ export class Tracker extends React.PureComponent {
     ]);
   }
 
-  @keydown('backspace', 'del')
+  // @keydown('backspace', 'del')
   deleteSelectedSequence(e) {
     e.preventDefault();
 
