@@ -1,18 +1,17 @@
 export const BPM_SET = 'BPM_SET';
 export const EDIT_TRACK_LOADED = 'EDIT_TRACK_LOADED';
 export const INITIALIZED = 'INITIALIZED';
-export const KEY_PRESSED = 'KEY_PRESSED';
 export const MEASURE_COUNT_SET = 'MEASURE_COUNT_SET';
 export const NOTE_DRAWN = 'NOTE_DRAWN';
 export const NOTE_ERASED = 'NOTE_ERASED';
 export const NOTES_DRAGGED = 'NOTES_DRAGGED';
-export const NOTES_DRAG_PREVIEWED = 'NOTES_DRAG_PREVIEWED';
 export const NOTES_DUPLICATED = 'NOTES_DUPLICATED';
 export const NOTES_MOVED_OCTAVE_DOWN = 'NOTES_MOVED_OCTAVE_DOWN';
 export const NOTES_MOVED_OCTAVE_UP = 'NOTES_MOVED_OCTAVE_UP';
 export const NOTES_NUDGED = 'NOTES_NUDGED';
 export const NOTES_RESIZED = 'NOTES_RESIZED';
 export const NOTES_DELETED = 'NOTES_DELETED';
+export const PITCH_PREVIEWED = 'PITCH_PREVIEWED';
 export const PLAYBACK_PAUSE_REQUEST_STARTED = 'PLAYBACK_PAUSE_REQUEST_STARTED';
 export const PLAYBACK_START_REQUEST_STARTED = 'PLAYBACK_START_REQUEST_STARTED';
 export const PLAYBACK_STATE_REQUEST_SUCCEEDED = 'PLAYBACK_STATE_REQUEST_SUCCEEDED';
@@ -20,6 +19,7 @@ export const PLAYBACK_STOP_REQUEST_STARTED = 'PLAYBACK_STOP_REQUEST_STARTED';
 export const POSITION_REQUEST_SUCCEEDED = 'POSITION_REQUEST_SUCCEEDED';
 export const SEQUENCE_ADDED = 'SEQUENCE_ADDED';
 export const SEQUENCE_DELETED = 'SEQUENCE_DELETED';
+export const SEQUENCE_EDITED = 'SEQUENCE_EDITED';
 export const SEQUENCE_EXTENDED = 'SEQUENCE_EXTENDED';
 export const SEQUENCE_NUDGED_LEFT = 'SEQUENCE_NUDGED_LEFT';
 export const SEQUENCE_NUDGED_RIGHT = 'SEQUENCE_NUDGED_RIGHT';
@@ -32,7 +32,9 @@ export const TRACK_ADDED = 'TRACK_ADDED';
 export const TRACK_DELETED = 'TRACK_DELETED';
 export const TRACK_IS_MUTED_TOGGLED = 'TRACK_IS_MUTED_TOGGLED';
 export const TRACK_IS_SOLOING_TOGGLED = 'TRACK_IS_SOLOING_TOGGLED';
+export const TRACK_SEQUENCES_ORDER_CHANGED = 'TRACK_SEQUENCES_ORDER_CHANGED';
 export const TRACK_VOICE_SET = 'TRACK_VOICE_SET';
+export const TRACK_VOLUME_SET = 'TRACK_VOLUME_SET';
 export const TRACKER_LOADED = 'TRACKER_LOADED';
 
 export const bpmSet = bpm => ({
@@ -51,14 +53,6 @@ export const editTrackLoaded = track => ({
 
 export const initialized = () => ({
   type: INITIALIZED,
-});
-
-export const keyPressed = (pitch, sequence) => ({
-  type: KEY_PRESSED,
-  payload: {
-    pitch,
-    sequence,
-  },
 });
 
 export const measureCountSet = measureCount => ({
@@ -94,14 +88,6 @@ export const notesDragged = notes => ({
   type: NOTES_DRAGGED,
   payload: {
     notes,
-  },
-});
-
-export const notesDragPreviewed = (notes, sequence) => ({
-  type: NOTES_DRAG_PREVIEWED,
-  payload: {
-    notes,
-    sequence,
   },
 });
 
@@ -142,6 +128,14 @@ export const notesResized = notes => ({
   },
 });
 
+export const pitchPreviewed = (pitch, sequence) => ({
+  type: PITCH_PREVIEWED,
+  payload: {
+    pitch,
+    sequence,
+  },
+});
+
 export const playbackPauseRequestStarted = () => ({
   type: PLAYBACK_PAUSE_REQUEST_STARTED,
 });
@@ -177,6 +171,13 @@ export const sequenceAdded = sequence => ({
 
 export const sequenceDeleted = sequence => ({
   type: SEQUENCE_DELETED,
+  payload: {
+    sequence,
+  },
+});
+
+export const sequenceEdited = sequence => ({
+  type: SEQUENCE_EDITED,
   payload: {
     sequence,
   },
@@ -261,11 +262,34 @@ export const trackIsSoloingToggled = track => ({
   },
 });
 
+export const trackSequencesOrderChanged = (
+  sequence,
+  position,
+  swappedSequence,
+  swappedPosition,
+) => ({
+  type: TRACK_SEQUENCES_ORDER_CHANGED,
+  payload: {
+    position,
+    sequence,
+    swappedPosition,
+    swappedSequence,
+  },
+});
+
 export const trackVoiceSet = (track, voice) => ({
   type: TRACK_VOICE_SET,
   payload: {
     track,
     voice,
+  },
+});
+
+export const trackVolumeSet = (track, volume) => ({
+  type: TRACK_VOLUME_SET,
+  payload: {
+    track,
+    volume,
   },
 });
 

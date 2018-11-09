@@ -12,6 +12,7 @@ export class TrackList extends React.PureComponent {
   static propTypes = {
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceDeselect: PropTypes.func.isRequired,
+    onSequenceEdit: PropTypes.func.isRequired,
     onSequenceOpen: PropTypes.func.isRequired,
     onSequenceSelect: PropTypes.func.isRequired,
     onSongExtend: PropTypes.func.isRequired,
@@ -39,19 +40,24 @@ export class TrackList extends React.PureComponent {
         onSongShorten: this.props.onSongShorten,
         playbackState: 'stopped',
       }),
-      ...this.props.tracks.map(track =>
-        h(Track, {
-          onSequenceAdd: this.props.onSequenceAdd,
-          onSequenceOpen: this.props.onSequenceOpen,
-          onSequenceSelect: this.props.onSequenceSelect,
-          onTrackIsMutedToggle: this.props.onTrackIsMutedToggle,
-          onTrackIsSoloingToggle: this.props.onTrackIsSoloingToggle,
-          onTrackSelect: this.props.onTrackStage,
-          selectedSequence: this.props.selectedSequence,
-          songMeasureCount: this.props.songMeasureCount,
-          track,
-        }),
-      ),
+      h('.track-list__tracks', [
+        ...this.props.tracks.map((track, index) =>
+          h(Track, {
+            key: `track-${index}`,
+            onSequenceAdd: this.props.onSequenceAdd,
+            onSequenceEdit: this.props.onSequenceEdit,
+            onSequenceOpen: this.props.onSequenceOpen,
+            onSequenceSelect: this.props.onSequenceSelect,
+            onTrackIsMutedToggle: this.props.onTrackIsMutedToggle,
+            onTrackIsSoloingToggle: this.props.onTrackIsSoloingToggle,
+            onTrackSelect: this.props.onTrackStage,
+            selectedSequence: this.props.selectedSequence,
+            songMeasureCount: this.props.songMeasureCount,
+            index,
+            track,
+          }),
+        ),
+      ]),
       h(AddTrackButton, {
         onClick: this.props.onTrackAdd,
         songMeasureCount: this.props.songMeasureCount,

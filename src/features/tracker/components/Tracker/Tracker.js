@@ -1,11 +1,14 @@
 import Dawww from 'dawww';
 import getOr from 'lodash/fp/getOr';
+import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
+import keydown from 'react-keydown';
 import shared from '../../../shared';
 import { TrackList } from '../TrackList/TrackList';
 import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
+import { TrackerToolbar } from '../TrackerToolbar/TrackerToolbar';
 import './Tracker.scss';
 
 const { Timeline } = shared.components;
@@ -15,6 +18,7 @@ export class Tracker extends React.PureComponent {
     isStopped: PropTypes.bool.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceDelete: PropTypes.func.isRequired,
+    onSequenceEdit: PropTypes.func.isRequired,
     onSequenceExtend: PropTypes.func.isRequired,
     onSequenceMoveLeft: PropTypes.func.isRequired,
     onSequenceMoveRight: PropTypes.func.isRequired,
@@ -28,7 +32,9 @@ export class Tracker extends React.PureComponent {
     onTrackEditingStart: PropTypes.func.isRequired,
     onTrackIsMutedToggle: PropTypes.func.isRequired,
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
+    onTrackSequencesOrderChange: PropTypes.func.isRequired,
     onTrackVoiceSet: PropTypes.func.isRequired,
+    onTrackVolumeSet: PropTypes.func.isRequired,
     position: PropTypes.number.isRequired,
     sequenceMap: PropTypes.object.isRequired,
     songMeasureCount: PropTypes.number.isRequired,
@@ -46,6 +52,8 @@ export class Tracker extends React.PureComponent {
     return h('.tracker', [
       h(TrackList, {
         onSequenceAdd: this.handleTrackListSequenceAdd,
+        onSequenceDelete: this.props.onSequenceDelete,
+        onSequenceEdit: this.props.onSequenceEdit,
         onSequenceDeselect: this.handleTrackListSequenceDeselect,
         onSequenceOpen: this.props.onSequenceOpen,
         onSequenceSelect: this.handleTrackListSequenceSelect,
@@ -55,10 +63,20 @@ export class Tracker extends React.PureComponent {
         onTrackAdd: this.handleTrackListTrackAdd,
         onTrackIsMutedToggle: this.props.onTrackIsMutedToggle,
         onTrackIsSoloingToggle: this.props.onTrackIsSoloingToggle,
+        onTrackSequencesOrderChange: this.props.onTrackSequencesOrderChange,
         onTrackStage: this.props.onTrackEditingStart,
         selectedSequence: this.getSelectedSequence(),
         songMeasureCount: this.props.songMeasureCount,
         tracks: this.props.tracks,
+      }),
+      h(TrackerToolbar, {
+        onSequenceDelete: this.handleTrackerToolbarSequenceDelete,
+        onSequenceExtend: () => {},
+        onSequenceMoveLeft: () => {},
+        onSequenceMoveRight: () => {},
+        onSequenceOpen: () => {},
+        onSequenceShorten: () => {},
+        selectedSequence: this.getSelectedSequence(),
       }),
       h(Timeline, {
         isVisible: !this.props.isStopped,
@@ -68,9 +86,21 @@ export class Tracker extends React.PureComponent {
         onDelete: this.handleTrackEditingModalDelete,
         onDismiss: this.props.onTrackEditingFinish,
         onVoiceSet: this.props.onTrackVoiceSet,
+        onVolumeSet: this.props.onTrackVolumeSet,
         stagedTrack: this.getStagedTrack(),
       }),
     ]);
+  }
+
+  @keydown('backspace', 'del')
+  deleteSelectedSequence(e) {
+    e.preventDefault();
+
+    const selectedSequence = this.getSelectedSequence();
+
+    if (isNil(selectedSequence)) return;
+
+    this.props.onSequenceDelete(selectedSequence);
   }
 
   getSelectedSequence = () =>
@@ -132,6 +162,7 @@ export class Tracker extends React.PureComponent {
 
   handleTrackerToolbarSequenceShorten = () => {
     if (this.getSelectedSequence().measureCount < 2) return;
+
     this.props.onSequenceShorten(this.getSelectedSequence());
   }
 }

@@ -4,23 +4,19 @@
 .track-sequence {
   display: flex;
   height: 84px;
-  position: absolute;
-  top: 0;
-  left: 0;
   padding: $margin-s;
   background-color: $emerald-2;
   border-right: 2px solid $emerald-0;
   overflow: hidden;
-  transform: scale(1);
-  transition: transform 0.1s ease;
+  position: relative;
   &--active {
     background-color: $almostwhite;
     border-color: white;
   }
-  &:hover:not(:active) {
-    transform: scale(1.05);
+  &:hover:not(:active):not(.track-sequence--active) {
+    background-color: $emerald-1;
   }
   &:active {
-    transform: scale(0.95);
+    background-color: $almostwhite;
   }
 }

@@ -1,21 +1,33 @@
+import classnames from 'classnames';
 import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
 import h from 'react-hyperscript';
-import classnames from 'classnames';
+import { AddSequenceButton } from '../AddSequenceButton/AddSequenceButton';
 import { TrackSequenceNote } from '../TrackSequenceNote/TrackSequenceNote';
 import './TrackSequence.scss';
 
 export class TrackSequence extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
+    index: PropTypes.number.isRequired,
+    isSelected: PropTypes.bool.isRequired,
     onOpen: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
-    selectedSequence: PropTypes.object.isRequired,
-    sequence: PropTypes.object.isRequired,
+    sequence: PropTypes.object,
+  }
+
+  static defaultProps = {
+    index: 0,
   }
 
   render() {
+    if (!this.props.sequence) {
+      return h(AddSequenceButton, {
+        onClick: this.handleAddSequenceButtonClick,
+      });
+    }
+
     return h('.track-sequence', {
       className: this.getClassName(),
       style: this.getStyle(),
@@ -33,30 +45,22 @@ export class TrackSequence extends React.PureComponent {
 
   getClassName() {
     return classnames({
-      'track-sequence--active': this.getIsSelected(),
+      'track-sequence--active': this.props.isSelected,
     }, this.props.className);
   }
 
-  getIsSelected = () => {
-    const sequenceId = getOr('', 'props.sequence.id', this);
-    const selectedSequenceId = getOr('', 'props.selectedSequence.id', this);
+  getStyle = () => {
+    const measureCount = getOr(1, 'props.sequence.measureCount', this);
 
-    if (!selectedSequenceId) return false;
-
-    return sequenceId === selectedSequenceId;
-  };
-
-  getStyle() {
     return {
-      left: measureCountToPx(this.props.sequence.position),
-      width: measureCountToPx(this.props.sequence.measureCount),
+      width: measureCountToPx(measureCount),
     };
   }
 
   handleClick = (e) => {
     e.stopPropagation();
 
-    if (this.getIsSelected()) {
+    if (this.props.isSelected) {
       this.props.onOpen(this.props.sequence);
       return;
     }
