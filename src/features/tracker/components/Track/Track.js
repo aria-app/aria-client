@@ -1,3 +1,4 @@
+import each from 'lodash/fp/each';
 import getOr from 'lodash/fp/getOr';
 import times from 'lodash/fp/times';
 import PropTypes from 'prop-types';
@@ -5,16 +6,17 @@ import React from 'react';
 import h from 'react-hyperscript';
 import * as palette from '../../../../styles/palette';
 import shared from '../../../shared';
-// import { AddSequenceButton } from '../AddSequenceButton/AddSequenceButton';
 import { TrackSequence } from '../TrackSequence/TrackSequence';
 import { TrackHeader } from '../TrackHeader/TrackHeader';
 import './Track.scss';
 
-const { MatrixBox } = shared.components;
+const { Boxes, MatrixBox } = shared.components;
 
 export class Track extends React.PureComponent {
   static propTypes = {
+    index: PropTypes.number.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
+    onSequenceEdit: PropTypes.func,
     onSequenceOpen: PropTypes.func.isRequired,
     onSequenceSelect: PropTypes.func.isRequired,
     onTrackIsMutedToggle: PropTypes.func.isRequired,
@@ -36,26 +38,24 @@ export class Track extends React.PureComponent {
         track: this.props.track,
       }),
       h(MatrixBox, {
-        className: '.track',
+        className: '.track__box',
         fill: palette.emerald[2],
         matrix: this.getMatrix(),
       }, [
         h('.track__sequences', {
           style: this.getBodySequencesStyle(),
         }, [
-          ...this.props.track.sequences.map(sequence =>
-            h(TrackSequence, {
-              onOpen: this.props.onSequenceOpen,
-              onSelect: this.props.onSequenceSelect,
-              selectedSequence: this.props.selectedSequence,
-              sequence,
-            }),
-          ),
+          h(Boxes, {
+            boxContentComponent: this.getSequenceComponent,
+            items: this.getBoxesItems(),
+            length: this.props.songMeasureCount,
+            onItemsChange: this.handleBoxesItemsChange,
+            step: 64,
+            style: {
+              height: 84,
+            },
+          }),
         ]),
-        // h(AddSequenceButton, {
-        //   onClick: this.handleAddSequenceButtonClick,
-        //   track: this.props.track,
-        // }),
       ]),
     ]);
   }
@@ -63,6 +63,27 @@ export class Track extends React.PureComponent {
   getBodySequencesStyle = () => ({
     width: this.props.songMeasureCount * 64,
   });
+
+  getBoxesItems = () => {
+    const sequences = getOr([], 'props.track.sequences', this);
+
+    return sequences.map(sequence => ({
+      id: sequence.id,
+      length: sequence.measureCount,
+      x: sequence.position,
+      sequence,
+    }));
+  };
+
+  getIsSequenceSelected = (sequence) => {
+    const sequenceId = getOr('', 'id', sequence);
+    const selectedSequenceId = getOr('', 'props.selectedSequence.id', this);
+
+    if (!selectedSequenceId) return false;
+
+    return sequenceId === selectedSequenceId;
+  }
+
 
   getMatrix = () => {
     const rowCount = 7;
@@ -84,12 +105,14 @@ export class Track extends React.PureComponent {
     );
   };
 
-  handleAddSequenceButtonClick = (position) => {
-    this.props.onSequenceAdd(
-      this.props.track,
-      position,
-    );
-  }
+  getSequenceComponent = ({ item }) =>
+    h(TrackSequence, {
+      isSelected: this.getIsSequenceSelected(item.sequence),
+      onOpen: this.props.onSequenceOpen,
+      onSelect: this.props.onSequenceSelect,
+      onSequenceAdd: this.handleSequenceAdd,
+      sequence: item.sequence,
+    });
 
   handleBodySequencesSequenceOpen = (sequence) => {
     this.props.onSequenceOpen(sequence);
@@ -98,6 +121,22 @@ export class Track extends React.PureComponent {
   handleBodySequencesSequenceSelect = (sequence) => {
     this.props.onSequenceSelect(sequence);
   }
+
+  handleBoxesItemsChange = (items) => {
+    const editedSequences = items.filter((item) => {
+      if (item.sequence.measureCount !== item.length) return true;
+
+      if (item.sequence.position !== item.x) return true;
+
+      return false;
+    }).map(item => ({
+      ...item.sequence,
+      measureCount: item.length,
+      position: item.x,
+    }));
+
+    each(this.props.onSequenceEdit, editedSequences);
+  };
 
   handleHeaderClick = () => {
     this.props.onTrackSelect(this.props.track);
@@ -109,5 +148,12 @@ export class Track extends React.PureComponent {
 
   handleHeaderIsSoloingToggle = () => {
     this.props.onTrackIsSoloingToggle(this.props.track);
+  }
+
+  handleSequenceAdd = (position) => {
+    this.props.onSequenceAdd(
+      this.props.track,
+      position,
+    );
   }
 }
