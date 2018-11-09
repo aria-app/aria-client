@@ -22,7 +22,7 @@
     "lodash": "4.17.4",
     "prop-types": "15.6.0",
     "react": "16.0.0",
-    "react-dom": "16.0.0",
+    "react-dom": "16.0.1",
     "react-draggable": "3.0.5",
     "react-hyperscript": "3.0.0",
     "react-icons": "2.2.5",
