@@ -2,7 +2,6 @@ import isEmpty from 'lodash/fp/isEmpty';
 import negate from 'lodash/fp/negate';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import shared from '../../../shared';
 import './TrackerToolbar.scss';
 
@@ -24,47 +23,50 @@ export class TrackerToolbar extends React.PureComponent {
   };
 
   render() {
-    return h(Toolbar, {
-      className: 'tracker-toolbar',
-      position: 'top',
-      isAlternate: this.getIsAlternate(),
-      alternateLeftItems: [
-        h('.tracker-toolbar__sequence-actions', [
-          h(IconButton, {
-            className: 'tracker-toolbar__sequence-actions__open-button',
-            icon: 'pencil',
-            onClick: this.props.onSequenceOpen,
-          }),
-          h(IconButton, {
-            className: 'tracker-toolbar__sequence-actions__delete-button',
-            icon: 'trash',
-            onClick: this.props.onSequenceDelete,
-          }),
-          h(IconButton, {
-            className: 'tracker-toolbar__sequence-actions__shorten-button',
-            icon: 'long-arrow-left',
-            isDisabled: this.getIsShortenButtonDisabled(),
-            onClick: this.props.onSequenceShorten,
-          }),
-          h(IconButton, {
-            className: 'tracker-toolbar__sequence-actions__move-left-button',
-            icon: 'arrow-left',
-            isDisabled: this.getIsMoveLeftButtonDisabled(),
-            onClick: this.props.onSequenceMoveLeft,
-          }),
-          h(IconButton, {
-            className: 'tracker-toolbar__sequence-actions__move-right-button',
-            icon: 'arrow-right',
-            onClick: this.props.onSequenceMoveRight,
-          }),
-          h(IconButton, {
-            className: 'tracker-toolbar__sequence-actions__extend-button',
-            icon: 'long-arrow-right',
-            onClick: this.props.onSequenceExtend,
-          }),
-        ]),
-      ],
-    });
+    return (
+      <Toolbar
+        className="tracker-toolbar"
+        position="top"
+        isAlternate={this.getIsAlternate()}
+        alternateLeftItems={<React.Fragment>
+          <div
+            className="tracker-toolbar__sequence-actions">
+            <IconButton
+              className="tracker-toolbar__sequence-actions__open-button"
+              icon="pencil"
+              onClick={this.props.onSequenceOpen}
+            />
+            <IconButton
+              className="tracker-toolbar__sequence-actions__delete-button"
+              icon="trash"
+              onClick={this.props.onSequenceDelete}
+            />
+            <IconButton
+              className="tracker-toolbar__sequence-actions__shorten-button"
+              icon="long-arrow-left"
+              isDisabled={this.getIsShortenButtonDisabled()}
+              onClick={this.props.onSequenceShorten}
+            />
+            <IconButton
+              className="tracker-toolbar__sequence-actions__move-left-button"
+              icon="arrow-left"
+              isDisabled={this.getIsMoveLeftButtonDisabled()}
+              onClick={this.props.onSequenceMoveLeft}
+            />
+            <IconButton
+              className="tracker-toolbar__sequence-actions__move-right-button"
+              icon="arrow-right"
+              onClick={this.props.onSequenceMoveRight}
+            />
+            <IconButton
+              className="tracker-toolbar__sequence-actions__extend-button"
+              icon="long-arrow-right"
+              onClick={this.props.onSequenceExtend}
+            />
+          </div>
+        </React.Fragment>}
+      />
+    );
   }
 
   getIsAlternate = () =>

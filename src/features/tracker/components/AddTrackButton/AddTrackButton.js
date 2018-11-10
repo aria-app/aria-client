@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import './AddTrackButton.scss';
 
 export class AddTrackButton extends React.PureComponent {
@@ -10,12 +9,18 @@ export class AddTrackButton extends React.PureComponent {
   }
 
   render() {
-    return h('.add-track-button', {
-      onClick: this.handleClick,
-    }, [
-      h('.add-track-button__plus__vertical'),
-      h('.add-track-button__plus__horizontal'),
-    ]);
+    return (
+      <div
+        className="add-track-button"
+        onClick={this.handleClick}>
+        <div
+          className="add-track-button__plus__vertical"
+        />
+        <div
+          className="add-track-button__plus__horizontal"
+        />
+      </div>
+    );
   }
 
   handleClick = (e) => {

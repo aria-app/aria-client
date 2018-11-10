@@ -1,7 +1,6 @@
 import { compose, first, split } from 'lodash/fp';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import { showIf } from 'react-render-helpers';
 import * as constants from '../../constants';
 import { Note } from '../Note/Note';
@@ -21,28 +20,30 @@ export class DrawLayer extends React.PureComponent {
   }
 
   render() {
-    return h('.draw-layer', {
-      onMouseDown: this.handleMouseDown,
-      onMouseLeave: this.handleMouseLeave,
-      onMouseUp: this.handleMouseUp,
-      ref: this.setRef,
-      style: {
-        pointerEvents: this.getIsEnabled() ? 'all' : 'none',
-      },
-    }, [
-      showIf(this.getIsEnabled())(
-        h(Note, {
-          className: 'draw-layer__note--ghost',
-          onErase: noop,
-          onMoveStart: noop,
-          onResizeStart: noop,
-          onSelect: noop,
-          note: this.getGhostNoteNote(),
-          selectedNotes: [],
-          toolType: '',
-        }),
-      ),
-    ]);
+    return (
+      <div
+        className="draw-layer"
+        onMouseDown={this.handleMouseDown}
+        onMouseLeave={this.handleMouseLeave}
+        onMouseUp={this.handleMouseUp}
+        ref={this.setRef}
+        style={{
+          pointerEvents: this.getIsEnabled() ? 'all' : 'none',
+        }}>
+        {showIf(this.getIsEnabled())(
+          <Note
+            className="draw-layer__note--ghost"
+            onErase={noop}
+            onMoveStart={noop}
+            onResizeStart={noop}
+            onSelect={noop}
+            note={this.getGhostNoteNote()}
+            selectedNotes={[]}
+            toolType=""
+          />
+        )}
+      </div>
+    );
   }
 
   getGhostNoteNote() {

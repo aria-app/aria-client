@@ -1,7 +1,6 @@
 import { includes } from 'lodash/fp';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import './Key.scss';
 
 export class Key extends React.PureComponent {
@@ -11,14 +10,16 @@ export class Key extends React.PureComponent {
   }
 
   render() {
-    return h('.key', {
-      className: this.getClassName(),
-      onMouseDown: this.handleMouseDown,
-    }, [
-      h('.key__label', [
-        this.props.step.name,
-      ]),
-    ]);
+    return (
+      <div
+        className={this.getClassName()}
+        onMouseDown={this.handleMouseDown}>
+        <div
+          className="key__label">
+          {this.props.step.name}
+        </div>
+      </div>
+    );
   }
 
   getClassName = () => {
@@ -26,7 +27,7 @@ export class Key extends React.PureComponent {
     const suffix = includes('#', this.props.step.name)
       ? 'sharp'
       : '';
-    return `key--${letter}${suffix}`;
+    return `key key--${letter}${suffix}`;
   };
 
   handleMouseDown = () =>

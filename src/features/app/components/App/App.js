@@ -1,7 +1,6 @@
 import Dawww from 'dawww';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import sequencer from '../../../sequencer';
 import shared from '../../../shared';
 import tracker from '../../../tracker';
@@ -35,38 +34,40 @@ export class App extends React.PureComponent {
   };
 
   render() {
-    return h('.app', {
-      onDragEnter: this.handleDragEnter,
-      onDragOver: this.handleDragOver,
-      onDrop: this.handleDrop,
-    }, [
-      this.getContentComponent(),
-      h(SongToolbar, {
-        bpm: this.props.bpm,
-        onBPMChange: this.props.onBPMChange,
-        onMeasureCountChange: this.props.onMeasureCountChange,
-        onPause: this.props.onPause,
-        onPlay: this.props.onPlay,
-        onStop: this.props.onStop,
-        playbackState: this.props.playbackState,
-        songMeasureCount: this.props.songMeasureCount,
-        stringifiedSong: this.props.stringifiedSong,
-      }),
-      h(UploadOverlay, {
-        isFileOver: this.state.isFileOver,
-        onCancel: this.handleUploadOverlayCancel,
-        onUpload: this.handleUploadOverlayUpload,
-      }),
-      h(VFXLayer),
-    ]);
+    return (
+      <div
+        className="app"
+        onDragEnter={this.handleDragEnter}
+        onDragOver={this.handleDragOver}
+        onDrop={this.handleDrop}>
+        {this.getContentComponent()}
+        <SongToolbar
+          bpm={this.props.bpm}
+          onBPMChange={this.props.onBPMChange}
+          onMeasureCountChange={this.props.onMeasureCountChange}
+          onPause={this.props.onPause}
+          onPlay={this.props.onPlay}
+          onStop={this.props.onStop}
+          playbackState={this.props.playbackState}
+          songMeasureCount={this.props.songMeasureCount}
+          stringifiedSong={this.props.stringifiedSong}
+        />
+        <UploadOverlay
+          isFileOver={this.state.isFileOver}
+          onCancel={this.handleUploadOverlayCancel}
+          onUpload={this.handleUploadOverlayUpload}
+        />
+        <VFXLayer/>
+      </div>
+    );
   }
 
   getContentComponent = () => {
     if (this.props.locationType === shared.actions.SEQUENCER_LOADED) {
-      return h(SequencerContainer);
+      return <SequencerContainer/>
     }
 
-    return h(TrackerContainer);
+    return <TrackerContainer/>;
   };
 
   handleDragEnter = (e) => {

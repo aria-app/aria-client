@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import './Shell.scss';
 
 export class Shell extends React.Component {
@@ -9,6 +8,11 @@ export class Shell extends React.Component {
   }
 
   render() {
-    return h('.shell', this.props);
+    return (
+      <div
+        className="shell"
+        {...this.props}
+      />
+    );
   }
 }

@@ -2,7 +2,6 @@ import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import './Fence.scss';
 
 export class Fence extends React.PureComponent {
@@ -12,14 +11,17 @@ export class Fence extends React.PureComponent {
   }
 
   render() {
-    return h('.fence', {
-      style: {
-        display: this.getDisplay(),
-        height: this.getHeight(),
-        transform: this.getTransform(),
-        width: this.getWidth(),
-      },
-    });
+    return (
+      <div
+        className="fence"
+        style={{
+          display: this.getDisplay(),
+          height: this.getHeight(),
+          transform: this.getTransform(),
+          width: this.getWidth(),
+        }}
+      />
+    );
   }
 
   getDisplay() {

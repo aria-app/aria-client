@@ -1,6 +1,6 @@
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import './Button.scss';
 
 export class Button extends React.PureComponent {
@@ -12,14 +12,18 @@ export class Button extends React.PureComponent {
   }
 
   render() {
-    return h('.button', {
-      className: this.props.className,
-      onClick: this.handleClick,
-      style: this.props.style,
-    }, [
-      this.props.text,
-    ]);
+    return (
+      <div
+        className={this.getClassName()}
+        onClick={this.handleClick}
+        style={this.props.style}>
+        {this.props.text}
+      </div>
+    );
   }
+
+  getClassName = () =>
+    classnames('button', this.props.className);
 
   handleClick = () => {
     if (!this.props.onClick) return;

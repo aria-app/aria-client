@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import { Box } from '../Box/Box';
 import './Boxes.scss';
 
@@ -29,19 +28,21 @@ export class Boxes extends React.Component {
   };
 
   render() {
-    return h('.boxes', {
-      style: this.getStyle(),
-    }, [
-      this.props.items.map(item =>
-        h(Box, {
-          contentComponent: this.props.boxContentComponent,
-          key: item.id,
-          onItemChange: this.handleBoxItemChange,
-          step: this.props.step,
-          item,
-        }),
-      ),
-    ]);
+    return (
+      <div
+        className="boxes"
+        style={this.getStyle()}>
+        {this.props.items.map(item => (
+          <Box
+            contentComponent={this.props.boxContentComponent}
+            key={item.id}
+            onItemChange={this.handleBoxItemChange}
+            step={this.props.step}
+            item={item}
+          />
+        ))}
+      </div>
+    );
   }
 
   getStyle = () => ({

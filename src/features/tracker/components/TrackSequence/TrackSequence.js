@@ -2,8 +2,6 @@ import classnames from 'classnames';
 import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
-import { AddSequenceButton } from '../AddSequenceButton/AddSequenceButton';
 import { TrackSequenceNote } from '../TrackSequenceNote/TrackSequenceNote';
 import './TrackSequence.scss';
 
@@ -22,29 +20,24 @@ export class TrackSequence extends React.PureComponent {
   }
 
   render() {
-    if (!this.props.sequence) {
-      return h(AddSequenceButton, {
-        onClick: this.handleAddSequenceButtonClick,
-      });
-    }
-
-    return h('.track-sequence', {
-      className: this.getClassName(),
-      style: this.getStyle(),
-      onClick: this.handleClick,
-      onDoubleClick: this.handleDoubleClick,
-    }, [
-      ...this.props.sequence.notes.map(note =>
-        h(TrackSequenceNote, {
-          key: note.id,
-          note,
-        }),
-      ),
-    ]);
+    return (
+      <div
+        className={this.getClassName()}
+        style={this.getStyle()}
+        onClick={this.handleClick}
+        onDoubleClick={this.handleDoubleClick}>
+        {this.props.sequence.notes.map(note => (
+          <TrackSequenceNote
+            key={note.id}
+            note={note}
+          />
+        ))}
+      </div>
+    );
   }
 
   getClassName() {
-    return classnames({
+    return classnames('track-sequence', {
       'track-sequence--active': this.props.isSelected,
     }, this.props.className);
   }

@@ -1,17 +1,17 @@
 import React from 'react';
-import h from 'react-hyperscript';
 import { Box, Shell } from '../../../components';
 
-const Content = props =>
-  h('.content', {
-    style: {
+const Content = props => (
+  <div
+    className="content"
+    style={{
       backgroundColor: 'red',
       color: 'white',
       flex: '1 1 auto',
-    },
-  }, [
-    props.item.id,
-  ]);
+    }}>
+    {props.item.id}
+  </div>
+);
 
 export class BoxDynamic extends React.Component {
   state = {
@@ -23,26 +23,26 @@ export class BoxDynamic extends React.Component {
   };
 
   render() {
-    return h(Shell, {
-      style: {
-        padding: 16,
-      },
-    }, [
-      h('div', {
-        style: {
-          height: 100,
-          position: 'relative',
-          width: 500,
-        },
-      }, [
-        h(Box, {
-          contentComponent: Content,
-          item: this.state.item,
-          onItemChange: this.handleItemChange,
-          step: 100,
-        }),
-      ]),
-    ]);
+    return (
+      <Shell
+        style={{
+          padding: 16,
+        }}>
+        <div
+          style={{
+            height: 100,
+            position: 'relative',
+            width: 500,
+          }}>
+          <Box
+            contentComponent={Content}
+            item={this.state.item}
+            onItemChange={this.handleItemChange}
+            step={100}
+          />
+        </div>
+      </Shell>
+    );
   }
 
   handleItemChange = (item) => {

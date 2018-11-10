@@ -1,7 +1,7 @@
+import classnames from 'classnames';
 import find from 'lodash/fp/find';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import { hideIf, showIf } from 'react-render-helpers';
 import { DropdownListItem } from '../DropdownListItem/DropdownListItem';
 import { Icon } from '../Icon/Icon';
@@ -50,64 +50,72 @@ export class DropdownList extends React.PureComponent {
   }
 
   render() {
-    return h('.dropdown-list', {
-      className: this.props.className,
-      style: this.props.style,
-    }, [
-      showIf(!!this.props.icon)(
-        h(IconButton, {
-          className: 'dropdown-list__button',
-          onClick: this.handleButtonClick,
-          icon: this.props.icon || '',
-        }),
-      ),
-      hideIf(!!this.props.icon)(
-        h('.dropdown-list__input', {
-          onClick: this.handleInputClick,
-        }, [
-          h('span.dropdown-list__input__text', [
-            this.getText(),
-          ]),
-          h(Icon, {
-            className: 'dropdown-list__input__caret',
-            icon: 'caret-down',
-            size: 'small',
-          }),
-        ]),
-      ),
-      showIf(this.state.isOpen)(
-        h('.dropdown-list__overlay', {
-          onClick: this.handleOverlayClick,
-        }),
-      ),
-      showIf(this.state.isOpen)(
-        h('.dropdown-list__popup', {
-          ref: this.setPopupRef,
-          style: this.getPopupStyle(),
-        }, [
-          h('.dropdown-list__popup__list', [
-            ...this.props.items.map(item =>
-              h(DropdownListItem, {
-                className: 'dropdown-list__popup__list__item',
-                onClick: this.handlePopupListItemClick,
-                selectedId: this.props.selectedId,
-                selectedItem: this.props.selectedItem,
-                item,
-              }),
-            ),
-          ]),
-        ]),
-      ),
-    ]);
+    return (
+      <div
+        className={this.getClassName()}
+        style={this.props.style}>
+        {showIf(this.props.icon)(
+          <IconButton
+            className="dropdown-list__button"
+            onClick={this.handleButtonClick}
+            icon={this.props.icon}
+          />
+        )}
+        {hideIf(this.props.icon)(
+          <div
+            className="dropdown-list__input"
+            onClick={this.handleInputClick}>
+            <span
+              className="dropdown-list__input__text">
+              {this.getText()}
+            </span>
+            <Icon
+              className="dropdown-list__input__caret"
+              icon="caret-down"
+              size="small"
+            />
+          </div>
+        )}
+        {showIf(this.state.isOpen)(
+          <React.Fragment>
+            <div
+              className="dropdown-list__overlay"
+              onClick={this.handleOverlayClick}
+            />
+            <div
+              className="dropdown-list__popup"
+              ref={this.setPopupRef}
+              style={this.getPopupStyle()}>
+              <div
+                className="dropdown-list__popup__list">
+                {this.props.items.map((item, index) => (
+                  <DropdownListItem
+                    className="dropdown__list__popup__list__item"
+                    key={index}
+                    onClick={this.handlePopupListItemClick}
+                    selectedId={this.props.selectedId}
+                    selectedItem={this.props.selectedItem}
+                    item={item}
+                  />
+                ))}
+              </div>
+            </div>
+          </React.Fragment>
+        )}
+      </div>
+    );
   }
 
-  getPopupStyle() {
+  getClassName = () =>
+    classnames('dropdown-list', this.props.className);
+
+  getPopupStyle = () => {
     return {
       height: (this.props.items.length * 48) + 16,
     };
   }
 
-  getSelectedItem() {
+  getSelectedItem = () => {
     if (this.props.selectedItem) {
       return this.props.selectedItem;
     }
@@ -121,7 +129,7 @@ export class DropdownList extends React.PureComponent {
     return undefined;
   }
 
-  getSelectedItemScrollTop() {
+  getSelectedItemScrollTop = () => {
     const selectedItem = this.getSelectedItem();
 
     if (!selectedItem) return 0;
@@ -129,7 +137,7 @@ export class DropdownList extends React.PureComponent {
     return (this.props.items.indexOf(selectedItem) - 2) * 48;
   }
 
-  getText() {
+  getText = () => {
     if (this.props.text) return this.props.text;
 
     const selectedItem = this.getSelectedItem();

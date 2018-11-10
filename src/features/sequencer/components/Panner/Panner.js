@@ -1,7 +1,6 @@
 import { isEmpty } from 'lodash/fp';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import classnames from 'classnames';
 import * as constants from '../../constants';
 import './Panner.scss';
@@ -20,19 +19,21 @@ export class Panner extends React.PureComponent {
   }
 
   render() {
-    return h('.panner', {
-      className: this.getClassName(),
-      onMouseDown: this.handleMouseDown,
-      onMouseLeave: this.handleMouseLeave,
-      onMouseMove: this.handleMouseMove,
-      onMouseUp: this.handleMouseUp,
-      style: {
-        pointerEvents: this.getIsEnabled() ? 'all' : 'none',
-      },
-    });
+    return (
+      <div
+        className={this.getClassName()}
+        onMouseDown={this.handleMouseDown}
+        onMouseLeave={this.handleMouseLeave}
+        onMouseMove={this.handleMouseMove}
+        onMouseUp={this.handleMouseUp}
+        style={{
+          pointerEvents: this.getIsEnabled() ? 'all' : 'none',
+        }}
+      />
+    );
   }
 
-  getClassName = () => classnames({
+  getClassName = () => classnames('panner', {
     'panner--grab': this.getIsEnabled(),
   });
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import h from 'react-hyperscript';
 import './VFXLayer.scss';
 
 export class VFXLayer extends React.Component {
@@ -12,9 +11,12 @@ export class VFXLayer extends React.Component {
   }
 
   render() {
-    return h('.vfx-layer', {
-      ref: this.setRef,
-    });
+    return (
+      <div
+        className="vfx-layer"
+        ref={this.setRef}
+      />
+    );
   }
 
   handleWindowMouseMove = (e) => {

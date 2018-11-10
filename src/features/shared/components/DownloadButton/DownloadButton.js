@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import './DownloadButton.scss';
 
 export class DownloadButton extends React.PureComponent {
@@ -11,12 +10,14 @@ export class DownloadButton extends React.PureComponent {
   }
 
   render() {
-    return h('a.download-button', {
-      download: this.props.filename,
-      href: getHref(this.props.content),
-    }, [
-      this.props.text,
-    ]);
+    return (
+      <a
+        className="download-button"
+        download={this.props.filename}
+        href={getHref(this.props.content)}>
+        {this.props.text}
+      </a>
+    );
   }
 }
 

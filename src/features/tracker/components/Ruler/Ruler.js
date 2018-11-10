@@ -3,7 +3,6 @@ import clamp from 'lodash/fp/clamp';
 import times from 'lodash/fp/times';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import shared from '../../../shared';
 import './Ruler.scss';
 
@@ -20,28 +19,30 @@ export class Ruler extends React.PureComponent {
   }
 
   render() {
-    return h('.ruler', [
-      h(MatrixBox, {
-        fill: 'white',
-        matrix: this.getMatrix(),
-        style: {
-          height: 35,
-          width: (this.props.measureWidth * this.props.measureCount) + 1,
-        },
-      }),
-      times(i =>
-        h('.ruler__measure-number', {
-          key: i,
-          style: {
-            left: (i * 64) + 6,
-            bottom: 0,
-          },
-        }, [
-          i + 1,
-        ]),
-      this.props.measureCount,
-      ),
-    ]);
+    return (
+      <div
+        className="ruler">
+        <MatrixBox
+          fill="white"
+          matrix={this.getMatrix()}
+          style={{
+            height: 35,
+            width: (this.props.measureWidth * this.props.measureCount) + 1,
+          }}
+        />
+        {times(i => (
+          <div
+            className="ruler__measure-number"
+            key={i}
+            style={{
+              left: (i * 64) + 6,
+              bottom: 0,
+            }}>
+            {i + 1}
+          </div>
+        ), this.props.measureCount)}
+      </div>
+    );
   }
 
   getIsLastMeasure(measureIndex) {

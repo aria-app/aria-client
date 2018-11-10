@@ -5,7 +5,6 @@ import includes from 'lodash/fp/includes';
 import last from 'lodash/fp/last';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import * as constants from '../../constants';
 import './Note.scss';
 
@@ -26,30 +25,36 @@ export class Note extends React.PureComponent {
   }
 
   render() {
-    return h('.note', {
-      className: this.getClassName(),
-      style: this.getStyle(),
-    }, [
-      h('.note__point.note__point--start', {
-        onMouseDown: this.handleStartPointMouseDown,
-        onMouseUp: this.handleStartPointMouseUp,
-      }, [
-        h('.note__point__fill.note__point__fill--start'),
-      ]),
-      h('.note__point-connector', {
-        style: this.getConnectorStyle(),
-      }),
-      h('.note__point.note__point--end', {
-        onMouseDown: this.handleEndPointMouseDown,
-        style: this.getEndPointStyle(),
-      }, [
-        h('.note__point__fill.note__point__fill--end'),
-      ]),
-    ]);
+    return (
+      <div
+        className={this.getClassName()}
+        style={this.getStyle()}>
+        <div
+          className="note__point note__point--start"
+          onMouseDown={this.handleStartPointMouseDown}
+          onMouseUp={this.handleStartPointMouseUp}>
+          <div
+            className="note__point__fill note__point__fill--start"
+          />
+        </div>
+        <div
+          className="note__point-connector"
+          style={this.getConnectorStyle()}
+        />
+        <div
+          className="note__point note__point--end"
+          onMouseDown={this.handleEndPointMouseDown}
+          style={this.getEndPointStyle()}>
+          <div
+            className="note__point__fill note__point__fill--end"
+          />
+        </div>
+      </div>
+    );
   }
 
   getClassName() {
-    return classnames({
+    return classnames('note', {
       'note--active': this.getIsSelected(),
     }, this.props.className);
   }

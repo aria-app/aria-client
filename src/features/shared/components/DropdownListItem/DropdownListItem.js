@@ -2,7 +2,6 @@ import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
-import h from 'react-hyperscript';
 import './DropdownListItem.scss';
 
 export class DropdownListItem extends React.PureComponent {
@@ -31,17 +30,18 @@ export class DropdownListItem extends React.PureComponent {
   }
 
   render() {
-    return h('.dropdown-list-item', {
-      className: this.getClassName(),
-      onClick: this.handleClick,
-      style: this.props.style,
-    }, [
-      this.props.item.text,
-    ]);
+    return (
+      <div
+        className={this.getClassName()}
+        onClick={this.handleClick}
+        style={this.props.style}>
+        {this.props.item.text}
+      </div>
+    );
   }
 
   getClassName = () =>
-    classnames({
+    classnames('dropdown-list-item', {
       'dropdown-list-item--active': this.getIsSelected(),
     }, this.props.className);
 

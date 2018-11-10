@@ -7,7 +7,6 @@ import uniq from 'lodash/fp/uniq';
 import without from 'lodash/fp/without';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import { toolTypes } from '../../constants';
 import { Grid } from '../Grid/Grid';
 import { Keys } from '../Keys/Keys';
@@ -49,46 +48,50 @@ export class Sequencer extends React.PureComponent {
   }
 
   render() {
-    return h('.sequencer', [
-      h(SequencerToolbar, {
-        measureCount: this.props.measureCount,
-        onClose: this.props.onClose,
-        onDelete: this.deleteSelectedNotes.bind(this),
-        onDeselectAll: this.deselectAllNotes.bind(this),
-        onDrawToolSelect: this.activateDrawTool.bind(this),
-        onDuplicate: this.duplicateSelectedNotes.bind(this),
-        onEraseToolSelect: this.activateEraseTool.bind(this),
-        onOctaveDown: this.handleToolbarOctaveDown,
-        onOctaveUp: this.handleToolbarOctaveUp,
-        onPanToolSelect: this.activatePanTool.bind(this),
-        onSelectToolSelect: this.activateSelectTool.bind(this),
-        selectedNotes: this.getSelectedNotes(),
-        toolType: this.state.toolType,
-      }),
-      h('.sequencer__content', {
-        ref: this.setContentRef,
-      }, [
-        h('.sequencer__content__wrapper', [
-          h(Keys, {
-            onKeyPress: this.props.onPitchPreview,
-          }),
-          h(Grid, {
-            measureCount: this.props.measureCount,
-            notes: this.props.notes,
-            onDrag: this.props.onDrag,
-            onDragPreview: this.handleGridDragPreview,
-            onDraw: this.handleGridDraw,
-            onErase: this.handleGridErase,
-            onResize: this.props.onResize,
-            onSelect: this.handleGridSelect,
-            onSelectInArea: this.handleGridSelectInArea,
-            selectedNotes: this.getSelectedNotes(),
-            sequencerContentRef: this.contentElementRef,
-            toolType: this.state.toolType,
-          }),
-        ]),
-      ]),
-    ]);
+    return (
+      <div
+        className="sequencer">
+        <SequencerToolbar
+          measureCount={this.props.measureCount}
+          onClose={this.props.onClose}
+          onDelete={this.deleteSelectedNotes.bind(this)}
+          onDeselectAll={this.deselectAllNotes.bind(this)}
+          onDrawToolSelect={this.activateDrawTool.bind(this)}
+          onDuplicate={this.duplicateSelectedNotes.bind(this)}
+          onEraseToolSelect={this.activateEraseTool.bind(this)}
+          onOctaveDown={this.handleToolbarOctaveDown}
+          onOctaveUp={this.handleToolbarOctaveUp}
+          onPanToolSelect={this.activatePanTool.bind(this)}
+          onSelectToolSelect={this.activateSelectTool.bind(this)}
+          selectedNotes={this.getSelectedNotes()}
+          toolType={this.state.toolType}
+        />
+        <div
+          className="sequencer__content"
+          ref={this.setContentRef}>
+          <div
+            className="sequencer__content__wrapper">
+            <Keys
+              onKeyPress={this.props.onPitchPreview}
+            />
+            <Grid
+              measureCount={this.props.measureCount}
+              notes={this.props.notes}
+              onDrag={this.props.onDrag}
+              onDragPreview={this.handleGridDragPreview}
+              onDraw={this.handleGridDraw}
+              onErase={this.handleGridErase}
+              onResize={this.props.onResize}
+              onSelect={this.handleGridSelect}
+              onSelectInArea={this.handleGridSelectInArea}
+              selectedNotes={this.getSelectedNotes()}
+              sequencerContentRef={this.contentElementRef}
+              toolType={this.state.toolType}
+            />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   // @keydown('d')

@@ -3,7 +3,6 @@ import Dawww from 'dawww';
 import map from 'lodash/fp/map';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import shared from '../../../shared';
 import './SongInfoModal.scss';
 
@@ -24,49 +23,57 @@ export class SongInfoModal extends React.PureComponent {
   }
 
   render() {
-    return h(Modal, {
-      className: 'song-info-modal',
-      confirmText: 'done',
-      isOpen: this.props.isOpen,
-      onConfirm: this.props.onConfirm,
-      titleText: 'Song Info',
-    }, [
-      h('.song-info-modal__content', [
-        h(DropdownList, {
-          className: 'song-info-modal__bpm-dropdown',
-          items: bpmRangeItems,
-          selectedId: this.props.bpm,
-          onSelectedIdChange: this.handleContentDropdownListSelect,
-        }),
-        h('.song-info-modal__measure-count-ticker', [
-          h('.song-info-modal__measure-count-ticker__minus', {
-            className: this.getMeasureCountTickerMinusClassName(),
-            onClick: this.handleMeasureCountTickerMinusClick,
-          }, ['-']),
-          h('.song-info-modal__measure-count-ticker__value', [
-            this.props.measureCount,
-          ]),
-          h('.song-info-modal__measure-count-ticker__plus', {
-            onClick: this.handleMeasureCountTickerPlusClick,
-          }, ['+']),
-        ]),
-        h(Button, {
-          className: 'song-toolbar__clear-cache-button',
-          text: 'clear cache',
-          onClick: this.handleClearCacheClick,
-        }),
-        h(DownloadButton, {
-          className: 'song-toolbar__download-song-button',
-          content: this.props.stringifiedSong,
-          filename: 'song.json',
-          text: 'Download Song',
-        }),
-      ]),
-    ]);
+    return (
+      <Modal
+        className={'song-info-modal'}
+        confirmText={'done'}
+        isOpen={this.props.isOpen}
+        onConfirm={this.props.onConfirm}
+        titleText={'Song Info'}
+        >
+        <div
+          className="song-info-modal__content">
+          <DropdownList
+            className="song-info-modal__bpm-dropdown"
+            items={bpmRangeItems}
+            selectedId={this.props.bpm}
+            onSelectedIdChange={this.handleContentDropdownListSelect}
+          />
+          <div
+            className="song-info-modal__measure-count-ticker">
+            <div
+              className={this.getMeasureCountTickerMinusClassName()}
+              onClick={this.handleMeasureCountTickerMinusClick}>
+              -
+            </div>
+            <div
+              className="song-info-modal__measure-count-ticker__value">
+              {this.props.measureCount}
+            </div>
+            <div
+              className="song-info-modal__measure-count-ticker__plus"
+              onClick={this.handleMeasureCountTickerPlusClick}>
+              +
+            </div>
+          </div>
+          <Button
+            className="song-toolbar__clear-cache-button"
+            text="clear cache"
+            onClick={this.handleClearCacheClick}
+          />
+          <DownloadButton
+            className="song-toolbar__download-song-button"
+            content={this.props.stringifiedSong}
+            filename="song.json"
+            text="Download Song"
+          />
+        </div>
+      </Modal>
+    );
   }
 
   getMeasureCountTickerMinusClassName = () =>
-    classnames({
+    classnames('song-info-modal__measure-count-ticker__minus', {
       'song-info-modal__measure-count-ticker__minus--disabled': this.props.measureCount < 2,
     });
 

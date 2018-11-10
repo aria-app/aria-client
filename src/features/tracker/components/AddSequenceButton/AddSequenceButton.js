@@ -1,13 +1,16 @@
-import h from 'react-hyperscript';
+import React from 'react';
 import shared from '../../../shared';
 import './AddSequenceButton.scss';
 
 const { Icon } = shared.components;
 
-export const AddSequenceButton = props =>
-  h('.add-sequence-button', props, [
-    h(Icon, {
-      className: 'add-sequence-button__icon',
-      icon: 'plus',
-    }),
-  ]);
+export const AddSequenceButton = props => (
+  <div
+    className="add-sequence-button"
+    {...props}>
+    <Icon
+      className="add-sequencer-button__icon"
+      icon="plus"
+    />
+  </div>
+);

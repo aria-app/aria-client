@@ -1,7 +1,6 @@
 import { isEmpty } from 'lodash/fp';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import { showIf } from 'react-render-helpers';
 import './UploadOverlay.scss';
 
@@ -16,17 +15,19 @@ export class UploadOverlay extends React.PureComponent {
 
   render() {
     return showIf(this.props.isFileOver)(
-      h('.upload-overlay', {
-        onDragLeave: this.handleDragLeave,
-        onDragOver: this.handleDragOver,
-        onDrop: this.handleDrop,
-      }, [
-        h('.upload-overlay__tint', [
-          h('.upload-overlay__tint__drag-indicator', [
-            'Drop project file to load it',
-          ]),
-        ]),
-      ]),
+      <div
+        className="upload-overlay"
+        onDragLeave={this.handleDragLeave}
+        onDragOver={this.handleDragOver}
+        onDrop={this.handleDrop}>
+        <div
+          className="upload-overlay__tint">
+          <div
+            className="upload-overlay__tint__drag-indicator">
+            Drop project file to load it
+          </div>
+        </div>
+      </div>
     );
   }
 

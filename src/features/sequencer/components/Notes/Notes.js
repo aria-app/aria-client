@@ -9,7 +9,6 @@ import some from 'lodash/fp/some';
 import without from 'lodash/fp/without';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import { Note } from '../Note/Note';
 import './Notes.scss';
 
@@ -45,24 +44,26 @@ export class Notes extends React.PureComponent {
   }
 
   render() {
-    return h('.notes', {
-      onMouseUp: this.handleMouseUp,
-      style: this.getStyle(),
-    }, [
-      ...this.getNotes().map(note =>
-        h(Note, {
-          className: 'notes__note',
-          key: note.id,
-          onErase: this.props.onErase,
-          onMoveStart: this.handleNoteMoveStart,
-          onResizeStart: this.handleNoteResizeStart,
-          onSelect: this.props.onSelect,
-          selectedNotes: this.props.selectedNotes,
-          toolType: this.props.toolType,
-          note,
-        }),
-      ),
-    ]);
+    return (
+      <div
+        className="notes"
+        onMouseUp={this.handleMouseUp}
+        style={this.getStyle()}>
+        {this.getNotes().map(note => (
+          <Note
+            className="notes__note"
+            key={note.id}
+            onErase={this.props.onErase}
+            onMoveStart={this.handleNoteMoveStart}
+            onResizeStart={this.handleNoteResizeStart}
+            onSelect={this.props.onSelect}
+            selectedNotes={this.props.selectedNotes}
+            toolType={this.props.toolType}
+            note={note}
+          />
+        ))}
+      </div>
+    );
   }
 
   applyTransforms = notes => map(compose(

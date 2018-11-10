@@ -1,8 +1,6 @@
 import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
-import { SortableHandle } from 'react-sortable-hoc';
 import './TrackHeader.scss';
 
 export class TrackHeader extends React.PureComponent {
@@ -16,13 +14,13 @@ export class TrackHeader extends React.PureComponent {
   }
 
   render() {
-    return h(SortableHandle(() =>
-      h('.track-header', {
-        onClick: this.props.onClick,
-      }, [
-        this.getTitleText(),
-      ]),
-    ));
+    return (
+      <div
+        className="track-header"
+        onClick={this.props.onClick}>
+        {this.getTitleText()}
+      </div>
+    );
   }
 
   getTitleText = () =>

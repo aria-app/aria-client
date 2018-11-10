@@ -3,7 +3,6 @@ import getOr from 'lodash/fp/getOr';
 import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import shared from '../../../shared';
 import { TrackList } from '../TrackList/TrackList';
 import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
@@ -48,47 +47,50 @@ export class Tracker extends React.PureComponent {
   };
 
   render() {
-    return h('.tracker', [
-      h(TrackList, {
-        onSequenceAdd: this.handleTrackListSequenceAdd,
-        onSequenceDelete: this.props.onSequenceDelete,
-        onSequenceEdit: this.props.onSequenceEdit,
-        onSequenceDeselect: this.handleTrackListSequenceDeselect,
-        onSequenceOpen: this.props.onSequenceOpen,
-        onSequenceSelect: this.handleTrackListSequenceSelect,
-        onSongExtend: this.props.onSongExtend,
-        onSongInfoPress: this.handleTrackListSongInfoPress,
-        onSongShorten: this.props.onSongShorten,
-        onTrackAdd: this.handleTrackListTrackAdd,
-        onTrackIsMutedToggle: this.props.onTrackIsMutedToggle,
-        onTrackIsSoloingToggle: this.props.onTrackIsSoloingToggle,
-        onTrackSequencesOrderChange: this.props.onTrackSequencesOrderChange,
-        onTrackStage: this.props.onTrackEditingStart,
-        selectedSequence: this.getSelectedSequence(),
-        songMeasureCount: this.props.songMeasureCount,
-        tracks: this.props.tracks,
-      }),
-      h(TrackerToolbar, {
-        onSequenceDelete: this.handleTrackerToolbarSequenceDelete,
-        onSequenceExtend: () => {},
-        onSequenceMoveLeft: () => {},
-        onSequenceMoveRight: () => {},
-        onSequenceOpen: () => {},
-        onSequenceShorten: () => {},
-        selectedSequence: this.getSelectedSequence(),
-      }),
-      h(Timeline, {
-        isVisible: !this.props.isStopped,
-        offset: (this.props.position * 2) + 16,
-      }),
-      h(TrackEditingModal, {
-        onDelete: this.handleTrackEditingModalDelete,
-        onDismiss: this.props.onTrackEditingFinish,
-        onVoiceSet: this.props.onTrackVoiceSet,
-        onVolumeSet: this.props.onTrackVolumeSet,
-        stagedTrack: this.getStagedTrack(),
-      }),
-    ]);
+    return (
+      <div
+        className="tracker">
+        <TrackList
+          onSequenceAdd={this.handleTrackListSequenceAdd}
+          onSequenceDelete={this.props.onSequenceDelete}
+          onSequenceEdit={this.props.onSequenceEdit}
+          onSequenceDeselect={this.handleTrackListSequenceDeselect}
+          onSequenceOpen={this.props.onSequenceOpen}
+          onSequenceSelect={this.handleTrackListSequenceSelect}
+          onSongExtend={this.props.onSongExtend}
+          onSongInfoPress={this.handleTrackListSongInfoPress}
+          onSongShorten={this.props.onSongShorten}
+          onTrackAdd={this.handleTrackListTrackAdd}
+          onTrackIsMutedToggle={this.props.onTrackIsMutedToggle}
+          onTrackIsSoloingToggle={this.props.onTrackIsSoloingToggle}
+          onTrackSequencesOrderChange={this.props.onTrackSequencesOrderChange}
+          onTrackStage={this.props.onTrackEditingStart}
+          selectedSequence={this.getSelectedSequence()}
+          songMeasureCount={this.props.songMeasureCount}
+          tracks={this.props.tracks}
+        />
+        <TrackerToolbar
+          onSequenceDelete={this.handleTrackerToolbarSequenceDelete}
+          onSequenceExtend={() => {}}
+          onSequenceMoveLeft={() => {}}
+          onSequenceMoveRight={() => {}}
+          onSequenceOpen={() => {}}
+          onSequenceShorten={() => {}}
+          selectedSequence={this.getSelectedSequence()}
+        />
+        <Timeline
+          isVisible={!this.props.isStopped}
+          offset={(this.props.position * 2) + 16}
+        />
+        <TrackEditingModal
+          onDelete={this.handleTrackEditingModalDelete}
+          onDismiss={this.props.onTrackEditingFinish}
+          onVoiceSet={this.props.onTrackVoiceSet}
+          onVolumeSet={this.props.onTrackVolumeSet}
+          stagedTrack={this.getStagedTrack()}
+        />
+      </div>
+    );
   }
 
   // @keydown('backspace', 'del')

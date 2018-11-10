@@ -1,7 +1,6 @@
 import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import * as constants from '../../constants';
 import { Fence } from '../Fence/Fence';
 import './Selector.scss';
@@ -20,20 +19,24 @@ export class Selector extends React.PureComponent {
   }
 
   render() {
-    return h('.selector', {
-      onMouseDown: this.handleMouseDown,
-      onMouseLeave: this.handleMouseLeave,
-      onMouseUp: this.handleMouseUp,
-      style: {
-        pointerEvents: this.getIsEnabled() ? 'all' : 'none',
-      },
-    }, [
-      this.props.children,
-      h(Fence, {
-        endPoint: this.props.mousePoint,
-        startPoint: this.state.startPoint,
-      }),
-    ]);
+    return (
+      <div
+        className="selector"
+        onMouseDown={this.handleMouseDown}
+        onMouseLeave={this.handleMouseLeave}
+        onMouseUp={this.handleMouseUp}
+        style={{
+          pointerEvents: this.getIsEnabled() ? 'all' : 'none',
+        }}>
+        <React.Fragment>
+          {this.props.children}
+          <Fence
+            endPoint={this.props.mousePoint}
+            startPoint={this.state.startPoint}
+          />
+        </React.Fragment>
+      </div>
+    );
   }
 
   getIsEnabled = () =>

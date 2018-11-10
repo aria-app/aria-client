@@ -3,7 +3,6 @@ import getOr from 'lodash/fp/getOr';
 import times from 'lodash/fp/times';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import * as palette from '../../../../styles/palette';
 import shared from '../../../shared';
 import { TrackSequence } from '../TrackSequence/TrackSequence';
@@ -28,36 +27,38 @@ export class Track extends React.PureComponent {
   }
 
   render() {
-    return h('.track', [
-      h(TrackHeader, {
-        isMuted: getOr(false, 'props.track.isMuted', this),
-        isSoloing: getOr(false, 'props.track.isSoloing', this),
-        onClick: this.handleHeaderClick,
-        onIsMutedToggle: this.handleHeaderIsMutedToggle,
-        onIsSoloingToggle: this.handleHeaderIsSoloingToggle,
-        track: this.props.track,
-      }),
-      h(MatrixBox, {
-        className: '.track__box',
-        fill: palette.emerald[2],
-        matrix: this.getMatrix(),
-      }, [
-        h('.track__sequences', {
-          style: this.getBodySequencesStyle(),
-        }, [
-          h(Boxes, {
-            boxContentComponent: this.getSequenceComponent,
-            items: this.getBoxesItems(),
-            length: this.props.songMeasureCount,
-            onItemsChange: this.handleBoxesItemsChange,
-            step: 64,
-            style: {
-              height: 84,
-            },
-          }),
-        ]),
-      ]),
-    ]);
+    return (
+      <div
+        className="track">
+        <TrackHeader
+          isMuted={getOr(false, 'props.track.isMuted', this)}
+          isSoloing={getOr(false, 'props.track.isSoloing', this)}
+          onClick={this.handleHeaderClick}
+          onIsMutedToggle={this.handleHeaderIsMutedToggle}
+          onIsSoloingToggle={this.handleHeaderIsSoloingToggle}
+          track={this.props.track}
+        />
+        <MatrixBox
+          className="track__box"
+          fill={palette.emerald[2]}
+          matrix={this.getMatrix()}>
+          <div
+            className="track__sequences"
+            style={this.getBodySequencesStyle()}>
+            <Boxes
+              boxContentComponent={this.getSequenceComponent}
+              items={this.getBoxesItems()}
+              length={this.props.songMeasureCount}
+              onItemsChange={this.handleBoxesItemsChange}
+              step={64}
+              style={{
+                height: 84,
+              }}
+            />
+          </div>
+        </MatrixBox>
+      </div>
+    );
   }
 
   getBodySequencesStyle = () => ({
@@ -105,14 +106,15 @@ export class Track extends React.PureComponent {
     );
   };
 
-  getSequenceComponent = ({ item }) =>
-    h(TrackSequence, {
-      isSelected: this.getIsSequenceSelected(item.sequence),
-      onOpen: this.props.onSequenceOpen,
-      onSelect: this.props.onSequenceSelect,
-      onSequenceAdd: this.handleSequenceAdd,
-      sequence: item.sequence,
-    });
+  getSequenceComponent = ({ item }) => (
+    <TrackSequence
+      isSelected={this.getIsSequenceSelected(item.sequence)}
+      onOpen={this.props.onSequenceOpen}
+      onSelect={this.props.onSequenceSelect}
+      onSequenceAdd={this.handleSequenceAdd}
+      sequence={item.sequence}
+    />
+  );
 
   handleBodySequencesSequenceOpen = (sequence) => {
     this.props.onSequenceOpen(sequence);

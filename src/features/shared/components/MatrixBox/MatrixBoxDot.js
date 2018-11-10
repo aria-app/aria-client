@@ -1,5 +1,9 @@
-import h from 'react-hyperscript';
+import React from 'react';
 import './MatrixBoxDot.scss';
 
-export const MatrixBoxDot = props =>
-  h('.matrix-box-dot', props);
+export const MatrixBoxDot = props => (
+  <div
+    className="matrix-box-dot"
+    {...props}
+  />
+);

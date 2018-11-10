@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import classnames from 'classnames';
 import './ToggleButton.scss';
 
@@ -13,14 +12,17 @@ export class ToggleButton extends React.PureComponent {
   }
 
   render() {
-    return h('.toggle-button', {
-      className: this.getClassName(),
-      onClick: this.props.onClick,
-    }, this.props.text);
+    return (
+      <div
+        className={this.getClassName()}
+        onClick={this.props.onClick}>
+        {this.props.text}
+      </div>
+    );
   }
 
   getClassName() {
-    return classnames({
+    return classnames('toggle-button', {
       'toggle-button--active': this.props.isActive,
     }, this.props.className);
   }

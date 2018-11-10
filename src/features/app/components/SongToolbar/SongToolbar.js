@@ -2,7 +2,6 @@ import anime from 'animejs';
 import Dawww from 'dawww';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import shared from '../../../shared';
 import { SongInfoModal } from '../SongInfoModal/SongInfoModal';
 import './SongToolbar.scss';
@@ -55,49 +54,56 @@ export class SongToolbar extends React.PureComponent {
   }
 
   render() {
-    return h(Toolbar, {
-      className: 'song-toolbar',
-      position: 'bottom',
-      leftItems: [
-        h(SongInfoModal, {
-          bpm: this.props.bpm,
-          isOpen: this.state.isSongInfoModalOpen,
-          measureCount: this.props.songMeasureCount,
-          onBPMChange: this.props.onBPMChange,
-          onConfirm: this.handleSongInfoModalConfirm,
-          onMeasureCountChange: this.props.onMeasureCountChange,
-          stringifiedSong: this.props.stringifiedSong,
-        }),
-        h('.song-toolbar__song-info', {
-          onClick: this.handleSongInfoClick,
-        }, [
-          h('.song-toolbar__song-info__time', [
-            '00:00:05',
-          ]),
-          h('.song-toolbar__song-info__bpm', [
-            `${this.props.bpm} BPM`,
-          ]),
-        ]),
-        h('.song-toolbar__playback-buttons', [
-          h(IconButton, {
-            className: 'song-toolbar__playback-buttons__stop',
-            icon: 'stop',
-            onClick: this.handlePlaybackButtonsStopClick,
-            getRef: this.setPlaybackButtonsStopRef,
-            size: 'small',
-            style: {
-              display: 'none',
-            },
-          }),
-          h(IconButton, {
-            className: 'song-toolbar__playback-buttons__play-pause',
-            icon: this.getPlaybackButtonsPlayPauseIcon(),
-            onClick: this.handlePlaybackButtonsPlayPauseClick,
-            size: 'small',
-          }),
-        ]),
-      ],
-    });
+    return (
+      <Toolbar
+        className="song-toolbar"
+        position="bottom"
+        leftItems={
+          <React.Fragment>
+            <SongInfoModal
+              bpm={this.props.bpm}
+              isOpen={this.state.isSongInfoModalOpen}
+              measureCount={this.props.songMeasureCount}
+              onBPMChange={this.props.onBPMChange}
+              onConfirm={this.handleSongInfoModalConfirm}
+              onMeasureCountChange={this.props.onMeasureCountChange}
+              stringifiedSong={this.props.stringifiedSong}
+            />
+            <div
+              className="song-toolbar__song-info"
+              onClick={this.handleSongInfoClick}>
+              <div
+                className="song-toolbar__song-info__time">
+                00:00:05
+              </div>
+              <div
+                className="song-toolbar__song-info__bpm">
+                {this.props.bpm} BPM
+              </div>
+            </div>
+            <div
+              className="song-toolbar__playback-buttons">
+              <IconButton
+                className="song-toolbar__playback-buttons__stop"
+                icon="stop"
+                onClick={this.handlePlaybackButtonsStopClick}
+                getRef={this.setPlaybackButtonsStopRef}
+                size="small"
+                style={{
+                  display: 'none',
+                }}
+              />
+              <IconButton
+                className="song-toolbar__playback-buttons__play-pause"
+                icon={this.getPlaybackButtonsPlayPauseIcon()}
+                onClick={this.handlePlaybackButtonsPlayPauseClick}
+                size="small"
+              />
+            </div>
+          </React.Fragment>
+        }
+      />
+    );
   }
 
   getPlaybackButtonsPlayPauseIcon = () =>

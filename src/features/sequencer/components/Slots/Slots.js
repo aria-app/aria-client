@@ -2,7 +2,6 @@ import Dawww from 'dawww';
 import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 // import * as palette from '../../../../styles/palette';
 import './Slots.scss';
 
@@ -12,11 +11,14 @@ export class Slots extends React.PureComponent {
   }
 
   render() {
-    return h('.slots', {
-      dangerouslySetInnerHTML: {
-        __html: this.getHTML(),
-      },
-    });
+    return (
+      <div
+        className="slots"
+        dangerouslySetInnerHTML={{
+          __html: this.getHTML(),
+        }}
+      />
+    );
   }
 
   getHTML() {

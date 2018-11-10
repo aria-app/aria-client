@@ -1,7 +1,6 @@
 import Dawww from 'dawww';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import { Key } from '../Key/Key';
 import './Keys.scss';
 
@@ -11,15 +10,18 @@ export class Keys extends React.PureComponent {
   }
 
   render() {
-    return h('.keys', [
-      ...this.getScale().map(step =>
-        h(Key, {
-          key: step.y,
-          onMouseDown: this.handleKeyMouseDown,
-          step,
-        }),
-      ),
-    ]);
+    return (
+      <div
+        className="keys">
+        {this.getScale().map(step => (
+          <Key
+            key={step.y}
+            onMouseDown={this.handleKeyMouseDown}
+            step={step}
+          />
+        ))}
+      </div>
+    );
   }
 
   getScale = () => Dawww.SCALE;

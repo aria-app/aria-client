@@ -1,7 +1,6 @@
 import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import shared from '../../../shared';
 import { DrawLayer } from '../DrawLayer/DrawLayer';
 import { Notes } from '../Notes/Notes';
@@ -36,55 +35,56 @@ export class Grid extends React.PureComponent {
   };
 
   render() {
-    return h('.grid', {
-      onMouseMove: this.handleMouseMove,
-      onWheel: this.handleWheel,
-      ref: this.setRef,
-    }, [
-      h('.grid__wrapper', {
-        style: this.getWrapperStyle(),
-      }, [
-        h(Slots, {
-          measureCount: this.props.measureCount,
-        }),
-        h(DrawLayer, {
-          mousePoint: this.state.mousePoint,
-          onDraw: this.props.onDraw,
-          toolType: this.props.toolType,
-        }),
-        h(Selector, {
-          mousePoint: this.state.mousePoint,
-          notes: this.props.notes,
-          onSelect: this.handleSelectorSelect,
-          selectedNotes: this.props.selectedNotes,
-          toolType: this.props.toolType,
-        }, [
-          h(Notes, {
-            measureCount: this.props.measureCount,
-            mousePoint: this.state.mousePoint,
-            notes: this.props.notes,
-            onDrag: this.props.onDrag,
-            onDragPreview: this.props.onDragPreview,
-            onErase: this.props.onErase,
-            onResize: this.props.onResize,
-            onSelect: this.props.onSelect,
-            selectedNotes: this.props.selectedNotes,
-            toolType: this.props.toolType,
-          }),
-        ]),
-        h(Panner, {
-          onScrollLeftChange: this.handlePannerScrollLeftChange,
-          onScrollTopChange: this.handlePannerScrollTopChange,
-          scrollLeftEl: this.elementRef,
-          scrollTopEl: this.props.sequencerContentRef,
-          toolType: this.props.toolType,
-        }),
-        h(Timeline, {
-          isVisible: false,
-          offset: 0 * 40,
-        }),
-      ]),
-    ]);
+    return (
+      <div
+        className="grid"
+        onMouseMove={this.handleMouseMove}
+        onWheel={this.handleWheel}
+        ref={this.setRef}>
+        <div
+          className="grid__wrapper"
+          style={this.getWrapperStyle()}>
+          <Slots
+            measureCount={this.props.measureCount}
+          />
+          <DrawLayer
+            mousePoint={this.state.mousePoint}
+            onDraw={this.props.onDraw}
+            toolType={this.props.toolType}
+          />
+          <Selector
+            mousePoint={this.state.mousePoint}
+            notes={this.props.notes}
+            onSelect={this.handleSelectorSelect}
+            selectedNotes={this.props.selectedNotes}
+            toolType={this.props.toolType}>
+            <Notes
+              measureCount={this.props.measureCount}
+              mousePoint={this.state.mousePoint}
+              notes={this.props.notes}
+              onDrag={this.props.onDrag}
+              onDragPreview={this.props.onDragPreview}
+              onErase={this.props.onErase}
+              onResize={this.props.onResize}
+              onSelect={this.props.onSelect}
+              selectedNotes={this.props.selectedNotes}
+              toolType={this.props.toolType}
+            />
+          </Selector>
+          <Panner
+            onScrollLeftChange={this.handlePannerScrollLeftChange}
+            onScrollTopChange={this.handlePannerScrollTopChange}
+            scrollLeftEl={this.elementRef}
+            scrollTopEl={this.props.sequencerContentRef}
+            toolType={this.props.toolType}
+          />
+          <Timeline
+            isVisible={false}
+            offset={0 * 40}
+          />
+        </div>
+      </div>
+    );
   }
 
   getWrapperStyle() {

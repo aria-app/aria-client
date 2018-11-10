@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Draggable from 'react-draggable';
-import h from 'react-hyperscript';
 import './Box.scss';
 
 export class Box extends React.Component {
@@ -23,37 +22,40 @@ export class Box extends React.Component {
   };
 
   render() {
-    return h(Draggable, {
-      axis: 'x',
-      bounds: 'parent',
-      grid: [this.props.step, 0],
-      cancel: '.box__resizer',
-      key: this.props.item.id,
-      onDrag: this.handleDrag,
-      position: this.getPosition(),
-    }, [
-      h('.box', {
-        style: this.getStyle(),
-      }, [
-        h(this.props.contentComponent, {
-          item: this.props.item,
-          step: this.props.step,
-        }),
-        h(Draggable, {
-          axis: 'x',
-          bounds: {
-            left: this.props.step - 16,
+    return (
+      <Draggable
+        axis="x"
+        bounds="parent"
+        cancel=".box__resizer"
+        grid={[this.props.step, 0]}
+        key={this.props.item.id}
+        onDrag={this.handleDrag}
+        position={this.getPosition()}>
+        <div
+          className="box"
+          style={this.getStyle()}>
+          {React.createElement(this.props.contentComponent, {
+            item: this.props.item,
+            step: this.props.step,
           },
-          grid: [this.props.step, 0],
-          onDrag: this.handleResizerDrag,
-          position: this.getResizerPosition(),
-        }, [
-          h('.box__resizer', {
-            style: this.getResizerStyle(),
-          }),
-        ]),
-      ]),
-    ]);
+            <Draggable
+              axis="x"
+              bounds={{
+                left: this.props.step - 16,
+              }}
+              grid={[this.props.step, 0]}
+              onDrag={this.handleResizerDrag}
+              position={this.getResizerPosition()}
+              >
+              <div
+                className="box__resizer"
+                style={this.getResizerStyle()}
+              />
+            </Draggable>
+          )}
+        </div>
+      </Draggable>
+    );
   }
 
   getPosition = () => ({

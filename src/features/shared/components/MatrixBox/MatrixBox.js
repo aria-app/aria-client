@@ -1,7 +1,7 @@
+import classnames from 'classnames';
 import flatten from 'lodash/fp/flatten';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import { MatrixBoxDot } from './MatrixBoxDot';
 import { MatrixBoxSmallCross } from './MatrixBoxSmallCross';
 import './MatrixBox.scss';
@@ -16,25 +16,30 @@ export class MatrixBox extends React.PureComponent {
   };
 
   render() {
-    return h('.matrix-box', {
-      className: this.props.className,
-      ref: this.setRef,
-      style: this.props.style,
-    }, [
-      ...flatten(this.props.matrix.map((row, rowIndex) =>
-        row.map((type, columnIndex) =>
-          this.getNode(
-            rowIndex,
-            columnIndex,
-            this.getNodeComponent(type),
+    return (
+      <div
+        className={this.getClassName()}
+        ref={this.setRef}
+        style={this.props.style}>
+        {flatten(this.props.matrix.map((row, rowIndex) =>
+          row.map((type, columnIndex) =>
+            this.getNode(
+              rowIndex,
+              columnIndex,
+              this.getNodeComponent(type),
+            ),
           ),
-        ),
-      )),
-      h('.matrix-box__content', [
-        this.props.children,
-      ]),
-    ]);
+        ))}
+        <div
+          className="matrix-box__content">
+          {this.props.children}
+        </div>
+      </div>
+    );
   }
+
+  getClassName = () =>
+    classnames('matrix-box', this.props.className)
 
   getNodeComponent = (type) => {
     if (type === 1) {
@@ -58,7 +63,7 @@ export class MatrixBox extends React.PureComponent {
     const left = columnIndex * (width / (columnCount - 1));
     const top = rowIndex * (height / (rowCount - 1));
 
-    return h(component, {
+    return React.createElement(component, {
       key: `${rowIndex}:${columnIndex}`,
       style: {
         backgroundColor: this.props.fill,

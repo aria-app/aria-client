@@ -1,6 +1,6 @@
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import { showIf } from 'react-render-helpers';
 import icons from './icons';
 import './Icon.scss';
@@ -14,19 +14,24 @@ export class Icon extends React.PureComponent {
   }
 
   render() {
-    return h('.icon', {
-      className: this.props.className,
-      style: this.props.style,
-    }, [
-      h('.icon__content', [
-        showIf(!!this.loadIcon())(
-          h(this.loadIcon(), {
-            size: this.getSizePixels(),
-          }),
-        ),
-      ]),
-    ]);
+    return (
+      <div
+        className={this.getClassName()}
+        style={this.props.style}>
+        <div
+          className="icon__content">
+          {showIf(this.loadIcon())(
+            React.createElement(this.loadIcon(), {
+              size: this.getSizePixels(),
+            }),
+          )}
+        </div>
+      </div>
+    );
   }
+
+  getClassName = () =>
+    classnames('icon', this.props.className);
 
   getSizePixels() {
     switch (this.props.size) {

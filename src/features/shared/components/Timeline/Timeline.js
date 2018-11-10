@@ -1,6 +1,6 @@
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import './Timeline.scss';
 
 export class Timeline extends React.PureComponent {
@@ -12,11 +12,16 @@ export class Timeline extends React.PureComponent {
   }
 
   render() {
-    return h('.timeline', {
-      className: this.props.className,
-      style: this.getStyle(),
-    });
+    return (
+      <div
+        className={this.getClassName()}
+        style={this.getStyle()}
+      />
+    );
   }
+
+  getClassName = () =>
+    classnames('timeline', this.props.className);
 
   getStyle = () => ({
     ...this.props.style,

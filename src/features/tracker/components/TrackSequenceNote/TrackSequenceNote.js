@@ -1,7 +1,6 @@
 import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import './TrackSequenceNote.scss';
 
 export class TrackSequenceNote extends React.PureComponent {
@@ -10,9 +9,12 @@ export class TrackSequenceNote extends React.PureComponent {
   }
 
   render() {
-    return h('.track-sequence-note', {
-      style: this.getStyle(),
-    });
+    return (
+      <div
+        className="track-sequence-note"
+        style={this.getStyle()}
+      />
+    );
   }
 
   getStyle = () => {

@@ -1,5 +1,4 @@
 import React from 'react';
-import h from 'react-hyperscript';
 import { action } from '@storybook/addon-actions';
 import { number } from '@storybook/addon-knobs';
 import shared from '../../../../shared';
@@ -43,29 +42,29 @@ export class TrackDynamic extends React.Component {
   };
 
   render() {
-    return h(Shell, {
-      style: {
-        alignItems: 'flex-start',
-        padding: 16,
-      },
-    }, [
-      h('div', {}, [
-        h(Track, {
-          index: number('index', 0),
-          onSequenceAdd: action('onSequenceAdd'),
-          onSequenceEdit: this.handleSequenceEdit,
-          onSequenceOpen: action('onSequenceOpen'),
-          onSequenceSelect: action('onSequenceSelect'),
-          onSequencesOrderChange: action('onSequencesOrderChange'),
-          onTrackIsMutedToggle: action('onTrackIsMutedToggle'),
-          onTrackIsSoloingToggle: action('onTrackIsSoloingToggle'),
-          onTrackSelect: action('onTrackSelect'),
-          // selectedSequence: PropTypes.object,
-          songMeasureCount: number('songMeasureCount', 4),
-          track: this.state.track,
-        }),
-      ]),
-    ]);
+    return (
+      <Shell
+        style={{
+          alignItems: 'flex-start',
+          padding: 16,
+        }}>
+        <div>
+          <Track
+            index={number('index', 0)}
+            onSequenceAdd={action('onSequenceAdd')}
+            onSequenceEdit={this.handleSequenceEdit}
+            onSequenceOpen={action('onSequenceOpen')}
+            onSequenceSelect={action('onSequenceSelect')}
+            onSequencesOrderChange={action('onSequencesOrderChange')}
+            onTrackIsMutedToggle={action('onTrackIsMutedToggle')}
+            onTrackIsSoloingToggle={action('onTrackIsSoloingToggle')}
+            onTrackSelect={action('onTrackSelect')}
+            songMeasureCount={number('songMeasureCount', 4)}
+            track={this.state.track}
+          />
+        </div>
+      </Shell>
+    );
   }
 
   handleSequenceEdit = (editedSequence) => {

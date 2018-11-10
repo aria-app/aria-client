@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import classnames from 'classnames';
 import './Toolbar.scss';
 
@@ -24,17 +23,24 @@ export class Toolbar extends React.PureComponent {
   }
 
   render() {
-    return h('.toolbar', {
-      className: this.getClassName(),
-      style: this.props.style,
-    }, [
-      h('.toolbar__left', {}, this.getLeftItems()),
-      h('.toolbar__right', {}, this.getRightItems()),
-    ]);
+    return (
+      <div
+        className={this.getClassName()}
+        style={this.props.style}>
+        <div
+          className="toolbar__left">
+          {this.getLeftItems()}
+        </div>
+        <div
+          className="toolbar__right">
+          {this.getRightItems()}
+        </div>
+      </div>
+    );
   }
 
   getClassName() {
-    return classnames({
+    return classnames('toolbar', {
       'toolbar--bottom': this.props.position === 'bottom',
       'toolbar--top': this.props.position !== 'bottom',
       'toolbar--alternate': this.props.isAlternate,

@@ -5,7 +5,6 @@ import map from 'lodash/fp/map';
 import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
-import h from 'react-hyperscript';
 import shared from '../../../shared';
 import './TrackEditingModal.scss';
 
@@ -26,41 +25,47 @@ export class TrackEditingModal extends React.PureComponent {
   }
 
   render() {
-    return h(Modal, {
-      className: 'track-editing-modal',
-      confirmText: 'done',
-      isOpen: this.getIsOpen(),
-      onConfirm: this.props.onDismiss,
-      titleText: 'Edit Track',
-    }, [
-      h('.track-editing-modal__content', [
-        h('.track-editing-modal__content__voice-dropdown', [
-          h('.track-editing-modal__content__voice-dropdown__label', [
-            'Voice:',
-          ]),
-          h(DropdownList, {
-            className: 'track-editing-modal__content__voice-dropdown__list',
-            items: getVoiceList(),
-            selectedId: getOr('', 'props.stagedTrack.voice', this),
-            onSelectedIdChange: this.handleContentVoiceDropdownListSelectedIdChange,
-          }),
-          h('.track-editing-modal__content__volume-dropdown__label', [
-            'Volume:',
-          ]),
-          h(DropdownList, {
-            className: 'track-editing-modal__content__voice-dropdown__list',
-            items: volumeRangeItems,
-            selectedId: getOr('', 'props.stagedTrack.volume', this),
-            onSelectedIdChange: this.handleContentVolumeDropdownListSelectedIdChange,
-          }),
-        ]),
-        h(Button, {
-          className: 'track-editing-modal__content__delete-button',
-          onClick: this.handleContentDeleteButtonClick,
-          text: 'delete',
-        }),
-      ]),
-    ]);
+    return (
+      <Modal
+        className="track-editing-modal"
+        confirmText="done"
+        isOpen={this.getIsOpen()}
+        onConfirm={this.props.onDismiss}
+        titleText="Edit Track"
+        >
+        <div
+          className="track-editing-modal__content">
+          <div
+            className="track-editing-modal__content__voice-dropdown">
+            <div
+              className="track-editing-modal__content__voice-dropdown__label">
+              Voice:
+            </div>
+            <DropdownList
+              className="track-editing-modal__content__voice-dropdown__list"
+              items={getVoiceList()}
+              selectedId={getOr('', 'props.stagedTrack.voice', this)}
+              onSelectedIdChange={this.handleContentVoiceDropdownListSelectedIdChange}
+            />
+            <div
+              className="track-editing-modal__content__volume-dropdown__label">
+              Volume:
+            </div>
+            <DropdownList
+              className="track-editing-modal__content__volume-dropdown__list"
+              items={volumeRangeItems}
+              selectedId={getOr('', 'props.stagedTrack.volume', this)}
+              onSelectedIdChange={this.handleContentVolumeDropdownListSelectedIdChange}
+            />
+          </div>
+          <Button
+            className="track-editing-modal__content__delete-button"
+            onClick={this.handleContentDeleteButtonClick}
+            text="delete"
+          />
+        </div>
+      </Modal>
+    );
   }
 
   getIsOpen = () =>
