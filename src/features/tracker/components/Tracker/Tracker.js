@@ -3,6 +3,7 @@ import getOr from 'lodash/fp/getOr';
 import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { HotKeys } from 'react-hotkeys';
 import shared from '../../../shared';
 import { TrackList } from '../TrackList/TrackList';
 import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
@@ -48,8 +49,10 @@ export class Tracker extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className="tracker">
+      <HotKeys
+        className="tracker"
+        focused={true}
+        handlers={this.getKeyHandlers()}>
         <TrackList
           onSequenceAdd={this.handleTrackListSequenceAdd}
           onSequenceDelete={this.props.onSequenceDelete}
@@ -89,12 +92,11 @@ export class Tracker extends React.PureComponent {
           onVolumeSet={this.props.onTrackVolumeSet}
           stagedTrack={this.getStagedTrack()}
         />
-      </div>
+      </HotKeys>
     );
   }
 
-  // @keydown('backspace', 'del')
-  deleteSelectedSequence(e) {
+  deleteSelectedSequence = (e) => {
     e.preventDefault();
 
     const selectedSequence = this.getSelectedSequence();
@@ -103,6 +105,11 @@ export class Tracker extends React.PureComponent {
 
     this.props.onSequenceDelete(selectedSequence);
   }
+
+  getKeyHandlers = () => ({
+    backspace: this.deleteSelectedSequence,
+    del: this.deleteSelectedSequence,
+  });
 
   getSelectedSequence = () =>
     getOr({}, `props.sequenceMap.${this.state.selectedSequenceId}`, this);

@@ -7,6 +7,7 @@ import uniq from 'lodash/fp/uniq';
 import without from 'lodash/fp/without';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { HotKeys } from 'react-hotkeys';
 import { toolTypes } from '../../constants';
 import { Grid } from '../Grid/Grid';
 import { Keys } from '../Keys/Keys';
@@ -49,8 +50,10 @@ export class Sequencer extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className="sequencer">
+      <HotKeys
+        className="sequencer"
+        focused={true}
+        handlers={this.getKeyHandlers()}>
         <SequencerToolbar
           measureCount={this.props.measureCount}
           onClose={this.props.onClose}
@@ -90,19 +93,17 @@ export class Sequencer extends React.PureComponent {
             />
           </div>
         </div>
-      </div>
+      </HotKeys>
     );
   }
 
-  // @keydown('d')
-  activateDrawTool() {
+  activateDrawTool = () => {
     this.setState({
       toolType: toolTypes.DRAW,
     });
   }
 
-  // @keydown('space')
-  activatePanOverride(e) {
+  activatePanOverride = (e) => {
     e.preventDefault();
     if (e.repeat) return;
     this.setState(state => ({
@@ -112,22 +113,19 @@ export class Sequencer extends React.PureComponent {
     window.addEventListener('keyup', this.deactivatePanOverride);
   }
 
-  // @keydown('e')
-  activateEraseTool() {
+  activateEraseTool = () => {
     this.setState({
       toolType: toolTypes.ERASE,
     });
   }
 
-  // @keydown('p')
-  activatePanTool() {
+  activatePanTool = () => {
     this.setState({
       toolType: toolTypes.PAN,
     });
   }
 
-  // @keydown('s')
-  activateSelectTool() {
+  activateSelectTool = () => {
     this.setState({
       toolType: toolTypes.SELECT,
     });
@@ -141,8 +139,7 @@ export class Sequencer extends React.PureComponent {
     window.removeEventListener('keyup', this.deactivatePanOverride);
   }
 
-  // @keydown('backspace', 'del')
-  deleteSelectedNotes(e) {
+  deleteSelectedNotes = (e) => {
     e.preventDefault();
 
     if (isEmpty(this.state.selectedNoteIds)) return;
@@ -156,8 +153,7 @@ export class Sequencer extends React.PureComponent {
     this.props.onDelete(selectedNotes);
   }
 
-  // @keydown('ctrl+d', 'meta+d')
-  deselectAllNotes(e) {
+  deselectAllNotes = (e) => {
     e.preventDefault();
 
     if (isEmpty(this.state.selectedNoteIds)) return;
@@ -167,8 +163,7 @@ export class Sequencer extends React.PureComponent {
     });
   }
 
-  // @keydown('ctrl+shift+d', 'meta+shift+d')
-  duplicateSelectedNotes(e) {
+  duplicateSelectedNotes = (e) => {
     e.preventDefault();
 
     if (isEmpty(this.state.selectedNoteIds)) return;
@@ -181,6 +176,26 @@ export class Sequencer extends React.PureComponent {
       selectedNoteIds: map('id', duplicatedNotes),
     });
   }
+
+  getKeyHandlers = () => ({
+    backspace: this.deleteSelectedNotes,
+    'ctrl+a': this.selectAll,
+    'ctrl+d': this.deselectAllNotes,
+    'ctrl+shift+d': this.duplicateSelectedNotes,
+    d: this.activateDrawTool,
+    del: this.deleteSelectedNotes,
+    down: this.nudgeDown,
+    e: this.activateEraseTool,
+    left: this.nudgeLeft,
+    'meta+a': this.selectAll,
+    'meta+d': this.deselectAllNotes,
+    'meta+shift+d': this.duplicateSelectedNotes,
+    p: this.activatePanTool,
+    right: this.nudgeRight,
+    s: this.activateSelectTool,
+    space: this.activatePanTool,
+    up: this.nudgeUp,
+  });
 
   getSelectedNotes = () =>
     map(
@@ -258,32 +273,27 @@ export class Sequencer extends React.PureComponent {
     this.props.onNudge(delta, selectedNotes);
   }
 
-  // @keydown('down')
-  nudgeDown(e) {
+  nudgeDown = (e) => {
     e.preventDefault();
     this.nudge({ x: 0, y: 1 });
   }
 
-  // @keydown('left')
-  nudgeLeft(e) {
+  nudgeLeft = (e) => {
     e.preventDefault();
     this.nudge({ x: -1, y: 0 });
   }
 
-  // @keydown('right')
-  nudgeRight(e) {
+  nudgeRight = (e) => {
     e.preventDefault();
     this.nudge({ x: 1, y: 0 });
   }
 
-  // @keydown('up')
-  nudgeUp(e) {
+  nudgeUp = (e) => {
     e.preventDefault();
     this.nudge({ x: 0, y: -1 });
   }
 
-  // @keydown('ctrl+a', 'meta+a')
-  selectAll() {
+  selectAll = () => {
     if (this.props.notes.length === this.state.selectedNoteIds.length) return;
 
     this.setState({

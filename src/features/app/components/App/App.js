@@ -1,6 +1,7 @@
 import Dawww from 'dawww';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { HotKeys } from 'react-hotkeys';
 import sequencer from '../../../sequencer';
 import shared from '../../../shared';
 import tracker from '../../../tracker';
@@ -35,8 +36,10 @@ export class App extends React.PureComponent {
 
   render() {
     return (
-      <div
+      <HotKeys
         className="app"
+        focused={true}
+        handlers={this.getKeyHandlers()}
         onDragEnter={this.handleDragEnter}
         onDragOver={this.handleDragOver}
         onDrop={this.handleDrop}>
@@ -58,7 +61,7 @@ export class App extends React.PureComponent {
           onUpload={this.handleUploadOverlayUpload}
         />
         <VFXLayer/>
-      </div>
+      </HotKeys>
     );
   }
 
@@ -69,6 +72,11 @@ export class App extends React.PureComponent {
 
     return <TrackerContainer/>;
   };
+
+  getKeyHandlers = () => ({
+    enter: this.playPause,
+    esc: this.stop,
+  });
 
   handleDragEnter = (e) => {
     this.setState({
@@ -103,8 +111,7 @@ export class App extends React.PureComponent {
     });
   }
 
-  // @keydown('enter')
-  playPause() {
+  playPause = () => {
     if (this.props.playbackState === STARTED) {
       this.props.onPause();
     } else {
@@ -112,8 +119,7 @@ export class App extends React.PureComponent {
     }
   }
 
-  // @keydown('esc')
-  stop() {
+  stop = () => {
     this.props.onStop();
   }
 }
