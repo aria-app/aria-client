@@ -4,15 +4,16 @@ import './AddTrackButton.scss';
 
 export class AddTrackButton extends React.PureComponent {
   static propTypes = {
-    onClick: PropTypes.func.isRequired,
-    songMeasureCount: PropTypes.number.isRequired,
+    onClick: PropTypes.func,
+    style: PropTypes.object,
   }
 
   render() {
     return (
       <div
         className="add-track-button"
-        onClick={this.handleClick}>
+        onClick={this.handleClick}
+        style={this.props.style}>
         <div
           className="add-track-button__plus__vertical"
         />

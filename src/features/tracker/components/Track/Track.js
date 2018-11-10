@@ -1,10 +1,17 @@
 import each from 'lodash/fp/each';
+import find from 'lodash/fp/find';
 import getOr from 'lodash/fp/getOr';
+import inRange from 'lodash/fp/inRange';
+import isNil from 'lodash/fp/isNil';
+import range from 'lodash/fp/range';
+import some from 'lodash/fp/some';
 import times from 'lodash/fp/times';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { showIf } from 'react-render-helpers';
 import * as palette from '../../../../styles/palette';
 import shared from '../../../shared';
+import { AddSequenceButton } from '../AddSequenceButton/AddSequenceButton';
 import { TrackSequence } from '../TrackSequence/TrackSequence';
 import { TrackHeader } from '../TrackHeader/TrackHeader';
 import './Track.scss';
@@ -27,6 +34,7 @@ export class Track extends React.PureComponent {
   }
 
   render() {
+    const firstEmptyPosition = this.getFirstEmptyPosition();
     return (
       <div
         className="track">
@@ -55,6 +63,14 @@ export class Track extends React.PureComponent {
                 height: 84,
               }}
             />
+            {showIf(!isNil(firstEmptyPosition))(
+              <AddSequenceButton
+                onClick={() => this.handleSequenceAdd(firstEmptyPosition)}
+                style={{
+                  left: firstEmptyPosition * 64,
+                }}
+              />
+            )}
           </div>
         </MatrixBox>
       </div>
@@ -74,6 +90,21 @@ export class Track extends React.PureComponent {
       x: sequence.position,
       sequence,
     }));
+  };
+
+  getFirstEmptyPosition = () => {
+    const sequences = getOr([], 'props.track.sequences', this);
+    const allPositions = range(0, this.props.songMeasureCount);
+    const sequenceCoversPosition = position => sequence =>
+      inRange(
+        sequence.position,
+        sequence.position + (sequence.measureCount),
+        position,
+      );
+    const isEmptyPosition = position =>
+      !some(sequenceCoversPosition(position), sequences);
+
+    return find(isEmptyPosition, allPositions);
   };
 
   getIsSequenceSelected = (sequence) => {

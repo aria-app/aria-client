@@ -37,22 +37,20 @@ export class Box extends React.Component {
           {React.createElement(this.props.contentComponent, {
             item: this.props.item,
             step: this.props.step,
-          },
-            <Draggable
-              axis="x"
-              bounds={{
-                left: this.props.step - 16,
-              }}
-              grid={[this.props.step, 0]}
-              onDrag={this.handleResizerDrag}
-              position={this.getResizerPosition()}
-              >
-              <div
-                className="box__resizer"
-                style={this.getResizerStyle()}
-              />
-            </Draggable>
-          )}
+          })}
+          <Draggable
+            axis="x"
+            bounds={{
+              left: this.props.step - 16,
+            }}
+            grid={[this.props.step, 0]}
+            onDrag={this.handleResizerDrag}
+            position={this.getResizerPosition()}>
+            <div
+              className="box__resizer"
+              style={this.getResizerStyle()}
+            />
+          </Draggable>
         </div>
       </Draggable>
     );
