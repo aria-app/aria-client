@@ -37,7 +37,7 @@ export class TrackDynamic extends React.Component {
           trackId: '0',
         },
       ],
-      voice: 'square',
+      voice: 'SQUARE',
       volume: -5,
     },
   };

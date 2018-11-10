@@ -7,7 +7,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "dependencies": {
     "animejs": "2.2.0",
@@ -36,6 +38,12 @@
     "rxjs": "5.5.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.1.5",
+    "@storybook/addon-actions": "^4.0.4",
+    "@storybook/addon-knobs": "4.0.4",
+    "@storybook/addons": "^4.0.4",
+    "@storybook/react": "^4.0.4",
+    "babel-loader": "^8.0.4",
     "eslint-config-airbnb-base": "12.0.1",
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-lodash-fp": "2.1.3",
