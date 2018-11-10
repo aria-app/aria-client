@@ -43,7 +43,7 @@ export class DropdownList extends React.PureComponent {
     };
   }
 
-  componentWillUpdate(newProps, newState) {
+  componentDidUpdate(newProps, newState) {
     if (!this.state.isOpen && newState.isOpen && this.popupRef) {
       this.popupRef.scrollTop = this.getSelectedItemScrollTop();
     }
