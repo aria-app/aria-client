@@ -3,7 +3,7 @@ import Dawww from 'dawww';
 import PropTypes from 'prop-types';
 import React from 'react';
 import shared from '../../../shared';
-import { SongInfoModal } from '../SongInfoModal/SongInfoModal';
+// import { SongInfoModal } from '../SongInfoModal/SongInfoModal';
 import './SongToolbar.scss';
 
 const { IconButton, Toolbar } = shared.components;
@@ -60,7 +60,7 @@ export class SongToolbar extends React.PureComponent {
         position="bottom"
         leftItems={
           <React.Fragment>
-            <SongInfoModal
+            {/* <SongInfoModal
               bpm={this.props.bpm}
               isOpen={this.state.isSongInfoModalOpen}
               measureCount={this.props.songMeasureCount}
@@ -68,7 +68,7 @@ export class SongToolbar extends React.PureComponent {
               onConfirm={this.handleSongInfoModalConfirm}
               onMeasureCountChange={this.props.onMeasureCountChange}
               stringifiedSong={this.props.stringifiedSong}
-            />
+            /> */}
             <div
               className="song-toolbar__song-info"
               onClick={this.handleSongInfoClick}>

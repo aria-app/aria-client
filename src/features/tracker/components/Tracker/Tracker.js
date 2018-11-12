@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { HotKeys } from 'react-hotkeys';
 import shared from '../../../shared';
+import { SongInfoModal } from '../SongInfoModal/SongInfoModal';
 import { TrackList } from '../TrackList/TrackList';
 import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
 import { TrackerToolbar } from '../TrackerToolbar/TrackerToolbar';
@@ -15,7 +16,9 @@ const { Timeline } = shared.components;
 
 export class Tracker extends React.PureComponent {
   static propTypes = {
+    bpm: PropTypes.number.isRequired,
     isStopped: PropTypes.bool.isRequired,
+    onBPMChange: PropTypes.func.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceDelete: PropTypes.func.isRequired,
     onSequenceDuplicate: PropTypes.func.isRequired,
@@ -26,6 +29,7 @@ export class Tracker extends React.PureComponent {
     onSequenceOpen: PropTypes.func.isRequired,
     onSequenceShorten: PropTypes.func.isRequired,
     onSongExtend: PropTypes.func.isRequired,
+    onSongMeasureCountChange: PropTypes.func.isRequired,
     onSongShorten: PropTypes.func.isRequired,
     onTrackAdd: PropTypes.func.isRequired,
     onTrackDelete: PropTypes.func.isRequired,
@@ -82,11 +86,20 @@ export class Tracker extends React.PureComponent {
           onSequenceMoveRight={() => {}}
           onSequenceOpen={() => {}}
           onSequenceShorten={() => {}}
+          onSongInfoOpen={this.openSongInfo}
           selectedSequence={this.getSelectedSequence()}
         />
         <Timeline
           isVisible={!this.props.isStopped}
           offset={(this.props.position * 2) + 16}
+        />
+        <SongInfoModal
+          bpm={this.props.bpm}
+          measureCount={this.props.songMeasureCount}
+          isOpen={this.state.isSongInfoModalOpen}
+          onBPMChange={this.props.onBPMChange}
+          onConfirm={this.closeSongInfo}
+          onMeasureCountChange={this.props.onSongMeasureCountChange}
         />
         <TrackEditingModal
           onDelete={this.handleTrackEditingModalDelete}
@@ -98,6 +111,12 @@ export class Tracker extends React.PureComponent {
       </HotKeys>
     );
   }
+
+  closeSongInfo = () => {
+    this.setState({
+      isSongInfoModalOpen: false,
+    });
+  };
 
   deleteSelectedSequence = (e) => {
     e.preventDefault();
@@ -201,4 +220,10 @@ export class Tracker extends React.PureComponent {
 
     this.props.onSequenceShorten(this.getSelectedSequence());
   }
+
+  openSongInfo = () => {
+    this.setState({
+      isSongInfoModalOpen: true,
+    });
+  };
 }

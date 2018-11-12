@@ -30,7 +30,7 @@ export class App extends React.PureComponent {
   }
 
   state = {
-    isBPMModalOpen: false,
+    isSongInfoModalOpen: false,
     isFileOver: false,
   };
 

@@ -16,6 +16,7 @@ export class TrackerToolbar extends React.PureComponent {
     onSequenceMoveRight: PropTypes.func,
     onSequenceOpen: PropTypes.func,
     onSequenceShorten: PropTypes.func,
+    onSongInfoOpen: PropTypes.func,
     selectedSequence: PropTypes.object,
   }
 
@@ -29,7 +30,7 @@ export class TrackerToolbar extends React.PureComponent {
         className="tracker-toolbar"
         position="top"
         isAlternate={this.getIsAlternate()}
-        alternateLeftItems={<React.Fragment>
+        alternateRightItems={
           <div
             className="tracker-toolbar__sequence-actions">
             <IconButton
@@ -70,6 +71,13 @@ export class TrackerToolbar extends React.PureComponent {
               onClick={this.props.onSequenceExtend}
             />
           </div>
+        }
+        rightItems={<React.Fragment>
+          <IconButton
+            className="tracker-toolbar__song-info-button"
+            icon="cog"
+            onClick={this.props.onSongInfoOpen}
+          />
         </React.Fragment>}
       />
     );

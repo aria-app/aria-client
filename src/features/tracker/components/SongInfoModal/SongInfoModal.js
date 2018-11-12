@@ -6,7 +6,7 @@ import React from 'react';
 import shared from '../../../shared';
 import './SongInfoModal.scss';
 
-const { Button, DownloadButton, DropdownList, Modal } = shared.components;
+const { Button, DropdownList, Modal } = shared.components;
 const getBPMRangeItem = x => ({ id: x, text: String(x) });
 const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
@@ -19,7 +19,7 @@ export class SongInfoModal extends React.PureComponent {
     onBPMChange: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired,
     onMeasureCountChange: PropTypes.func.isRequired,
-    stringifiedSong: PropTypes.string.isRequired,
+    stringifiedSong: PropTypes.string,
   }
 
   render() {
@@ -61,12 +61,12 @@ export class SongInfoModal extends React.PureComponent {
             text="clear cache"
             onClick={this.handleClearCacheClick}
           />
-          <DownloadButton
+          {/* <DownloadButton
             className="song-toolbar__download-song-button"
             content={this.props.stringifiedSong}
             filename="song.json"
             text="Download Song"
-          />
+          /> */}
         </div>
       </Modal>
     );
