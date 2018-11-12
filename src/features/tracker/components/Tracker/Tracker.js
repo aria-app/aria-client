@@ -1,5 +1,6 @@
 import Dawww from 'dawww';
 import getOr from 'lodash/fp/getOr';
+import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -17,6 +18,7 @@ export class Tracker extends React.PureComponent {
     isStopped: PropTypes.bool.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceDelete: PropTypes.func.isRequired,
+    onSequenceDuplicate: PropTypes.func.isRequired,
     onSequenceEdit: PropTypes.func.isRequired,
     onSequenceExtend: PropTypes.func.isRequired,
     onSequenceMoveLeft: PropTypes.func.isRequired,
@@ -73,7 +75,8 @@ export class Tracker extends React.PureComponent {
           tracks={this.props.tracks}
         />
         <TrackerToolbar
-          onSequenceDelete={this.handleTrackerToolbarSequenceDelete}
+          onSequenceDelete={this.deleteSelectedSequence}
+          onSequenceDuplicate={this.duplicateSelectedSequence}
           onSequenceExtend={() => {}}
           onSequenceMoveLeft={() => {}}
           onSequenceMoveRight={() => {}}
@@ -106,9 +109,34 @@ export class Tracker extends React.PureComponent {
     this.props.onSequenceDelete(selectedSequence);
   }
 
+  duplicateSelectedSequence = (e) => {
+    e.preventDefault();
+
+    const selectedSequence = this.getSelectedSequence();
+
+    if (isEmpty(selectedSequence)) return;
+
+    const duplicatedSequence = Dawww.createSequence(
+      selectedSequence.trackId,
+      selectedSequence.position,
+      selectedSequence.measureCount,
+    );
+
+    this.props.onSequenceDuplicate(
+      duplicatedSequence,
+      selectedSequence,
+    );
+
+    this.setState({
+      selectedSequenceId: duplicatedSequence.id,
+    });
+  };
+
   getKeyHandlers = () => ({
     backspace: this.deleteSelectedSequence,
+    'ctrl+shift+d': this.duplicateSelectedSequence,
     del: this.deleteSelectedSequence,
+    'meta+shift+d': this.duplicateSelectedSequence,
   });
 
   getSelectedSequence = () =>

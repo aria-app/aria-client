@@ -1,6 +1,8 @@
 import Dawww from 'dawww';
+import filter from 'lodash/fp/filter';
 import map from 'lodash/fp/map';
 import omit from 'lodash/fp/omit';
+import values from 'lodash/fp/values';
 import { createReducer } from 'redux-create-reducer';
 import shared from '../../shared';
 
@@ -55,4 +57,17 @@ export const notes = createReducer({}, {
 
   [shared.actions.NOTES_RESIZED]: (state, action) =>
     Dawww.setAtIds(action.payload.notes, state),
+
+  [shared.actions.SEQUENCE_DUPLICATED]: (state, action) => {
+    const isInSequence = note =>
+      note.sequenceId === action.payload.originalSequence.id;
+    const notesInSequence = filter(isInSequence, values(state));
+    const duplicatedNotes = Dawww.duplicateNotes(notesInSequence);
+    const notesWithNewSequenceId = duplicatedNotes.map(note => ({
+      ...note,
+      sequenceId: action.payload.duplicatedSequence.id,
+    }));
+
+    return Dawww.setAtIds(notesWithNewSequenceId, state);
+  },
 });

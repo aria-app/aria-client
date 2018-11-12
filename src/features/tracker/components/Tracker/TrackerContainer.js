@@ -17,6 +17,7 @@ export const TrackerContainer = connect(state => ({
 }), {
   onSequenceAdd: shared.actions.sequenceAdded,
   onSequenceDelete: shared.actions.sequenceDeleted,
+  onSequenceDuplicate: shared.actions.sequenceDuplicated,
   onSequenceEdit: shared.actions.sequenceEdited,
   onSequenceExtend: shared.actions.sequenceExtended,
   onSequenceMoveLeft: shared.actions.sequenceNudgedLeft,

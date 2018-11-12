@@ -19,6 +19,7 @@ export const PLAYBACK_STOP_REQUEST_STARTED = 'PLAYBACK_STOP_REQUEST_STARTED';
 export const POSITION_REQUEST_SUCCEEDED = 'POSITION_REQUEST_SUCCEEDED';
 export const SEQUENCE_ADDED = 'SEQUENCE_ADDED';
 export const SEQUENCE_DELETED = 'SEQUENCE_DELETED';
+export const SEQUENCE_DUPLICATED = 'SEQUENCE_DUPLICATED';
 export const SEQUENCE_EDITED = 'SEQUENCE_EDITED';
 export const SEQUENCE_EXTENDED = 'SEQUENCE_EXTENDED';
 export const SEQUENCE_NUDGED_LEFT = 'SEQUENCE_NUDGED_LEFT';
@@ -173,6 +174,14 @@ export const sequenceDeleted = sequence => ({
   type: SEQUENCE_DELETED,
   payload: {
     sequence,
+  },
+});
+
+export const sequenceDuplicated = (duplicatedSequence, originalSequence) => ({
+  type: SEQUENCE_DUPLICATED,
+  payload: {
+    duplicatedSequence,
+    originalSequence,
   },
 });
 

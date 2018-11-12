@@ -9,13 +9,14 @@ const { IconButton, Toolbar } = shared.components;
 
 export class TrackerToolbar extends React.PureComponent {
   static propTypes = {
-    onSequenceDelete: PropTypes.func.isRequired,
-    onSequenceExtend: PropTypes.func.isRequired,
-    onSequenceMoveLeft: PropTypes.func.isRequired,
-    onSequenceMoveRight: PropTypes.func.isRequired,
-    onSequenceOpen: PropTypes.func.isRequired,
-    onSequenceShorten: PropTypes.func.isRequired,
-    selectedSequence: PropTypes.object.isRequired,
+    onSequenceDelete: PropTypes.func,
+    onSequenceDuplicate: PropTypes.func,
+    onSequenceExtend: PropTypes.func,
+    onSequenceMoveLeft: PropTypes.func,
+    onSequenceMoveRight: PropTypes.func,
+    onSequenceOpen: PropTypes.func,
+    onSequenceShorten: PropTypes.func,
+    selectedSequence: PropTypes.object,
   }
 
   static defaultProps = {
@@ -35,6 +36,11 @@ export class TrackerToolbar extends React.PureComponent {
               className="tracker-toolbar__sequence-actions__open-button"
               icon="pencil"
               onClick={this.props.onSequenceOpen}
+            />
+            <IconButton
+              className="tracker-toolbar__sequence-actions__duplicate-button"
+              icon="clone"
+              onClick={this.props.onSequenceDuplicate}
             />
             <IconButton
               className="tracker-toolbar__sequence-actions__delete-button"

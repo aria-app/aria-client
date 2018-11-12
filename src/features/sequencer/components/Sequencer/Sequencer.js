@@ -57,15 +57,15 @@ export class Sequencer extends React.PureComponent {
         <SequencerToolbar
           measureCount={this.props.measureCount}
           onClose={this.props.onClose}
-          onDelete={this.deleteSelectedNotes.bind(this)}
-          onDeselectAll={this.deselectAllNotes.bind(this)}
-          onDrawToolSelect={this.activateDrawTool.bind(this)}
-          onDuplicate={this.duplicateSelectedNotes.bind(this)}
-          onEraseToolSelect={this.activateEraseTool.bind(this)}
+          onDelete={this.deleteSelectedNotes}
+          onDeselectAll={this.deselectAllNotes}
+          onDrawToolSelect={this.activateDrawTool}
+          onDuplicate={this.duplicateSelectedNotes}
+          onEraseToolSelect={this.activateEraseTool}
           onOctaveDown={this.handleToolbarOctaveDown}
           onOctaveUp={this.handleToolbarOctaveUp}
-          onPanToolSelect={this.activatePanTool.bind(this)}
-          onSelectToolSelect={this.activateSelectTool.bind(this)}
+          onPanToolSelect={this.activatePanTool}
+          onSelectToolSelect={this.activateSelectTool}
           selectedNotes={this.getSelectedNotes()}
           toolType={this.state.toolType}
         />

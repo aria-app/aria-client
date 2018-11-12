@@ -15,6 +15,9 @@ export const sequences = createReducer({}, {
   [shared.actions.SEQUENCE_DELETED]: (state, action) =>
     omit(action.payload.sequence.id, state),
 
+  [shared.actions.SEQUENCE_DUPLICATED]: (state, action) =>
+    Dawww.setAtIds([action.payload.duplicatedSequence], state),
+
   [shared.actions.SEQUENCE_EDITED]: (state, action) =>
     Dawww.setAtIds([action.payload.sequence], state),
 

@@ -53,13 +53,12 @@ export class TrackSequence extends React.PureComponent {
   handleClick = (e) => {
     e.stopPropagation();
 
-    if (this.props.isSelected) {
-      this.props.onOpen(this.props.sequence);
-      return;
-    }
-
     this.props.onSelect(this.props.sequence);
   }
+
+  handleDoubleClick = () => {
+    this.props.onOpen(this.props.sequence);
+  };
 }
 
 function measureCountToPx(count) {

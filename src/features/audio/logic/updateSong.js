@@ -18,6 +18,7 @@ export const updateSong = createLogic({
     shared.actions.NOTES_RESIZED,
     shared.actions.SEQUENCE_ADDED,
     shared.actions.SEQUENCE_DELETED,
+    shared.actions.SEQUENCE_DUPLICATED,
     shared.actions.SEQUENCE_EXTENDED,
     shared.actions.SEQUENCER_LOADED,
     shared.actions.TRACKER_LOADED,
