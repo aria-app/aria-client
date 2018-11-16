@@ -8,6 +8,8 @@ import './TrackList.scss';
 
 export class TrackList extends React.PureComponent {
   static propTypes = {
+    isStopped: PropTypes.bool.isRequired,
+    onPositionSet: PropTypes.func.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceDeselect: PropTypes.func.isRequired,
     onSequenceEdit: PropTypes.func.isRequired,
@@ -30,14 +32,10 @@ export class TrackList extends React.PureComponent {
         className="track-list"
         onClick={this.handleClick}>
         <Ruler
+          isStopped={this.props.isStopped}
           measureCount={this.props.songMeasureCount}
           measureWidth={64}
-          onPause={() => {}}
-          onPlay={() => {}}
-          onPositionSet={() => {}}
-          onSongExtend={this.props.onSongExtend}
-          onSongShorten={this.props.onSongShorten}
-          playbackState="stopped"
+          onPositionSet={this.props.onPositionSet}
         />
         <div
           className="track-list__tracks">

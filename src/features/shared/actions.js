@@ -17,6 +17,7 @@ export const PLAYBACK_START_REQUEST_STARTED = 'PLAYBACK_START_REQUEST_STARTED';
 export const PLAYBACK_STATE_REQUEST_SUCCEEDED = 'PLAYBACK_STATE_REQUEST_SUCCEEDED';
 export const PLAYBACK_STOP_REQUEST_STARTED = 'PLAYBACK_STOP_REQUEST_STARTED';
 export const POSITION_REQUEST_SUCCEEDED = 'POSITION_REQUEST_SUCCEEDED';
+export const POSITION_SET_REQUEST_STARTED = 'POSITION_SET_REQUEST_STARTED';
 export const SEQUENCE_ADDED = 'SEQUENCE_ADDED';
 export const SEQUENCE_DELETED = 'SEQUENCE_DELETED';
 export const SEQUENCE_DUPLICATED = 'SEQUENCE_DUPLICATED';
@@ -158,6 +159,13 @@ export const playbackStopRequestStarted = () => ({
 
 export const positionRequestSucceeded = position => ({
   type: POSITION_REQUEST_SUCCEEDED,
+  payload: {
+    position,
+  },
+});
+
+export const positionSetRequestStarted = position => ({
+  type: POSITION_SET_REQUEST_STARTED,
   payload: {
     position,
   },

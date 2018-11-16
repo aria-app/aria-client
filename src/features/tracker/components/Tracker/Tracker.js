@@ -19,6 +19,7 @@ export class Tracker extends React.PureComponent {
     bpm: PropTypes.number.isRequired,
     isStopped: PropTypes.bool.isRequired,
     onBPMChange: PropTypes.func.isRequired,
+    onPositionSet: PropTypes.func.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceDelete: PropTypes.func.isRequired,
     onSequenceDuplicate: PropTypes.func.isRequired,
@@ -60,6 +61,8 @@ export class Tracker extends React.PureComponent {
         focused={true}
         handlers={this.getKeyHandlers()}>
         <TrackList
+          isStopped={this.props.isStopped}
+          onPositionSet={this.props.onPositionSet}
           onSequenceAdd={this.handleTrackListSequenceAdd}
           onSequenceDelete={this.props.onSequenceDelete}
           onSequenceEdit={this.props.onSequenceEdit}

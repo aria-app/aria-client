@@ -4,6 +4,7 @@ import { preview } from './preview';
 // import { previewDraggedNote } from './previewDraggedNote';
 // import { previewDrawnNote } from './previewDrawnNote';
 // import { previewNudgedNote } from './previewNudgedNote';
+import { setPosition } from './setPosition';
 import { start } from './start';
 import { stop } from './stop';
 import { subscribeToPosition } from './subscribeToPosition';
@@ -14,6 +15,7 @@ export default [
   loadSong,
   pause,
   preview,
+  setPosition,
   start,
   stop,
   subscribeToPosition,

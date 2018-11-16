@@ -1,5 +1,5 @@
-import Dawww from 'dawww';
-import clamp from 'lodash/fp/clamp';
+import getOr from 'lodash/fp/getOr';
+import round from 'lodash/round';
 import times from 'lodash/fp/times';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -12,16 +12,15 @@ export class Ruler extends React.PureComponent {
   static propTypes = {
     measureCount: PropTypes.number.isRequired,
     measureWidth: PropTypes.number.isRequired,
-    onPause: PropTypes.func.isRequired,
-    onPlay: PropTypes.func.isRequired,
     onPositionSet: PropTypes.func.isRequired,
-    playbackState: PropTypes.string.isRequired,
+    isStopped: PropTypes.bool.isRequired,
   }
 
   render() {
     return (
       <div
-        className="ruler">
+        className="ruler"
+        onClick={this.handleClick}>
         <MatrixBox
           fill="white"
           matrix={this.getMatrix()}
@@ -75,32 +74,13 @@ export class Ruler extends React.PureComponent {
     };
   }
 
-  holdPosition = (e) => {
-    e.persist();
-    const startingState = this.props.playbackState;
-    this.props.onPlay();
-    this.props.onPositionSet((e.pageX - e.target.offsetLeft) / this.props.measureWidth);
-    this.props.onPause();
-    const moveHandler = (moveE) => {
-      const position = moveE.pageX >= e.target.offsetLeft
-        ? (moveE.pageX - e.target.offsetLeft) / this.props.measureWidth
-        : 0;
-      const clampedPosition = clamp(
-        0,
-        this.props.measureCount,
-      )(position);
-      this.props.onPositionSet(clampedPosition);
-    };
-    const upHandler = () => {
-      if (startingState === Dawww.PLAYBACK_STATES.STARTED) {
-        this.props.onPlay();
-      }
-      if (!window) return;
-      window.removeEventListener('mousemove', moveHandler);
-      window.removeEventListener('mouseup', upHandler);
-    };
-    if (!window) return;
-    window.addEventListener('mousemove', moveHandler);
-    window.addEventListener('mouseup', upHandler);
-  }
+  handleClick = (e) => {
+    if (this.props.isStopped) return;
+
+    const offset = getOr(0, 'nativeEvent.offsetX', e);
+    const measures = offset / this.props.measureWidth;
+    const notesPerMeasure = 32;
+
+    this.props.onPositionSet(round(measures * notesPerMeasure));
+  };
 }
