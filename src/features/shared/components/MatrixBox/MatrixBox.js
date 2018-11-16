@@ -25,20 +25,23 @@ export class MatrixBox extends React.Component {
   }
 
   render() {
+    const height = this.props.height + 4;
+    const width = this.props.width + 4;
+
     return (
       <div
         className={this.getClassName()}
         style={this.props.style}>
         <svg
-          height={this.props.height + 1}
+          height={height}
           style={{
             marginLeft: -1,
-            marginRight: -2,
+            marginRight: -1,
             marginTop: -1,
-            marginBottom: -2,
+            marginBottom: -1,
           }}
-          width={this.props.width + 1}
-          viewBox={`0 0 ${this.props.width + 2} ${this.props.height + 2}`}
+          width={width}
+          viewBox={`0 0 ${width} ${height}`}
           dangerouslySetInnerHTML={{
             __html: this.getData(),
           }}
@@ -80,12 +83,16 @@ export class MatrixBox extends React.Component {
     const width = this.props.width;
     const left = columnIndex * (width / (columnCount - 1));
     const top = rowIndex * (height / (rowCount - 1));
-    const data = `<path d="M ${left + 1},${top + 1} l 0,1" stroke="${this.props.fill}"/>`;
 
-    if (nodeType === 0) return '';
-    // console.log('node data', data);
+    if (nodeType === 1) {
+      return `<path d="M ${left + 1},${top + 1} l1,0 l0,1 l-1,0 l0,-1" fill="${this.props.fill}"/>`;
+    }
 
-    return data;
+    if (nodeType === 2) {
+      return `<path d="M ${left},${top + 1} l1,0 l0,-1 l1,0 l0,1 l1,0 l0,1 l-1,0 l0,1 l-1,0 l0,-1 l-1,0 l0,-1" fill="${this.props.fill}"/>`;
+    }
+
+    return '';
   };
 
   getNodeComponent = (type) => {
