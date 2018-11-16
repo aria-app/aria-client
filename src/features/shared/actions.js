@@ -39,6 +39,8 @@ export const TRACK_IS_SOLOING_TOGGLED = 'TRACK_IS_SOLOING_TOGGLED';
 export const TRACK_VOICE_SET = 'TRACK_VOICE_SET';
 export const TRACK_VOLUME_SET = 'TRACK_VOLUME_SET';
 export const TRACKER_LOADED = 'TRACKER_LOADED';
+export const TRACKS_REDO_REQUESTED = 'TRACKS_REDO_REQUESTED';
+export const TRACKS_UNDO_REQUESTED = 'TRACKS_UNDO_REQUESTED';
 
 export const bpmSet = bpm => ({
   type: BPM_SET,
@@ -306,4 +308,12 @@ export const trackVolumeSet = (track, volume) => ({
 
 export const trackerLoaded = () => ({
   type: TRACKER_LOADED,
+});
+
+export const tracksRedoRequested = () => ({
+  type: TRACKS_REDO_REQUESTED,
+});
+
+export const tracksUndoRequested = () => ({
+  type: TRACKS_UNDO_REQUESTED,
 });

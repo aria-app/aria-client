@@ -1,12 +1,14 @@
 export { getBPM } from './getBPM';
-export { getIsSequenceRedoEnabled } from './getIsSequenceRedoEnabled';
-export { getIsSequenceUndoEnabled } from './getIsSequenceUndoEnabled';
 export { getDeepSequences } from './getDeepSequences';
 export { getDeepTracks } from './getDeepTracks';
 export { getFocusedSequence } from './getFocusedSequence';
 export { getFocusedSequenceMeasureCount } from './getFocusedSequenceMeasureCount';
 export { getFocusedSequenceNotes } from './getFocusedSequenceNotes';
 export { getId } from './getId';
+export { getIsSequenceRedoEnabled } from './getIsSequenceRedoEnabled';
+export { getIsSequenceUndoEnabled } from './getIsSequenceUndoEnabled';
+export { getIsTracksRedoEnabled } from './getIsTracksRedoEnabled';
+export { getIsTracksUndoEnabled } from './getIsTracksUndoEnabled';
 export { getMeasureCount } from './getMeasureCount';
 export { getName } from './getName';
 export { getNoteById } from './getNoteById';

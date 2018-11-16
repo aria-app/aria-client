@@ -17,9 +17,12 @@ const { Timeline } = shared.components;
 export class Tracker extends React.PureComponent {
   static propTypes = {
     bpm: PropTypes.number.isRequired,
+    isRedoEnabled: PropTypes.bool.isRequired,
     isStopped: PropTypes.bool.isRequired,
+    isUndoEnabled: PropTypes.bool.isRequired,
     onBPMChange: PropTypes.func.isRequired,
     onPositionSet: PropTypes.func.isRequired,
+    onRedo: PropTypes.func.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceDelete: PropTypes.func.isRequired,
     onSequenceDuplicate: PropTypes.func.isRequired,
@@ -40,6 +43,7 @@ export class Tracker extends React.PureComponent {
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
     onTrackVoiceSet: PropTypes.func.isRequired,
     onTrackVolumeSet: PropTypes.func.isRequired,
+    onUndo: PropTypes.func.isRequired,
     position: PropTypes.number.isRequired,
     sequenceMap: PropTypes.object.isRequired,
     song: PropTypes.object.isRequired,
@@ -81,6 +85,9 @@ export class Tracker extends React.PureComponent {
           tracks={this.props.tracks}
         />
         <TrackerToolbar
+          isRedoEnabled={this.props.isRedoEnabled}
+          isUndoEnabled={this.props.isUndoEnabled}
+          onRedo={this.redo}
           onSequenceDelete={this.deleteSelectedSequence}
           onSequenceDuplicate={this.duplicateSelectedSequence}
           onSequenceExtend={() => {}}
@@ -89,6 +96,7 @@ export class Tracker extends React.PureComponent {
           onSequenceOpen={() => {}}
           onSequenceShorten={() => {}}
           onSongInfoOpen={this.openSongInfo}
+          onUndo={this.undo}
           selectedSequence={this.getSelectedSequence()}
         />
         <Timeline
@@ -156,9 +164,13 @@ export class Tracker extends React.PureComponent {
 
   getKeyHandlers = () => ({
     backspace: this.deleteSelectedSequence,
-    'ctrl+shift+d': this.duplicateSelectedSequence,
     del: this.deleteSelectedSequence,
+    'ctrl+shift+d': this.duplicateSelectedSequence,
+    'ctrl+z': this.undo,
+    'ctrl+alt+z': this.redo,
     'meta+shift+d': this.duplicateSelectedSequence,
+    'meta+z': this.undo,
+    'meta+alt+z': this.redo,
   });
 
   getSelectedSequence = () =>
@@ -229,4 +241,16 @@ export class Tracker extends React.PureComponent {
       isSongInfoModalOpen: true,
     });
   };
+
+  redo = () => {
+    if (!this.props.isRedoEnabled) return;
+
+    this.props.onRedo();
+  }
+
+  undo = () => {
+    if (!this.props.isUndoEnabled) return;
+
+    this.props.onUndo();
+  }
 }

@@ -36,6 +36,8 @@ export const updateSong = createLogic({
     shared.actions.TRACK_IS_SOLOING_TOGGLED,
     shared.actions.TRACK_VOICE_SET,
     shared.actions.TRACK_VOLUME_SET,
+    shared.actions.TRACKS_REDO_REQUESTED,
+    shared.actions.TRACKS_UNDO_REQUESTED,
   ],
   process({ getState }, dispatch, done) {
     const songState = song.selectors.getSong(getState());

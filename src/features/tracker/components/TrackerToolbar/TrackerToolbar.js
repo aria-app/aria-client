@@ -3,12 +3,14 @@ import negate from 'lodash/fp/negate';
 import PropTypes from 'prop-types';
 import React from 'react';
 import shared from '../../../shared';
-import './TrackerToolbar.scss';
 
 const { IconButton, Toolbar } = shared.components;
 
 export class TrackerToolbar extends React.PureComponent {
   static propTypes = {
+    isRedoEnabled: PropTypes.bool.isRequired,
+    isUndoEnabled: PropTypes.bool.isRequired,
+    onRedo: PropTypes.func,
     onSequenceDelete: PropTypes.func,
     onSequenceDuplicate: PropTypes.func,
     onSequenceExtend: PropTypes.func,
@@ -17,6 +19,7 @@ export class TrackerToolbar extends React.PureComponent {
     onSequenceOpen: PropTypes.func,
     onSequenceShorten: PropTypes.func,
     onSongInfoOpen: PropTypes.func,
+    onUndo: PropTypes.func,
     selectedSequence: PropTypes.object,
   }
 
@@ -27,54 +30,66 @@ export class TrackerToolbar extends React.PureComponent {
   render() {
     return (
       <Toolbar
-        className="tracker-toolbar"
         position="top"
         isAlternate={this.getIsAlternate()}
-        alternateRightItems={
-          <div
-            className="tracker-toolbar__sequence-actions">
-            <IconButton
-              className="tracker-toolbar__sequence-actions__open-button"
-              icon="pencil"
-              onClick={this.props.onSequenceOpen}
-            />
-            <IconButton
-              className="tracker-toolbar__sequence-actions__duplicate-button"
-              icon="clone"
-              onClick={this.props.onSequenceDuplicate}
-            />
-            <IconButton
-              className="tracker-toolbar__sequence-actions__delete-button"
-              icon="trash"
-              onClick={this.props.onSequenceDelete}
-            />
-            <IconButton
-              className="tracker-toolbar__sequence-actions__shorten-button"
-              icon="long-arrow-left"
-              isDisabled={this.getIsShortenButtonDisabled()}
-              onClick={this.props.onSequenceShorten}
-            />
-            <IconButton
-              className="tracker-toolbar__sequence-actions__move-left-button"
-              icon="arrow-left"
-              isDisabled={this.getIsMoveLeftButtonDisabled()}
-              onClick={this.props.onSequenceMoveLeft}
-            />
-            <IconButton
-              className="tracker-toolbar__sequence-actions__move-right-button"
-              icon="arrow-right"
-              onClick={this.props.onSequenceMoveRight}
-            />
-            <IconButton
-              className="tracker-toolbar__sequence-actions__extend-button"
-              icon="long-arrow-right"
-              onClick={this.props.onSequenceExtend}
-            />
-          </div>
-        }
+        alternateRightItems={<React.Fragment>
+          <IconButton
+            icon="undo"
+            isDisabled={!this.props.isUndoEnabled}
+            onClick={this.props.onUndo}
+            toolTip="Undo"
+          />
+          <IconButton
+            icon="redo"
+            isDisabled={!this.props.isRedoEnabled}
+            onClick={this.props.onRedo}
+            toolTip="Redo"
+          />
+          <IconButton
+            icon="pencil"
+            onClick={this.props.onSequenceOpen}
+          />
+          <IconButton
+            icon="clone"
+            onClick={this.props.onSequenceDuplicate}
+          />
+          <IconButton
+            icon="trash"
+            onClick={this.props.onSequenceDelete}
+          />
+          <IconButton
+            icon="long-arrow-left"
+            isDisabled={this.getIsShortenButtonDisabled()}
+            onClick={this.props.onSequenceShorten}
+          />
+          <IconButton
+            icon="arrow-left"
+            isDisabled={this.getIsMoveLeftButtonDisabled()}
+            onClick={this.props.onSequenceMoveLeft}
+          />
+          <IconButton
+            icon="arrow-right"
+            onClick={this.props.onSequenceMoveRight}
+          />
+          <IconButton
+            icon="long-arrow-right"
+            onClick={this.props.onSequenceExtend}
+          />
+        </React.Fragment>}
         rightItems={<React.Fragment>
           <IconButton
-            className="tracker-toolbar__song-info-button"
+            icon="undo"
+            isDisabled={!this.props.isUndoEnabled}
+            onClick={this.props.onUndo}
+            toolTip="Undo"
+          />
+          <IconButton
+            icon="redo"
+            isDisabled={!this.props.isRedoEnabled}
+            onClick={this.props.onRedo}
+            toolTip="Redo"
+          />
+          <IconButton
             icon="cog"
             onClick={this.props.onSongInfoOpen}
           />

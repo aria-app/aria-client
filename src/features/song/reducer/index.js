@@ -4,8 +4,7 @@ import { id } from './id';
 import { measureCount } from './measureCount';
 import { name } from './name';
 import notes from './notes';
-import { sequences } from './sequences';
-import { tracks } from './tracks';
+import tracksAndSequences from './tracksAndSequences';
 
 export default combineReducers({
   bpm,
@@ -13,6 +12,5 @@ export default combineReducers({
   measureCount,
   name,
   notes,
-  sequences,
-  tracks,
+  tracksAndSequences,
 });
