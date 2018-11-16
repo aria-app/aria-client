@@ -14,7 +14,7 @@
   "dependencies": {
     "animejs": "2.2.0",
     "classnames": "2.2.5",
-    "dawww": "1.9.3",
+    "dawww": "1.9.6",
     "history": "4.7.2",
     "kewler": "1.0.8",
     "lodash": "4.17.4",
