@@ -6,7 +6,7 @@ import shared from '../../../shared';
 
 const { IconButton, Toolbar } = shared.components;
 
-export class TrackerToolbar extends React.PureComponent {
+export class SongEditorToolbar extends React.PureComponent {
   static propTypes = {
     isRedoEnabled: PropTypes.bool.isRequired,
     isUndoEnabled: PropTypes.bool.isRequired,

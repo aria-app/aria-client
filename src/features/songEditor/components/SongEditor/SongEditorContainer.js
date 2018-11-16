@@ -2,9 +2,9 @@ import { connect } from 'react-redux';
 import audio from '../../../audio';
 import shared from '../../../shared';
 import song from '../../../song';
-import { Tracker } from './Tracker';
+import { SongEditor } from './SongEditor';
 
-export const TrackerContainer = connect(state => ({
+export const SongEditorContainer = connect(state => ({
   bpm: song.selectors.getBPM(state),
   isRedoEnabled: song.selectors.getIsRedoEnabled(state),
   isUndoEnabled: song.selectors.getIsUndoEnabled(state),
@@ -38,4 +38,4 @@ export const TrackerContainer = connect(state => ({
   onTrackVoiceSet: shared.actions.trackVoiceSet,
   onTrackVolumeSet: shared.actions.trackVolumeSet,
   onUndo: shared.actions.undoRequested,
-})(Tracker);
+})(SongEditor);

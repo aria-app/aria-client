@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import shared from '../../../shared';
 import * as constants from '../../constants';
-import './SequencerToolbar.scss';
+import './SequenceEditorToolbar.scss';
 
 const { IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
 
-export class SequencerToolbar extends React.PureComponent {
+export class SequenceEditorToolbar extends React.PureComponent {
   static propTypes = {
     isRedoEnabled: PropTypes.bool.isRequired,
     isUndoEnabled: PropTypes.bool.isRequired,
@@ -33,7 +33,7 @@ export class SequencerToolbar extends React.PureComponent {
   render() {
     return (
       <Toolbar
-        className="sequencer-toolbar"
+        className="sequence-editor-toolbar"
         isAlternate={this.getAreSomeNotesSelected()}
         alternateLeftItems={<React.Fragment>
           <IconButton

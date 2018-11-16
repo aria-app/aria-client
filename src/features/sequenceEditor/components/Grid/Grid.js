@@ -23,7 +23,7 @@ export class Grid extends React.PureComponent {
     onSelect: PropTypes.func.isRequired,
     onSelectInArea: PropTypes.func.isRequired,
     selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
-    sequencerContentRef: PropTypes.object,
+    sequenceEditorContentRef: PropTypes.object,
     toolType: PropTypes.string.isRequired,
   }
 
@@ -75,7 +75,7 @@ export class Grid extends React.PureComponent {
             onScrollLeftChange={this.handlePannerScrollLeftChange}
             onScrollTopChange={this.handlePannerScrollTopChange}
             scrollLeftEl={this.elementRef}
-            scrollTopEl={this.props.sequencerContentRef}
+            scrollTopEl={this.props.sequenceEditorContentRef}
             toolType={this.props.toolType}
           />
           <Timeline
@@ -98,7 +98,7 @@ export class Grid extends React.PureComponent {
   handleMouseMove = (e) => {
     const mousePoint = getMousePoint(
       e.currentTarget,
-      this.props.sequencerContentRef,
+      this.props.sequenceEditorContentRef,
       e,
     );
 
@@ -113,7 +113,7 @@ export class Grid extends React.PureComponent {
   };
 
   handlePannerScrollTopChange = (scrollTop) => {
-    this.props.sequencerContentRef.scrollTop = scrollTop;
+    this.props.sequenceEditorContentRef.scrollTop = scrollTop;
   };
 
   handleSelectorSelect = (startPoint, isAdditive) =>

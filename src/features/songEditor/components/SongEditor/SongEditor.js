@@ -9,12 +9,12 @@ import shared from '../../../shared';
 import { SongInfoModal } from '../SongInfoModal/SongInfoModal';
 import { TrackList } from '../TrackList/TrackList';
 import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
-import { TrackerToolbar } from '../TrackerToolbar/TrackerToolbar';
-import './Tracker.scss';
+import { SongEditorToolbar } from '../SongEditorToolbar/SongEditorToolbar';
+import './SongEditor.scss';
 
 const { Timeline } = shared.components;
 
-export class Tracker extends React.PureComponent {
+export class SongEditor extends React.PureComponent {
   static propTypes = {
     bpm: PropTypes.number.isRequired,
     isRedoEnabled: PropTypes.bool.isRequired,
@@ -59,7 +59,7 @@ export class Tracker extends React.PureComponent {
   render() {
     return (
       <HotKeys
-        className="tracker"
+        className="song-editor"
         focused={true}
         handlers={this.getKeyHandlers()}>
         <TrackList
@@ -82,7 +82,7 @@ export class Tracker extends React.PureComponent {
           songMeasureCount={this.props.songMeasureCount}
           tracks={this.props.tracks}
         />
-        <TrackerToolbar
+        <SongEditorToolbar
           isRedoEnabled={this.props.isRedoEnabled}
           isUndoEnabled={this.props.isUndoEnabled}
           onRedo={this.redo}
@@ -214,27 +214,27 @@ export class Tracker extends React.PureComponent {
     this.props.onTrackAdd(track, sequence);
   };
 
-  handleTrackerToolbarSequenceDelete = () => {
+  handleSongEditorToolbarSequenceDelete = () => {
     this.props.onSequenceDelete(this.getSelectedSequence());
   };
 
-  handleTrackerToolbarSequenceExtend = () => {
+  handleSongEditorToolbarSequenceExtend = () => {
     this.props.onSequenceExtend(this.getSelectedSequence());
   };
 
-  handleTrackerToolbarSequenceMoveLeft = () => {
+  handleSongEditorToolbarSequenceMoveLeft = () => {
     this.props.onSequenceMoveLeft(this.getSelectedSequence());
   };
 
-  handleTrackerToolbarSequenceMoveRight = () => {
+  handleSongEditorToolbarSequenceMoveRight = () => {
     this.props.onSequenceMoveRight(this.getSelectedSequence());
   };
 
-  handleTrackerToolbarSequenceOpen = () => {
+  handleSongEditorToolbarSequenceOpen = () => {
     this.props.onSequenceOpen(this.getSelectedSequence());
   };
 
-  handleTrackerToolbarSequenceShorten = () => {
+  handleSongEditorToolbarSequenceShorten = () => {
     if (this.getSelectedSequence().measureCount < 2) return;
 
     this.props.onSequenceShorten(this.getSelectedSequence());

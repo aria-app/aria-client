@@ -1,16 +1,16 @@
 import React from 'react';
 import { action, storiesOf } from '@storybook/react';
 import { number, select, withKnobs } from '@storybook/addon-knobs';
-import { Sequencer } from '../Sequencer';
+import { SequenceEditor } from '../SequenceEditor';
 import * as constants from '../../../constants';
-import './SequencerBasics.story.scss';
+import './SequenceEditorBasics.story.scss';
 
-storiesOf('Sequencer', module)
+storiesOf('SequenceEditor', module)
   .addDecorator(withKnobs)
   .add('Basics', () => (
     <div
-      className="SequencerBasics">
-      <Sequencer
+      className="SequenceEditorBasics">
+      <SequenceEditor
         measureCount={number('measure count', 1)}
         notes={[]}
         onKeyPress={action('KEY_PRESSED')}

@@ -2,17 +2,17 @@ import Dawww from 'dawww';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { HotKeys } from 'react-hotkeys';
-import sequencer from '../../../sequencer';
+import sequenceEditor from '../../../sequenceEditor';
 import shared from '../../../shared';
-import tracker from '../../../tracker';
+import songEditor from '../../../songEditor';
 import { UploadOverlay } from '../UploadOverlay/UploadOverlay';
 import { SongToolbar } from '../SongToolbar/SongToolbar';
 import { VFXLayer } from '../VFXLayer/VFXLayer';
 import './App.scss';
 
-const { SequencerContainer } = sequencer.components;
+const { SequenceEditorContainer } = sequenceEditor.components;
 const { STARTED } = Dawww.PLAYBACK_STATES;
-const { TrackerContainer } = tracker.components;
+const { SongEditorContainer } = songEditor.components;
 
 export class App extends React.PureComponent {
   static propTypes = {
@@ -69,10 +69,10 @@ export class App extends React.PureComponent {
 
   getContentComponent = () => {
     if (this.props.locationType === shared.actions.SEQUENCER_LOADED) {
-      return <SequencerContainer/>
+      return <SequenceEditorContainer/>
     }
 
-    return <TrackerContainer/>;
+    return <SongEditorContainer/>;
   };
 
   getKeyHandlers = () => ({

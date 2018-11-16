@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import shared from '../../../shared';
 import song from '../../../song';
-import { Sequencer } from './Sequencer';
+import { SequenceEditor } from './SequenceEditor';
 
-export const SequencerContainer = connect(state => ({
+export const SequenceEditorContainer = connect(state => ({
   isRedoEnabled: song.selectors.getIsRedoEnabled(state),
   isUndoEnabled: song.selectors.getIsUndoEnabled(state),
   measureCount: song.selectors.getFocusedSequenceMeasureCount(state),
@@ -32,4 +32,4 @@ export const SequencerContainer = connect(state => ({
   onNudge: (delta, selectedNotes) =>
     dispatchProps.onNudge(delta, selectedNotes, stateProps.sequence),
   onPitchPreview: pitch => dispatchProps.onPitchPreview(pitch, stateProps.sequence),
-}))(Sequencer);
+}))(SequenceEditor);

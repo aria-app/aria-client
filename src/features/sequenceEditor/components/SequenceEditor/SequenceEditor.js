@@ -11,10 +11,10 @@ import { HotKeys } from 'react-hotkeys';
 import { toolTypes } from '../../constants';
 import { Grid } from '../Grid/Grid';
 import { Keys } from '../Keys/Keys';
-import { SequencerToolbar } from '../SequencerToolbar/SequencerToolbar';
-import './Sequencer.scss';
+import { SequenceEditorToolbar } from '../SequenceEditorToolbar/SequenceEditorToolbar';
+import './SequenceEditor.scss';
 
-export class Sequencer extends React.PureComponent {
+export class SequenceEditor extends React.PureComponent {
   static propTypes = {
     isRedoEnabled: PropTypes.bool.isRequired,
     isUndoEnabled: PropTypes.bool.isRequired,
@@ -55,10 +55,10 @@ export class Sequencer extends React.PureComponent {
   render() {
     return (
       <HotKeys
-        className="sequencer"
+        className="sequence-editor"
         focused={true}
         handlers={this.getKeyHandlers()}>
-        <SequencerToolbar
+        <SequenceEditorToolbar
           isRedoEnabled={this.props.isRedoEnabled}
           isUndoEnabled={this.props.isUndoEnabled}
           measureCount={this.props.measureCount}
@@ -78,10 +78,10 @@ export class Sequencer extends React.PureComponent {
           toolType={this.state.toolType}
         />
         <div
-          className="sequencer__content"
+          className="sequence-editor__content"
           ref={this.setContentRef}>
           <div
-            className="sequencer__content__wrapper">
+            className="sequence-editor__content__wrapper">
             <Keys
               onKeyPress={this.props.onPitchPreview}
             />
@@ -96,7 +96,7 @@ export class Sequencer extends React.PureComponent {
               onSelect={this.handleGridSelect}
               onSelectInArea={this.handleGridSelectInArea}
               selectedNotes={this.getSelectedNotes()}
-              sequencerContentRef={this.contentElementRef}
+              sequenceEditorContentRef={this.contentElementRef}
               toolType={this.state.toolType}
             />
           </div>
