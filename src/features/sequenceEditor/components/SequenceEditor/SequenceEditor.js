@@ -58,25 +58,6 @@ export class SequenceEditor extends React.PureComponent {
         className="sequence-editor"
         focused={true}
         handlers={this.getKeyHandlers()}>
-        <SequenceEditorToolbar
-          isRedoEnabled={this.props.isRedoEnabled}
-          isUndoEnabled={this.props.isUndoEnabled}
-          measureCount={this.props.measureCount}
-          onClose={this.props.onClose}
-          onDelete={this.deleteSelectedNotes}
-          onDeselectAll={this.deselectAllNotes}
-          onDrawToolSelect={this.activateDrawTool}
-          onDuplicate={this.duplicateSelectedNotes}
-          onEraseToolSelect={this.activateEraseTool}
-          onOctaveDown={this.handleToolbarOctaveDown}
-          onOctaveUp={this.handleToolbarOctaveUp}
-          onPanToolSelect={this.activatePanTool}
-          onRedo={this.redo}
-          onSelectToolSelect={this.activateSelectTool}
-          onUndo={this.undo}
-          selectedNotes={this.getSelectedNotes()}
-          toolType={this.state.toolType}
-        />
         <div
           className="sequence-editor__content"
           ref={this.setContentRef}>
@@ -101,6 +82,25 @@ export class SequenceEditor extends React.PureComponent {
             />
           </div>
         </div>
+        <SequenceEditorToolbar
+          isRedoEnabled={this.props.isRedoEnabled}
+          isUndoEnabled={this.props.isUndoEnabled}
+          measureCount={this.props.measureCount}
+          onClose={this.props.onClose}
+          onDelete={this.deleteSelectedNotes}
+          onDeselectAll={this.deselectAllNotes}
+          onDrawToolSelect={this.activateDrawTool}
+          onDuplicate={this.duplicateSelectedNotes}
+          onEraseToolSelect={this.activateEraseTool}
+          onOctaveDown={this.handleToolbarOctaveDown}
+          onOctaveUp={this.handleToolbarOctaveUp}
+          onPanToolSelect={this.activatePanTool}
+          onRedo={this.redo}
+          onSelectToolSelect={this.activateSelectTool}
+          onUndo={this.undo}
+          selectedNotes={this.getSelectedNotes()}
+          toolType={this.state.toolType}
+        />
       </HotKeys>
     );
   }
