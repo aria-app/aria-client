@@ -7,7 +7,6 @@ export const SequenceEditorContainer = connect(state => ({
   isRedoEnabled: song.selectors.getIsRedoEnabled(state),
   isUndoEnabled: song.selectors.getIsUndoEnabled(state),
   measureCount: song.selectors.getFocusedSequenceMeasureCount(state),
-  noteMap: song.selectors.getNotes(state),
   notes: song.selectors.getFocusedSequenceNotes(state),
   sequence: song.selectors.getFocusedSequence(state),
 }), {

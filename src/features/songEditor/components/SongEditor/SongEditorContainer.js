@@ -11,7 +11,7 @@ export const SongEditorContainer = connect(state => ({
   isStopped: audio.selectors.getIsStopped(state),
   position: audio.selectors.getPosition(state),
   songMeasureCount: song.selectors.getMeasureCount(state),
-  sequenceMap: song.selectors.getSequences(state),
+  sequences: song.selectors.getSequencesArray(state),
   song: song.selectors.getSong(state),
   trackMap: song.selectors.getTracks(state),
   tracks: song.selectors.getDeepTracks(state),

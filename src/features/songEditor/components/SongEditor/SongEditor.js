@@ -1,5 +1,5 @@
 import Dawww from 'dawww';
-import getOr from 'lodash/fp/getOr';
+import find from 'lodash/fp/find';
 import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
@@ -43,10 +43,9 @@ export class SongEditor extends React.PureComponent {
     onTrackVolumeSet: PropTypes.func.isRequired,
     onUndo: PropTypes.func.isRequired,
     position: PropTypes.number.isRequired,
-    sequenceMap: PropTypes.object.isRequired,
+    sequences: PropTypes.arrayOf(PropTypes.object).isRequired,
     song: PropTypes.object.isRequired,
     songMeasureCount: PropTypes.number.isRequired,
-    trackMap: PropTypes.object.isRequired,
     tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
@@ -184,10 +183,16 @@ export class SongEditor extends React.PureComponent {
   });
 
   getSelectedSequence = () =>
-    getOr({}, `props.sequenceMap.${this.state.selectedSequenceId}`, this);
+    find(
+      s => s.id === this.state.selectedSequenceId,
+      this.props.sequences,
+    ) || {};
 
   getSelectedTrack = () =>
-    getOr({}, `props.trackMap.${this.state.selectedTrackId}`, this);
+    find(
+      t => t.id === this.state.selectedTrackId,
+      this.props.tracks,
+    ) || {};
 
   handleTrackListSequenceAdd = (track, position) => {
     const sequence = Dawww.createSequence(track.id, position);

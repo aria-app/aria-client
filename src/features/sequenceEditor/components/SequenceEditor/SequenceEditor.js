@@ -1,4 +1,5 @@
 import Dawww from 'dawww';
+import find from 'lodash/fp/find';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -19,7 +20,6 @@ export class SequenceEditor extends React.PureComponent {
     isRedoEnabled: PropTypes.bool.isRequired,
     isUndoEnabled: PropTypes.bool.isRequired,
     measureCount: PropTypes.number.isRequired,
-    noteMap: PropTypes.object.isRequired,
     notes: PropTypes.arrayOf(PropTypes.object).isRequired,
     onClose: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -211,7 +211,7 @@ export class SequenceEditor extends React.PureComponent {
 
   getSelectedNotes = () =>
     map(
-      id => getOr({}, `props.noteMap.${id}`, this),
+      noteId => find(n => n.id === noteId, this.props.notes) || {},
       this.state.selectedNoteIds,
     );
 
