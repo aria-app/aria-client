@@ -22,7 +22,6 @@ export class Track extends React.PureComponent {
   static propTypes = {
     index: PropTypes.number.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
-    onSequenceDeselect: PropTypes.func,
     onSequenceEdit: PropTypes.func,
     onSequenceOpen: PropTypes.func.isRequired,
     onSequenceSelect: PropTypes.func.isRequired,
@@ -147,7 +146,6 @@ export class Track extends React.PureComponent {
   getSequenceComponent = ({ item }) => (
     <TrackSequence
       isSelected={this.getIsSequenceSelected(item.sequence)}
-      onDeselect={this.props.onSequenceDeselect}
       onOpen={this.props.onSequenceOpen}
       onSelect={this.props.onSequenceSelect}
       sequence={item.sequence}

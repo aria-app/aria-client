@@ -19,28 +19,13 @@ export class TrackSequence extends React.PureComponent {
     index: 0,
   }
 
-  constructor(props) {
-    super(props);
-
-    this.ref = React.createRef();
-  }
-
-  componentDidMount() {
-    document.addEventListener('mousedown', this.handleDocumentMouseDown);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleDocumentMouseDown);
-  }
-
   render() {
     return (
       <div
         className={this.getClassName()}
         style={this.getStyle()}
         onClick={this.handleClick}
-        onDoubleClick={this.handleDoubleClick}
-        ref={this.ref}>
+        onDoubleClick={this.handleDoubleClick}>
         {this.props.sequence.notes.map(note => (
           <TrackSequenceNote
             key={note.id}
@@ -70,13 +55,6 @@ export class TrackSequence extends React.PureComponent {
 
     this.props.onSelect(this.props.sequence);
   }
-
-  handleDocumentMouseDown = (e) => {
-    if (!this.props.isSelected) return;
-    if (this.ref.current.contains(e.target)) return;
-    e.preventDefault();
-    this.props.onDeselect();
-  };
 
   handleDoubleClick = () => {
     this.props.onOpen(this.props.sequence);

@@ -8,4 +8,12 @@
   flex-direction: column;
   overflow: auto;
   padding: 14px $margin-m;
+  position: relative;
+  &__underlay {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
 }

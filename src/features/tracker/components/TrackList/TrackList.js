@@ -38,12 +38,15 @@ export class TrackList extends React.PureComponent {
           onPositionSet={this.props.onPositionSet}
         />
         <div
+          className="track-list__underlay"
+          onClick={this.props.onSequenceDeselect}
+        />
+        <div
           className="track-list__tracks">
           {this.props.tracks.map((track, index) => (
             <Track
               key={`track-${index}`}
               onSequenceAdd={this.props.onSequenceAdd}
-              onSequenceDeselect={this.props.onSequenceDeselect}
               onSequenceEdit={this.props.onSequenceEdit}
               onSequenceOpen={this.props.onSequenceOpen}
               onSequenceSelect={this.props.onSequenceSelect}
