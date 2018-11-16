@@ -49,7 +49,7 @@ export class Track extends React.PureComponent {
         <div
           className="track__sequences"
           style={this.getBodySequencesStyle()}>
-          {false && <MatrixBox
+          <MatrixBox
             fill={palette.emerald[2]}
             matrix={this.getMatrix()}
             height={84}
@@ -59,7 +59,7 @@ export class Track extends React.PureComponent {
               position: 'absolute',
               top: 0,
             }}
-          />}
+          />
           <Boxes
             boxContentComponent={this.getSequenceComponent}
             items={this.getBoxesItems()}

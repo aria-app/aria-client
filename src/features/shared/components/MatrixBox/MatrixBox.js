@@ -1,12 +1,12 @@
 import classnames from 'classnames';
-import flatten from 'lodash/fp/flatten';
+import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { MatrixBoxDot } from './MatrixBoxDot';
 import { MatrixBoxSmallCross } from './MatrixBoxSmallCross';
 import './MatrixBox.scss';
 
-export class MatrixBox extends React.PureComponent {
+export class MatrixBox extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     fill: PropTypes.string,
@@ -16,26 +16,77 @@ export class MatrixBox extends React.PureComponent {
     style: PropTypes.object,
   };
 
+  shouldComponentUpdate(nextProps) {
+    return (
+      nextProps.height !== this.props.height ||
+      nextProps.width !== this.props.width ||
+      !isEqual(nextProps.matrix, this.props.matrix)
+    );
+  }
+
   render() {
     return (
       <div
         className={this.getClassName()}
         style={this.props.style}>
-        {flatten(this.props.matrix.map((row, rowIndex) =>
-          row.map((type, columnIndex) =>
-            this.getNode(
-              rowIndex,
-              columnIndex,
-              this.getNodeComponent(type),
-            ),
-          ),
-        ))}
+        <svg
+          height={this.props.height + 1}
+          style={{
+            marginLeft: -1,
+            marginRight: -2,
+            marginTop: -1,
+            marginBottom: -2,
+          }}
+          width={this.props.width + 1}
+          viewBox={`0 0 ${this.props.width + 2} ${this.props.height + 2}`}
+          dangerouslySetInnerHTML={{
+            __html: this.getData(),
+          }}
+        />
       </div>
     );
   }
 
   getClassName = () =>
-    classnames('matrix-box', this.props.className)
+    classnames('matrix-box', this.props.className);
+
+  getData = () => {
+    const rowCount = this.props.matrix.length;
+    let data = '';
+
+    for (let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+      const row = this.props.matrix[rowIndex];
+      const columnCount = row.length;
+      for (var columnIndex = 0; columnIndex < row.length; columnIndex++) {
+        const nodeType = row[columnIndex];
+        const nodeData = this.getNodeData(
+          nodeType,
+          rowIndex,
+          rowCount,
+          columnIndex,
+          columnCount,
+        );
+        data = data + ' ' + nodeData;
+      }
+    }
+    // console.log('all data', data);
+
+    return data;
+  };
+
+  getNodeData = (nodeType, rowIndex, rowCount, columnIndex, columnCount) => {
+
+    const height = this.props.height;
+    const width = this.props.width;
+    const left = columnIndex * (width / (columnCount - 1));
+    const top = rowIndex * (height / (rowCount - 1));
+    const data = `<path d="M ${left + 1},${top + 1} l 0,1" stroke="${this.props.fill}"/>`;
+
+    if (nodeType === 0) return '';
+    // console.log('node data', data);
+
+    return data;
+  };
 
   getNodeComponent = (type) => {
     if (type === 1) {
