@@ -38,7 +38,6 @@ export class Tracker extends React.PureComponent {
     onTrackEditingStart: PropTypes.func.isRequired,
     onTrackIsMutedToggle: PropTypes.func.isRequired,
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
-    onTrackSequencesOrderChange: PropTypes.func.isRequired,
     onTrackVoiceSet: PropTypes.func.isRequired,
     onTrackVolumeSet: PropTypes.func.isRequired,
     position: PropTypes.number.isRequired,
@@ -76,7 +75,6 @@ export class Tracker extends React.PureComponent {
           onTrackAdd={this.handleTrackListTrackAdd}
           onTrackIsMutedToggle={this.props.onTrackIsMutedToggle}
           onTrackIsSoloingToggle={this.props.onTrackIsSoloingToggle}
-          onTrackSequencesOrderChange={this.props.onTrackSequencesOrderChange}
           onTrackStage={this.props.onTrackEditingStart}
           selectedSequence={this.getSelectedSequence()}
           songMeasureCount={this.props.songMeasureCount}

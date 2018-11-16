@@ -11,6 +11,8 @@ const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
 
 export class SequencerToolbar extends React.PureComponent {
   static propTypes = {
+    isRedoEnabled: PropTypes.bool.isRequired,
+    isUndoEnabled: PropTypes.bool.isRequired,
     measureCount: PropTypes.number.isRequired,
     onClose: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -21,7 +23,9 @@ export class SequencerToolbar extends React.PureComponent {
     onOctaveDown: PropTypes.func.isRequired,
     onOctaveUp: PropTypes.func.isRequired,
     onPanToolSelect: PropTypes.func.isRequired,
+    onRedo: PropTypes.func.isRequired,
     onSelectToolSelect: PropTypes.func.isRequired,
+    onUndo: PropTypes.func.isRequired,
     selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
     toolType: PropTypes.string.isRequired,
   }
@@ -33,43 +37,49 @@ export class SequencerToolbar extends React.PureComponent {
         isAlternate={this.getAreSomeNotesSelected()}
         alternateLeftItems={<React.Fragment>
           <IconButton
-            className="sequencer__toolbar__delete-button"
+            icon="close"
+            onClick={this.props.onDeselectAll}
+            toolTip="Deselect notes"
+          />
+        </React.Fragment>}
+        alternateRightItems={<React.Fragment>
+          <IconButton
+            icon="undo"
+            isDisabled={!this.props.isUndoEnabled}
+            onClick={this.props.onUndo}
+            toolTip="Undo"
+          />
+          <IconButton
+            icon="redo"
+            isDisabled={!this.props.isRedoEnabled}
+            onClick={this.props.onRedo}
+            toolTip="Redo"
+          />
+          <IconButton
             icon="trash"
             onClick={this.props.onDelete}
             toolTip="Delete"
           />
           <IconButton
-            className="sequencer__toolbar__duplicate-button"
             icon="clone"
             onClick={this.props.onDuplicate}
             toolTip="Duplicate"
           />
           <IconButton
-            className="sequencer__toolbar__octave-up-button"
             icon="arrow-up"
             isDisabled={this.getIsOctaveUpButtonDisabled()}
             onClick={this.props.onOctaveUp}
             toolTip="Octave up"
           />
           <IconButton
-            className="sequencer__toolbar__octave-down-button"
             icon="arrow-down"
             isDisabled={this.getIsOctaveDownButtonDisabled()}
             onClick={this.props.onOctaveDown}
             toolTip="Octave down"
           />
         </React.Fragment>}
-        alternateRightItems={<React.Fragment>
-          <IconButton
-            className="sequencer__toolbar__deselect-button"
-            icon="close"
-            onClick={this.props.onDeselectAll}
-            toolTip="Deselect notes"
-          />
-        </React.Fragment>}
         leftItems={<React.Fragment>
           <IconButton
-            className="sequencer__toolbar__close-button"
             icon="arrow-left"
             onClick={this.props.onClose}
             toolTip="Back to tracks"
@@ -77,28 +87,36 @@ export class SequencerToolbar extends React.PureComponent {
         </React.Fragment>}
         rightItems={<React.Fragment>
           <IconButton
-            className="sequencer__toolbar__select-tool-button"
+            icon="undo"
+            isDisabled={!this.props.isUndoEnabled}
+            onClick={this.props.onUndo}
+            toolTip="Undo"
+          />
+          <IconButton
+            icon="redo"
+            isDisabled={!this.props.isRedoEnabled}
+            onClick={this.props.onRedo}
+            toolTip="Redo"
+          />
+          <IconButton
             isActive={this.props.toolType === SELECT}
             icon="mouse-pointer"
             onClick={this.props.onSelectToolSelect}
             toolTip="Select"
           />
           <IconButton
-            className="sequencer__toolbar__draw-tool-button"
             isActive={this.props.toolType === DRAW}
             icon="pencil"
             onClick={this.props.onDrawToolSelect}
             toolTip="Draw"
           />
           <IconButton
-            className="sequencer__toolbar__erase-tool-button"
             isActive={this.props.toolType === ERASE}
             icon="eraser"
             onClick={this.props.onEraseToolSelect}
             toolTip="Erase"
           />
           <IconButton
-            className="sequencer__toolbar__pan-tool-button"
             isActive={this.props.toolType === PAN}
             icon="hand-paper-o"
             onClick={this.props.onPanToolSelect}

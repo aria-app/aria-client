@@ -1,5 +1,4 @@
 import Dawww from 'dawww';
-import isNil from 'lodash/fp/isNil';
 import omit from 'lodash/fp/omit';
 import reject from 'lodash/fp/reject';
 import { createReducer } from 'redux-create-reducer';
@@ -50,26 +49,4 @@ export const sequences = createReducer({}, {
 
   [shared.actions.TRACK_DELETED]: (state, action) =>
     Dawww.setAtIds(reject(sequence => sequence.trackId === action.payload.track.id, state), {}),
-
-  [shared.actions.TRACK_SEQUENCES_ORDER_CHANGED]: (state, action) => {
-    if (!isNil(action.payload.swappedSequence)) {
-      return Dawww.setAtIds([
-        {
-          ...action.payload.sequence,
-          position: action.payload.position,
-        },
-        {
-          ...action.payload.swappedSequence,
-          position: action.payload.swappedPosition,
-        },
-      ], state);
-    }
-
-    return Dawww.setAtIds([
-      {
-        ...action.payload.sequence,
-        position: action.payload.position,
-      },
-    ], state);
-  },
 });

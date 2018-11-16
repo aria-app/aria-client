@@ -4,6 +4,8 @@ import song from '../../../song';
 import { Sequencer } from './Sequencer';
 
 export const SequencerContainer = connect(state => ({
+  isRedoEnabled: song.selectors.getIsSequenceRedoEnabled(state),
+  isUndoEnabled: song.selectors.getIsSequenceUndoEnabled(state),
   measureCount: song.selectors.getFocusedSequenceMeasureCount(state),
   noteMap: song.selectors.getNotes(state),
   notes: song.selectors.getFocusedSequenceNotes(state),
@@ -19,7 +21,9 @@ export const SequencerContainer = connect(state => ({
   onOctaveDown: shared.actions.notesMovedOctaveDown,
   onOctaveUp: shared.actions.notesMovedOctaveUp,
   onPitchPreview: shared.actions.pitchPreviewed,
+  onRedo: shared.actions.sequenceRedoRequested,
   onResize: shared.actions.notesResized,
+  onUndo: shared.actions.sequenceUndoRequested,
 }, (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   ...stateProps,

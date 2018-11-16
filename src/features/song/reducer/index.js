@@ -3,7 +3,7 @@ import { bpm } from './bpm';
 import { id } from './id';
 import { measureCount } from './measureCount';
 import { name } from './name';
-import { notes } from './notes';
+import notes from './notes';
 import { sequences } from './sequences';
 import { tracks } from './tracks';
 

@@ -25,7 +25,9 @@ export const SEQUENCE_EDITED = 'SEQUENCE_EDITED';
 export const SEQUENCE_EXTENDED = 'SEQUENCE_EXTENDED';
 export const SEQUENCE_NUDGED_LEFT = 'SEQUENCE_NUDGED_LEFT';
 export const SEQUENCE_NUDGED_RIGHT = 'SEQUENCE_NUDGED_RIGHT';
+export const SEQUENCE_REDO_REQUESTED = 'SEQUENCE_REDO_REQUESTED';
 export const SEQUENCE_SHORTENED = 'SEQUENCE_SHORTENED';
+export const SEQUENCE_UNDO_REQUESTED = 'SEQUENCE_UNDO_REQUESTED';
 export const SEQUENCER_LOADED = 'SEQUENCER_LOADED';
 export const SONG_EXTENDED = 'SONG_EXTENDED';
 export const SONG_LOADED = 'SONG_LOADED';
@@ -34,7 +36,6 @@ export const TRACK_ADDED = 'TRACK_ADDED';
 export const TRACK_DELETED = 'TRACK_DELETED';
 export const TRACK_IS_MUTED_TOGGLED = 'TRACK_IS_MUTED_TOGGLED';
 export const TRACK_IS_SOLOING_TOGGLED = 'TRACK_IS_SOLOING_TOGGLED';
-export const TRACK_SEQUENCES_ORDER_CHANGED = 'TRACK_SEQUENCES_ORDER_CHANGED';
 export const TRACK_VOICE_SET = 'TRACK_VOICE_SET';
 export const TRACK_VOLUME_SET = 'TRACK_VOLUME_SET';
 export const TRACKER_LOADED = 'TRACKER_LOADED';
@@ -221,11 +222,19 @@ export const sequenceNudgedRight = sequence => ({
   },
 });
 
+export const sequenceRedoRequested = () => ({
+  type: SEQUENCE_REDO_REQUESTED,
+});
+
 export const sequenceShortened = sequence => ({
   type: SEQUENCE_SHORTENED,
   payload: {
     sequence,
   },
+});
+
+export const sequenceUndoRequested = () => ({
+  type: SEQUENCE_UNDO_REQUESTED,
 });
 
 export const sequencerLoaded = sequence => ({
@@ -276,21 +285,6 @@ export const trackIsSoloingToggled = track => ({
   type: TRACK_IS_SOLOING_TOGGLED,
   payload: {
     track,
-  },
-});
-
-export const trackSequencesOrderChanged = (
-  sequence,
-  position,
-  swappedSequence,
-  swappedPosition,
-) => ({
-  type: TRACK_SEQUENCES_ORDER_CHANGED,
-  payload: {
-    position,
-    sequence,
-    swappedPosition,
-    swappedSequence,
   },
 });
 

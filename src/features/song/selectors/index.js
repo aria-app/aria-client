@@ -1,4 +1,6 @@
 export { getBPM } from './getBPM';
+export { getIsSequenceRedoEnabled } from './getIsSequenceRedoEnabled';
+export { getIsSequenceUndoEnabled } from './getIsSequenceUndoEnabled';
 export { getDeepSequences } from './getDeepSequences';
 export { getDeepTracks } from './getDeepTracks';
 export { getFocusedSequence } from './getFocusedSequence';

@@ -16,6 +16,8 @@ import './Sequencer.scss';
 
 export class Sequencer extends React.PureComponent {
   static propTypes = {
+    isRedoEnabled: PropTypes.bool.isRequired,
+    isUndoEnabled: PropTypes.bool.isRequired,
     measureCount: PropTypes.number.isRequired,
     noteMap: PropTypes.object.isRequired,
     notes: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -29,7 +31,9 @@ export class Sequencer extends React.PureComponent {
     onOctaveDown: PropTypes.func.isRequired,
     onOctaveUp: PropTypes.func.isRequired,
     onPitchPreview: PropTypes.func.isRequired,
+    onRedo: PropTypes.func.isRequired,
     onResize: PropTypes.func.isRequired,
+    onUndo: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -55,6 +59,8 @@ export class Sequencer extends React.PureComponent {
         focused={true}
         handlers={this.getKeyHandlers()}>
         <SequencerToolbar
+          isRedoEnabled={this.props.isRedoEnabled}
+          isUndoEnabled={this.props.isUndoEnabled}
           measureCount={this.props.measureCount}
           onClose={this.props.onClose}
           onDelete={this.deleteSelectedNotes}
@@ -65,7 +71,9 @@ export class Sequencer extends React.PureComponent {
           onOctaveDown={this.handleToolbarOctaveDown}
           onOctaveUp={this.handleToolbarOctaveUp}
           onPanToolSelect={this.activatePanTool}
+          onRedo={this.redo}
           onSelectToolSelect={this.activateSelectTool}
+          onUndo={this.undo}
           selectedNotes={this.getSelectedNotes()}
           toolType={this.state.toolType}
         />
@@ -179,22 +187,26 @@ export class Sequencer extends React.PureComponent {
 
   getKeyHandlers = () => ({
     backspace: this.deleteSelectedNotes,
-    'ctrl+a': this.selectAll,
-    'ctrl+d': this.deselectAllNotes,
-    'ctrl+shift+d': this.duplicateSelectedNotes,
     d: this.activateDrawTool,
     del: this.deleteSelectedNotes,
     down: this.nudgeDown,
     e: this.activateEraseTool,
     left: this.nudgeLeft,
-    'meta+a': this.selectAll,
-    'meta+d': this.deselectAllNotes,
-    'meta+shift+d': this.duplicateSelectedNotes,
     p: this.activatePanTool,
     right: this.nudgeRight,
     s: this.activateSelectTool,
     space: this.activatePanTool,
     up: this.nudgeUp,
+    'ctrl+a': this.selectAll,
+    'ctrl+d': this.deselectAllNotes,
+    'ctrl+shift+d': this.duplicateSelectedNotes,
+    'ctrl+alt+z': this.props.onRedo,
+    'ctrl+z': this.props.onUndo,
+    'meta+a': this.selectAll,
+    'meta+d': this.deselectAllNotes,
+    'meta+shift+d': this.duplicateSelectedNotes,
+    'meta+alt+z': this.props.onRedo,
+    'meta+z': this.props.onUndo,
   });
 
   getSelectedNotes = () =>
@@ -293,6 +305,12 @@ export class Sequencer extends React.PureComponent {
     this.nudge({ x: 0, y: -1 });
   }
 
+  redo = () => {
+    if (!this.props.isRedoEnabled) return;
+
+    this.props.onRedo();
+  };
+
   selectAll = () => {
     if (this.props.notes.length === this.state.selectedNoteIds.length) return;
 
@@ -305,6 +323,12 @@ export class Sequencer extends React.PureComponent {
     this.contentElementRef = contentElementRef;
     this.forceUpdate();
   }
+
+  undo = () => {
+    if (!this.props.isUndoEnabled) return;
+
+    this.props.onUndo();
+  };
 }
 
 function getCenteredScroll(el) {
