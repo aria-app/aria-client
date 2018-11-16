@@ -19,8 +19,8 @@
     "kewler": "1.0.8",
     "lodash": "4.17.4",
     "prop-types": "15.6.0",
-    "react": "^16.6.1",
-    "react-dom": "^16.6.1",
+    "react": "16.7.0-alpha.2",
+    "react-dom": "16.7.0-alpha.2",
     "react-draggable": "3.0.5",
     "react-hotkeys": "1.1.4",
     "react-icons": "2.2.5",
@@ -30,7 +30,8 @@
     "redux-create-reducer": "1.1.1",
     "redux-devtools-extension": "2.13.2",
     "redux-first-router": "0.0.16-next",
-    "redux-logic": "0.12.3"
+    "redux-logic": "0.12.3",
+    "retoggle": "0.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.5",

@@ -12,7 +12,7 @@ export class AddSequenceButton extends React.PureComponent {
     return (
       <div
         className="add-sequence-button"
-        onClick={this.handleClick}
+        onClick={this.props.onClick}
         style={this.props.style}>
         <div
           className="add-sequence-button__plus__vertical"
@@ -23,11 +23,4 @@ export class AddSequenceButton extends React.PureComponent {
       </div>
     );
   }
-
-  handleClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    this.props.onClick();
-  };
 }

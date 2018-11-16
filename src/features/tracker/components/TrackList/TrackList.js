@@ -1,4 +1,3 @@
-import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { AddTrackButton } from '../AddTrackButton/AddTrackButton';
@@ -46,6 +45,7 @@ export class TrackList extends React.PureComponent {
             <Track
               key={`track-${index}`}
               onSequenceAdd={this.props.onSequenceAdd}
+              onSequenceDeselect={this.props.onSequenceDeselect}
               onSequenceEdit={this.props.onSequenceEdit}
               onSequenceOpen={this.props.onSequenceOpen}
               onSequenceSelect={this.props.onSequenceSelect}
@@ -65,13 +65,5 @@ export class TrackList extends React.PureComponent {
         />
       </div>
     );
-  }
-
-  handleClick = (e) => {
-    e.stopPropagation();
-
-    if (isEmpty(this.props.selectedSequence)) return;
-
-    this.props.onSequenceDeselect();
   }
 }
