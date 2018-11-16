@@ -1,5 +1,4 @@
 export const BPM_SET = 'BPM_SET';
-export const EDIT_TRACK_LOADED = 'EDIT_TRACK_LOADED';
 export const INITIALIZED = 'INITIALIZED';
 export const MEASURE_COUNT_SET = 'MEASURE_COUNT_SET';
 export const NOTE_DRAWN = 'NOTE_DRAWN';
@@ -44,13 +43,6 @@ export const bpmSet = bpm => ({
   type: BPM_SET,
   payload: {
     bpm,
-  },
-});
-
-export const editTrackLoaded = track => ({
-  type: EDIT_TRACK_LOADED,
-  payload: {
-    trackToEditId: track.id,
   },
 });
 

@@ -37,8 +37,6 @@ export class Tracker extends React.PureComponent {
     onSongShorten: PropTypes.func.isRequired,
     onTrackAdd: PropTypes.func.isRequired,
     onTrackDelete: PropTypes.func.isRequired,
-    onTrackEditingFinish: PropTypes.func.isRequired,
-    onTrackEditingStart: PropTypes.func.isRequired,
     onTrackIsMutedToggle: PropTypes.func.isRequired,
     onTrackIsSoloingToggle: PropTypes.func.isRequired,
     onTrackVoiceSet: PropTypes.func.isRequired,
@@ -49,13 +47,13 @@ export class Tracker extends React.PureComponent {
     song: PropTypes.object.isRequired,
     songMeasureCount: PropTypes.number.isRequired,
     trackMap: PropTypes.object.isRequired,
-    trackToEditId: PropTypes.string.isRequired,
     tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   state = {
     isSongInfoModalOpen: false,
     selectedSequenceId: '',
+    selectedTrackId: '',
   };
 
   render() {
@@ -79,7 +77,7 @@ export class Tracker extends React.PureComponent {
           onTrackAdd={this.handleTrackListTrackAdd}
           onTrackIsMutedToggle={this.props.onTrackIsMutedToggle}
           onTrackIsSoloingToggle={this.props.onTrackIsSoloingToggle}
-          onTrackStage={this.props.onTrackEditingStart}
+          onTrackStage={this.selectTrack}
           selectedSequence={this.getSelectedSequence()}
           songMeasureCount={this.props.songMeasureCount}
           tracks={this.props.tracks}
@@ -113,11 +111,11 @@ export class Tracker extends React.PureComponent {
           song={this.props.song}
         />
         <TrackEditingModal
-          onDelete={this.handleTrackEditingModalDelete}
-          onDismiss={this.props.onTrackEditingFinish}
+          onDelete={this.deleteTrack}
+          onDismiss={this.deselectTrack}
           onVoiceSet={this.props.onTrackVoiceSet}
           onVolumeSet={this.props.onTrackVolumeSet}
-          stagedTrack={this.getStagedTrack()}
+          stagedTrack={this.getSelectedTrack()}
         />
       </HotKeys>
     );
@@ -138,6 +136,18 @@ export class Tracker extends React.PureComponent {
 
     this.props.onSequenceDelete(selectedSequence);
   }
+
+  deleteTrack = (track) => {
+    this.props.onTrackDelete(track);
+
+    this.deselectTrack();
+  }
+
+  deselectTrack = () => {
+    this.setState({
+      selectedTrackId: '',
+    });
+  };
 
   duplicateSelectedSequence = (e) => {
     e.preventDefault();
@@ -176,14 +186,8 @@ export class Tracker extends React.PureComponent {
   getSelectedSequence = () =>
     getOr({}, `props.sequenceMap.${this.state.selectedSequenceId}`, this);
 
-  getStagedTrack = () =>
-    getOr({}, `props.trackMap.${this.props.trackToEditId}`, this);
-
-  handleTrackEditingModalDelete = (track) => {
-    this.props.onTrackDelete(track);
-
-    this.props.onTrackEditingFinish();
-  }
+  getSelectedTrack = () =>
+    getOr({}, `props.trackMap.${this.state.selectedTrackId}`, this);
 
   handleTrackListSequenceAdd = (track, position) => {
     const sequence = Dawww.createSequence(track.id, position);
@@ -247,6 +251,12 @@ export class Tracker extends React.PureComponent {
 
     this.props.onRedo();
   }
+
+  selectTrack = (track) => {
+    this.setState({
+      selectedTrackId: track.id,
+    });
+  };
 
   undo = () => {
     if (!this.props.isUndoEnabled) return;

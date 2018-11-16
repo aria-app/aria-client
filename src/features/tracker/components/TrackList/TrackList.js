@@ -31,15 +31,15 @@ export class TrackList extends React.PureComponent {
       <div
         className="track-list"
         onClick={this.handleClick}>
+        <div
+          className="track-list__underlay"
+          onClick={this.props.onSequenceDeselect}
+        />
         <Ruler
           isStopped={this.props.isStopped}
           measureCount={this.props.songMeasureCount}
           measureWidth={64}
           onPositionSet={this.props.onPositionSet}
-        />
-        <div
-          className="track-list__underlay"
-          onClick={this.props.onSequenceDeselect}
         />
         <div
           className="track-list__tracks">

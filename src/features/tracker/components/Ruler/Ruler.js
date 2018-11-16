@@ -20,12 +20,15 @@ export class Ruler extends React.PureComponent {
     return (
       <div
         className="ruler"
-        onClick={this.handleClick}>
+        onClick={this.handleClick}
+        style={{
+          width: this.getWidth(),
+        }}>
         <MatrixBox
           fill="white"
           height={35}
           matrix={this.getMatrix()}
-          width={(this.props.measureWidth * this.props.measureCount) + 1}
+          width={this.getWidth()}
         />
         {times(i => (
           <div
@@ -71,6 +74,9 @@ export class Ruler extends React.PureComponent {
       width: this.props.measureCount * this.props.measureWidth,
     };
   }
+
+  getWidth = () =>
+    (this.props.measureWidth * this.props.measureCount) + 1;
 
   handleClick = (e) => {
     if (this.props.isStopped) return;
