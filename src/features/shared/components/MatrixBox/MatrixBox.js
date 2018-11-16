@@ -1,9 +1,6 @@
 import classnames from 'classnames';
-import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { MatrixBoxDot } from './MatrixBoxDot';
-import { MatrixBoxSmallCross } from './MatrixBoxSmallCross';
 import './MatrixBox.scss';
 
 export class MatrixBox extends React.Component {
@@ -19,14 +16,13 @@ export class MatrixBox extends React.Component {
   shouldComponentUpdate(nextProps) {
     return (
       nextProps.height !== this.props.height ||
-      nextProps.width !== this.props.width ||
-      !isEqual(nextProps.matrix, this.props.matrix)
+      nextProps.width !== this.props.width
     );
   }
 
   render() {
-    const height = this.props.height + 4;
-    const width = this.props.width + 4;
+    const height = this.props.height + 3;
+    const width = this.props.width + 3;
 
     return (
       <div
@@ -55,74 +51,34 @@ export class MatrixBox extends React.Component {
 
   getData = () => {
     const rowCount = this.props.matrix.length;
-    let data = '';
+    let data = '<path d="';
 
     for (let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
       const row = this.props.matrix[rowIndex];
       const columnCount = row.length;
+      const top = rowIndex * (this.props.height / (rowCount - 1));
       for (var columnIndex = 0; columnIndex < row.length; columnIndex++) {
         const nodeType = row[columnIndex];
-        const nodeData = this.getNodeData(
-          nodeType,
-          rowIndex,
-          rowCount,
-          columnIndex,
-          columnCount,
-        );
-        data = data + ' ' + nodeData;
+        const left = columnIndex * (this.props.width / (columnCount - 1));
+        const nodeData = this.getNodeData(nodeType, left, top);
+        data = data + nodeData;
       }
     }
-    // console.log('all data', data);
+
+    data = data + `" fill="${this.props.fill}"/>`;
 
     return data;
   };
 
-  getNodeData = (nodeType, rowIndex, rowCount, columnIndex, columnCount) => {
-
-    const height = this.props.height;
-    const width = this.props.width;
-    const left = columnIndex * (width / (columnCount - 1));
-    const top = rowIndex * (height / (rowCount - 1));
-
+  getNodeData = (nodeType, left, top) => {
     if (nodeType === 1) {
-      return `<path d="M ${left + 1},${top + 1} l1,0 l0,1 l-1,0 l0,-1" fill="${this.props.fill}"/>`;
+      return `M ${left + 1},${top + 1} l1,0 l0,1 l-1,0 l0,-1`;
     }
 
     if (nodeType === 2) {
-      return `<path d="M ${left},${top + 1} l1,0 l0,-1 l1,0 l0,1 l1,0 l0,1 l-1,0 l0,1 l-1,0 l0,-1 l-1,0 l0,-1" fill="${this.props.fill}"/>`;
+      return `M ${left},${top + 1} l1,0 l0,-1 l1,0 l0,1 l1,0 l0,1 l-1,0 l0,1 l-1,0 l0,-1 l-1,0 l0,-1`;
     }
 
     return '';
-  };
-
-  getNodeComponent = (type) => {
-    if (type === 1) {
-      return MatrixBoxDot;
-    }
-
-    if (type === 2) {
-      return MatrixBoxSmallCross;
-    }
-
-    return 'div';
-  };
-
-  getNode = (rowIndex, columnIndex, component) => {
-
-    const height = this.props.height || 0;
-    const width = this.props.width || 0;
-    const rowCount = this.props.matrix.length;
-    const columnCount = this.props.matrix[0].length;
-    const left = columnIndex * (width / (columnCount - 1));
-    const top = rowIndex * (height / (rowCount - 1));
-
-    return React.createElement(component, {
-      key: `${rowIndex}:${columnIndex}`,
-      style: {
-        backgroundColor: this.props.fill,
-        opacity: 0.5,
-        transform: `translate(${left > 0 ? left - 1 : left}px, ${top > 0 ? top - 1 : top}px)`,
-      },
-    });
   };
 }
