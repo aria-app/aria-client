@@ -18,6 +18,7 @@ export const PLAYBACK_STATE_REQUEST_SUCCEEDED = 'PLAYBACK_STATE_REQUEST_SUCCEEDE
 export const PLAYBACK_STOP_REQUEST_STARTED = 'PLAYBACK_STOP_REQUEST_STARTED';
 export const POSITION_REQUEST_SUCCEEDED = 'POSITION_REQUEST_SUCCEEDED';
 export const POSITION_SET_REQUEST_STARTED = 'POSITION_SET_REQUEST_STARTED';
+export const REDO_REQUESTED = 'REDO_REQUESTED';
 export const SEQUENCE_ADDED = 'SEQUENCE_ADDED';
 export const SEQUENCE_DELETED = 'SEQUENCE_DELETED';
 export const SEQUENCE_DUPLICATED = 'SEQUENCE_DUPLICATED';
@@ -25,9 +26,7 @@ export const SEQUENCE_EDITED = 'SEQUENCE_EDITED';
 export const SEQUENCE_EXTENDED = 'SEQUENCE_EXTENDED';
 export const SEQUENCE_NUDGED_LEFT = 'SEQUENCE_NUDGED_LEFT';
 export const SEQUENCE_NUDGED_RIGHT = 'SEQUENCE_NUDGED_RIGHT';
-export const SEQUENCE_REDO_REQUESTED = 'SEQUENCE_REDO_REQUESTED';
 export const SEQUENCE_SHORTENED = 'SEQUENCE_SHORTENED';
-export const SEQUENCE_UNDO_REQUESTED = 'SEQUENCE_UNDO_REQUESTED';
 export const SEQUENCER_LOADED = 'SEQUENCER_LOADED';
 export const SONG_EXTENDED = 'SONG_EXTENDED';
 export const SONG_LOADED = 'SONG_LOADED';
@@ -39,8 +38,7 @@ export const TRACK_IS_SOLOING_TOGGLED = 'TRACK_IS_SOLOING_TOGGLED';
 export const TRACK_VOICE_SET = 'TRACK_VOICE_SET';
 export const TRACK_VOLUME_SET = 'TRACK_VOLUME_SET';
 export const TRACKER_LOADED = 'TRACKER_LOADED';
-export const TRACKS_REDO_REQUESTED = 'TRACKS_REDO_REQUESTED';
-export const TRACKS_UNDO_REQUESTED = 'TRACKS_UNDO_REQUESTED';
+export const UNDO_REQUESTED = 'UNDO_REQUESTED';
 
 export const bpmSet = bpm => ({
   type: BPM_SET,
@@ -174,6 +172,10 @@ export const positionSetRequestStarted = position => ({
   },
 });
 
+export const redoRequested = () => ({
+  type: REDO_REQUESTED,
+});
+
 export const sequenceAdded = sequence => ({
   type: SEQUENCE_ADDED,
   payload: {
@@ -224,19 +226,11 @@ export const sequenceNudgedRight = sequence => ({
   },
 });
 
-export const sequenceRedoRequested = () => ({
-  type: SEQUENCE_REDO_REQUESTED,
-});
-
 export const sequenceShortened = sequence => ({
   type: SEQUENCE_SHORTENED,
   payload: {
     sequence,
   },
-});
-
-export const sequenceUndoRequested = () => ({
-  type: SEQUENCE_UNDO_REQUESTED,
 });
 
 export const sequencerLoaded = sequence => ({
@@ -310,10 +304,6 @@ export const trackerLoaded = () => ({
   type: TRACKER_LOADED,
 });
 
-export const tracksRedoRequested = () => ({
-  type: TRACKS_REDO_REQUESTED,
-});
-
-export const tracksUndoRequested = () => ({
-  type: TRACKS_UNDO_REQUESTED,
+export const undoRequested = () => ({
+  type: UNDO_REQUESTED,
 });

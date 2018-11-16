@@ -4,8 +4,8 @@ import isEmpty from 'lodash/fp/isEmpty';
 import negate from 'lodash/fp/negate';
 import { NAME } from '../constants';
 
-export const getIsSequenceRedoEnabled =
+export const getIsRedoEnabled =
   compose(
     negate(isEmpty),
-    getOr(0, `${NAME}.notes.future`),
+    getOr(0, `${NAME}.future`),
   );

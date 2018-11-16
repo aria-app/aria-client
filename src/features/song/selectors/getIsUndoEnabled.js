@@ -4,8 +4,8 @@ import isEmpty from 'lodash/fp/isEmpty';
 import negate from 'lodash/fp/negate';
 import { NAME } from '../constants';
 
-export const getIsTracksRedoEnabled =
+export const getIsUndoEnabled =
   compose(
     negate(isEmpty),
-    getOr(0, `${NAME}.tracksAndSequences.future`),
+    getOr(0, `${NAME}.past`),
   );

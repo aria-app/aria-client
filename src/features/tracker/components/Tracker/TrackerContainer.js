@@ -7,8 +7,8 @@ import { Tracker } from './Tracker';
 
 export const TrackerContainer = connect(state => ({
   bpm: song.selectors.getBPM(state),
-  isRedoEnabled: song.selectors.getIsTracksRedoEnabled(state),
-  isUndoEnabled: song.selectors.getIsTracksUndoEnabled(state),
+  isRedoEnabled: song.selectors.getIsRedoEnabled(state),
+  isUndoEnabled: song.selectors.getIsUndoEnabled(state),
   isStopped: audio.selectors.getIsStopped(state),
   position: audio.selectors.getPosition(state),
   songMeasureCount: song.selectors.getMeasureCount(state),
@@ -20,7 +20,7 @@ export const TrackerContainer = connect(state => ({
 }), {
   onBPMChange: shared.actions.bpmSet,
   onPositionSet: shared.actions.positionSetRequestStarted,
-  onRedo: shared.actions.tracksRedoRequested,
+  onRedo: shared.actions.redoRequested,
   onSequenceAdd: shared.actions.sequenceAdded,
   onSequenceDelete: shared.actions.sequenceDeleted,
   onSequenceDuplicate: shared.actions.sequenceDuplicated,
@@ -41,5 +41,5 @@ export const TrackerContainer = connect(state => ({
   onTrackIsSoloingToggle: shared.actions.trackIsSoloingToggled,
   onTrackVoiceSet: shared.actions.trackVoiceSet,
   onTrackVolumeSet: shared.actions.trackVolumeSet,
-  onUndo: shared.actions.tracksUndoRequested,
+  onUndo: shared.actions.undoRequested,
 })(Tracker);

@@ -4,13 +4,12 @@ import map from 'lodash/fp/map';
 import omit from 'lodash/fp/omit';
 import values from 'lodash/fp/values';
 import { createReducer } from 'redux-create-reducer';
-import undoable, { includeAction } from 'redux-undo';
 import shared from '../../shared';
 
 const octaveDownDelta = { x: 0, y: 12 };
 const octaveUpDelta = { x: 0, y: -12 };
 
-const notes = createReducer({}, {
+export const notes = createReducer({}, {
   [shared.actions.SONG_LOADED]: (state, action) =>
     action.payload.song.notes,
 
@@ -71,27 +70,4 @@ const notes = createReducer({}, {
 
     return Dawww.setAtIds(notesWithNewSequenceId, state);
   },
-});
-
-export default undoable(notes, {
-  filter: includeAction([
-    // shared.actions.SONG_LOADED,
-    shared.actions.NOTE_DRAWN,
-    shared.actions.NOTE_ERASED,
-    shared.actions.NOTES_DELETED,
-    shared.actions.NOTES_DRAGGED,
-    shared.actions.NOTES_DUPLICATED,
-    shared.actions.NOTES_MOVED_OCTAVE_DOWN,
-    shared.actions.NOTES_MOVED_OCTAVE_UP,
-    shared.actions.NOTES_NUDGED,
-    shared.actions.NOTES_RESIZED,
-  ]),
-  initTypes: [
-    '@@redux-undo/INIT',
-    shared.actions.SEQUENCER_LOADED,
-    shared.actions.TRACKER_LOADED,
-  ],
-  ignoreInitialState: true,
-  redoType: shared.actions.SEQUENCE_REDO_REQUESTED,
-  undoType: shared.actions.SEQUENCE_UNDO_REQUESTED,
 });
