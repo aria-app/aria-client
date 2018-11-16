@@ -55,12 +55,23 @@ export class SongEditor extends React.PureComponent {
     selectedTrackId: '',
   };
 
+  constructor(props) {
+    super(props);
+
+    this.focusRef = React.createRef();
+  }
+
+  componentDidMount() {
+    this.focusRef.current.focus();
+  }
+
   render() {
     return (
       <HotKeys
         className="song-editor"
         focused={true}
         handlers={this.getKeyHandlers()}>
+        <div ref={this.focusRef} tabIndex={-1}/>
         <TrackList
           isStopped={this.props.isStopped}
           onPositionSet={this.props.onPositionSet}

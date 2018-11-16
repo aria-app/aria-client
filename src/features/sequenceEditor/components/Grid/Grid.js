@@ -90,7 +90,7 @@ export class Grid extends React.PureComponent {
   getWrapperStyle() {
     return {
       width: this.props.measureCount !== undefined
-        ? (this.props.measureCount * 4 * 8 * 40)
+        ? (this.props.measureCount * 4 * 8 * 40) + 80
         : 0,
     };
   }
@@ -138,6 +138,7 @@ export class Grid extends React.PureComponent {
 }
 
 function getMousePoint(scrollLeftEl, scrollTopEl, e) {
+  const styleOffset = 80;
   const x = e.pageX || 0;
   const y = e.pageY || 0;
   const offsetLeft = scrollLeftEl.offsetLeft || 0;
@@ -146,7 +147,7 @@ function getMousePoint(scrollLeftEl, scrollTopEl, e) {
   const scrollTop = scrollTopEl.scrollTop || 0;
 
   return {
-    x: toSlotNumber((x - offsetLeft) + scrollLeft),
+    x: toSlotNumber((x - offsetLeft) + scrollLeft - styleOffset),
     y: toSlotNumber((y - offsetTop) + scrollTop),
   };
 }

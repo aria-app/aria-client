@@ -45,6 +45,8 @@ export class Slots extends React.PureComponent {
     <rect
       fill="white"
       opacity="0.02"
+      rx="4"
+      ry="4"
       x="${((2 * n) + 1) * 320}"
       y="0"
       width="320"

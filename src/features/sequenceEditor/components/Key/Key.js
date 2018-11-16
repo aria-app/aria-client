@@ -7,13 +7,15 @@ export class Key extends React.PureComponent {
   static propTypes = {
     onMouseDown: PropTypes.func.isRequired,
     step: PropTypes.object,
+    style: PropTypes.object,
   }
 
   render() {
     return (
       <div
         className={this.getClassName()}
-        onMouseDown={this.handleMouseDown}>
+        onMouseDown={this.handleMouseDown}
+        style={this.props.style}>
         <div
           className="key__label">
           {this.props.step.name}

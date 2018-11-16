@@ -13,11 +13,19 @@ export class Keys extends React.PureComponent {
     return (
       <div
         className="keys">
-        {this.getScale().map(step => (
+        {this.getScale().map((step, index) => (
           <Key
             key={step.y}
             onMouseDown={this.handleKeyMouseDown}
             step={step}
+            style={{
+              borderBottomRightRadius: index === this.getScale().length - 1 ? 4 : '',
+              boxShadow: index === this.getScale().length - 1
+                ? '2px 2px 0 rgba(235, 235, 235, 0.5)'
+                : '',
+              borderTopRightRadius: index === 0 ? 4 : '',
+
+            }}
           />
         ))}
       </div>

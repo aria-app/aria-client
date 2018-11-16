@@ -38,6 +38,7 @@ export class SequenceEditor extends React.PureComponent {
 
   constructor(props) {
     super(props);
+    this.focusRef = React.createRef();
     this.state = {
       previousToolType: toolTypes.SELECT,
       selectedNoteIds: [],
@@ -46,7 +47,10 @@ export class SequenceEditor extends React.PureComponent {
   }
 
   componentDidMount() {
+    this.focusRef.current.focus();
+
     if (!this.contentElementRef) return;
+
     this.contentElementRef.scrollTop = getCenteredScroll(
       this.contentElementRef,
     );
@@ -58,6 +62,7 @@ export class SequenceEditor extends React.PureComponent {
         className="sequence-editor"
         focused={true}
         handlers={this.getKeyHandlers()}>
+        <div ref={this.focusRef} tabIndex={-1}/>
         <div
           className="sequence-editor__content"
           ref={this.setContentRef}>
