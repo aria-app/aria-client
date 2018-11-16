@@ -38,7 +38,7 @@ export class App extends React.PureComponent {
     return (
       <React.Fragment>
         <HotKeys
-          className="app"
+          className="shell"
           focused={true}
           handlers={this.getKeyHandlers()}
           onDragEnter={this.handleDragEnter}
@@ -105,9 +105,8 @@ export class App extends React.PureComponent {
   }
 
   handleUploadOverlayUpload = (data) => {
-    this.props.onUpload({
-      song: data,
-    });
+    this.props.onUpload(data);
+
     this.setState({
       isFileOver: false,
     });

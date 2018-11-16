@@ -23,11 +23,9 @@ export class Ruler extends React.PureComponent {
         onClick={this.handleClick}>
         <MatrixBox
           fill="white"
+          height={35}
           matrix={this.getMatrix()}
-          style={{
-            height: 35,
-            width: (this.props.measureWidth * this.props.measureCount) + 1,
-          }}
+          width={(this.props.measureWidth * this.props.measureCount) + 1}
         />
         {times(i => (
           <div

@@ -6,7 +6,7 @@ import React from 'react';
 import shared from '../../../shared';
 import './SongInfoModal.scss';
 
-const { Button, DropdownList, Modal } = shared.components;
+const { Button, DownloadButton, DropdownList, Modal } = shared.components;
 const getBPMRangeItem = x => ({ id: x, text: String(x) });
 const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
@@ -19,7 +19,7 @@ export class SongInfoModal extends React.PureComponent {
     onBPMChange: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired,
     onMeasureCountChange: PropTypes.func.isRequired,
-    stringifiedSong: PropTypes.string,
+    song: PropTypes.object,
   }
 
   render() {
@@ -57,16 +57,14 @@ export class SongInfoModal extends React.PureComponent {
             </div>
           </div>
           <Button
-            className="song-toolbar__clear-cache-button"
             text="clear cache"
             onClick={this.handleClearCacheClick}
           />
-          {/* <DownloadButton
-            className="song-toolbar__download-song-button"
-            content={this.props.stringifiedSong}
+          <DownloadButton
+            content={this.getStringifiedSong()}
             filename="song.json"
             text="Download Song"
-          /> */}
+          />
         </div>
       </Modal>
     );
@@ -76,6 +74,9 @@ export class SongInfoModal extends React.PureComponent {
     classnames('song-info-modal__measure-count-ticker__minus', {
       'song-info-modal__measure-count-ticker__minus--disabled': this.props.measureCount < 2,
     });
+
+  getStringifiedSong = () =>
+    JSON.stringify(this.props.song);
 
   handleClearCacheClick = () => {
     window.localStorage.removeItem('currentSong');

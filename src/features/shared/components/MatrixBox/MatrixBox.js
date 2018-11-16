@@ -8,9 +8,10 @@ import './MatrixBox.scss';
 
 export class MatrixBox extends React.PureComponent {
   static propTypes = {
-    children: PropTypes.node,
     className: PropTypes.string,
     fill: PropTypes.string,
+    height: PropTypes.number,
+    width: PropTypes.number,
     matrix: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
     style: PropTypes.object,
   };
@@ -19,7 +20,6 @@ export class MatrixBox extends React.PureComponent {
     return (
       <div
         className={this.getClassName()}
-        ref={this.setRef}
         style={this.props.style}>
         {flatten(this.props.matrix.map((row, rowIndex) =>
           row.map((type, columnIndex) =>
@@ -30,10 +30,6 @@ export class MatrixBox extends React.PureComponent {
             ),
           ),
         ))}
-        <div
-          className="matrix-box__content">
-          {this.props.children}
-        </div>
       </div>
     );
   }
@@ -54,10 +50,9 @@ export class MatrixBox extends React.PureComponent {
   };
 
   getNode = (rowIndex, columnIndex, component) => {
-    if (!this.ref) return null;
 
-    const height = this.ref.offsetHeight;
-    const width = this.ref.offsetWidth;
+    const height = this.props.height || 0;
+    const width = this.props.width || 0;
     const rowCount = this.props.matrix.length;
     const columnCount = this.props.matrix[0].length;
     const left = columnIndex * (width / (columnCount - 1));
@@ -71,10 +66,5 @@ export class MatrixBox extends React.PureComponent {
         transform: `translate(${left > 0 ? left - 1 : left}px, ${top > 0 ? top - 1 : top}px)`,
       },
     });
-  };
-
-  setRef = (ref) => {
-    this.ref = ref;
-    this.forceUpdate();
   };
 }

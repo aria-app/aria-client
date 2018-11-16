@@ -47,33 +47,39 @@ export class Track extends React.PureComponent {
           onIsSoloingToggle={this.handleHeaderIsSoloingToggle}
           track={this.props.track}
         />
-        <MatrixBox
-          className="track__box"
-          fill={palette.emerald[2]}
-          matrix={this.getMatrix()}>
-          <div
-            className="track__sequences"
-            style={this.getBodySequencesStyle()}>
-            <Boxes
-              boxContentComponent={this.getSequenceComponent}
-              items={this.getBoxesItems()}
-              length={this.props.songMeasureCount}
-              onItemsChange={this.handleBoxesItemsChange}
-              step={64}
+        <div
+          className="track__sequences"
+          style={this.getBodySequencesStyle()}>
+          <MatrixBox
+            fill={palette.emerald[2]}
+            matrix={this.getMatrix()}
+            height={84}
+            width={this.props.songMeasureCount * 64}
+            style={{
+              left: 0,
+              position: 'absolute',
+              top: 0,
+            }}
+          />
+          <Boxes
+            boxContentComponent={this.getSequenceComponent}
+            items={this.getBoxesItems()}
+            length={this.props.songMeasureCount}
+            onItemsChange={this.handleBoxesItemsChange}
+            step={64}
+            style={{
+              height: 84,
+            }}
+          />
+          {showIf(!isNil(firstEmptyPosition))(
+            <AddSequenceButton
+              onClick={() => this.handleSequenceAdd(firstEmptyPosition)}
               style={{
-                height: 84,
+                left: firstEmptyPosition * 64,
               }}
             />
-            {showIf(!isNil(firstEmptyPosition))(
-              <AddSequenceButton
-                onClick={() => this.handleSequenceAdd(firstEmptyPosition)}
-                style={{
-                  left: firstEmptyPosition * 64,
-                }}
-              />
-            )}
-          </div>
-        </MatrixBox>
+          )}
+        </div>
       </div>
     );
   }

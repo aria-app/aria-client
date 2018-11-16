@@ -43,6 +43,7 @@ export class Tracker extends React.PureComponent {
     onTrackVolumeSet: PropTypes.func.isRequired,
     position: PropTypes.number.isRequired,
     sequenceMap: PropTypes.object.isRequired,
+    song: PropTypes.object.isRequired,
     songMeasureCount: PropTypes.number.isRequired,
     trackMap: PropTypes.object.isRequired,
     trackToEditId: PropTypes.string.isRequired,
@@ -103,6 +104,7 @@ export class Tracker extends React.PureComponent {
           onBPMChange={this.props.onBPMChange}
           onConfirm={this.closeSongInfo}
           onMeasureCountChange={this.props.onSongMeasureCountChange}
+          song={this.props.song}
         />
         <TrackEditingModal
           onDelete={this.handleTrackEditingModalDelete}
