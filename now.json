@@ -1,3 +1,12 @@
 {
-  "alias": ["zen.now.sh"]
+  "alias": ["zen.now.sh"],
+  "type": "static",
+  "static": {
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
 }
