@@ -30,7 +30,7 @@ export class TrackEditingModal extends React.PureComponent {
         className="track-editing-modal"
         confirmText="done"
         isOpen={this.getIsOpen()}
-        onConfirm={this.props.onDismiss}
+        onClickOutside={this.props.onDismiss}
         titleText="Edit Track"
         >
         <div

@@ -14,6 +14,7 @@ export class Modal extends React.PureComponent {
     confirmText: PropTypes.string,
     isOpen: PropTypes.bool,
     onCancel: PropTypes.func,
+    onClickOutside: PropTypes.func,
     onConfirm: PropTypes.func,
     style: PropTypes.object,
     titleText: PropTypes.string,
@@ -30,38 +31,41 @@ export class Modal extends React.PureComponent {
         className={this.getClassName()}
         style={this.getStyle()}>
         <div
-          className="modal__overlay">
+          className="modal__overlay"
+          onClick={this.props.onClickOutside}
+        />
+        <div
+          className="modal__window">
           <div
-            className="modal__overlay__window">
+            className="modal__window__header">
             <div
-              className="modal__overlay__window__header">
-              <div
-                className="modal__overlay__window__header__text">
-                {this.props.titleText}
-              </div>
+              className="modal__window__header__text">
+              {this.props.titleText}
             </div>
-            <div
-              className="modal__overlay__window__content">
-              {this.props.children}
-            </div>
+          </div>
+          <div
+            className="modal__window__content">
+            {this.props.children}
+          </div>
+          {showIf(this.props.onConfirm)(
             <Toolbar
-              className="modal__overlay__window__actions"
+              className="modal__window__actions"
               rightItems={<React.Fragment>
                 {showIf(this.props.onCancel)(
                   <Button
-                    className="modal__overlay__window__actions__action modal__overlay__window__actions__action--cancel"
+                    className="modal__window__actions__action modal__window__actions__action--cancel"
                     text={this.props.cancelText}
                     onClick={this.props.onCancel}
                   />
                 )}
                 <Button
-                  className="modal__overlay__window__actions__action modal__overlay__window__actions__action--confirm"
+                  className="modal__window__actions__action modal__window__actions__action--confirm"
                   text={this.props.confirmText}
                   onClick={this.props.onConfirm}
                 />
               </React.Fragment>}
             />
-          </div>
+          )}
         </div>
       </div>
     );

@@ -20,36 +20,39 @@
     position: absolute;
     right: 0;
     top: 0;
-    &__window {
-      background-color: white;
-      box-shadow: 2px 2px 0 transparentize($almostwhite, 0.5);
+  }
+  &__window {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    left: 50%;
+    max-height: 480px;
+    max-width: 640px;
+    min-height: 0;
+    min-width: 320px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    &__header {
+      align-items: center;
+      display: flex;
+      height: 56px;
+      padding-left: $margin-m;
+      padding-right: $margin-m;
+      background-color: $ashgray;
+      font-size: 18px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    &__content {
       display: flex;
       flex-direction: column;
-      max-height: 480px;
-      max-width: 640px;
-      min-height: 0;
-      min-width: 320px;
-      &__header {
-        align-items: center;
-        display: flex;
-        height: 56px;
-        padding-left: $margin-m;
-        padding-right: $margin-m;
-        background-color: $ashgray;
-        font-size: 18px;
-        font-weight: 800;
-        text-transform: uppercase;
-      }
-      &__content {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        flex-shrink: 1;
-        padding: $margin-m;
-      }
-      &__actions {
-        background-color: white;
-      }
+      flex-grow: 1;
+      flex-shrink: 1;
+      padding: $margin-m;
+    }
+    &__actions {
+      background-color: white;
     }
   }
 }
