@@ -8,6 +8,7 @@ import some from 'lodash/fp/some';
 import times from 'lodash/fp/times';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { NamespacesConsumer } from 'react-i18next';
 import { showIf } from 'react-render-helpers';
 import * as palette from '../../../../styles/palette';
 import shared from '../../../shared';
@@ -39,13 +40,11 @@ export class Track extends React.PureComponent {
       <div
         className="track">
         <TrackHeader
-          isMuted={getOr(false, 'props.track.isMuted', this)}
-          isSoloing={getOr(false, 'props.track.isSoloing', this)}
-          onClick={this.handleHeaderClick}
-          onIsMutedToggle={this.handleHeaderIsMutedToggle}
-          onIsSoloingToggle={this.handleHeaderIsSoloingToggle}
-          track={this.props.track}
-        />
+          onClick={this.handleHeaderClick}>
+          <NamespacesConsumer>
+            {t => t(this.props.track.voice)}
+          </NamespacesConsumer>
+        </TrackHeader>
         <div
           className="track__sequences"
           style={this.getBodySequencesStyle()}>

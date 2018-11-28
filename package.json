@@ -35,7 +35,8 @@
     "redux-first-router": "0.0.16-next",
     "redux-logic": "0.12.3",
     "redux-undo": "0.6.1",
-    "retoggle": "0.2.0"
+    "retoggle": "0.2.0",
+    "styled-components": "4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.5",
