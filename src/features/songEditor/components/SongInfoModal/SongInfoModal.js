@@ -3,6 +3,7 @@ import Dawww from 'dawww';
 import map from 'lodash/fp/map';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { NamespacesConsumer } from 'react-i18next';
 import shared from '../../../shared';
 import './SongInfoModal.scss';
 
@@ -24,49 +25,60 @@ export class SongInfoModal extends React.PureComponent {
 
   render() {
     return (
-      <Modal
-        className={'song-info-modal'}
-        confirmText={'done'}
-        isOpen={this.props.isOpen}
-        onConfirm={this.props.onConfirm}
-        titleText={'Song Info'}
-        >
-        <div
-          className="song-info-modal__content">
-          <DropdownList
-            className="song-info-modal__bpm-dropdown"
-            items={bpmRangeItems}
-            selectedId={this.props.bpm}
-            onSelectedIdChange={this.handleContentDropdownListSelect}
-          />
-          <div
-            className="song-info-modal__measure-count-ticker">
+      <NamespacesConsumer>
+        {t => (
+          <Modal
+            className="song-info-modal"
+            isOpen={this.props.isOpen}
+            onClickOutside={this.props.onConfirm}
+            titleText={t('Song Info')}>
             <div
-              className={this.getMeasureCountTickerMinusClassName()}
-              onClick={this.handleMeasureCountTickerMinusClick}>
-              -
+              className="song-info-modal__content">
+              <DropdownList
+                className="song-info-modal__bpm-dropdown"
+                items={bpmRangeItems}
+                selectedId={this.props.bpm}
+                onSelectedIdChange={this.handleContentDropdownListSelect}
+              />
+              <div
+                className="song-info-modal__measure-count-ticker">
+                <div
+                  className={this.getMeasureCountTickerMinusClassName()}
+                  onClick={this.handleMeasureCountTickerMinusClick}>
+                  -
+                </div>
+                <div
+                  className="song-info-modal__measure-count-ticker__value">
+                  {this.props.measureCount}
+                </div>
+                <div
+                  className="song-info-modal__measure-count-ticker__plus"
+                  onClick={this.handleMeasureCountTickerPlusClick}>
+                  +
+                </div>
+              </div>
+              <Button
+                text={t('Clear Cache')}
+                onClick={this.handleClearCacheClick}
+              />
+              <DownloadButton
+                content={this.getStringifiedSong()}
+                filename="song.json"
+                text={t('Download Song')}
+              />
             </div>
-            <div
-              className="song-info-modal__measure-count-ticker__value">
-              {this.props.measureCount}
-            </div>
-            <div
-              className="song-info-modal__measure-count-ticker__plus"
-              onClick={this.handleMeasureCountTickerPlusClick}>
-              +
-            </div>
-          </div>
-          <Button
-            text="clear cache"
-            onClick={this.handleClearCacheClick}
-          />
-          <DownloadButton
-            content={this.getStringifiedSong()}
-            filename="song.json"
-            text="Download Song"
-          />
-        </div>
-      </Modal>
+            {t('Select Language')}
+            <Button
+              onClick={() => shared.i18n.changeLanguage('en')}
+              text={t('English')}
+            />
+            <Button
+              onClick={() => shared.i18n.changeLanguage('jp')}
+              text={t('Japanese')}
+            />
+          </Modal>
+        )}
+      </NamespacesConsumer>
     );
   }
 

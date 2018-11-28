@@ -1,6 +1,6 @@
-import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { NamespacesConsumer } from 'react-i18next';
 import './TrackHeader.scss';
 
 export class TrackHeader extends React.PureComponent {
@@ -18,11 +18,10 @@ export class TrackHeader extends React.PureComponent {
       <div
         className="track-header"
         onClick={this.props.onClick}>
-        {this.getTitleText()}
+        <NamespacesConsumer>
+          {t => t(this.props.track.voice)}
+        </NamespacesConsumer>
       </div>
     );
   }
-
-  getTitleText = () =>
-    getOr('', 'props.track.voice', this);
 }

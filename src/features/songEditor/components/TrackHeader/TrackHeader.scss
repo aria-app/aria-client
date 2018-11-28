@@ -12,6 +12,7 @@
   margin-bottom: $margin-s;
   padding-left: $margin-s;
   padding-right: $margin-s;
+  text-transform: uppercase;
   transform: scale(1);
   transition: transform 0.2s ease;
   &:hover:not(:active) {

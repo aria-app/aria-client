@@ -5,6 +5,7 @@ import map from 'lodash/fp/map';
 import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { NamespacesConsumer } from 'react-i18next';
 import shared from '../../../shared';
 import './TrackEditingModal.scss';
 
@@ -26,45 +27,48 @@ export class TrackEditingModal extends React.PureComponent {
 
   render() {
     return (
-      <Modal
-        className="track-editing-modal"
-        confirmText="done"
-        isOpen={this.getIsOpen()}
-        onClickOutside={this.props.onDismiss}
-        titleText="Edit Track"
-        >
-        <div
-          className="track-editing-modal__content">
-          <div
-            className="track-editing-modal__content__voice-dropdown">
+      <NamespacesConsumer>
+        {t => (
+          <Modal
+            className="track-editing-modal"
+            isOpen={this.getIsOpen()}
+            onClickOutside={this.props.onDismiss}
+            titleText={t('Edit Track')}
+            >
             <div
-              className="track-editing-modal__content__voice-dropdown__label">
-              Voice:
+              className="track-editing-modal__content">
+              <div
+                className="track-editing-modal__content__voice-dropdown">
+                <div
+                  className="track-editing-modal__content__voice-dropdown__label">
+                  {t('Voice')}
+                </div>
+                <DropdownList
+                  className="track-editing-modal__content__voice-dropdown__list"
+                  items={getVoiceList(t)}
+                  selectedId={getOr('', 'props.stagedTrack.voice', this)}
+                  onSelectedIdChange={this.handleContentVoiceDropdownListSelectedIdChange}
+                />
+                <div
+                  className="track-editing-modal__content__volume-dropdown__label">
+                  {t('Volume')}
+                </div>
+                <DropdownList
+                  className="track-editing-modal__content__volume-dropdown__list"
+                  items={volumeRangeItems}
+                  selectedId={getOr('', 'props.stagedTrack.volume', this)}
+                  onSelectedIdChange={this.handleContentVolumeDropdownListSelectedIdChange}
+                />
+              </div>
+              <Button
+                className="track-editing-modal__content__delete-button"
+                onClick={this.handleContentDeleteButtonClick}
+                text={t('Delete')}
+              />
             </div>
-            <DropdownList
-              className="track-editing-modal__content__voice-dropdown__list"
-              items={getVoiceList()}
-              selectedId={getOr('', 'props.stagedTrack.voice', this)}
-              onSelectedIdChange={this.handleContentVoiceDropdownListSelectedIdChange}
-            />
-            <div
-              className="track-editing-modal__content__volume-dropdown__label">
-              Volume:
-            </div>
-            <DropdownList
-              className="track-editing-modal__content__volume-dropdown__list"
-              items={volumeRangeItems}
-              selectedId={getOr('', 'props.stagedTrack.volume', this)}
-              onSelectedIdChange={this.handleContentVolumeDropdownListSelectedIdChange}
-            />
-          </div>
-          <Button
-            className="track-editing-modal__content__delete-button"
-            onClick={this.handleContentDeleteButtonClick}
-            text="delete"
-          />
-        </div>
-      </Modal>
+          </Modal>
+        )}
+      </NamespacesConsumer>
     );
   }
 
@@ -88,9 +92,9 @@ export class TrackEditingModal extends React.PureComponent {
     );
 }
 
-export function getVoiceList() {
+export function getVoiceList(t) {
   return Object.keys(Dawww.VOICES).map(key => ({
-    text: Dawww.VOICES[key],
+    text: t(Dawww.VOICES[key]),
     id: Dawww.VOICES[key],
   }));
 }
