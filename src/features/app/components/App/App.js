@@ -34,7 +34,6 @@ export class App extends React.PureComponent {
   state = {
     isSongInfoModalOpen: false,
     isFileOver: false,
-    onStop: () => {},
   };
 
   render() {
