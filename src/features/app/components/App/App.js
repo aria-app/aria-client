@@ -2,6 +2,7 @@ import Dawww from 'dawww';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { HotKeys } from 'react-hotkeys';
+import { ThemeProvider } from 'styled-components';
 import sequenceEditor from '../../../sequenceEditor';
 import shared from '../../../shared';
 import songEditor from '../../../songEditor';
@@ -10,6 +11,7 @@ import { SongToolbar } from '../SongToolbar/SongToolbar';
 import { VFXLayer } from '../VFXLayer/VFXLayer';
 import './App.scss';
 
+const { actions, styles } = shared;
 const { SequenceEditorContainer } = sequenceEditor.components;
 const { STARTED } = Dawww.PLAYBACK_STATES;
 const { SongEditorContainer } = songEditor.components;
@@ -36,7 +38,7 @@ export class App extends React.PureComponent {
 
   render() {
     return (
-      <React.Fragment>
+      <ThemeProvider theme={styles.themes.emerald}>
         <HotKeys
           className="shell"
           focused={true}
@@ -63,12 +65,12 @@ export class App extends React.PureComponent {
           />
           <VFXLayer/>
         </HotKeys>
-      </React.Fragment>
+      </ThemeProvider>
     );
   }
 
   getContentComponent = () => {
-    if (this.props.locationType === shared.actions.SEQUENCER_LOADED) {
+    if (this.props.locationType === actions.SEQUENCER_LOADED) {
       return <SequenceEditorContainer/>
     }
 
