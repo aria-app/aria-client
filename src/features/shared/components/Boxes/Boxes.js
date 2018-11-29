@@ -1,7 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 import { Box } from '../Box/Box';
-import './Boxes.scss';
+
+const StyledBoxes = styled.div`
+  position: relative;
+  width: ${props => props.length * props.step}px;
+`;
 
 export class Boxes extends React.Component {
   static propTypes = {
@@ -29,9 +34,10 @@ export class Boxes extends React.Component {
 
   render() {
     return (
-      <div
-        className="boxes"
-        style={this.getStyle()}>
+      <StyledBoxes
+        length={this.props.length}
+        step={this.props.step}
+        style={this.props.style}>
         {this.props.items.map(item => (
           <Box
             contentComponent={this.props.boxContentComponent}
@@ -41,15 +47,9 @@ export class Boxes extends React.Component {
             item={item}
           />
         ))}
-      </div>
+      </StyledBoxes>
     );
   }
-
-  getStyle = () => ({
-    position: 'relative',
-    width: this.props.length * this.props.step,
-    ...this.props.style,
-  });
 
   handleBoxItemChange = (draggedItem) => {
     this.setState({

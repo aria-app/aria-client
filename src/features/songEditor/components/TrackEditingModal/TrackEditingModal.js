@@ -62,9 +62,9 @@ export class TrackEditingModal extends React.PureComponent {
               </div>
               <Button
                 className="track-editing-modal__content__delete-button"
-                onClick={this.handleContentDeleteButtonClick}
-                text={t('Delete')}
-              />
+                onClick={this.handleContentDeleteButtonClick}>
+                {t('Delete')}
+              </Button>
             </div>
           </Modal>
         )}

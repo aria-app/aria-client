@@ -1,7 +1,30 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Draggable from 'react-draggable';
-import './Box.scss';
+import styled from 'styled-components';
+
+const BoxResizer = styled.div.attrs({
+  className: 'box__resizer',
+})`
+  background-color: transparent;
+  bottom: 0;
+  cursor: col-resize;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: ${props => props.theme.margin.m}px;
+  z-index: 2;
+`;
+
+const StyledBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: ${props => props.length * props.step}px,
+`;
 
 export class Box extends React.Component {
   static propTypes = {
@@ -31,9 +54,10 @@ export class Box extends React.Component {
         key={this.props.item.id}
         onDrag={this.handleDrag}
         position={this.getPosition()}>
-        <div
-          className="box"
-          style={this.getStyle()}>
+        <StyledBox
+          length={this.props.item.length}
+          step={this.props.step}
+          style={this.props.style}>
           {React.createElement(this.props.contentComponent, {
             item: this.props.item,
             step: this.props.step,
@@ -46,12 +70,9 @@ export class Box extends React.Component {
             grid={[this.props.step, 0]}
             onDrag={this.handleResizerDrag}
             position={this.getResizerPosition()}>
-            <div
-              className="box__resizer"
-              style={this.getResizerStyle()}
-            />
+            <BoxResizer/>
           </Draggable>
-        </div>
+        </StyledBox>
       </Draggable>
     );
   }
@@ -64,28 +85,6 @@ export class Box extends React.Component {
   getResizerPosition = () => ({
     x: (this.props.item.length * this.props.step) - 16,
     y: 0,
-  });
-
-  getStyle = () => ({
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    left: 0,
-    position: 'absolute',
-    top: 0,
-    width: this.props.item.length * this.props.step,
-    ...this.props.style,
-  });
-
-  getResizerStyle = () => ({
-    backgroundColor: 'transparent',
-    bottom: 0,
-    cursor: 'col-resize',
-    width: 16,
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    zIndex: 2,
   });
 
   handleDrag = (e, position) => {

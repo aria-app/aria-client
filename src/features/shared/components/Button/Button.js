@@ -1,32 +1,18 @@
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
-import './Button.scss';
+import styled from 'styled-components';
 
-export class Button extends React.PureComponent {
-  static propTypes = {
-    className: PropTypes.string,
-    onClick: PropTypes.func,
-    style: PropTypes.object,
-    text: PropTypes.string,
+export const Button = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding-left: ${props => props.theme.margin.s}px;
+  padding-right: ${props => props.theme.margin.s}px;
+  color: ${props => props.theme.almostblack};
+  text-transform: uppercase;
+  border-radius: ${props => props.theme.borderRadius}px;
+  cursor: pointer;
+  user-select: none!important;
+  &:active {
+    background-color: rgba(0, 0, 0, 0.25);
   }
-
-  render() {
-    return (
-      <div
-        className={this.getClassName()}
-        onClick={this.handleClick}
-        style={this.props.style}>
-        {this.props.text}
-      </div>
-    );
-  }
-
-  getClassName = () =>
-    classnames('button', this.props.className);
-
-  handleClick = () => {
-    if (!this.props.onClick) return;
-    this.props.onClick();
-  }
-}
+`;

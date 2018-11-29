@@ -58,24 +58,24 @@ export class SongInfoModal extends React.PureComponent {
                 </div>
               </div>
               <Button
-                text={t('Clear Cache')}
-                onClick={this.handleClearCacheClick}
-              />
+                onClick={this.handleClearCacheClick}>
+                {t('Clear Cache')}
+              </Button>
               <DownloadButton
-                content={this.getStringifiedSong()}
-                filename="song.json"
-                text={t('Download Song')}
-              />
+                fileContents={this.getStringifiedSong()}
+                filename="song.json">
+                {t('Download Song')}
+              </DownloadButton>
             </div>
             {t('Select Language')}
             <Button
-              onClick={() => shared.i18n.changeLanguage('en')}
-              text={t('English')}
-            />
+              onClick={() => shared.i18n.changeLanguage('en')}>
+              {t('English')}
+            </Button>
             <Button
-              onClick={() => shared.i18n.changeLanguage('jp')}
-              text={t('Japanese')}
-            />
+              onClick={() => shared.i18n.changeLanguage('jp')}>
+              {t('Japanese')}
+            </Button>
           </Modal>
         )}
       </NamespacesConsumer>

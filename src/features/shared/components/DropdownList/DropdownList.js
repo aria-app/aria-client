@@ -1,12 +1,58 @@
-import classnames from 'classnames';
 import find from 'lodash/fp/find';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 import { hideIf, showIf } from 'react-render-helpers';
 import { DropdownListItem } from '../DropdownListItem/DropdownListItem';
 import { Icon } from '../Icon/Icon';
 import { IconButton } from '../IconButton/IconButton';
-import './DropdownList.scss';
+
+const DropdownListInput = styled.div`
+  align-items: center;
+  border-bottom: 1px solid ${props => props.theme.almostblack};
+  cursor: pointer;
+  display: flex;
+  flex-shrink: 0;
+  height: 48px;
+  justify-content: space-between;
+  overflow: hidden;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+`;
+
+const DropdownListItems = styled.div`
+  padding-bottom: ${props => props.theme.margin.s}px;
+  padding-top: ${props => props.theme.margin.s}px;
+`;
+
+const DropdownListOverlay = styled.div`
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 500;
+`;
+
+const DropdownListPopup = styled.div`
+  background-color: ${props => props.theme.almostwhite};
+  border-radius: ${props => props.borderRadius};
+  max-height: 256px;
+  min-width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 500;
+`;
+
+const StyledDropdownList = styled.div`
+  flex-shrink: 0;
+  position: relative;
+`;
 
 export class DropdownList extends React.PureComponent {
   static propTypes = {
@@ -51,8 +97,7 @@ export class DropdownList extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className={this.getClassName()}
+      <StyledDropdownList
         style={this.props.style}>
         {showIf(this.props.icon)(
           <IconButton
@@ -62,8 +107,7 @@ export class DropdownList extends React.PureComponent {
           />
         )}
         {hideIf(this.props.icon)(
-          <div
-            className="dropdown-list__input"
+          <DropdownListInput
             onClick={this.handleInputClick}>
             <span
               className="dropdown-list__input__text">
@@ -74,20 +118,17 @@ export class DropdownList extends React.PureComponent {
               icon="caret-down"
               size="small"
             />
-          </div>
+          </DropdownListInput>
         )}
         {showIf(this.state.isOpen)(
           <React.Fragment>
-            <div
-              className="dropdown-list__overlay"
+            <DropdownListOverlay
               onClick={this.handleOverlayClick}
             />
-            <div
-              className="dropdown-list__popup"
+            <DropdownListPopup
               ref={this.setPopupRef}
               style={this.getPopupStyle()}>
-              <div
-                className="dropdown-list__popup__list">
+              <DropdownListItems>
                 {this.props.items.map((item, index) => (
                   <DropdownListItem
                     className="dropdown__list__popup__list__item"
@@ -98,16 +139,13 @@ export class DropdownList extends React.PureComponent {
                     item={item}
                   />
                 ))}
-              </div>
-            </div>
+              </DropdownListItems>
+            </DropdownListPopup>
           </React.Fragment>
         )}
-      </div>
+      </StyledDropdownList>
     );
   }
-
-  getClassName = () =>
-    classnames('dropdown-list', this.props.className);
 
   getPopupStyle = () => {
     return {

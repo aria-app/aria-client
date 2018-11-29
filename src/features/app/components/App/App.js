@@ -8,8 +8,7 @@ import shared from '../../../shared';
 import songEditor from '../../../songEditor';
 import { UploadOverlay } from '../UploadOverlay/UploadOverlay';
 import { SongToolbar } from '../SongToolbar/SongToolbar';
-import { VFXLayer } from '../VFXLayer/VFXLayer';
-import './App.scss';
+// import { VFXLayer } from '../VFXLayer/VFXLayer';
 
 const { actions, styles } = shared;
 const { SequenceEditorContainer } = sequenceEditor.components;
@@ -63,7 +62,7 @@ export class App extends React.PureComponent {
             onCancel={this.handleUploadOverlayCancel}
             onUpload={this.handleUploadOverlayUpload}
           />
-          <VFXLayer/>
+          {/* <VFXLayer/> */}
         </HotKeys>
       </ThemeProvider>
     );

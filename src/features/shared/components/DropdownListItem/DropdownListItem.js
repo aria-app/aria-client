@@ -1,8 +1,24 @@
 import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
-import classnames from 'classnames';
-import './DropdownListItem.scss';
+import styled from 'styled-components';
+
+const StyledDropdownListItem = styled.div`
+  align-items: center;
+  background-color: ${props => props.isSelected && props.theme.almostblack};
+  color: ${props => props.isSelected && props.theme.almostwhite};
+  cursor: pointer;
+  display: flex;
+  height: 48px;
+  overflow: hidden;
+  padding-left: ${props => props.theme.margin.m}px;
+  padding-right: ${props => props.theme.margin.m}px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  &:hover {
+    background-color: ${props => !props.isSelected && props.theme.ashgray };
+  }
+`;
 
 export class DropdownListItem extends React.PureComponent {
   static propTypes = {
@@ -31,19 +47,15 @@ export class DropdownListItem extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className={this.getClassName()}
+      <StyledDropdownListItem
+        className={this.props.className}
+        isSelected={this.getIsSelected()}
         onClick={this.handleClick}
         style={this.props.style}>
         {this.props.item.text}
-      </div>
+      </StyledDropdownListItem>
     );
   }
-
-  getClassName = () =>
-    classnames('dropdown-list-item', {
-      'dropdown-list-item--active': this.getIsSelected(),
-    }, this.props.className);
 
 
   getIsSelected = () => {
