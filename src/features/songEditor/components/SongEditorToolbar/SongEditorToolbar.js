@@ -37,13 +37,13 @@ export class SongEditorToolbar extends React.PureComponent {
             icon="undo"
             isDisabled={!this.props.isUndoEnabled}
             onClick={this.props.onUndo}
-            toolTip="Undo"
+            title="Undo"
           />
           <IconButton
             icon="redo"
             isDisabled={!this.props.isRedoEnabled}
             onClick={this.props.onRedo}
-            toolTip="Redo"
+            title="Redo"
           />
           <IconButton
             icon="pencil"
@@ -81,17 +81,18 @@ export class SongEditorToolbar extends React.PureComponent {
             icon="undo"
             isDisabled={!this.props.isUndoEnabled}
             onClick={this.props.onUndo}
-            toolTip="Undo"
+            title="Undo"
           />
           <IconButton
             icon="redo"
             isDisabled={!this.props.isRedoEnabled}
             onClick={this.props.onRedo}
-            toolTip="Redo"
+            title="Redo"
           />
           <IconButton
             icon="cog"
             onClick={this.props.onSongInfoOpen}
+            title="Settings"
           />
         </React.Fragment>}
       />

@@ -2,13 +2,6 @@
 @import '../../../../styles/palette';
 
 .modal {
-  bottom: 0;
-  left: 0;
-  overflow: hidden;
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 300;
   &__overlay {
     align-items: center;
     background-color: rgba(0, 0, 0, 0.50);

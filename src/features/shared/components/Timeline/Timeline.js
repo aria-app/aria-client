@@ -1,31 +1,21 @@
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
+import styled from 'styled-components';
 import './Timeline.scss';
 
-export class Timeline extends React.PureComponent {
-  static propTypes = {
-    className: PropTypes.string,
-    isVisible: PropTypes.bool,
-    offset: PropTypes.number.isRequired,
-    style: PropTypes.object,
-  }
-
-  render() {
-    return (
-      <div
-        className={this.getClassName()}
-        style={this.getStyle()}
-      />
-    );
-  }
-
-  getClassName = () =>
-    classnames('timeline', this.props.className);
-
-  getStyle = () => ({
-    ...this.props.style,
-    display: this.props.isVisible ? 'block' : 'none',
-    transform: `translateX(${this.props.offset}px)`,
-  });
-}
+export const Timeline = styled.div.attrs({
+  style: props => ({
+    ...props.style,
+    transform: `translateX(${props.offset}px)`,
+  }),
+})`
+  background-color: ${props => props.theme.almostwhite};
+  bottom: 0;
+  display: ${props => props.isVisible
+    ? 'block'
+    : 'none'};
+  left: 0;
+  opacity: 0.25;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 2px;
+`;

@@ -1,18 +1,15 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import styled from 'styled-components';
 import './Shell.scss';
 
-export class Shell extends React.Component {
-  static propTypes = {
-    children: PropTypes.node,
-  }
-
-  render() {
-    return (
-      <div
-        className="shell"
-        {...this.props}
-      />
-    );
-  }
-}
+export const Shell = styled.div`
+  background-color: ${props => props.theme.almostblack};
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 1;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+`;

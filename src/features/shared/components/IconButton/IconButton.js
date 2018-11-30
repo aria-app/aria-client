@@ -1,8 +1,43 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import classnames from 'classnames';
+import styled from 'styled-components';
 import { Icon } from '../Icon/Icon';
-import './IconButton.scss';
+
+const IconButtonBackground = styled.div`
+  background-color: ${props => props.isActive ? 'rgba(0, 0, 0, 0.25)' : ''};
+  flex-grow: 1;
+  flex-shrink: 0;
+`;
+
+const IconButtonIconWrapper = styled.div`
+  opacity: ${props => props.isDisabled ? 0.5 : ''};
+  position: absolute;
+`;
+
+const StyledIconButton = styled.div`
+  align-items: stretch;
+  cursor: ${props => props.isDisabled ? 'not-allowed' : 'pointer'};
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 40px;
+  position: relative;
+  transform: scale(1);
+  transition: transform 0.2s ease;
+  width: 40px;
+
+  &:hover {
+    transform: ${props => !(props.isActive || props.isDisabled)
+      ? 'scale(1.1)'
+      : ''};
+  }
+
+  &:active {
+    transform: ${props => !props.isDisabled
+      ? 'scale(0.9)'
+      : ''};
+  }
+`;
 
 export class IconButton extends React.PureComponent {
   static propTypes = {
@@ -14,34 +49,31 @@ export class IconButton extends React.PureComponent {
     onClick: PropTypes.func,
     size: PropTypes.oneOf(['small', 'regular', 'large', '']),
     style: PropTypes.object,
-    toolTip: PropTypes.string,
+    title: PropTypes.string,
   }
 
   render() {
     return (
-      <div
-        className={this.getClassName()}
+      <StyledIconButton
+        isActive={this.props.isActive}
+        isDisabled={this.props.isDisabled}
         onClick={this.handleClick}
         ref={this.props.getRef}
         style={this.props.style}
-        title={this.props.toolTip}>
-        <div
-          className="icon-button__background"
+        title={this.props.title}>
+        <IconButtonBackground
+          isActive={this.props.isActive}
         />
-        <Icon
-          className="icon-button__icon"
-          icon={this.props.icon}
-          size={this.props.size}
-        />
-      </div>
+        <IconButtonIconWrapper
+          isDisabled={this.props.isDisabled}>
+          <Icon
+            color={this.props.color}
+            icon={this.props.icon}
+            size={this.props.size}
+          />
+        </IconButtonIconWrapper>
+      </StyledIconButton>
     );
-  }
-
-  getClassName() {
-    return classnames('icon-button', {
-      'icon-button--active': this.props.isActive,
-      'icon-button--disabled': this.props.isDisabled,
-    }, this.props.className);
   }
 
   handleClick = (e) => {

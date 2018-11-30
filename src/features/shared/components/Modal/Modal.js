@@ -2,9 +2,66 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
+import styled from 'styled-components';
 import { Button } from '../Button/Button';
 import { Toolbar } from '../Toolbar/Toolbar';
-import './Modal.scss';
+
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  padding: ${props => props.theme.margin.m}px;
+`;
+
+const ModalHeader = styled.div`
+  align-items: center;
+  display: flex;
+  height: 56px;
+  padding-left: ${props => props.theme.margin.m}px;
+  padding-right: ${props => props.theme.margin.m}px;
+  background-color: ${props => props.theme.ashgray};
+  font-size: 18px;
+  font-weight: 800;
+  text-transform: uppercase;
+`;
+
+const ModalOverlay = styled.div`
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.50);
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+`;
+
+const ModalWindow = styled.div`
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  left: 50%;
+  max-height: 480px;
+  max-width: 640px;
+  min-height: 0;
+  min-width: 320px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const StyledModal = styled.div`
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 300;
+`;
 
 export class Modal extends React.PureComponent {
   static propTypes = {
@@ -27,47 +84,37 @@ export class Modal extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className={this.getClassName()}
+      <StyledModal
         style={this.getStyle()}>
-        <div
-          className="modal__overlay"
+        <ModalOverlay
           onClick={this.props.onClickOutside}
         />
-        <div
-          className="modal__window">
-          <div
-            className="modal__window__header">
-            <div
-              className="modal__window__header__text">
-              {this.props.titleText}
-            </div>
-          </div>
-          <div
-            className="modal__window__content">
+        <ModalWindow>
+          <ModalHeader>
+            {this.props.titleText}
+          </ModalHeader>
+          <ModalContent>
             {this.props.children}
-          </div>
+          </ModalContent>
           {showIf(this.props.onConfirm)(
             <Toolbar
               className="modal__window__actions"
               rightItems={<React.Fragment>
                 {showIf(this.props.onCancel)(
                   <Button
-                    className="modal__window__actions__action modal__window__actions__action--cancel"
-                    text={this.props.cancelText}
-                    onClick={this.props.onCancel}
-                  />
+                    onClick={this.props.onCancel}>
+                    {this.props.cancelText}
+                  </Button>
                 )}
                 <Button
-                  className="modal__window__actions__action modal__window__actions__action--confirm"
-                  text={this.props.confirmText}
-                  onClick={this.props.onConfirm}
-                />
+                  onClick={this.props.onConfirm}>
+                  {this.props.confirmText}
+                </Button>
               </React.Fragment>}
             />
           )}
-        </div>
-      </div>
+        </ModalWindow>
+      </StyledModal>
     );
   }
 

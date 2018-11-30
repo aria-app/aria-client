@@ -47,23 +47,23 @@ export class SequenceEditorToolbar extends React.PureComponent {
             icon="undo"
             isDisabled={!this.props.isUndoEnabled}
             onClick={this.props.onUndo}
-            toolTip="Undo"
+            title="Undo"
           />
           <IconButton
             icon="redo"
             isDisabled={!this.props.isRedoEnabled}
             onClick={this.props.onRedo}
-            toolTip="Redo"
+            title="Redo"
           />
           <IconButton
             icon="trash"
             onClick={this.props.onDelete}
-            toolTip="Delete"
+            title="Delete"
           />
           <IconButton
             icon="clone"
             onClick={this.props.onDuplicate}
-            toolTip="Duplicate"
+            title="Duplicate"
           />
           <IconButton
             icon="arrow-up"
@@ -90,37 +90,37 @@ export class SequenceEditorToolbar extends React.PureComponent {
             icon="undo"
             isDisabled={!this.props.isUndoEnabled}
             onClick={this.props.onUndo}
-            toolTip="Undo"
+            title="Undo"
           />
           <IconButton
             icon="redo"
             isDisabled={!this.props.isRedoEnabled}
             onClick={this.props.onRedo}
-            toolTip="Redo"
+            title="Redo"
           />
           <IconButton
             isActive={this.props.toolType === SELECT}
             icon="mouse-pointer"
             onClick={this.props.onSelectToolSelect}
-            toolTip="Select"
+            title="Select"
           />
           <IconButton
             isActive={this.props.toolType === DRAW}
             icon="pencil"
             onClick={this.props.onDrawToolSelect}
-            toolTip="Draw"
+            title="Draw"
           />
           <IconButton
             isActive={this.props.toolType === ERASE}
             icon="eraser"
             onClick={this.props.onEraseToolSelect}
-            toolTip="Erase"
+            title="Erase"
           />
           <IconButton
             isActive={this.props.toolType === PAN}
             icon="hand-paper-o"
             onClick={this.props.onPanToolSelect}
-            toolTip="Pan"
+            title="Pan"
           />
         </React.Fragment>}
       />

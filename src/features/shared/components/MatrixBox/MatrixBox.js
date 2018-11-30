@@ -1,11 +1,16 @@
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import './MatrixBox.scss';
+import styled from 'styled-components';
+
+const StyledMatrixBox = styled.div`
+  display: flex;
+  flex: 1 0 auto;
+  position: relative;
+`;
 
 export class MatrixBox extends React.Component {
   static propTypes = {
-    className: PropTypes.string,
     fill: PropTypes.string,
     height: PropTypes.number,
     width: PropTypes.number,
@@ -25,8 +30,7 @@ export class MatrixBox extends React.Component {
     const width = this.props.width + 3;
 
     return (
-      <div
-        className={this.getClassName()}
+      <StyledMatrixBox
         style={this.props.style}>
         <svg
           height={height}
@@ -42,7 +46,7 @@ export class MatrixBox extends React.Component {
             __html: this.getData(),
           }}
         />
-      </div>
+      </StyledMatrixBox>
     );
   }
 
