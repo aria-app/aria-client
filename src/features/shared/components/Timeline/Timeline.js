@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import './Timeline.scss';
 
 export const Timeline = styled.div.attrs({
   style: props => ({

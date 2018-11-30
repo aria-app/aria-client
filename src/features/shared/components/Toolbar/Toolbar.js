@@ -1,16 +1,37 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import classnames from 'classnames';
-import './Toolbar.scss';
+import styled from 'styled-components';
 
-export class Toolbar extends React.PureComponent {
+const StyledToolbar = styled.div`
+  align-items: stretch;
+  background-color: ${props => props.theme.almostwhite};
+  display: flex;
+  flex: 0 0 auto;
+  height: 56px;
+  padding-left: ${props => props.theme.margin.m}px;
+  padding-right: ${props => props.theme.margin.m}px;
+  position: relative;
+`;
+
+const ToolbarLeftItems = styled.div`
+  align-items: center;
+  display: flex;
+  flex: 1 1 auto;
+`;
+
+const ToolbarRightItems = styled.div`
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  margin-left: auto;
+`;
+
+export class Toolbar extends React.Component {
   static propTypes = {
     alternateLeftItems: PropTypes.node,
     alternateRightItems: PropTypes.node,
-    className: PropTypes.string,
     isAlternate: PropTypes.bool,
     leftItems: PropTypes.node,
-    position: PropTypes.oneOf(['bottom', 'top']),
     rightItems: PropTypes.node,
     style: PropTypes.object,
   }
@@ -24,27 +45,16 @@ export class Toolbar extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className={this.getClassName()}
+      <StyledToolbar
         style={this.props.style}>
-        <div
-          className="toolbar__left">
+        <ToolbarLeftItems>
           {this.getLeftItems()}
-        </div>
-        <div
-          className="toolbar__right">
+        </ToolbarLeftItems>
+        <ToolbarRightItems>
           {this.getRightItems()}
-        </div>
-      </div>
+        </ToolbarRightItems>
+      </StyledToolbar>
     );
-  }
-
-  getClassName() {
-    return classnames('toolbar', {
-      'toolbar--bottom': this.props.position === 'bottom',
-      'toolbar--top': this.props.position !== 'bottom',
-      'toolbar--alternate': this.props.isAlternate,
-    }, this.props.className);
   }
 
   getLeftItems() {
