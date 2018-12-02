@@ -8,8 +8,8 @@ const StyledToolbar = styled.div`
   display: flex;
   flex: 0 0 auto;
   height: 56px;
-  padding-left: ${props => props.theme.margin.m}px;
-  padding-right: ${props => props.theme.margin.m}px;
+  padding-left: ${props => props.theme.margin.s}px;
+  padding-right: ${props => props.theme.margin.s}px;
   position: relative;
 `;
 

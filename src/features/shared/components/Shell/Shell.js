@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import './Shell.scss';
 
 export const Shell = styled.div`
   background-color: ${props => props.theme.almostblack};

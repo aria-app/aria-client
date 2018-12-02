@@ -1,5 +1,6 @@
 import Dawww from 'dawww';
 import compose from 'lodash/fp/compose';
+import find from 'lodash/fp/find';
 import first from 'lodash/fp/first';
 import get from 'lodash/fp/get';
 import isEqual from 'lodash/fp/isEqual';
@@ -52,12 +53,12 @@ export class Notes extends React.PureComponent {
         {this.getNotes().map(note => (
           <Note
             className="notes__note"
+            isSelected={this.getIsNoteSelected(note)}
             key={note.id}
             onErase={this.props.onErase}
             onMoveStart={this.handleNoteMoveStart}
             onResizeStart={this.handleNoteResizeStart}
             onSelect={this.props.onSelect}
-            selectedNotes={this.props.selectedNotes}
             toolType={this.props.toolType}
             note={note}
           />
@@ -70,6 +71,9 @@ export class Notes extends React.PureComponent {
     Dawww.resizeNote(this.state.resizeDelta),
     Dawww.translateNote(this.state.dragDelta),
   ))(notes);
+
+  getIsNoteSelected = note =>
+    !!find(x => x.id === note.id, this.props.selectedNotes);
 
   getNotes = () => [
     ...this.applyTransforms(this.props.selectedNotes),

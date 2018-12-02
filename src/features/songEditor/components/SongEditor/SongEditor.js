@@ -101,7 +101,7 @@ export class SongEditor extends React.PureComponent {
           onSequenceExtend={() => {}}
           onSequenceMoveLeft={() => {}}
           onSequenceMoveRight={() => {}}
-          onSequenceOpen={() => {}}
+          onSequenceOpen={this.props.onSequenceOpen}
           onSequenceShorten={() => {}}
           onSongInfoOpen={this.openSongInfo}
           onUndo={this.undo}

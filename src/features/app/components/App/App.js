@@ -11,6 +11,7 @@ import { UploadOverlay } from '../UploadOverlay/UploadOverlay';
 // import { VFXLayer } from '../VFXLayer/VFXLayer';
 
 const { actions, styles } = shared;
+const { Shell } = shared.components;
 const { SequenceEditorContainer } = sequenceEditor.components;
 const { STARTED } = Dawww.PLAYBACK_STATES;
 const { SongEditorContainer } = songEditor.components;
@@ -37,32 +38,34 @@ export class App extends React.PureComponent {
 
   render() {
     return (
-      <ThemeProvider theme={styles.themes.emerald}>
+      <ThemeProvider
+        theme={styles.themes.emerald}>
         <HotKeys
-          className="shell"
           focused={true}
           handlers={this.getKeyHandlers()}
           onDragEnter={this.handleDragEnter}
           onDragOver={this.handleDragOver}
           onDrop={this.handleDrop}>
-          {this.getContentComponent()}
-          {/* <SongToolbar
-            bpm={this.props.bpm}
-            onBPMChange={this.props.onBPMChange}
-            onMeasureCountChange={this.props.onMeasureCountChange}
-            onPause={this.props.onPause}
-            onPlay={this.props.onPlay}
-            onStop={this.props.onStop}
-            playbackState={this.props.playbackState}
-            songMeasureCount={this.props.songMeasureCount}
-            stringifiedSong={this.props.stringifiedSong}
-          /> */}
-          <UploadOverlay
-            isFileOver={this.state.isFileOver}
-            onCancel={this.handleUploadOverlayCancel}
-            onUpload={this.handleUploadOverlayUpload}
-          />
-          {/* <VFXLayer/> */}
+          <Shell>
+            {this.getContentComponent()}
+            {/* <SongToolbar
+              bpm={this.props.bpm}
+              onBPMChange={this.props.onBPMChange}
+              onMeasureCountChange={this.props.onMeasureCountChange}
+              onPause={this.props.onPause}
+              onPlay={this.props.onPlay}
+              onStop={this.props.onStop}
+              playbackState={this.props.playbackState}
+              songMeasureCount={this.props.songMeasureCount}
+              stringifiedSong={this.props.stringifiedSong}
+            /> */}
+            <UploadOverlay
+              isFileOver={this.state.isFileOver}
+              onCancel={this.handleUploadOverlayCancel}
+              onUpload={this.handleUploadOverlayUpload}
+            />
+            {/* <VFXLayer/> */}
+          </Shell>
         </HotKeys>
       </ThemeProvider>
     );

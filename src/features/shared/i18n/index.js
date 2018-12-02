@@ -9,7 +9,7 @@ i18n
 	.init({
     fallbackLng: 'en',
 		keySeparator: false,
-		lng: 'jp',
+		lng: 'en',
 		resources,
 	});
 

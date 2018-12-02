@@ -1,22 +1,77 @@
-import classnames from 'classnames';
-import find from 'lodash/fp/find';
 import first from 'lodash/fp/first';
 import includes from 'lodash/fp/includes';
 import last from 'lodash/fp/last';
+import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 import * as constants from '../../constants';
-import './Note.scss';
+
+const NoteConnector = styled.div`
+  background-color: ${props => props.isSelected
+    ? 'white'
+    : transparentize(0.5, props.theme.primary[2])};
+  height: 12px;
+  left: 20px;
+  position: absolute;
+  top: 14px;
+  transform-origin: left center;
+  transition: transform 0.1s ease;
+  width: 1px;
+  z-index: 100;
+`;
+
+const NoteFill = styled.div`
+  background-color: ${props => props.isSelected
+    ? 'white'
+    : props.theme.primary[2]};
+  border-radius: 2px;
+  box-shadow: ${props => props.isSelected && `0 0 10px ${transparentize(0.5, 'white')}`};
+  height: 24px;
+  width: 24px;
+
+  &:hover:not(:active) {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+`;
+
+const NotePoint = styled.div`
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  height: 40px;
+  justify-content: center;
+  left: 0;
+  overflow: hidden;
+  pointer-events: all;
+  position: absolute;
+  top: 0;
+  transition: transform 0.1s ease;
+  width: 40px;
+  z-index: 150;
+`;
+
+const StyledNote = styled.div`
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  transition: transform 0.1s ease;
+  z-index: ${props => props.isSelected && 300};
+`;
 
 export class Note extends React.PureComponent {
   static propTypes = {
-    className: PropTypes.string,
+    isSelected: PropTypes.bool.isRequired,
     note: PropTypes.object.isRequired,
     onErase: PropTypes.func.isRequired,
     onMoveStart: PropTypes.func.isRequired,
     onResizeStart: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
-    selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
     toolType: PropTypes.string.isRequired,
   }
 
@@ -26,37 +81,29 @@ export class Note extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className={this.getClassName()}
+      <StyledNote
+        isSelected={this.props.isSelected}
         style={this.getStyle()}>
-        <div
-          className="note__point note__point--start"
+        <NotePoint
           onMouseDown={this.handleStartPointMouseDown}
           onMouseUp={this.handleStartPointMouseUp}>
-          <div
-            className="note__point__fill note__point__fill--start"
+          <NoteFill
+            isSelected={this.props.isSelected}
           />
-        </div>
-        <div
-          className="note__point-connector"
+        </NotePoint>
+        <NoteConnector
+          isSelected={this.props.isSelected}
           style={this.getConnectorStyle()}
         />
-        <div
-          className="note__point note__point--end"
+        <NotePoint
           onMouseDown={this.handleEndPointMouseDown}
           style={this.getEndPointStyle()}>
-          <div
-            className="note__point__fill note__point__fill--end"
+          <NoteFill
+            isSelected={this.props.isSelected}
           />
-        </div>
-      </div>
+        </NotePoint>
+      </StyledNote>
     );
-  }
-
-  getClassName() {
-    return classnames('note', {
-      'note--active': this.getIsSelected(),
-    }, this.props.className);
   }
 
   getConnectorStyle() {
@@ -87,11 +134,7 @@ export class Note extends React.PureComponent {
     };
   }
 
-  getIsSelected() {
-    return !!find({
-      id: this.props.note.id,
-    })(this.props.selectedNotes);
-  }
+
 
   getIsEraseEnabled = () =>
     includes(this.props.toolType, [
@@ -115,7 +158,7 @@ export class Note extends React.PureComponent {
     if (this.getIsSelectEnabled()) {
       e.stopPropagation();
 
-      if (!this.getIsSelected()) {
+      if (!this.props.isSelected) {
         this.select(e);
       }
 
@@ -126,7 +169,7 @@ export class Note extends React.PureComponent {
   handleStartPointMouseDown = (e) => {
     if (this.getIsSelectEnabled()) {
       e.stopPropagation();
-      if (this.getIsSelected() && !(e.ctrlKey || e.metaKey)) {
+      if (this.props.isSelected && !(e.ctrlKey || e.metaKey)) {
         this.props.onMoveStart();
         return;
       }

@@ -47,7 +47,7 @@ export class SongEditorToolbar extends React.PureComponent {
           />
           <IconButton
             icon="pencil"
-            onClick={this.props.onSequenceOpen}
+            onClick={this.openSequence}
           />
           <IconButton
             icon="clone"
@@ -56,11 +56,6 @@ export class SongEditorToolbar extends React.PureComponent {
           <IconButton
             icon="trash"
             onClick={this.props.onSequenceDelete}
-          />
-          <IconButton
-            icon="long-arrow-left"
-            isDisabled={this.getIsShortenButtonDisabled()}
-            onClick={this.props.onSequenceShorten}
           />
           <IconButton
             icon="arrow-left"
@@ -72,8 +67,20 @@ export class SongEditorToolbar extends React.PureComponent {
             onClick={this.props.onSequenceMoveRight}
           />
           <IconButton
+            icon="long-arrow-left"
+            isDisabled={this.getIsShortenButtonDisabled()}
+            onClick={this.props.onSequenceShorten}
+          />
+          <IconButton
             icon="long-arrow-right"
             onClick={this.props.onSequenceExtend}
+          />
+        </React.Fragment>}
+        leftItems={<React.Fragment>
+          <IconButton
+            icon="cog"
+            onClick={this.props.onSongInfoOpen}
+            title="Settings"
           />
         </React.Fragment>}
         rightItems={<React.Fragment>
@@ -89,11 +96,6 @@ export class SongEditorToolbar extends React.PureComponent {
             onClick={this.props.onRedo}
             title="Redo"
           />
-          <IconButton
-            icon="cog"
-            onClick={this.props.onSongInfoOpen}
-            title="Settings"
-          />
         </React.Fragment>}
       />
     );
@@ -107,4 +109,8 @@ export class SongEditorToolbar extends React.PureComponent {
 
   getIsShortenButtonDisabled = () =>
     this.props.selectedSequence.measureCount < 2;
+
+  openSequence = () => {
+    this.props.onSequenceOpen(this.props.selectedSequence);
+  };
 }
