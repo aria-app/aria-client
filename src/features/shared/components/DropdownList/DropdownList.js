@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import { hideIf, showIf } from 'react-render-helpers';
+import { getExtraProps } from '../../helpers';
 import { DropdownListItem } from '../DropdownListItem/DropdownListItem';
 import { Icon } from '../Icon/Icon';
 import { IconButton } from '../IconButton/IconButton';
@@ -56,7 +57,6 @@ const StyledDropdownList = styled.div`
 
 export class DropdownList extends React.PureComponent {
   static propTypes = {
-    className: PropTypes.string,
     icon: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.oneOfType([
@@ -78,7 +78,6 @@ export class DropdownList extends React.PureComponent {
       ]),
       text: PropTypes.string,
     }),
-    style: PropTypes.object,
     text: PropTypes.string,
   }
 
@@ -98,7 +97,7 @@ export class DropdownList extends React.PureComponent {
   render() {
     return (
       <StyledDropdownList
-        style={this.props.style}>
+        {...getExtraProps(this)}>
         {showIf(this.props.icon)(
           <IconButton
             className="dropdown-list__button"

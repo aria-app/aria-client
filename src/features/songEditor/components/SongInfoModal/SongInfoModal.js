@@ -1,16 +1,50 @@
-import classnames from 'classnames';
 import Dawww from 'dawww';
 import map from 'lodash/fp/map';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { NamespacesConsumer } from 'react-i18next';
+import styled from 'styled-components';
 import shared from '../../../shared';
-import './SongInfoModal.scss';
 
 const { Button, DownloadButton, DropdownList, Modal } = shared.components;
 const getBPMRangeItem = x => ({ id: x, text: String(x) });
 const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
+const SongInfoModalBPMDropdown = styled(DropdownList)`
+  margin-bottom: ${props => props.theme.margin.m}px;
+`;
+
+const SongInfoModalContent = styled.div`
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+`;
+
+const SongInfoModalMeasureCountTicker = styled.div`
+  align-items: center;
+  align-self: flex-start;
+  border: 1px solid ${props => props.theme.color};
+  border-radius: 4px;
+  display: flex;
+  height: 48px;
+  overflow: hidden;
+`;
+
+const SongInfoModalMeasureCountTickerMinus = styled.div`
+  border-right: 1px solid ${props => props.theme.color};
+  opacity: ${props => props.isDisabled && 0.75};
+  padding: ${props => props.theme.margin.m}px;
+  pointer-events: ${props => props.isDisabled && 'none'};
+`;
+
+const SongInfoModalMeasureCountTickerPlus = styled.div`
+  border-left: 1px solid ${props => props.theme.color};
+  padding: ${props => props.theme.margin.m}px;
+`;
+
+const SongInfoModalMeasureCountTickerValue = styled.div`
+  padding: ${props => props.theme.margin.m}px;
+`;
 
 export class SongInfoModal extends React.PureComponent {
   static propTypes = {
@@ -32,31 +66,28 @@ export class SongInfoModal extends React.PureComponent {
             isOpen={this.props.isOpen}
             onClickOutside={this.props.onConfirm}
             titleText={t('Song Info')}>
-            <div
+            <SongInfoModalContent
               className="song-info-modal__content">
-              <DropdownList
-                className="song-info-modal__bpm-dropdown"
+              <SongInfoModalBPMDropdown
                 items={bpmRangeItems}
                 selectedId={this.props.bpm}
                 onSelectedIdChange={this.handleContentDropdownListSelect}
               />
-              <div
+              <SongInfoModalMeasureCountTicker
                 className="song-info-modal__measure-count-ticker">
-                <div
-                  className={this.getMeasureCountTickerMinusClassName()}
+                <SongInfoModalMeasureCountTickerMinus
+                  isDisabled={this.props.measureCount < 2}
                   onClick={this.handleMeasureCountTickerMinusClick}>
                   -
-                </div>
-                <div
-                  className="song-info-modal__measure-count-ticker__value">
+                </SongInfoModalMeasureCountTickerMinus>
+                <SongInfoModalMeasureCountTickerValue>
                   {this.props.measureCount}
-                </div>
-                <div
-                  className="song-info-modal__measure-count-ticker__plus"
+                </SongInfoModalMeasureCountTickerValue>
+                <SongInfoModalMeasureCountTickerPlus
                   onClick={this.handleMeasureCountTickerPlusClick}>
                   +
-                </div>
-              </div>
+                </SongInfoModalMeasureCountTickerPlus>
+              </SongInfoModalMeasureCountTicker>
               <Button
                 onClick={this.handleClearCacheClick}>
                 {t('Clear Cache')}
@@ -66,7 +97,7 @@ export class SongInfoModal extends React.PureComponent {
                 filename="song.json">
                 {t('Download Song')}
               </DownloadButton>
-            </div>
+            </SongInfoModalContent>
             {t('Select Language')}
             <Button
               onClick={() => shared.i18n.changeLanguage('en')}>
@@ -81,11 +112,6 @@ export class SongInfoModal extends React.PureComponent {
       </NamespacesConsumer>
     );
   }
-
-  getMeasureCountTickerMinusClassName = () =>
-    classnames('song-info-modal__measure-count-ticker__minus', {
-      'song-info-modal__measure-count-ticker__minus--disabled': this.props.measureCount < 2,
-    });
 
   getStringifiedSong = () =>
     JSON.stringify(this.props.song);

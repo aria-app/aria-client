@@ -6,8 +6,8 @@ import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { NamespacesConsumer } from 'react-i18next';
+import styled from 'styled-components';
 import shared from '../../../shared';
-import './TrackEditingModal.scss';
 
 const { Button, DropdownList, Modal } = shared.components;
 // This should be moved into Dawww.
@@ -15,6 +15,21 @@ const minVolume = -20;
 const maxVolume = 0;
 const getVolumeRangeItem = x => ({ id: x, text: String(x) });
 const volumeRangeItems = map(getVolumeRangeItem, range(maxVolume, minVolume - 1));
+
+const TrackEditingModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+`;
+
+const TrackEditingModalDeleteButton = styled(Button)`
+  background-color: ${props => props.theme.danger};
+`;
+
+const TrackEditingModalVoiceDropdown = styled.div`
+  margin-bottom: ${props => props.theme.margin.l}px;
+`;
 
 export class TrackEditingModal extends React.PureComponent {
   static propTypes = {
@@ -30,42 +45,34 @@ export class TrackEditingModal extends React.PureComponent {
       <NamespacesConsumer>
         {t => (
           <Modal
-            className="track-editing-modal"
             isOpen={this.getIsOpen()}
             onClickOutside={this.props.onDismiss}
             titleText={t('Edit Track')}
             >
-            <div
-              className="track-editing-modal__content">
-              <div
-                className="track-editing-modal__content__voice-dropdown">
-                <div
-                  className="track-editing-modal__content__voice-dropdown__label">
+            <TrackEditingModalContent>
+              <TrackEditingModalVoiceDropdown>
+                <div>
                   {t('Voice')}
                 </div>
                 <DropdownList
-                  className="track-editing-modal__content__voice-dropdown__list"
                   items={getVoiceList(t)}
                   selectedId={getOr('', 'props.stagedTrack.voice', this)}
                   onSelectedIdChange={this.handleContentVoiceDropdownListSelectedIdChange}
                 />
-                <div
-                  className="track-editing-modal__content__volume-dropdown__label">
+                <div>
                   {t('Volume')}
                 </div>
                 <DropdownList
-                  className="track-editing-modal__content__volume-dropdown__list"
                   items={volumeRangeItems}
                   selectedId={getOr('', 'props.stagedTrack.volume', this)}
                   onSelectedIdChange={this.handleContentVolumeDropdownListSelectedIdChange}
                 />
-              </div>
-              <Button
-                className="track-editing-modal__content__delete-button"
+              </TrackEditingModalVoiceDropdown>
+              <TrackEditingModalDeleteButton
                 onClick={this.handleContentDeleteButtonClick}>
                 {t('Delete')}
-              </Button>
-            </div>
+              </TrackEditingModalDeleteButton>
+            </TrackEditingModalContent>
           </Modal>
         )}
       </NamespacesConsumer>

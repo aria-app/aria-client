@@ -10,14 +10,31 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { NamespacesConsumer } from 'react-i18next';
 import { showIf } from 'react-render-helpers';
+import styled from 'styled-components';
 import * as palette from '../../../../styles/palette';
 import shared from '../../../shared';
 import { AddSequenceButton } from '../AddSequenceButton/AddSequenceButton';
 import { TrackSequence } from '../TrackSequence/TrackSequence';
 import { TrackHeader } from '../TrackHeader/TrackHeader';
-import './Track.scss';
 
 const { Boxes, MatrixBox } = shared.components;
+
+const StyledTrack = styled.div`
+  align-items: stretch;
+  cursor: pointer;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  margin-bottom: ${props => props.theme.margin.m}px;
+`;
+
+const TrackSequences = styled.div`
+  align-items: stretch;
+  display: flex;
+  flex: 1 0 auto;
+  height: 84px;
+  position: relative;
+`;
 
 export class Track extends React.PureComponent {
   static propTypes = {
@@ -37,16 +54,14 @@ export class Track extends React.PureComponent {
   render() {
     const firstEmptyPosition = this.getFirstEmptyPosition();
     return (
-      <div
-        className="track">
+      <StyledTrack>
         <TrackHeader
           onClick={this.handleHeaderClick}>
           <NamespacesConsumer>
             {t => t(this.props.track.voice)}
           </NamespacesConsumer>
         </TrackHeader>
-        <div
-          className="track__sequences"
+        <TrackSequences
           style={this.getBodySequencesStyle()}>
           <MatrixBox
             fill={palette.emerald[2]}
@@ -77,8 +92,8 @@ export class Track extends React.PureComponent {
               }}
             />
           )}
-        </div>
-      </div>
+        </TrackSequences>
+      </StyledTrack>
     );
   }
 
