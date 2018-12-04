@@ -2,7 +2,17 @@ import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
-import './Fence.scss';
+import styled from 'styled-components';
+
+const StyledFence = styled.div`
+  background-color: rgba(255, 255, 255, 0.25);
+  border: 2px solid white;
+  border-radius: 2px;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+`;
 
 export class Fence extends React.PureComponent {
   static propTypes = {
@@ -12,8 +22,7 @@ export class Fence extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className="fence"
+      <StyledFence
         style={{
           display: this.getDisplay(),
           height: this.getHeight(),

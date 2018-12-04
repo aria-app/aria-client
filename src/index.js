@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import appEffects from './features/app';
 import shared from './features/shared';
 import store from './store';
-import './styles/resets.scss';
+import './styles/resets.css';
 
 const { AppContainer } = appEffects.components;
 

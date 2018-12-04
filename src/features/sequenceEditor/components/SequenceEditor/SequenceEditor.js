@@ -200,7 +200,7 @@ export class SequenceEditor extends React.PureComponent {
     p: this.activatePanTool,
     right: this.nudgeRight,
     s: this.activateSelectTool,
-    space: this.activatePanTool,
+    space: this.activatePanOverride,
     up: this.nudgeUp,
     'ctrl+a': this.selectAll,
     'ctrl+d': this.deselectAllNotes,

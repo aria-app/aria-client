@@ -1,7 +1,9 @@
 import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { showIf } from 'react-render-helpers';
 import shared from '../../../shared';
+import * as constants from '../../constants';
 import { DrawLayer } from '../DrawLayer/DrawLayer';
 import { Notes } from '../Notes/Notes';
 import { Panner } from '../Panner/Panner';
@@ -47,11 +49,12 @@ export class Grid extends React.PureComponent {
           <Slots
             measureCount={this.props.measureCount}
           />
-          <DrawLayer
-            mousePoint={this.state.mousePoint}
-            onDraw={this.props.onDraw}
-            toolType={this.props.toolType}
-          />
+          {showIf(this.props.toolType === constants.toolTypes.DRAW)(
+            <DrawLayer
+              mousePoint={this.state.mousePoint}
+              onDraw={this.props.onDraw}
+            />
+          )}
           <Selector
             mousePoint={this.state.mousePoint}
             notes={this.props.notes}
@@ -71,13 +74,14 @@ export class Grid extends React.PureComponent {
               toolType={this.props.toolType}
             />
           </Selector>
-          <Panner
-            onScrollLeftChange={this.handlePannerScrollLeftChange}
-            onScrollTopChange={this.handlePannerScrollTopChange}
-            scrollLeftEl={this.elementRef}
-            scrollTopEl={this.props.sequenceEditorContentRef}
-            toolType={this.props.toolType}
-          />
+          {showIf(this.props.toolType === constants.toolTypes.PAN)(
+            <Panner
+              onScrollLeftChange={this.handlePannerScrollLeftChange}
+              onScrollTopChange={this.handlePannerScrollTopChange}
+              scrollLeftEl={this.elementRef}
+              scrollTopEl={this.props.sequenceEditorContentRef}
+            />
+          )}
           <Timeline
             isVisible={false}
             offset={0 * 40}

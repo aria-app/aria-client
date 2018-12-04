@@ -5,7 +5,10 @@ import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
+import shared from '../../../shared';
 import * as constants from '../../constants';
+
+const { getExtraProps } = shared.helpers;
 
 const NoteConnector = styled.div`
   background-color: ${props => props.isSelected
@@ -66,13 +69,13 @@ const StyledNote = styled.div`
 
 export class Note extends React.PureComponent {
   static propTypes = {
-    isSelected: PropTypes.bool.isRequired,
+    isSelected: PropTypes.bool,
     note: PropTypes.object.isRequired,
     onErase: PropTypes.func.isRequired,
     onMoveStart: PropTypes.func.isRequired,
     onResizeStart: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
-    toolType: PropTypes.string.isRequired,
+    toolType: PropTypes.string,
   }
 
   static defaultProps = {
@@ -83,7 +86,8 @@ export class Note extends React.PureComponent {
     return (
       <StyledNote
         isSelected={this.props.isSelected}
-        style={this.getStyle()}>
+        style={this.getStyle()}
+        {...getExtraProps(this)}>
         <NotePoint
           onMouseDown={this.handleStartPointMouseDown}
           onMouseUp={this.handleStartPointMouseUp}>
@@ -137,9 +141,7 @@ export class Note extends React.PureComponent {
 
 
   getIsEraseEnabled = () =>
-    includes(this.props.toolType, [
-      constants.toolTypes.ERASE,
-    ]);
+    this.props.toolType === constants.toolTypes.ERASE;
 
   getIsSelectEnabled = () =>
     includes(this.props.toolType, [

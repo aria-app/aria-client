@@ -1,18 +1,29 @@
-import { compose, first, split } from 'lodash/fp';
+import compose from 'lodash/fp/compose';
+import first from 'lodash/fp/first';
+import noop from 'lodash/fp/noop';
+import split from 'lodash/fp/split';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { showIf } from 'react-render-helpers';
-import * as constants from '../../constants';
+import styled from 'styled-components';
 import { Note } from '../Note/Note';
-import './DrawLayer.scss';
 
-const noop = () => {};
+const DrawLayerGhostNote = styled(Note)`
+  opacity: 0.4;
+  pointer-events: none;
+`;
+
+const StyledDrawLayer = styled.div`
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+`;
 
 export class DrawLayer extends React.PureComponent {
   static propTypes = {
     mousePoint: PropTypes.object.isRequired,
     onDraw: PropTypes.func.isRequired,
-    toolType: PropTypes.string.isRequired,
   }
 
   state = {
@@ -21,28 +32,19 @@ export class DrawLayer extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className="draw-layer"
+      <StyledDrawLayer
         onMouseDown={this.handleMouseDown}
         onMouseLeave={this.handleMouseLeave}
         onMouseUp={this.handleMouseUp}
-        ref={this.setRef}
-        style={{
-          pointerEvents: this.getIsEnabled() ? 'all' : 'none',
-        }}>
-        {showIf(this.getIsEnabled())(
-          <Note
-            className="draw-layer__note--ghost"
-            onErase={noop}
-            onMoveStart={noop}
-            onResizeStart={noop}
-            onSelect={noop}
-            note={this.getGhostNoteNote()}
-            selectedNotes={[]}
-            toolType=""
-          />
-        )}
-      </div>
+        ref={this.setRef}>
+        <DrawLayerGhostNote
+          onErase={noop}
+          onMoveStart={noop}
+          onResizeStart={noop}
+          onSelect={noop}
+          note={this.getGhostNoteNote()}
+        />
+      </StyledDrawLayer>
     );
   }
 
@@ -63,9 +65,6 @@ export class DrawLayer extends React.PureComponent {
   }
 
   getIsDrawing = () => this.state.isDrawing;
-
-  getIsEnabled = () =>
-    this.props.toolType === constants.toolTypes.DRAW;
 
   handleMouseDown = () => {
     this.setState({

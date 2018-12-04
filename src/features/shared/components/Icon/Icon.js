@@ -1,7 +1,6 @@
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { showIf } from 'react-render-helpers';
 import styled, { ThemeConsumer } from 'styled-components';
 import icons from './icons';
 

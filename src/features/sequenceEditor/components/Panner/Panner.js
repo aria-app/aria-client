@@ -1,8 +1,6 @@
-import { isEmpty } from 'lodash/fp';
+import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
-import classnames from 'classnames';
-import * as constants from '../../constants';
 import './Panner.scss';
 
 export class Panner extends React.PureComponent {
@@ -11,7 +9,6 @@ export class Panner extends React.PureComponent {
     onScrollTopChange: PropTypes.func.isRequired,
     scrollLeftEl: PropTypes.object,
     scrollTopEl: PropTypes.object,
-    toolType: PropTypes.string.isRequired,
   }
 
   state = {
@@ -21,26 +18,16 @@ export class Panner extends React.PureComponent {
   render() {
     return (
       <div
-        className={this.getClassName()}
+        className="panner"
         onMouseDown={this.handleMouseDown}
         onMouseLeave={this.handleMouseLeave}
         onMouseMove={this.handleMouseMove}
         onMouseUp={this.handleMouseUp}
-        style={{
-          pointerEvents: this.getIsEnabled() ? 'all' : 'none',
-        }}
       />
     );
   }
 
-  getClassName = () => classnames('panner', {
-    'panner--grab': this.getIsEnabled(),
-  });
-
   getIsPanning = () => !isEmpty(this.state.startPoint);
-
-  getIsEnabled = () =>
-    this.props.toolType === constants.toolTypes.PAN;
 
   getStartPoint(e) {
     return {
