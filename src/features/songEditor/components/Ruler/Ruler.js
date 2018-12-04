@@ -3,10 +3,25 @@ import round from 'lodash/round';
 import times from 'lodash/fp/times';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 import shared from '../../../shared';
-import './Ruler.scss';
 
 const { MatrixBox } = shared.components;
+
+const RulerMeasureNumber = styled.div`
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 10px;
+  position: absolute;
+`;
+
+const StyledRuler = styled.div`
+  cursor: pointer;
+  display: flex;
+  flex: 0 0 auto;
+  height: 35px;
+  margin-bottom: ${props => props.theme.margin.m}px;
+  position: relative;
+`;
 
 export class Ruler extends React.PureComponent {
   static propTypes = {
@@ -18,8 +33,7 @@ export class Ruler extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className="ruler"
+      <StyledRuler
         onClick={this.handleClick}
         style={{
           width: this.getWidth(),
@@ -31,17 +45,16 @@ export class Ruler extends React.PureComponent {
           width={this.getWidth()}
         />
         {times(i => (
-          <div
-            className="ruler__measure-number"
+          <RulerMeasureNumber
             key={i}
             style={{
               left: (i * 64) + 6,
               bottom: 0,
             }}>
             {i + 1}
-          </div>
+          </RulerMeasureNumber>
         ), this.props.measureCount)}
-      </div>
+      </StyledRuler>
     );
   }
 

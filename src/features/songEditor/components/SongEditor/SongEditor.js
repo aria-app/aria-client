@@ -5,14 +5,23 @@ import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { HotKeys } from 'react-hotkeys';
+import styled from 'styled-components';
 import shared from '../../../shared';
 import { SongInfoModal } from '../SongInfoModal/SongInfoModal';
 import { TrackList } from '../TrackList/TrackList';
 import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
 import { SongEditorToolbar } from '../SongEditorToolbar/SongEditorToolbar';
-import './SongEditor.scss';
 
 const { Timeline } = shared.components;
+
+const StyledSongEditor = styled(HotKeys)`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: hidden;
+  position: relative;
+`;
 
 export class SongEditor extends React.PureComponent {
   static propTypes = {
@@ -67,8 +76,7 @@ export class SongEditor extends React.PureComponent {
 
   render() {
     return (
-      <HotKeys
-        className="song-editor"
+      <StyledSongEditor
         focused={true}
         handlers={this.getKeyHandlers()}>
         <div ref={this.focusRef} tabIndex={-1}/>
@@ -127,7 +135,7 @@ export class SongEditor extends React.PureComponent {
           onVolumeSet={this.props.onTrackVolumeSet}
           stagedTrack={this.getSelectedTrack()}
         />
-      </HotKeys>
+      </StyledSongEditor>
     );
   }
 
