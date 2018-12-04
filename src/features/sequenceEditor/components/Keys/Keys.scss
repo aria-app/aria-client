@@ -1,9 +1,0 @@
-$keys__width: 40px;
-// $keys__width: 56px;
-
-.keys {
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  width: $keys__width;
-}

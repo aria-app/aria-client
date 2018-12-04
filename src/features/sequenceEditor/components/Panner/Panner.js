@@ -1,7 +1,16 @@
 import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
-import './Panner.scss';
+import styled from 'styled-components';
+
+const StyledPanner = styled.div`
+  bottom: 0;
+  cursor: grab;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+`;
 
 export class Panner extends React.PureComponent {
   static propTypes = {
@@ -17,8 +26,7 @@ export class Panner extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className="panner"
+      <StyledPanner
         onMouseDown={this.handleMouseDown}
         onMouseLeave={this.handleMouseLeave}
         onMouseMove={this.handleMouseMove}

@@ -2,6 +2,7 @@ import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
+import styled from 'styled-components';
 import shared from '../../../shared';
 import * as constants from '../../constants';
 import { DrawLayer } from '../DrawLayer/DrawLayer';
@@ -9,9 +10,21 @@ import { Notes } from '../Notes/Notes';
 import { Panner } from '../Panner/Panner';
 import { Selector } from '../Selector/Selector';
 import { Slots } from '../Slots/Slots';
-import './Grid.scss';
 
 const { Timeline } = shared.components;
+
+const GridWrapper = styled.div`
+  height: 100%;
+  overflow-x: visible;
+  position: relative;
+`;
+
+const StyledGrid = styled.div`
+  overflow-x: scroll;
+  overflow-y: visible;
+  padding-left: 80px;
+  position: relative;
+`;
 
 export class Grid extends React.PureComponent {
   static propTypes = {
@@ -38,13 +51,11 @@ export class Grid extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className="grid"
+      <StyledGrid
         onMouseMove={this.handleMouseMove}
         onWheel={this.handleWheel}
         ref={this.setRef}>
-        <div
-          className="grid__wrapper"
+        <GridWrapper
           style={this.getWrapperStyle()}>
           <Slots
             measureCount={this.props.measureCount}
@@ -55,25 +66,26 @@ export class Grid extends React.PureComponent {
               onDraw={this.props.onDraw}
             />
           )}
-          <Selector
+          <Notes
+            measureCount={this.props.measureCount}
             mousePoint={this.state.mousePoint}
             notes={this.props.notes}
-            onSelect={this.handleSelectorSelect}
+            onDrag={this.props.onDrag}
+            onDragPreview={this.props.onDragPreview}
+            onErase={this.props.onErase}
+            onResize={this.props.onResize}
+            onSelect={this.props.onSelect}
             selectedNotes={this.props.selectedNotes}
-            toolType={this.props.toolType}>
-            <Notes
-              measureCount={this.props.measureCount}
+            toolType={this.props.toolType}
+          />
+          {showIf(this.props.toolType === constants.toolTypes.SELECT)(
+            <Selector
               mousePoint={this.state.mousePoint}
               notes={this.props.notes}
-              onDrag={this.props.onDrag}
-              onDragPreview={this.props.onDragPreview}
-              onErase={this.props.onErase}
-              onResize={this.props.onResize}
-              onSelect={this.props.onSelect}
+              onSelect={this.handleSelectorSelect}
               selectedNotes={this.props.selectedNotes}
-              toolType={this.props.toolType}
             />
-          </Selector>
+          )}
           {showIf(this.props.toolType === constants.toolTypes.PAN)(
             <Panner
               onScrollLeftChange={this.handlePannerScrollLeftChange}
@@ -86,8 +98,8 @@ export class Grid extends React.PureComponent {
             isVisible={false}
             offset={0 * 40}
           />
-        </div>
-      </div>
+        </GridWrapper>
+      </StyledGrid>
     );
   }
 

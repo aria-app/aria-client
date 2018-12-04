@@ -1,8 +1,15 @@
 import Dawww from 'dawww';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 import { Key } from '../Key/Key';
-import './Keys.scss';
+
+const StyledKeys = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 40px;
+`;
 
 export class Keys extends React.PureComponent {
   static propTypes = {
@@ -11,8 +18,7 @@ export class Keys extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className="keys">
+      <StyledKeys>
         {this.getScale().map((step, index) => (
           <Key
             key={step.y}
@@ -28,7 +34,7 @@ export class Keys extends React.PureComponent {
             }}
           />
         ))}
-      </div>
+      </StyledKeys>
     );
   }
 

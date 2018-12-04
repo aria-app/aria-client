@@ -8,12 +8,38 @@ import uniq from 'lodash/fp/uniq';
 import without from 'lodash/fp/without';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 import { HotKeys } from 'react-hotkeys';
 import { toolTypes } from '../../constants';
 import { Grid } from '../Grid/Grid';
 import { Keys } from '../Keys/Keys';
 import { SequenceEditorToolbar } from '../SequenceEditorToolbar/SequenceEditorToolbar';
-import './SequenceEditor.scss';
+
+const SequenceEditorContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow-x: hidden;
+  overflow-y: scroll;
+`;
+
+const SequenceEditorWrapper = styled.div`
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 0;
+  padding-bottom: 64px;
+  padding-top: 64px;
+`;
+
+const StyledSequenceEditor = styled(HotKeys)`
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 1;
+  flex-grow: 1;
+  overflow: hidden;
+  position: relative;
+`;
 
 export class SequenceEditor extends React.PureComponent {
   static propTypes = {
@@ -58,55 +84,52 @@ export class SequenceEditor extends React.PureComponent {
 
   render() {
     return (
-      <HotKeys
-        className="sequence-editor"
+      <StyledSequenceEditor
         focused={true}
         handlers={this.getKeyHandlers()}>
         <div ref={this.focusRef} tabIndex={-1}/>
-        <div
-          className="sequence-editor__content"
-          ref={this.setContentRef}>
-          <div
-            className="sequence-editor__content__wrapper">
-            <Keys
-              onKeyPress={this.props.onPitchPreview}
-            />
-            <Grid
-              measureCount={this.props.measureCount}
-              notes={this.props.notes}
-              onDrag={this.props.onDrag}
-              onDragPreview={this.handleGridDragPreview}
-              onDraw={this.handleGridDraw}
-              onErase={this.handleGridErase}
-              onResize={this.props.onResize}
-              onSelect={this.handleGridSelect}
-              onSelectInArea={this.handleGridSelectInArea}
-              selectedNotes={this.getSelectedNotes()}
-              sequenceEditorContentRef={this.contentElementRef}
-              toolType={this.state.toolType}
-            />
-          </div>
-        </div>
-        <SequenceEditorToolbar
-          isRedoEnabled={this.props.isRedoEnabled}
-          isUndoEnabled={this.props.isUndoEnabled}
-          measureCount={this.props.measureCount}
-          onClose={this.props.onClose}
-          onDelete={this.deleteSelectedNotes}
-          onDeselectAll={this.deselectAllNotes}
-          onDrawToolSelect={this.activateDrawTool}
-          onDuplicate={this.duplicateSelectedNotes}
-          onEraseToolSelect={this.activateEraseTool}
-          onOctaveDown={this.handleToolbarOctaveDown}
-          onOctaveUp={this.handleToolbarOctaveUp}
-          onPanToolSelect={this.activatePanTool}
-          onRedo={this.redo}
-          onSelectToolSelect={this.activateSelectTool}
-          onUndo={this.undo}
-          selectedNotes={this.getSelectedNotes()}
-          toolType={this.state.toolType}
-        />
-      </HotKeys>
+          <SequenceEditorContent
+            ref={this.setContentRef}>
+            <SequenceEditorWrapper>
+              <Keys
+                onKeyPress={this.props.onPitchPreview}
+              />
+              <Grid
+                measureCount={this.props.measureCount}
+                notes={this.props.notes}
+                onDrag={this.props.onDrag}
+                onDragPreview={this.handleGridDragPreview}
+                onDraw={this.handleGridDraw}
+                onErase={this.handleGridErase}
+                onResize={this.props.onResize}
+                onSelect={this.handleGridSelect}
+                onSelectInArea={this.handleGridSelectInArea}
+                selectedNotes={this.getSelectedNotes()}
+                sequenceEditorContentRef={this.contentElementRef}
+                toolType={this.state.toolType}
+              />
+            </SequenceEditorWrapper>
+          </SequenceEditorContent>
+          <SequenceEditorToolbar
+            isRedoEnabled={this.props.isRedoEnabled}
+            isUndoEnabled={this.props.isUndoEnabled}
+            measureCount={this.props.measureCount}
+            onClose={this.props.onClose}
+            onDelete={this.deleteSelectedNotes}
+            onDeselectAll={this.deselectAllNotes}
+            onDrawToolSelect={this.activateDrawTool}
+            onDuplicate={this.duplicateSelectedNotes}
+            onEraseToolSelect={this.activateEraseTool}
+            onOctaveDown={this.handleToolbarOctaveDown}
+            onOctaveUp={this.handleToolbarOctaveUp}
+            onPanToolSelect={this.activatePanTool}
+            onRedo={this.redo}
+            onSelectToolSelect={this.activateSelectTool}
+            onUndo={this.undo}
+            selectedNotes={this.getSelectedNotes()}
+            toolType={this.state.toolType}
+          />
+      </StyledSequenceEditor>
     );
   }
 

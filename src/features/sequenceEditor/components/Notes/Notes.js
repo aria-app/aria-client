@@ -10,8 +10,16 @@ import some from 'lodash/fp/some';
 import without from 'lodash/fp/without';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 import { Note } from '../Note/Note';
-import './Notes.scss';
+
+const StyledNotes = styled.div`
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  top: 0;
+`;
 
 export class Notes extends React.PureComponent {
   static propTypes = {
@@ -46,8 +54,7 @@ export class Notes extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className="notes"
+      <StyledNotes
         onMouseUp={this.handleMouseUp}
         style={this.getStyle()}>
         {this.getNotes().map(note => (
@@ -63,7 +70,7 @@ export class Notes extends React.PureComponent {
             note={note}
           />
         ))}
-      </div>
+      </StyledNotes>
     );
   }
 

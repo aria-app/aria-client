@@ -2,8 +2,13 @@ import Dawww from 'dawww';
 import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 // import * as palette from '../../../../styles/palette';
-import './Slots.scss';
+
+const StyledSlots = styled.div`
+  flex: 1 0 auto;
+  min-height: 100%;
+`;
 
 export class Slots extends React.PureComponent {
   static propTypes = {
@@ -12,8 +17,7 @@ export class Slots extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className="slots"
+      <StyledSlots
         dangerouslySetInnerHTML={{
           __html: this.getHTML(),
         }}
