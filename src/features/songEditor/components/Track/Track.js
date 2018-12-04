@@ -11,7 +11,6 @@ import React from 'react';
 import { NamespacesConsumer } from 'react-i18next';
 import { showIf } from 'react-render-helpers';
 import styled from 'styled-components';
-import * as palette from '../../../../styles/palette';
 import shared from '../../../shared';
 import { AddSequenceButton } from '../AddSequenceButton/AddSequenceButton';
 import { TrackSequence } from '../TrackSequence/TrackSequence';
@@ -26,6 +25,15 @@ const StyledTrack = styled.div`
   flex: 0 0 auto;
   flex-direction: column;
   margin-bottom: ${props => props.theme.margin.m}px;
+`;
+
+const TrackMatrixBox = styled(MatrixBox).attrs({
+  className: 'TrackMatrixBox',
+  fill: props => props.theme.primary[2],
+})`
+  left: 0;
+  position: absolute;
+  top: 0;
 `;
 
 const TrackSequences = styled.div`
@@ -63,16 +71,10 @@ export class Track extends React.PureComponent {
         </TrackHeader>
         <TrackSequences
           style={this.getBodySequencesStyle()}>
-          <MatrixBox
-            fill={palette.emerald[2]}
+          <TrackMatrixBox
             matrix={this.getMatrix()}
             height={84}
             width={this.props.songMeasureCount * 64}
-            style={{
-              left: 0,
-              position: 'absolute',
-              top: 0,
-            }}
           />
           <Boxes
             boxContentComponent={this.getSequenceComponent}

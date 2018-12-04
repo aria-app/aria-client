@@ -2,8 +2,11 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
+import { getExtraProps } from '../../helpers';
 
-const StyledMatrixBox = styled.div`
+const StyledMatrixBox = styled.div.attrs({
+  className: 'MatrixBox',
+})`
   display: flex;
   flex: 1 0 auto;
   position: relative;
@@ -15,7 +18,6 @@ export class MatrixBox extends React.Component {
     height: PropTypes.number,
     width: PropTypes.number,
     matrix: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
-    style: PropTypes.object,
   };
 
   shouldComponentUpdate(nextProps) {
@@ -31,7 +33,7 @@ export class MatrixBox extends React.Component {
 
     return (
       <StyledMatrixBox
-        style={this.props.style}>
+        {...getExtraProps(this)}>
         <svg
           height={height}
           style={{
