@@ -1,10 +1,29 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 import { AddTrackButton } from '../AddTrackButton/AddTrackButton';
 import { Ruler } from '../Ruler/Ruler';
 import { Track } from '../Track/Track';
-import './TrackList.scss';
 
+const StyledTrackList = styled.div`
+  align-items: flex-start;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  overflow: auto;
+  padding: ${props => props.theme.margin.m}px;
+  padding-bottom: ${props => props.theme.margin.m + 2}px;
+  padding-top: ${props => props.theme.margin.m + 2}px;
+  position: relative;
+`;
+
+const TrackListUnderlay = styled.div`
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+`;
 
 export class TrackList extends React.PureComponent {
   static propTypes = {
@@ -28,11 +47,9 @@ export class TrackList extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className="track-list"
+      <StyledTrackList
         onClick={this.handleClick}>
-        <div
-          className="track-list__underlay"
+        <TrackListUnderlay
           onClick={this.props.onSequenceDeselect}
         />
         <Ruler
@@ -41,30 +58,27 @@ export class TrackList extends React.PureComponent {
           measureWidth={64}
           onPositionSet={this.props.onPositionSet}
         />
-        <div
-          className="track-list__tracks">
-          {this.props.tracks.map((track, index) => (
-            <Track
-              key={`track-${index}`}
-              onSequenceAdd={this.props.onSequenceAdd}
-              onSequenceEdit={this.props.onSequenceEdit}
-              onSequenceOpen={this.props.onSequenceOpen}
-              onSequenceSelect={this.props.onSequenceSelect}
-              onTrackIsMutedToggle={this.props.onTrackIsMutedToggle}
-              onTrackIsSoloingToggle={this.props.onTrackIsSoloingToggle}
-              onTrackSelect={this.props.onTrackStage}
-              selectedSequence={this.props.selectedSequence}
-              songMeasureCount={this.props.songMeasureCount}
-              index={index}
-              track={track}
-            />
-          ))}
-        </div>
+        {this.props.tracks.map((track, index) => (
+          <Track
+            key={`track-${index}`}
+            onSequenceAdd={this.props.onSequenceAdd}
+            onSequenceEdit={this.props.onSequenceEdit}
+            onSequenceOpen={this.props.onSequenceOpen}
+            onSequenceSelect={this.props.onSequenceSelect}
+            onTrackIsMutedToggle={this.props.onTrackIsMutedToggle}
+            onTrackIsSoloingToggle={this.props.onTrackIsSoloingToggle}
+            onTrackSelect={this.props.onTrackStage}
+            selectedSequence={this.props.selectedSequence}
+            songMeasureCount={this.props.songMeasureCount}
+            index={index}
+            track={track}
+          />
+        ))}
         <AddTrackButton
           onClick={this.props.onTrackAdd}
           songMeasureCount={this.props.songMeasureCount}
         />
-      </div>
+      </StyledTrackList>
     );
   }
 }

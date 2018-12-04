@@ -1,9 +1,28 @@
-import classnames from 'classnames';
 import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 import { TrackSequenceNote } from '../TrackSequenceNote/TrackSequenceNote';
-import './TrackSequence.scss';
+
+const StyledTrackSequence = styled.div`
+  display: flex;
+  height: 84px;
+  padding: $margin-s;
+  background-color: ${props => props.isSelected
+    ? props.theme.almostwhite
+    : props.theme.primary[2]};
+  border-right: 2px solid ${props => props.isSelected
+    ? props.theme.almostwhite
+    : props.theme.primary[0]};
+  overflow: hidden;
+  position: relative;
+  &:hover {
+    background-color: ${props => !props.isSelected && props.theme.primary[1]};
+  }
+  &:active {
+    background-color: $almostwhite;
+  }
+`;
 
 export class TrackSequence extends React.PureComponent {
   static propTypes = {
@@ -21,8 +40,8 @@ export class TrackSequence extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className={this.getClassName()}
+      <StyledTrackSequence
+        isSelected={this.props.isSelected}
         style={this.getStyle()}
         onClick={this.handleClick}
         onDoubleClick={this.handleDoubleClick}>
@@ -32,14 +51,8 @@ export class TrackSequence extends React.PureComponent {
             note={note}
           />
         ))}
-      </div>
+      </StyledTrackSequence>
     );
-  }
-
-  getClassName() {
-    return classnames('track-sequence', {
-      'track-sequence--active': this.props.isSelected,
-    }, this.props.className);
   }
 
   getStyle = () => {

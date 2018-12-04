@@ -9,5 +9,4 @@ export { MatrixBox } from './MatrixBox/MatrixBox';
 export { Modal } from './Modal/Modal';
 export { Shell } from './Shell/Shell';
 export { Timeline } from './Timeline/Timeline';
-export { ToggleButton } from './ToggleButton/ToggleButton';
 export { Toolbar } from './Toolbar/Toolbar';

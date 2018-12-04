@@ -13,7 +13,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { Note } from '../Note/Note';
 
-const StyledNotes = styled.div`
+const StyledNotes = styled.div.attrs({
+  className: 'Notes',
+})`
   bottom: 0;
   cursor: pointer;
   left: 0;

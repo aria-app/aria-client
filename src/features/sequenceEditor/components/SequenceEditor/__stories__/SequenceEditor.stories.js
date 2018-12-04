@@ -3,13 +3,20 @@ import { action, storiesOf } from '@storybook/react';
 import { number, select, withKnobs } from '@storybook/addon-knobs';
 import { SequenceEditor } from '../SequenceEditor';
 import * as constants from '../../../constants';
-import './SequenceEditorBasics.story.scss';
 
 storiesOf('SequenceEditor', module)
   .addDecorator(withKnobs)
   .add('Basics', () => (
     <div
-      className="SequenceEditorBasics">
+      style={{
+        bottom: 0,
+        display: 'flex',
+        left: 0,
+        overflow: 'auto',
+        position: 'absolute',
+        right: 0,
+        top: 0,
+      }}>
       <SequenceEditor
         measureCount={number('measure count', 1)}
         notes={[]}

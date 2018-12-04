@@ -3,7 +3,6 @@ import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
-// import * as palette from '../../../../styles/palette';
 
 const StyledSlots = styled.div`
   flex: 1 0 auto;

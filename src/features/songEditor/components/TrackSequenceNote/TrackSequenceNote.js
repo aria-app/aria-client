@@ -1,30 +1,16 @@
 import getOr from 'lodash/fp/getOr';
-import PropTypes from 'prop-types';
-import React from 'react';
-import './TrackSequenceNote.scss';
+import styled from 'styled-components';
 
-export class TrackSequenceNote extends React.PureComponent {
-  static propTypes = {
-    note: PropTypes.object.isRequired,
-  }
+const getX0 = getOr(0, 'note.points[0].x');
+const getX1 = getOr(0, 'note.points[1].x');
+const getY0 = getOr(0, 'note.points[0].y');
 
-  render() {
-    return (
-      <div
-        className="track-sequence-note"
-        style={this.getStyle()}
-      />
-    );
-  }
-
-  getStyle = () => {
-    const x0 = getOr(0, 'props.note.points[0].x', this);
-    const x1 = getOr(0, 'props.note.points[1].x', this);
-    const y0 = getOr(0, 'props.note.points[0].y', this);
-
-    return {
-      transform: `translate(${x0 * 2}px, ${y0}px)`,
-      width: ((x1 - x0) + 1) * 2,
-    };
-  };
-}
+export const TrackSequenceNote = styled.div`
+  background-color: ${props => props.theme.almostblack};
+  height: 1px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: ${props => `translate(${getX0(props) * 2}px, ${getY0(props)}px)`};
+  width: ${props => ((getX1(props) - getX0(props)) + 1) * 2}px;
+`;

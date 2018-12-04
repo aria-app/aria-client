@@ -7,8 +7,6 @@ import sequenceEditor from '../../../sequenceEditor';
 import shared from '../../../shared';
 import songEditor from '../../../songEditor';
 import { UploadOverlay } from '../UploadOverlay/UploadOverlay';
-// import { SongToolbar } from '../SongToolbar/SongToolbar';
-// import { VFXLayer } from '../VFXLayer/VFXLayer';
 
 const { actions, styles } = shared;
 const { Shell } = shared.components;
@@ -48,23 +46,11 @@ export class App extends React.PureComponent {
           onDrop={this.handleDrop}>
           <Shell>
             {this.getContentComponent()}
-            {/* <SongToolbar
-              bpm={this.props.bpm}
-              onBPMChange={this.props.onBPMChange}
-              onMeasureCountChange={this.props.onMeasureCountChange}
-              onPause={this.props.onPause}
-              onPlay={this.props.onPlay}
-              onStop={this.props.onStop}
-              playbackState={this.props.playbackState}
-              songMeasureCount={this.props.songMeasureCount}
-              stringifiedSong={this.props.stringifiedSong}
-            /> */}
             <UploadOverlay
               isFileOver={this.state.isFileOver}
               onCancel={this.handleUploadOverlayCancel}
               onUpload={this.handleUploadOverlayUpload}
             />
-            {/* <VFXLayer/> */}
           </Shell>
         </HotKeys>
       </ThemeProvider>

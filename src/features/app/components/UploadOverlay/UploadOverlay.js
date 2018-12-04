@@ -1,10 +1,46 @@
 import { isEmpty } from 'lodash/fp';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 import { showIf } from 'react-render-helpers';
-import './UploadOverlay.scss';
 
 const reader = new FileReader();
+
+const StyledUploadOverlay = styled.div`
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 550;
+`;
+
+const UploadOverlayTint = styled.div`
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: inherit;
+`;
+
+const UploadOverlayDragIndicator = styled.div`
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  padding: ${props => props.theme.margin.m}px;
+  pointer-events: none;
+  z-index: inherit;
+`;
 
 export class UploadOverlay extends React.PureComponent {
   static propTypes = {
@@ -15,19 +51,17 @@ export class UploadOverlay extends React.PureComponent {
 
   render() {
     return showIf(this.props.isFileOver)(
-      <div
-        className="upload-overlay"
+      <StyledUploadOverlay
         onDragLeave={this.handleDragLeave}
         onDragOver={this.handleDragOver}
         onDrop={this.handleDrop}>
-        <div
-          className="upload-overlay__tint">
-          <div
+        <UploadOverlayTint>
+          <UploadOverlayDragIndicator
             className="upload-overlay__tint__drag-indicator">
             Drop project file to load it
-          </div>
-        </div>
-      </div>
+          </UploadOverlayDragIndicator>
+        </UploadOverlayTint>
+      </StyledUploadOverlay>
     );
   }
 

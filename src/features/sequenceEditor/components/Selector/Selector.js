@@ -14,6 +14,8 @@ const StyledSelector = styled.div`
 
 export class Selector extends React.PureComponent {
   static propTypes = {
+    children: PropTypes.node,
+    isEnabled: PropTypes.bool,
     mousePoint: PropTypes.object.isRequired,
     onSelect: PropTypes.func.isRequired,
   }
@@ -29,7 +31,10 @@ export class Selector extends React.PureComponent {
         className="selector"
         onMouseDown={this.handleMouseDown}
         onMouseLeave={this.handleMouseLeave}
-        onMouseUp={this.handleMouseUp}>
+        onMouseUp={this.handleMouseUp}
+        style={{
+          pointerEvents: this.props.isEnabled ? 'all' : 'none',
+        }}>
         <React.Fragment>
           {this.props.children}
           <Fence

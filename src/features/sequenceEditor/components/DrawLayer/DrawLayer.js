@@ -7,12 +7,16 @@ import React from 'react';
 import styled from 'styled-components';
 import { Note } from '../Note/Note';
 
-const DrawLayerGhostNote = styled(Note)`
+const DrawLayerGhostNote = styled(Note).attrs({
+  className: 'DrawLayerGhostNote',
+})`
   opacity: 0.4;
   pointer-events: none;
 `;
 
-const StyledDrawLayer = styled.div`
+const StyledDrawLayer = styled.div.attrs({
+  className: 'DrawLayer',
+})`
   bottom: 0;
   left: 0;
   position: absolute;
@@ -67,6 +71,7 @@ export class DrawLayer extends React.PureComponent {
   getIsDrawing = () => this.state.isDrawing;
 
   handleMouseDown = () => {
+    console.log('yo');
     this.setState({
       isDrawing: true,
     });
