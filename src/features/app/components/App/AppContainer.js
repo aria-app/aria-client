@@ -7,6 +7,7 @@ import { App } from './App';
 
 export const AppContainer = connect(state => ({
   bpm: song.selectors.getBPM(state),
+  isSongLoading: song.selectors.getIsSongLoading(state),
   locationType: location.selectors.getType(state),
   playbackState: audio.selectors.getPlaybackState(state),
   songMeasureCount: song.selectors.getMeasureCount(state),

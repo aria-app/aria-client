@@ -71,7 +71,6 @@ export class DrawLayer extends React.PureComponent {
   getIsDrawing = () => this.state.isDrawing;
 
   handleMouseDown = () => {
-    console.log('yo');
     this.setState({
       isDrawing: true,
     });

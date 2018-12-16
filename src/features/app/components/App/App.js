@@ -2,10 +2,18 @@ import Dawww from 'dawww';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { HotKeys } from 'react-hotkeys';
-import { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import sequenceEditor from '../../../sequenceEditor';
 import shared from '../../../shared';
 import songEditor from '../../../songEditor';
+
+const SongLoadingIndicator = styled.div`
+  align-items: center;
+  color: white;
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+`;
 
 const { actions, styles } = shared;
 const { Shell, UploadOverlay } = shared.components;
@@ -57,6 +65,10 @@ export class App extends React.PureComponent {
   }
 
   getContentComponent = () => {
+    if (this.props.isSongLoading) {
+      return <SongLoadingIndicator>LOADING...</SongLoadingIndicator>
+    }
+
     if (this.props.locationType === actions.SEQUENCER_LOADED) {
       return <SequenceEditorContainer/>
     }

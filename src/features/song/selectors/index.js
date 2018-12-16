@@ -6,6 +6,7 @@ export { getFocusedSequenceMeasureCount } from './getFocusedSequenceMeasureCount
 export { getFocusedSequenceNotes } from './getFocusedSequenceNotes';
 export { getId } from './getId';
 export { getIsRedoEnabled } from './getIsRedoEnabled';
+export { getIsSongLoading } from './getIsSongLoading';
 export { getIsUndoEnabled } from './getIsUndoEnabled';
 export { getMeasureCount } from './getMeasureCount';
 export { getName } from './getName';
