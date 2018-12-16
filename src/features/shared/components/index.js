@@ -10,3 +10,4 @@ export { Modal } from './Modal/Modal';
 export { Shell } from './Shell/Shell';
 export { Timeline } from './Timeline/Timeline';
 export { Toolbar } from './Toolbar/Toolbar';
+export { UploadOverlay } from './UploadOverlay/UploadOverlay';

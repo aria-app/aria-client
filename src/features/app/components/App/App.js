@@ -6,10 +6,9 @@ import { ThemeProvider } from 'styled-components';
 import sequenceEditor from '../../../sequenceEditor';
 import shared from '../../../shared';
 import songEditor from '../../../songEditor';
-import { UploadOverlay } from '../UploadOverlay/UploadOverlay';
 
 const { actions, styles } = shared;
-const { Shell } = shared.components;
+const { Shell, UploadOverlay } = shared.components;
 const { SequenceEditorContainer } = sequenceEditor.components;
 const { STARTED } = Dawww.PLAYBACK_STATES;
 const { SongEditorContainer } = songEditor.components;

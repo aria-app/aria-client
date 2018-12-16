@@ -15,6 +15,7 @@
     "animejs": "2.2.0",
     "classnames": "2.2.5",
     "dawww": "1.9.6",
+    "firebase": "5.7.0",
     "history": "4.7.2",
     "i18next": "12.1.0",
     "i18next-browser-languagedetector": "2.2.4",
