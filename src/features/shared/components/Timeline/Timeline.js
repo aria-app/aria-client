@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-export const Timeline = styled.div.attrs({
-  style: props => ({
+export const Timeline = styled.div.attrs(props => ({
+  style: {
     ...props.style,
     transform: `translateX(${props.offset}px)`,
-  }),
-})`
+  },
+}))`
   background-color: ${props => props.theme.almostwhite};
   bottom: 0;
   display: ${props => props.isVisible

@@ -27,10 +27,10 @@ const StyledTrack = styled.div`
   margin-bottom: ${props => props.theme.margin.m}px;
 `;
 
-const TrackMatrixBox = styled(MatrixBox).attrs({
+const TrackMatrixBox = styled(MatrixBox).attrs(props => ({
   className: 'TrackMatrixBox',
-  fill: props => props.theme.primary[2],
-})`
+  fill: props.theme.primary[2],
+}))`
   left: 0;
   position: absolute;
   top: 0;
