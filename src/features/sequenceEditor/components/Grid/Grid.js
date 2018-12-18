@@ -28,7 +28,7 @@ const StyledGrid = styled.div`
 
 export class Grid extends React.PureComponent {
   static propTypes = {
-    measureCount: PropTypes.number.isRequired,
+    measureCount: PropTypes.number,
     notes: PropTypes.arrayOf(PropTypes.object).isRequired,
     onDrag: PropTypes.func.isRequired,
     onDragPreview: PropTypes.func.isRequired,

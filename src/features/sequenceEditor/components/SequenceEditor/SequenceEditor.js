@@ -8,12 +8,23 @@ import uniq from 'lodash/fp/uniq';
 import without from 'lodash/fp/without';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
+import { hideIf, showIf } from 'react-render-helpers';
 import { HotKeys } from 'react-hotkeys';
+import styled from 'styled-components';
 import { toolTypes } from '../../constants';
 import { Grid } from '../Grid/Grid';
 import { Keys } from '../Keys/Keys';
 import { SequenceEditorToolbar } from '../SequenceEditorToolbar/SequenceEditorToolbar';
+
+const LoadingIndicator = styled.div.attrs({
+  className: 'LoadingIndicator',
+})`
+  align-items: center;
+  color: white;
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+`;
 
 const SequenceEditorContent = styled.div`
   display: flex;
@@ -44,6 +55,7 @@ const StyledSequenceEditor = styled(HotKeys)`
 export class SequenceEditor extends React.PureComponent {
   static propTypes = {
     isRedoEnabled: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     isUndoEnabled: PropTypes.bool.isRequired,
     notes: PropTypes.arrayOf(PropTypes.object).isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -73,9 +85,19 @@ export class SequenceEditor extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.props.onLoad(this.props.sequence);
+    this.props.onLoad(this.props.match.params.sequenceId);
 
     this.focusRef.current.focus();
+
+    if (!this.contentElementRef) return;
+
+    this.contentElementRef.scrollTop = getCenteredScroll(
+      this.contentElementRef,
+    );
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.sequence === this.props.sequence) return;
 
     if (!this.contentElementRef) return;
 
@@ -90,47 +112,56 @@ export class SequenceEditor extends React.PureComponent {
         focused={true}
         handlers={this.getKeyHandlers()}>
         <div ref={this.focusRef} tabIndex={-1}/>
-          <SequenceEditorContent
-            ref={this.setContentRef}>
-            <SequenceEditorWrapper>
-              <Keys
-                onKeyPress={this.props.onPitchPreview}
-              />
-              <Grid
+          {showIf(this.props.isLoading)(
+            <LoadingIndicator>
+              LOADING SONG...
+            </LoadingIndicator>
+          )}
+          {hideIf(this.props.isLoading)(
+            <React.Fragment>
+              <SequenceEditorContent
+                ref={this.setContentRef}>
+                <SequenceEditorWrapper>
+                  <Keys
+                    onKeyPress={this.props.onPitchPreview}
+                  />
+                  <Grid
+                    measureCount={this.props.sequence.measureCount}
+                    notes={this.props.notes}
+                    onDrag={this.props.onDrag}
+                    onDragPreview={this.handleGridDragPreview}
+                    onDraw={this.handleGridDraw}
+                    onErase={this.handleGridErase}
+                    onResize={this.props.onResize}
+                    onSelect={this.handleGridSelect}
+                    onSelectInArea={this.handleGridSelectInArea}
+                    selectedNotes={this.getSelectedNotes()}
+                    sequenceEditorContentRef={this.contentElementRef}
+                    toolType={this.state.toolType}
+                  />
+                </SequenceEditorWrapper>
+              </SequenceEditorContent>
+              <SequenceEditorToolbar
+                isRedoEnabled={this.props.isRedoEnabled}
+                isUndoEnabled={this.props.isUndoEnabled}
                 measureCount={this.props.sequence.measureCount}
-                notes={this.props.notes}
-                onDrag={this.props.onDrag}
-                onDragPreview={this.handleGridDragPreview}
-                onDraw={this.handleGridDraw}
-                onErase={this.handleGridErase}
-                onResize={this.props.onResize}
-                onSelect={this.handleGridSelect}
-                onSelectInArea={this.handleGridSelectInArea}
+                onClose={this.close}
+                onDelete={this.deleteSelectedNotes}
+                onDeselectAll={this.deselectAllNotes}
+                onDrawToolSelect={this.activateDrawTool}
+                onDuplicate={this.duplicateSelectedNotes}
+                onEraseToolSelect={this.activateEraseTool}
+                onOctaveDown={this.handleToolbarOctaveDown}
+                onOctaveUp={this.handleToolbarOctaveUp}
+                onPanToolSelect={this.activatePanTool}
+                onRedo={this.redo}
+                onSelectToolSelect={this.activateSelectTool}
+                onUndo={this.undo}
                 selectedNotes={this.getSelectedNotes()}
-                sequenceEditorContentRef={this.contentElementRef}
                 toolType={this.state.toolType}
               />
-            </SequenceEditorWrapper>
-          </SequenceEditorContent>
-          <SequenceEditorToolbar
-            isRedoEnabled={this.props.isRedoEnabled}
-            isUndoEnabled={this.props.isUndoEnabled}
-            measureCount={this.props.sequence.measureCount}
-            onClose={this.close}
-            onDelete={this.deleteSelectedNotes}
-            onDeselectAll={this.deselectAllNotes}
-            onDrawToolSelect={this.activateDrawTool}
-            onDuplicate={this.duplicateSelectedNotes}
-            onEraseToolSelect={this.activateEraseTool}
-            onOctaveDown={this.handleToolbarOctaveDown}
-            onOctaveUp={this.handleToolbarOctaveUp}
-            onPanToolSelect={this.activatePanTool}
-            onRedo={this.redo}
-            onSelectToolSelect={this.activateSelectTool}
-            onUndo={this.undo}
-            selectedNotes={this.getSelectedNotes()}
-            toolType={this.state.toolType}
-          />
+            </React.Fragment>
+          )}
       </StyledSequenceEditor>
     );
   }

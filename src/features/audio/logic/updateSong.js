@@ -29,6 +29,7 @@ export const updateSong = createLogic({
     shared.actions.SEQUENCE_SHORTENED,
     shared.actions.SONG_EXTENDED,
     shared.actions.SONG_FOCUSED,
+    shared.actions.SONG_LOADED,
     shared.actions.SONG_SHORTENED,
     shared.actions.TRACK_ADDED,
     shared.actions.TRACK_DELETED,
@@ -40,7 +41,7 @@ export const updateSong = createLogic({
   ],
   process({ getState }, dispatch, done) {
     const songState = song.selectors.getSong(getState());
-    const focusedSequenceId = selectors.getFocusedSequenceId(getState());
+    const focusedSequenceId = selectors.getFocusedSequenceId(getState()) || '';
 
     dawww.updateSong({
       ...songState,

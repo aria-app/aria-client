@@ -4,14 +4,15 @@ import song from '../../../song';
 import { SequenceEditor } from './SequenceEditor';
 
 export const SequenceEditorContainer = connect((state, ownProps) => ({
-    isRedoEnabled: song.selectors.getIsRedoEnabled(state),
-    isUndoEnabled: song.selectors.getIsUndoEnabled(state),
-    notes: song.selectors.getNotesBySequenceId(
-      ownProps.match.params.sequenceId,
-    )(state),
-    sequence: song.selectors.getSequenceById(
-      ownProps.match.params.sequenceId,
-    )(state),
+  isLoading: song.selectors.getIsSongLoading(state),
+  isRedoEnabled: song.selectors.getIsRedoEnabled(state),
+  isUndoEnabled: song.selectors.getIsUndoEnabled(state),
+  notes: song.selectors.getNotesBySequenceId(
+    ownProps.match.params.sequenceId,
+  )(state),
+  sequence: song.selectors.getSequenceById(
+    ownProps.match.params.sequenceId,
+  )(state),
 }), {
   onDelete: shared.actions.notesDeleted,
   onDraw: shared.actions.noteDrawn,

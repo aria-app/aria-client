@@ -206,10 +206,10 @@ export const sequenceExtended = sequence => ({
   },
 });
 
-export const sequenceFocused = sequence => ({
+export const sequenceFocused = id => ({
   type: SEQUENCE_FOCUSED,
   payload: {
-    sequence,
+    id,
   },
 });
 

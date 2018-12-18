@@ -12,7 +12,7 @@ export class SequenceEditorToolbar extends React.PureComponent {
   static propTypes = {
     isRedoEnabled: PropTypes.bool.isRequired,
     isUndoEnabled: PropTypes.bool.isRequired,
-    measureCount: PropTypes.number.isRequired,
+    measureCount: PropTypes.number,
     onClose: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onDeselectAll: PropTypes.func.isRequired,

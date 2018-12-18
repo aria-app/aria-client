@@ -34,6 +34,7 @@
     "redux-devtools-extension": "2.13.7",
     "redux-logic": "2.0.3",
     "redux-undo": "0.6.1",
+    "startaudiocontext": "1.2.1",
     "styled-components": "4.1.3"
   },
   "devDependencies": {

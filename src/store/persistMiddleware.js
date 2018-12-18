@@ -16,7 +16,10 @@ export default store => next => (action) => {
   const nextState = next(action);
   const nextSong = song.selectors.getSong(store.getState());
 
-  if (action.type === shared.actions.SONG_FOCUSED) {
+  if (
+    action.type === shared.actions.SEQUENCE_FOCUSED ||
+    action.type === shared.actions.SONG_FOCUSED
+  ) {
     const user = auth.selectors.getUser(store.getState());
 
     song.helpers.fetchUserSong(user)

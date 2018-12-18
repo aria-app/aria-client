@@ -8,6 +8,7 @@ import { name } from './name';
 import { notes } from './notes';
 import { sequences } from './sequences';
 import { tracks } from './tracks';
+import { userId } from './userId';
 
 const rootReducer = combineReducers({
   bpm,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   notes,
   sequences,
   tracks,
+  userId,
 });
 
 export default undoable(rootReducer, {
