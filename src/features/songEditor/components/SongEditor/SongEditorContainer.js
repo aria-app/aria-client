@@ -6,6 +6,7 @@ import { SongEditor } from './SongEditor';
 
 export const SongEditorContainer = connect(state => ({
   bpm: song.selectors.getBPM(state),
+  isLoading: song.selectors.getIsSongLoading(state),
   isRedoEnabled: song.selectors.getIsRedoEnabled(state),
   isUndoEnabled: song.selectors.getIsUndoEnabled(state),
   isStopped: audio.selectors.getIsStopped(state),

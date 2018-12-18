@@ -1,7 +1,6 @@
 export default {
 	en: {
     translation: {
-      'Clear Cache': 'Clear Cache',
       'Delete': 'Delete',
       'Download Song': 'Download Song',
       'Edit Track': 'Edit Track',
@@ -10,6 +9,10 @@ export default {
       PWM: 'PWM',
 			SAWTOOTH: 'Sawtooth',
 		  'Select Language': 'Select Language',
+      'Sign In': 'Sign In',
+      'Sign in with Google': 'Sign in with Google',
+      'Sign Out': 'Sign Out',
+      'Signing Out': 'Signing Out...',
 			SINE: 'Sine',
       'Song Info': 'Song Info',
       SQUARE: 'Square',
@@ -20,7 +23,6 @@ export default {
   },
   jp: {
 		translation: {
-      'Clear Cache': 'キャッシュを削除',
       'Delete': '削除',
       'Download Song': 'ソングをダウンロード',
 			'Edit Track': 'トラックを編集',
@@ -29,6 +31,10 @@ export default {
       PWM: 'PWM',
       SAWTOOTH: 'のこぎり',
       'Select Language': '言語を選択する',
+      'Sign In': 'ログイン',
+      'Sign in with Google': 'Googleでログイン',
+      'Sign Out': 'ログアウト',
+      'Signing Out': 'ログアウトがしています。。。',
 			SINE: 'サイン',
       'Song Info': 'ソングの情報',
       SQUARE: 'スクエア',

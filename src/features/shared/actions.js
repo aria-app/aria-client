@@ -38,6 +38,8 @@ export const TRACK_IS_SOLOING_TOGGLED = 'TRACK_IS_SOLOING_TOGGLED';
 export const TRACK_VOICE_SET = 'TRACK_VOICE_SET';
 export const TRACK_VOLUME_SET = 'TRACK_VOLUME_SET';
 export const UNDO_REQUESTED = 'UNDO_REQUESTED';
+export const USER_SIGN_IN_SUCCEEDED = 'USER_SIGN_IN_SUCCEEDED';
+export const USER_SIGN_OUT_SUCCEEDED = 'USER_SIGN_OUT_SUCCEEDED';
 
 export const bpmSet = bpm => ({
   type: BPM_SET,
@@ -298,4 +300,15 @@ export const trackVolumeSet = (track, volume) => ({
 
 export const undoRequested = () => ({
   type: UNDO_REQUESTED,
+});
+
+export const userSignInSucceeded = (user) => ({
+  type: USER_SIGN_IN_SUCCEEDED,
+  payload: {
+    user,
+  },
+});
+
+export const userSignOutSucceeded = () => ({
+  type: USER_SIGN_OUT_SUCCEEDED,
 });

@@ -5,6 +5,7 @@ import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { HotKeys } from 'react-hotkeys';
+import { hideIf, showIf } from 'react-render-helpers';
 import styled from 'styled-components';
 import shared from '../../../shared';
 import { SongInfoModal } from '../SongInfoModal/SongInfoModal';
@@ -14,7 +15,19 @@ import { SongEditorToolbar } from '../SongEditorToolbar/SongEditorToolbar';
 
 const { Timeline } = shared.components;
 
-const StyledSongEditor = styled(HotKeys)`
+const LoadingIndicator = styled.div.attrs({
+  className: 'LoadingIndicator',
+})`
+  align-items: center;
+  color: white;
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+`;
+
+const StyledSongEditor = styled(HotKeys).attrs({
+  className: 'SongEditor',
+})`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -82,61 +95,71 @@ export class SongEditor extends React.PureComponent {
         focused={true}
         handlers={this.getKeyHandlers()}>
         <div ref={this.focusRef} tabIndex={-1}/>
-        <TrackList
-          isStopped={this.props.isStopped}
-          onPositionSet={this.props.onPositionSet}
-          onSequenceAdd={this.handleTrackListSequenceAdd}
-          onSequenceDelete={this.props.onSequenceDelete}
-          onSequenceEdit={this.props.onSequenceEdit}
-          onSequenceDeselect={this.handleTrackListSequenceDeselect}
-          onSequenceOpen={this.openSequence}
-          onSequenceSelect={this.handleTrackListSequenceSelect}
-          onSongExtend={this.props.onSongExtend}
-          onSongInfoPress={this.handleTrackListSongInfoPress}
-          onSongShorten={this.props.onSongShorten}
-          onTrackAdd={this.handleTrackListTrackAdd}
-          onTrackIsMutedToggle={this.props.onTrackIsMutedToggle}
-          onTrackIsSoloingToggle={this.props.onTrackIsSoloingToggle}
-          onTrackStage={this.selectTrack}
-          selectedSequence={this.getSelectedSequence()}
-          songMeasureCount={this.props.songMeasureCount}
-          tracks={this.props.tracks}
-        />
-        <SongEditorToolbar
-          isRedoEnabled={this.props.isRedoEnabled}
-          isUndoEnabled={this.props.isUndoEnabled}
-          onRedo={this.redo}
-          onSequenceDelete={this.deleteSelectedSequence}
-          onSequenceDuplicate={this.duplicateSelectedSequence}
-          onSequenceExtend={() => {}}
-          onSequenceMoveLeft={() => {}}
-          onSequenceMoveRight={() => {}}
-          onSequenceOpen={this.openSequence}
-          onSequenceShorten={() => {}}
-          onSongInfoOpen={this.openSongInfo}
-          onUndo={this.undo}
-          selectedSequence={this.getSelectedSequence()}
-        />
-        <Timeline
-          isVisible={!this.props.isStopped}
-          offset={(this.props.position * 2) + 16}
-        />
-        <SongInfoModal
-          bpm={this.props.bpm}
-          measureCount={this.props.songMeasureCount}
-          isOpen={this.state.isSongInfoModalOpen}
-          onBPMChange={this.props.onBPMChange}
-          onConfirm={this.closeSongInfo}
-          onMeasureCountChange={this.props.onSongMeasureCountChange}
-          song={this.props.song}
-        />
-        <TrackEditingModal
-          onDelete={this.deleteTrack}
-          onDismiss={this.deselectTrack}
-          onVoiceSet={this.props.onTrackVoiceSet}
-          onVolumeSet={this.props.onTrackVolumeSet}
-          stagedTrack={this.getSelectedTrack()}
-        />
+        {showIf(this.props.isLoading)(
+          <LoadingIndicator>
+            LOADING SONG...
+          </LoadingIndicator>
+        )}
+        {hideIf(this.props.isLoading)(
+          <React.Fragment>
+            <TrackList
+              isStopped={this.props.isStopped}
+              onPositionSet={this.props.onPositionSet}
+              onSequenceAdd={this.handleTrackListSequenceAdd}
+              onSequenceDelete={this.props.onSequenceDelete}
+              onSequenceEdit={this.props.onSequenceEdit}
+              onSequenceDeselect={this.handleTrackListSequenceDeselect}
+              onSequenceOpen={this.openSequence}
+              onSequenceSelect={this.handleTrackListSequenceSelect}
+              onSongExtend={this.props.onSongExtend}
+              onSongInfoPress={this.handleTrackListSongInfoPress}
+              onSongShorten={this.props.onSongShorten}
+              onTrackAdd={this.handleTrackListTrackAdd}
+              onTrackIsMutedToggle={this.props.onTrackIsMutedToggle}
+              onTrackIsSoloingToggle={this.props.onTrackIsSoloingToggle}
+              onTrackStage={this.selectTrack}
+              selectedSequence={this.getSelectedSequence()}
+              songMeasureCount={this.props.songMeasureCount}
+              tracks={this.props.tracks}
+            />
+            <SongEditorToolbar
+              isRedoEnabled={this.props.isRedoEnabled}
+              isUndoEnabled={this.props.isUndoEnabled}
+              onRedo={this.redo}
+              onSequenceDelete={this.deleteSelectedSequence}
+              onSequenceDuplicate={this.duplicateSelectedSequence}
+              onSequenceExtend={() => {}}
+              onSequenceMoveLeft={() => {}}
+              onSequenceMoveRight={() => {}}
+              onSequenceOpen={this.openSequence}
+              onSequenceShorten={() => {}}
+              onSongInfoOpen={this.openSongInfo}
+              onUndo={this.undo}
+              selectedSequence={this.getSelectedSequence()}
+            />
+            <Timeline
+              isVisible={!this.props.isStopped}
+              offset={(this.props.position * 2) + 16}
+            />
+            <SongInfoModal
+              bpm={this.props.bpm}
+              measureCount={this.props.songMeasureCount}
+              isOpen={this.state.isSongInfoModalOpen}
+              onBPMChange={this.props.onBPMChange}
+              onConfirm={this.closeSongInfo}
+              onMeasureCountChange={this.props.onSongMeasureCountChange}
+              onSignOut={this.signOut}
+              song={this.props.song}
+            />
+            <TrackEditingModal
+              onDelete={this.deleteTrack}
+              onDismiss={this.deselectTrack}
+              onVoiceSet={this.props.onTrackVoiceSet}
+              onVolumeSet={this.props.onTrackVolumeSet}
+              stagedTrack={this.getSelectedTrack()}
+            />
+          </React.Fragment>
+        )}
       </StyledSongEditor>
     );
   }
@@ -287,6 +310,10 @@ export class SongEditor extends React.PureComponent {
       selectedTrackId: track.id,
     });
   };
+
+  signOut = () => {
+    this.props.history.push(`/sign-out`);
+  }
 
   undo = () => {
     if (!this.props.isUndoEnabled) return;

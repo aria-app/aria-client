@@ -1,5 +1,6 @@
 import isEqual from 'lodash/fp/isEqual';
 import throttle from 'lodash/fp/throttle';
+import auth from '../features/auth';
 import shared from '../features/shared';
 import song from '../features/song';
 
@@ -15,8 +16,10 @@ export default store => next => (action) => {
   const nextState = next(action);
   const nextSong = song.selectors.getSong(store.getState());
 
-  if (action.type === shared.actions.INITIALIZED) {
-    song.helpers.fetchUserSong()
+  if (action.type === shared.actions.SONG_FOCUSED) {
+    const user = auth.selectors.getUser(store.getState());
+
+    song.helpers.fetchUserSong(user)
       .then((loadedSong) => {
         store.dispatch(shared.actions.songLoaded(loadedSong));
       })

@@ -1,5 +1,4 @@
 import Dawww from 'dawww';
-import { authenticate } from './authenticate';
 import { db } from '../constants';
 
 const createSong = (user) => new Promise((resolve) => {
@@ -14,21 +13,19 @@ const createSong = (user) => new Promise((resolve) => {
 		});
 });
 
-export const fetchUserSong = () => new Promise((resolve) => {
-	authenticate().then((user) => {
-		db.collection('songs').where('userId', '==', user.uid).get()
-			.then((querySnapshot) => {
-				if (querySnapshot.empty) {
-					return createSong(user).then(resolve);
-				}
+export const fetchUserSong = (user) => new Promise((resolve) => {
+	db.collection('songs').where('userId', '==', user.uid).get()
+		.then((querySnapshot) => {
+			if (querySnapshot.empty) {
+				return createSong(user).then(resolve);
+			}
 
-				const results = [];
+			const results = [];
 
-				querySnapshot.forEach((doc) => {
-					results.push(doc.data());
-				});
-
-				return resolve(results[0]);
+			querySnapshot.forEach((doc) => {
+				results.push(doc.data());
 			});
-	});
+
+      resolve(results[0]);
+		});
 });

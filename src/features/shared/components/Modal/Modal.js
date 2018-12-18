@@ -8,10 +8,8 @@ import { Toolbar } from '../Toolbar/Toolbar';
 
 const ModalContent = styled.div`
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
-  flex-grow: 1;
-  flex-shrink: 1;
-  padding: ${props => props.theme.margin.m}px;
 `;
 
 const ModalHeader = styled.div`

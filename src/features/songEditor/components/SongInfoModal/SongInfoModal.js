@@ -12,21 +12,33 @@ const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
 const SongInfoModalBPMDropdown = styled(DropdownList)`
   margin-bottom: ${props => props.theme.margin.m}px;
+  margin-left: ${props => props.theme.margin.s}px;
 `;
 
 const SongInfoModalContent = styled.div`
+  align-items: flex-start;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
+  padding-bottom: ${props => props.theme.margin.m}px;
+  padding-left: ${props => props.theme.margin.s}px;
+  padding-right: ${props => props.theme.margin.s}px;
+  padding-top: ${props => props.theme.margin.m}px;
+`;
+
+const SongInfoModalLabel = styled.div`
+  font-weight: 800;
+  margin-left: ${props => props.theme.margin.s}px;
+  margin-top: ${props => props.theme.margin.m}px;
 `;
 
 const SongInfoModalMeasureCountTicker = styled.div`
   align-items: center;
-  align-self: flex-start;
   border: 1px solid ${props => props.theme.color};
   border-radius: 4px;
   display: flex;
   height: 48px;
+  margin-left: ${props => props.theme.margin.s}px;
   overflow: hidden;
 `;
 
@@ -54,6 +66,7 @@ export class SongInfoModal extends React.PureComponent {
     onBPMChange: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired,
     onMeasureCountChange: PropTypes.func.isRequired,
+    onSignOut: PropTypes.func.isRequired,
     song: PropTypes.object,
   }
 
@@ -89,24 +102,26 @@ export class SongInfoModal extends React.PureComponent {
                 </SongInfoModalMeasureCountTickerPlus>
               </SongInfoModalMeasureCountTicker>
               <Button
-                onClick={this.handleClearCacheClick}>
-                {t('Clear Cache')}
+                onClick={this.props.onSignOut}>
+                {t('Sign Out')}
               </Button>
               <DownloadButton
                 fileContents={this.getStringifiedSong()}
                 filename="song.json">
                 {t('Download Song')}
               </DownloadButton>
+              <SongInfoModalLabel>
+                {t('Select Language')}
+              </SongInfoModalLabel>
+              <Button
+                onClick={() => shared.i18n.changeLanguage('en')}>
+                {t('English')}
+              </Button>
+              <Button
+                onClick={() => shared.i18n.changeLanguage('jp')}>
+                {t('Japanese')}
+              </Button>
             </SongInfoModalContent>
-            {t('Select Language')}
-            <Button
-              onClick={() => shared.i18n.changeLanguage('en')}>
-              {t('English')}
-            </Button>
-            <Button
-              onClick={() => shared.i18n.changeLanguage('jp')}>
-              {t('Japanese')}
-            </Button>
           </Modal>
         )}
       </NamespacesConsumer>
@@ -115,11 +130,6 @@ export class SongInfoModal extends React.PureComponent {
 
   getStringifiedSong = () =>
     JSON.stringify(this.props.song);
-
-  handleClearCacheClick = () => {
-    window.localStorage.removeItem('currentSong');
-    window.location.reload();
-  }
 
   handleContentDropdownListSelect = (value) => {
     this.props.onBPMChange(value);

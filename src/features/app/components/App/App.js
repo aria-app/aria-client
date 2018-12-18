@@ -3,19 +3,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { HotKeys } from 'react-hotkeys';
 import { hideIf, showIf } from 'react-render-helpers';
-import { Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import sequenceEditor from '../../../sequenceEditor';
 import shared from '../../../shared';
 import songEditor from '../../../songEditor';
-
-const SongLoadingIndicator = styled.div`
-  align-items: center;
-  color: white;
-  display: flex;
-  flex: 1 1 auto;
-  justify-content: center;
-`;
+import { SignInContainer } from '../SignIn/SignInContainer';
+import { SignOutContainer } from '../SignOut/SignOutContainer';
 
 const { styles } = shared;
 const { Shell } = shared.components;
@@ -23,17 +17,42 @@ const { SequenceEditorContainer } = sequenceEditor.components;
 const { STARTED } = Dawww.PLAYBACK_STATES;
 const { SongEditorContainer } = songEditor.components;
 
+const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      isAuthenticated ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/sign-in',
+            state: { from: props.location }
+          }}
+        />
+      )
+    }
+  />
+);
+
+const LoadingIndicator = styled.div.attrs({
+  className: 'LoadingIndicator',
+})`
+  align-items: center;
+  color: white;
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+`;
+
 export class App extends React.PureComponent {
   static propTypes = {
-    bpm: PropTypes.number.isRequired,
-    isSongLoading: PropTypes.bool,
+    isAuthenticated: PropTypes.bool,
+    didAuthenticationRun: PropTypes.bool,
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
-    onUpload: PropTypes.func.isRequired,
     playbackState: PropTypes.string.isRequired,
-    songMeasureCount: PropTypes.number.isRequired,
-    stringifiedSong: PropTypes.string.isRequired,
   }
 
   render() {
@@ -47,20 +66,33 @@ export class App extends React.PureComponent {
           onDragOver={this.handleDragOver}
           onDrop={this.handleDrop}>
           <Shell>
-            {showIf(this.props.isSongLoading)(
-              <SongLoadingIndicator>
-                LOADING...
-              </SongLoadingIndicator>
+            {hideIf(this.props.didAuthenticationRun)(
+              <LoadingIndicator>
+                AUTHENTICATING...
+              </LoadingIndicator>
             )}
-            {hideIf(this.props.isSongLoading)(
+            {showIf(this.props.didAuthenticationRun)(
               <React.Fragment>
                 <Route
-                  component={SongEditorContainer}
+                  component={SignInContainer}
                   exact={true}
-                  path="/"
+                  path="/sign-in"
                 />
                 <Route
+                  component={SignOutContainer}
+                  exact={true}
+                  path="/sign-out"
+                />
+                <PrivateRoute
+                  component={SongEditorContainer}
+                  exact={true}
+                  isAuthenticated={this.props.isAuthenticated}
+                  path="/"
+                />
+                <PrivateRoute
                   component={SequenceEditorContainer}
+                  exact={true}
+                  isAuthenticated={this.props.isAuthenticated}
                   path="/sequencer/:sequenceId"
                 />
               </React.Fragment>
