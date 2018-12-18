@@ -22,6 +22,10 @@ const rootReducer = combineReducers({
 });
 
 export default undoable(rootReducer, {
+  clearHistoryType: [
+    shared.actions.SEQUENCE_FOCUSED,
+    shared.actions.SONG_FOCUSED,
+  ],
   filter: includeAction([
     shared.actions.BPM_SET,
     shared.actions.MEASURE_COUNT_SET,
@@ -51,12 +55,7 @@ export default undoable(rootReducer, {
     shared.actions.TRACK_VOICE_SET,
     shared.actions.TRACK_VOLUME_SET,
   ]),
-  initTypes: [
-    '@@redux-undo/INIT',
-    shared.actions.INITIALIZED,
-    shared.actions.SEQUENCE_FOCUSED,
-    shared.actions.SONG_FOCUSED,
-  ],
   redoType: shared.actions.REDO_REQUESTED,
+  syncFilter: true,
   undoType: shared.actions.UNDO_REQUESTED,
 })

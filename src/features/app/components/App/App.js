@@ -5,6 +5,7 @@ import { HotKeys } from 'react-hotkeys';
 import { hideIf, showIf } from 'react-render-helpers';
 import { Redirect, Route } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
+import Tone from 'tone';
 import sequenceEditor from '../../../sequenceEditor';
 import shared from '../../../shared';
 import songEditor from '../../../songEditor';
@@ -109,6 +110,9 @@ export class App extends React.PureComponent {
   });
 
   playPause = () => {
+    if (Tone.context.state !== 'running') {
+      Tone.context.resume();
+    }
     if (this.props.playbackState === STARTED) {
       this.props.onPause();
     } else {

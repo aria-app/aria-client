@@ -35,7 +35,7 @@ export default store => next => (action) => {
     return nextState;
   }
 
-  if (!isEqual(prevSong, nextSong)) {
+  if (!isEqual(prevSong, nextSong) && !!nextSong.id) {
     throttledUpdate(nextSong);
   }
 
