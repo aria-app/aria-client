@@ -17,6 +17,7 @@ export const SongEditorContainer = connect(state => ({
   tracks: song.selectors.getDeepTracks(state),
 }), {
   onBPMChange: shared.actions.bpmSet,
+  onLoad: shared.actions.songFocused,
   onPositionSet: shared.actions.positionSetRequestStarted,
   onRedo: shared.actions.redoRequested,
   onSequenceAdd: shared.actions.sequenceAdded,
@@ -26,7 +27,6 @@ export const SongEditorContainer = connect(state => ({
   onSequenceExtend: shared.actions.sequenceExtended,
   onSequenceMoveLeft: shared.actions.sequenceNudgedLeft,
   onSequenceMoveRight: shared.actions.sequenceNudgedRight,
-  onSequenceOpen: shared.actions.sequencerLoaded,
   onSequenceShorten: shared.actions.sequenceShortened,
   onSongExtend: shared.actions.songExtended,
   onSongMeasureCountChange: shared.actions.measureCountSet,

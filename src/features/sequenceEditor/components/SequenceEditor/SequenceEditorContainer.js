@@ -3,19 +3,22 @@ import shared from '../../../shared';
 import song from '../../../song';
 import { SequenceEditor } from './SequenceEditor';
 
-export const SequenceEditorContainer = connect(state => ({
-  isRedoEnabled: song.selectors.getIsRedoEnabled(state),
-  isUndoEnabled: song.selectors.getIsUndoEnabled(state),
-  measureCount: song.selectors.getFocusedSequenceMeasureCount(state),
-  notes: song.selectors.getFocusedSequenceNotes(state),
-  sequence: song.selectors.getFocusedSequence(state),
+export const SequenceEditorContainer = connect((state, ownProps) => ({
+    isRedoEnabled: song.selectors.getIsRedoEnabled(state),
+    isUndoEnabled: song.selectors.getIsUndoEnabled(state),
+    notes: song.selectors.getNotesBySequenceId(
+      ownProps.match.params.sequenceId,
+    )(state),
+    sequence: song.selectors.getSequenceById(
+      ownProps.match.params.sequenceId,
+    )(state),
 }), {
-  onClose: shared.actions.trackerLoaded,
   onDelete: shared.actions.notesDeleted,
   onDraw: shared.actions.noteDrawn,
   onDrag: shared.actions.notesDragged,
   onDuplicate: shared.actions.notesDuplicated,
   onErase: shared.actions.noteErased,
+  onLoad: shared.actions.sequenceFocused,
   onNudge: shared.actions.notesNudged,
   onOctaveDown: shared.actions.notesMovedOctaveDown,
   onOctaveUp: shared.actions.notesMovedOctaveUp,

@@ -2,6 +2,7 @@ import { createLogic } from 'redux-logic';
 import shared from '../../shared';
 import song from '../../song';
 import dawww from '../dawww';
+import * as selectors from '../selectors';
 
 export const updateSong = createLogic({
   type: [
@@ -21,12 +22,13 @@ export const updateSong = createLogic({
     shared.actions.SEQUENCE_DELETED,
     shared.actions.SEQUENCE_DUPLICATED,
     shared.actions.SEQUENCE_EXTENDED,
-    shared.actions.SEQUENCER_LOADED,
     shared.actions.SEQUENCE_EDITED,
+    shared.actions.SEQUENCE_FOCUSED,
     shared.actions.SEQUENCE_NUDGED_LEFT,
     shared.actions.SEQUENCE_NUDGED_RIGHT,
     shared.actions.SEQUENCE_SHORTENED,
     shared.actions.SONG_EXTENDED,
+    shared.actions.SONG_FOCUSED,
     shared.actions.SONG_SHORTENED,
     shared.actions.TRACK_ADDED,
     shared.actions.TRACK_DELETED,
@@ -34,13 +36,16 @@ export const updateSong = createLogic({
     shared.actions.TRACK_IS_SOLOING_TOGGLED,
     shared.actions.TRACK_VOICE_SET,
     shared.actions.TRACK_VOLUME_SET,
-    shared.actions.TRACKER_LOADED,
     shared.actions.UNDO_REQUESTED,
   ],
   process({ getState }, dispatch, done) {
     const songState = song.selectors.getSong(getState());
+    const focusedSequenceId = selectors.getFocusedSequenceId(getState());
 
-    dawww.updateSong(songState);
+    dawww.updateSong({
+      ...songState,
+      focusedSequenceId,
+    });
 
     done();
   },

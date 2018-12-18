@@ -45,14 +45,13 @@ export class SequenceEditor extends React.PureComponent {
   static propTypes = {
     isRedoEnabled: PropTypes.bool.isRequired,
     isUndoEnabled: PropTypes.bool.isRequired,
-    measureCount: PropTypes.number.isRequired,
     notes: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onClose: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onDrag: PropTypes.func.isRequired,
     onDraw: PropTypes.func.isRequired,
     onDuplicate: PropTypes.func.isRequired,
     onErase: PropTypes.func.isRequired,
+    onLoad: PropTypes.func.isRequired,
     onNudge: PropTypes.func.isRequired,
     onOctaveDown: PropTypes.func.isRequired,
     onOctaveUp: PropTypes.func.isRequired,
@@ -60,6 +59,7 @@ export class SequenceEditor extends React.PureComponent {
     onRedo: PropTypes.func.isRequired,
     onResize: PropTypes.func.isRequired,
     onUndo: PropTypes.func.isRequired,
+    sequence: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -73,6 +73,8 @@ export class SequenceEditor extends React.PureComponent {
   }
 
   componentDidMount() {
+    this.props.onLoad(this.props.sequence);
+
     this.focusRef.current.focus();
 
     if (!this.contentElementRef) return;
@@ -95,7 +97,7 @@ export class SequenceEditor extends React.PureComponent {
                 onKeyPress={this.props.onPitchPreview}
               />
               <Grid
-                measureCount={this.props.measureCount}
+                measureCount={this.props.sequence.measureCount}
                 notes={this.props.notes}
                 onDrag={this.props.onDrag}
                 onDragPreview={this.handleGridDragPreview}
@@ -113,8 +115,8 @@ export class SequenceEditor extends React.PureComponent {
           <SequenceEditorToolbar
             isRedoEnabled={this.props.isRedoEnabled}
             isUndoEnabled={this.props.isUndoEnabled}
-            measureCount={this.props.measureCount}
-            onClose={this.props.onClose}
+            measureCount={this.props.sequence.measureCount}
+            onClose={this.close}
             onDelete={this.deleteSelectedNotes}
             onDeselectAll={this.deselectAllNotes}
             onDrawToolSelect={this.activateDrawTool}
@@ -165,6 +167,10 @@ export class SequenceEditor extends React.PureComponent {
     this.setState({
       toolType: toolTypes.SELECT,
     });
+  }
+
+  close = () => {
+    this.props.history.push('/');
   }
 
   deactivatePanOverride = (e) => {
@@ -300,7 +306,7 @@ export class SequenceEditor extends React.PureComponent {
     if (isEmpty(this.state.selectedNoteIds)) return;
 
     if (Dawww.someNoteWillMoveOutside(
-      this.props.measureCount,
+      this.props.sequence.measureCount,
       delta,
       this.getSelectedNotes(),
     )) return;

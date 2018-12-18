@@ -1,9 +1,6 @@
 export { getBPM } from './getBPM';
 export { getDeepSequences } from './getDeepSequences';
 export { getDeepTracks } from './getDeepTracks';
-export { getFocusedSequence } from './getFocusedSequence';
-export { getFocusedSequenceMeasureCount } from './getFocusedSequenceMeasureCount';
-export { getFocusedSequenceNotes } from './getFocusedSequenceNotes';
 export { getId } from './getId';
 export { getIsRedoEnabled } from './getIsRedoEnabled';
 export { getIsSongLoading } from './getIsSongLoading';
@@ -13,6 +10,7 @@ export { getName } from './getName';
 export { getNoteById } from './getNoteById';
 export { getNotes } from './getNotes';
 export { getNotesArray } from './getNotesArray';
+export { getNotesBySequenceId } from './getNotesBySequenceId';
 export { getSequenceById } from './getSequenceById';
 export { getSequences } from './getSequences';
 export { getSequencesArray } from './getSequencesArray';

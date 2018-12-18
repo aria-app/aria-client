@@ -5,7 +5,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const KeyLabel = styled.div`
-  display: ${props => props.step.name === 'C' ? 'block' : 'none'};
+  display: ${props => (
+    includes('C', props.step.name) &&
+    !includes('#', props.step.name)
+  ) ? 'block' : 'none'};
 `;
 
 const StyledKey = styled.div`

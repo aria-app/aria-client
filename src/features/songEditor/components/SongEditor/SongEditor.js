@@ -30,6 +30,7 @@ export class SongEditor extends React.PureComponent {
     isStopped: PropTypes.bool.isRequired,
     isUndoEnabled: PropTypes.bool.isRequired,
     onBPMChange: PropTypes.func.isRequired,
+    onLoad: PropTypes.func.isRequired,
     onPositionSet: PropTypes.func.isRequired,
     onRedo: PropTypes.func.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
@@ -39,7 +40,6 @@ export class SongEditor extends React.PureComponent {
     onSequenceExtend: PropTypes.func.isRequired,
     onSequenceMoveLeft: PropTypes.func.isRequired,
     onSequenceMoveRight: PropTypes.func.isRequired,
-    onSequenceOpen: PropTypes.func.isRequired,
     onSequenceShorten: PropTypes.func.isRequired,
     onSongExtend: PropTypes.func.isRequired,
     onSongMeasureCountChange: PropTypes.func.isRequired,
@@ -71,6 +71,8 @@ export class SongEditor extends React.PureComponent {
   }
 
   componentDidMount() {
+    this.props.onLoad();
+
     this.focusRef.current.focus();
   }
 
@@ -87,7 +89,7 @@ export class SongEditor extends React.PureComponent {
           onSequenceDelete={this.props.onSequenceDelete}
           onSequenceEdit={this.props.onSequenceEdit}
           onSequenceDeselect={this.handleTrackListSequenceDeselect}
-          onSequenceOpen={this.props.onSequenceOpen}
+          onSequenceOpen={this.openSequence}
           onSequenceSelect={this.handleTrackListSequenceSelect}
           onSongExtend={this.props.onSongExtend}
           onSongInfoPress={this.handleTrackListSongInfoPress}
@@ -109,7 +111,7 @@ export class SongEditor extends React.PureComponent {
           onSequenceExtend={() => {}}
           onSequenceMoveLeft={() => {}}
           onSequenceMoveRight={() => {}}
-          onSequenceOpen={this.props.onSequenceOpen}
+          onSequenceOpen={this.openSequence}
           onSequenceShorten={() => {}}
           onSongInfoOpen={this.openSongInfo}
           onUndo={this.undo}
@@ -255,13 +257,17 @@ export class SongEditor extends React.PureComponent {
   };
 
   handleSongEditorToolbarSequenceOpen = () => {
-    this.props.onSequenceOpen(this.getSelectedSequence());
+    this.openSequence(this.getSelectedSequence());
   };
 
   handleSongEditorToolbarSequenceShorten = () => {
     if (this.getSelectedSequence().measureCount < 2) return;
 
     this.props.onSequenceShorten(this.getSelectedSequence());
+  }
+
+  openSequence = (sequence) => {
+    this.props.history.push(`/sequencer/${sequence.id}`);
   }
 
   openSongInfo = () => {

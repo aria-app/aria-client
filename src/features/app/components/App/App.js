@@ -2,6 +2,8 @@ import Dawww from 'dawww';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { HotKeys } from 'react-hotkeys';
+import { hideIf, showIf } from 'react-render-helpers';
+import { Route } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import sequenceEditor from '../../../sequenceEditor';
 import shared from '../../../shared';
@@ -15,8 +17,8 @@ const SongLoadingIndicator = styled.div`
   justify-content: center;
 `;
 
-const { actions, styles } = shared;
-const { Shell, UploadOverlay } = shared.components;
+const { styles } = shared;
+const { Shell } = shared.components;
 const { SequenceEditorContainer } = sequenceEditor.components;
 const { STARTED } = Dawww.PLAYBACK_STATES;
 const { SongEditorContainer } = songEditor.components;
@@ -24,9 +26,7 @@ const { SongEditorContainer } = songEditor.components;
 export class App extends React.PureComponent {
   static propTypes = {
     bpm: PropTypes.number.isRequired,
-    locationType: PropTypes.string.isRequired,
-    onBPMChange: PropTypes.func.isRequired,
-    onMeasureCountChange: PropTypes.func.isRequired,
+    isSongLoading: PropTypes.bool,
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
@@ -35,11 +35,6 @@ export class App extends React.PureComponent {
     songMeasureCount: PropTypes.number.isRequired,
     stringifiedSong: PropTypes.string.isRequired,
   }
-
-  state = {
-    isSongInfoModalOpen: false,
-    isFileOver: false,
-  };
 
   render() {
     return (
@@ -52,66 +47,34 @@ export class App extends React.PureComponent {
           onDragOver={this.handleDragOver}
           onDrop={this.handleDrop}>
           <Shell>
-            {this.getContentComponent()}
-            <UploadOverlay
-              isFileOver={this.state.isFileOver}
-              onCancel={this.handleUploadOverlayCancel}
-              onUpload={this.handleUploadOverlayUpload}
-            />
+            {showIf(this.props.isSongLoading)(
+              <SongLoadingIndicator>
+                LOADING...
+              </SongLoadingIndicator>
+            )}
+            {hideIf(this.props.isSongLoading)(
+              <React.Fragment>
+                <Route
+                  component={SongEditorContainer}
+                  exact={true}
+                  path="/"
+                />
+                <Route
+                  component={SequenceEditorContainer}
+                  path="/sequencer/:sequenceId"
+                />
+              </React.Fragment>
+            )}
           </Shell>
         </HotKeys>
       </ThemeProvider>
     );
   }
 
-  getContentComponent = () => {
-    if (this.props.isSongLoading) {
-      return <SongLoadingIndicator>LOADING...</SongLoadingIndicator>
-    }
-
-    if (this.props.locationType === actions.SEQUENCER_LOADED) {
-      return <SequenceEditorContainer/>
-    }
-
-    return <SongEditorContainer/>;
-  };
-
   getKeyHandlers = () => ({
     enter: this.playPause,
     esc: this.stop,
   });
-
-  handleDragEnter = (e) => {
-    this.setState({
-      isFileOver: true,
-    });
-    e.preventDefault();
-    e.stopPropagation();
-  }
-
-  handleDragOver = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-
-  handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-
-  handleUploadOverlayCancel = () => {
-    this.setState({
-      isFileOver: false,
-    });
-  }
-
-  handleUploadOverlayUpload = (data) => {
-    this.props.onUpload(data);
-
-    this.setState({
-      isFileOver: false,
-    });
-  }
 
   playPause = () => {
     if (this.props.playbackState === STARTED) {

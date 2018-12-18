@@ -51,10 +51,10 @@ export default undoable(rootReducer, {
   ]),
   initTypes: [
     '@@redux-undo/INIT',
-    shared.actions.SEQUENCER_LOADED,
-    shared.actions.TRACKER_LOADED,
+    shared.actions.INITIALIZED,
+    shared.actions.SEQUENCE_FOCUSED,
+    shared.actions.SONG_FOCUSED,
   ],
-  // ignoreInitialState: true,
   redoType: shared.actions.REDO_REQUESTED,
   undoType: shared.actions.UNDO_REQUESTED,
 })
