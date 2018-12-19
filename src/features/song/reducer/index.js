@@ -7,6 +7,7 @@ import { measureCount } from './measureCount';
 import { name } from './name';
 import { notes } from './notes';
 import { sequences } from './sequences';
+import { songs } from './songs';
 import { tracks } from './tracks';
 import { userId } from './userId';
 
@@ -17,14 +18,15 @@ const rootReducer = combineReducers({
   name,
   notes,
   sequences,
+  songs,
   tracks,
   userId,
 });
 
 export default undoable(rootReducer, {
   clearHistoryType: [
-    shared.actions.SEQUENCE_FOCUSED,
-    shared.actions.SONG_FOCUSED,
+    shared.actions.SEQUENCE_EDITOR_LOADED,
+    shared.actions.SONG_EDITOR_LOADED,
   ],
   filter: includeAction([
     shared.actions.BPM_SET,

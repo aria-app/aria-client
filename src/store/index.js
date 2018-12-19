@@ -2,7 +2,7 @@ import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogicMiddleware } from 'redux-logic';
 import shared from '../features/shared';
-import persistMiddleware from './persistMiddleware';
+// import persistMiddleware from './persistMiddleware';
 import logic from './logic';
 import reducer from './reducer';
 
@@ -10,7 +10,7 @@ const logicMiddleware = createLogicMiddleware(logic);
 
 const middlewareEnhancer = applyMiddleware(
   logicMiddleware,
-  persistMiddleware,
+  // persistMiddleware,
 );
 
 const composeEnhancers = composeWithDevTools({

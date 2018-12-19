@@ -1,4 +1,5 @@
 export const BPM_SET = 'BPM_SET';
+export const DASHBOARD_LOADED = 'DASHBOARD_LOADED';
 export const INITIALIZED = 'INITIALIZED';
 export const MEASURE_COUNT_SET = 'MEASURE_COUNT_SET';
 export const NOTE_DRAWN = 'NOTE_DRAWN';
@@ -22,13 +23,13 @@ export const SEQUENCE_ADDED = 'SEQUENCE_ADDED';
 export const SEQUENCE_DELETED = 'SEQUENCE_DELETED';
 export const SEQUENCE_DUPLICATED = 'SEQUENCE_DUPLICATED';
 export const SEQUENCE_EDITED = 'SEQUENCE_EDITED';
+export const SEQUENCE_EDITOR_LOADED = 'SEQUENCE_EDITOR_LOADED';
 export const SEQUENCE_EXTENDED = 'SEQUENCE_EXTENDED';
-export const SEQUENCE_FOCUSED = 'SEQUENCE_FOCUSED';
 export const SEQUENCE_NUDGED_LEFT = 'SEQUENCE_NUDGED_LEFT';
 export const SEQUENCE_NUDGED_RIGHT = 'SEQUENCE_NUDGED_RIGHT';
 export const SEQUENCE_SHORTENED = 'SEQUENCE_SHORTENED';
+export const SONG_EDITOR_LOADED = 'SONG_EDITOR_LOADED';
 export const SONG_EXTENDED = 'SONG_EXTENDED';
-export const SONG_FOCUSED = 'SONG_FOCUSED';
 export const SONG_LOADED = 'SONG_LOADED';
 export const SONG_SHORTENED = 'SONG_SHORTENED';
 export const TRACK_ADDED = 'TRACK_ADDED';
@@ -40,12 +41,17 @@ export const TRACK_VOLUME_SET = 'TRACK_VOLUME_SET';
 export const UNDO_REQUESTED = 'UNDO_REQUESTED';
 export const USER_SIGN_IN_SUCCEEDED = 'USER_SIGN_IN_SUCCEEDED';
 export const USER_SIGN_OUT_SUCCEEDED = 'USER_SIGN_OUT_SUCCEEDED';
+export const USER_SONGS_FETCHED = 'USER_SONGS_FETCHED';
 
 export const bpmSet = bpm => ({
   type: BPM_SET,
   payload: {
     bpm,
   },
+});
+
+export const dashboardLoaded = () => ({
+  type: DASHBOARD_LOADED,
 });
 
 export const initialized = () => ({
@@ -199,20 +205,20 @@ export const sequenceEdited = sequence => ({
   },
 });
 
+export const sequenceEditorLoaded = id => ({
+  type: SEQUENCE_EDITOR_LOADED,
+  payload: {
+    id,
+  },
+});
+
+
 export const sequenceExtended = sequence => ({
   type: SEQUENCE_EXTENDED,
   payload: {
     sequence,
   },
 });
-
-export const sequenceFocused = id => ({
-  type: SEQUENCE_FOCUSED,
-  payload: {
-    id,
-  },
-});
-
 export const sequenceNudgedLeft = sequence => ({
   type: SEQUENCE_NUDGED_LEFT,
   payload: {
@@ -234,12 +240,15 @@ export const sequenceShortened = sequence => ({
   },
 });
 
-export const songExtended = () => ({
-  type: SONG_EXTENDED,
+export const songEditorLoaded = id => ({
+  type: SONG_EDITOR_LOADED,
+  payload: {
+    id,
+  },
 });
 
-export const songFocused = () => ({
-  type: SONG_FOCUSED,
+export const songExtended = () => ({
+  type: SONG_EXTENDED,
 });
 
 export const songLoaded = song => ({
@@ -311,4 +320,11 @@ export const userSignInSucceeded = (user) => ({
 
 export const userSignOutSucceeded = () => ({
   type: USER_SIGN_OUT_SUCCEEDED,
+});
+
+export const userSongsFetched = (songs) => ({
+  type: USER_SONGS_FETCHED,
+  payload: {
+    songs,
+  },
 });

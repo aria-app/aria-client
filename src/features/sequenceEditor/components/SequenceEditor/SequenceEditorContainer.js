@@ -19,7 +19,7 @@ export const SequenceEditorContainer = connect((state, ownProps) => ({
   onDrag: shared.actions.notesDragged,
   onDuplicate: shared.actions.notesDuplicated,
   onErase: shared.actions.noteErased,
-  onLoad: shared.actions.sequenceFocused,
+  onLoad: shared.actions.sequenceEditorLoaded,
   onNudge: shared.actions.notesNudged,
   onOctaveDown: shared.actions.notesMovedOctaveDown,
   onOctaveUp: shared.actions.notesMovedOctaveUp,

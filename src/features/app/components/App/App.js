@@ -7,12 +7,14 @@ import { Redirect, Route } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import Tone from 'tone';
 import sequenceEditor from '../../../sequenceEditor';
+import dashboard from '../../../dashboard';
 import shared from '../../../shared';
 import songEditor from '../../../songEditor';
 import { SignInContainer } from '../SignIn/SignInContainer';
 import { SignOutContainer } from '../SignOut/SignOutContainer';
 
 const { styles } = shared;
+const { DashboardContainer } = dashboard.components;
 const { Shell } = shared.components;
 const { SequenceEditorContainer } = sequenceEditor.components;
 const { STARTED } = Dawww.PLAYBACK_STATES;
@@ -85,10 +87,16 @@ export class App extends React.PureComponent {
                   path="/sign-out"
                 />
                 <PrivateRoute
-                  component={SongEditorContainer}
+                  component={DashboardContainer}
                   exact={true}
                   isAuthenticated={this.props.isAuthenticated}
                   path="/"
+                />
+                <PrivateRoute
+                  component={SongEditorContainer}
+                  exact={true}
+                  isAuthenticated={this.props.isAuthenticated}
+                  path="/song/:songId"
                 />
                 <PrivateRoute
                   component={SequenceEditorContainer}

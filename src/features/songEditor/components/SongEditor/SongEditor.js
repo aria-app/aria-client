@@ -84,7 +84,7 @@ export class SongEditor extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.props.onLoad();
+    this.props.onLoad(this.props.match.params.songId);
 
     this.focusRef.current.focus();
   }
