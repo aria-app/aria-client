@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { mixins } from '../../styles';
 
 export const Button = styled.div`
   align-items: center;
@@ -13,22 +14,5 @@ export const Button = styled.div`
   position: relative;
   text-transform: uppercase;
   user-select: none!important;
-  &::after {
-    background-color: black;
-    bottom: 0;
-    content: '';
-    display: block;
-    left: 0;
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-  &:hover::after {
-    opacity: 0.05;
-  }
-  &:active::after {
-    opacity: 0.1;
-  }
+  ${mixins.interactionOverlay('black')}
 `;

@@ -1,3 +1,2 @@
-import * as themesImport from './themes';
-
-export const themes = themesImport;
+export { mixins } from './mixins';
+export { themes } from './themes';
