@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { NamespacesConsumer } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
-const StyledSignOut = styled.div.attrs({
-  className: 'SignOut',
-})`
+const StyledSignOut = styled.div`
   align-items: center;
   color: white;
   display: flex;

@@ -2,7 +2,7 @@ import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 const StyledFence = styled.div`
   background-color: rgba(255, 255, 255, 0.25);

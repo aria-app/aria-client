@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import shared from '../../../shared';
 
 const { mixins } = shared.styles;
 
-const SongListItem = styled.div.attrs({
-	className: 'SongListItem',
-})`
+const SongListItem = styled.div`
   align-items: center;
   color: white;
 	cursor: pointer;
@@ -20,9 +18,7 @@ const SongListItem = styled.div.attrs({
 	${mixins.interactionOverlay('white')}
 `;
 
-const StyledSongList = styled.div.attrs({
-	className: 'SongList',
-})`
+const StyledSongList = styled.div`
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;

@@ -1,12 +1,10 @@
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { getExtraProps } from '../../helpers';
 
-const StyledMatrixBox = styled.div.attrs({
-  className: 'MatrixBox',
-})`
+const StyledMatrixBox = styled.div`
   display: flex;
   flex: 1 0 auto;
   position: relative;

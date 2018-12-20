@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { Button } from '../Button/Button';
 
 export const DownloadButton = styled(Button).attrs(props => ({

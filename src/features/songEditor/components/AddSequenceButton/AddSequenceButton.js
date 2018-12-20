@@ -1,7 +1,7 @@
 import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 const AddSequenceButtonPlusHorizontal = styled.div`
   background-color: ${props => props.theme.primary[2]};

@@ -4,7 +4,7 @@ import React from 'react';
 import { HotKeys } from 'react-hotkeys';
 import { hideIf, showIf } from 'react-render-helpers';
 import { Redirect, Route } from 'react-router-dom';
-import styled, { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components/macro';
 import Tone from 'tone';
 import sequenceEditor from '../../../sequenceEditor';
 import dashboard from '../../../dashboard';
@@ -38,9 +38,7 @@ const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
   />
 );
 
-const LoadingIndicator = styled.div.attrs({
-  className: 'LoadingIndicator',
-})`
+const LoadingIndicator = styled.div`
   align-items: center;
   color: white;
   display: flex;

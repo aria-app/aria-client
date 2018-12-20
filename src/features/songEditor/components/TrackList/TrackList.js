@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { AddTrackButton } from '../AddTrackButton/AddTrackButton';
 import { Ruler } from '../Ruler/Ruler';
 import { Track } from '../Track/Track';
 
-const StyledTrackList = styled.div.attrs({
-  className: 'TrackList',
-})`
+const StyledTrackList = styled.div`
   align-items: flex-start;
   display: flex;
   flex: 1 1 auto;
@@ -15,13 +13,12 @@ const StyledTrackList = styled.div.attrs({
   overflow: auto;
 `;
 
-const TrackListContent = styled.div.attrs({
-  className: 'TrackListContent',
-})`
+const TrackListContent = styled.div`
   align-items: flex-start;
   display: flex;
   flex: 1 0 auto;
   flex-direction: column;
+  min-width: 100%;
   padding: ${props => props.theme.margin.m}px;
   padding-bottom: ${props => props.theme.margin.m + 84}px;
   padding-right: ${props => props.theme.margin.m + 128}px;
@@ -29,9 +26,7 @@ const TrackListContent = styled.div.attrs({
   position: relative;
 `;
 
-const TrackListUnderlay = styled.div.attrs({
-  className: 'TrackListUnderlay',
-})`
+const TrackListUnderlay = styled.div`
   bottom: 0;
   left: 0;
   position: absolute;

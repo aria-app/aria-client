@@ -6,7 +6,7 @@ import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { NamespacesConsumer } from 'react-i18next';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import shared from '../../../shared';
 
 const { Button, DropdownList, Modal } = shared.components;

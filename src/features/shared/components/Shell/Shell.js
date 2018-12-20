@@ -1,8 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
-export const Shell = styled.div.attrs({
-  className: 'Shell',
-})`
+export const Shell = styled.div`
   background-color: ${props => props.theme.almostblack};
   color: ${props => props.theme.almostblack};
   bottom: 0;

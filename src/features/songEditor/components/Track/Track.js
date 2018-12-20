@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { NamespacesConsumer } from 'react-i18next';
 import { showIf } from 'react-render-helpers';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import shared from '../../../shared';
 import { AddSequenceButton } from '../AddSequenceButton/AddSequenceButton';
 import { TrackSequence } from '../TrackSequence/TrackSequence';
@@ -28,7 +28,6 @@ const StyledTrack = styled.div`
 `;
 
 const TrackMatrixBox = styled(MatrixBox).attrs(props => ({
-  className: 'TrackMatrixBox',
   fill: props.theme.primary[2],
 }))`
   left: 0;

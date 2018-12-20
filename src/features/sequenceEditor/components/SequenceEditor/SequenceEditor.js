@@ -10,15 +10,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { hideIf, showIf } from 'react-render-helpers';
 import { HotKeys } from 'react-hotkeys';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { toolTypes } from '../../constants';
 import { Grid } from '../Grid/Grid';
 import { Keys } from '../Keys/Keys';
 import { SequenceEditorToolbar } from '../SequenceEditorToolbar/SequenceEditorToolbar';
 
-const LoadingIndicator = styled.div.attrs({
-  className: 'LoadingIndicator',
-})`
+const LoadingIndicator = styled.div`
   align-items: center;
   color: white;
   display: flex;

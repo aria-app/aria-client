@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { HotKeys } from 'react-hotkeys';
 import { hideIf, showIf } from 'react-render-helpers';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import shared from '../../../shared';
 import { SongInfoModal } from '../SongInfoModal/SongInfoModal';
 import { TrackList } from '../TrackList/TrackList';
@@ -15,9 +15,7 @@ import { SongEditorToolbar } from '../SongEditorToolbar/SongEditorToolbar';
 
 const { Timeline } = shared.components;
 
-const LoadingIndicator = styled.div.attrs({
-  className: 'LoadingIndicator',
-})`
+const LoadingIndicator = styled.div`
   align-items: center;
   color: white;
   display: flex;
@@ -25,9 +23,7 @@ const LoadingIndicator = styled.div.attrs({
   justify-content: center;
 `;
 
-const StyledSongEditor = styled(HotKeys).attrs({
-  className: 'SongEditor',
-})`
+const StyledSongEditor = styled(HotKeys)`
   display: flex;
   flex-direction: column;
   flex-grow: 1;

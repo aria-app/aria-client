@@ -4,7 +4,7 @@ import last from 'lodash/fp/last';
 import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import shared from '../../../shared';
 import * as constants from '../../constants';
 

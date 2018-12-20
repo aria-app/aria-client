@@ -1,7 +1,7 @@
 import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { TrackSequenceNote } from '../TrackSequenceNote/TrackSequenceNote';
 
 const StyledTrackSequence = styled.div`

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Draggable from 'react-draggable';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 const BoxResizer = styled.div.attrs({
   className: 'box__resizer',

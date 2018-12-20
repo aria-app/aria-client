@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { SongList } from '../SongList/SongList';
 
-const StyledDashboard = styled.div.attrs({
-	className: 'Dashboard',
-})`
+const StyledDashboard = styled.div`
   color: white;
   display: flex;
   flex: 1 1 auto;

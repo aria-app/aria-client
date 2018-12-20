@@ -1,5 +1,5 @@
 import getOr from 'lodash/fp/getOr';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 const getX0 = getOr(0, 'note.points[0].x');
 const getX1 = getOr(0, 'note.points[1].x');

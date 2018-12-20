@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled, { ThemeConsumer } from 'styled-components';
+import styled, { ThemeConsumer } from 'styled-components/macro';
 import icons from './icons';
 
 const IconContent = styled.div`

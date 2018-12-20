@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash/fp';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { showIf } from 'react-render-helpers';
 
 const reader = new FileReader();

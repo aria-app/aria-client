@@ -10,12 +10,10 @@ import some from 'lodash/fp/some';
 import without from 'lodash/fp/without';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { Note } from '../Note/Note';
 
-const StyledNotes = styled.div.attrs({
-  className: 'Notes',
-})`
+const StyledNotes = styled.div`
   bottom: 0;
   cursor: pointer;
   left: 0;

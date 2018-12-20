@@ -1,7 +1,7 @@
 import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 const StyledPanner = styled.div`
   bottom: 0;

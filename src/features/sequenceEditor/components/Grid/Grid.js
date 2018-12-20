@@ -2,7 +2,7 @@ import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import shared from '../../../shared';
 import * as constants from '../../constants';
 import { DrawLayer } from '../DrawLayer/DrawLayer';

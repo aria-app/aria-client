@@ -4,22 +4,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { NamespacesConsumer } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import auth from '../../../auth';
 import shared from '../../../shared';
 
 const { authProvider } = auth.constants;
 const { Button } = shared.components;
 
-const SignInButton = styled(Button).attrs({
-  className: 'SignInButton',
-})`
+const SignInButton = styled(Button)`
   background-color: white;
 `;
 
-const StyledSignIn = styled.div.attrs({
-  className: 'SignIn',
-})`
+const StyledSignIn = styled.div`
   align-items: center;
   display: flex;
   flex: 1 1 auto;

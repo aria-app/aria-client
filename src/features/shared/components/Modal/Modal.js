@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { Button } from '../Button/Button';
 import { Toolbar } from '../Toolbar/Toolbar';
 

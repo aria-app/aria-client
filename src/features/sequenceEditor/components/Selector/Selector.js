@@ -1,7 +1,7 @@
 import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { Fence } from '../Fence/Fence';
 
 const StyledSelector = styled.div`

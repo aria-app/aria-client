@@ -3,7 +3,7 @@ import round from 'lodash/round';
 import times from 'lodash/fp/times';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import shared from '../../../shared';
 
 const { MatrixBox } = shared.components;

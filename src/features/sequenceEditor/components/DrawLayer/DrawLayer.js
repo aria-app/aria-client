@@ -4,19 +4,15 @@ import noop from 'lodash/fp/noop';
 import split from 'lodash/fp/split';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { Note } from '../Note/Note';
 
-const DrawLayerGhostNote = styled(Note).attrs({
-  className: 'DrawLayerGhostNote',
-})`
+const DrawLayerGhostNote = styled(Note)`
   opacity: 0.4;
   pointer-events: none;
 `;
 
-const StyledDrawLayer = styled.div.attrs({
-  className: 'DrawLayer',
-})`
+const StyledDrawLayer = styled.div`
   bottom: 0;
   left: 0;
   position: absolute;
