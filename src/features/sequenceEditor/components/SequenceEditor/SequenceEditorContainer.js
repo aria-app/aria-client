@@ -23,7 +23,6 @@ export const SequenceEditorContainer = connect((state, ownProps) => ({
   onNudge: shared.actions.notesNudged,
   onOctaveDown: shared.actions.notesMovedOctaveDown,
   onOctaveUp: shared.actions.notesMovedOctaveUp,
-  onPitchPreview: shared.actions.pitchPreviewed,
   onRedo: shared.actions.redoRequested,
   onResize: shared.actions.notesResized,
   onUndo: shared.actions.undoRequested,
@@ -34,5 +33,4 @@ export const SequenceEditorContainer = connect((state, ownProps) => ({
   onDraw: point => dispatchProps.onDraw(point, stateProps.sequence),
   onNudge: (delta, selectedNotes) =>
     dispatchProps.onNudge(delta, selectedNotes, stateProps.sequence),
-  onPitchPreview: pitch => dispatchProps.onPitchPreview(pitch, stateProps.sequence),
 }))(SequenceEditor);

@@ -286,7 +286,7 @@ export class SongEditor extends React.PureComponent {
   }
 
   openSequence = (sequence) => {
-    this.props.history.push(`/sequencer/${sequence.id}`);
+    this.props.history.push(`${this.props.match.url}/sequencer/${sequence.id}`);
   }
 
   openSongInfo = () => {

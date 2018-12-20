@@ -11,7 +11,6 @@ export const NOTES_MOVED_OCTAVE_UP = 'NOTES_MOVED_OCTAVE_UP';
 export const NOTES_NUDGED = 'NOTES_NUDGED';
 export const NOTES_RESIZED = 'NOTES_RESIZED';
 export const NOTES_DELETED = 'NOTES_DELETED';
-export const PITCH_PREVIEWED = 'PITCH_PREVIEWED';
 export const PLAYBACK_PAUSE_REQUEST_STARTED = 'PLAYBACK_PAUSE_REQUEST_STARTED';
 export const PLAYBACK_START_REQUEST_STARTED = 'PLAYBACK_START_REQUEST_STARTED';
 export const PLAYBACK_STATE_REQUEST_SUCCEEDED = 'PLAYBACK_STATE_REQUEST_SUCCEEDED';
@@ -28,6 +27,8 @@ export const SEQUENCE_EXTENDED = 'SEQUENCE_EXTENDED';
 export const SEQUENCE_NUDGED_LEFT = 'SEQUENCE_NUDGED_LEFT';
 export const SEQUENCE_NUDGED_RIGHT = 'SEQUENCE_NUDGED_RIGHT';
 export const SEQUENCE_SHORTENED = 'SEQUENCE_SHORTENED';
+export const SERVER_UPDATE_REQUEST_STARTED = 'SERVER_UPDATE_REQUEST_STARTED';
+export const SERVER_UPDATE_REQUEST_SUCCEEDED = 'SERVER_UPDATE_REQUEST_SUCCEEDED';
 export const SONG_EDITOR_LOADED = 'SONG_EDITOR_LOADED';
 export const SONG_EXTENDED = 'SONG_EXTENDED';
 export const SONG_LOADED = 'SONG_LOADED';
@@ -42,6 +43,74 @@ export const UNDO_REQUESTED = 'UNDO_REQUESTED';
 export const USER_SIGN_IN_SUCCEEDED = 'USER_SIGN_IN_SUCCEEDED';
 export const USER_SIGN_OUT_SUCCEEDED = 'USER_SIGN_OUT_SUCCEEDED';
 export const USER_SONGS_FETCHED = 'USER_SONGS_FETCHED';
+
+export const undoableActions = [
+  BPM_SET,
+  MEASURE_COUNT_SET,
+  NOTE_DRAWN,
+  NOTE_ERASED,
+  NOTES_DELETED,
+  NOTES_DRAGGED,
+  NOTES_DUPLICATED,
+  NOTES_MOVED_OCTAVE_DOWN,
+  NOTES_MOVED_OCTAVE_UP,
+  NOTES_NUDGED,
+  NOTES_RESIZED,
+  SEQUENCE_ADDED,
+  SEQUENCE_DELETED,
+  SEQUENCE_DUPLICATED,
+  SEQUENCE_EDITED,
+  SEQUENCE_EXTENDED,
+  SEQUENCE_NUDGED_LEFT,
+  SEQUENCE_NUDGED_RIGHT,
+  SEQUENCE_SHORTENED,
+  SONG_EXTENDED,
+  SONG_SHORTENED,
+  TRACK_ADDED,
+  TRACK_DELETED,
+  TRACK_IS_MUTED_TOGGLED,
+  TRACK_IS_SOLOING_TOGGLED,
+  TRACK_VOICE_SET,
+  TRACK_VOLUME_SET,
+];
+
+export const serverUpdatingActions = [
+  BPM_SET,
+  MEASURE_COUNT_SET,
+  NOTE_DRAWN,
+  NOTE_ERASED,
+  NOTES_DELETED,
+  NOTES_DRAGGED,
+  NOTES_DUPLICATED,
+  NOTES_MOVED_OCTAVE_DOWN,
+  NOTES_MOVED_OCTAVE_UP,
+  NOTES_NUDGED,
+  NOTES_RESIZED,
+  REDO_REQUESTED,
+  SEQUENCE_ADDED,
+  SEQUENCE_DELETED,
+  SEQUENCE_DUPLICATED,
+  SEQUENCE_EXTENDED,
+  SEQUENCE_EDITED,
+  SEQUENCE_NUDGED_LEFT,
+  SEQUENCE_NUDGED_RIGHT,
+  SEQUENCE_SHORTENED,
+  SONG_EXTENDED,
+  SONG_SHORTENED,
+  TRACK_ADDED,
+  TRACK_DELETED,
+  TRACK_IS_MUTED_TOGGLED,
+  TRACK_IS_SOLOING_TOGGLED,
+  TRACK_VOICE_SET,
+  TRACK_VOLUME_SET,
+  UNDO_REQUESTED,
+];
+
+export const dawwwUpdatingActions = [
+  ...serverUpdatingActions,
+  SEQUENCE_EDITOR_LOADED,
+  SONG_EDITOR_LOADED,
+];
 
 export const bpmSet = bpm => ({
   type: BPM_SET,
@@ -131,14 +200,6 @@ export const notesResized = notes => ({
   },
 });
 
-export const pitchPreviewed = (pitch, sequence) => ({
-  type: PITCH_PREVIEWED,
-  payload: {
-    pitch,
-    sequence,
-  },
-});
-
 export const playbackPauseRequestStarted = () => ({
   type: PLAYBACK_PAUSE_REQUEST_STARTED,
 });
@@ -205,10 +266,11 @@ export const sequenceEdited = sequence => ({
   },
 });
 
-export const sequenceEditorLoaded = id => ({
+export const sequenceEditorLoaded = (songId, sequenceId) => ({
   type: SEQUENCE_EDITOR_LOADED,
   payload: {
-    id,
+    sequenceId,
+    songId,
   },
 });
 
@@ -240,10 +302,18 @@ export const sequenceShortened = sequence => ({
   },
 });
 
-export const songEditorLoaded = id => ({
+export const serverUpdateRequestStarted = () => ({
+  type: SERVER_UPDATE_REQUEST_STARTED,
+});
+
+export const serverUpdateRequestSucceeded = () => ({
+  type: SERVER_UPDATE_REQUEST_SUCCEEDED,
+});
+
+export const songEditorLoaded = songId => ({
   type: SONG_EDITOR_LOADED,
   payload: {
-    id,
+    songId,
   },
 });
 

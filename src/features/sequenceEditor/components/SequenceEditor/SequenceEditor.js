@@ -11,10 +11,13 @@ import React from 'react';
 import { hideIf, showIf } from 'react-render-helpers';
 import { HotKeys } from 'react-hotkeys';
 import styled from 'styled-components/macro';
+import audio from '../../../audio';
 import { toolTypes } from '../../constants';
 import { Grid } from '../Grid/Grid';
 import { Keys } from '../Keys/Keys';
 import { SequenceEditorToolbar } from '../SequenceEditorToolbar/SequenceEditorToolbar';
+
+const { previewPitch } = audio.helpers;
 
 const LoadingIndicator = styled.div`
   align-items: center;
@@ -65,7 +68,6 @@ export class SequenceEditor extends React.PureComponent {
     onNudge: PropTypes.func.isRequired,
     onOctaveDown: PropTypes.func.isRequired,
     onOctaveUp: PropTypes.func.isRequired,
-    onPitchPreview: PropTypes.func.isRequired,
     onRedo: PropTypes.func.isRequired,
     onResize: PropTypes.func.isRequired,
     onUndo: PropTypes.func.isRequired,
@@ -83,7 +85,10 @@ export class SequenceEditor extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.props.onLoad(this.props.match.params.sequenceId);
+    this.props.onLoad(
+      this.props.match.params.songId,
+      this.props.match.params.sequenceId,
+    );
 
     this.focusRef.current.focus();
 
@@ -121,7 +126,7 @@ export class SequenceEditor extends React.PureComponent {
                 ref={this.setContentRef}>
                 <SequenceEditorWrapper>
                   <Keys
-                    onKeyPress={this.props.onPitchPreview}
+                    onKeyPress={this.previewPitch}
                   />
                   <Grid
                     measureCount={this.props.sequence.measureCount}
@@ -199,7 +204,7 @@ export class SequenceEditor extends React.PureComponent {
   }
 
   close = () => {
-    this.props.history.push('/');
+    this.props.history.push(`/song/${this.props.match.params.songId}`);
   }
 
   deactivatePanOverride = (e) => {
@@ -281,13 +286,13 @@ export class SequenceEditor extends React.PureComponent {
   handleGridDragPreview = (notes) => {
     const pitch = getOr(-1, '[0].points[0].y', notes);
 
-    this.props.onPitchPreview(pitch);
+    this.previewPitch(pitch);
   };
 
   handleGridDraw = (point) => {
     const pitch = getOr(-1, 'y', point);
 
-    this.props.onPitchPreview(pitch);
+    this.previewPitch(pitch);
 
     this.props.onDraw(point);
   };
@@ -302,7 +307,7 @@ export class SequenceEditor extends React.PureComponent {
   handleGridSelect = (note, isAdditive) => {
     const pitch = getOr(-1, 'points[0].y', note);
 
-    this.props.onPitchPreview(pitch);
+    this.previewPitch(pitch);
 
     this.setState(state => ({
       selectedNoteIds: isAdditive
@@ -343,7 +348,7 @@ export class SequenceEditor extends React.PureComponent {
     const selectedNotes = this.getSelectedNotes();
     const pitch = getOr(-1, '[0].points[0].y', selectedNotes);
 
-    this.props.onPitchPreview(pitch + delta.y);
+    this.previewPitch(pitch + delta.y);
 
     this.props.onNudge(delta, selectedNotes);
   }
@@ -367,6 +372,10 @@ export class SequenceEditor extends React.PureComponent {
     e.preventDefault();
     this.nudge({ x: 0, y: -1 });
   }
+
+  previewPitch = (pitch) => {
+    previewPitch(this.props.sequence.trackId, pitch);
+  };
 
   redo = () => {
     if (!this.props.isRedoEnabled) return;

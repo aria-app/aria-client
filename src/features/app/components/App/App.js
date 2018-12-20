@@ -100,7 +100,7 @@ export class App extends React.PureComponent {
                   component={SequenceEditorContainer}
                   exact={true}
                   isAuthenticated={this.props.isAuthenticated}
-                  path="/sequencer/:sequenceId"
+                  path="/song/:songId/sequencer/:sequenceId"
                 />
               </React.Fragment>
             )}
