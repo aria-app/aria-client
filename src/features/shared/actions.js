@@ -31,6 +31,8 @@ export const SYNC_STARTED = 'SYNC_STARTED';
 export const SYNC_SUCCEEDED = 'SYNC_SUCCEEDED';
 export const SONG_ADD_REQUEST_STARTED = 'SONG_ADD_REQUEST_STARTED';
 export const SONG_ADD_REQUEST_SUCCEEDED = 'SONG_ADD_REQUEST_SUCCEEDED';
+export const SONG_DELETE_REQUEST_STARTED = 'SONG_DELETE_REQUEST_STARTED';
+export const SONG_DELETE_REQUEST_SUCCEEDED = 'SONG_DELETE_REQUEST_SUCCEEDED';
 export const SONG_EDITOR_LOADED = 'SONG_EDITOR_LOADED';
 export const SONG_EXTENDED = 'SONG_EXTENDED';
 export const SONG_LOADED = 'SONG_LOADED';
@@ -313,6 +315,20 @@ export const songAddRequestStarted = (options) => ({
 
 export const songAddRequestSucceeded = (song) => ({
   type: SONG_ADD_REQUEST_SUCCEEDED,
+  payload: {
+    song,
+  },
+});
+
+export const songDeleteRequestStarted = (song) => ({
+  type: SONG_DELETE_REQUEST_STARTED,
+  payload: {
+    song,
+  },
+});
+
+export const songDeleteRequestSucceeded = (song) => ({
+  type: SONG_DELETE_REQUEST_SUCCEEDED,
   payload: {
     song,
   },

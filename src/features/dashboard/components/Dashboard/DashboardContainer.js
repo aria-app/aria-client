@@ -11,4 +11,5 @@ export const DashboardContainer = withRouter(connect(state => ({
 }), {
   onLoad: shared.actions.dashboardLoaded,
   onSongAdd: shared.actions.songAddRequestStarted,
+  onSongDelete: shared.actions.songDeleteRequestStarted,
 })(Dashboard));

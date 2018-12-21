@@ -15,7 +15,7 @@ export const addSong = createLogic({
         done();
       })
       .catch((error) => {
-        console.error('Error while updating song: ', error);
+        console.error('Error while adding song: ', error);
       });
   },
 });

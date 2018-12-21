@@ -55,6 +55,7 @@ export class IconButton extends React.PureComponent {
   render() {
     return (
       <StyledIconButton
+        className={this.props.className}
         isActive={this.props.isActive}
         isDisabled={this.props.isDisabled}
         onClick={this.handleClick}

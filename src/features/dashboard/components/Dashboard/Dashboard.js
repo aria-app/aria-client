@@ -53,6 +53,7 @@ export class Dashboard extends React.Component {
 	static propTypes = {
 		onLoad: PropTypes.func,
 		onSongAdd: PropTypes.func,
+		onSongDelete: PropTypes.func,
     songs: PropTypes.object,
     user: PropTypes.object,
 	};
@@ -79,6 +80,7 @@ export class Dashboard extends React.Component {
         />
         <DashboardCenteredContent>
           <SongList
+            onDelete={this.deleteSong}
             onOpen={this.openSong}
             songs={this.props.songs}
           />
@@ -100,6 +102,14 @@ export class Dashboard extends React.Component {
       name,
     });
   }
+
+  deleteSong = (song) => {
+    const shouldDelete = window.confirm(`Are you sure you want to delete the song "${song.name}"?`);
+
+    if (!shouldDelete) return;
+
+    this.props.onSongDelete(song);
+  };
 
   openSong = (song) => {
     this.props.history.push(`/song/${song.id}`);

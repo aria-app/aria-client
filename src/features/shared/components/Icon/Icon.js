@@ -7,6 +7,7 @@ import icons from './icons';
 const IconContent = styled.div`
   align-items: center;
   display: flex;
+  flex: 0 0 auto;
   height: 24px;
   justify-content: center;
   width: 24px;
@@ -15,6 +16,7 @@ const IconContent = styled.div`
 const StyledIcon = styled.div`
   align-items: center;
   display: flex;
+  flex: 0 0 auto;
   height: 40px;
   justify-content: center;
   width: 40px;
