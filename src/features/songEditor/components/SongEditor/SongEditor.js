@@ -14,6 +14,7 @@ import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
 import { SongEditorToolbar } from '../SongEditorToolbar/SongEditorToolbar';
 
 const { Timeline } = shared.components;
+const { SYNC_STATES } = shared.constants;
 
 const LoadingIndicator = styled.div`
   align-items: center;
@@ -64,6 +65,7 @@ export class SongEditor extends React.PureComponent {
     sequences: PropTypes.arrayOf(PropTypes.object).isRequired,
     song: PropTypes.object.isRequired,
     songMeasureCount: PropTypes.number.isRequired,
+    syncState: PropTypes.oneOf(Object.values(SYNC_STATES)),
     tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
@@ -132,6 +134,7 @@ export class SongEditor extends React.PureComponent {
               onSongInfoOpen={this.openSongInfo}
               onUndo={this.undo}
               selectedSequence={this.getSelectedSequence()}
+              syncState={this.props.syncState}
             />
             <Timeline
               isVisible={!this.props.isStopped}

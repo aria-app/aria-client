@@ -12,11 +12,11 @@ export const updateSongOnChange = createLogic({
   process({ action, getState }, dispatch, done) {
     const song = selectors.getSong(getState());
 
-    dispatch(shared.actions.serverUpdateRequestStarted());
+    dispatch(shared.actions.syncStarted());
 
     throttledUpdate(song)
       .then(() => {
-        dispatch(shared.actions.serverUpdateRequestSucceeded());
+        dispatch(shared.actions.syncSucceeded());
         done();
       })
       .catch((error) => {

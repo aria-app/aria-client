@@ -2,9 +2,16 @@ import isEmpty from 'lodash/fp/isEmpty';
 import negate from 'lodash/fp/negate';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components/macro';
 import shared from '../../../shared';
 
 const { IconButton, Toolbar } = shared.components;
+const { SYNC_STATES } = shared.constants;
+
+const SyncIndicator = styled.div`
+  display: flex;
+  flex: 1 1 auto;
+`;
 
 export class SongEditorToolbar extends React.PureComponent {
   static propTypes = {
@@ -21,6 +28,7 @@ export class SongEditorToolbar extends React.PureComponent {
     onSongInfoOpen: PropTypes.func,
     onUndo: PropTypes.func,
     selectedSequence: PropTypes.object,
+    syncState: PropTypes.oneOf(Object.values(SYNC_STATES)),
   }
 
   static defaultProps = {
@@ -32,6 +40,16 @@ export class SongEditorToolbar extends React.PureComponent {
       <Toolbar
         position="top"
         isAlternate={this.getIsAlternate()}
+        alternateLeftItems={<React.Fragment>
+          <IconButton
+            icon="cog"
+            onClick={this.props.onSongInfoOpen}
+            title="Settings"
+          />
+          <SyncIndicator>
+            {this.props.syncState}
+          </SyncIndicator>
+        </React.Fragment>}
         alternateRightItems={<React.Fragment>
           <IconButton
             icon="undo"
@@ -82,6 +100,9 @@ export class SongEditorToolbar extends React.PureComponent {
             onClick={this.props.onSongInfoOpen}
             title="Settings"
           />
+          <SyncIndicator>
+            {this.props.syncState}
+          </SyncIndicator>
         </React.Fragment>}
         rightItems={<React.Fragment>
           <IconButton

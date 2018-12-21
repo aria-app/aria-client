@@ -7,6 +7,7 @@ const StyledDashboard = styled.div`
   color: white;
   display: flex;
   flex: 1 1 auto;
+  flex-direction: column;
 `;
 
 export class Dashboard extends React.Component {

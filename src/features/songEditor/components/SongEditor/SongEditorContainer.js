@@ -14,6 +14,7 @@ export const SongEditorContainer = connect(state => ({
   songMeasureCount: song.selectors.getMeasureCount(state),
   sequences: song.selectors.getSequencesArray(state),
   song: song.selectors.getSong(state),
+  syncState: song.selectors.getSyncState(state),
   trackMap: song.selectors.getTracks(state),
   tracks: song.selectors.getDeepTracks(state),
 }), {

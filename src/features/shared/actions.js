@@ -27,8 +27,8 @@ export const SEQUENCE_EXTENDED = 'SEQUENCE_EXTENDED';
 export const SEQUENCE_NUDGED_LEFT = 'SEQUENCE_NUDGED_LEFT';
 export const SEQUENCE_NUDGED_RIGHT = 'SEQUENCE_NUDGED_RIGHT';
 export const SEQUENCE_SHORTENED = 'SEQUENCE_SHORTENED';
-export const SERVER_UPDATE_REQUEST_STARTED = 'SERVER_UPDATE_REQUEST_STARTED';
-export const SERVER_UPDATE_REQUEST_SUCCEEDED = 'SERVER_UPDATE_REQUEST_SUCCEEDED';
+export const SYNC_STARTED = 'SYNC_STARTED';
+export const SYNC_SUCCEEDED = 'SYNC_SUCCEEDED';
 export const SONG_EDITOR_LOADED = 'SONG_EDITOR_LOADED';
 export const SONG_EXTENDED = 'SONG_EXTENDED';
 export const SONG_LOADED = 'SONG_LOADED';
@@ -302,14 +302,6 @@ export const sequenceShortened = sequence => ({
   },
 });
 
-export const serverUpdateRequestStarted = () => ({
-  type: SERVER_UPDATE_REQUEST_STARTED,
-});
-
-export const serverUpdateRequestSucceeded = () => ({
-  type: SERVER_UPDATE_REQUEST_SUCCEEDED,
-});
-
 export const songEditorLoaded = songId => ({
   type: SONG_EDITOR_LOADED,
   payload: {
@@ -330,6 +322,14 @@ export const songLoaded = song => ({
 
 export const songShortened = () => ({
   type: SONG_SHORTENED,
+});
+
+export const syncStarted = () => ({
+  type: SYNC_STARTED,
+});
+
+export const syncSucceeded = () => ({
+  type: SYNC_SUCCEEDED,
 });
 
 export const trackAdded = (track, sequence) => ({

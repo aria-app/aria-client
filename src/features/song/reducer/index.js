@@ -8,6 +8,7 @@ import { name } from './name';
 import { notes } from './notes';
 import { sequences } from './sequences';
 import { songs } from './songs';
+import { syncState } from './syncState';
 import { tracks } from './tracks';
 import { userId } from './userId';
 
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   notes,
   sequences,
   songs,
+  syncState,
   tracks,
   userId,
 });
