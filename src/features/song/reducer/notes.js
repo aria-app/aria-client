@@ -6,10 +6,15 @@ import values from 'lodash/fp/values';
 import { createReducer } from 'redux-create-reducer';
 import shared from '../../shared';
 
+const initialValue = {};
 const octaveDownDelta = { x: 0, y: 12 };
 const octaveUpDelta = { x: 0, y: -12 };
 
-export const notes = createReducer({}, {
+
+export const notes = createReducer(initialValue, {
+  [shared.actions.DASHBOARD_LOADED]: (state, action) =>
+    initialValue,
+
   [shared.actions.SONG_LOADED]: (state, action) =>
     action.payload.song.notes,
 

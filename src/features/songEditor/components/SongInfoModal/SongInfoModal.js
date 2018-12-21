@@ -66,6 +66,7 @@ export class SongInfoModal extends React.PureComponent {
     onBPMChange: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired,
     onMeasureCountChange: PropTypes.func.isRequired,
+    onReturnToDashboard: PropTypes.func.isRequired,
     onSignOut: PropTypes.func.isRequired,
     song: PropTypes.object,
   }
@@ -101,6 +102,10 @@ export class SongInfoModal extends React.PureComponent {
                   +
                 </SongInfoModalMeasureCountTickerPlus>
               </SongInfoModalMeasureCountTicker>
+              <Button
+                onClick={this.props.onReturnToDashboard}>
+                {t('Return to Dashboard')}
+              </Button>
               <Button
                 onClick={this.props.onSignOut}>
                 {t('Sign Out')}

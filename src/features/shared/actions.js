@@ -29,6 +29,8 @@ export const SEQUENCE_NUDGED_RIGHT = 'SEQUENCE_NUDGED_RIGHT';
 export const SEQUENCE_SHORTENED = 'SEQUENCE_SHORTENED';
 export const SYNC_STARTED = 'SYNC_STARTED';
 export const SYNC_SUCCEEDED = 'SYNC_SUCCEEDED';
+export const SONG_ADD_REQUEST_STARTED = 'SONG_ADD_REQUEST_STARTED';
+export const SONG_ADD_REQUEST_SUCCEEDED = 'SONG_ADD_REQUEST_SUCCEEDED';
 export const SONG_EDITOR_LOADED = 'SONG_EDITOR_LOADED';
 export const SONG_EXTENDED = 'SONG_EXTENDED';
 export const SONG_LOADED = 'SONG_LOADED';
@@ -299,6 +301,20 @@ export const sequenceShortened = sequence => ({
   type: SEQUENCE_SHORTENED,
   payload: {
     sequence,
+  },
+});
+
+export const songAddRequestStarted = (options) => ({
+  type: SONG_ADD_REQUEST_STARTED,
+  payload: {
+    options,
+  },
+});
+
+export const songAddRequestSucceeded = (song) => ({
+  type: SONG_ADD_REQUEST_SUCCEEDED,
+  payload: {
+    song,
   },
 });
 

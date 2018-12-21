@@ -22,6 +22,8 @@ const StyledSongList = styled.div`
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
+  padding-bottom: ${props => props.theme.margin.s}px;
+  padding-top: ${props => props.theme.margin.s}px;
 `;
 
 export class SongList extends React.Component {

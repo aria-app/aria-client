@@ -147,6 +147,7 @@ export class SongEditor extends React.PureComponent {
               onBPMChange={this.props.onBPMChange}
               onConfirm={this.closeSongInfo}
               onMeasureCountChange={this.props.onSongMeasureCountChange}
+              onReturnToDashboard={this.returnToDashboard}
               onSignOut={this.signOut}
               song={this.props.song}
             />
@@ -304,6 +305,10 @@ export class SongEditor extends React.PureComponent {
     this.props.onRedo();
   }
 
+  returnToDashboard = () => {
+    this.props.history.push('/');
+  }
+
   selectTrack = (track) => {
     this.setState({
       selectedTrackId: track.id,
@@ -311,7 +316,7 @@ export class SongEditor extends React.PureComponent {
   };
 
   signOut = () => {
-    this.props.history.push(`/sign-out`);
+    this.props.history.push('/sign-out');
   }
 
   undo = () => {

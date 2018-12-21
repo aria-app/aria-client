@@ -4,7 +4,12 @@ import reject from 'lodash/fp/reject';
 import { createReducer } from 'redux-create-reducer';
 import shared from '../../shared';
 
-export const sequences = createReducer({}, {
+const initialValue = {};
+
+export const sequences = createReducer(initialValue, {
+  [shared.actions.DASHBOARD_LOADED]: (state, action) =>
+    initialValue,
+
   [shared.actions.SONG_LOADED]: (state, action) =>
     action.payload.song.sequences,
 
