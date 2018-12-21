@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import auth from '../../../auth';
+import user from '../../../user';
 import { SignIn } from './SignIn';
 
 export const SignInContainer = connect(state => ({
-  isAuthenticated: auth.selectors.getIsAuthenticated(state),
+  isAuthenticated: user.selectors.getIsAuthenticated(state),
 }))(SignIn);

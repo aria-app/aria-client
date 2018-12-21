@@ -20,6 +20,8 @@ export class SignOut extends React.Component {
   };
 
   componentDidMount() {
+    window.document.title = 'Sign Out - Zen Sequencer';
+
     setTimeout(() => {
       // TODO: Convert to auth helper
       firebase.auth().signOut();

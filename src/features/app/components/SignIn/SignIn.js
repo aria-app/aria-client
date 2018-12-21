@@ -5,10 +5,9 @@ import React from 'react';
 import { NamespacesConsumer } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import auth from '../../../auth';
 import shared from '../../../shared';
 
-const { authProvider } = auth.constants;
+const { authProvider } = shared.constants;
 const { Button } = shared.components;
 
 const SignInButton = styled(Button)`
@@ -26,6 +25,10 @@ export class SignIn extends React.Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
   };
+
+  componentDidMount() {
+    window.document.title = 'Sign In - Zen Sequencer';
+  }
 
   render() {
     if (this.props.isAuthenticated) {

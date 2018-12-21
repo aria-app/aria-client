@@ -87,6 +87,12 @@ export class SongEditor extends React.PureComponent {
     this.focusRef.current.focus();
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.song.name !== this.props.song.name) {
+      window.document.title = `${this.props.song.name} - Zen Sequencer`;
+    }
+  }
+
   render() {
     return (
       <StyledSongEditor
