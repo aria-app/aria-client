@@ -20,6 +20,8 @@ export const SongEditorContainer = connect(state => ({
 }), {
   onBPMChange: shared.actions.bpmSet,
   onLoad: shared.actions.songEditorLoaded,
+  onPause: shared.actions.playbackPauseRequestStarted,
+  onPlay: shared.actions.playbackStartRequestStarted,
   onPositionSet: shared.actions.positionSetRequestStarted,
   onRedo: shared.actions.redoRequested,
   onSequenceAdd: shared.actions.sequenceAdded,
@@ -33,6 +35,7 @@ export const SongEditorContainer = connect(state => ({
   onSongExtend: shared.actions.songExtended,
   onSongMeasureCountChange: shared.actions.measureCountSet,
   onSongShorten: shared.actions.songShortened,
+  onStop: shared.actions.playbackStopRequestStarted,
   onTrackAdd: shared.actions.trackAdded,
   onTrackDelete: shared.actions.trackDeleted,
   onTrackIsMutedToggle: shared.actions.trackIsMutedToggled,

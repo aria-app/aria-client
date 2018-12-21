@@ -15,7 +15,6 @@ export { getSequenceById } from './getSequenceById';
 export { getSequences } from './getSequences';
 export { getSequencesArray } from './getSequencesArray';
 export { getSong } from './getSong';
-export { getSongs } from './getSongs';
 export { getStringifiedSong } from './getStringifiedSong';
 export { getSyncState } from './getSyncState';
 export { getTrackById } from './getTrackById';

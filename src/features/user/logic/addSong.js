@@ -1,16 +1,24 @@
+import Dawww from 'dawww';
 import { createLogic } from 'redux-logic';
-import auth from '../../auth';
 import shared from '../../shared';
-import * as helpers from '../helpers';
+import * as selectors from '../selectors';
+
+const { db } = shared.constants;
 
 export const addSong = createLogic({
   type: shared.actions.SONG_ADD_REQUEST_STARTED,
   warnTimeout: 0,
   process({ action, getState }, dispatch, done) {
-    const user = auth.selectors.getUser(getState());
+    const user = selectors.getUser(getState());
 
-    helpers.createSong(user, action.payload.options)
-      .then((song) => {
+    const song = {
+  		...Dawww.createSong(),
+  		userId: user.uid,
+      ...action.payload.options,
+  	};
+
+  	db.collection('songs').doc(song.id).set(song)
+      .then(() => {
         dispatch(shared.actions.songAddRequestSucceeded(song));
         done();
       })

@@ -46,7 +46,7 @@ export const TRACK_VOLUME_SET = 'TRACK_VOLUME_SET';
 export const UNDO_REQUESTED = 'UNDO_REQUESTED';
 export const USER_SIGN_IN_SUCCEEDED = 'USER_SIGN_IN_SUCCEEDED';
 export const USER_SIGN_OUT_SUCCEEDED = 'USER_SIGN_OUT_SUCCEEDED';
-export const USER_SONGS_FETCHED = 'USER_SONGS_FETCHED';
+export const USER_SONG_LIBRARY_FETCH_REQUEST_SUCCEEDED = 'USER_SONG_LIBRARY_FETCH_REQUEST_SUCCEEDED';
 
 export const undoableActions = [
   BPM_SET,
@@ -424,9 +424,9 @@ export const userSignOutSucceeded = () => ({
   type: USER_SIGN_OUT_SUCCEEDED,
 });
 
-export const userSongsFetched = (songs) => ({
-  type: USER_SONGS_FETCHED,
+export const userSongLibraryFetchRequestSucceeded = (userSongLibrary) => ({
+  type: USER_SONG_LIBRARY_FETCH_REQUEST_SUCCEEDED,
   payload: {
-    songs,
+    userSongLibrary,
   },
 });

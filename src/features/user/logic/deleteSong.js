@@ -1,14 +1,17 @@
 import { createLogic } from 'redux-logic';
 import shared from '../../shared';
-import * as helpers from '../helpers';
+
+const { db } = shared.constants;
 
 export const deleteSong = createLogic({
   type: shared.actions.SONG_DELETE_REQUEST_STARTED,
   warnTimeout: 0,
   process({ action }, dispatch, done) {
-    helpers.deleteSong(action.payload.song)
-      .then((song) => {
-        dispatch(shared.actions.songDeleteRequestSucceeded(action.payload.song));
+    db.collection('songs').doc(action.payload.song.id).delete()
+      .then(() => {
+        dispatch(shared.actions.songDeleteRequestSucceeded(
+          action.payload.song,
+        ));
         done();
       })
       .catch((error) => {

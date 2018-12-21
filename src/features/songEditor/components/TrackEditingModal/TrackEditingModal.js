@@ -21,6 +21,7 @@ const TrackEditingModalContent = styled.div`
   flex-direction: column;
   flex-grow: 1;
   justify-content: space-between;
+  padding: ${props => props.theme.margin.m}px;
 `;
 
 const TrackEditingModalDeleteButton = styled(Button)`
