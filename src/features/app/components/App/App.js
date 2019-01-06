@@ -6,19 +6,17 @@ import { hideIf, showIf } from 'react-render-helpers';
 import { Redirect, Route } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components/macro';
 import Tone from 'tone';
-import sequenceEditor from '../../../sequenceEditor';
 import dashboard from '../../../dashboard';
 import shared from '../../../shared';
-import tracksEditor from '../../../tracksEditor';
+import songEditor from '../../../songEditor';
 import { SignInContainer } from '../SignIn/SignInContainer';
 import { SignOutContainer } from '../SignOut/SignOutContainer';
 
 const { styles } = shared;
 const { DashboardContainer } = dashboard.components;
 const { Shell } = shared.components;
-const { SequenceEditorContainer } = sequenceEditor.components;
 const { STARTED } = Dawww.PLAYBACK_STATES;
-const { TracksEditorContainer } = tracksEditor.components;
+const { SongEditorContainer } = songEditor.components;
 
 const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
   <Route
@@ -91,16 +89,10 @@ export class App extends React.PureComponent {
                   path="/"
                 />
                 <PrivateRoute
-                  component={TracksEditorContainer}
-                  exact={true}
+                  component={SongEditorContainer}
+                  exact={false}
                   isAuthenticated={this.props.isAuthenticated}
                   path="/song/:songId"
-                />
-                <PrivateRoute
-                  component={SequenceEditorContainer}
-                  exact={true}
-                  isAuthenticated={this.props.isAuthenticated}
-                  path="/song/:songId/sequencer/:sequenceId"
                 />
               </React.Fragment>
             )}

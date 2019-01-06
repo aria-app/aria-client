@@ -2,11 +2,17 @@ import Dawww from 'dawww';
 import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components/macro';
 import shared from '../../../shared';
 import * as constants from '../../constants';
 
 const { IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
+
+const StyledSequenceEditorToolbar = styled(Toolbar)`
+  border-bottom: 1px solid ${props => props.theme.midgray};
+  border-top: 1px solid ${props => props.theme.midgray};
+`;
 
 export class SequenceEditorToolbar extends React.PureComponent {
   static propTypes = {
@@ -31,7 +37,7 @@ export class SequenceEditorToolbar extends React.PureComponent {
 
   render() {
     return (
-      <Toolbar
+      <StyledSequenceEditorToolbar
         className="sequence-editor-toolbar"
         isAlternate={this.getAreSomeNotesSelected()}
         alternateLeftItems={<React.Fragment>

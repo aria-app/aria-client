@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components/macro';
+import { getExtraProps } from '../../helpers';
 
 const StyledToolbar = styled.div`
   align-items: stretch;
@@ -33,7 +34,6 @@ export class Toolbar extends React.Component {
     isAlternate: PropTypes.bool,
     leftItems: PropTypes.node,
     rightItems: PropTypes.node,
-    style: PropTypes.object,
   }
 
   static defaultProps = {
@@ -46,7 +46,7 @@ export class Toolbar extends React.Component {
   render() {
     return (
       <StyledToolbar
-        style={this.props.style}>
+        {...getExtraProps(this)}>
         <ToolbarLeftItems>
           {this.getLeftItems()}
         </ToolbarLeftItems>

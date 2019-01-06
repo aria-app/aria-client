@@ -41,8 +41,6 @@ export class TracksEditor extends React.PureComponent {
     isUndoEnabled: PropTypes.bool.isRequired,
     onBPMChange: PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
-    onPause: PropTypes.func.isRequired,
-    onPlay: PropTypes.func.isRequired,
     onPositionSet: PropTypes.func.isRequired,
     onRedo: PropTypes.func.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
@@ -56,7 +54,6 @@ export class TracksEditor extends React.PureComponent {
     onSongExtend: PropTypes.func.isRequired,
     onSongMeasureCountChange: PropTypes.func.isRequired,
     onSongShorten: PropTypes.func.isRequired,
-    onStop: PropTypes.func.isRequired,
     onTrackAdd: PropTypes.func.isRequired,
     onTrackDelete: PropTypes.func.isRequired,
     onTrackIsMutedToggle: PropTypes.func.isRequired,
@@ -64,7 +61,6 @@ export class TracksEditor extends React.PureComponent {
     onTrackVoiceSet: PropTypes.func.isRequired,
     onTrackVolumeSet: PropTypes.func.isRequired,
     onUndo: PropTypes.func.isRequired,
-    playbackState: PropTypes.string.isRequired,
     position: PropTypes.number.isRequired,
     sequences: PropTypes.arrayOf(PropTypes.object).isRequired,
     song: PropTypes.object.isRequired,
@@ -133,8 +129,6 @@ export class TracksEditor extends React.PureComponent {
             <TracksEditorToolbar
               isRedoEnabled={this.props.isRedoEnabled}
               isUndoEnabled={this.props.isUndoEnabled}
-              onPause={this.props.onPause}
-              onPlay={this.props.onPlay}
               onRedo={this.redo}
               onSequenceDelete={this.deleteSelectedSequence}
               onSequenceDuplicate={this.duplicateSelectedSequence}
@@ -144,9 +138,7 @@ export class TracksEditor extends React.PureComponent {
               onSequenceOpen={this.openSequence}
               onSequenceShorten={() => {}}
               onSongInfoOpen={this.openSongInfo}
-              onStop={this.props.onStop}
               onUndo={this.undo}
-              playbackState={this.props.playbackState}
               selectedSequence={this.getSelectedSequence()}
               syncState={this.props.syncState}
             />
