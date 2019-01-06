@@ -119,6 +119,7 @@ export class App extends React.PureComponent {
     if (Tone.context.state !== 'running') {
       Tone.context.resume();
     }
+
     if (this.props.playbackState === STARTED) {
       this.props.onPause();
     } else {

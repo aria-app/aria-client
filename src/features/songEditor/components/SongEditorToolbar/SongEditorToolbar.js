@@ -1,10 +1,14 @@
+import Dawww from 'dawww';
 import isEmpty from 'lodash/fp/isEmpty';
 import negate from 'lodash/fp/negate';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { hideIf, showIf } from 'react-render-helpers';
 import styled from 'styled-components/macro';
+import Tone from 'tone';
 import shared from '../../../shared';
 
+const { STARTED } = Dawww.PLAYBACK_STATES;
 const { IconButton, Toolbar } = shared.components;
 const { SYNC_STATES } = shared.constants;
 
@@ -17,6 +21,8 @@ export class SongEditorToolbar extends React.PureComponent {
   static propTypes = {
     isRedoEnabled: PropTypes.bool.isRequired,
     isUndoEnabled: PropTypes.bool.isRequired,
+    onPause: PropTypes.func.isRequired,
+    onPlay: PropTypes.func.isRequired,
     onRedo: PropTypes.func,
     onSequenceDelete: PropTypes.func,
     onSequenceDuplicate: PropTypes.func,
@@ -26,7 +32,9 @@ export class SongEditorToolbar extends React.PureComponent {
     onSequenceOpen: PropTypes.func,
     onSequenceShorten: PropTypes.func,
     onSongInfoOpen: PropTypes.func,
+    onStop: PropTypes.func.isRequired,
     onUndo: PropTypes.func,
+    playbackState: PropTypes.string.isRequired,
     selectedSequence: PropTypes.object,
     syncState: PropTypes.oneOf(Object.values(SYNC_STATES)),
   }
@@ -117,6 +125,25 @@ export class SongEditorToolbar extends React.PureComponent {
             onClick={this.props.onRedo}
             title="Redo"
           />
+          {hideIf(this.props.playbackState === STARTED)(
+            <IconButton
+              icon="play"
+              onClick={this.playPause}
+              title="Play"
+            />
+          )}
+          {showIf(this.props.playbackState === STARTED)(
+            <IconButton
+              icon="pause"
+              onClick={this.playPause}
+              title="Pause"
+            />
+          )}
+          <IconButton
+            icon="stop"
+            onClick={this.stop}
+            title="Stop"
+          />
         </React.Fragment>}
       />
     );
@@ -134,4 +161,20 @@ export class SongEditorToolbar extends React.PureComponent {
   openSequence = () => {
     this.props.onSequenceOpen(this.props.selectedSequence);
   };
+
+  playPause = () => {
+    if (Tone.context.state !== 'running') {
+      Tone.context.resume();
+    }
+
+    if (this.props.playbackState === STARTED) {
+      this.props.onPause();
+    } else {
+      this.props.onPlay();
+    }
+  }
+
+  stop = () => {
+    this.props.onStop();
+  }
 }

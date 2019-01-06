@@ -10,6 +10,7 @@ export const SongEditorContainer = connect(state => ({
   isRedoEnabled: song.selectors.getIsRedoEnabled(state),
   isUndoEnabled: song.selectors.getIsUndoEnabled(state),
   isStopped: audio.selectors.getIsStopped(state),
+  playbackState: audio.selectors.getPlaybackState(state),
   position: audio.selectors.getPosition(state),
   songMeasureCount: song.selectors.getMeasureCount(state),
   sequences: song.selectors.getSequencesArray(state),
