@@ -11,7 +11,7 @@ import shared from '../../../shared';
 import { SongInfoModal } from '../SongInfoModal/SongInfoModal';
 import { TrackList } from '../TrackList/TrackList';
 import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
-import { SongEditorToolbar } from '../SongEditorToolbar/SongEditorToolbar';
+import { TracksEditorToolbar } from '../TracksEditorToolbar/TracksEditorToolbar';
 
 const { Timeline } = shared.components;
 const { SYNC_STATES } = shared.constants;
@@ -24,7 +24,7 @@ const LoadingIndicator = styled.div`
   justify-content: center;
 `;
 
-const StyledSongEditor = styled(HotKeys)`
+const StyledTracksEditor = styled(HotKeys)`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -33,7 +33,7 @@ const StyledSongEditor = styled(HotKeys)`
   position: relative;
 `;
 
-export class SongEditor extends React.PureComponent {
+export class TracksEditor extends React.PureComponent {
   static propTypes = {
     bpm: PropTypes.number.isRequired,
     isRedoEnabled: PropTypes.bool.isRequired,
@@ -99,7 +99,7 @@ export class SongEditor extends React.PureComponent {
 
   render() {
     return (
-      <StyledSongEditor
+      <StyledTracksEditor
         focused={true}
         handlers={this.getKeyHandlers()}>
         <div ref={this.focusRef} tabIndex={-1}/>
@@ -130,7 +130,7 @@ export class SongEditor extends React.PureComponent {
               songMeasureCount={this.props.songMeasureCount}
               tracks={this.props.tracks}
             />
-            <SongEditorToolbar
+            <TracksEditorToolbar
               isRedoEnabled={this.props.isRedoEnabled}
               isUndoEnabled={this.props.isUndoEnabled}
               onPause={this.props.onPause}
@@ -174,7 +174,7 @@ export class SongEditor extends React.PureComponent {
             />
           </React.Fragment>
         )}
-      </StyledSongEditor>
+      </StyledTracksEditor>
     );
   }
 
@@ -277,27 +277,27 @@ export class SongEditor extends React.PureComponent {
     this.props.onTrackAdd(track, sequence);
   };
 
-  handleSongEditorToolbarSequenceDelete = () => {
+  handleTracksEditorToolbarSequenceDelete = () => {
     this.props.onSequenceDelete(this.getSelectedSequence());
   };
 
-  handleSongEditorToolbarSequenceExtend = () => {
+  handleTracksEditorToolbarSequenceExtend = () => {
     this.props.onSequenceExtend(this.getSelectedSequence());
   };
 
-  handleSongEditorToolbarSequenceMoveLeft = () => {
+  handleTracksEditorToolbarSequenceMoveLeft = () => {
     this.props.onSequenceMoveLeft(this.getSelectedSequence());
   };
 
-  handleSongEditorToolbarSequenceMoveRight = () => {
+  handleTracksEditorToolbarSequenceMoveRight = () => {
     this.props.onSequenceMoveRight(this.getSelectedSequence());
   };
 
-  handleSongEditorToolbarSequenceOpen = () => {
+  handleTracksEditorToolbarSequenceOpen = () => {
     this.openSequence(this.getSelectedSequence());
   };
 
-  handleSongEditorToolbarSequenceShorten = () => {
+  handleTracksEditorToolbarSequenceShorten = () => {
     if (this.getSelectedSequence().measureCount < 2) return;
 
     this.props.onSequenceShorten(this.getSelectedSequence());

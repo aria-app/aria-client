@@ -17,7 +17,7 @@ const SyncIndicator = styled.div`
   flex: 1 1 auto;
 `;
 
-export class SongEditorToolbar extends React.PureComponent {
+export class TracksEditorToolbar extends React.PureComponent {
   static propTypes = {
     isRedoEnabled: PropTypes.bool.isRequired,
     isUndoEnabled: PropTypes.bool.isRequired,

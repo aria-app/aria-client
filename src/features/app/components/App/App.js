@@ -9,7 +9,7 @@ import Tone from 'tone';
 import sequenceEditor from '../../../sequenceEditor';
 import dashboard from '../../../dashboard';
 import shared from '../../../shared';
-import songEditor from '../../../songEditor';
+import tracksEditor from '../../../tracksEditor';
 import { SignInContainer } from '../SignIn/SignInContainer';
 import { SignOutContainer } from '../SignOut/SignOutContainer';
 
@@ -18,7 +18,7 @@ const { DashboardContainer } = dashboard.components;
 const { Shell } = shared.components;
 const { SequenceEditorContainer } = sequenceEditor.components;
 const { STARTED } = Dawww.PLAYBACK_STATES;
-const { SongEditorContainer } = songEditor.components;
+const { TracksEditorContainer } = tracksEditor.components;
 
 const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
   <Route
@@ -91,7 +91,7 @@ export class App extends React.PureComponent {
                   path="/"
                 />
                 <PrivateRoute
-                  component={SongEditorContainer}
+                  component={TracksEditorContainer}
                   exact={true}
                   isAuthenticated={this.props.isAuthenticated}
                   path="/song/:songId"
