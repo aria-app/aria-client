@@ -70,7 +70,13 @@ export function TrackList(props) {
         {transitions.map(({ item, key, props: animation }) => (
           <animated.div
             key={key}
-            style={animation}>
+            style={{
+              ...animation,
+              height: animation.opacity.interpolate({
+                range: [0, 0.5, 1],
+                output: [0, 136, 136],
+              }),
+            }}>
             <Track
               onSequenceAdd={props.onSequenceAdd}
               onSequenceEdit={props.onSequenceEdit}
