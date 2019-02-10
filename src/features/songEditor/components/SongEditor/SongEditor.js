@@ -40,7 +40,6 @@ export class SongEditor extends React.PureComponent {
         <Route
           component={SequenceEditorContainer}
           exact={true}
-          isAuthenticated={this.props.isAuthenticated}
           path={`${this.props.match.path}/sequencer/:sequenceId`}
         />
         <SongEditorToolbar
@@ -49,7 +48,6 @@ export class SongEditor extends React.PureComponent {
           onStop={this.props.onStop}
           playbackState={this.props.playbackState}
         />
-
       </StyledSongEditor>
     );
   }
