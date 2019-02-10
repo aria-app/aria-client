@@ -45,7 +45,6 @@ const TrackSequences = styled.div`
 
 export class Track extends React.PureComponent {
   static propTypes = {
-    index: PropTypes.number.isRequired,
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceEdit: PropTypes.func,
     onSequenceOpen: PropTypes.func.isRequired,
