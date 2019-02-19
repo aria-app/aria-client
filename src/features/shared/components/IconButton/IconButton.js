@@ -42,8 +42,10 @@ const StyledIconButton = styled.div`
 export class IconButton extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
+    color: PropTypes.string,
     getRef: PropTypes.func,
     icon: PropTypes.string,
+    iconProps: PropTypes.object,
     isActive: PropTypes.bool,
     isDisabled: PropTypes.bool,
     onClick: PropTypes.func,
@@ -51,6 +53,10 @@ export class IconButton extends React.PureComponent {
     style: PropTypes.object,
     title: PropTypes.string,
   }
+
+  static defaultProps = {
+    iconProps: {},
+  };
 
   render() {
     return (
@@ -71,6 +77,7 @@ export class IconButton extends React.PureComponent {
             color={this.props.color}
             icon={this.props.icon}
             size={this.props.size}
+            {...this.props.iconProps}
           />
         </IconButtonIconWrapper>
       </StyledIconButton>

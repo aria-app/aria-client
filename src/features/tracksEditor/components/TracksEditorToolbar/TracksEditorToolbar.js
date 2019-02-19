@@ -2,6 +2,7 @@ import isEmpty from 'lodash/fp/isEmpty';
 import negate from 'lodash/fp/negate';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { showIf } from 'react-render-helpers';
 import styled from 'styled-components/macro';
 import shared from '../../../shared';
 
@@ -32,7 +33,7 @@ export class TracksEditorToolbar extends React.PureComponent {
       <StyledTrackEditorToolbar
         position="top"
         isAlternate={this.getIsAlternate()}
-        rightItems={
+        leftItems={
           <React.Fragment>
             <IconButton
               icon="undo"
@@ -40,28 +41,36 @@ export class TracksEditorToolbar extends React.PureComponent {
               onClick={this.props.onUndo}
               title="Undo"
             />
+            {showIf(this.props.isRedoEnabled)(
+              <IconButton
+                icon="redo"
+                isDisabled={!this.props.isRedoEnabled}
+                onClick={this.props.onRedo}
+                title="Redo"
+              />
+            )}
+          </React.Fragment>
+        }
+        leftItemsAlt={
+          <React.Fragment>
             <IconButton
-              icon="redo"
-              isDisabled={!this.props.isRedoEnabled}
-              onClick={this.props.onRedo}
-              title="Redo"
+              icon="undo"
+              isDisabled={!this.props.isUndoEnabled}
+              onClick={this.props.onUndo}
+              title="Undo"
             />
+            {showIf(this.props.isRedoEnabled)(
+              <IconButton
+                icon="redo"
+                isDisabled={!this.props.isRedoEnabled}
+                onClick={this.props.onRedo}
+                title="Redo"
+              />
+            )}
           </React.Fragment>
         }
         rightItemsAlt={
           <React.Fragment>
-            <IconButton
-              icon="undo"
-              isDisabled={!this.props.isUndoEnabled}
-              onClick={this.props.onUndo}
-              title="Undo"
-            />
-            <IconButton
-              icon="redo"
-              isDisabled={!this.props.isRedoEnabled}
-              onClick={this.props.onRedo}
-              title="Redo"
-            />
             <IconButton
               icon="pencil"
               onClick={this.openSequence}

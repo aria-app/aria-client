@@ -7,7 +7,7 @@ import { hideIf, showIf } from 'react-render-helpers';
 import Tone from 'tone';
 import shared from '../../../shared';
 
-const { STARTED } = Dawww.PLAYBACK_STATES;
+const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 const { IconButton, Toolbar } = shared.components;
 
 export class SongEditorToolbar extends React.PureComponent {
@@ -49,11 +49,13 @@ export class SongEditorToolbar extends React.PureComponent {
                 title="Pause"
               />
             )}
-            <IconButton
-              icon="stop"
-              onClick={this.stop}
-              title="Stop"
-            />
+            {showIf(this.props.playbackState !== STOPPED)(
+              <IconButton
+                icon="stop"
+                onClick={this.stop}
+                title="Stop"
+              />
+            )}
           </React.Fragment>
         }
       />
