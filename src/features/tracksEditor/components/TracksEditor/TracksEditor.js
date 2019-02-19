@@ -8,13 +8,11 @@ import { HotKeys } from 'react-hotkeys';
 import { hideIf, showIf } from 'react-render-helpers';
 import styled from 'styled-components/macro';
 import shared from '../../../shared';
-import { SongInfoModal } from '../SongInfoModal/SongInfoModal';
 import { TrackList } from '../TrackList/TrackList';
 import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
 import { TracksEditorToolbar } from '../TracksEditorToolbar/TracksEditorToolbar';
 
 const { Timeline } = shared.components;
-const { SYNC_STATES } = shared.constants;
 
 const LoadingIndicator = styled.div`
   align-items: center;
@@ -35,11 +33,9 @@ const StyledTracksEditor = styled(HotKeys)`
 
 export class TracksEditor extends React.PureComponent {
   static propTypes = {
-    bpm: PropTypes.number.isRequired,
     isRedoEnabled: PropTypes.bool.isRequired,
     isStopped: PropTypes.bool.isRequired,
     isUndoEnabled: PropTypes.bool.isRequired,
-    onBPMChange: PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
     onPositionSet: PropTypes.func.isRequired,
     onRedo: PropTypes.func.isRequired,
@@ -47,7 +43,6 @@ export class TracksEditor extends React.PureComponent {
     onSequenceDelete: PropTypes.func.isRequired,
     onSequenceDuplicate: PropTypes.func.isRequired,
     onSequenceEdit: PropTypes.func.isRequired,
-    onSongMeasureCountChange: PropTypes.func.isRequired,
     onTrackAdd: PropTypes.func.isRequired,
     onTrackDelete: PropTypes.func.isRequired,
     onTrackIsMutedToggle: PropTypes.func.isRequired,
@@ -59,12 +54,10 @@ export class TracksEditor extends React.PureComponent {
     sequences: PropTypes.arrayOf(PropTypes.object).isRequired,
     song: PropTypes.object.isRequired,
     songMeasureCount: PropTypes.number.isRequired,
-    syncState: PropTypes.oneOf(Object.values(SYNC_STATES)),
     tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   state = {
-    isSongInfoModalOpen: false,
     selectedSequenceId: '',
     selectedTrackId: '',
   };
@@ -79,12 +72,6 @@ export class TracksEditor extends React.PureComponent {
     this.props.onLoad(this.props.match.params.songId);
 
     this.focusRef.current.focus();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.song.name !== this.props.song.name) {
-      window.document.title = `${this.props.song.name} - Zen Sequencer`;
-    }
   }
 
   render() {
@@ -124,25 +111,12 @@ export class TracksEditor extends React.PureComponent {
               onSequenceDelete={this.deleteSelectedSequence}
               onSequenceDuplicate={this.duplicateSelectedSequence}
               onSequenceOpen={this.openSequence}
-              onSongInfoOpen={this.openSongInfo}
               onUndo={this.undo}
               selectedSequence={this.getSelectedSequence()}
-              syncState={this.props.syncState}
             />
             <Timeline
               isVisible={!this.props.isStopped}
               offset={(this.props.position * 2) + 16}
-            />
-            <SongInfoModal
-              bpm={this.props.bpm}
-              measureCount={this.props.songMeasureCount}
-              isOpen={this.state.isSongInfoModalOpen}
-              onBPMChange={this.props.onBPMChange}
-              onConfirm={this.closeSongInfo}
-              onMeasureCountChange={this.props.onSongMeasureCountChange}
-              onReturnToDashboard={this.returnToDashboard}
-              onSignOut={this.signOut}
-              song={this.props.song}
             />
             <TrackEditingModal
               onDelete={this.deleteTrack}
@@ -156,12 +130,6 @@ export class TracksEditor extends React.PureComponent {
       </StyledTracksEditor>
     );
   }
-
-  closeSongInfo = () => {
-    this.setState({
-      isSongInfoModalOpen: false,
-    });
-  };
 
   deleteSelectedSequence = (e) => {
     e.preventDefault();
@@ -268,20 +236,10 @@ export class TracksEditor extends React.PureComponent {
     this.props.history.push(`${this.props.match.url}/sequencer/${sequence.id}`);
   }
 
-  openSongInfo = () => {
-    this.setState({
-      isSongInfoModalOpen: true,
-    });
-  };
-
   redo = () => {
     if (!this.props.isRedoEnabled) return;
 
     this.props.onRedo();
-  }
-
-  returnToDashboard = () => {
-    this.props.history.push('/');
   }
 
   selectTrack = (track) => {
@@ -289,10 +247,6 @@ export class TracksEditor extends React.PureComponent {
       selectedTrackId: track.id,
     });
   };
-
-  signOut = () => {
-    this.props.history.push('/sign-out');
-  }
 
   undo = () => {
     if (!this.props.isUndoEnabled) return;

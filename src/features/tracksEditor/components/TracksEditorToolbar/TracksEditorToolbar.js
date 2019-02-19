@@ -6,12 +6,6 @@ import styled from 'styled-components/macro';
 import shared from '../../../shared';
 
 const { IconButton, Toolbar } = shared.components;
-const { SYNC_STATES } = shared.constants;
-
-const SyncIndicator = styled.div`
-  display: flex;
-  flex: 1 1 auto;
-`;
 
 const StyledTrackEditorToolbar = styled(Toolbar)`
   border-bottom: 1px solid ${props => props.theme.midgray};
@@ -25,10 +19,8 @@ export class TracksEditorToolbar extends React.PureComponent {
     onSequenceDelete: PropTypes.func,
     onSequenceDuplicate: PropTypes.func,
     onSequenceOpen: PropTypes.func,
-    onSongInfoOpen: PropTypes.func,
     onUndo: PropTypes.func,
     selectedSequence: PropTypes.object,
-    syncState: PropTypes.oneOf(Object.values(SYNC_STATES)),
   }
 
   static defaultProps = {
@@ -40,30 +32,6 @@ export class TracksEditorToolbar extends React.PureComponent {
       <StyledTrackEditorToolbar
         position="top"
         isAlternate={this.getIsAlternate()}
-        leftItems={
-          <React.Fragment>
-            <IconButton
-              icon="cog"
-              onClick={this.props.onSongInfoOpen}
-              title="Settings"
-            />
-            <SyncIndicator>
-              {this.props.syncState}
-            </SyncIndicator>
-          </React.Fragment>
-        }
-        leftItemsAlt={
-          <React.Fragment>
-            <IconButton
-              icon="cog"
-              onClick={this.props.onSongInfoOpen}
-              title="Settings"
-            />
-            <SyncIndicator>
-              {this.props.syncState}
-            </SyncIndicator>
-          </React.Fragment>
-        }
         rightItems={
           <React.Fragment>
             <IconButton

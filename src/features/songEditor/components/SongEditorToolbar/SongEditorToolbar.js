@@ -14,6 +14,7 @@ export class SongEditorToolbar extends React.PureComponent {
   static propTypes = {
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
+    onSongInfoOpen: PropTypes.func,
     onStop: PropTypes.func.isRequired,
     playbackState: PropTypes.string.isRequired,
   }
@@ -23,6 +24,15 @@ export class SongEditorToolbar extends React.PureComponent {
       <Toolbar
         position="top"
         isAlternate={this.getIsAlternate()}
+        leftItems={
+          <React.Fragment>
+            <IconButton
+              icon="cog"
+              onClick={this.props.onSongInfoOpen}
+              title="Settings"
+            />
+          </React.Fragment>
+        }
         rightItems={
           <React.Fragment>
             {hideIf(this.props.playbackState === STARTED)(

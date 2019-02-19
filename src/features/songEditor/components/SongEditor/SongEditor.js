@@ -6,6 +6,7 @@ import styled from 'styled-components/macro';
 import sequenceEditor from '../../../sequenceEditor';
 import tracksEditor from '../../../tracksEditor';
 import { SongEditorToolbar } from '../SongEditorToolbar/SongEditorToolbar';
+import { SongInfoModal } from '../SongInfoModal/SongInfoModal';
 
 const { SequenceEditorContainer } = sequenceEditor.components;
 const { TracksEditorContainer } = tracksEditor.components;
@@ -21,10 +22,25 @@ const StyledSongEditor = styled(HotKeys)`
 
 export class SongEditor extends React.PureComponent {
   static propTypes = {
+    bpm: PropTypes.number.isRequired,
+    songMeasureCount: PropTypes.number.isRequired,
+    onBPMChange: PropTypes.func.isRequired,
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
+    onSongMeasureCountChange: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
     playbackState: PropTypes.string.isRequired,
+    song: PropTypes.object,
+  }
+
+  state = {
+    isSongInfoModalOpen: false,
+  };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.song.name !== this.props.song.name) {
+      window.document.title = `${this.props.song.name} - Zen Sequencer`;
+    }
   }
 
   render() {
@@ -45,10 +61,42 @@ export class SongEditor extends React.PureComponent {
         <SongEditorToolbar
           onPause={this.props.onPause}
           onPlay={this.props.onPlay}
+          onSongInfoOpen={this.openSongInfo}
           onStop={this.props.onStop}
           playbackState={this.props.playbackState}
         />
+        <SongInfoModal
+          bpm={this.props.bpm}
+          measureCount={this.props.songMeasureCount}
+          isOpen={this.state.isSongInfoModalOpen}
+          onBPMChange={this.props.onBPMChange}
+          onConfirm={this.closeSongInfo}
+          onMeasureCountChange={this.props.onSongMeasureCountChange}
+          onReturnToDashboard={this.returnToDashboard}
+          onSignOut={this.signOut}
+          song={this.props.song}
+        />
       </StyledSongEditor>
     );
+  }
+
+  closeSongInfo = () => {
+    this.setState({
+      isSongInfoModalOpen: false,
+    });
+  };
+
+  openSongInfo = () => {
+    this.setState({
+      isSongInfoModalOpen: true,
+    });
+  };
+
+  returnToDashboard = () => {
+    this.props.history.push('/');
+  }
+
+  signOut = () => {
+    this.props.history.push('/sign-out');
   }
 }
