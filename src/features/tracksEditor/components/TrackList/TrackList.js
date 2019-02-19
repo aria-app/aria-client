@@ -108,8 +108,6 @@ TrackList.propTypes = {
   onSequenceEdit: PropTypes.func.isRequired,
   onSequenceOpen: PropTypes.func.isRequired,
   onSequenceSelect: PropTypes.func.isRequired,
-  onSongExtend: PropTypes.func.isRequired,
-  onSongShorten: PropTypes.func.isRequired,
   onTrackAdd: PropTypes.func.isRequired,
   onTrackIsMutedToggle: PropTypes.func.isRequired,
   onTrackIsSoloingToggle: PropTypes.func.isRequired,

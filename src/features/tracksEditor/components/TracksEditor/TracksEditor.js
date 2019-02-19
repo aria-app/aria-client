@@ -47,13 +47,7 @@ export class TracksEditor extends React.PureComponent {
     onSequenceDelete: PropTypes.func.isRequired,
     onSequenceDuplicate: PropTypes.func.isRequired,
     onSequenceEdit: PropTypes.func.isRequired,
-    onSequenceExtend: PropTypes.func.isRequired,
-    onSequenceMoveLeft: PropTypes.func.isRequired,
-    onSequenceMoveRight: PropTypes.func.isRequired,
-    onSequenceShorten: PropTypes.func.isRequired,
-    onSongExtend: PropTypes.func.isRequired,
     onSongMeasureCountChange: PropTypes.func.isRequired,
-    onSongShorten: PropTypes.func.isRequired,
     onTrackAdd: PropTypes.func.isRequired,
     onTrackDelete: PropTypes.func.isRequired,
     onTrackIsMutedToggle: PropTypes.func.isRequired,
@@ -115,9 +109,6 @@ export class TracksEditor extends React.PureComponent {
               onSequenceDeselect={this.handleTrackListSequenceDeselect}
               onSequenceOpen={this.openSequence}
               onSequenceSelect={this.handleTrackListSequenceSelect}
-              onSongExtend={this.props.onSongExtend}
-              onSongInfoPress={this.handleTrackListSongInfoPress}
-              onSongShorten={this.props.onSongShorten}
               onTrackAdd={this.handleTrackListTrackAdd}
               onTrackIsMutedToggle={this.props.onTrackIsMutedToggle}
               onTrackIsSoloingToggle={this.props.onTrackIsSoloingToggle}
@@ -132,11 +123,7 @@ export class TracksEditor extends React.PureComponent {
               onRedo={this.redo}
               onSequenceDelete={this.deleteSelectedSequence}
               onSequenceDuplicate={this.duplicateSelectedSequence}
-              onSequenceExtend={() => {}}
-              onSequenceMoveLeft={() => {}}
-              onSequenceMoveRight={() => {}}
               onSequenceOpen={this.openSequence}
-              onSequenceShorten={() => {}}
               onSongInfoOpen={this.openSongInfo}
               onUndo={this.undo}
               selectedSequence={this.getSelectedSequence()}
@@ -273,27 +260,9 @@ export class TracksEditor extends React.PureComponent {
     this.props.onSequenceDelete(this.getSelectedSequence());
   };
 
-  handleTracksEditorToolbarSequenceExtend = () => {
-    this.props.onSequenceExtend(this.getSelectedSequence());
-  };
-
-  handleTracksEditorToolbarSequenceMoveLeft = () => {
-    this.props.onSequenceMoveLeft(this.getSelectedSequence());
-  };
-
-  handleTracksEditorToolbarSequenceMoveRight = () => {
-    this.props.onSequenceMoveRight(this.getSelectedSequence());
-  };
-
   handleTracksEditorToolbarSequenceOpen = () => {
     this.openSequence(this.getSelectedSequence());
   };
-
-  handleTracksEditorToolbarSequenceShorten = () => {
-    if (this.getSelectedSequence().measureCount < 2) return;
-
-    this.props.onSequenceShorten(this.getSelectedSequence());
-  }
 
   openSequence = (sequence) => {
     this.props.history.push(`${this.props.match.url}/sequencer/${sequence.id}`);

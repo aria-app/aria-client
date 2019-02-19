@@ -23,27 +23,29 @@ export class SongEditorToolbar extends React.PureComponent {
       <Toolbar
         position="top"
         isAlternate={this.getIsAlternate()}
-        rightItems={<React.Fragment>
-          {hideIf(this.props.playbackState === STARTED)(
+        rightItems={
+          <React.Fragment>
+            {hideIf(this.props.playbackState === STARTED)(
+              <IconButton
+                icon="play"
+                onClick={this.playPause}
+                title="Play"
+              />
+            )}
+            {showIf(this.props.playbackState === STARTED)(
+              <IconButton
+                icon="pause"
+                onClick={this.playPause}
+                title="Pause"
+              />
+            )}
             <IconButton
-              icon="play"
-              onClick={this.playPause}
-              title="Play"
+              icon="stop"
+              onClick={this.stop}
+              title="Stop"
             />
-          )}
-          {showIf(this.props.playbackState === STARTED)(
-            <IconButton
-              icon="pause"
-              onClick={this.playPause}
-              title="Pause"
-            />
-          )}
-          <IconButton
-            icon="stop"
-            onClick={this.stop}
-            title="Stop"
-          />
-        </React.Fragment>}
+          </React.Fragment>
+        }
       />
     );
   }

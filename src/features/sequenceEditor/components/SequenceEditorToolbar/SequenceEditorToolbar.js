@@ -40,94 +40,102 @@ export class SequenceEditorToolbar extends React.PureComponent {
       <StyledSequenceEditorToolbar
         className="sequence-editor-toolbar"
         isAlternate={this.getAreSomeNotesSelected()}
-        alternateLeftItems={<React.Fragment>
-          <IconButton
-            icon="close"
-            onClick={this.props.onDeselectAll}
-            toolTip="Deselect notes"
-          />
-        </React.Fragment>}
-        alternateRightItems={<React.Fragment>
-          <IconButton
-            icon="undo"
-            isDisabled={!this.props.isUndoEnabled}
-            onClick={this.props.onUndo}
-            title="Undo"
-          />
-          <IconButton
-            icon="redo"
-            isDisabled={!this.props.isRedoEnabled}
-            onClick={this.props.onRedo}
-            title="Redo"
-          />
-          <IconButton
-            icon="trash"
-            onClick={this.props.onDelete}
-            title="Delete"
-          />
-          <IconButton
-            icon="clone"
-            onClick={this.props.onDuplicate}
-            title="Duplicate"
-          />
-          <IconButton
-            icon="arrow-up"
-            isDisabled={this.getIsOctaveUpButtonDisabled()}
-            onClick={this.props.onOctaveUp}
-            toolTip="Octave up"
-          />
-          <IconButton
-            icon="arrow-down"
-            isDisabled={this.getIsOctaveDownButtonDisabled()}
-            onClick={this.props.onOctaveDown}
-            toolTip="Octave down"
-          />
-        </React.Fragment>}
-        leftItems={<React.Fragment>
-          <IconButton
-            icon="arrow-left"
-            onClick={this.props.onClose}
-            toolTip="Back to tracks"
-          />
-        </React.Fragment>}
-        rightItems={<React.Fragment>
-          <IconButton
-            icon="undo"
-            isDisabled={!this.props.isUndoEnabled}
-            onClick={this.props.onUndo}
-            title="Undo"
-          />
-          <IconButton
-            icon="redo"
-            isDisabled={!this.props.isRedoEnabled}
-            onClick={this.props.onRedo}
-            title="Redo"
-          />
-          <IconButton
-            isActive={this.props.toolType === SELECT}
-            icon="mouse-pointer"
-            onClick={this.props.onSelectToolSelect}
-            title="Select"
-          />
-          <IconButton
-            isActive={this.props.toolType === DRAW}
-            icon="pencil"
-            onClick={this.props.onDrawToolSelect}
-            title="Draw"
-          />
-          <IconButton
-            isActive={this.props.toolType === ERASE}
-            icon="eraser"
-            onClick={this.props.onEraseToolSelect}
-            title="Erase"
-          />
-          <IconButton
-            isActive={this.props.toolType === PAN}
-            icon="hand-paper-o"
-            onClick={this.props.onPanToolSelect}
-            title="Pan"
-          />
-        </React.Fragment>}
+        leftItems={
+          <React.Fragment>
+            <IconButton
+              icon="arrow-left"
+              onClick={this.props.onClose}
+              toolTip="Back to tracks"
+            />
+          </React.Fragment>
+        }
+        leftItemsAlt={
+          <React.Fragment>
+            <IconButton
+              icon="close"
+              onClick={this.props.onDeselectAll}
+              toolTip="Deselect notes"
+            />
+          </React.Fragment>
+        }
+        rightItems={
+          <React.Fragment>
+            <IconButton
+              icon="undo"
+              isDisabled={!this.props.isUndoEnabled}
+              onClick={this.props.onUndo}
+              title="Undo"
+            />
+            <IconButton
+              icon="redo"
+              isDisabled={!this.props.isRedoEnabled}
+              onClick={this.props.onRedo}
+              title="Redo"
+            />
+            <IconButton
+              isActive={this.props.toolType === SELECT}
+              icon="mouse-pointer"
+              onClick={this.props.onSelectToolSelect}
+              title="Select"
+            />
+            <IconButton
+              isActive={this.props.toolType === DRAW}
+              icon="pencil"
+              onClick={this.props.onDrawToolSelect}
+              title="Draw"
+            />
+            <IconButton
+              isActive={this.props.toolType === ERASE}
+              icon="eraser"
+              onClick={this.props.onEraseToolSelect}
+              title="Erase"
+            />
+            <IconButton
+              isActive={this.props.toolType === PAN}
+              icon="hand-paper-o"
+              onClick={this.props.onPanToolSelect}
+              title="Pan"
+            />
+          </React.Fragment>
+        }
+        rightItemsAlt={
+          <React.Fragment>
+            <IconButton
+              icon="undo"
+              isDisabled={!this.props.isUndoEnabled}
+              onClick={this.props.onUndo}
+              title="Undo"
+            />
+            <IconButton
+              icon="redo"
+              isDisabled={!this.props.isRedoEnabled}
+              onClick={this.props.onRedo}
+              title="Redo"
+            />
+            <IconButton
+              icon="trash"
+              onClick={this.props.onDelete}
+              title="Delete"
+            />
+            <IconButton
+              icon="clone"
+              onClick={this.props.onDuplicate}
+              title="Duplicate"
+            />
+            <IconButton
+              icon="arrow-up"
+              isDisabled={this.getIsOctaveUpButtonDisabled()}
+              onClick={this.props.onOctaveUp}
+              toolTip="Octave up"
+            />
+            <IconButton
+              icon="arrow-down"
+              isDisabled={this.getIsOctaveDownButtonDisabled()}
+              onClick={this.props.onOctaveDown}
+              toolTip="Octave down"
+            />
+          </React.Fragment>
+        }
       />
     );
   }

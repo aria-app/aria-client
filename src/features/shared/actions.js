@@ -23,10 +23,6 @@ export const SEQUENCE_DELETED = 'SEQUENCE_DELETED';
 export const SEQUENCE_DUPLICATED = 'SEQUENCE_DUPLICATED';
 export const SEQUENCE_EDITED = 'SEQUENCE_EDITED';
 export const SEQUENCE_EDITOR_LOADED = 'SEQUENCE_EDITOR_LOADED';
-export const SEQUENCE_EXTENDED = 'SEQUENCE_EXTENDED';
-export const SEQUENCE_NUDGED_LEFT = 'SEQUENCE_NUDGED_LEFT';
-export const SEQUENCE_NUDGED_RIGHT = 'SEQUENCE_NUDGED_RIGHT';
-export const SEQUENCE_SHORTENED = 'SEQUENCE_SHORTENED';
 export const SYNC_STARTED = 'SYNC_STARTED';
 export const SYNC_SUCCEEDED = 'SYNC_SUCCEEDED';
 export const SONG_ADD_REQUEST_STARTED = 'SONG_ADD_REQUEST_STARTED';
@@ -34,9 +30,7 @@ export const SONG_ADD_REQUEST_SUCCEEDED = 'SONG_ADD_REQUEST_SUCCEEDED';
 export const SONG_DELETE_REQUEST_STARTED = 'SONG_DELETE_REQUEST_STARTED';
 export const SONG_DELETE_REQUEST_SUCCEEDED = 'SONG_DELETE_REQUEST_SUCCEEDED';
 export const SONG_EDITOR_LOADED = 'SONG_EDITOR_LOADED';
-export const SONG_EXTENDED = 'SONG_EXTENDED';
 export const SONG_LOADED = 'SONG_LOADED';
-export const SONG_SHORTENED = 'SONG_SHORTENED';
 export const TRACK_ADDED = 'TRACK_ADDED';
 export const TRACK_DELETED = 'TRACK_DELETED';
 export const TRACK_IS_MUTED_TOGGLED = 'TRACK_IS_MUTED_TOGGLED';
@@ -64,12 +58,6 @@ export const undoableActions = [
   SEQUENCE_DELETED,
   SEQUENCE_DUPLICATED,
   SEQUENCE_EDITED,
-  SEQUENCE_EXTENDED,
-  SEQUENCE_NUDGED_LEFT,
-  SEQUENCE_NUDGED_RIGHT,
-  SEQUENCE_SHORTENED,
-  SONG_EXTENDED,
-  SONG_SHORTENED,
   TRACK_ADDED,
   TRACK_DELETED,
   TRACK_IS_MUTED_TOGGLED,
@@ -94,13 +82,7 @@ export const serverUpdatingActions = [
   SEQUENCE_ADDED,
   SEQUENCE_DELETED,
   SEQUENCE_DUPLICATED,
-  SEQUENCE_EXTENDED,
   SEQUENCE_EDITED,
-  SEQUENCE_NUDGED_LEFT,
-  SEQUENCE_NUDGED_RIGHT,
-  SEQUENCE_SHORTENED,
-  SONG_EXTENDED,
-  SONG_SHORTENED,
   TRACK_ADDED,
   TRACK_DELETED,
   TRACK_IS_MUTED_TOGGLED,
@@ -278,34 +260,6 @@ export const sequenceEditorLoaded = (songId, sequenceId) => ({
   },
 });
 
-
-export const sequenceExtended = sequence => ({
-  type: SEQUENCE_EXTENDED,
-  payload: {
-    sequence,
-  },
-});
-export const sequenceNudgedLeft = sequence => ({
-  type: SEQUENCE_NUDGED_LEFT,
-  payload: {
-    sequence,
-  },
-});
-
-export const sequenceNudgedRight = sequence => ({
-  type: SEQUENCE_NUDGED_RIGHT,
-  payload: {
-    sequence,
-  },
-});
-
-export const sequenceShortened = sequence => ({
-  type: SEQUENCE_SHORTENED,
-  payload: {
-    sequence,
-  },
-});
-
 export const songAddRequestStarted = (options) => ({
   type: SONG_ADD_REQUEST_STARTED,
   payload: {
@@ -341,19 +295,11 @@ export const songEditorLoaded = songId => ({
   },
 });
 
-export const songExtended = () => ({
-  type: SONG_EXTENDED,
-});
-
 export const songLoaded = song => ({
   type: SONG_LOADED,
   payload: {
     song,
   },
-});
-
-export const songShortened = () => ({
-  type: SONG_SHORTENED,
 });
 
 export const syncStarted = () => ({

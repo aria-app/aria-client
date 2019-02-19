@@ -12,10 +12,4 @@ export const measureCount = createReducer(initialValue, {
 
   [shared.actions.SONG_LOADED]: (state, action) =>
     action.payload.song.measureCount,
-
-  [shared.actions.SONG_EXTENDED]: state =>
-    state + 1,
-
-  [shared.actions.SONG_SHORTENED]: state =>
-    state - 1,
 });
