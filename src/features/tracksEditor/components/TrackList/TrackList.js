@@ -2,37 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { animated, useTransition } from 'react-spring';
 import styled from 'styled-components/macro';
+import shared from '../../../shared';
 import { AddTrackButton } from '../AddTrackButton/AddTrackButton';
 import { Ruler } from '../Ruler/Ruler';
 import { Track } from '../Track/Track';
 
-const FadeInDiv = ({ children, component, isVisible }) => {
-  const transition = useTransition(isVisible, null, {
-    enter: { opacity: 1 },
-    from: { opacity: 0 },
-  });
-
-  return transition.map(({ item, key, props }) => (item &&
-    React.createElement(component || animated.div, {
-      style: props,
-      key,
-    }, children)
-  ));
-}
-
-const FadeOutDiv = ({ children, component, isVisible }) => {
-  const transition = useTransition(isVisible, null, {
-    from: { opacity: 1 },
-    leave: { opacity: 0 },
-  });
-
-  return transition.map(({ item, key, props }) => (item &&
-      React.createElement(component || animated.div, {
-      style: props,
-      key,
-    }, children)
-  ));
-}
+const { Transitioner } = shared.components;
 
 const LoadingIndicator = styled(animated.div)`
   align-items: center;
@@ -99,16 +74,16 @@ export function TrackList(props) {
 
   return (
     <StyledTrackList>
-      <FadeOutDiv
+      <Transitioner
         component={LoadingIndicator}
         isVisible={props.isLoading}>
         LOADING SONG...
-      </FadeOutDiv>
+      </Transitioner>
       <TrackListContent>
         <TrackListUnderlay
           onClick={props.onSequenceDeselect}
         />
-        <FadeInDiv
+        <Transitioner
           isVisible={!props.isLoading}>
           <Ruler
             isStopped={props.isStopped}
@@ -116,7 +91,7 @@ export function TrackList(props) {
             measureWidth={64}
             onPositionSet={props.onPositionSet}
           />
-        </FadeInDiv>
+        </Transitioner>
         {trackTransitions.map(({ item, key, props: animation }) => (
           <animated.div
             key={key}
@@ -141,13 +116,13 @@ export function TrackList(props) {
             />
           </animated.div>
         ))}
-        <FadeInDiv
+        <Transitioner
           isVisible={!props.isLoading}>
           <AddTrackButton
             onClick={props.onTrackAdd}
             songMeasureCount={props.songMeasureCount}
           />
-        </FadeInDiv>
+        </Transitioner>
       </TrackListContent>
     </StyledTrackList>
   );
