@@ -100,6 +100,8 @@ export class Dashboard extends React.Component {
   addSong = () => {
     const name = window.prompt('Enter a name for the song', 'New Song');
 
+    if (!name) return;
+
     this.props.onSongAdd({
       name,
     });
