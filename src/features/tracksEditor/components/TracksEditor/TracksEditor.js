@@ -5,7 +5,6 @@ import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { HotKeys } from 'react-hotkeys';
-import { hideIf, showIf } from 'react-render-helpers';
 import styled from 'styled-components/macro';
 import shared from '../../../shared';
 import { TrackList } from '../TrackList/TrackList';
@@ -13,14 +12,6 @@ import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
 import { TracksEditorToolbar } from '../TracksEditorToolbar/TracksEditorToolbar';
 
 const { Timeline } = shared.components;
-
-const LoadingIndicator = styled.div`
-  align-items: center;
-  color: white;
-  display: flex;
-  flex: 1 1 auto;
-  justify-content: center;
-`;
 
 const StyledTracksEditor = styled(HotKeys)`
   display: flex;
@@ -33,6 +24,7 @@ const StyledTracksEditor = styled(HotKeys)`
 
 export class TracksEditor extends React.PureComponent {
   static propTypes = {
+    isLoading: PropTypes.bool.isRequired,
     isRedoEnabled: PropTypes.bool.isRequired,
     isStopped: PropTypes.bool.isRequired,
     isUndoEnabled: PropTypes.bool.isRequired,
@@ -80,14 +72,9 @@ export class TracksEditor extends React.PureComponent {
         focused={true}
         handlers={this.getKeyHandlers()}>
         <div ref={this.focusRef} tabIndex={-1}/>
-        {showIf(this.props.isLoading)(
-          <LoadingIndicator>
-            LOADING SONG...
-          </LoadingIndicator>
-        )}
-        {hideIf(this.props.isLoading)(
           <React.Fragment>
             <TrackList
+              isLoading={this.props.isLoading}
               isStopped={this.props.isStopped}
               onPositionSet={this.props.onPositionSet}
               onSequenceAdd={this.handleTrackListSequenceAdd}
@@ -126,7 +113,6 @@ export class TracksEditor extends React.PureComponent {
               stagedTrack={this.getSelectedTrack()}
             />
           </React.Fragment>
-        )}
       </StyledTracksEditor>
     );
   }

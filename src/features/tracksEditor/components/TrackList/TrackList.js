@@ -6,12 +6,54 @@ import { AddTrackButton } from '../AddTrackButton/AddTrackButton';
 import { Ruler } from '../Ruler/Ruler';
 import { Track } from '../Track/Track';
 
+const FadeInDiv = ({ children, component, isVisible }) => {
+  const transition = useTransition(isVisible, null, {
+    enter: { opacity: 1 },
+    from: { opacity: 0 },
+  });
+
+  return transition.map(({ item, key, props }) => (item &&
+    React.createElement(component || animated.div, {
+      style: props,
+      key,
+    }, children)
+  ));
+}
+
+const FadeOutDiv = ({ children, component, isVisible }) => {
+  const transition = useTransition(isVisible, null, {
+    from: { opacity: 1 },
+    leave: { opacity: 0 },
+  });
+
+  return transition.map(({ item, key, props }) => (item &&
+      React.createElement(component || animated.div, {
+      style: props,
+      key,
+    }, children)
+  ));
+}
+
+const LoadingIndicator = styled(animated.div)`
+  align-items: center;
+  bottom: 0;
+  color: white;
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+`;
+
 const StyledTrackList = styled.div`
   align-items: flex-start;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
   overflow: auto;
+  position: relative;
 `;
 
 const TrackListContent = styled.div`
@@ -36,7 +78,7 @@ const TrackListUnderlay = styled.div`
 `;
 
 export function TrackList(props) {
-  const transitions = useTransition(props.tracks, track => track.id, {
+  const trackTransitions = useTransition(props.tracks, track => track.id, {
     config: {
       clamp: true,
       tension: 200,
@@ -57,17 +99,25 @@ export function TrackList(props) {
 
   return (
     <StyledTrackList>
+      <FadeOutDiv
+        component={LoadingIndicator}
+        isVisible={props.isLoading}>
+        LOADING SONG...
+      </FadeOutDiv>
       <TrackListContent>
         <TrackListUnderlay
           onClick={props.onSequenceDeselect}
         />
-        <Ruler
-          isStopped={props.isStopped}
-          measureCount={props.songMeasureCount}
-          measureWidth={64}
-          onPositionSet={props.onPositionSet}
-        />
-        {transitions.map(({ item, key, props: animation }) => (
+        <FadeInDiv
+          isVisible={!props.isLoading}>
+          <Ruler
+            isStopped={props.isStopped}
+            measureCount={props.songMeasureCount}
+            measureWidth={64}
+            onPositionSet={props.onPositionSet}
+          />
+        </FadeInDiv>
+        {trackTransitions.map(({ item, key, props: animation }) => (
           <animated.div
             key={key}
             style={{
@@ -91,10 +141,13 @@ export function TrackList(props) {
             />
           </animated.div>
         ))}
-        <AddTrackButton
-          onClick={props.onTrackAdd}
-          songMeasureCount={props.songMeasureCount}
-        />
+        <FadeInDiv
+          isVisible={!props.isLoading}>
+          <AddTrackButton
+            onClick={props.onTrackAdd}
+            songMeasureCount={props.songMeasureCount}
+          />
+        </FadeInDiv>
       </TrackListContent>
     </StyledTrackList>
   );
