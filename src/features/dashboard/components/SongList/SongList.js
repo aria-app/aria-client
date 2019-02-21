@@ -1,3 +1,4 @@
+import orderBy from 'lodash/fp/orderBy';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components/macro';
@@ -21,7 +22,7 @@ export class SongList extends React.Component {
 	render() {
 		return (
 			<StyledSongList>
-				{Object.values(this.props.songs).map(song => (
+				{this.getSortedSongs().map(song => (
 					<SongListItem
 						key={song.id}
 						onDelete={this.props.onDelete}
@@ -32,4 +33,11 @@ export class SongList extends React.Component {
 			</StyledSongList>
 		);
 	}
+
+  getSortedSongs = () =>
+    orderBy(
+      x => x.dateModified,
+      'desc',
+      Object.values(this.props.songs),
+    );
 }

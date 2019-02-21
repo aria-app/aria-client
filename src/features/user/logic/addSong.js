@@ -13,6 +13,7 @@ export const addSong = createLogic({
 
     const song = {
   		...Dawww.createSong(),
+      dateModified: Date.now(),
   		userId: user.uid,
       ...action.payload.options,
   	};

@@ -11,10 +11,14 @@ export const updateSongOnChange = createLogic({
   warnTimeout: 0,
   process({ action, getState }, dispatch, done) {
     const song = selectors.getSong(getState());
+    const songWithDateModified = {
+      ...song,
+      dateModified: Date.now(),
+    };
 
     dispatch(shared.actions.syncStarted());
 
-    throttledUpdate(song)
+    throttledUpdate(songWithDateModified)
       .then(() => {
         dispatch(shared.actions.syncSucceeded());
         done();
