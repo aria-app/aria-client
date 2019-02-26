@@ -7,7 +7,7 @@ import { AddTrackButton } from '../AddTrackButton/AddTrackButton';
 import { Ruler } from '../Ruler/Ruler';
 import { Track } from '../Track/Track';
 
-const { Transitioner } = shared.components;
+const { FadeIn, FadeOut } = shared.components;
 
 const LoadingIndicator = styled(animated.div)`
   align-items: center;
@@ -74,16 +74,16 @@ export function TrackList(props) {
 
   return (
     <StyledTrackList>
-      <Transitioner
+      <FadeOut
         component={LoadingIndicator}
         isVisible={props.isLoading}>
         LOADING SONG...
-      </Transitioner>
+      </FadeOut>
       <TrackListContent>
         <TrackListUnderlay
           onClick={props.onSequenceDeselect}
         />
-        <Transitioner
+        <FadeIn
           isVisible={!props.isLoading}>
           <Ruler
             isStopped={props.isStopped}
@@ -91,38 +91,35 @@ export function TrackList(props) {
             measureWidth={64}
             onPositionSet={props.onPositionSet}
           />
-        </Transitioner>
-        {trackTransitions.map(({ item, key, props: animation }) => (
-          <animated.div
-            key={key}
-            style={{
-              ...animation,
-              height: animation.opacity.interpolate({
-                range: [0, 0.5, 1],
-                output: [0, 136, 136],
-              }),
-            }}>
-            <Track
-              onSequenceAdd={props.onSequenceAdd}
-              onSequenceEdit={props.onSequenceEdit}
-              onSequenceOpen={props.onSequenceOpen}
-              onSequenceSelect={props.onSequenceSelect}
-              onTrackIsMutedToggle={props.onTrackIsMutedToggle}
-              onTrackIsSoloingToggle={props.onTrackIsSoloingToggle}
-              onTrackSelect={props.onTrackStage}
-              selectedSequence={props.selectedSequence}
-              songMeasureCount={props.songMeasureCount}
-              track={item}
-            />
-          </animated.div>
-        ))}
-        <Transitioner
-          isVisible={!props.isLoading}>
+          {trackTransitions.map(({ item, key, props: animation }) => (
+            <animated.div
+              key={key}
+              style={{
+                ...animation,
+                height: animation.opacity.interpolate({
+                  range: [0, 0.5, 1],
+                  output: [0, 136, 136],
+                }),
+              }}>
+              <Track
+                onSequenceAdd={props.onSequenceAdd}
+                onSequenceEdit={props.onSequenceEdit}
+                onSequenceOpen={props.onSequenceOpen}
+                onSequenceSelect={props.onSequenceSelect}
+                onTrackIsMutedToggle={props.onTrackIsMutedToggle}
+                onTrackIsSoloingToggle={props.onTrackIsSoloingToggle}
+                onTrackSelect={props.onTrackStage}
+                selectedSequence={props.selectedSequence}
+                songMeasureCount={props.songMeasureCount}
+                track={item}
+              />
+            </animated.div>
+          ))}
           <AddTrackButton
             onClick={props.onTrackAdd}
             songMeasureCount={props.songMeasureCount}
           />
-        </Transitioner>
+        </FadeIn>
       </TrackListContent>
     </StyledTrackList>
   );

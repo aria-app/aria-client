@@ -5,6 +5,7 @@ import user from '../../../user';
 import { Dashboard } from './Dashboard';
 
 export const DashboardContainer = withRouter(connect(state => ({
+  isLoadingSongs: user.selectors.getIsUserSongLibraryLoading(state),
   songs: user.selectors.getUserSongLibrary(state),
   user: user.selectors.getUser(state),
 }), {

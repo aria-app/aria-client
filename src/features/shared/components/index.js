@@ -10,5 +10,6 @@ export { Modal } from './Modal/Modal';
 export { Shell } from './Shell/Shell';
 export { Timeline } from './Timeline/Timeline';
 export { Toolbar } from './Toolbar/Toolbar';
-export { Transitioner } from './Transitioner/Transitioner';
+export { FadeIn } from './FadeIn/FadeIn';
+export { FadeOut } from './FadeOut/FadeOut';
 export { UploadOverlay } from './UploadOverlay/UploadOverlay';

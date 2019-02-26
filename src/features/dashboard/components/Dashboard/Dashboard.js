@@ -1,11 +1,26 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { hideIf } from 'react-render-helpers';
+import { animated } from 'react-spring';
 import styled from 'styled-components/macro';
 import shared from '../../../shared';
 import { SongList } from '../SongList/SongList';
 
-const { Icon, Toolbar } = shared.components;
+const { Icon, Toolbar, FadeOut } = shared.components;
 const { mixins } = shared.styles;
+
+const LoadingIndicator = styled(animated.div)`
+  align-items: center;
+  bottom: 0;
+  color: white;
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+`;
 
 const DashboardCenteredContent = styled.div`
   align-self: center;
@@ -51,6 +66,7 @@ const StyledDashboard = styled.div`
 
 export class Dashboard extends React.Component {
 	static propTypes = {
+		isLoadingSongs: PropTypes.bool,
 		onLoad: PropTypes.func,
 		onSongAdd: PropTypes.func,
 		onSongDelete: PropTypes.func,
@@ -80,12 +96,19 @@ export class Dashboard extends React.Component {
             </React.Fragment>
           }
         />
+        <FadeOut
+          component={LoadingIndicator}
+          isVisible={this.props.isLoadingSongs}>
+          LOADING SONGS...
+        </FadeOut>
         <DashboardCenteredContent>
-          <SongList
-            onDelete={this.deleteSong}
-            onOpen={this.openSong}
-            songs={this.props.songs}
-          />
+          {hideIf(this.props.isLoadingSongs)(() =>
+            <SongList
+              onDelete={this.deleteSong}
+              onOpen={this.openSong}
+              songs={this.props.songs}
+            />
+          )}
         </DashboardCenteredContent>
         <Fab
           onClick={this.addSong}>

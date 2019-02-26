@@ -4,6 +4,9 @@ import { createReducer } from 'redux-create-reducer';
 import shared from '../../shared';
 
 export const userSongLibrary = createReducer({}, {
+  [shared.actions.DASHBOARD_LOADED]: (state, action) =>
+    ({}),
+
   [shared.actions.SONG_ADD_REQUEST_SUCCEEDED]: (state, action) =>
     Dawww.setAtIds([action.payload.song], state),
 
