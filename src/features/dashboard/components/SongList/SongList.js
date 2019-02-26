@@ -36,14 +36,17 @@ export function SongList(props) {
     trail: 100,
     unique: true,
     from: {
+      height: 0,
       marginLeft: -64,
       opacity: 0,
     },
     enter: {
+      height: 48,
       marginLeft: 0,
       opacity: 1,
     },
     leave: {
+      height: 0,
       marginLeft: 64,
       opacity: 0,
     },
