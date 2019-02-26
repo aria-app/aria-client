@@ -52,6 +52,24 @@ const TrackListUnderlay = styled.div`
   top: 0;
 `;
 
+TrackList.propTypes = {
+  isStopped: PropTypes.bool.isRequired,
+  onPositionSet: PropTypes.func.isRequired,
+  onSequenceAdd: PropTypes.func.isRequired,
+  onSequenceDeselect: PropTypes.func.isRequired,
+  onSequenceEdit: PropTypes.func.isRequired,
+  onSequenceOpen: PropTypes.func.isRequired,
+  onSequenceSelect: PropTypes.func.isRequired,
+  onSongMeasureCountChange: PropTypes.func.isRequired,
+  onTrackAdd: PropTypes.func.isRequired,
+  onTrackIsMutedToggle: PropTypes.func.isRequired,
+  onTrackIsSoloingToggle: PropTypes.func.isRequired,
+  onTrackStage: PropTypes.func.isRequired,
+  selectedSequence: PropTypes.object,
+  songMeasureCount: PropTypes.number.isRequired,
+  tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
 export function TrackList(props) {
   const trackTransitions = useTransition(props.tracks, track => track.id, {
     config: {
@@ -89,6 +107,7 @@ export function TrackList(props) {
             isStopped={props.isStopped}
             measureCount={props.songMeasureCount}
             measureWidth={64}
+            onMeasureCountChange={props.onSongMeasureCountChange}
             onPositionSet={props.onPositionSet}
           />
           {trackTransitions.map(({ item, key, props: animation }) => (
@@ -124,20 +143,3 @@ export function TrackList(props) {
     </StyledTrackList>
   );
 }
-
-TrackList.propTypes = {
-  isStopped: PropTypes.bool.isRequired,
-  onPositionSet: PropTypes.func.isRequired,
-  onSequenceAdd: PropTypes.func.isRequired,
-  onSequenceDeselect: PropTypes.func.isRequired,
-  onSequenceEdit: PropTypes.func.isRequired,
-  onSequenceOpen: PropTypes.func.isRequired,
-  onSequenceSelect: PropTypes.func.isRequired,
-  onTrackAdd: PropTypes.func.isRequired,
-  onTrackIsMutedToggle: PropTypes.func.isRequired,
-  onTrackIsSoloingToggle: PropTypes.func.isRequired,
-  onTrackStage: PropTypes.func.isRequired,
-  selectedSequence: PropTypes.object,
-  songMeasureCount: PropTypes.number.isRequired,
-  tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
-};

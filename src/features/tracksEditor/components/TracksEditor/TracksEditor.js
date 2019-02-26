@@ -35,6 +35,7 @@ export class TracksEditor extends React.PureComponent {
     onSequenceDelete: PropTypes.func.isRequired,
     onSequenceDuplicate: PropTypes.func.isRequired,
     onSequenceEdit: PropTypes.func.isRequired,
+    onSongMeasureCountChange: PropTypes.func.isRequired,
     onTrackAdd: PropTypes.func.isRequired,
     onTrackDelete: PropTypes.func.isRequired,
     onTrackIsMutedToggle: PropTypes.func.isRequired,
@@ -83,6 +84,7 @@ export class TracksEditor extends React.PureComponent {
               onSequenceDeselect={this.handleTrackListSequenceDeselect}
               onSequenceOpen={this.openSequence}
               onSequenceSelect={this.handleTrackListSequenceSelect}
+              onSongMeasureCountChange={this.props.onSongMeasureCountChange}
               onTrackAdd={this.handleTrackListTrackAdd}
               onTrackIsMutedToggle={this.props.onTrackIsMutedToggle}
               onTrackIsSoloingToggle={this.props.onTrackIsSoloingToggle}

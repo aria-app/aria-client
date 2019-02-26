@@ -22,6 +22,7 @@ export const TracksEditorContainer = connect(state => ({
   onSequenceDelete: shared.actions.sequenceDeleted,
   onSequenceDuplicate: shared.actions.sequenceDuplicated,
   onSequenceEdit: shared.actions.sequenceEdited,
+  onSongMeasureCountChange: shared.actions.measureCountSet,
   onTrackAdd: shared.actions.trackAdded,
   onTrackDelete: shared.actions.trackDeleted,
   onTrackIsMutedToggle: shared.actions.trackIsMutedToggled,
