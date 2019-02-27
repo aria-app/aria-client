@@ -18,11 +18,30 @@ const RulerMeasureNumber = styled.div`
 const RulerResizer = styled.div`
   background-color: rgba(255, 255, 255, 0.5);
   border: 1px solid white;
-  height: 36px;
+  cursor: col-resize;
+  height: 32px;
   left: 0;
   position: absolute;
-  top: 0;
-  width: 36px;
+  top: 3px;
+  width: 24px;
+  &:hover:not(:active) {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+  &:active {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+  :after {
+    border-left: 2px dotted white;
+    border-right: 2px dotted white;
+    content: "";
+    display: block;
+    height: 10px;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px;
+  }
 `;
 
 const StyledRuler = styled.div`
