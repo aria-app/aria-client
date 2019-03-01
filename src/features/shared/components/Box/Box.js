@@ -23,7 +23,7 @@ const StyledBox = styled.div`
   left: 0;
   position: absolute;
   top: 0;
-  width: ${props => props.length * props.step}px,
+  width: ${props => props.length * props.step}px;
 `;
 
 export class Box extends React.Component {
