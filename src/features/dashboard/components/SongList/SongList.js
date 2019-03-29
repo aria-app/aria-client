@@ -25,7 +25,7 @@ export function SongList(props) {
     x => x.dateModified,
     'desc',
     Object.values(props.songs),
-  ));
+  ), [props.songs]);
 
   const songTransitions = useTransition(sortedSongs, song => song.id, {
     config: {

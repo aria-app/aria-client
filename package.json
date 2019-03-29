@@ -7,12 +7,14 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "lint": "eslint src",
     "test": "react-scripts test",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "chromatic": "CHROMATIC_APP_CODE=6pdjytsqpji chromatic test"
   },
   "dependencies": {
+    "@material-ui/core": "3.9.3",
     "classnames": "2.2.6",
     "date-fns": "1.30.1",
     "dawww": "1.9.6",
@@ -47,12 +49,20 @@
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-lodash-fp": "2.1.3",
     "eslint-plugin-react": "7.11.1",
+    "eslint-plugin-react-hooks": "1.5.0",
     "react-scripts": "2.1.1",
     "redux-devtools-extension": "2.13.7",
     "storybook-chromatic": "1.3.0"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "plugins": [
+      "react-hooks"
+    ],
+    "rules": {
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn"
+    }
   },
   "browserslist": [
     ">0.2%",
