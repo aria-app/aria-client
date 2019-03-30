@@ -32,40 +32,12 @@ const SongInfoModalLabel = styled.div`
   margin-top: ${props => props.theme.margin.m}px;
 `;
 
-const SongInfoModalMeasureCountTicker = styled.div`
-  align-items: center;
-  border: 1px solid ${props => props.theme.color};
-  border-radius: 4px;
-  display: flex;
-  height: 48px;
-  margin-left: ${props => props.theme.margin.s}px;
-  overflow: hidden;
-`;
-
-const SongInfoModalMeasureCountTickerMinus = styled.div`
-  border-right: 1px solid ${props => props.theme.color};
-  opacity: ${props => props.isDisabled && 0.75};
-  padding: ${props => props.theme.margin.m}px;
-  pointer-events: ${props => props.isDisabled && 'none'};
-`;
-
-const SongInfoModalMeasureCountTickerPlus = styled.div`
-  border-left: 1px solid ${props => props.theme.color};
-  padding: ${props => props.theme.margin.m}px;
-`;
-
-const SongInfoModalMeasureCountTickerValue = styled.div`
-  padding: ${props => props.theme.margin.m}px;
-`;
-
 export class SongInfoModal extends React.PureComponent {
   static propTypes = {
     bpm: PropTypes.number.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    measureCount: PropTypes.number.isRequired,
     onBPMChange: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired,
-    onMeasureCountChange: PropTypes.func.isRequired,
     onReturnToDashboard: PropTypes.func.isRequired,
     onSignOut: PropTypes.func.isRequired,
     song: PropTypes.object,
@@ -87,21 +59,6 @@ export class SongInfoModal extends React.PureComponent {
                 selectedId={this.props.bpm}
                 onSelectedIdChange={this.handleContentDropdownListSelect}
               />
-              <SongInfoModalMeasureCountTicker
-                className="song-info-modal__measure-count-ticker">
-                <SongInfoModalMeasureCountTickerMinus
-                  isDisabled={this.props.measureCount < 2}
-                  onClick={this.handleMeasureCountTickerMinusClick}>
-                  -
-                </SongInfoModalMeasureCountTickerMinus>
-                <SongInfoModalMeasureCountTickerValue>
-                  {this.props.measureCount}
-                </SongInfoModalMeasureCountTickerValue>
-                <SongInfoModalMeasureCountTickerPlus
-                  onClick={this.handleMeasureCountTickerPlusClick}>
-                  +
-                </SongInfoModalMeasureCountTickerPlus>
-              </SongInfoModalMeasureCountTicker>
               <Button
                 onClick={this.props.onReturnToDashboard}>
                 {t('Return to Dashboard')}
@@ -139,14 +96,4 @@ export class SongInfoModal extends React.PureComponent {
   handleContentDropdownListSelect = (value) => {
     this.props.onBPMChange(value);
   }
-
-  handleMeasureCountTickerMinusClick = () => {
-    if (this.props.measureCount < 2) return;
-
-    this.props.onMeasureCountChange(this.props.measureCount - 1);
-  };
-
-  handleMeasureCountTickerPlusClick = () => {
-    this.props.onMeasureCountChange(this.props.measureCount + 1);
-  };
 }
