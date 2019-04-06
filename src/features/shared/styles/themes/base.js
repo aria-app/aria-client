@@ -1,7 +1,12 @@
+const almostblack = '#1f1f1f';
+const greystone =   '#272727';
+const midgray =     '#454545';
+const ashgray =     '#E0E0E0';
+const almostwhite = '#EBEBEB';
+
 export const base = {
-  almostblack: '#1F1F1F',
-  almostwhite: '#EBEBEB',
-  ashgray: '#E0E0E0',
+  backgroundColor: almostblack,
+  color: almostwhite,
   borderRadius: 2,
   danger: '#FE7C7C',
   margin: {
@@ -11,7 +16,11 @@ export const base = {
     l: 32,
     xl: 64,
   },
-  midgray: '#A3A3A3',
   minWidthWidescreen: 768,
   subtext: '#5C5C5C',
+  almostblack,
+  almostwhite,
+  ashgray,
+  greystone,
+  midgray,
 };

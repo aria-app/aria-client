@@ -4,7 +4,7 @@ import styled from 'styled-components/macro';
 import { Icon } from '../Icon/Icon';
 
 const IconButtonBackground = styled.div`
-  background-color: ${props => props.isActive ? 'rgba(0, 0, 0, 0.25)' : ''};
+  background-color: ${props => props.isActive ? 'rgba(255, 255, 255, 0.25)' : ''};
   flex-grow: 1;
   flex-shrink: 0;
 `;

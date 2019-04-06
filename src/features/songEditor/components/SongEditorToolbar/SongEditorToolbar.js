@@ -58,6 +58,9 @@ export class SongEditorToolbar extends React.PureComponent {
             )}
           </React.Fragment>
         }
+        style={{
+          borderTop: 0,
+        }}
       />
     );
   }

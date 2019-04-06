@@ -5,7 +5,8 @@ import { getExtraProps } from '../../helpers';
 
 const StyledToolbar = styled.div`
   align-items: stretch;
-  background-color: ${props => props.theme.almostwhite};
+  background-color: ${props => props.theme.greystone};
+  border-top: 1px solid ${props => props.theme.midgray};
   display: flex;
   flex: 0 0 auto;
   height: 56px;

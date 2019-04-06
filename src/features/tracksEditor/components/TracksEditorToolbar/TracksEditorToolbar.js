@@ -3,14 +3,9 @@ import negate from 'lodash/fp/negate';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import styled from 'styled-components/macro';
 import shared from '../../../shared';
 
 const { IconButton, Toolbar } = shared.components;
-
-const StyledTrackEditorToolbar = styled(Toolbar)`
-  border-bottom: 1px solid ${props => props.theme.midgray};
-`;
 
 export class TracksEditorToolbar extends React.PureComponent {
   static propTypes = {
@@ -30,7 +25,7 @@ export class TracksEditorToolbar extends React.PureComponent {
 
   render() {
     return (
-      <StyledTrackEditorToolbar
+      <Toolbar
         position="top"
         isAlternate={this.getIsAlternate()}
         leftItems={

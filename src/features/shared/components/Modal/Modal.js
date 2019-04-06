@@ -18,7 +18,8 @@ const ModalHeader = styled.div`
   height: 56px;
   padding-left: ${props => props.theme.margin.m}px;
   padding-right: ${props => props.theme.margin.m}px;
-  background-color: ${props => props.theme.ashgray};
+  background-color: ${props => props.theme.greystone};
+  border-bottom: 1px solid ${props => props.theme.midgray};
   font-size: 18px;
   font-weight: 800;
   text-transform: uppercase;
@@ -26,7 +27,7 @@ const ModalHeader = styled.div`
 
 const ModalOverlay = styled(animated.div)`
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.50);
+  background-color: rgba(0, 0, 0, 0.5);
   bottom: 0;
   display: flex;
   justify-content: center;
@@ -38,7 +39,8 @@ const ModalOverlay = styled(animated.div)`
 `;
 
 const ModalWindow = styled(animated.div)`
-  background-color: white;
+  background-color: ${props => props.theme.almostblack};
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   left: 50%;

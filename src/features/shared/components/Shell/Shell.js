@@ -1,8 +1,8 @@
 import styled from 'styled-components/macro';
 
 export const Shell = styled.div`
-  background-color: ${props => props.theme.almostblack};
-  color: ${props => props.theme.almostblack};
+  background-color: ${props => props.theme.backgroundColor};
+  color: ${props => props.theme.almostwhite};
   bottom: 0;
   display: flex;
   flex-direction: column;
