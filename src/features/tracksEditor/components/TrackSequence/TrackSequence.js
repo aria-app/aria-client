@@ -13,15 +13,18 @@ const StyledTrackSequence = styled.div`
   border-right: 2px solid
     ${props =>
       props.isSelected ? props.theme.almostwhite : props.theme.primary[0]};
+  opacity: ${props => (props.isMounted ? "1" : "0")};
   overflow: hidden;
   position: relative;
-  transition: box-shadow 150ms ease, transform 150ms ease;
+  transform: ${props => (props.isMounted ? "scaleY(1)" : "scaleY(0)")};
+  transition: box-shadow 250ms ease, opacity 500ms ease, transform 250ms ease;
   &:hover {
     background-color: ${props => !props.isSelected && props.theme.primary[1]};
   }
   &:active {
     box-shadow: 0 4px 16px 4px rgba(0, 0, 0, 0.25);
-    transform: scale(1.05);
+    opacity: 0.85;
+    transform: translateY(-4px) scale(1.05);
   }
 `;
 
@@ -39,9 +42,22 @@ export class TrackSequence extends React.PureComponent {
     index: 0
   };
 
+  state = {
+    isMounted: false
+  };
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        isMounted: true
+      });
+    }, 16);
+  }
+
   render() {
     return (
       <StyledTrackSequence
+        isMounted={this.state.isMounted}
         isSelected={this.props.isSelected}
         style={this.getStyle()}
         onClick={this.handleClick}
