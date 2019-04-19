@@ -1,17 +1,16 @@
 import Dawww from "dawww";
 import find from "lodash/fp/find";
 import getOr from "lodash/fp/getOr";
-import includes from "lodash/fp/includes";
 import isEmpty from "lodash/fp/isEmpty";
 import map from "lodash/fp/map";
 import uniq from "lodash/fp/uniq";
-import without from "lodash/fp/without";
 import PropTypes from "prop-types";
 import React from "react";
 import { hideIf, showIf } from "react-render-helpers";
 import { HotKeys } from "react-hotkeys";
 import styled from "styled-components/macro";
 import audio from "../../../audio";
+import shared from "../../../shared";
 import { toolTypes } from "../../constants";
 import { Grid } from "../Grid/Grid";
 import { Keys } from "../Keys/Keys";
@@ -94,7 +93,7 @@ export class SequenceEditor extends React.PureComponent {
 
     if (!this.contentElementRef) return;
 
-    this.contentElementRef.scrollTop = getCenteredScroll(
+    this.contentElementRef.scrollTop = shared.helpers.getCenteredScroll(
       this.contentElementRef
     );
   }
@@ -104,7 +103,7 @@ export class SequenceEditor extends React.PureComponent {
 
     if (!this.contentElementRef) return;
 
-    this.contentElementRef.scrollTop = getCenteredScroll(
+    this.contentElementRef.scrollTop = shared.helpers.getCenteredScroll(
       this.contentElementRef
     );
   }
@@ -304,7 +303,7 @@ export class SequenceEditor extends React.PureComponent {
 
     this.setState(state => ({
       selectedNoteIds: isAdditive
-        ? toggleInArray(note.id, state.selectedNoteIds)
+        ? shared.helpers.toggleInArray(note.id, state.selectedNoteIds)
         : [note.id]
     }));
   };
@@ -396,12 +395,4 @@ export class SequenceEditor extends React.PureComponent {
 
     this.props.onUndo();
   };
-}
-
-function getCenteredScroll(el) {
-  return el.scrollHeight / 2 - el.offsetHeight / 2;
-}
-
-function toggleInArray(item, array) {
-  return includes(item, array) ? without([item], array) : [...array, item];
 }
