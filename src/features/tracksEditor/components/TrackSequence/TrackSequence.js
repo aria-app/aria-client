@@ -13,18 +13,21 @@ const StyledTrackSequence = styled.div`
   border-right: 2px solid
     ${props =>
       props.isSelected ? props.theme.almostwhite : props.theme.primary[0]};
+  box-shadow: ${props =>
+    props.isSelected && `0 0 10px rgba(255, 255, 255, 0.5)}`}
   opacity: ${props => (props.isMounted ? "1" : "0")};
   overflow: hidden;
   position: relative;
   transform: ${props => (props.isMounted ? "scaleY(1)" : "scaleY(0)")};
-  transition: box-shadow 250ms ease, opacity 500ms ease, transform 250ms ease;
+  transition: box-shadow 250ms ease, opacity 500ms ease, transform 350ms ease;
   &:hover {
     background-color: ${props => !props.isSelected && props.theme.primary[1]};
   }
   &:active {
     box-shadow: 0 4px 16px 4px rgba(0, 0, 0, 0.25);
-    opacity: 0.85;
+    opacity: 0.80;
     transform: translateY(-4px) scale(1.05);
+    transition: box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease;
   }
 `;
 
