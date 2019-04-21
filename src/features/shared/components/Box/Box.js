@@ -69,6 +69,7 @@ export class Box extends React.Component {
           style={this.props.style}
         >
           {React.createElement(this.props.contentComponent, {
+            isDragging: this.state.isDragging,
             item: this.props.item,
             step: this.props.step
           })}

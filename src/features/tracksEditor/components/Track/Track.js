@@ -152,8 +152,9 @@ export class Track extends React.PureComponent {
     );
   };
 
-  getSequenceComponent = ({ item }) => (
+  getSequenceComponent = ({ isDragging, item }) => (
     <TrackSequence
+      isDragging={isDragging}
       isSelected={this.getIsSequenceSelected(item.sequence)}
       onOpen={this.props.onSequenceOpen}
       onSelect={this.props.onSequenceSelect}

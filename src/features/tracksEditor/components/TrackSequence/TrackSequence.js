@@ -23,18 +23,21 @@ const StyledTrackSequence = styled.div`
   &:hover {
     background-color: ${props => !props.isSelected && props.theme.primary[1]};
   }
-  &:active {
-    box-shadow: 0 4px 16px 4px rgba(0, 0, 0, 0.25);
-    opacity: 0.80;
-    transform: translateY(-4px) scale(1.05);
-    transition: box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease;
-  }
+  ${props =>
+    props.isDragging
+      ? `
+      box-shadow: 0 4px 16px 4px rgba(0, 0, 0, 0.25);
+      opacity: 0.80;
+      transform: translateY(-4px) scale(1.05);
+      transition: box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease;`
+      : ""}
 `;
 
 export class TrackSequence extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
     index: PropTypes.number.isRequired,
+    isDragging: PropTypes.bool.isRequired,
     isSelected: PropTypes.bool.isRequired,
     onOpen: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
@@ -60,6 +63,7 @@ export class TrackSequence extends React.PureComponent {
   render() {
     return (
       <StyledTrackSequence
+        isDragging={this.props.isDragging}
         isMounted={this.state.isMounted}
         isSelected={this.props.isSelected}
         style={this.getStyle()}
