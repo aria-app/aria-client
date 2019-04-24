@@ -10,6 +10,7 @@ script:
   - npm run lint
   - npm run build
 deploy:
+  github_token: $gh-pages-key
   provider: script
   skip_cleanup: true
   script:
