@@ -11,7 +11,9 @@ script:
   - npm run build
 deploy:
   github_token: $GITHUB_TOKEN
-  provider: script
+  provider: pages
   skip_cleanup: true
-  script:
-    - npm run deploy
+  keep_history: true
+  local_dir: build
+  on:
+    branch: master
