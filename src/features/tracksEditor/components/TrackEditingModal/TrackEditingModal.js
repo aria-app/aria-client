@@ -21,8 +21,8 @@ const volumeRangeItems = map(
 
 const TrackEditingModalContent = styled.div`
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
-  flex-grow: 1;
   justify-content: space-between;
   padding: ${props => props.theme.margin.m}px;
 `;

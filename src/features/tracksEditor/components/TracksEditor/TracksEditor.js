@@ -1,23 +1,22 @@
-import Dawww from 'dawww';
-import find from 'lodash/fp/find';
-import isEmpty from 'lodash/fp/isEmpty';
-import isNil from 'lodash/fp/isNil';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { HotKeys } from 'react-hotkeys';
-import styled from 'styled-components/macro';
-import shared from '../../../shared';
-import { TrackList } from '../TrackList/TrackList';
-import { TrackEditingModal } from '../TrackEditingModal/TrackEditingModal';
-import { TracksEditorToolbar } from '../TracksEditorToolbar/TracksEditorToolbar';
+import Dawww from "dawww";
+import find from "lodash/fp/find";
+import isEmpty from "lodash/fp/isEmpty";
+import isNil from "lodash/fp/isNil";
+import PropTypes from "prop-types";
+import React from "react";
+import { HotKeys } from "react-hotkeys";
+import styled from "styled-components/macro";
+import shared from "../../../shared";
+import { TrackList } from "../TrackList/TrackList";
+import { TrackEditingModal } from "../TrackEditingModal/TrackEditingModal";
+import { TracksEditorToolbar } from "../TracksEditorToolbar/TracksEditorToolbar";
 
 const { Timeline } = shared.components;
 
 const StyledTracksEditor = styled(HotKeys)`
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
-  flex-grow: 1;
-  flex-shrink: 1;
   overflow: hidden;
   position: relative;
 `;
@@ -47,12 +46,12 @@ export class TracksEditor extends React.PureComponent {
     sequences: PropTypes.arrayOf(PropTypes.object).isRequired,
     song: PropTypes.object.isRequired,
     songMeasureCount: PropTypes.number.isRequired,
-    tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }
+    tracks: PropTypes.arrayOf(PropTypes.object).isRequired
+  };
 
   state = {
-    selectedSequenceId: '',
-    selectedTrackId: '',
+    selectedSequenceId: "",
+    selectedTrackId: ""
   };
 
   constructor(props) {
@@ -69,57 +68,55 @@ export class TracksEditor extends React.PureComponent {
 
   render() {
     return (
-      <StyledTracksEditor
-        focused={true}
-        handlers={this.getKeyHandlers()}>
-        <div ref={this.focusRef} tabIndex={-1}/>
-          <React.Fragment>
-            <TrackList
-              isLoading={this.props.isLoading}
-              isStopped={this.props.isStopped}
-              onPositionSet={this.props.onPositionSet}
-              onSequenceAdd={this.handleTrackListSequenceAdd}
-              onSequenceDelete={this.props.onSequenceDelete}
-              onSequenceEdit={this.props.onSequenceEdit}
-              onSequenceDeselect={this.handleTrackListSequenceDeselect}
-              onSequenceOpen={this.openSequence}
-              onSequenceSelect={this.handleTrackListSequenceSelect}
-              onSongMeasureCountChange={this.props.onSongMeasureCountChange}
-              onTrackAdd={this.handleTrackListTrackAdd}
-              onTrackIsMutedToggle={this.props.onTrackIsMutedToggle}
-              onTrackIsSoloingToggle={this.props.onTrackIsSoloingToggle}
-              onTrackStage={this.selectTrack}
-              selectedSequence={this.getSelectedSequence()}
-              songMeasureCount={this.props.songMeasureCount}
-              tracks={this.props.tracks}
-            />
-            <TracksEditorToolbar
-              isRedoEnabled={this.props.isRedoEnabled}
-              isUndoEnabled={this.props.isUndoEnabled}
-              onRedo={this.redo}
-              onSequenceDelete={this.deleteSelectedSequence}
-              onSequenceDuplicate={this.duplicateSelectedSequence}
-              onSequenceOpen={this.openSequence}
-              onUndo={this.undo}
-              selectedSequence={this.getSelectedSequence()}
-            />
-            <Timeline
-              isVisible={!this.props.isStopped}
-              offset={(this.props.position * 2) + 16}
-            />
-            <TrackEditingModal
-              onDelete={this.deleteTrack}
-              onDismiss={this.deselectTrack}
-              onVoiceSet={this.props.onTrackVoiceSet}
-              onVolumeSet={this.props.onTrackVolumeSet}
-              stagedTrack={this.getSelectedTrack()}
-            />
-          </React.Fragment>
+      <StyledTracksEditor focused={true} handlers={this.getKeyHandlers()}>
+        <div ref={this.focusRef} tabIndex={-1} />
+        <React.Fragment>
+          <TrackList
+            isLoading={this.props.isLoading}
+            isStopped={this.props.isStopped}
+            onPositionSet={this.props.onPositionSet}
+            onSequenceAdd={this.handleTrackListSequenceAdd}
+            onSequenceDelete={this.props.onSequenceDelete}
+            onSequenceEdit={this.props.onSequenceEdit}
+            onSequenceDeselect={this.handleTrackListSequenceDeselect}
+            onSequenceOpen={this.openSequence}
+            onSequenceSelect={this.handleTrackListSequenceSelect}
+            onSongMeasureCountChange={this.props.onSongMeasureCountChange}
+            onTrackAdd={this.handleTrackListTrackAdd}
+            onTrackIsMutedToggle={this.props.onTrackIsMutedToggle}
+            onTrackIsSoloingToggle={this.props.onTrackIsSoloingToggle}
+            onTrackStage={this.selectTrack}
+            selectedSequence={this.getSelectedSequence()}
+            songMeasureCount={this.props.songMeasureCount}
+            tracks={this.props.tracks}
+          />
+          <TracksEditorToolbar
+            isRedoEnabled={this.props.isRedoEnabled}
+            isUndoEnabled={this.props.isUndoEnabled}
+            onRedo={this.redo}
+            onSequenceDelete={this.deleteSelectedSequence}
+            onSequenceDuplicate={this.duplicateSelectedSequence}
+            onSequenceOpen={this.openSequence}
+            onUndo={this.undo}
+            selectedSequence={this.getSelectedSequence()}
+          />
+          <Timeline
+            isVisible={!this.props.isStopped}
+            offset={this.props.position * 2 + 16}
+          />
+          <TrackEditingModal
+            onDelete={this.deleteTrack}
+            onDismiss={this.deselectTrack}
+            onVoiceSet={this.props.onTrackVoiceSet}
+            onVolumeSet={this.props.onTrackVolumeSet}
+            stagedTrack={this.getSelectedTrack()}
+          />
+        </React.Fragment>
       </StyledTracksEditor>
     );
   }
 
-  deleteSelectedSequence = (e) => {
+  deleteSelectedSequence = e => {
     e.preventDefault();
 
     const selectedSequence = this.getSelectedSequence();
@@ -127,21 +124,21 @@ export class TracksEditor extends React.PureComponent {
     if (isNil(selectedSequence)) return;
 
     this.props.onSequenceDelete(selectedSequence);
-  }
+  };
 
-  deleteTrack = (track) => {
+  deleteTrack = track => {
     this.props.onTrackDelete(track);
 
     this.deselectTrack();
-  }
+  };
 
   deselectTrack = () => {
     this.setState({
-      selectedTrackId: '',
+      selectedTrackId: ""
     });
   };
 
-  duplicateSelectedSequence = (e) => {
+  duplicateSelectedSequence = e => {
     e.preventDefault();
 
     const selectedSequence = this.getSelectedSequence();
@@ -151,41 +148,33 @@ export class TracksEditor extends React.PureComponent {
     const duplicatedSequence = Dawww.createSequence(
       selectedSequence.trackId,
       selectedSequence.position,
-      selectedSequence.measureCount,
+      selectedSequence.measureCount
     );
 
-    this.props.onSequenceDuplicate(
-      duplicatedSequence,
-      selectedSequence,
-    );
+    this.props.onSequenceDuplicate(duplicatedSequence, selectedSequence);
 
     this.setState({
-      selectedSequenceId: duplicatedSequence.id,
+      selectedSequenceId: duplicatedSequence.id
     });
   };
 
   getKeyHandlers = () => ({
     backspace: this.deleteSelectedSequence,
     del: this.deleteSelectedSequence,
-    'ctrl+shift+d': this.duplicateSelectedSequence,
-    'ctrl+z': this.undo,
-    'ctrl+alt+z': this.redo,
-    'meta+shift+d': this.duplicateSelectedSequence,
-    'meta+z': this.undo,
-    'meta+alt+z': this.redo,
+    "ctrl+shift+d": this.duplicateSelectedSequence,
+    "ctrl+z": this.undo,
+    "ctrl+alt+z": this.redo,
+    "meta+shift+d": this.duplicateSelectedSequence,
+    "meta+z": this.undo,
+    "meta+alt+z": this.redo
   });
 
   getSelectedSequence = () =>
-    find(
-      s => s.id === this.state.selectedSequenceId,
-      this.props.sequences,
-    ) || {};
+    find(s => s.id === this.state.selectedSequenceId, this.props.sequences) ||
+    {};
 
   getSelectedTrack = () =>
-    find(
-      t => t.id === this.state.selectedTrackId,
-      this.props.tracks,
-    ) || {};
+    find(t => t.id === this.state.selectedTrackId, this.props.tracks) || {};
 
   handleTrackListSequenceAdd = (track, position) => {
     const sequence = Dawww.createSequence(track.id, position);
@@ -195,13 +184,13 @@ export class TracksEditor extends React.PureComponent {
 
   handleTrackListSequenceDeselect = () => {
     this.setState({
-      selectedSequenceId: '',
+      selectedSequenceId: ""
     });
   };
 
-  handleTrackListSequenceSelect = (sequence) => {
+  handleTrackListSequenceSelect = sequence => {
     this.setState({
-      selectedSequenceId: sequence.id,
+      selectedSequenceId: sequence.id
     });
   };
 
@@ -220,19 +209,19 @@ export class TracksEditor extends React.PureComponent {
     this.openSequence(this.getSelectedSequence());
   };
 
-  openSequence = (sequence) => {
+  openSequence = sequence => {
     this.props.history.push(`${this.props.match.url}/sequencer/${sequence.id}`);
-  }
+  };
 
   redo = () => {
     if (!this.props.isRedoEnabled) return;
 
     this.props.onRedo();
-  }
+  };
 
-  selectTrack = (track) => {
+  selectTrack = track => {
     this.setState({
-      selectedTrackId: track.id,
+      selectedTrackId: track.id
     });
   };
 
@@ -240,5 +229,5 @@ export class TracksEditor extends React.PureComponent {
     if (!this.props.isUndoEnabled) return;
 
     this.props.onUndo();
-  }
+  };
 }

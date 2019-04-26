@@ -1,19 +1,19 @@
-import find from 'lodash/fp/find';
-import PropTypes from 'prop-types';
-import React from 'react';
-import styled from 'styled-components/macro';
-import { hideIf, showIf } from 'react-render-helpers';
-import { getExtraProps } from '../../helpers';
-import { DropdownListItem } from '../DropdownListItem/DropdownListItem';
-import { Icon } from '../Icon/Icon';
-import { IconButton } from '../IconButton/IconButton';
+import find from "lodash/fp/find";
+import PropTypes from "prop-types";
+import React from "react";
+import styled from "styled-components/macro";
+import { hideIf, showIf } from "react-render-helpers";
+import { getExtraProps } from "../../helpers";
+import { DropdownListItem } from "../DropdownListItem/DropdownListItem";
+import { Icon } from "../Icon/Icon";
+import { IconButton } from "../IconButton/IconButton";
 
 const DropdownListInput = styled.div`
   align-items: center;
   border-bottom: 1px solid ${props => props.theme.almostblack};
   cursor: pointer;
   display: flex;
-  flex-shrink: 0;
+  flex: 0 0 auto;
   height: 48px;
   justify-content: space-between;
   overflow: hidden;
@@ -52,40 +52,33 @@ const DropdownListPopup = styled.div`
 `;
 
 const StyledDropdownList = styled.div`
-  flex-shrink: 0;
+  flex: 0 0 auto;
   position: relative;
 `;
 
 export class DropdownList extends React.PureComponent {
   static propTypes = {
     icon: PropTypes.string,
-    items: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string,
-      ]),
-      text: PropTypes.string,
-    })).isRequired,
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        text: PropTypes.string
+      })
+    ).isRequired,
     onSelectedIdChange: PropTypes.func,
     onSelectedItemChange: PropTypes.func,
-    selectedId: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string,
-    ]),
+    selectedId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     selectedItem: PropTypes.shape({
-      id: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string,
-      ]),
-      text: PropTypes.string,
+      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+      text: PropTypes.string
     }),
-    text: PropTypes.string,
-  }
+    text: PropTypes.string
+  };
 
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false,
+      isOpen: false
     };
   }
 
@@ -97,8 +90,7 @@ export class DropdownList extends React.PureComponent {
 
   render() {
     return (
-      <StyledDropdownList
-        {...getExtraProps(this)}>
+      <StyledDropdownList {...getExtraProps(this)}>
         {showIf(this.props.icon)(
           <IconButton
             className="dropdown-list__button"
@@ -107,12 +99,8 @@ export class DropdownList extends React.PureComponent {
           />
         )}
         {hideIf(this.props.icon)(
-          <DropdownListInput
-            onClick={this.handleInputClick}>
-            <span
-              className="dropdown-list__input__text">
-              {this.getText()}
-            </span>
+          <DropdownListInput onClick={this.handleInputClick}>
+            <span className="dropdown-list__input__text">{this.getText()}</span>
             <Icon
               className="dropdown-list__input__caret"
               icon="caret-down"
@@ -122,12 +110,11 @@ export class DropdownList extends React.PureComponent {
         )}
         {showIf(this.state.isOpen)(
           <React.Fragment>
-            <DropdownListOverlay
-              onClick={this.handleOverlayClick}
-            />
+            <DropdownListOverlay onClick={this.handleOverlayClick} />
             <DropdownListPopup
               ref={this.setPopupRef}
-              style={this.getPopupStyle()}>
+              style={this.getPopupStyle()}
+            >
               <DropdownListItems>
                 {this.props.items.map((item, index) => (
                   <DropdownListItem
@@ -149,9 +136,9 @@ export class DropdownList extends React.PureComponent {
 
   getPopupStyle = () => {
     return {
-      height: (this.props.items.length * 48) + 16,
+      height: this.props.items.length * 48 + 16
     };
-  }
+  };
 
   getSelectedItem = () => {
     if (this.props.selectedItem) {
@@ -160,12 +147,12 @@ export class DropdownList extends React.PureComponent {
 
     if (this.props.selectedId) {
       return find({
-        id: this.props.selectedId,
+        id: this.props.selectedId
       })(this.props.items);
     }
 
     return undefined;
-  }
+  };
 
   getSelectedItemScrollTop = () => {
     const selectedItem = this.getSelectedItem();
@@ -173,7 +160,7 @@ export class DropdownList extends React.PureComponent {
     if (!selectedItem) return 0;
 
     return (this.props.items.indexOf(selectedItem) - 2) * 48;
-  }
+  };
 
   getText = () => {
     if (this.props.text) return this.props.text;
@@ -182,28 +169,28 @@ export class DropdownList extends React.PureComponent {
 
     if (selectedItem) return selectedItem.text;
 
-    return '';
-  }
+    return "";
+  };
 
   handleButtonClick = () => {
     this.setState({
-      isOpen: true,
+      isOpen: true
     });
-  }
+  };
 
   handleInputClick = () => {
     this.setState({
-      isOpen: true,
+      isOpen: true
     });
-  }
+  };
 
   handleOverlayClick = () => {
     this.setState({
-      isOpen: false,
+      isOpen: false
     });
-  }
+  };
 
-  handlePopupListItemClick = (item) => {
+  handlePopupListItemClick = item => {
     if (this.props.onSelectedIdChange) {
       this.props.onSelectedIdChange(item.id);
     }
@@ -213,11 +200,11 @@ export class DropdownList extends React.PureComponent {
     }
 
     this.setState({
-      isOpen: false,
+      isOpen: false
     });
-  }
+  };
 
-  setPopupRef = (ref) => {
+  setPopupRef = ref => {
     this.popupRef = ref;
 
     this.forceUpdate();
@@ -225,5 +212,5 @@ export class DropdownList extends React.PureComponent {
     if (!this.popupRef) return;
 
     this.popupRef.scrollTop = this.getSelectedItemScrollTop();
-  }
+  };
 }

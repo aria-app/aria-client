@@ -1,19 +1,18 @@
-import first from 'lodash/fp/first';
-import includes from 'lodash/fp/includes';
-import last from 'lodash/fp/last';
-import { transparentize } from 'polished';
-import PropTypes from 'prop-types';
-import React from 'react';
-import styled from 'styled-components/macro';
-import shared from '../../../shared';
-import * as constants from '../../constants';
+import first from "lodash/fp/first";
+import includes from "lodash/fp/includes";
+import last from "lodash/fp/last";
+import { transparentize } from "polished";
+import PropTypes from "prop-types";
+import React from "react";
+import styled from "styled-components/macro";
+import shared from "../../../shared";
+import * as constants from "../../constants";
 
 const { getExtraProps } = shared.helpers;
 
 const NoteConnector = styled.div`
-  background-color: ${props => props.isSelected
-    ? 'white'
-    : transparentize(0.5, props.theme.primary[2])};
+  background-color: ${props =>
+    props.isSelected ? "white" : transparentize(0.5, props.theme.primary[2])};
   height: 12px;
   left: 20px;
   position: absolute;
@@ -25,11 +24,11 @@ const NoteConnector = styled.div`
 `;
 
 const NoteFill = styled.div`
-  background-color: ${props => props.isSelected
-    ? 'white'
-    : props.theme.primary[2]};
+  background-color: ${props =>
+    props.isSelected ? "white" : props.theme.primary[2]};
   border-radius: 2px;
-  box-shadow: ${props => props.isSelected && `0 0 10px ${transparentize(0.5, 'white')}`};
+  box-shadow: ${props =>
+    props.isSelected && `0 0 10px ${transparentize(0.5, "white")}`};
   height: 24px;
   width: 24px;
 
@@ -45,7 +44,7 @@ const NoteFill = styled.div`
 const NotePoint = styled.div`
   align-items: center;
   display: flex;
-  flex-shrink: 0;
+  flex: 0 0 auto;
   height: 40px;
   justify-content: center;
   left: 0;
@@ -75,25 +74,25 @@ export class Note extends React.PureComponent {
     onMoveStart: PropTypes.func.isRequired,
     onResizeStart: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
-    toolType: PropTypes.string,
-  }
+    toolType: PropTypes.string
+  };
 
   static defaultProps = {
-    isSelected: false,
-  }
+    isSelected: false
+  };
 
   render() {
     return (
       <StyledNote
         isSelected={this.props.isSelected}
         style={this.getStyle()}
-        {...getExtraProps(this)}>
+        {...getExtraProps(this)}
+      >
         <NotePoint
           onMouseDown={this.handleStartPointMouseDown}
-          onMouseUp={this.handleStartPointMouseUp}>
-          <NoteFill
-            isSelected={this.props.isSelected}
-          />
+          onMouseUp={this.handleStartPointMouseUp}
+        >
+          <NoteFill isSelected={this.props.isSelected} />
         </NotePoint>
         <NoteConnector
           isSelected={this.props.isSelected}
@@ -101,10 +100,9 @@ export class Note extends React.PureComponent {
         />
         <NotePoint
           onMouseDown={this.handleEndPointMouseDown}
-          style={this.getEndPointStyle()}>
-          <NoteFill
-            isSelected={this.props.isSelected}
-          />
+          style={this.getEndPointStyle()}
+        >
+          <NoteFill isSelected={this.props.isSelected} />
         </NotePoint>
       </StyledNote>
     );
@@ -114,16 +112,12 @@ export class Note extends React.PureComponent {
     const startPoint = first(this.props.note.points);
     const endPoint = last(this.props.note.points);
     const { asin, abs, PI, sign, sqrt } = Math;
-    const x = ((endPoint.x - startPoint.x) * 40);
+    const x = (endPoint.x - startPoint.x) * 40;
     const y = (endPoint.y - startPoint.y) * 40;
-    const scale = x !== 0
-      ? sqrt(abs((x ** 2) + (y ** 2)))
-      : 0;
-    const rotation = x !== 0
-      ? asin(abs(y / scale)) * (180 / PI) * sign(y)
-      : 0;
+    const scale = x !== 0 ? sqrt(abs(x ** 2 + y ** 2)) : 0;
+    const rotation = x !== 0 ? asin(abs(y / scale)) * (180 / PI) * sign(y) : 0;
     return {
-      transform: `rotate(${rotation}deg) scaleX(${scale})`,
+      transform: `rotate(${rotation}deg) scaleX(${scale})`
     };
   }
 
@@ -133,30 +127,27 @@ export class Note extends React.PureComponent {
     const x = (endPoint.x - startPoint.x) * 40;
     const y = (endPoint.y - startPoint.y) * 40;
     return {
-      display: is32ndNote(this.props.note) ? 'none' : 'flex',
-      transform: `translate(${x}px, ${y}px)`,
+      display: is32ndNote(this.props.note) ? "none" : "flex",
+      transform: `translate(${x}px, ${y}px)`
     };
   }
 
-
-
-  getIsEraseEnabled = () =>
-    this.props.toolType === constants.toolTypes.ERASE;
+  getIsEraseEnabled = () => this.props.toolType === constants.toolTypes.ERASE;
 
   getIsSelectEnabled = () =>
     includes(this.props.toolType, [
       constants.toolTypes.DRAW,
-      constants.toolTypes.SELECT,
+      constants.toolTypes.SELECT
     ]);
 
   getStyle() {
     const { x, y } = first(this.props.note.points);
     return {
-      transform: `translate(${x * 40}px, ${y * 40}px)`,
+      transform: `translate(${x * 40}px, ${y * 40}px)`
     };
   }
 
-  handleEndPointMouseDown = (e) => {
+  handleEndPointMouseDown = e => {
     if (this.getIsSelectEnabled()) {
       e.stopPropagation();
 
@@ -166,9 +157,9 @@ export class Note extends React.PureComponent {
 
       this.props.onResizeStart();
     }
-  }
+  };
 
-  handleStartPointMouseDown = (e) => {
+  handleStartPointMouseDown = e => {
     if (this.getIsSelectEnabled()) {
       e.stopPropagation();
       if (this.props.isSelected && !(e.ctrlKey || e.metaKey)) {
@@ -178,19 +169,15 @@ export class Note extends React.PureComponent {
       this.select(e);
       this.props.onMoveStart();
     }
-  }
+  };
 
   handleStartPointMouseUp = () => {
     if (this.getIsEraseEnabled()) {
       this.props.onErase(this.props.note);
     }
-  }
+  };
 
-  select = e =>
-    this.props.onSelect(
-      this.props.note,
-      e.ctrlKey || e.metaKey,
-    );
+  select = e => this.props.onSelect(this.props.note, e.ctrlKey || e.metaKey);
 }
 
 function is32ndNote(note) {

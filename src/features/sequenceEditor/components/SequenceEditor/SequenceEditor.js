@@ -28,26 +28,23 @@ const LoadingIndicator = styled.div`
 
 const SequenceEditorContent = styled.div`
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
-  flex-grow: 1;
-  flex-shrink: 1;
   overflow-x: hidden;
   overflow-y: scroll;
 `;
 
 const SequenceEditorWrapper = styled.div`
   display: flex;
-  flex-grow: 1;
-  flex-shrink: 0;
+  flex: 1 0 auto;
   padding-bottom: 64px;
   padding-top: 64px;
 `;
 
 const StyledSequenceEditor = styled(HotKeys)`
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
-  flex-shrink: 1;
-  flex-grow: 1;
   overflow: hidden;
   position: relative;
 `;
