@@ -8,7 +8,7 @@ import some from "lodash/fp/some";
 import times from "lodash/fp/times";
 import PropTypes from "prop-types";
 import React from "react";
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 import { showIf } from "react-render-helpers";
 import styled from "styled-components/macro";
 import shared from "../../../shared";
@@ -62,9 +62,7 @@ export class Track extends React.PureComponent {
     return (
       <StyledTrack>
         <TrackHeader onClick={this.handleHeaderClick}>
-          <NamespacesConsumer>
-            {t => t(this.props.track.voice)}
-          </NamespacesConsumer>
+          <Translation>{t => t(this.props.track.voice)}</Translation>
         </TrackHeader>
         <TrackSequences style={this.getBodySequencesStyle()}>
           <TrackMatrixBox

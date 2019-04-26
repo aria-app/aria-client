@@ -1,9 +1,9 @@
-import * as firebase from 'firebase/app';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { NamespacesConsumer } from 'react-i18next';
-import { Redirect } from 'react-router-dom';
-import styled from 'styled-components/macro';
+import * as firebase from "firebase/app";
+import PropTypes from "prop-types";
+import React from "react";
+import { Translation } from "react-i18next";
+import { Redirect } from "react-router-dom";
+import styled from "styled-components/macro";
 
 const StyledSignOut = styled.div`
   align-items: center;
@@ -16,11 +16,11 @@ const StyledSignOut = styled.div`
 
 export class SignOut extends React.Component {
   static propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired
   };
 
   componentDidMount() {
-    window.document.title = 'Sign Out - Zen Sequencer';
+    window.document.title = "Sign Out - Zen Sequencer";
 
     setTimeout(() => {
       // TODO: Convert to auth helper
@@ -33,20 +33,16 @@ export class SignOut extends React.Component {
       return (
         <Redirect
           to={{
-            pathname: '/sign-in',
+            pathname: "/sign-in"
           }}
         />
       );
     }
 
     return (
-      <NamespacesConsumer>
-        {t => (
-          <StyledSignOut>
-            {t('Signing Out')}
-          </StyledSignOut>
-        )}
-      </NamespacesConsumer>
+      <Translation>
+        {t => <StyledSignOut>{t("Signing Out")}</StyledSignOut>}
+      </Translation>
     );
   }
 }

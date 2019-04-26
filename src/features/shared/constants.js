@@ -1,4 +1,4 @@
-import * as firebase from 'firebase/app';
+import * as firebase from "firebase/app";
 
 firebase.initializeApp({
   apiKey: "AIzaSyCqOmjU9tOG_qpc5cMuBhKk5pJGL76LYcY",
@@ -9,18 +9,15 @@ firebase.initializeApp({
   messagingSenderId: "904455678701"
 });
 
-export const NAME = 'shared';
+export const NAME = "shared";
 
-export const authProvider = !!firebase.auth && new firebase.auth.GoogleAuthProvider();
+export const authProvider =
+  !!firebase.auth && new firebase.auth.GoogleAuthProvider();
 
 export const db = !!firebase.firestore && firebase.firestore();
 
-if (db && db.settings) {
-  db.settings({ timestampsInSnapshots: true });
-}
-
 export const SYNC_STATES = {
-  FAILED: 'FAILED',
-  SYNCED: 'SYNCED',
-  SYNCING: 'SYNCING',
+  FAILED: "FAILED",
+  SYNCED: "SYNCED",
+  SYNCING: "SYNCING"
 };

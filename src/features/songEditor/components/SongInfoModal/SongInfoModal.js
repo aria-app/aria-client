@@ -1,10 +1,10 @@
-import Dawww from 'dawww';
-import map from 'lodash/fp/map';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { NamespacesConsumer } from 'react-i18next';
-import styled from 'styled-components/macro';
-import shared from '../../../shared';
+import Dawww from "dawww";
+import map from "lodash/fp/map";
+import PropTypes from "prop-types";
+import React from "react";
+import { Translation } from "react-i18next";
+import styled from "styled-components/macro";
+import shared from "../../../shared";
 
 const { Button, DownloadButton, DropdownList, Modal } = shared.components;
 const getBPMRangeItem = x => ({ id: x, text: String(x) });
@@ -40,60 +40,52 @@ export class SongInfoModal extends React.PureComponent {
     onConfirm: PropTypes.func.isRequired,
     onReturnToDashboard: PropTypes.func.isRequired,
     onSignOut: PropTypes.func.isRequired,
-    song: PropTypes.object,
-  }
+    song: PropTypes.object
+  };
 
   render() {
     return (
-      <NamespacesConsumer>
+      <Translation>
         {t => (
           <Modal
             className="song-info-modal"
             isOpen={this.props.isOpen}
             onClickOutside={this.props.onConfirm}
-            titleText={t('Song Info')}>
-            <SongInfoModalContent
-              className="song-info-modal__content">
+            titleText={t("Song Info")}
+          >
+            <SongInfoModalContent className="song-info-modal__content">
               <SongInfoModalBPMDropdown
                 items={bpmRangeItems}
                 selectedId={this.props.bpm}
                 onSelectedIdChange={this.handleContentDropdownListSelect}
               />
-              <Button
-                onClick={this.props.onReturnToDashboard}>
-                {t('Return to Dashboard')}
+              <Button onClick={this.props.onReturnToDashboard}>
+                {t("Return to Dashboard")}
               </Button>
-              <Button
-                onClick={this.props.onSignOut}>
-                {t('Sign Out')}
-              </Button>
+              <Button onClick={this.props.onSignOut}>{t("Sign Out")}</Button>
               <DownloadButton
                 fileContents={this.getStringifiedSong()}
-                filename="song.json">
-                {t('Download Song')}
+                filename="song.json"
+              >
+                {t("Download Song")}
               </DownloadButton>
-              <SongInfoModalLabel>
-                {t('Select Language')}
-              </SongInfoModalLabel>
-              <Button
-                onClick={() => shared.i18n.changeLanguage('en')}>
-                {t('English')}
+              <SongInfoModalLabel>{t("Select Language")}</SongInfoModalLabel>
+              <Button onClick={() => shared.i18n.changeLanguage("en")}>
+                {t("English")}
               </Button>
-              <Button
-                onClick={() => shared.i18n.changeLanguage('jp')}>
-                {t('Japanese')}
+              <Button onClick={() => shared.i18n.changeLanguage("jp")}>
+                {t("Japanese")}
               </Button>
             </SongInfoModalContent>
           </Modal>
         )}
-      </NamespacesConsumer>
+      </Translation>
     );
   }
 
-  getStringifiedSong = () =>
-    JSON.stringify(this.props.song);
+  getStringifiedSong = () => JSON.stringify(this.props.song);
 
-  handleContentDropdownListSelect = (value) => {
+  handleContentDropdownListSelect = value => {
     this.props.onBPMChange(value);
-  }
+  };
 }

@@ -1,11 +1,11 @@
-import * as firebase from 'firebase/app';
-import getOr from 'lodash/fp/getOr';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { NamespacesConsumer } from 'react-i18next';
-import { Redirect } from 'react-router-dom';
-import styled from 'styled-components/macro';
-import shared from '../../../shared';
+import * as firebase from "firebase/app";
+import getOr from "lodash/fp/getOr";
+import PropTypes from "prop-types";
+import React from "react";
+import { Translation } from "react-i18next";
+import { Redirect } from "react-router-dom";
+import styled from "styled-components/macro";
+import shared from "../../../shared";
 
 const { authProvider } = shared.constants;
 const { Button } = shared.components;
@@ -23,11 +23,11 @@ const StyledSignIn = styled.div`
 
 export class SignIn extends React.Component {
   static propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired
   };
 
   componentDidMount() {
-    window.document.title = 'Sign In - Zen Sequencer';
+    window.document.title = "Sign In - Zen Sequencer";
   }
 
   render() {
@@ -36,19 +36,20 @@ export class SignIn extends React.Component {
     }
 
     return (
-      <NamespacesConsumer>
+      <Translation>
         {t => (
           <StyledSignIn>
             <SignInButton
-              onClick={() => firebase.auth().signInWithRedirect(authProvider)}>
-              {t('Sign in with Google')}
+              onClick={() => firebase.auth().signInWithRedirect(authProvider)}
+            >
+              {t("Sign in with Google")}
             </SignInButton>
           </StyledSignIn>
         )}
-      </NamespacesConsumer>
+      </Translation>
     );
   }
 
   getRedirectFrom = () =>
-    getOr({ pathname: "/" }, 'props.location.state.from', this);
+    getOr({ pathname: "/" }, "props.location.state.from", this);
 }
