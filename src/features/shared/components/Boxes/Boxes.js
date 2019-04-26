@@ -38,7 +38,7 @@ export class Boxes extends React.Component {
         length={this.props.length}
         step={this.props.step}
         style={this.props.style}>
-        {this.props.items.map(item => (
+        {this.getBoxes().map(item => (
           <Box
             contentComponent={this.props.boxContentComponent}
             key={item.id}
@@ -50,6 +50,9 @@ export class Boxes extends React.Component {
       </StyledBoxes>
     );
   }
+
+  getBoxes = () =>
+    this.props.items.filter(i => i.x < this.props.length)
 
   handleBoxItemChange = (draggedItem) => {
     this.setState({

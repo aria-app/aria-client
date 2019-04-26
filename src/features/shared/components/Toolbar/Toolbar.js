@@ -5,7 +5,8 @@ import { getExtraProps } from '../../helpers';
 
 const StyledToolbar = styled.div`
   align-items: stretch;
-  background-color: ${props => props.theme.almostwhite};
+  background-color: ${props => props.theme.greystone};
+  border-top: 1px solid ${props => props.theme.midgray};
   display: flex;
   flex: 0 0 auto;
   height: 56px;
@@ -29,18 +30,18 @@ const ToolbarRightItems = styled.div`
 
 export class Toolbar extends React.Component {
   static propTypes = {
-    alternateLeftItems: PropTypes.node,
-    alternateRightItems: PropTypes.node,
     isAlternate: PropTypes.bool,
     leftItems: PropTypes.node,
+    leftItemsAlt: PropTypes.node,
     rightItems: PropTypes.node,
+    rightItemsAlt: PropTypes.node,
   }
 
   static defaultProps = {
-    alternateLeftItems: [],
-    alternateRightItems: [],
     leftItems: [],
+    leftItemsAlt: [],
     rightItems: [],
+    rightItemsAlt: [],
   }
 
   render() {
@@ -59,13 +60,13 @@ export class Toolbar extends React.Component {
 
   getLeftItems() {
     return this.props.isAlternate
-      ? this.props.alternateLeftItems
+      ? this.props.leftItemsAlt
       : this.props.leftItems;
   }
 
   getRightItems() {
     return this.props.isAlternate
-      ? this.props.alternateRightItems
+      ? this.props.rightItemsAlt
       : this.props.rightItems;
   }
 }

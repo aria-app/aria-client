@@ -5,8 +5,7 @@ import styled from 'styled-components/macro';
 
 const StyledDropdownListItem = styled.div`
   align-items: center;
-  background-color: ${props => props.isSelected && props.theme.almostblack};
-  color: ${props => props.isSelected && props.theme.almostwhite};
+  background-color: ${props => props.isSelected && props.theme.midgray};
   cursor: pointer;
   display: flex;
   height: 48px;
@@ -16,7 +15,7 @@ const StyledDropdownListItem = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   &:hover {
-    background-color: ${props => !props.isSelected && props.theme.ashgray };
+    background-color: ${props => !props.isSelected && props.theme.greystone };
   }
 `;
 

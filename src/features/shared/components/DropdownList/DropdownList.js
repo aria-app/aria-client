@@ -38,8 +38,9 @@ const DropdownListOverlay = styled.div`
 `;
 
 const DropdownListPopup = styled.div`
-  background-color: ${props => props.theme.almostwhite};
+  background-color: ${props => props.theme.almostblack};
   border-radius: ${props => props.borderRadius};
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
   max-height: 256px;
   min-width: 100%;
   overflow-x: hidden;

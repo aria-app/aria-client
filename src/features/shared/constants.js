@@ -11,11 +11,13 @@ firebase.initializeApp({
 
 export const NAME = 'shared';
 
-export const authProvider = new firebase.auth.GoogleAuthProvider();
+export const authProvider = !!firebase.auth && new firebase.auth.GoogleAuthProvider();
 
-export const db = firebase.firestore();
+export const db = !!firebase.firestore && firebase.firestore();
 
-db.settings({ timestampsInSnapshots: true });
+if (db && db.settings) {
+  db.settings({ timestampsInSnapshots: true });
+}
 
 export const SYNC_STATES = {
   FAILED: 'FAILED',

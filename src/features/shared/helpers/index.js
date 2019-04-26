@@ -1,5 +1,3 @@
-import omit from 'lodash/fp/omit';
-
-/* eslint-disable react/forbid-foreign-prop-types */
-export const getExtraProps = instance =>
-  omit(Object.keys(instance.constructor.propTypes), instance.props);
+export { getCenteredScroll } from "./getCenteredScroll";
+export { getExtraProps } from "./getExtraProps";
+export { toggleInArray } from "./toggleInArray";

@@ -3,6 +3,7 @@ import round from 'lodash/round';
 import times from 'lodash/fp/times';
 import PropTypes from 'prop-types';
 import React from 'react';
+import Draggable from 'react-draggable';
 import styled from 'styled-components/macro';
 import shared from '../../../shared';
 
@@ -12,6 +13,35 @@ const RulerMeasureNumber = styled.div`
   color: rgba(255, 255, 255, 0.5);
   font-size: 10px;
   position: absolute;
+`;
+
+const RulerResizer = styled.div`
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid white;
+  cursor: col-resize;
+  height: 32px;
+  left: 0;
+  position: absolute;
+  top: 3px;
+  width: 24px;
+  &:hover:not(:active) {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+  &:active {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+  :after {
+    border-left: 2px dotted white;
+    border-right: 2px dotted white;
+    content: "";
+    display: block;
+    height: 10px;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px;
+  }
 `;
 
 const StyledRuler = styled.div`
@@ -54,6 +84,16 @@ export class Ruler extends React.PureComponent {
             {i + 1}
           </RulerMeasureNumber>
         ), this.props.measureCount)}
+        <Draggable
+          axis="x"
+          bounds={{
+            left: 64 - 16,
+          }}
+          grid={[64, 0]}
+          onDrag={this.handleResizerDrag}
+          position={this.getResizerPosition()}>
+          <RulerResizer/>
+        </Draggable>
       </StyledRuler>
     );
   }
@@ -88,6 +128,11 @@ export class Ruler extends React.PureComponent {
     };
   }
 
+  getResizerPosition = () => ({
+    x: (this.props.measureCount * 64) + 16,
+    y: 0,
+  });
+
   getWidth = () =>
     (this.props.measureWidth * this.props.measureCount) + 1;
 
@@ -99,5 +144,11 @@ export class Ruler extends React.PureComponent {
     const notesPerMeasure = 32;
 
     this.props.onPositionSet(round(measures * notesPerMeasure));
+  };
+
+  handleResizerDrag = (e, position) => {
+    this.props.onMeasureCountChange(
+      Math.max(1, this.props.measureCount + (position.deltaX / 64)),
+    );
   };
 }

@@ -1,9 +1,26 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { animated, useTransition } from 'react-spring';
 import styled from 'styled-components/macro';
+import shared from '../../../shared';
 import { AddTrackButton } from '../AddTrackButton/AddTrackButton';
 import { Ruler } from '../Ruler/Ruler';
 import { Track } from '../Track/Track';
+
+const { FadeIn, FadeOut } = shared.components;
+
+const LoadingIndicator = styled(animated.div)`
+  align-items: center;
+  bottom: 0;
+  color: white;
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+`;
 
 const StyledTrackList = styled.div`
   align-items: flex-start;
@@ -11,6 +28,7 @@ const StyledTrackList = styled.div`
   flex: 1 1 auto;
   flex-direction: column;
   overflow: auto;
+  position: relative;
 `;
 
 const TrackListContent = styled.div`
@@ -34,62 +52,94 @@ const TrackListUnderlay = styled.div`
   top: 0;
 `;
 
-export class TrackList extends React.PureComponent {
-  static propTypes = {
-    isStopped: PropTypes.bool.isRequired,
-    onPositionSet: PropTypes.func.isRequired,
-    onSequenceAdd: PropTypes.func.isRequired,
-    onSequenceDeselect: PropTypes.func.isRequired,
-    onSequenceEdit: PropTypes.func.isRequired,
-    onSequenceOpen: PropTypes.func.isRequired,
-    onSequenceSelect: PropTypes.func.isRequired,
-    onSongExtend: PropTypes.func.isRequired,
-    onSongShorten: PropTypes.func.isRequired,
-    onTrackAdd: PropTypes.func.isRequired,
-    onTrackIsMutedToggle: PropTypes.func.isRequired,
-    onTrackIsSoloingToggle: PropTypes.func.isRequired,
-    onTrackStage: PropTypes.func.isRequired,
-    selectedSequence: PropTypes.object,
-    songMeasureCount: PropTypes.number.isRequired,
-    tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }
+TrackList.propTypes = {
+  isStopped: PropTypes.bool.isRequired,
+  onPositionSet: PropTypes.func.isRequired,
+  onSequenceAdd: PropTypes.func.isRequired,
+  onSequenceDeselect: PropTypes.func.isRequired,
+  onSequenceEdit: PropTypes.func.isRequired,
+  onSequenceOpen: PropTypes.func.isRequired,
+  onSequenceSelect: PropTypes.func.isRequired,
+  onSongMeasureCountChange: PropTypes.func.isRequired,
+  onTrackAdd: PropTypes.func.isRequired,
+  onTrackIsMutedToggle: PropTypes.func.isRequired,
+  onTrackIsSoloingToggle: PropTypes.func.isRequired,
+  onTrackStage: PropTypes.func.isRequired,
+  selectedSequence: PropTypes.object,
+  songMeasureCount: PropTypes.number.isRequired,
+  tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
-  render() {
-    return (
-      <StyledTrackList
-        onClick={this.handleClick}>
-        <TrackListContent>
-          <TrackListUnderlay
-            onClick={this.props.onSequenceDeselect}
-          />
+export function TrackList(props) {
+  const trackTransitions = useTransition(props.tracks, track => track.id, {
+    config: {
+      clamp: true,
+      tension: 200,
+    },
+    from: {
+      marginLeft: -64,
+      opacity: 0,
+    },
+    enter: {
+      marginLeft: 0,
+      opacity: 1,
+    },
+    leave: {
+      marginLeft: 64,
+      opacity: 0,
+    },
+  });
+
+  return (
+    <StyledTrackList>
+      <FadeOut
+        component={LoadingIndicator}
+        isVisible={props.isLoading}>
+        LOADING SONG...
+      </FadeOut>
+      <TrackListContent>
+        <TrackListUnderlay
+          onClick={props.onSequenceDeselect}
+        />
+        <FadeIn
+          isVisible={!props.isLoading}>
           <Ruler
-            isStopped={this.props.isStopped}
-            measureCount={this.props.songMeasureCount}
+            isStopped={props.isStopped}
+            measureCount={props.songMeasureCount}
             measureWidth={64}
-            onPositionSet={this.props.onPositionSet}
+            onMeasureCountChange={props.onSongMeasureCountChange}
+            onPositionSet={props.onPositionSet}
           />
-          {this.props.tracks.map((track, index) => (
-            <Track
-              key={`track-${index}`}
-              onSequenceAdd={this.props.onSequenceAdd}
-              onSequenceEdit={this.props.onSequenceEdit}
-              onSequenceOpen={this.props.onSequenceOpen}
-              onSequenceSelect={this.props.onSequenceSelect}
-              onTrackIsMutedToggle={this.props.onTrackIsMutedToggle}
-              onTrackIsSoloingToggle={this.props.onTrackIsSoloingToggle}
-              onTrackSelect={this.props.onTrackStage}
-              selectedSequence={this.props.selectedSequence}
-              songMeasureCount={this.props.songMeasureCount}
-              index={index}
-              track={track}
-            />
+          {trackTransitions.map(({ item, key, props: animation }) => (
+            <animated.div
+              key={key}
+              style={{
+                ...animation,
+                height: animation.opacity.interpolate({
+                  range: [0, 0.5, 1],
+                  output: [0, 136, 136],
+                }),
+              }}>
+              <Track
+                onSequenceAdd={props.onSequenceAdd}
+                onSequenceEdit={props.onSequenceEdit}
+                onSequenceOpen={props.onSequenceOpen}
+                onSequenceSelect={props.onSequenceSelect}
+                onTrackIsMutedToggle={props.onTrackIsMutedToggle}
+                onTrackIsSoloingToggle={props.onTrackIsSoloingToggle}
+                onTrackSelect={props.onTrackStage}
+                selectedSequence={props.selectedSequence}
+                songMeasureCount={props.songMeasureCount}
+                track={item}
+              />
+            </animated.div>
           ))}
           <AddTrackButton
-            onClick={this.props.onTrackAdd}
-            songMeasureCount={this.props.songMeasureCount}
+            onClick={props.onTrackAdd}
+            songMeasureCount={props.songMeasureCount}
           />
-        </TrackListContent>
-      </StyledTrackList>
-    );
-  }
+        </FadeIn>
+      </TrackListContent>
+    </StyledTrackList>
+  );
 }

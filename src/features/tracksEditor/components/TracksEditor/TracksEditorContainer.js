@@ -5,7 +5,6 @@ import song from '../../../song';
 import { TracksEditor } from './TracksEditor';
 
 export const TracksEditorContainer = connect(state => ({
-  bpm: song.selectors.getBPM(state),
   isLoading: song.selectors.getIsSongLoading(state),
   isRedoEnabled: song.selectors.getIsRedoEnabled(state),
   isUndoEnabled: song.selectors.getIsUndoEnabled(state),
@@ -14,11 +13,8 @@ export const TracksEditorContainer = connect(state => ({
   songMeasureCount: song.selectors.getMeasureCount(state),
   sequences: song.selectors.getSequencesArray(state),
   song: song.selectors.getSong(state),
-  syncState: song.selectors.getSyncState(state),
-  trackMap: song.selectors.getTracks(state),
   tracks: song.selectors.getDeepTracks(state),
 }), {
-  onBPMChange: shared.actions.bpmSet,
   onLoad: shared.actions.songEditorLoaded,
   onPositionSet: shared.actions.positionSetRequestStarted,
   onRedo: shared.actions.redoRequested,
@@ -26,13 +22,7 @@ export const TracksEditorContainer = connect(state => ({
   onSequenceDelete: shared.actions.sequenceDeleted,
   onSequenceDuplicate: shared.actions.sequenceDuplicated,
   onSequenceEdit: shared.actions.sequenceEdited,
-  onSequenceExtend: shared.actions.sequenceExtended,
-  onSequenceMoveLeft: shared.actions.sequenceNudgedLeft,
-  onSequenceMoveRight: shared.actions.sequenceNudgedRight,
-  onSequenceShorten: shared.actions.sequenceShortened,
-  onSongExtend: shared.actions.songExtended,
   onSongMeasureCountChange: shared.actions.measureCountSet,
-  onSongShorten: shared.actions.songShortened,
   onTrackAdd: shared.actions.trackAdded,
   onTrackDelete: shared.actions.trackDeleted,
   onTrackIsMutedToggle: shared.actions.trackIsMutedToggled,

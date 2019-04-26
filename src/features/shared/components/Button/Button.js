@@ -4,7 +4,7 @@ import { mixins } from '../../styles';
 export const Button = styled.div`
   align-items: center;
   border-radius: ${props => props.theme.borderRadius}px;
-  color: ${props => props.theme.almostblack};
+  color: ${props => props.theme.color};
   cursor: pointer;
   display: flex;
   height: 36px;

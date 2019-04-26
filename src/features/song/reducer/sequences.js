@@ -25,30 +25,6 @@ export const sequences = createReducer(initialValue, {
   [shared.actions.SEQUENCE_EDITED]: (state, action) =>
     Dawww.setAtIds([action.payload.sequence], state),
 
-  [shared.actions.SEQUENCE_EXTENDED]: (state, action) =>
-    Dawww.setAtIds([{
-      ...action.payload.sequence,
-      measureCount: action.payload.sequence.measureCount + 1,
-    }], state),
-
-  [shared.actions.SEQUENCE_NUDGED_LEFT]: (state, action) =>
-    Dawww.setAtIds([{
-      ...action.payload.sequence,
-      position: action.payload.sequence.position - 1,
-    }], state),
-
-  [shared.actions.SEQUENCE_NUDGED_RIGHT]: (state, action) =>
-    Dawww.setAtIds([{
-      ...action.payload.sequence,
-      position: action.payload.sequence.position + 1,
-    }], state),
-
-  [shared.actions.SEQUENCE_SHORTENED]: (state, action) =>
-    Dawww.setAtIds([{
-      ...action.payload.sequence,
-      measureCount: action.payload.sequence.measureCount - 1,
-    }], state),
-
   [shared.actions.TRACK_ADDED]: (state, action) =>
     Dawww.setAtIds([action.payload.sequence], state),
 

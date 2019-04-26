@@ -14,7 +14,7 @@ const { AppContainer } = app.components;
 store.dispatch(shared.actions.initialized());
 
 render((
-  <BrowserRouter>
+  <BrowserRouter basename="/zen-app">
     <Provider
       store={store}>
         <AppContainer/>

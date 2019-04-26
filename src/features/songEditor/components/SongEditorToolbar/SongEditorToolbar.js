@@ -7,13 +7,14 @@ import { hideIf, showIf } from 'react-render-helpers';
 import Tone from 'tone';
 import shared from '../../../shared';
 
-const { STARTED } = Dawww.PLAYBACK_STATES;
+const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 const { IconButton, Toolbar } = shared.components;
 
 export class SongEditorToolbar extends React.PureComponent {
   static propTypes = {
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
+    onSongInfoOpen: PropTypes.func,
     onStop: PropTypes.func.isRequired,
     playbackState: PropTypes.string.isRequired,
   }
@@ -23,27 +24,43 @@ export class SongEditorToolbar extends React.PureComponent {
       <Toolbar
         position="top"
         isAlternate={this.getIsAlternate()}
-        rightItems={<React.Fragment>
-          {hideIf(this.props.playbackState === STARTED)(
+        leftItems={
+          <React.Fragment>
             <IconButton
-              icon="play"
-              onClick={this.playPause}
-              title="Play"
+              icon="cog"
+              onClick={this.props.onSongInfoOpen}
+              title="Settings"
             />
-          )}
-          {showIf(this.props.playbackState === STARTED)(
-            <IconButton
-              icon="pause"
-              onClick={this.playPause}
-              title="Pause"
-            />
-          )}
-          <IconButton
-            icon="stop"
-            onClick={this.stop}
-            title="Stop"
-          />
-        </React.Fragment>}
+          </React.Fragment>
+        }
+        rightItems={
+          <React.Fragment>
+            {hideIf(this.props.playbackState === STARTED)(
+              <IconButton
+                icon="play"
+                onClick={this.playPause}
+                title="Play"
+              />
+            )}
+            {showIf(this.props.playbackState === STARTED)(
+              <IconButton
+                icon="pause"
+                onClick={this.playPause}
+                title="Pause"
+              />
+            )}
+            {showIf(this.props.playbackState !== STOPPED)(
+              <IconButton
+                icon="stop"
+                onClick={this.stop}
+                title="Stop"
+              />
+            )}
+          </React.Fragment>
+        }
+        style={{
+          borderTop: 0,
+        }}
       />
     );
   }
