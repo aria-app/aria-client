@@ -1,229 +1,195 @@
-import Dawww from 'dawww';
-import compose from 'lodash/fp/compose';
-import find from 'lodash/fp/find';
-import first from 'lodash/fp/first';
-import get from 'lodash/fp/get';
-import isEqual from 'lodash/fp/isEqual';
-import last from 'lodash/fp/last';
-import map from 'lodash/fp/map';
-import some from 'lodash/fp/some';
-import without from 'lodash/fp/without';
-import PropTypes from 'prop-types';
-import React from 'react';
-import styled from 'styled-components/macro';
-import { Note } from '../Note/Note';
+import Dawww from "dawww";
+import find from "lodash/fp/find";
+import getOr from "lodash/fp/getOr";
+import isEqual from "lodash/fp/isEqual";
+import max from "lodash/fp/max";
+import min from "lodash/fp/min";
+import uniqBy from "lodash/fp/uniqBy";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
+import styled from "styled-components/macro";
+import { Note } from "../Note/Note";
 
 const StyledNotes = styled.div`
   bottom: 0;
   cursor: pointer;
   left: 0;
+  pointer-events: none;
   position: absolute;
   top: 0;
+  width: ${props => props.measureCount * 4 * 8 * 40}px;
 `;
 
-export class Notes extends React.PureComponent {
-  static propTypes = {
-    measureCount: PropTypes.number.isRequired,
-    mousePoint: PropTypes.object.isRequired,
-    notes: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onDrag: PropTypes.func.isRequired,
-    onDragPreview: PropTypes.func.isRequired,
-    onErase: PropTypes.func.isRequired,
-    onResize: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired,
-    selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
-    toolType: PropTypes.string.isRequired,
-  }
+Notes.propTypes = {
+  measureCount: PropTypes.number.isRequired,
+  notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onDrag: PropTypes.func.isRequired,
+  onDragPreview: PropTypes.func.isRequired,
+  onErase: PropTypes.func.isRequired,
+  onResize: PropTypes.func.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  toolType: PropTypes.string.isRequired
+};
 
-  static defaultProps = {
-    selectedNotes: [],
-  };
+Notes.defaultProps = {
+  selectedNotes: []
+};
 
-  state = {
-    dragDelta: { x: 0, y: 0 },
-    resizeDelta: { x: 0, y: 0 },
-    isDragging: false,
-    isResizing: false,
-  };
+export function Notes(props) {
+  const [positionBounds, setPositionBounds] = useState({
+    bottom: (Dawww.OCTAVE_RANGE.length * 12 - 1) * 40,
+    left: 0,
+    right: (props.measureCount * 8 * 4 - 1) * 40,
+    top: 0
+  });
+  const [sizeBounds, setSizeBounds] = useState({
+    left: 0,
+    right: (props.measureCount * 8 * 4 - 1) * 40
+  });
+  const [positionDeltas, setPositionDeltas] = useState({});
+  const [sizeDeltas, setSizeDeltas] = useState({});
 
-  componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.mousePoint, this.props.mousePoint)) {
-      this.handleMousePointChange(prevProps.mousePoint);
-    }
-  }
+  const getIsNoteSelected = note =>
+    !!find(x => x.id === note.id, props.selectedNotes);
 
-  render() {
-    return (
-      <StyledNotes
-        onMouseUp={this.handleMouseUp}
-        style={this.getStyle()}>
-        {this.getNotes().map(note => (
-          <Note
-            className="notes__note"
-            isSelected={this.getIsNoteSelected(note)}
-            key={note.id}
-            onErase={this.props.onErase}
-            onMoveStart={this.handleNoteMoveStart}
-            onResizeStart={this.handleNoteResizeStart}
-            onSelect={this.props.onSelect}
-            toolType={this.props.toolType}
-            note={note}
-          />
-        ))}
-      </StyledNotes>
-    );
-  }
+  const handleNoteDrag = ({ deltaX, deltaY }) => {
+    const deltaReducer = (acc, cur) => {
+      const prevX = getOr(0, `[${cur.id}].x`, acc);
+      const prevY = getOr(0, `[${cur.id}].y`, acc);
+      const x = prevX + deltaX;
+      const y = prevY + deltaY;
 
-  applyTransforms = notes => map(compose(
-    Dawww.resizeNote(this.state.resizeDelta),
-    Dawww.translateNote(this.state.dragDelta),
-  ))(notes);
-
-  getIsNoteSelected = note =>
-    !!find(x => x.id === note.id, this.props.selectedNotes);
-
-  getNotes = () => [
-    ...this.applyTransforms(this.props.selectedNotes),
-    ...without(this.props.selectedNotes, this.props.notes),
-  ];
-
-  getTransformedSelectedNotes = () =>
-    this.applyTransforms(this.props.selectedNotes);
-
-  getStyle() {
-    return {
-      width: this.props.measureCount * 4 * 8 * 40,
+      return { ...acc, [cur.id]: { x, y } };
     };
-  }
+    const newDeltas = props.selectedNotes.reduce(deltaReducer, positionDeltas);
 
-  handleMousePointChange = (prevMousePoint) => {
-    const delta = Dawww.getPointOffset(
-      prevMousePoint,
-      this.props.mousePoint,
-    );
+    if (isEqual(newDeltas, positionDeltas)) return;
 
+    const adjustedNotes = applyPositionDeltas(props.selectedNotes, newDeltas);
 
-    if (this.state.isDragging) {
-      this.updateDragDelta(delta);
-    } else if (this.state.isResizing) {
-      this.handleResize(delta);
-    }
-  }
+    setPositionDeltas(newDeltas);
 
-  handleMouseUp = () => {
-    if (this.state.isDragging) {
-      this.stopDragging();
-    }
+    props.onDragPreview(adjustedNotes);
+  };
 
-    if (this.state.isResizing) {
-      this.stopResizing();
-    }
-  }
+  const handleNoteDragStart = draggedNote => {
+    const notes = uniqBy(x => x.id, [draggedNote, ...props.selectedNotes]);
+    const draggedX = getOr(0, "points[0].x", draggedNote);
+    const draggedY = getOr(0, "points[0].y", draggedNote);
+    const maxX = max(notes.map(getOr(0, "points[1].x")));
+    const maxY = max(notes.map(getOr(0, "points[1].y")));
+    const minX = min(notes.map(getOr(0, "points[0].x")));
+    const minY = min(notes.map(getOr(0, "points[0].y")));
+    const baseBottom = Dawww.OCTAVE_RANGE.length * 12 - 1;
+    const baseRight = props.measureCount * 8 * 4 - 1;
 
-  handleNoteMoveStart = () =>
-    this.setState(() => ({
-      isDragging: true,
-    }));
-
-  handleNoteResizeStart = () =>
-    this.setState(() => ({
-      isResizing: true,
-    }));
-
-  handleResize = (delta) => {
-    const isDraggingLeft = delta.x < 0;
-    const pointSets = map(get('points'), this.getTransformedSelectedNotes());
-    const isAnyNoteBent = some(
-      points => last(points).y - first(points).y !== 0,
-    )(pointSets);
-    const willAnyBeMinLength = some(
-      points => (last(points).x - first(points).x) <= 1,
-    )(pointSets);
-    const willAnyBeNegative = some(
-      points => (last(points).x - first(points).x) <= 0,
-    )(pointSets);
-    const willAnyBeVertical = (
-      delta.y !== 0 &&
-      some(n => (last(n.points).x - first(n.points).x) === 0, this.getTransformedSelectedNotes())
-    );
-
-    const willGoOutside = compose(
-      getIsSomePointOutside(this.props.measureCount),
-      map(Dawww.resizeNote(delta)),
-    )(this.getTransformedSelectedNotes());
-
-    // Leaving this in place to disable bending until it is
-    // reimplemented in Dawww.
-    if (delta.y !== 0) return;
-
-    if (
-      (isDraggingLeft && isAnyNoteBent && willAnyBeMinLength) ||
-      (isDraggingLeft && willAnyBeNegative) ||
-      willAnyBeVertical ||
-      willGoOutside
-    ) return;
-
-    this.updateResizeDelta(delta);
-  }
-
-  stopDragging = () => {
-    if (isEqual({ x: 0, y: 0 }, this.state.dragDelta)) {
-      this.setState({
-        isDragging: false,
-      });
-      return;
-    }
-
-    this.props.onDrag(this.getTransformedSelectedNotes());
-
-    this.setState({
-      dragDelta: { x: 0, y: 0 },
-      isDragging: false,
+    setPositionBounds({
+      bottom: (baseBottom - (maxY - draggedY)) * 40,
+      left: (draggedX - minX) * 40,
+      right: (baseRight - (maxX - draggedX)) * 40,
+      top: (draggedY - minY) * 40
     });
   };
 
-  stopResizing = () => {
-    if (isEqual({ x: 0, y: 0 }, this.state.resizeDelta)) {
-      this.setState({
-        isResizing: false,
-      });
-      return;
-    }
+  const handleNoteDragStop = () => {
+    props.onDrag(applyPositionDeltas(props.notes, positionDeltas));
+    setPositionDeltas({});
+  };
 
-    this.props.onResize(this.getTransformedSelectedNotes());
+  const handleNoteEndPointDrag = ({ deltaX }) => {
+    const deltaReducer = (acc, cur) => {
+      const prevX = getOr(0, `[${cur.id}].x`, acc);
+      const x = prevX + deltaX;
 
-    this.setState({
-      isResizing: false,
-      resizeDelta: { x: 0, y: 0 },
+      return { ...acc, [cur.id]: { x } };
+    };
+    const newDeltas = props.selectedNotes.reduce(deltaReducer, sizeDeltas);
+
+    if (isEqual(newDeltas, sizeDeltas)) return;
+
+    setSizeDeltas(newDeltas);
+  };
+
+  const handleNoteEndPointDragStart = sizedNote => {
+    const notes = uniqBy(x => x.id, [...props.selectedNotes, sizedNote]);
+    const maxPositionX = max(notes.map(getOr(0, "points[0].x")));
+    const baseRight = props.measureCount * 8 * 4 - 1;
+
+    setSizeBounds({
+      left: 40,
+      right: (baseRight - maxPositionX) * 40
     });
   };
 
-  updateDragDelta = (delta) => {
-    if (Dawww.someNoteWillMoveOutside(
-      this.props.measureCount,
-      delta,
-      this.getTransformedSelectedNotes(),
-    )) return;
-
-
-    this.setState(state => ({
-      dragDelta: Dawww.addPoints(delta, state.dragDelta),
-    }), () => {
-      this.props.onDragPreview(this.getTransformedSelectedNotes());
-    });
+  const handleNoteEndPointDragStop = () => {
+    props.onResize(applySizeDeltas(props.notes, sizeDeltas));
+    props.onResize(applySizeDeltas(props.notes, sizeDeltas));
+    setSizeDeltas({});
   };
 
-  updateResizeDelta = delta =>
-    this.setState(state => ({
-      resizeDelta: Dawww.addPoints(delta, state.resizeDelta),
-    }));
+  const adjustedNotes = applySizeDeltas(
+    applyPositionDeltas(props.notes, positionDeltas),
+    sizeDeltas
+  );
+
+  return (
+    <StyledNotes measureCount={props.measureCount}>
+      {adjustedNotes.map(note => (
+        <Note
+          className="notes__note"
+          isSelected={getIsNoteSelected(note)}
+          key={note.id}
+          onDrag={handleNoteDrag}
+          onDragStart={handleNoteDragStart}
+          onDragStop={handleNoteDragStop}
+          onEndPointDrag={handleNoteEndPointDrag}
+          onEndPointDragStart={handleNoteEndPointDragStart}
+          onEndPointDragStop={handleNoteEndPointDragStop}
+          onErase={props.onErase}
+          onResizeStart={() => {}}
+          onSelect={props.onSelect}
+          positionBounds={positionBounds}
+          sizeBounds={sizeBounds}
+          toolType={props.toolType}
+          note={note}
+        />
+      ))}
+    </StyledNotes>
+  );
 }
 
-function getIsSomePointOutside(measureCount) {
-  return some(point =>
-    point.x < 0 ||
-    point.x > ((measureCount * 8) * 4) - 1 ||
-    point.y < 0 ||
-    point.y > (Dawww.OCTAVE_RANGE.length * 12) - 1,
-  );
+function applyPositionDeltas(notes, deltas) {
+  return notes.map(note => {
+    const noteDelta = deltas[note.id];
+
+    if (!noteDelta) return note;
+
+    return {
+      ...note,
+      points: note.points.map(point => ({
+        x: point.x + noteDelta.x,
+        y: point.y + noteDelta.y
+      }))
+    };
+  });
+}
+
+function applySizeDeltas(notes, deltas) {
+  return notes.map(note => {
+    const noteDelta = deltas[note.id];
+
+    if (!noteDelta) return note;
+
+    return {
+      ...note,
+      points: [
+        note.points[0],
+        {
+          x: note.points[1].x + noteDelta.x,
+          y: note.points[1].y
+        }
+      ]
+    };
+  });
 }

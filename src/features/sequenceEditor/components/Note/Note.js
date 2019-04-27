@@ -4,6 +4,7 @@ import last from "lodash/fp/last";
 import { transparentize } from "polished";
 import PropTypes from "prop-types";
 import React from "react";
+import Draggable from "react-draggable";
 import styled from "styled-components/macro";
 import shared from "../../../shared";
 import * as constants from "../../constants";
@@ -69,42 +70,67 @@ const StyledNote = styled.div`
 export class Note extends React.PureComponent {
   static propTypes = {
     isSelected: PropTypes.bool,
-    note: PropTypes.object.isRequired,
-    onErase: PropTypes.func.isRequired,
-    onMoveStart: PropTypes.func.isRequired,
-    onResizeStart: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired,
+    note: PropTypes.object,
+    onDrag: PropTypes.func,
+    onDragStart: PropTypes.func,
+    onDragStop: PropTypes.func,
+    onEndPointDrag: PropTypes.func,
+    onEndPointDragStart: PropTypes.func,
+    onEndPointDragStop: PropTypes.func,
+    onErase: PropTypes.func,
+    onResizeStart: PropTypes.func,
+    onSelect: PropTypes.func,
+    positionBounds: PropTypes.object,
+    sizeBounds: PropTypes.object,
     toolType: PropTypes.string
   };
 
   static defaultProps = {
-    isSelected: false
+    onDrag: () => {},
+    onDragStart: () => {},
+    onDragStop: () => {},
+    onEndPointDrag: () => {},
+    onEndPointDragStart: () => {},
+    onEndPointDragStop: () => {}
   };
 
   render() {
     return (
-      <StyledNote
-        isSelected={this.props.isSelected}
-        style={this.getStyle()}
-        {...getExtraProps(this)}
+      <Draggable
+        bounds={this.props.positionBounds}
+        grid={[40, 40]}
+        handle=".start-point"
+        onDrag={this.handleDrag}
+        onStart={this.handleDragStart}
+        onStop={this.handleDragStop}
+        position={this.getPosition()}
       >
-        <NotePoint
-          onMouseDown={this.handleStartPointMouseDown}
-          onMouseUp={this.handleStartPointMouseUp}
-        >
-          <NoteFill isSelected={this.props.isSelected} />
-        </NotePoint>
-        <NoteConnector
-          isSelected={this.props.isSelected}
-          style={this.getConnectorStyle()}
-        />
-        <NotePoint
-          onMouseDown={this.handleEndPointMouseDown}
-          style={this.getEndPointStyle()}
-        >
-          <NoteFill isSelected={this.props.isSelected} />
-        </NotePoint>
-      </StyledNote>
+        <StyledNote isSelected={this.props.isSelected} {...getExtraProps(this)}>
+          <NotePoint className="start-point">
+            <NoteFill isSelected={this.props.isSelected} />
+          </NotePoint>
+          <NoteConnector
+            isSelected={this.props.isSelected}
+            style={this.getConnectorStyle()}
+          />
+          <Draggable
+            axis="x"
+            bounds={this.props.sizeBounds}
+            grid={[40, 40]}
+            onDrag={this.handleEndPointDrag}
+            onStart={this.handleEndPointDragStart}
+            onStop={this.handleEndPointDragStop}
+            position={this.getEndPointPosition()}
+          >
+            <NotePoint
+              onMouseDown={this.handleEndPointMouseDown}
+              style={this.getEndPointStyle()}
+            >
+              <NoteFill isSelected={this.props.isSelected} />
+            </NotePoint>
+          </Draggable>
+        </StyledNote>
+      </Draggable>
     );
   }
 
@@ -120,6 +146,11 @@ export class Note extends React.PureComponent {
       transform: `rotate(${rotation}deg) scaleX(${scale})`
     };
   }
+
+  getEndPointPosition = () => ({
+    x: (this.props.note.points[1].x - this.props.note.points[0].x) * 40,
+    y: (this.props.note.points[1].y - this.props.note.points[0].y) * 40
+  });
 
   getEndPointStyle() {
     const startPoint = first(this.props.note.points);
@@ -140,44 +171,60 @@ export class Note extends React.PureComponent {
       constants.toolTypes.SELECT
     ]);
 
-  getStyle() {
-    const { x, y } = first(this.props.note.points);
-    return {
-      transform: `translate(${x * 40}px, ${y * 40}px)`
-    };
-  }
+  getPosition = () => ({
+    x: this.props.note.points[0].x * 40,
+    y: this.props.note.points[0].y * 40
+  });
+
+  handleDrag = (e, { deltaX, deltaY }) => {
+    this.props.onDrag({
+      deltaX: Math.round(deltaX / 40),
+      deltaY: Math.round(deltaY / 40)
+    });
+  };
+
+  handleDragStart = e => {
+    this.select(e);
+
+    this.props.onDragStart(this.props.note, e);
+  };
+
+  handleDragStop = () => {
+    this.props.onDragStop();
+  };
+
+  handleEndPointDrag = (e, { deltaX }) => {
+    this.props.onEndPointDrag({
+      deltaX: Math.round(deltaX / 40)
+    });
+  };
+
+  handleEndPointDragStart = e => {
+    this.select(e);
+
+    this.props.onEndPointDragStart(this.props.note, e);
+  };
+
+  handleEndPointDragStop = () => {
+    this.props.onEndPointDragStop();
+  };
 
   handleEndPointMouseDown = e => {
     if (this.getIsSelectEnabled()) {
-      e.stopPropagation();
-
-      if (!this.props.isSelected) {
-        this.select(e);
-      }
+      this.select(e);
 
       this.props.onResizeStart();
     }
   };
 
-  handleStartPointMouseDown = e => {
-    if (this.getIsSelectEnabled()) {
-      e.stopPropagation();
-      if (this.props.isSelected && !(e.ctrlKey || e.metaKey)) {
-        this.props.onMoveStart();
-        return;
-      }
-      this.select(e);
-      this.props.onMoveStart();
-    }
-  };
+  select = e => {
+    const isAdditive = e.ctrlKey || e.metaKey;
 
-  handleStartPointMouseUp = () => {
-    if (this.getIsEraseEnabled()) {
-      this.props.onErase(this.props.note);
-    }
-  };
+    if (!this.getIsSelectEnabled() || (this.props.isSelected && !isAdditive))
+      return;
 
-  select = e => this.props.onSelect(this.props.note, e.ctrlKey || e.metaKey);
+    this.props.onSelect(this.props.note, isAdditive);
+  };
 }
 
 function is32ndNote(note) {

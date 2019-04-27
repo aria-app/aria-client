@@ -14,7 +14,7 @@ const StyledTrackSequence = styled.div`
     ${props =>
       props.isSelected ? props.theme.almostwhite : props.theme.primary[0]};
   box-shadow: ${props =>
-    props.isSelected && `0 0 10px rgba(255, 255, 255, 0.5)}`}
+    props.isSelected && `0 0 10px rgba(255, 255, 255, 0.5)}`};
   opacity: ${props => (props.isMounted ? "1" : "0")};
   overflow: hidden;
   position: relative;

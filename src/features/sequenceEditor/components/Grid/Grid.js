@@ -51,7 +51,11 @@ export class Grid extends React.PureComponent {
 
   render() {
     return (
-      <StyledGrid onMouseMove={this.handleMouseMove} ref={this.setRef}>
+      <StyledGrid
+        onMouseLeave={this.handleMouseLeave}
+        onMouseMove={this.handleMouseMove}
+        ref={this.setRef}
+      >
         <GridWrapper style={this.getWrapperStyle()}>
           <Slots measureCount={this.props.measureCount} />
           {showIf(this.props.toolType === constants.toolTypes.DRAW)(
@@ -66,20 +70,18 @@ export class Grid extends React.PureComponent {
             notes={this.props.notes}
             onSelect={this.handleSelectorSelect}
             selectedNotes={this.props.selectedNotes}
-          >
-            <Notes
-              measureCount={this.props.measureCount}
-              mousePoint={this.state.mousePoint}
-              notes={this.props.notes}
-              onDrag={this.props.onDrag}
-              onDragPreview={this.props.onDragPreview}
-              onErase={this.props.onErase}
-              onResize={this.props.onResize}
-              onSelect={this.props.onSelect}
-              selectedNotes={this.props.selectedNotes}
-              toolType={this.props.toolType}
-            />
-          </Selector>
+          />
+          <Notes
+            measureCount={this.props.measureCount}
+            notes={this.props.notes}
+            onDrag={this.props.onDrag}
+            onDragPreview={this.props.onDragPreview}
+            onErase={this.props.onErase}
+            onResize={this.props.onResize}
+            onSelect={this.props.onSelect}
+            selectedNotes={this.props.selectedNotes}
+            toolType={this.props.toolType}
+          />
           {showIf(this.props.toolType === constants.toolTypes.PAN)(
             <Panner
               onScrollLeftChange={this.handlePannerScrollLeftChange}
@@ -102,6 +104,15 @@ export class Grid extends React.PureComponent {
           : 0
     };
   }
+
+  handleMouseLeave = e => {
+    this.setState({
+      mousePoint: {
+        x: -1,
+        y: -1
+      }
+    });
+  };
 
   handleMouseMove = e => {
     const mousePoint = getMousePoint(
