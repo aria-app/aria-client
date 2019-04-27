@@ -312,6 +312,8 @@ export class SequenceEditor extends React.PureComponent {
       this.props.notes
     );
 
+    // if (isEmpty(notesInArea)) return;
+
     this.setState(state => ({
       selectedNoteIds: isAdditive
         ? uniq([...state.selectedNoteIds, ...map("id", notesInArea)])

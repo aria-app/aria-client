@@ -70,35 +70,33 @@ const StyledNote = styled.div`
 export class Note extends React.PureComponent {
   static propTypes = {
     isSelected: PropTypes.bool,
-    note: PropTypes.object.isRequired,
-    onDrag: PropTypes.func.isRequired,
-    onErase: PropTypes.func.isRequired,
-    onMoveStart: PropTypes.func.isRequired,
-    onResizeStart: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired,
+    note: PropTypes.object,
+    onDrag: PropTypes.func,
+    onDragStop: PropTypes.func,
+    onErase: PropTypes.func,
+    onResizeStart: PropTypes.func,
+    onSelect: PropTypes.func,
     toolType: PropTypes.string
   };
 
   static defaultProps = {
-    isSelected: false
+    onDrag: () => {},
+    onDragStop: () => {}
   };
 
   render() {
-    console.log("Note", this.props.note.points[0]);
-    // Why is deltaX always moving back to 0?
     return (
       <Draggable
         bounds="parent"
         grid={[40, 40]}
         key={this.props.note.id}
         onDrag={this.handleDrag}
+        onStart={this.handleDragStart}
+        onStop={this.handleDragStop}
         position={this.getPosition()}
       >
         <StyledNote isSelected={this.props.isSelected} {...getExtraProps(this)}>
-          <NotePoint
-            onMouseDown={true ? () => {} : this.handleStartPointMouseDown}
-            onMouseUp={true ? () => {} : this.handleStartPointMouseUp}
-          >
+          <NotePoint>
             <NoteFill isSelected={this.props.isSelected} />
           </NotePoint>
           <NoteConnector
@@ -154,8 +152,20 @@ export class Note extends React.PureComponent {
   });
 
   handleDrag = (...args) => {
-    console.log(args);
     this.props.onDrag(this.props.note, ...args);
+  };
+
+  handleDragStart = e => {
+    const isAdditive = e.ctrlKey || e.metaKey;
+
+    if (!this.getIsSelectEnabled() || (this.props.isSelected && !isAdditive))
+      return;
+
+    this.props.onSelect(this.props.note, isAdditive);
+  };
+
+  handleDragStop = () => {
+    this.props.onDragStop();
   };
 
   handleEndPointMouseDown = e => {
@@ -169,26 +179,6 @@ export class Note extends React.PureComponent {
       this.props.onResizeStart();
     }
   };
-
-  handleStartPointMouseDown = e => {
-    if (this.getIsSelectEnabled()) {
-      e.stopPropagation();
-      if (this.props.isSelected && !(e.ctrlKey || e.metaKey)) {
-        this.props.onMoveStart();
-        return;
-      }
-      this.select(e);
-      this.props.onMoveStart();
-    }
-  };
-
-  handleStartPointMouseUp = () => {
-    if (this.getIsEraseEnabled()) {
-      this.props.onErase(this.props.note);
-    }
-  };
-
-  select = e => this.props.onSelect(this.props.note, e.ctrlKey || e.metaKey);
 }
 
 function is32ndNote(note) {

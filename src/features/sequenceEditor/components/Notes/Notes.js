@@ -1,6 +1,11 @@
+// import Dawww from "dawww";
 import find from "lodash/fp/find";
+import getOr from "lodash/fp/getOr";
+// import includes from "lodash/fp/includes";
+// import isEmpty from "lodash/fp/isEmpty";
+// import some from "lodash/fp/some";
 import PropTypes from "prop-types";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components/macro";
 import { Note } from "../Note/Note";
 
@@ -8,6 +13,7 @@ const StyledNotes = styled.div`
   bottom: 0;
   cursor: pointer;
   left: 0;
+  pointer-events: none;
   position: absolute;
   top: 0;
   width: ${props => props.measureCount * 4 * 8 * 40}px;
@@ -30,42 +36,58 @@ Notes.defaultProps = {
 };
 
 export function Notes(props) {
-  const [notes, setNotes] = useState(props.notes);
-  const handleNoteDrag = useCallback(
-    (note, e, dragData) => {
-      console.log("dragData", dragData);
-      setNotes(
-        notes.map(n => {
-          if (n.id !== note.id) {
-            return n;
-          }
-
-          return {
-            ...n,
-            points: n.points.map(p => ({
-              x: p.x + dragData.deltaX / 40,
-              y: p.y + dragData.deltaY / 40
-            }))
-          };
-        })
-      );
-    },
-    [notes]
-  );
+  const [deltaState, setDeltaState] = useState({});
 
   const getIsNoteSelected = note =>
     !!find(x => x.id === note.id, props.selectedNotes);
 
+  const getNotesWithDeltas = deltas =>
+    props.notes.map(note => {
+      const noteDelta = deltas[note.id];
+
+      if (!noteDelta) return note;
+
+      return {
+        ...note,
+        points: note.points.map(point => ({
+          x: point.x + noteDelta.x,
+          y: point.y + noteDelta.y
+        }))
+      };
+    });
+
+  const handleNoteDrag = (note, e, dragData) => {
+    const newDeltas = props.selectedNotes.reduce((acc, cur) => {
+      const prevX = getOr(0, `[${cur.id}].x`, acc);
+      const prevY = getOr(0, `[${cur.id}].y`, acc);
+      const x = prevX + dragData.deltaX / 40;
+      const y = prevY + dragData.deltaY / 40;
+
+      return { ...acc, [cur.id]: { x, y } };
+    }, deltaState);
+
+    setDeltaState(newDeltas);
+
+    props.onDragPreview(
+      getNotesWithDeltas(newDeltas).filter(getIsNoteSelected)
+    );
+  };
+
+  const handleNoteDragStop = () => {
+    props.onDrag(getNotesWithDeltas(deltaState));
+    setDeltaState({});
+  };
+
   return (
     <StyledNotes measureCount={props.measureCount}>
-      {notes.map(note => (
+      {getNotesWithDeltas(deltaState).map(note => (
         <Note
           className="notes__note"
           isSelected={getIsNoteSelected(note)}
           key={note.id}
           onDrag={handleNoteDrag}
+          onDragStop={handleNoteDragStop}
           onErase={props.onErase}
-          onMoveStart={() => {}}
           onResizeStart={() => {}}
           onSelect={props.onSelect}
           toolType={props.toolType}
@@ -75,3 +97,12 @@ export function Notes(props) {
     </StyledNotes>
   );
 }
+
+// function getIsSomePointOutside(measureCount) {
+//   const width = measureCount * 8 * 4 - 1;
+//   const height = Dawww.OCTAVE_RANGE.length * 12 - 1;
+
+//   return some(
+//     point => point.x < 0 || point.x > width || point.y < 0 || point.y > height
+//   );
+// }

@@ -1,8 +1,8 @@
-import isEmpty from 'lodash/fp/isEmpty';
-import PropTypes from 'prop-types';
-import React from 'react';
-import styled from 'styled-components/macro';
-import { Fence } from '../Fence/Fence';
+import isEmpty from "lodash/fp/isEmpty";
+import PropTypes from "prop-types";
+import React from "react";
+import styled from "styled-components/macro";
+import { Fence } from "../Fence/Fence";
 
 const StyledSelector = styled.div`
   bottom: 0;
@@ -17,58 +17,53 @@ export class Selector extends React.PureComponent {
     children: PropTypes.node,
     isEnabled: PropTypes.bool,
     mousePoint: PropTypes.object.isRequired,
-    onSelect: PropTypes.func.isRequired,
-  }
+    onSelect: PropTypes.func.isRequired
+  };
 
   state = {
     endPoint: {},
-    startPoint: {},
+    startPoint: {}
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.mousePoint.x < 0 || nextProps.mousePoint.y < 0) {
+      this.setState({
+        startPoint: {}
+      });
+    }
   }
 
   render() {
     return (
       <StyledSelector
-        className="selector"
         onMouseDown={this.handleMouseDown}
-        onMouseLeave={this.handleMouseLeave}
+        // onMouseLeave={this.handleMouseLeave}
         onMouseUp={this.handleMouseUp}
         style={{
-          pointerEvents: this.props.isEnabled ? 'all' : 'none',
-        }}>
-        <React.Fragment>
-          {this.props.children}
-          <Fence
-            endPoint={this.props.mousePoint}
-            startPoint={this.state.startPoint}
-          />
-        </React.Fragment>
+          pointerEvents: this.props.isEnabled ? "all" : "none"
+        }}
+      >
+        <Fence
+          endPoint={this.props.mousePoint}
+          startPoint={this.state.startPoint}
+        />
       </StyledSelector>
     );
   }
 
   handleMouseDown = () => {
     this.setState({
-      startPoint: this.props.mousePoint,
+      startPoint: this.props.mousePoint
     });
-  }
+  };
 
-  handleMouseLeave = () => {
-    if (isEmpty(this.state.startPoint)) return;
-    this.setState({
-      startPoint: {},
-    });
-  }
-
-  handleMouseUp = (e) => {
+  handleMouseUp = e => {
     if (isEmpty(this.state.startPoint)) return;
 
-    this.props.onSelect(
-      this.state.startPoint,
-      e.ctrlKey || e.metaKey,
-    );
+    this.props.onSelect(this.state.startPoint, e.ctrlKey || e.metaKey);
 
     this.setState({
-      startPoint: {},
+      startPoint: {}
     });
-  }
+  };
 }
