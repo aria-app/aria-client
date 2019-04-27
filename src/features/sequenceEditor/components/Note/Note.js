@@ -92,6 +92,7 @@ export class Note extends React.PureComponent {
       <Draggable
         bounds={this.props.bounds}
         grid={[40, 40]}
+        handle=".start-point"
         key={this.props.note.id}
         onDrag={this.handleDrag}
         onStart={this.handleDragStart}
@@ -99,7 +100,7 @@ export class Note extends React.PureComponent {
         position={this.getPosition()}
       >
         <StyledNote isSelected={this.props.isSelected} {...getExtraProps(this)}>
-          <NotePoint>
+          <NotePoint className="start-point">
             <NoteFill isSelected={this.props.isSelected} />
           </NotePoint>
           <NoteConnector
@@ -162,14 +163,9 @@ export class Note extends React.PureComponent {
   };
 
   handleDragStart = e => {
+    this.select(e);
+
     this.props.onDragStart(this.props.note, e);
-
-    const isAdditive = e.ctrlKey || e.metaKey;
-
-    if (!this.getIsSelectEnabled() || (this.props.isSelected && !isAdditive))
-      return;
-
-    this.props.onSelect(this.props.note, isAdditive);
   };
 
   handleDragStop = () => {
@@ -178,14 +174,19 @@ export class Note extends React.PureComponent {
 
   handleEndPointMouseDown = e => {
     if (this.getIsSelectEnabled()) {
-      e.stopPropagation();
-
-      if (!this.props.isSelected) {
-        this.select(e);
-      }
+      this.select(e);
 
       this.props.onResizeStart();
     }
+  };
+
+  select = e => {
+    const isAdditive = e.ctrlKey || e.metaKey;
+
+    if (!this.getIsSelectEnabled() || (this.props.isSelected && !isAdditive))
+      return;
+
+    this.props.onSelect(this.props.note, isAdditive);
   };
 }
 

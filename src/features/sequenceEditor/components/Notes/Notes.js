@@ -4,6 +4,7 @@ import getOr from "lodash/fp/getOr";
 import isEqual from "lodash/fp/isEqual";
 import max from "lodash/fp/max";
 import min from "lodash/fp/min";
+import uniqBy from "lodash/fp/uniqBy";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import styled from "styled-components/macro";
@@ -68,12 +69,13 @@ export function Notes(props) {
   };
 
   const handleNoteDragStart = draggedNote => {
+    const notes = uniqBy(x => x.id, [...props.selectedNotes, draggedNote]);
     const draggedX = getOr(0, "points[0].x", draggedNote);
     const draggedY = getOr(0, "points[0].y", draggedNote);
-    const maxX = max(props.selectedNotes.map(getOr(0, "points[1].x")));
-    const maxY = max(props.selectedNotes.map(getOr(0, "points[1].y")));
-    const minX = min(props.selectedNotes.map(getOr(0, "points[0].x")));
-    const minY = min(props.selectedNotes.map(getOr(0, "points[0].y")));
+    const maxX = max(notes.map(getOr(0, "points[1].x")));
+    const maxY = max(notes.map(getOr(0, "points[1].y")));
+    const minX = min(notes.map(getOr(0, "points[0].x")));
+    const minY = min(notes.map(getOr(0, "points[0].y")));
     const baseBottom = Dawww.OCTAVE_RANGE.length * 12 - 1;
     const baseRight = props.measureCount * 8 * 4 - 1;
 
