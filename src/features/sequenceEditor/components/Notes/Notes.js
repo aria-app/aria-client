@@ -1,9 +1,9 @@
-// import Dawww from "dawww";
+import Dawww from "dawww";
 import find from "lodash/fp/find";
 import getOr from "lodash/fp/getOr";
-// import includes from "lodash/fp/includes";
-// import isEmpty from "lodash/fp/isEmpty";
-// import some from "lodash/fp/some";
+import isEqual from "lodash/fp/isEqual";
+import max from "lodash/fp/max";
+import min from "lodash/fp/min";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import styled from "styled-components/macro";
@@ -36,56 +36,70 @@ Notes.defaultProps = {
 };
 
 export function Notes(props) {
-  const [deltaState, setDeltaState] = useState({});
+  const [bounds, setBounds] = useState({
+    bottom: (Dawww.OCTAVE_RANGE.length * 12 - 1) * 40,
+    left: 0,
+    right: (props.measureCount * 8 * 4 - 1) * 40,
+    top: 0
+  });
+  const [deltasState, setDeltasState] = useState({});
 
   const getIsNoteSelected = note =>
     !!find(x => x.id === note.id, props.selectedNotes);
 
-  const getNotesWithDeltas = deltas =>
-    props.notes.map(note => {
-      const noteDelta = deltas[note.id];
-
-      if (!noteDelta) return note;
-
-      return {
-        ...note,
-        points: note.points.map(point => ({
-          x: point.x + noteDelta.x,
-          y: point.y + noteDelta.y
-        }))
-      };
-    });
-
-  const handleNoteDrag = (note, e, dragData) => {
-    const newDeltas = props.selectedNotes.reduce((acc, cur) => {
+  const handleNoteDrag = ({ deltaX, deltaY }) => {
+    const deltaReducer = (acc, cur) => {
       const prevX = getOr(0, `[${cur.id}].x`, acc);
       const prevY = getOr(0, `[${cur.id}].y`, acc);
-      const x = prevX + dragData.deltaX / 40;
-      const y = prevY + dragData.deltaY / 40;
+      const x = prevX + deltaX;
+      const y = prevY + deltaY;
 
       return { ...acc, [cur.id]: { x, y } };
-    }, deltaState);
+    };
+    const newDeltas = props.selectedNotes.reduce(deltaReducer, deltasState);
 
-    setDeltaState(newDeltas);
+    if (isEqual(newDeltas, deltasState)) return;
 
-    props.onDragPreview(
-      getNotesWithDeltas(newDeltas).filter(getIsNoteSelected)
-    );
+    const adjustedNotes = applyDeltas(props.selectedNotes, newDeltas);
+
+    setDeltasState(newDeltas);
+
+    props.onDragPreview(adjustedNotes);
+  };
+
+  const handleNoteDragStart = draggedNote => {
+    const draggedX = getOr(0, "points[0].x", draggedNote);
+    const draggedY = getOr(0, "points[0].y", draggedNote);
+    const maxX = max(props.selectedNotes.map(getOr(0, "points[1].x")));
+    const maxY = max(props.selectedNotes.map(getOr(0, "points[1].y")));
+    const minX = min(props.selectedNotes.map(getOr(0, "points[0].x")));
+    const minY = min(props.selectedNotes.map(getOr(0, "points[0].y")));
+    const baseBottom = Dawww.OCTAVE_RANGE.length * 12 - 1;
+    const baseRight = props.measureCount * 8 * 4 - 1;
+
+    setBounds({
+      bottom: (baseBottom - (maxY - draggedY)) * 40,
+      left: (draggedX - minX) * 40,
+      right: (baseRight - (maxX - draggedX)) * 40,
+      top: (draggedY - minY) * 40
+    });
   };
 
   const handleNoteDragStop = () => {
-    props.onDrag(getNotesWithDeltas(deltaState));
-    setDeltaState({});
+    props.onDrag(applyDeltas(props.notes, deltasState));
+    setDeltasState({});
   };
 
   return (
     <StyledNotes measureCount={props.measureCount}>
-      {getNotesWithDeltas(deltaState).map(note => (
+      {applyDeltas(props.notes, deltasState).map(note => (
         <Note
+          bounds={bounds}
           className="notes__note"
           isSelected={getIsNoteSelected(note)}
           key={note.id}
           onDrag={handleNoteDrag}
+          onDragStart={handleNoteDragStart}
           onDragStop={handleNoteDragStop}
           onErase={props.onErase}
           onResizeStart={() => {}}
@@ -98,11 +112,18 @@ export function Notes(props) {
   );
 }
 
-// function getIsSomePointOutside(measureCount) {
-//   const width = measureCount * 8 * 4 - 1;
-//   const height = Dawww.OCTAVE_RANGE.length * 12 - 1;
+function applyDeltas(notes, deltas) {
+  return notes.map(note => {
+    const noteDelta = deltas[note.id];
 
-//   return some(
-//     point => point.x < 0 || point.x > width || point.y < 0 || point.y > height
-//   );
-// }
+    if (!noteDelta) return note;
+
+    return {
+      ...note,
+      points: note.points.map(point => ({
+        x: point.x + noteDelta.x,
+        y: point.y + noteDelta.y
+      }))
+    };
+  });
+}

@@ -69,9 +69,11 @@ const StyledNote = styled.div`
 
 export class Note extends React.PureComponent {
   static propTypes = {
+    bounds: PropTypes.object,
     isSelected: PropTypes.bool,
     note: PropTypes.object,
     onDrag: PropTypes.func,
+    onDragStart: PropTypes.func,
     onDragStop: PropTypes.func,
     onErase: PropTypes.func,
     onResizeStart: PropTypes.func,
@@ -81,13 +83,14 @@ export class Note extends React.PureComponent {
 
   static defaultProps = {
     onDrag: () => {},
+    onDragStart: () => {},
     onDragStop: () => {}
   };
 
   render() {
     return (
       <Draggable
-        bounds="parent"
+        bounds={this.props.bounds}
         grid={[40, 40]}
         key={this.props.note.id}
         onDrag={this.handleDrag}
@@ -151,11 +154,16 @@ export class Note extends React.PureComponent {
     y: this.props.note.points[0].y * 40
   });
 
-  handleDrag = (...args) => {
-    this.props.onDrag(this.props.note, ...args);
+  handleDrag = (e, { deltaX, deltaY }) => {
+    this.props.onDrag({
+      deltaX: Math.round(deltaX / 40),
+      deltaY: Math.round(deltaY / 40)
+    });
   };
 
   handleDragStart = e => {
+    this.props.onDragStart(this.props.note, e);
+
     const isAdditive = e.ctrlKey || e.metaKey;
 
     if (!this.getIsSelectEnabled() || (this.props.isSelected && !isAdditive))
