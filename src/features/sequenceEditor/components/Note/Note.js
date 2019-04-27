@@ -4,6 +4,7 @@ import last from "lodash/fp/last";
 import { transparentize } from "polished";
 import PropTypes from "prop-types";
 import React from "react";
+import Draggable from "react-draggable";
 import styled from "styled-components/macro";
 import shared from "../../../shared";
 import * as constants from "../../constants";
@@ -70,6 +71,7 @@ export class Note extends React.PureComponent {
   static propTypes = {
     isSelected: PropTypes.bool,
     note: PropTypes.object.isRequired,
+    onDrag: PropTypes.func.isRequired,
     onErase: PropTypes.func.isRequired,
     onMoveStart: PropTypes.func.isRequired,
     onResizeStart: PropTypes.func.isRequired,
@@ -82,29 +84,35 @@ export class Note extends React.PureComponent {
   };
 
   render() {
+    console.log("Note", this.props.note.points[0]);
+    // Why is deltaX always moving back to 0?
     return (
-      <StyledNote
-        isSelected={this.props.isSelected}
-        style={this.getStyle()}
-        {...getExtraProps(this)}
+      <Draggable
+        bounds="parent"
+        grid={[40, 40]}
+        key={this.props.note.id}
+        onDrag={this.handleDrag}
+        position={this.getPosition()}
       >
-        <NotePoint
-          onMouseDown={this.handleStartPointMouseDown}
-          onMouseUp={this.handleStartPointMouseUp}
-        >
-          <NoteFill isSelected={this.props.isSelected} />
-        </NotePoint>
-        <NoteConnector
-          isSelected={this.props.isSelected}
-          style={this.getConnectorStyle()}
-        />
-        <NotePoint
-          onMouseDown={this.handleEndPointMouseDown}
-          style={this.getEndPointStyle()}
-        >
-          <NoteFill isSelected={this.props.isSelected} />
-        </NotePoint>
-      </StyledNote>
+        <StyledNote isSelected={this.props.isSelected} {...getExtraProps(this)}>
+          <NotePoint
+            onMouseDown={true ? () => {} : this.handleStartPointMouseDown}
+            onMouseUp={true ? () => {} : this.handleStartPointMouseUp}
+          >
+            <NoteFill isSelected={this.props.isSelected} />
+          </NotePoint>
+          <NoteConnector
+            isSelected={this.props.isSelected}
+            style={this.getConnectorStyle()}
+          />
+          <NotePoint
+            onMouseDown={this.handleEndPointMouseDown}
+            style={this.getEndPointStyle()}
+          >
+            <NoteFill isSelected={this.props.isSelected} />
+          </NotePoint>
+        </StyledNote>
+      </Draggable>
     );
   }
 
@@ -140,12 +148,15 @@ export class Note extends React.PureComponent {
       constants.toolTypes.SELECT
     ]);
 
-  getStyle() {
-    const { x, y } = first(this.props.note.points);
-    return {
-      transform: `translate(${x * 40}px, ${y * 40}px)`
-    };
-  }
+  getPosition = () => ({
+    x: this.props.note.points[0].x * 40,
+    y: this.props.note.points[0].y * 40
+  });
+
+  handleDrag = (...args) => {
+    console.log(args);
+    this.props.onDrag(this.props.note, ...args);
+  };
 
   handleEndPointMouseDown = e => {
     if (this.getIsSelectEnabled()) {

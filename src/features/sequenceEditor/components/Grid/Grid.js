@@ -51,7 +51,7 @@ export class Grid extends React.PureComponent {
 
   render() {
     return (
-      <StyledGrid onMouseMove={this.handleMouseMove} ref={this.setRef}>
+      <StyledGrid ref={this.setRef}>
         <GridWrapper style={this.getWrapperStyle()}>
           <Slots measureCount={this.props.measureCount} />
           {showIf(this.props.toolType === constants.toolTypes.DRAW)(
