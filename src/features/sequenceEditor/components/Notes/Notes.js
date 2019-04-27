@@ -37,13 +37,18 @@ Notes.defaultProps = {
 };
 
 export function Notes(props) {
-  const [bounds, setBounds] = useState({
+  const [positionBounds, setPositionBounds] = useState({
     bottom: (Dawww.OCTAVE_RANGE.length * 12 - 1) * 40,
     left: 0,
     right: (props.measureCount * 8 * 4 - 1) * 40,
     top: 0
   });
-  const [deltasState, setDeltasState] = useState({});
+  const [sizeBounds, setSizeBounds] = useState({
+    left: 0,
+    right: (props.measureCount * 8 * 4 - 1) * 40
+  });
+  const [positionDeltas, setPositionDeltas] = useState({});
+  const [sizeDeltas, setSizeDeltas] = useState({});
 
   const getIsNoteSelected = note =>
     !!find(x => x.id === note.id, props.selectedNotes);
@@ -57,19 +62,19 @@ export function Notes(props) {
 
       return { ...acc, [cur.id]: { x, y } };
     };
-    const newDeltas = props.selectedNotes.reduce(deltaReducer, deltasState);
+    const newDeltas = props.selectedNotes.reduce(deltaReducer, positionDeltas);
 
-    if (isEqual(newDeltas, deltasState)) return;
+    if (isEqual(newDeltas, positionDeltas)) return;
 
-    const adjustedNotes = applyDeltas(props.selectedNotes, newDeltas);
+    const adjustedNotes = applyPositionDeltas(props.selectedNotes, newDeltas);
 
-    setDeltasState(newDeltas);
+    setPositionDeltas(newDeltas);
 
     props.onDragPreview(adjustedNotes);
   };
 
   const handleNoteDragStart = draggedNote => {
-    const notes = uniqBy(x => x.id, [...props.selectedNotes, draggedNote]);
+    const notes = uniqBy(x => x.id, [draggedNote, ...props.selectedNotes]);
     const draggedX = getOr(0, "points[0].x", draggedNote);
     const draggedY = getOr(0, "points[0].y", draggedNote);
     const maxX = max(notes.map(getOr(0, "points[1].x")));
@@ -79,7 +84,7 @@ export function Notes(props) {
     const baseBottom = Dawww.OCTAVE_RANGE.length * 12 - 1;
     const baseRight = props.measureCount * 8 * 4 - 1;
 
-    setBounds({
+    setPositionBounds({
       bottom: (baseBottom - (maxY - draggedY)) * 40,
       left: (draggedX - minX) * 40,
       right: (baseRight - (maxX - draggedX)) * 40,
@@ -88,24 +93,64 @@ export function Notes(props) {
   };
 
   const handleNoteDragStop = () => {
-    props.onDrag(applyDeltas(props.notes, deltasState));
-    setDeltasState({});
+    props.onDrag(applyPositionDeltas(props.notes, positionDeltas));
+    setPositionDeltas({});
   };
+
+  const handleNoteEndPointDrag = ({ deltaX }) => {
+    const deltaReducer = (acc, cur) => {
+      const prevX = getOr(0, `[${cur.id}].x`, acc);
+      const x = prevX + deltaX;
+
+      return { ...acc, [cur.id]: { x } };
+    };
+    const newDeltas = props.selectedNotes.reduce(deltaReducer, sizeDeltas);
+
+    if (isEqual(newDeltas, sizeDeltas)) return;
+
+    setSizeDeltas(newDeltas);
+  };
+
+  const handleNoteEndPointDragStart = sizedNote => {
+    const notes = uniqBy(x => x.id, [...props.selectedNotes, sizedNote]);
+    const maxPositionX = max(notes.map(getOr(0, "points[0].x")));
+    const baseRight = props.measureCount * 8 * 4 - 1;
+
+    setSizeBounds({
+      left: 40,
+      right: (baseRight - maxPositionX) * 40
+    });
+  };
+
+  const handleNoteEndPointDragStop = () => {
+    props.onResize(applySizeDeltas(props.notes, sizeDeltas));
+    props.onResize(applySizeDeltas(props.notes, sizeDeltas));
+    setSizeDeltas({});
+  };
+
+  const adjustedNotes = applySizeDeltas(
+    applyPositionDeltas(props.notes, positionDeltas),
+    sizeDeltas
+  );
 
   return (
     <StyledNotes measureCount={props.measureCount}>
-      {applyDeltas(props.notes, deltasState).map(note => (
+      {adjustedNotes.map(note => (
         <Note
-          bounds={bounds}
           className="notes__note"
           isSelected={getIsNoteSelected(note)}
           key={note.id}
           onDrag={handleNoteDrag}
           onDragStart={handleNoteDragStart}
           onDragStop={handleNoteDragStop}
+          onEndPointDrag={handleNoteEndPointDrag}
+          onEndPointDragStart={handleNoteEndPointDragStart}
+          onEndPointDragStop={handleNoteEndPointDragStop}
           onErase={props.onErase}
           onResizeStart={() => {}}
           onSelect={props.onSelect}
+          positionBounds={positionBounds}
+          sizeBounds={sizeBounds}
           toolType={props.toolType}
           note={note}
         />
@@ -114,7 +159,7 @@ export function Notes(props) {
   );
 }
 
-function applyDeltas(notes, deltas) {
+function applyPositionDeltas(notes, deltas) {
   return notes.map(note => {
     const noteDelta = deltas[note.id];
 
@@ -126,6 +171,25 @@ function applyDeltas(notes, deltas) {
         x: point.x + noteDelta.x,
         y: point.y + noteDelta.y
       }))
+    };
+  });
+}
+
+function applySizeDeltas(notes, deltas) {
+  return notes.map(note => {
+    const noteDelta = deltas[note.id];
+
+    if (!noteDelta) return note;
+
+    return {
+      ...note,
+      points: [
+        note.points[0],
+        {
+          x: note.points[1].x + noteDelta.x,
+          y: note.points[1].y
+        }
+      ]
     };
   });
 }

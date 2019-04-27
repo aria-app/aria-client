@@ -69,31 +69,37 @@ const StyledNote = styled.div`
 
 export class Note extends React.PureComponent {
   static propTypes = {
-    bounds: PropTypes.object,
     isSelected: PropTypes.bool,
     note: PropTypes.object,
     onDrag: PropTypes.func,
     onDragStart: PropTypes.func,
     onDragStop: PropTypes.func,
+    onEndPointDrag: PropTypes.func,
+    onEndPointDragStart: PropTypes.func,
+    onEndPointDragStop: PropTypes.func,
     onErase: PropTypes.func,
     onResizeStart: PropTypes.func,
     onSelect: PropTypes.func,
+    positionBounds: PropTypes.object,
+    sizeBounds: PropTypes.object,
     toolType: PropTypes.string
   };
 
   static defaultProps = {
     onDrag: () => {},
     onDragStart: () => {},
-    onDragStop: () => {}
+    onDragStop: () => {},
+    onEndPointDrag: () => {},
+    onEndPointDragStart: () => {},
+    onEndPointDragStop: () => {}
   };
 
   render() {
     return (
       <Draggable
-        bounds={this.props.bounds}
+        bounds={this.props.positionBounds}
         grid={[40, 40]}
         handle=".start-point"
-        key={this.props.note.id}
         onDrag={this.handleDrag}
         onStart={this.handleDragStart}
         onStop={this.handleDragStop}
@@ -107,12 +113,22 @@ export class Note extends React.PureComponent {
             isSelected={this.props.isSelected}
             style={this.getConnectorStyle()}
           />
-          <NotePoint
-            onMouseDown={this.handleEndPointMouseDown}
-            style={this.getEndPointStyle()}
+          <Draggable
+            axis="x"
+            bounds={this.props.sizeBounds}
+            grid={[40, 40]}
+            onDrag={this.handleEndPointDrag}
+            onStart={this.handleEndPointDragStart}
+            onStop={this.handleEndPointDragStop}
+            position={this.getEndPointPosition()}
           >
-            <NoteFill isSelected={this.props.isSelected} />
-          </NotePoint>
+            <NotePoint
+              onMouseDown={this.handleEndPointMouseDown}
+              style={this.getEndPointStyle()}
+            >
+              <NoteFill isSelected={this.props.isSelected} />
+            </NotePoint>
+          </Draggable>
         </StyledNote>
       </Draggable>
     );
@@ -130,6 +146,11 @@ export class Note extends React.PureComponent {
       transform: `rotate(${rotation}deg) scaleX(${scale})`
     };
   }
+
+  getEndPointPosition = () => ({
+    x: (this.props.note.points[1].x - this.props.note.points[0].x) * 40,
+    y: (this.props.note.points[1].y - this.props.note.points[0].y) * 40
+  });
 
   getEndPointStyle() {
     const startPoint = first(this.props.note.points);
@@ -170,6 +191,22 @@ export class Note extends React.PureComponent {
 
   handleDragStop = () => {
     this.props.onDragStop();
+  };
+
+  handleEndPointDrag = (e, { deltaX }) => {
+    this.props.onEndPointDrag({
+      deltaX: Math.round(deltaX / 40)
+    });
+  };
+
+  handleEndPointDragStart = e => {
+    this.select(e);
+
+    this.props.onEndPointDragStart(this.props.note, e);
+  };
+
+  handleEndPointDragStop = () => {
+    this.props.onEndPointDragStop();
   };
 
   handleEndPointMouseDown = e => {
