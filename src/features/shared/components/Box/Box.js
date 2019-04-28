@@ -23,6 +23,7 @@ const StyledBox = styled.div`
   left: 0;
   position: absolute;
   top: 0;
+  transition: transform 200ms ease;
   width: ${props => props.length * props.step}px;
   z-index: ${props => (props.isDragging ? "200" : "100")};
 `;

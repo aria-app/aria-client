@@ -3,6 +3,11 @@ import React, { useState } from "react";
 import Draggable from "react-draggable";
 import styled from "styled-components/macro";
 
+const DraggableWrapper = styled.div`
+  position: absolute;
+  transition: transform 200ms ease;
+`;
+
 const StyledRulerResizer = styled.div`
   background-color: rgba(255, 255, 255, 0.5);
   border: 1px solid white;
@@ -71,9 +76,9 @@ export function RulerResizer(props) {
       onStop={() => setIsDragging(false)}
       position={getPosition()}
     >
-      <span style={{ position: "absolute" }}>
+      <DraggableWrapper>
         <StyledRulerResizer isDragging={isDragging} />
-      </span>
+      </DraggableWrapper>
     </Draggable>
   );
 }
