@@ -57,9 +57,6 @@ export class Key extends React.PureComponent {
   };
 
   render() {
-    if (this.props.isHoveredRow) {
-      console.log("isHoveredRow", this.props.step);
-    }
     return (
       <StyledKey
         isHoveredRow={this.props.isHoveredRow}
