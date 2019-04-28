@@ -31,7 +31,7 @@ export class SongEditor extends React.PureComponent {
   };
 
   state = {
-    isSongInfoModalOpen: false
+    isSongInfoModalOpen: true
   };
 
   componentDidUpdate(prevProps) {

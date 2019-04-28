@@ -1,16 +1,21 @@
 import Dawww from "dawww";
 import map from "lodash/fp/map";
+import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 import PropTypes from "prop-types";
 import React from "react";
 import { Translation } from "react-i18next";
 import styled from "styled-components/macro";
 import shared from "../../../shared";
 
-const { Button, DownloadButton, DropdownList, Modal } = shared.components;
+const { DownloadButton, Modal } = shared.components;
 const getBPMRangeItem = x => ({ id: x, text: String(x) });
 const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
-const SongInfoModalBPMDropdown = styled(DropdownList)`
+const SongInfoModalBPMDropdown = styled(FormControl)`
   margin-bottom: ${props => props.theme.margin.m}px;
   margin-left: ${props => props.theme.margin.s}px;
 `;
@@ -54,11 +59,20 @@ export class SongInfoModal extends React.PureComponent {
             titleText={t("Song Info")}
           >
             <SongInfoModalContent className="song-info-modal__content">
-              <SongInfoModalBPMDropdown
-                items={bpmRangeItems}
-                selectedId={this.props.bpm}
-                onSelectedIdChange={this.handleContentDropdownListSelect}
-              />
+              <SongInfoModalBPMDropdown>
+                <InputLabel htmlFor="bpm">BPM</InputLabel>
+                <Select
+                  inputProps={{ name: "bpm", id: "bpm" }}
+                  onChange={this.handleContentSelectChange}
+                  value={this.props.bpm}
+                >
+                  {bpmRangeItems.map(bpmRangeItem => (
+                    <MenuItem key={bpmRangeItem.id} value={bpmRangeItem.id}>
+                      {bpmRangeItem.text}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </SongInfoModalBPMDropdown>
               <Button onClick={this.props.onReturnToDashboard}>
                 {t("Return to Dashboard")}
               </Button>
@@ -85,7 +99,7 @@ export class SongInfoModal extends React.PureComponent {
 
   getStringifiedSong = () => JSON.stringify(this.props.song);
 
-  handleContentDropdownListSelect = value => {
+  handleBpmChange = value => {
     this.props.onBPMChange(value);
   };
 }
