@@ -2,6 +2,7 @@ import Dawww from "dawww";
 import find from "lodash/fp/find";
 import getOr from "lodash/fp/getOr";
 import isEmpty from "lodash/fp/isEmpty";
+import isEqual from "lodash/fp/isEqual";
 import map from "lodash/fp/map";
 import uniq from "lodash/fp/uniq";
 import PropTypes from "prop-types";
@@ -74,6 +75,7 @@ export class SequenceEditor extends React.PureComponent {
     super(props);
     this.focusRef = React.createRef();
     this.state = {
+      gridMousePoint: { x: -1, y: -1 },
       previousToolType: toolTypes.SELECT,
       selectedNoteIds: [],
       toolType: toolTypes.SELECT
@@ -116,14 +118,20 @@ export class SequenceEditor extends React.PureComponent {
           <React.Fragment>
             <SequenceEditorContent ref={this.setContentRef}>
               <SequenceEditorWrapper>
-                <Keys onKeyPress={this.previewPitch} />
+                <Keys
+                  gridMousePoint={this.state.gridMousePoint}
+                  onKeyPress={this.previewPitch}
+                />
                 <Grid
                   measureCount={this.props.sequence.measureCount}
+                  mousePoint={this.state.gridMousePoint}
                   notes={this.props.notes}
                   onDrag={this.props.onDrag}
                   onDragPreview={this.handleGridDragPreview}
                   onDraw={this.handleGridDraw}
                   onErase={this.handleGridErase}
+                  onMouseLeave={this.handleGridMouseLeave}
+                  onMouseMove={this.handleGridMouseMove}
                   onResize={this.props.onResize}
                   onSelect={this.handleGridSelect}
                   onSelectInArea={this.handleGridSelectInArea}
@@ -293,6 +301,27 @@ export class SequenceEditor extends React.PureComponent {
     });
   };
 
+  handleGridMouseLeave = e => {
+    this.setState({
+      gridMousePoint: {
+        x: -1,
+        y: -1
+      }
+    });
+  };
+
+  handleGridMouseMove = e => {
+    const gridMousePoint = getGridMousePoint(
+      e.currentTarget,
+      this.contentElementRef,
+      e
+    );
+
+    this.setState(state =>
+      isEqual(state.gridMousePoint, gridMousePoint) ? null : { gridMousePoint }
+    );
+  };
+
   handleGridSelect = (note, isAdditive) => {
     const pitch = getOr(-1, "points[0].y", note);
 
@@ -394,4 +423,23 @@ export class SequenceEditor extends React.PureComponent {
 
     this.props.onUndo();
   };
+}
+
+function getGridMousePoint(scrollLeftEl, scrollTopEl, e) {
+  const styleOffset = 80;
+  const x = e.pageX || 0;
+  const y = e.pageY || 0;
+  const offsetLeft = scrollLeftEl.offsetLeft || 0;
+  const offsetTop = scrollLeftEl.offsetTop || 0;
+  const scrollLeft = scrollLeftEl.scrollLeft || 0;
+  const scrollTop = scrollTopEl.scrollTop || 0;
+
+  return {
+    x: toSlotNumber(x - offsetLeft + scrollLeft - styleOffset),
+    y: toSlotNumber(y - offsetTop + scrollTop)
+  };
+}
+
+function toSlotNumber(n) {
+  return Math.floor(n / 40);
 }

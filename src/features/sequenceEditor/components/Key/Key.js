@@ -32,18 +32,37 @@ const StyledKey = styled.div`
   margin-bottom: 2px;
   margin-top: 2px;
   position: relative;
+  ::after {
+    background-color: ${props => props.theme.primary[2]};
+    bottom: 0;
+    box-shadow: 2px 0 5px ${props => props.theme.primary[2]};
+    content: "";
+    display: block;
+    right: -2px;
+    opacity: ${props => (props.isHoveredRow ? 1 : 0)};
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    transition: opacity 50ms ease;
+    width: 2px;
+  }
 `;
 
 export class Key extends React.PureComponent {
   static propTypes = {
-    onMouseDown: PropTypes.func.isRequired,
+    isHoveredRow: PropTypes.bool,
+    onMouseDown: PropTypes.func,
     step: PropTypes.object,
     style: PropTypes.object
   };
 
   render() {
+    if (this.props.isHoveredRow) {
+      console.log("isHoveredRow", this.props.step);
+    }
     return (
       <StyledKey
+        isHoveredRow={this.props.isHoveredRow}
         onMouseDown={this.handleMouseDown}
         step={this.props.step}
         style={this.props.style}

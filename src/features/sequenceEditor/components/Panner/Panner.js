@@ -1,7 +1,7 @@
-import isEmpty from 'lodash/fp/isEmpty';
-import PropTypes from 'prop-types';
-import React from 'react';
-import styled from 'styled-components/macro';
+import isEmpty from "lodash/fp/isEmpty";
+import PropTypes from "prop-types";
+import React from "react";
+import styled from "styled-components/macro";
 
 const StyledPanner = styled.div`
   bottom: 0;
@@ -14,15 +14,13 @@ const StyledPanner = styled.div`
 
 export class Panner extends React.PureComponent {
   static propTypes = {
-    onScrollLeftChange: PropTypes.func.isRequired,
-    onScrollTopChange: PropTypes.func.isRequired,
     scrollLeftEl: PropTypes.object,
-    scrollTopEl: PropTypes.object,
-  }
+    scrollTopEl: PropTypes.object
+  };
 
   state = {
-    startPoint: {},
-  }
+    startPoint: {}
+  };
 
   render() {
     return (
@@ -42,39 +40,41 @@ export class Panner extends React.PureComponent {
       scrollLeft: this.props.scrollLeftEl.scrollLeft,
       scrollTop: this.props.scrollTopEl.scrollTop,
       x: e.pageX,
-      y: e.pageY,
+      y: e.pageY
     };
   }
 
-  handleMouseDown = (e) => {
+  handleMouseDown = e => {
     e.preventDefault();
     e.stopPropagation();
 
     this.setState({
-      startPoint: this.getStartPoint(e),
+      startPoint: this.getStartPoint(e)
     });
-  }
+  };
 
   handleMouseLeave = () => {
     if (!this.getIsPanning()) return;
     this.setState({
-      startPoint: {},
+      startPoint: {}
     });
-  }
+  };
 
-  handleMouseMove = (e) => {
+  handleMouseMove = e => {
     if (!this.getIsPanning()) return;
     const dx = e.pageX - this.state.startPoint.x;
     const dy = e.pageY - this.state.startPoint.y;
+    const scrollLeft = this.state.startPoint.scrollLeft - dx;
+    const scrollTop = this.state.startPoint.scrollTop - dy;
 
-    this.props.onScrollLeftChange(this.state.startPoint.scrollLeft - dx);
-    this.props.onScrollTopChange(this.state.startPoint.scrollTop - dy);
-  }
+    this.props.scrollLeftEl.scrollLeft = scrollLeft;
+    this.props.scrollTopEl.scrollTop = scrollTop;
+  };
 
   handleMouseUp = () => {
     if (!this.getIsPanning()) return;
     this.setState({
-      startPoint: {},
+      startPoint: {}
     });
-  }
+  };
 }

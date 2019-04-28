@@ -13,7 +13,8 @@ const StyledKeys = styled.div`
 
 export class Keys extends React.PureComponent {
   static propTypes = {
-    onKeyPress: PropTypes.func.isRequired
+    gridMousePoint: PropTypes.object,
+    onKeyPress: PropTypes.func
   };
 
   render() {
@@ -21,6 +22,7 @@ export class Keys extends React.PureComponent {
       <StyledKeys>
         {this.getScale().map((step, index) => (
           <Key
+            isHoveredRow={this.getIsHoveredRow(step)}
             key={step.y}
             onMouseDown={this.handleKeyMouseDown}
             step={step}
@@ -38,6 +40,8 @@ export class Keys extends React.PureComponent {
       </StyledKeys>
     );
   }
+
+  getIsHoveredRow = step => step.y === this.props.gridMousePoint.y;
 
   getScale = () => Dawww.SCALE;
 

@@ -1,4 +1,3 @@
-import isEqual from "lodash/fp/isEqual";
 import PropTypes from "prop-types";
 import React from "react";
 import { showIf } from "react-render-helpers";
@@ -6,7 +5,7 @@ import styled from "styled-components/macro";
 import shared from "../../../shared";
 import * as constants from "../../constants";
 import { DrawLayer } from "../DrawLayer/DrawLayer";
-import { Notes } from "../Notes/Notes";
+import Notes from "../Notes/Notes";
 import { Panner } from "../Panner/Panner";
 import { Selector } from "../Selector/Selector";
 import { Slots } from "../Slots/Slots";
@@ -29,44 +28,40 @@ const StyledGrid = styled.div`
 export class Grid extends React.PureComponent {
   static propTypes = {
     measureCount: PropTypes.number,
-    notes: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onDrag: PropTypes.func.isRequired,
-    onDragPreview: PropTypes.func.isRequired,
-    onDraw: PropTypes.func.isRequired,
-    onErase: PropTypes.func.isRequired,
-    onResize: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired,
-    onSelectInArea: PropTypes.func.isRequired,
-    selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    mousePoint: PropTypes.object,
+    notes: PropTypes.arrayOf(PropTypes.object),
+    onDrag: PropTypes.func,
+    onDragPreview: PropTypes.func,
+    onDraw: PropTypes.func,
+    onErase: PropTypes.func,
+    onMouseLeave: PropTypes.func,
+    onMouseMove: PropTypes.func,
+    onResize: PropTypes.func,
+    onSelect: PropTypes.func,
+    onSelectInArea: PropTypes.func,
+    selectedNotes: PropTypes.arrayOf(PropTypes.object),
     sequenceEditorContentRef: PropTypes.object,
-    toolType: PropTypes.string.isRequired
-  };
-
-  state = {
-    mousePoint: {
-      x: -1,
-      y: -1
-    }
+    toolType: PropTypes.string
   };
 
   render() {
     return (
       <StyledGrid
-        onMouseLeave={this.handleMouseLeave}
-        onMouseMove={this.handleMouseMove}
+        onMouseLeave={this.props.onMouseLeave}
+        onMouseMove={this.props.onMouseMove}
         ref={this.setRef}
       >
         <GridWrapper style={this.getWrapperStyle()}>
           <Slots measureCount={this.props.measureCount} />
           {showIf(this.props.toolType === constants.toolTypes.DRAW)(
             <DrawLayer
-              mousePoint={this.state.mousePoint}
+              mousePoint={this.props.mousePoint}
               onDraw={this.props.onDraw}
             />
           )}
           <Selector
             isEnabled={this.props.toolType === constants.toolTypes.SELECT}
-            mousePoint={this.state.mousePoint}
+            mousePoint={this.props.mousePoint}
             notes={this.props.notes}
             onSelect={this.handleSelectorSelect}
             selectedNotes={this.props.selectedNotes}
@@ -84,8 +79,6 @@ export class Grid extends React.PureComponent {
           />
           {showIf(this.props.toolType === constants.toolTypes.PAN)(
             <Panner
-              onScrollLeftChange={this.handlePannerScrollLeftChange}
-              onScrollTopChange={this.handlePannerScrollTopChange}
               scrollLeftEl={this.elementRef}
               scrollTopEl={this.props.sequenceEditorContentRef}
             />
@@ -105,59 +98,10 @@ export class Grid extends React.PureComponent {
     };
   }
 
-  handleMouseLeave = e => {
-    this.setState({
-      mousePoint: {
-        x: -1,
-        y: -1
-      }
-    });
-  };
-
-  handleMouseMove = e => {
-    const mousePoint = getMousePoint(
-      e.currentTarget,
-      this.props.sequenceEditorContentRef,
-      e
-    );
-
-    this.setState(state => {
-      if (isEqual(state.mousePoint, mousePoint)) return {};
-      return { mousePoint };
-    });
-  };
-
-  handlePannerScrollLeftChange = scrollLeft => {
-    this.elementRef.scrollLeft = scrollLeft;
-  };
-
-  handlePannerScrollTopChange = scrollTop => {
-    this.props.sequenceEditorContentRef.scrollTop = scrollTop;
-  };
-
   handleSelectorSelect = (startPoint, isAdditive) =>
-    this.props.onSelectInArea(startPoint, this.state.mousePoint, isAdditive);
+    this.props.onSelectInArea(startPoint, this.props.mousePoint, isAdditive);
 
   setRef = ref => {
     this.elementRef = ref;
   };
-}
-
-function getMousePoint(scrollLeftEl, scrollTopEl, e) {
-  const styleOffset = 80;
-  const x = e.pageX || 0;
-  const y = e.pageY || 0;
-  const offsetLeft = scrollLeftEl.offsetLeft || 0;
-  const offsetTop = scrollLeftEl.offsetTop || 0;
-  const scrollLeft = scrollLeftEl.scrollLeft || 0;
-  const scrollTop = scrollTopEl.scrollTop || 0;
-
-  return {
-    x: toSlotNumber(x - offsetLeft + scrollLeft - styleOffset),
-    y: toSlotNumber(y - offsetTop + scrollTop)
-  };
-}
-
-function toSlotNumber(n) {
-  return Math.floor(n / 40);
 }

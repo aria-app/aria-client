@@ -36,7 +36,7 @@ Notes.defaultProps = {
   selectedNotes: []
 };
 
-export function Notes(props) {
+function Notes(props) {
   const [positionBounds, setPositionBounds] = useState({
     bottom: (Dawww.OCTAVE_RANGE.length * 12 - 1) * 40,
     left: 0,
@@ -158,6 +158,8 @@ export function Notes(props) {
     </StyledNotes>
   );
 }
+
+export default React.memo(Notes);
 
 function applyPositionDeltas(notes, deltas) {
   return notes.map(note => {
