@@ -63,7 +63,7 @@ export class SongInfoModal extends React.PureComponent {
                 <InputLabel htmlFor="bpm">BPM</InputLabel>
                 <Select
                   inputProps={{ name: "bpm", id: "bpm" }}
-                  onChange={this.handleContentSelectChange}
+                  onChange={this.handleBPMSelectChange}
                   value={this.props.bpm}
                 >
                   {bpmRangeItems.map(bpmRangeItem => (
@@ -99,7 +99,7 @@ export class SongInfoModal extends React.PureComponent {
 
   getStringifiedSong = () => JSON.stringify(this.props.song);
 
-  handleBpmChange = value => {
-    this.props.onBPMChange(value);
+  handleBPMSelectChange = event => {
+    this.props.onBPMChange(event.target.value);
   };
 }
