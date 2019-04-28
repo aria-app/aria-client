@@ -5,6 +5,7 @@ import React from "react";
 import styled from "styled-components/macro";
 
 const KeyLabel = styled.div`
+  color: ${props => props.theme.almostblack};
   display: ${props =>
     includes("C", props.step.name) && !includes("#", props.step.name)
       ? "block"
