@@ -3,6 +3,7 @@ import first from "lodash/fp/first";
 import split from "lodash/fp/split";
 import PropTypes from "prop-types";
 import React from "react";
+import { showIf } from "react-render-helpers";
 import styled from "styled-components/macro";
 import { Note } from "../Note/Note";
 
@@ -26,6 +27,7 @@ export class DrawLayer extends React.PureComponent {
   };
 
   state = {
+    isMouseOver: false,
     isDrawing: false
   };
 
@@ -33,11 +35,14 @@ export class DrawLayer extends React.PureComponent {
     return (
       <StyledDrawLayer
         onMouseDown={this.handleMouseDown}
+        onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         onMouseUp={this.handleMouseUp}
         ref={this.setRef}
       >
-        <DrawLayerGhostNote note={this.getGhostNoteNote()} />
+        {showIf(this.state.isMouseOver)(
+          <DrawLayerGhostNote note={this.getGhostNoteNote()} />
+        )}
       </StyledDrawLayer>
     );
   }
@@ -66,7 +71,17 @@ export class DrawLayer extends React.PureComponent {
     });
   };
 
+  handleMouseEnter = () => {
+    this.setState({
+      isMouseOver: true
+    });
+  };
+
   handleMouseLeave = e => {
+    this.setState({
+      isMouseOver: false
+    });
+
     if (!this.getIsDrawing()) return;
 
     const primaryClassName = `.${compose(
