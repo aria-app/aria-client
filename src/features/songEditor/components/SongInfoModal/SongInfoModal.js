@@ -1,17 +1,22 @@
 import Dawww from "dawww";
 import map from "lodash/fp/map";
 import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
+import Typography from "@material-ui/core/Typography";
+// import Slide from "@material-ui/core/Slide";
 import PropTypes from "prop-types";
 import React from "react";
 import { Translation } from "react-i18next";
 import styled from "styled-components/macro";
 import shared from "../../../shared";
 
-const { DownloadButton, Modal } = shared.components;
+const { DownloadButton } = shared.components;
 const getBPMRangeItem = x => ({ id: x, text: String(x) });
 const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
@@ -20,19 +25,20 @@ const SongInfoModalBPMDropdown = styled(FormControl)`
   margin-left: ${props => props.theme.margin.s}px;
 `;
 
-const SongInfoModalContent = styled.div`
+const SongInfoModalContent = styled(DialogContent)`
   align-items: flex-start;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  padding-bottom: ${props => props.theme.margin.m}px;
-  padding-left: ${props => props.theme.margin.s}px;
-  padding-right: ${props => props.theme.margin.s}px;
-  padding-top: ${props => props.theme.margin.m}px;
+  margin-left: ${props => -props.theme.margin.s}px;
+  margin-right: ${props => -props.theme.margin.s}px;
+  /* padding-bottom: ${props => props.theme.margin.m}px; */
+  /* padding-left: ${props => props.theme.margin.s}px; */
+  /* padding-right: ${props => props.theme.margin.s}px; */
+  /* padding-top: ${props => props.theme.margin.m}px; */
 `;
 
-const SongInfoModalLabel = styled.div`
-  font-weight: 800;
+const SongInfoModalLabel = styled(Typography)`
   margin-left: ${props => props.theme.margin.s}px;
   margin-top: ${props => props.theme.margin.m}px;
 `;
@@ -52,12 +58,17 @@ export class SongInfoModal extends React.PureComponent {
     return (
       <Translation>
         {t => (
-          <Modal
-            className="song-info-modal"
-            isOpen={this.props.isOpen}
-            onClickOutside={this.props.onConfirm}
-            titleText={t("Song Info")}
+          <Dialog
+            fullWidth={true}
+            maxWidth="xs"
+            onClose={this.props.onConfirm}
+            open={this.props.isOpen}
+            // TransitionComponent={Slide}
+            // TransitionProps={{
+            //   direction: "up"
+            // }}
           >
+            <DialogTitle>{t("Song Info")}</DialogTitle>
             <SongInfoModalContent className="song-info-modal__content">
               <SongInfoModalBPMDropdown>
                 <InputLabel htmlFor="bpm">BPM</InputLabel>
@@ -83,7 +94,9 @@ export class SongInfoModal extends React.PureComponent {
               >
                 {t("Download Song")}
               </DownloadButton>
-              <SongInfoModalLabel>{t("Select Language")}</SongInfoModalLabel>
+              <SongInfoModalLabel variant="subheading">
+                {t("Select Language")}
+              </SongInfoModalLabel>
               <Button onClick={() => shared.i18n.changeLanguage("en")}>
                 {t("English")}
               </Button>
@@ -91,7 +104,7 @@ export class SongInfoModal extends React.PureComponent {
                 {t("Japanese")}
               </Button>
             </SongInfoModalContent>
-          </Modal>
+          </Dialog>
         )}
       </Translation>
     );

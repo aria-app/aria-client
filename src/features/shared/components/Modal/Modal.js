@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { showIf } from 'react-render-helpers';
-import { animated, useTransition } from 'react-spring';
-import styled from 'styled-components/macro';
-import { Button } from '../Button/Button';
-import { Toolbar } from '../Toolbar/Toolbar';
+import Button from "@material-ui/core/Button";
+import PropTypes from "prop-types";
+import React from "react";
+import { showIf } from "react-render-helpers";
+import { animated, useTransition } from "react-spring";
+import styled from "styled-components/macro";
+import { Toolbar } from "../Toolbar/Toolbar";
 
 const ModalContent = styled.div`
   display: flex;
@@ -64,65 +64,10 @@ const StyledModal = styled.div`
   z-index: 300;
 `;
 
-export function Modal(props) {
-  const transition = useTransition(props.isOpen, null, {
-    config: {
-      clamp: true,
-      tension: 200,
-    },
-    from: {
-      marginTop: 720,
-      opacity: 0,
-    },
-    enter: {
-      marginTop: 0,
-      opacity: 1,
-    },
-    leave: {
-      marginTop: 720,
-      opacity: 0,
-    },
-  });
-
-  return transition.map(({ item, key, props: animation }) => (item &&
-    <StyledModal
-      key={key}
-      style={{ ...props.style }}>
-      <ModalOverlay
-        onClick={props.onClickOutside}
-        style={{
-          opacity: animation.opacity,
-        }}
-      />
-      <ModalWindow
-        style={animation}>
-        <ModalHeader>
-          {props.titleText}
-        </ModalHeader>
-        <ModalContent>
-          {props.children}
-        </ModalContent>
-        {showIf(props.onConfirm)(
-          <Toolbar
-            className="modal__window__actions"
-            rightItems={<React.Fragment>
-              {showIf(props.onCancel)(
-                <Button
-                  onClick={props.onCancel}>
-                  {props.cancelText}
-                </Button>
-              )}
-              <Button
-                onClick={props.onConfirm}>
-                {props.confirmText}
-              </Button>
-            </React.Fragment>}
-          />
-        )}
-      </ModalWindow>
-    </StyledModal>
-  ));
-}
+Modal.defaultProps = {
+  cancelText: "cancel",
+  confirmText: "confirm"
+};
 
 Modal.propTypes = {
   cancelText: PropTypes.string,
@@ -134,10 +79,61 @@ Modal.propTypes = {
   onClickOutside: PropTypes.func,
   onConfirm: PropTypes.func,
   style: PropTypes.object,
-  titleText: PropTypes.string,
+  titleText: PropTypes.string
 };
 
-Modal.defaultProps = {
-  cancelText: 'cancel',
-  confirmText: 'confirm',
-};
+export function Modal(props) {
+  const transition = useTransition(props.isOpen, null, {
+    config: {
+      clamp: true,
+      tension: 200
+    },
+    from: {
+      marginTop: 720,
+      opacity: 0
+    },
+    enter: {
+      marginTop: 0,
+      opacity: 1
+    },
+    leave: {
+      marginTop: 720,
+      opacity: 0
+    }
+  });
+
+  return transition.map(
+    ({ item, key, props: animation }) =>
+      item && (
+        <StyledModal key={key} style={{ ...props.style }}>
+          <ModalOverlay
+            onClick={props.onClickOutside}
+            style={{
+              opacity: animation.opacity
+            }}
+          />
+          <ModalWindow style={animation}>
+            <ModalHeader>{props.titleText}</ModalHeader>
+            <ModalContent>{props.children}</ModalContent>
+            {showIf(props.onConfirm)(
+              <Toolbar
+                className="modal__window__actions"
+                rightItems={
+                  <React.Fragment>
+                    {showIf(props.onCancel)(
+                      <Button onClick={props.onCancel}>
+                        {props.cancelText}
+                      </Button>
+                    )}
+                    <Button onClick={props.onConfirm}>
+                      {props.confirmText}
+                    </Button>
+                  </React.Fragment>
+                }
+              />
+            )}
+          </ModalWindow>
+        </StyledModal>
+      )
+  );
+}
