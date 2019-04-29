@@ -3,13 +3,14 @@ import getOr from "lodash/fp/getOr";
 import isEmpty from "lodash/fp/isEmpty";
 import map from "lodash/fp/map";
 import range from "lodash/fp/range";
+import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
 import React from "react";
 import { Translation } from "react-i18next";
 import styled from "styled-components/macro";
 import shared from "../../../shared";
 
-const { Button, DropdownList, Modal } = shared.components;
+const { DropdownList, Modal } = shared.components;
 // This should be moved into Dawww.
 const minVolume = -20;
 const maxVolume = 0;
@@ -25,10 +26,6 @@ const TrackEditingModalContent = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: ${props => props.theme.margin.m}px;
-`;
-
-const TrackEditingModalDeleteButton = styled(Button)`
-  background-color: ${props => props.theme.danger};
 `;
 
 const TrackEditingModalVoiceDropdown = styled.div`
@@ -72,11 +69,13 @@ export class TrackEditingModal extends React.PureComponent {
                   }
                 />
               </TrackEditingModalVoiceDropdown>
-              <TrackEditingModalDeleteButton
+              <Button
+                color="secondary"
                 onClick={this.handleContentDeleteButtonClick}
+                variant="contained"
               >
                 {t("Delete")}
-              </TrackEditingModalDeleteButton>
+              </Button>
             </TrackEditingModalContent>
           </Modal>
         )}

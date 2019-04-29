@@ -1,5 +1,6 @@
 import * as firebase from "firebase/app";
 import getOr from "lodash/fp/getOr";
+import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
 import React from "react";
 import { Translation } from "react-i18next";
@@ -8,11 +9,6 @@ import styled from "styled-components/macro";
 import shared from "../../../shared";
 
 const { authProvider } = shared.constants;
-const { Button } = shared.components;
-
-const SignInButton = styled(Button)`
-  background-color: white;
-`;
 
 const StyledSignIn = styled.div`
   align-items: center;
@@ -39,11 +35,11 @@ export class SignIn extends React.Component {
       <Translation>
         {t => (
           <StyledSignIn>
-            <SignInButton
+            <Button
               onClick={() => firebase.auth().signInWithRedirect(authProvider)}
             >
               {t("Sign in with Google")}
-            </SignInButton>
+            </Button>
           </StyledSignIn>
         )}
       </Translation>
