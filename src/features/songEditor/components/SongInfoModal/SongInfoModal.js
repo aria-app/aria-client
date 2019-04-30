@@ -9,7 +9,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Typography from "@material-ui/core/Typography";
-// import Slide from "@material-ui/core/Slide";
 import PropTypes from "prop-types";
 import React from "react";
 import { Translation } from "react-i18next";
@@ -32,10 +31,11 @@ const SongInfoModalContent = styled(DialogContent)`
   flex-direction: column;
   margin-left: ${props => -props.theme.margin.s}px;
   margin-right: ${props => -props.theme.margin.s}px;
-  /* padding-bottom: ${props => props.theme.margin.m}px; */
-  /* padding-left: ${props => props.theme.margin.s}px; */
-  /* padding-right: ${props => props.theme.margin.s}px; */
-  /* padding-top: ${props => props.theme.margin.m}px; */
+`;
+
+const SongInfoModalTitle = styled(DialogTitle)`
+  font-weight: 800;
+  text-transform: uppercase;
 `;
 
 const SongInfoModalLabel = styled(Typography)`
@@ -63,12 +63,8 @@ export class SongInfoModal extends React.PureComponent {
             maxWidth="xs"
             onClose={this.props.onConfirm}
             open={this.props.isOpen}
-            // TransitionComponent={Slide}
-            // TransitionProps={{
-            //   direction: "up"
-            // }}
           >
-            <DialogTitle>{t("Song Info")}</DialogTitle>
+            <SongInfoModalTitle>{t("Song Info")}</SongInfoModalTitle>
             <SongInfoModalContent className="song-info-modal__content">
               <SongInfoModalBPMDropdown>
                 <InputLabel htmlFor="bpm">BPM</InputLabel>
@@ -94,7 +90,7 @@ export class SongInfoModal extends React.PureComponent {
               >
                 {t("Download Song")}
               </DownloadButton>
-              <SongInfoModalLabel variant="subheading">
+              <SongInfoModalLabel variant="subtitle1">
                 {t("Select Language")}
               </SongInfoModalLabel>
               <Button onClick={() => shared.i18n.changeLanguage("en")}>

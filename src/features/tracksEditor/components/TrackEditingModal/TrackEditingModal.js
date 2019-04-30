@@ -1,35 +1,46 @@
 import Dawww from "dawww";
 import getOr from "lodash/fp/getOr";
 import isEmpty from "lodash/fp/isEmpty";
-import map from "lodash/fp/map";
 import range from "lodash/fp/range";
 import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 import PropTypes from "prop-types";
 import React from "react";
 import { Translation } from "react-i18next";
 import styled from "styled-components/macro";
-import shared from "../../../shared";
 
-const { DropdownList, Modal } = shared.components;
-// This should be moved into Dawww.
 const minVolume = -20;
 const maxVolume = 0;
-const getVolumeRangeItem = x => ({ id: x, text: String(x) });
-const volumeRangeItems = map(
-  getVolumeRangeItem,
-  range(maxVolume, minVolume - 1)
-);
 
-const TrackEditingModalContent = styled.div`
+const DeleteButton = styled(Button)`
+  align-self: stretch;
+  margin-left: ${props => props.theme.margin.s}px;
+  margin-right: ${props => props.theme.margin.s}px;
+`;
+
+const TrackEditingModalDropdown = styled(FormControl)`
+  margin-bottom: ${props => props.theme.margin.m}px;
+  margin-left: ${props => props.theme.margin.s}px;
+`;
+
+const TrackEditingModalContent = styled(DialogContent)`
+  align-items: flex-start;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  justify-content: space-between;
-  padding: ${props => props.theme.margin.m}px;
+  margin-left: ${props => -props.theme.margin.s}px;
+  margin-right: ${props => -props.theme.margin.s}px;
 `;
 
-const TrackEditingModalVoiceDropdown = styled.div`
-  margin-bottom: ${props => props.theme.margin.l}px;
+const TrackEditingModalTitle = styled(DialogTitle)`
+  font-weight: 800;
+  text-transform: uppercase;
 `;
 
 export class TrackEditingModal extends React.PureComponent {
@@ -45,39 +56,51 @@ export class TrackEditingModal extends React.PureComponent {
     return (
       <Translation>
         {t => (
-          <Modal
-            isOpen={this.getIsOpen()}
-            onClickOutside={this.props.onDismiss}
-            titleText={t("Edit Track")}
+          <Dialog
+            fullWidth={true}
+            maxWidth="xs"
+            onClose={this.props.onDismiss}
+            open={this.getIsOpen()}
           >
+            <TrackEditingModalTitle>{t("Edit Track")}</TrackEditingModalTitle>
             <TrackEditingModalContent>
-              <TrackEditingModalVoiceDropdown>
-                <div>{t("Voice")}</div>
-                <DropdownList
-                  items={getVoiceList(t)}
-                  selectedId={getOr("", "props.stagedTrack.voice", this)}
-                  onSelectedIdChange={
-                    this.handleContentVoiceDropdownListSelectedIdChange
-                  }
-                />
-                <div>{t("Volume")}</div>
-                <DropdownList
-                  items={volumeRangeItems}
-                  selectedId={getOr("", "props.stagedTrack.volume", this)}
-                  onSelectedIdChange={
-                    this.handleContentVolumeDropdownListSelectedIdChange
-                  }
-                />
-              </TrackEditingModalVoiceDropdown>
-              <Button
+              <TrackEditingModalDropdown>
+                <InputLabel htmlFor="voice">Voice</InputLabel>
+                <Select
+                  inputProps={{ name: "voice", id: "voice" }}
+                  onChange={this.handleVoiceChange}
+                  value={getOr("", "props.stagedTrack.voice", this)}
+                >
+                  {Object.keys(Dawww.VOICES).map(voice => (
+                    <MenuItem key={voice} value={voice}>
+                      {t(voice)}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </TrackEditingModalDropdown>
+              <TrackEditingModalDropdown>
+                <InputLabel htmlFor="volume">Volume</InputLabel>
+                <Select
+                  inputProps={{ name: "volume", id: "volume" }}
+                  onChange={this.handleVolumeChange}
+                  value={getOr(0, "props.stagedTrack.volume", this)}
+                >
+                  {range(maxVolume, minVolume - 1).map(volume => (
+                    <MenuItem key={volume} value={volume}>
+                      {volume}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </TrackEditingModalDropdown>
+              <DeleteButton
                 color="secondary"
                 onClick={this.handleContentDeleteButtonClick}
                 variant="contained"
               >
                 {t("Delete")}
-              </Button>
+              </DeleteButton>
             </TrackEditingModalContent>
-          </Modal>
+            </Dialog>
         )}
       </Translation>
     );
@@ -89,16 +112,9 @@ export class TrackEditingModal extends React.PureComponent {
     this.props.onDelete(this.props.stagedTrack);
   };
 
-  handleContentVoiceDropdownListSelectedIdChange = voice =>
-    this.props.onVoiceSet(this.props.stagedTrack, voice);
+  handleVoiceChange = e =>
+    this.props.onVoiceSet(this.props.stagedTrack, e.target.value);
 
-  handleContentVolumeDropdownListSelectedIdChange = volume =>
-    this.props.onVolumeSet(this.props.stagedTrack, volume);
-}
-
-export function getVoiceList(t) {
-  return Object.keys(Dawww.VOICES).map(key => ({
-    text: t(Dawww.VOICES[key]),
-    id: Dawww.VOICES[key]
-  }));
+  handleVolumeChange = e =>
+    this.props.onVolumeSet(this.props.stagedTrack, e.target.value);
 }
