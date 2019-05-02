@@ -1,6 +1,7 @@
 import Dawww from "dawww";
 import find from "lodash/fp/find";
 import getOr from "lodash/fp/getOr";
+import includes from "lodash/fp/includes";
 import isEqual from "lodash/fp/isEqual";
 import max from "lodash/fp/max";
 import min from "lodash/fp/min";
@@ -8,6 +9,7 @@ import uniqBy from "lodash/fp/uniqBy";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import styled from "styled-components/macro";
+import * as constants from "../../constants";
 import { Note } from "../Note/Note";
 
 const StyledNotes = styled.div(props => ({
@@ -53,6 +55,20 @@ function Notes(props) {
   const getIsNoteSelected = note =>
     !!find(x => x.id === note.id, props.selectedNotes);
 
+  const getIsEraseEnabled = () => props.toolType === constants.toolTypes.ERASE;
+
+  const getIsSelectEnabled = () =>
+    includes(props.toolType, [
+      constants.toolTypes.DRAW,
+      constants.toolTypes.SELECT
+    ]);
+
+  const erase = note => {
+    if (!getIsEraseEnabled()) return;
+
+    props.onErase(note);
+  };
+
   const handleNoteDrag = ({ deltaX, deltaY }) => {
     const deltaReducer = (acc, cur) => {
       const prevX = getOr(0, `[${cur.id}].x`, acc);
@@ -73,7 +89,7 @@ function Notes(props) {
     props.onDragPreview(adjustedNotes);
   };
 
-  const handleNoteDragStart = draggedNote => {
+  const handleNoteDragStart = (draggedNote, e) => {
     const notes = uniqBy(x => x.id, [draggedNote, ...props.selectedNotes]);
     const draggedX = getOr(0, "points[0].x", draggedNote);
     const draggedY = getOr(0, "points[0].y", draggedNote);
@@ -90,6 +106,10 @@ function Notes(props) {
       right: (baseRight - (maxX - draggedX)) * 40,
       top: (draggedY - minY) * 40
     });
+
+    erase(draggedNote);
+
+    select(draggedNote, e);
   };
 
   const handleNoteDragStop = () => {
@@ -111,7 +131,7 @@ function Notes(props) {
     setSizeDeltas(newDeltas);
   };
 
-  const handleNoteEndPointDragStart = sizedNote => {
+  const handleNoteEndPointDragStart = (sizedNote, e) => {
     const notes = uniqBy(x => x.id, [...props.selectedNotes, sizedNote]);
     const maxPositionX = max(notes.map(getOr(0, "points[0].x")));
     const baseRight = props.measureCount * 8 * 4 - 1;
@@ -120,10 +140,11 @@ function Notes(props) {
       left: 40,
       right: (baseRight - maxPositionX) * 40
     });
+
+    select(sizedNote, e);
   };
 
   const handleNoteEndPointDragStop = () => {
-    props.onResize(applySizeDeltas(props.notes, sizeDeltas));
     props.onResize(applySizeDeltas(props.notes, sizeDeltas));
     setSizeDeltas({});
   };
@@ -132,6 +153,14 @@ function Notes(props) {
     applyPositionDeltas(props.notes, positionDeltas),
     sizeDeltas
   );
+
+  function select(note, e) {
+    const isAdditive = e.ctrlKey || e.metaKey;
+
+    if (!getIsSelectEnabled() || (props.isSelected && !isAdditive)) return;
+
+    props.onSelect(note, isAdditive);
+  }
 
   return (
     <StyledNotes measureCount={props.measureCount}>
@@ -146,8 +175,6 @@ function Notes(props) {
           onEndPointDrag={handleNoteEndPointDrag}
           onEndPointDragStart={handleNoteEndPointDragStart}
           onEndPointDragStop={handleNoteEndPointDragStop}
-          onErase={props.onErase}
-          onResizeStart={() => {}}
           onSelect={props.onSelect}
           positionBounds={positionBounds}
           sizeBounds={sizeBounds}

@@ -1,5 +1,4 @@
 import first from "lodash/fp/first";
-import includes from "lodash/fp/includes";
 import last from "lodash/fp/last";
 import { transparentize } from "polished";
 import PropTypes from "prop-types";
@@ -7,7 +6,6 @@ import React from "react";
 import Draggable from "react-draggable";
 import styled from "styled-components/macro";
 import shared from "../../../shared";
-import * as constants from "../../constants";
 
 const { getExtraProps } = shared.helpers;
 
@@ -74,12 +72,8 @@ export class Note extends React.PureComponent {
     onEndPointDrag: PropTypes.func,
     onEndPointDragStart: PropTypes.func,
     onEndPointDragStop: PropTypes.func,
-    onErase: PropTypes.func,
-    onResizeStart: PropTypes.func,
-    onSelect: PropTypes.func,
     positionBounds: PropTypes.object,
-    sizeBounds: PropTypes.object,
-    toolType: PropTypes.string
+    sizeBounds: PropTypes.object
   };
 
   static defaultProps = {
@@ -119,10 +113,7 @@ export class Note extends React.PureComponent {
             onStop={this.handleEndPointDragStop}
             position={this.getEndPointPosition()}
           >
-            <NotePoint
-              onMouseDown={this.handleEndPointMouseDown}
-              style={this.getEndPointStyle()}
-            >
+            <NotePoint style={this.getEndPointStyle()}>
               <NoteFill isSelected={this.props.isSelected} />
             </NotePoint>
           </Draggable>
@@ -160,14 +151,6 @@ export class Note extends React.PureComponent {
     };
   }
 
-  getIsEraseEnabled = () => this.props.toolType === constants.toolTypes.ERASE;
-
-  getIsSelectEnabled = () =>
-    includes(this.props.toolType, [
-      constants.toolTypes.DRAW,
-      constants.toolTypes.SELECT
-    ]);
-
   getPosition = () => ({
     x: this.props.note.points[0].x * 40,
     y: this.props.note.points[0].y * 40
@@ -181,8 +164,6 @@ export class Note extends React.PureComponent {
   };
 
   handleDragStart = e => {
-    this.select(e);
-
     this.props.onDragStart(this.props.note, e);
   };
 
@@ -197,30 +178,11 @@ export class Note extends React.PureComponent {
   };
 
   handleEndPointDragStart = e => {
-    this.select(e);
-
     this.props.onEndPointDragStart(this.props.note, e);
   };
 
   handleEndPointDragStop = () => {
     this.props.onEndPointDragStop();
-  };
-
-  handleEndPointMouseDown = e => {
-    if (this.getIsSelectEnabled()) {
-      this.select(e);
-
-      this.props.onResizeStart();
-    }
-  };
-
-  select = e => {
-    const isAdditive = e.ctrlKey || e.metaKey;
-
-    if (!this.getIsSelectEnabled() || (this.props.isSelected && !isAdditive))
-      return;
-
-    this.props.onSelect(this.props.note, isAdditive);
   };
 }
 
