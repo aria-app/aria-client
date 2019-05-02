@@ -32,7 +32,7 @@
     "react-i18next": "10.9.0",
     "react-icons": "2.2.5",
     "react-jss": "8.6.1",
-    "react-redux": "7.0.2",
+    "react-redux": "7.0.3",
     "react-render-helpers": "1.0.3",
     "react-router-dom": "5.0.0",
     "react-spring": "8.0.19",
@@ -43,10 +43,10 @@
     "styled-components": "4.2.0"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "5.0.10",
-    "@storybook/addon-knobs": "5.0.10",
-    "@storybook/addons": "5.0.10",
-    "@storybook/react": "5.0.10",
+    "@storybook/addon-actions": "5.0.11",
+    "@storybook/addon-knobs": "5.0.11",
+    "@storybook/addons": "5.0.11",
+    "@storybook/react": "5.0.11",
     "prettier": "1.17.0",
     "react-scripts": "3.0.0",
     "redux-devtools-extension": "2.13.8"
@@ -60,6 +60,11 @@
     "not ie <= 11",
     "not op_mini all"
   ],
+  "greenkeeper": {
+    "ignore": [
+      "react-icons"
+    ]
+  },
   "author": "",
   "license": "MIT",
   "repository": {
