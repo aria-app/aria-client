@@ -14,7 +14,7 @@ const IconButtonIconWrapper = styled.div(props => ({
 }));
 
 const StyledIconButton = styled.div(props => ({
-  alignItems: "center",
+  alignItems: "stretch",
   cursor: props.isDisabled ? "not-allowed" : "pointer",
   display: "flex",
   flex: "0 0 auto",
