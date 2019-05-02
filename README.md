@@ -1,8 +1,7 @@
+[![Build Status](https://travis-ci.org/nickjohnson-dev/aria.svg?branch=master)](https://travis-ci.org/nickjohnson-dev/aria)
+[![Greenkeeper badge](https://badges.greenkeeper.io/nickjohnson-dev/aria.svg)](https://greenkeeper.io/)
+
 Easy-to-use music sequencer inspired by Little Big Planet 2 + 3.
-
-# Demo
-
-Try out a live demo at http://zen.now.sh
 
 # Architecture
 
