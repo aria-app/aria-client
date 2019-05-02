@@ -20,7 +20,7 @@ export class SignOut extends React.Component {
   };
 
   componentDidMount() {
-    window.document.title = "Sign Out - Zen Sequencer";
+    window.document.title = "Sign Out - Aria";
 
     setTimeout(() => {
       // TODO: Convert to auth helper

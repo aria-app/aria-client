@@ -23,7 +23,7 @@ export class SignIn extends React.Component {
   };
 
   componentDidMount() {
-    window.document.title = "Sign In - Zen Sequencer";
+    window.document.title = "Sign In - Aria";
   }
 
   render() {

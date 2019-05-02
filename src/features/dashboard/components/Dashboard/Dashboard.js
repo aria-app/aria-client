@@ -76,7 +76,7 @@ export class Dashboard extends React.Component {
   componentDidMount() {
     this.props.onLoad();
 
-    window.document.title = "Dashboard - Zen Sequencer";
+    window.document.title = "Dashboard - Aria";
   }
 
   render() {

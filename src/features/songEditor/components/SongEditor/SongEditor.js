@@ -36,7 +36,7 @@ export class SongEditor extends React.PureComponent {
 
   componentDidUpdate(prevProps) {
     if (prevProps.song.name !== this.props.song.name) {
-      window.document.title = `${this.props.song.name} - Zen Sequencer`;
+      window.document.title = `${this.props.song.name} - Aria`;
     }
   }
 
