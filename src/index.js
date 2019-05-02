@@ -28,7 +28,7 @@ store.dispatch(shared.actions.initialized());
 render(
   <JssProvider jss={jss} generateClassName={generateClassName}>
     <BrowserRouter
-      basename={process.env.NODE_ENV === "production" ? "/zen-app" : undefined}
+      basename={process.env.NODE_ENV === "production" ? "/aria" : undefined}
     >
       <Provider store={store}>
         <AppContainer />

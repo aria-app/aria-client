@@ -1,8 +1,8 @@
 {
-  "name": "zen-app",
+  "name": "aria",
   "version": "1.0.0",
   "description": "Easy-to-use music sequencer inspired by Little Big Planet 2 + 3. ",
-  "homepage": "https://nickjohnson-dev.github.io/zen-app",
+  "homepage": "https://nickjohnson-dev.github.io/aria",
   "main": "src/index.js",
   "private": true,
   "scripts": {
@@ -69,9 +69,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nickjohnson-dev/zen-app.git"
+    "url": "git+https://github.com/nickjohnson-dev/aria.git"
   },
   "bugs": {
-    "url": "https://github.com/nickjohnson-dev/zen-app/issues"
+    "url": "https://github.com/nickjohnson-dev/aria/issues"
   }
 }
