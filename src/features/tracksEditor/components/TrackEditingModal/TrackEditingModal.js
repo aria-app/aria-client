@@ -18,30 +18,30 @@ import styled from "styled-components/macro";
 const minVolume = -20;
 const maxVolume = 0;
 
-const DeleteButton = styled(Button)`
-  align-self: stretch;
-  margin-left: ${props => props.theme.margin.s}px;
-  margin-right: ${props => props.theme.margin.s}px;
-`;
+const DeleteButton = styled(Button)(props => ({
+  alignSelf: "stretch",
+  marginLeft: props.theme.margin.s,
+  marginRight: props.theme.margin.s
+}));
 
-const TrackEditingModalDropdown = styled(FormControl)`
-  margin-bottom: ${props => props.theme.margin.m}px;
-  margin-left: ${props => props.theme.margin.s}px;
-`;
+const TrackEditingModalDropdown = styled(FormControl)(props => ({
+  marginBottom: props.theme.margin.m,
+  marginLeft: props.theme.margin.s
+}));
 
-const TrackEditingModalContent = styled(DialogContent)`
-  align-items: flex-start;
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  margin-left: ${props => -props.theme.margin.s}px;
-  margin-right: ${props => -props.theme.margin.s}px;
-`;
+const TrackEditingModalContent = styled(DialogContent)(props => ({
+  alignItems: "flex-start",
+  display: "flex",
+  flex: "1 1 auto",
+  flexDirection: "column",
+  marginLeft: props.theme.margin.s * -1,
+  marginRight: props.theme.margin.s * -1
+}));
 
-const TrackEditingModalTitle = styled(DialogTitle)`
-  font-weight: 800;
-  text-transform: uppercase;
-`;
+const TrackEditingModalTitle = styled(DialogTitle)({
+  fontWeight: 800,
+  textTransform: "uppercase"
+});
 
 export class TrackEditingModal extends React.PureComponent {
   static propTypes = {
@@ -100,7 +100,7 @@ export class TrackEditingModal extends React.PureComponent {
                 {t("Delete")}
               </DeleteButton>
             </TrackEditingModalContent>
-            </Dialog>
+          </Dialog>
         )}
       </Translation>
     );

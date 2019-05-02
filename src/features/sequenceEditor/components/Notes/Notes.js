@@ -10,15 +10,15 @@ import React, { useState } from "react";
 import styled from "styled-components/macro";
 import { Note } from "../Note/Note";
 
-const StyledNotes = styled.div`
-  bottom: 0;
-  cursor: pointer;
-  left: 0;
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  width: ${props => props.measureCount * 4 * 8 * 40}px;
-`;
+const StyledNotes = styled.div(props => ({
+  bottom: 0,
+  cursor: "pointer",
+  left: 0,
+  pointerEvents: "none",
+  position: "absolute",
+  top: 0,
+  width: props.measureCount * 4 * 8 * 40
+}));
 
 Notes.propTypes = {
   measureCount: PropTypes.number.isRequired,

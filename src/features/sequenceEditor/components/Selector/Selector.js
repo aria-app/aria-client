@@ -4,13 +4,13 @@ import React from "react";
 import styled from "styled-components/macro";
 import { Fence } from "../Fence/Fence";
 
-const StyledSelector = styled.div`
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-`;
+const StyledSelector = styled.div({
+  bottom: 0,
+  left: 0,
+  position: "absolute",
+  right: 0,
+  top: 0
+});
 
 export class Selector extends React.PureComponent {
   static propTypes = {

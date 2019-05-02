@@ -19,36 +19,36 @@ import { SequenceEditorToolbar } from "../SequenceEditorToolbar/SequenceEditorTo
 
 const { previewPitch } = audio.helpers;
 
-const LoadingIndicator = styled.div`
-  align-items: center;
-  color: white;
-  display: flex;
-  flex: 1 1 auto;
-  justify-content: center;
-`;
+const LoadingIndicator = styled.div({
+  alignItems: "center",
+  color: "white",
+  display: "flex",
+  flex: "1 1 auto",
+  justifyContent: "center"
+});
 
-const SequenceEditorContent = styled.div`
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  overflow-x: hidden;
-  overflow-y: scroll;
-`;
+const SequenceEditorContent = styled.div({
+  display: "flex",
+  flex: "1 1 auto",
+  flexDirection: "column",
+  overflowX: "hidden",
+  overflowY: "scroll"
+});
 
-const SequenceEditorWrapper = styled.div`
-  display: flex;
-  flex: 1 0 auto;
-  padding-bottom: 64px;
-  padding-top: 64px;
-`;
+const SequenceEditorWrapper = styled.div({
+  display: "flex",
+  flex: "1 0 auto",
+  paddingBottom: 64,
+  paddingTop: 64
+});
 
-const StyledSequenceEditor = styled(HotKeys)`
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-`;
+const StyledSequenceEditor = styled(HotKeys)({
+  display: "flex",
+  flex: "1 1 auto",
+  flexDirection: "column",
+  overflow: "hidden",
+  position: "relative"
+});
 
 export class SequenceEditor extends React.PureComponent {
   static propTypes = {

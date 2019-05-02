@@ -13,13 +13,13 @@ import { TracksEditorToolbar } from "../TracksEditorToolbar/TracksEditorToolbar"
 
 const { Timeline } = shared.components;
 
-const StyledTracksEditor = styled(HotKeys)`
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-`;
+const StyledTracksEditor = styled(HotKeys)({
+  display: "flex",
+  flex: "1 1 auto",
+  flexDirection: "column",
+  overflow: "hidden",
+  position: "relative"
+});
 
 export class TracksEditor extends React.PureComponent {
   static propTypes = {

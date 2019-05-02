@@ -1,11 +1,11 @@
 export { Box } from "./Box/Box";
 export { Boxes } from "./Boxes/Boxes";
 export { DownloadButton } from "./DownloadButton/DownloadButton";
-export { DropdownList } from "./DropdownList/DropdownList";
+// export { DropdownList } from "./DropdownList/DropdownList";
 export { Icon } from "./Icon/Icon";
 export { IconButton } from "./IconButton/IconButton";
 export { MatrixBox } from "./MatrixBox/MatrixBox";
-export { Modal } from "./Modal/Modal";
+// export { Modal } from "./Modal/Modal";
 export { Shell } from "./Shell/Shell";
 export { Timeline } from "./Timeline/Timeline";
 export { Toolbar } from "./Toolbar/Toolbar";

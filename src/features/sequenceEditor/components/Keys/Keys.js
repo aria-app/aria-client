@@ -4,12 +4,12 @@ import React from "react";
 import styled from "styled-components/macro";
 import { Key } from "../Key/Key";
 
-const StyledKeys = styled.div`
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  width: 40px;
-`;
+const StyledKeys = styled.div({
+  display: "flex",
+  flex: "0 0 auto",
+  flexDirection: "column",
+  width: 40
+});
 
 export class Keys extends React.PureComponent {
   static propTypes = {

@@ -3,38 +3,34 @@ import React from "react";
 import styled from "styled-components/macro";
 import { Icon } from "../Icon/Icon";
 
-const IconButtonBackground = styled.div`
-  background-color: ${props =>
-    props.isActive ? "rgba(255, 255, 255, 0.25)" : ""};
-  flex: 1 0 auto;
-`;
+const IconButtonBackground = styled.div(props => ({
+  backgroundColor: props.isActive ? "rgba(255, 255, 255, 0.25)" : "",
+  flex: "1 0 auto"
+}));
 
-const IconButtonIconWrapper = styled.div`
-  opacity: ${props => (props.isDisabled ? 0.5 : "")};
-  position: absolute;
-`;
+const IconButtonIconWrapper = styled.div(props => ({
+  opacity: props.isDisabled ? 0.5 : "",
+  position: "absolute"
+}));
 
-const StyledIconButton = styled.div`
-  align-items: stretch;
-  cursor: ${props => (props.isDisabled ? "not-allowed" : "pointer")};
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  height: 40px;
-  position: relative;
-  transform: scale(1);
-  transition: transform 0.2s ease;
-  width: 40px;
-
-  &:hover {
-    transform: ${props =>
-      !(props.isActive || props.isDisabled) ? "scale(1.1)" : ""};
+const StyledIconButton = styled.div(props => ({
+  alignItems: "center",
+  cursor: props.isDisabled ? "not-allowed" : "pointer",
+  display: "flex",
+  flex: "0 0 auto",
+  flexDirection: "column",
+  height: 40,
+  position: "relative",
+  transform: "scale(1)",
+  transition: "transform 200ms ease",
+  width: 40,
+  "&:hover": {
+    transform: !(props.isActive || props.isDisabled) ? "scale(1.1)" : ""
+  },
+  "&:active": {
+    transform: !props.isDisabled ? "scale(0.9)" : ""
   }
-
-  &:active {
-    transform: ${props => (!props.isDisabled ? "scale(0.9)" : "")};
-  }
-`;
+}));
 
 export class IconButton extends React.PureComponent {
   static propTypes = {

@@ -5,28 +5,28 @@ import styled from "styled-components/macro";
 
 const BoxResizer = styled.div.attrs({
   className: "box__resizer"
-})`
-  background-color: transparent;
-  bottom: 0;
-  cursor: col-resize;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: ${props => props.theme.margin.m}px;
-  z-index: 2;
-`;
+})(props => ({
+  backgroundColor: "transparent",
+  bottom: "0",
+  cursor: "col-resize",
+  left: "0",
+  position: "absolute",
+  top: "0",
+  width: props.theme.margin.m,
+  zIndex: "2"
+}));
 
-const StyledBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  transition: transform 200ms ease;
-  width: ${props => props.length * props.step}px;
-  z-index: ${props => (props.isDragging ? "200" : "100")};
-`;
+const StyledBox = styled.div(props => ({
+  display: "flex",
+  flexDirection: "column",
+  height: "100%",
+  left: 0,
+  position: "absolute",
+  top: 0,
+  transition: "transform 200ms ease",
+  width: props.length * props.step,
+  zIndex: props.isDragging ? "200" : "100"
+}));
 
 export class Box extends React.Component {
   static propTypes = {

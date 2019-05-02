@@ -11,13 +11,13 @@ import { SongInfoModal } from "../SongInfoModal/SongInfoModal";
 const { SequenceEditorContainer } = sequenceEditor.components;
 const { TracksEditorContainer } = tracksEditor.components;
 
-const StyledSongEditor = styled(HotKeys)`
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-`;
+const StyledSongEditor = styled(HotKeys)({
+  display: "flex",
+  flex: "1 1 auto",
+  flexDirection: "column",
+  overflow: "hidden",
+  position: "relative"
+});
 
 export class SongEditor extends React.PureComponent {
   static propTypes = {

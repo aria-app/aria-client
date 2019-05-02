@@ -7,18 +7,18 @@ import { showIf } from "react-render-helpers";
 import styled from "styled-components/macro";
 import { Note } from "../Note/Note";
 
-const DrawLayerGhostNote = styled(Note)`
-  opacity: 0.4;
-  pointer-events: none;
-`;
+const DrawLayerGhostNote = styled(Note)({
+  opacity: 0.4,
+  pointerEvents: "none"
+});
 
-const StyledDrawLayer = styled.div`
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-`;
+const StyledDrawLayer = styled.div({
+  bottom: 0,
+  left: 0,
+  position: "absolute",
+  right: 0,
+  top: 0
+});
 
 export class DrawLayer extends React.PureComponent {
   static propTypes = {

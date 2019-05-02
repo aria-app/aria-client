@@ -11,61 +11,58 @@ import * as constants from "../../constants";
 
 const { getExtraProps } = shared.helpers;
 
-const NoteConnector = styled.div`
-  background-color: ${props =>
-    props.isSelected ? "white" : transparentize(0.5, props.theme.primary[2])};
-  height: 12px;
-  left: 20px;
-  position: absolute;
-  top: 14px;
-  transform-origin: left center;
-  transition: transform 0.1s ease;
-  width: 1px;
-  z-index: 100;
-`;
+const NoteConnector = styled.div(props => ({
+  backgroundColor: props.isSelected
+    ? "white"
+    : transparentize(0.5, props.theme.primary[2]),
+  height: 12,
+  left: 20,
+  position: "absolute",
+  top: 14,
+  transformOrigin: "left center",
+  transition: "transform 0.1s ease",
+  width: 1,
+  zIndex: 100
+}));
 
-const NoteFill = styled.div`
-  background-color: ${props =>
-    props.isSelected ? "white" : props.theme.primary[2]};
-  border-radius: 2px;
-  box-shadow: ${props =>
-    props.isSelected && `0 0 10px ${transparentize(0.5, "white")}`};
-  height: 24px;
-  width: 24px;
-
-  &:hover:not(:active) {
-    transform: scale(1.05);
+const NoteFill = styled.div(props => ({
+  backgroundColor: props.isSelected ? "white" : props.theme.primary[2],
+  borderRadius: 2,
+  boxShadow: props.isSelected && `0 0 10px ${transparentize(0.5, "white")}`,
+  height: 24,
+  width: 24,
+  "&:hover": {
+    transform: "scale(1.05)"
+  },
+  "&:active": {
+    transform: "scale(0.95)"
   }
+}));
 
-  &:active {
-    transform: scale(0.95);
-  }
-`;
+const NotePoint = styled.div({
+  alignItems: "center",
+  display: "flex",
+  flex: "0 0 auto",
+  height: 40,
+  justifyContent: "center",
+  left: 0,
+  overflow: "hidden",
+  pointerEvents: "all",
+  position: "absolute",
+  top: 0,
+  transition: "transform 0.1s ease",
+  width: 40,
+  zIndex: 150
+});
 
-const NotePoint = styled.div`
-  align-items: center;
-  display: flex;
-  flex: 0 0 auto;
-  height: 40px;
-  justify-content: center;
-  left: 0;
-  overflow: hidden;
-  pointer-events: all;
-  position: absolute;
-  top: 0;
-  transition: transform 0.1s ease;
-  width: 40px;
-  z-index: 150;
-`;
-
-const StyledNote = styled.div`
-  left: 0;
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  transition: transform 0.1s ease;
-  z-index: ${props => props.isSelected && 300};
-`;
+const StyledNote = styled.div(props => ({
+  left: 0,
+  pointerEvents: "none",
+  position: "absolute",
+  top: 0,
+  transition: "transform 0.1s ease",
+  zIndex: props.isSelected && 300
+}));
 
 export class Note extends React.PureComponent {
   static propTypes = {

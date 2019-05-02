@@ -37,13 +37,13 @@ const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
   />
 );
 
-const LoadingIndicator = styled.div`
-  align-items: center;
-  color: white;
-  display: flex;
-  flex: 1 1 auto;
-  justify-content: center;
-`;
+const LoadingIndicator = styled.div({
+  alignItems: "center",
+  color: "white",
+  display: "flex",
+  flex: "1 1 auto",
+  justifyContent: "center"
+});
 
 export class App extends React.PureComponent {
   static propTypes = {

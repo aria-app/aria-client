@@ -12,18 +12,18 @@ import { Slots } from "../Slots/Slots";
 
 const { Timeline } = shared.components;
 
-const GridWrapper = styled.div`
-  height: 100%;
-  overflow-x: visible;
-  position: relative;
-`;
+const GridWrapper = styled.div({
+  height: "100%",
+  overflowX: "visible",
+  position: "relative"
+});
 
-const StyledGrid = styled.div`
-  overflow-x: scroll;
-  overflow-y: visible;
-  padding-left: 80px;
-  position: relative;
-`;
+const StyledGrid = styled.div({
+  overflowX: "scroll",
+  overflowY: "visible",
+  paddingLeft: 80,
+  position: "relative"
+});
 
 export class Grid extends React.PureComponent {
   static propTypes = {

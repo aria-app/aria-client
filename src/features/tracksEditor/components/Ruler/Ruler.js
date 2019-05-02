@@ -9,20 +9,20 @@ import { RulerResizer } from "../RulerResizer/RulerResizer";
 
 const { MatrixBox } = shared.components;
 
-const RulerMeasureNumber = styled.div`
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 10px;
-  position: absolute;
-`;
+const RulerMeasureNumber = styled.div({
+  color: "rgba(255, 255, 255, 0.5)",
+  fontSize: 10,
+  position: "absolute"
+});
 
-const StyledRuler = styled.div`
-  cursor: pointer;
-  display: flex;
-  flex: 0 0 auto;
-  height: 35px;
-  margin-bottom: ${props => props.theme.margin.m}px;
-  position: relative;
-`;
+const StyledRuler = styled.div(props => ({
+  cursor: "pointer",
+  display: "flex",
+  flex: "0 0 auto",
+  height: 35,
+  marginBottom: props.theme.margin.m,
+  position: "relative"
+}));
 
 export class Ruler extends React.PureComponent {
   static propTypes = {

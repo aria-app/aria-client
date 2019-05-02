@@ -18,30 +18,30 @@ import { TrackHeader } from "../TrackHeader/TrackHeader";
 
 const { Boxes, MatrixBox } = shared.components;
 
-const StyledTrack = styled.div`
-  align-items: stretch;
-  cursor: pointer;
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  margin-bottom: ${props => props.theme.margin.m}px;
-`;
+const StyledTrack = styled.div(props => ({
+  alignItems: "stretch",
+  cursor: "pointer",
+  display: "flex",
+  flex: "0 0 auto",
+  flexDirection: "column",
+  marginBottom: props.theme.margin.m
+}));
 
 const TrackMatrixBox = styled(MatrixBox).attrs(props => ({
   fill: props.theme.primary[2]
-}))`
-  left: 0;
-  position: absolute;
-  top: 0;
-`;
+}))({
+  left: 0,
+  position: "absolute",
+  top: 0
+});
 
-const TrackSequences = styled.div`
-  align-items: stretch;
-  display: flex;
-  flex: 1 0 auto;
-  height: 84px;
-  position: relative;
-`;
+const TrackSequences = styled.div({
+  alignItems: "stretch",
+  display: "flex",
+  flex: "1 0 auto",
+  height: 84,
+  position: "relative"
+});
 
 export class Track extends React.PureComponent {
   static propTypes = {

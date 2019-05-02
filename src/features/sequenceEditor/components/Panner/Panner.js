@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components/macro";
 
-const StyledPanner = styled.div`
-  bottom: 0;
-  cursor: grab;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-`;
+const StyledPanner = styled.div({
+  bottom: 0,
+  cursor: "grab",
+  left: 0,
+  position: "absolute",
+  right: 0,
+  top: 0
+});
 
 export class Panner extends React.PureComponent {
   static propTypes = {

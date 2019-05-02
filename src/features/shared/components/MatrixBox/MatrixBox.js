@@ -1,21 +1,21 @@
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
-import styled from 'styled-components/macro';
-import { getExtraProps } from '../../helpers';
+import classnames from "classnames";
+import PropTypes from "prop-types";
+import React from "react";
+import styled from "styled-components/macro";
+import { getExtraProps } from "../../helpers";
 
-const StyledMatrixBox = styled.div`
-  display: flex;
-  flex: 1 0 auto;
-  position: relative;
-`;
+const StyledMatrixBox = styled.div({
+  display: "flex",
+  flex: "1 0 auto",
+  position: "relative"
+});
 
 export class MatrixBox extends React.Component {
   static propTypes = {
     fill: PropTypes.string,
     height: PropTypes.number,
     width: PropTypes.number,
-    matrix: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
+    matrix: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))
   };
 
   shouldComponentUpdate(nextProps) {
@@ -30,28 +30,26 @@ export class MatrixBox extends React.Component {
     const width = this.props.width + 3;
 
     return (
-      <StyledMatrixBox
-        {...getExtraProps(this)}>
+      <StyledMatrixBox {...getExtraProps(this)}>
         <svg
           height={height}
           style={{
             marginLeft: -1,
             marginRight: -1,
             marginTop: -1,
-            marginBottom: -1,
+            marginBottom: -1
           }}
           width={width}
           viewBox={`0 0 ${width} ${height}`}
           dangerouslySetInnerHTML={{
-            __html: this.getData(),
+            __html: this.getData()
           }}
         />
       </StyledMatrixBox>
     );
   }
 
-  getClassName = () =>
-    classnames('matrix-box', this.props.className);
+  getClassName = () => classnames("matrix-box", this.props.className);
 
   getData = () => {
     const rowCount = this.props.matrix.length;
@@ -80,9 +78,10 @@ export class MatrixBox extends React.Component {
     }
 
     if (nodeType === 2) {
-      return `M ${left},${top + 1} l1,0 l0,-1 l1,0 l0,1 l1,0 l0,1 l-1,0 l0,1 l-1,0 l0,-1 l-1,0 l0,-1`;
+      return `M ${left},${top +
+        1} l1,0 l0,-1 l1,0 l0,1 l1,0 l0,1 l-1,0 l0,1 l-1,0 l0,-1 l-1,0 l0,-1`;
     }
 
-    return '';
+    return "";
   };
 }

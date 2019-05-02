@@ -10,12 +10,12 @@ import shared from "../../../shared";
 
 const { authProvider } = shared.constants;
 
-const StyledSignIn = styled.div`
-  align-items: center;
-  display: flex;
-  flex: 1 1 auto;
-  justify-content: center;
-`;
+const StyledSignIn = styled.div({
+  alignItems: "center",
+  display: "flex",
+  flex: "1 1 auto",
+  justifyContent: "center"
+});
 
 export class SignIn extends React.Component {
   static propTypes = {
@@ -37,6 +37,7 @@ export class SignIn extends React.Component {
           <StyledSignIn>
             <Button
               onClick={() => firebase.auth().signInWithRedirect(authProvider)}
+              variant="contained"
             >
               {t("Sign in with Google")}
             </Button>

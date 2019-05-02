@@ -5,14 +5,14 @@ import { Translation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import styled from "styled-components/macro";
 
-const StyledSignOut = styled.div`
-  align-items: center;
-  color: white;
-  display: flex;
-  flex: 1 1 auto;
-  justify-content: center;
-  text-transform: uppercase;
-`;
+const StyledSignOut = styled.div({
+  alignItems: "center",
+  color: "white",
+  display: "flex",
+  flex: "1 1 auto",
+  justifyContent: "center",
+  textTransform: "uppercase"
+});
 
 export class SignOut extends React.Component {
   static propTypes = {

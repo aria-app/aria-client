@@ -3,48 +3,49 @@ import React, { useState } from "react";
 import Draggable from "react-draggable";
 import styled from "styled-components/macro";
 
-const DraggableWrapper = styled.div`
-  position: absolute;
-  transition: transform 200ms ease;
-`;
+const DraggableWrapper = styled.div({
+  position: "absolute",
+  transition: "transform 200ms ease"
+});
 
-const StyledRulerResizer = styled.div`
-  background-color: rgba(255, 255, 255, 0.5);
-  border: 1px solid white;
-  cursor: col-resize;
-  height: 32px;
-  left: 0;
-  position: absolute;
-  top: 3px;
-  transition: box-shadow 250ms ease, opacity 500ms ease, transform 350ms ease;
-  width: 24px;
-  &:hover:not(:active) {
-    background-color: rgba(255, 255, 255, 0.6);
-  }
-  &:active {
-    background-color: rgba(255, 255, 255, 0.4);
-  }
-  :after {
-    border-left: 2px dotted white;
-    border-right: 2px dotted white;
-    content: "";
-    display: block;
-    height: 10px;
-    left: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 4px;
-  }
-  ${props =>
-    props.isDragging
-      ? `
-      box-shadow: 0 4px 16px 4px rgba(0, 0, 0, 0.25);
-      opacity: 0.80;
-      transform: translateY(-4px) scale(1.05);
-      transition: box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease;`
-      : ""}
-`;
+const StyledRulerResizer = styled.div(props => ({
+  backgroundColor: "rgba(255, 255, 255, 0.5)",
+  border: "1px solid white",
+  cursor: "col-resize",
+  height: 32,
+  left: 0,
+  position: "absolute",
+  top: 3,
+  transition: "box-shadow 250ms ease, opacity 500ms ease, transform 350ms ease",
+  width: 24,
+  "&:hover:not(:active)": {
+    backgroundColor: "rgba(255, 255, 255, 0.6)"
+  },
+  "&:active": {
+    backgroundColor: "rgba(255, 255, 255, 0.4)"
+  },
+  ":after": {
+    borderLeft: "2px dotted white",
+    borderRight: "2px dotted white",
+    content: "''",
+    display: "block",
+    height: 10,
+    left: "50%",
+    position: "absolute",
+    top: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 4
+  },
+  ...(props.isDragging
+    ? {
+        boxShadow: "0 4px 16px 4px rgba(0, 0, 0, 0.25)",
+        opacity: 0.8,
+        transform: "translateY(-4px) scale(1.05)",
+        transition:
+          "box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease"
+      }
+    : {})
+}));
 
 RulerResizer.propTypes = {
   size: PropTypes.number.isRequired

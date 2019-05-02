@@ -19,29 +19,29 @@ const { DownloadButton } = shared.components;
 const getBPMRangeItem = x => ({ id: x, text: String(x) });
 const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
-const SongInfoModalBPMDropdown = styled(FormControl)`
-  margin-bottom: ${props => props.theme.margin.m}px;
-  margin-left: ${props => props.theme.margin.s}px;
-`;
+const SongInfoModalBPMDropdown = styled(FormControl)(props => ({
+  marginBottom: props.theme.margin.m,
+  marginLeft: props.theme.margin.s
+}));
 
-const SongInfoModalContent = styled(DialogContent)`
-  align-items: flex-start;
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  margin-left: ${props => -props.theme.margin.s}px;
-  margin-right: ${props => -props.theme.margin.s}px;
-`;
+const SongInfoModalContent = styled(DialogContent)(props => ({
+  alignItems: "flex-start",
+  display: "flex",
+  flex: "1 1 auto",
+  flexDirection: "column",
+  marginLeft: props.theme.margin.s * -1,
+  marginRight: props.theme.margin.s * -1
+}));
 
-const SongInfoModalTitle = styled(DialogTitle)`
-  font-weight: 800;
-  text-transform: uppercase;
-`;
+const SongInfoModalTitle = styled(DialogTitle)({
+  fontWeight: 800,
+  textTransform: "uppercase"
+});
 
-const SongInfoModalLabel = styled(Typography)`
-  margin-left: ${props => props.theme.margin.s}px;
-  margin-top: ${props => props.theme.margin.m}px;
-`;
+const SongInfoModalLabel = styled(Typography)(props => ({
+  marginLeft: props.theme.margin.s,
+  marginTop: props.theme.margin.m
+}));
 
 export class SongInfoModal extends React.PureComponent {
   static propTypes = {

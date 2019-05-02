@@ -1,32 +1,32 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import styled from 'styled-components/macro';
-import { getExtraProps } from '../../helpers';
+import PropTypes from "prop-types";
+import React from "react";
+import styled from "styled-components/macro";
+import { getExtraProps } from "../../helpers";
 
-const StyledToolbar = styled.div`
-  align-items: stretch;
-  background-color: ${props => props.theme.greystone};
-  border-top: 1px solid ${props => props.theme.midgray};
-  display: flex;
-  flex: 0 0 auto;
-  height: 56px;
-  padding-left: ${props => props.theme.margin.s}px;
-  padding-right: ${props => props.theme.margin.s}px;
-  position: relative;
-`;
+const StyledToolbar = styled.div(props => ({
+  alignItems: "stretch",
+  backgroundColor: props.theme.greystone,
+  borderTop: `1px solid ${props.theme.midgray}`,
+  display: "flex",
+  flex: "0 0 auto",
+  height: 56,
+  paddingLeft: props.theme.margin.s,
+  paddingRight: props.theme.margin.s,
+  position: "relative"
+}));
 
-const ToolbarLeftItems = styled.div`
-  align-items: center;
-  display: flex;
-  flex: 1 1 auto;
-`;
+const ToolbarLeftItems = styled.div({
+  alignItems: "center",
+  display: "flex",
+  flex: "1 1 auto"
+});
 
-const ToolbarRightItems = styled.div`
-  align-items: center;
-  display: flex;
-  flex: 0 0 auto;
-  margin-left: auto;
-`;
+const ToolbarRightItems = styled.div({
+  alignItems: "center",
+  display: "flex",
+  flex: "0 0 auto",
+  marginLeft: "auto"
+});
 
 export class Toolbar extends React.Component {
   static propTypes = {
@@ -34,26 +34,21 @@ export class Toolbar extends React.Component {
     leftItems: PropTypes.node,
     leftItemsAlt: PropTypes.node,
     rightItems: PropTypes.node,
-    rightItemsAlt: PropTypes.node,
-  }
+    rightItemsAlt: PropTypes.node
+  };
 
   static defaultProps = {
     leftItems: [],
     leftItemsAlt: [],
     rightItems: [],
-    rightItemsAlt: [],
-  }
+    rightItemsAlt: []
+  };
 
   render() {
     return (
-      <StyledToolbar
-        {...getExtraProps(this)}>
-        <ToolbarLeftItems>
-          {this.getLeftItems()}
-        </ToolbarLeftItems>
-        <ToolbarRightItems>
-          {this.getRightItems()}
-        </ToolbarRightItems>
+      <StyledToolbar {...getExtraProps(this)}>
+        <ToolbarLeftItems>{this.getLeftItems()}</ToolbarLeftItems>
+        <ToolbarRightItems>{this.getRightItems()}</ToolbarRightItems>
       </StyledToolbar>
     );
   }
