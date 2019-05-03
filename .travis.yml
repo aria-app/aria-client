@@ -11,6 +11,8 @@ cache:
 script:
   - yarn run lint
   - yarn run build
+after_success:
+  - npx framer-cli publish aria.framerfx --public --yes
 deploy:
   github_token: $GITHUB_TOKEN
   provider: pages
