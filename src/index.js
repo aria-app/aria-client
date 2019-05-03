@@ -27,9 +27,7 @@ store.dispatch(shared.actions.initialized());
 
 render(
   <JssProvider jss={jss} generateClassName={generateClassName}>
-    <BrowserRouter
-      basename={process.env.NODE_ENV === "production" ? "/aria" : undefined}
-    >
+    <BrowserRouter>
       <Provider store={store}>
         <AppContainer />
       </Provider>

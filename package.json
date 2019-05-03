@@ -2,7 +2,7 @@
   "name": "aria",
   "version": "1.0.0",
   "description": "Easy-to-use music sequencer inspired by Little Big Planet 2 + 3. ",
-  "homepage": "https://nickjohnson-dev.github.io/aria",
+  "homepage": "https://ariaapp.io",
   "main": "src/index.js",
   "private": true,
   "scripts": {
