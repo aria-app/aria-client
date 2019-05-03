@@ -2,7 +2,8 @@
 	"main": "dist/index.js",
 	"license": "MIT",
 	"devDependencies": {
-		"@types/react": "^16.4.16"
+		"@types/react": "^16.4.16",
+		"framer": "^0.10"
 	},
 	"peerDependencies": {
 		"framer": "^0.10",
@@ -10,7 +11,10 @@
 		"react-dom": "^16.3.0"
 	},
 	"framer": {
-		"id": "9e8d4d9f-917d-4682-a2b8-1e0ad9fd2017"
+		"id": "9e8d4d9f-917d-4682-a2b8-1e0ad9fd2017",
+		"displayName": "Aria Components"
 	},
-	"author": "Nick Johnson"
+	"author": "Nick Johnson",
+	"name": "@framer/nickjohnson-dev.aria-components",
+	"version": "1.0.0"
 }
