@@ -1,0 +1,21 @@
+language: node_js
+notifications:
+  email:
+    recipients:
+      - nickjohnson.dev@gmail.com
+node_js: 8
+cache:
+  yarn: true
+  directories:
+    - node_modules
+script:
+  - yarn run lint
+  - yarn run build
+deploy:
+  github_token: $GITHUB_TOKEN
+  provider: pages
+  skip_cleanup: true
+  keep_history: true
+  local_dir: build
+  on:
+    branch: master

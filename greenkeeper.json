@@ -1,0 +1,10 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "aria.framerfx/package.json",
+        "package.json"
+      ]
+    }
+  }
+}
