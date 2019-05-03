@@ -15,15 +15,17 @@
             "__class" : "CodeComponentNode",
             "aspectRatio" : null,
             "bottom" : null,
-            "centerAnchorX" : 0.34499999999999997,
-            "centerAnchorY" : 0.23311546840958605,
+            "centerAnchorX" : 0.29999999999999999,
+            "centerAnchorY" : 0.15032679738562091,
             "children" : [
 
             ],
             "clip" : true,
             "codeComponentIdentifier" : ".\/Button.tsx_Button",
             "codeComponentProps" : {
-              "text" : "Some kind of text"
+              "backgroundColor" : "hsl(0, 85%, 72%)",
+              "text" : "Poopity Scoop",
+              "variant" : "outlined"
             },
             "codeOverrideEnabled" : false,
             "constraintsLocked" : false,
@@ -44,7 +46,7 @@
             "fillImagePixelWidth" : null,
             "fillImageResize" : "fill",
             "fillType" : "color",
-            "height" : 112,
+            "height" : 36,
             "heightType" : 0,
             "id" : "cT5Rysnqg",
             "intrinsicHeight" : null,
@@ -66,7 +68,7 @@
             "rotation" : 0,
             "top" : 51,
             "visible" : true,
-            "width" : 178,
+            "width" : 142,
             "widthType" : 0
           }
         ],

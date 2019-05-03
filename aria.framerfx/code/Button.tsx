@@ -4,7 +4,9 @@ import MuiButton from "@material-ui/core/Button";
 
 export class Button extends React.Component<any> {
   render() {
-    return <MuiButton variant="contained">{this.props.text}</MuiButton>;
+    return <MuiButton style={{
+      backgroundColor: this.props.backgroundColor,
+    }} variant={this.props.variant}>{this.props.text}</MuiButton>;
   }
 
   static defaultProps = {
@@ -12,6 +14,17 @@ export class Button extends React.Component<any> {
   };
 
   static propertyControls = {
-    text: { type: ControlType.String, title: "Text" }
+    backgroundColor: {
+      type: ControlType.Color,
+      title: "Background Color",
+      defaultValue: "#fff",
+    },
+    text: { type: ControlType.String, title: "Text" },
+    variant: {
+      type: ControlType.Enum,
+      defaultValue: "text",
+      options: ["text", "outlined", "raised"],
+      optionTitles: ["Text", "Outlined", "Raised"],
+    }
   };
 }
