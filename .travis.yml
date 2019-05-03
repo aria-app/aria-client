@@ -1,0 +1,20 @@
+language: node_js
+notifications:
+  email:
+    recipients:
+      - nickjohnson.dev@gmail.com
+node_js: 8
+before_script:
+  - npm prune
+script:
+  - npm run lint
+  - npm run build
+deploy:
+  github_token: $GITHUB_TOKEN
+  provider: pages
+  skip_cleanup: true
+  keep_history: true
+  local_dir: build
+  on:
+    branch: master
+  target_branch: master
