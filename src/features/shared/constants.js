@@ -2,7 +2,7 @@ import * as firebase from "firebase/app";
 
 firebase.initializeApp({
   apiKey: "AIzaSyCqOmjU9tOG_qpc5cMuBhKk5pJGL76LYcY",
-  authDomain: "ariaapp.io",
+  authDomain: "zen-sequencer.firebaseapp.com",
   databaseURL: "https://zen-sequencer.firebaseio.com",
   projectId: "zen-sequencer",
   storageBucket: "zen-sequencer.appspot.com",
