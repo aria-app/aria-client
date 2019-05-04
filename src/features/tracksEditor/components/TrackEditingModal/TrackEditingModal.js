@@ -21,12 +21,12 @@ const maxVolume = 0;
 const DeleteButton = styled(Button)(props => ({
   alignSelf: "stretch",
   marginLeft: props.theme.margin.s,
-  marginRight: props.theme.margin.s
+  marginRight: props.theme.margin.s,
 }));
 
 const TrackEditingModalDropdown = styled(FormControl)(props => ({
   marginBottom: props.theme.margin.m,
-  marginLeft: props.theme.margin.s
+  marginLeft: props.theme.margin.s,
 }));
 
 const TrackEditingModalContent = styled(DialogContent)(props => ({
@@ -35,12 +35,12 @@ const TrackEditingModalContent = styled(DialogContent)(props => ({
   flex: "1 1 auto",
   flexDirection: "column",
   marginLeft: props.theme.margin.s * -1,
-  marginRight: props.theme.margin.s * -1
+  marginRight: props.theme.margin.s * -1,
 }));
 
 const TrackEditingModalTitle = styled(DialogTitle)({
   fontWeight: 800,
-  textTransform: "uppercase"
+  textTransform: "uppercase",
 });
 
 export class TrackEditingModal extends React.PureComponent {
@@ -49,7 +49,7 @@ export class TrackEditingModal extends React.PureComponent {
     onDismiss: PropTypes.func.isRequired,
     onVoiceSet: PropTypes.func.isRequired,
     onVolumeSet: PropTypes.func.isRequired,
-    stagedTrack: PropTypes.object.isRequired
+    stagedTrack: PropTypes.object.isRequired,
   };
 
   render() {

@@ -1,7 +1,7 @@
-import { createLogic } from 'redux-logic';
-import shared from '../../shared';
-import dawww from '../dawww';
-import * as selectors from '../selectors';
+import { createLogic } from "redux-logic";
+import shared from "../../shared";
+import dawww from "../dawww";
+import * as selectors from "../selectors";
 
 export const loadSong = createLogic({
   type: shared.actions.SONG_LOADED,

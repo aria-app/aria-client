@@ -15,5 +15,5 @@ export const subscribeToPosition = createLogic({
 
       dispatch(shared.actions.positionRequestSucceeded(position));
     });
-  }
+  },
 });

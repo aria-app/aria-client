@@ -62,23 +62,23 @@ export class DropdownList extends React.PureComponent {
     items: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-        text: PropTypes.string
-      })
+        text: PropTypes.string,
+      }),
     ).isRequired,
     onSelectedIdChange: PropTypes.func,
     onSelectedItemChange: PropTypes.func,
     selectedId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     selectedItem: PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-      text: PropTypes.string
+      text: PropTypes.string,
     }),
-    text: PropTypes.string
+    text: PropTypes.string,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false
+      isOpen: false,
     };
   }
 
@@ -96,7 +96,7 @@ export class DropdownList extends React.PureComponent {
             className="dropdown-list__button"
             onClick={this.handleButtonClick}
             icon={this.props.icon}
-          />
+          />,
         )}
         {hideIf(this.props.icon)(
           <DropdownListInput onClick={this.handleInputClick}>
@@ -106,7 +106,7 @@ export class DropdownList extends React.PureComponent {
               icon="caret-down"
               size="small"
             />
-          </DropdownListInput>
+          </DropdownListInput>,
         )}
         {showIf(this.state.isOpen)(
           <React.Fragment>
@@ -128,7 +128,7 @@ export class DropdownList extends React.PureComponent {
                 ))}
               </DropdownListItems>
             </DropdownListPopup>
-          </React.Fragment>
+          </React.Fragment>,
         )}
       </StyledDropdownList>
     );
@@ -136,7 +136,7 @@ export class DropdownList extends React.PureComponent {
 
   getPopupStyle = () => {
     return {
-      height: this.props.items.length * 48 + 16
+      height: this.props.items.length * 48 + 16,
     };
   };
 
@@ -147,7 +147,7 @@ export class DropdownList extends React.PureComponent {
 
     if (this.props.selectedId) {
       return find({
-        id: this.props.selectedId
+        id: this.props.selectedId,
       })(this.props.items);
     }
 
@@ -174,19 +174,19 @@ export class DropdownList extends React.PureComponent {
 
   handleButtonClick = () => {
     this.setState({
-      isOpen: true
+      isOpen: true,
     });
   };
 
   handleInputClick = () => {
     this.setState({
-      isOpen: true
+      isOpen: true,
     });
   };
 
   handleOverlayClick = () => {
     this.setState({
-      isOpen: false
+      isOpen: false,
     });
   };
 
@@ -200,7 +200,7 @@ export class DropdownList extends React.PureComponent {
     }
 
     this.setState({
-      isOpen: false
+      isOpen: false,
     });
   };
 

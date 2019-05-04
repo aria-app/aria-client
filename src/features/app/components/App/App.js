@@ -29,7 +29,7 @@ const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
         <Redirect
           to={{
             pathname: "/sign-in",
-            state: { from: props.location }
+            state: { from: props.location },
           }}
         />
       )
@@ -42,7 +42,7 @@ const LoadingIndicator = styled.div({
   color: "white",
   display: "flex",
   flex: "1 1 auto",
-  justifyContent: "center"
+  justifyContent: "center",
 });
 
 export class App extends React.PureComponent {
@@ -52,7 +52,7 @@ export class App extends React.PureComponent {
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
-    playbackState: PropTypes.string.isRequired
+    playbackState: PropTypes.string.isRequired,
   };
 
   render() {
@@ -68,7 +68,7 @@ export class App extends React.PureComponent {
           >
             <Shell>
               {hideIf(this.props.didAuthenticationRun)(
-                <LoadingIndicator>AUTHENTICATING...</LoadingIndicator>
+                <LoadingIndicator>AUTHENTICATING...</LoadingIndicator>,
               )}
               {showIf(this.props.didAuthenticationRun)(
                 <React.Fragment>
@@ -94,7 +94,7 @@ export class App extends React.PureComponent {
                     isAuthenticated={this.props.isAuthenticated}
                     path="/song/:songId"
                   />
-                </React.Fragment>
+                </React.Fragment>,
               )}
             </Shell>
           </HotKeys>
@@ -105,7 +105,7 @@ export class App extends React.PureComponent {
 
   getKeyHandlers = () => ({
     enter: this.playPause,
-    esc: this.stop
+    esc: this.stop,
   });
 
   playPause = () => {

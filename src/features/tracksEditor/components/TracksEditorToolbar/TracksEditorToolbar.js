@@ -1,9 +1,9 @@
-import isEmpty from 'lodash/fp/isEmpty';
-import negate from 'lodash/fp/negate';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { showIf } from 'react-render-helpers';
-import shared from '../../../shared';
+import isEmpty from "lodash/fp/isEmpty";
+import negate from "lodash/fp/negate";
+import PropTypes from "prop-types";
+import React from "react";
+import { showIf } from "react-render-helpers";
+import shared from "../../../shared";
 
 const { IconButton, Toolbar } = shared.components;
 
@@ -17,7 +17,7 @@ export class TracksEditorToolbar extends React.PureComponent {
     onSequenceOpen: PropTypes.func,
     onUndo: PropTypes.func,
     selectedSequence: PropTypes.object,
-  }
+  };
 
   static defaultProps = {
     selectedSequence: {},
@@ -42,7 +42,7 @@ export class TracksEditorToolbar extends React.PureComponent {
                 isDisabled={!this.props.isRedoEnabled}
                 onClick={this.props.onRedo}
                 title="Redo"
-              />
+              />,
             )}
           </React.Fragment>
         }
@@ -60,32 +60,22 @@ export class TracksEditorToolbar extends React.PureComponent {
                 isDisabled={!this.props.isRedoEnabled}
                 onClick={this.props.onRedo}
                 title="Redo"
-              />
+              />,
             )}
           </React.Fragment>
         }
         rightItemsAlt={
           <React.Fragment>
-            <IconButton
-              icon="pencil"
-              onClick={this.openSequence}
-            />
-            <IconButton
-              icon="clone"
-              onClick={this.props.onSequenceDuplicate}
-            />
-            <IconButton
-              icon="trash"
-              onClick={this.props.onSequenceDelete}
-            />
+            <IconButton icon="pencil" onClick={this.openSequence} />
+            <IconButton icon="clone" onClick={this.props.onSequenceDuplicate} />
+            <IconButton icon="trash" onClick={this.props.onSequenceDelete} />
           </React.Fragment>
         }
       />
     );
   }
 
-  getIsAlternate = () =>
-    negate(isEmpty)(this.props.selectedSequence);
+  getIsAlternate = () => negate(isEmpty)(this.props.selectedSequence);
 
   openSequence = () => {
     this.props.onSequenceOpen(this.props.selectedSequence);

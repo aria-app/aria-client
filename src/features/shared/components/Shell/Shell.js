@@ -11,5 +11,5 @@ export const Shell = styled.div(props => ({
   overflow: "hidden",
   position: "absolute",
   right: 0,
-  top: 0
+  top: 0,
 }));

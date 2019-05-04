@@ -18,26 +18,26 @@ const LoadingIndicator = styled(animated.div)({
   left: 0,
   position: "absolute",
   right: 0,
-  top: 0
+  top: 0,
 });
 
 const DashboardCenteredContent = styled.div(props => ({
   alignSelf: "center",
   maxWidth: props.theme.minWidthWidescreen,
-  width: "100%"
+  width: "100%",
 }));
 
 const DashboardUserImage = styled.img({
   borderRadius: "50%",
   height: 40,
-  width: 40
+  width: 40,
 });
 
 const DashboardUserInfo = styled.div({
   alignItems: "center",
   display: "flex",
   flex: "0 0 auto",
-  height: "100%"
+  height: "100%",
 });
 
 const Fab = styled.div(props => ({
@@ -52,7 +52,7 @@ const Fab = styled.div(props => ({
   justifyContent: "center",
   position: "absolute",
   right: 24,
-  width: 56
+  width: 56,
   // TODO: ${mixins.interactionOverlay("black")}
 }));
 
@@ -60,7 +60,7 @@ const StyledDashboard = styled.div({
   display: "flex",
   flex: "1 1 auto",
   flexDirection: "column",
-  position: "relative"
+  position: "relative",
 });
 
 export class Dashboard extends React.Component {
@@ -70,7 +70,7 @@ export class Dashboard extends React.Component {
     onSongAdd: PropTypes.func,
     onSongDelete: PropTypes.func,
     songs: PropTypes.object,
-    user: PropTypes.object
+    user: PropTypes.object,
   };
 
   componentDidMount() {
@@ -123,13 +123,13 @@ export class Dashboard extends React.Component {
     if (!name) return;
 
     this.props.onSongAdd({
-      name
+      name,
     });
   };
 
   deleteSong = song => {
     const shouldDelete = window.confirm(
-      `Are you sure you want to delete the song "${song.name}"?`
+      `Are you sure you want to delete the song "${song.name}"?`,
     );
 
     if (!shouldDelete) return;

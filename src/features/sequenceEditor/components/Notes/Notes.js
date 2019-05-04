@@ -19,7 +19,7 @@ const StyledNotes = styled.div(props => ({
   pointerEvents: "none",
   position: "absolute",
   top: 0,
-  width: props.measureCount * 4 * 8 * 40
+  width: props.measureCount * 4 * 8 * 40,
 }));
 
 export class Notes extends React.PureComponent {
@@ -32,11 +32,11 @@ export class Notes extends React.PureComponent {
     onResize: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
     selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
-    toolType: PropTypes.string.isRequired
+    toolType: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
-    selectedNotes: []
+    selectedNotes: [],
   };
 
   constructor(props) {
@@ -47,14 +47,14 @@ export class Notes extends React.PureComponent {
         bottom: (Dawww.OCTAVE_RANGE.length * 12 - 1) * 40,
         left: 0,
         right: (props.measureCount * 8 * 4 - 1) * 40,
-        top: 0
+        top: 0,
       },
       positionDeltas: {},
       sizeBounds: {
         left: 0,
-        right: (props.measureCount * 8 * 4 - 1) * 40
+        right: (props.measureCount * 8 * 4 - 1) * 40,
       },
-      sizeDeltas: {}
+      sizeDeltas: {},
     };
   }
 
@@ -91,7 +91,7 @@ export class Notes extends React.PureComponent {
   getIsSelectEnabled = () =>
     includes(this.props.toolType, [
       constants.toolTypes.DRAW,
-      constants.toolTypes.SELECT
+      constants.toolTypes.SELECT,
     ]);
 
   erase = note => {
@@ -111,18 +111,18 @@ export class Notes extends React.PureComponent {
     };
     const newDeltas = this.props.selectedNotes.reduce(
       deltaReducer,
-      this.state.positionDeltas
+      this.state.positionDeltas,
     );
 
     if (isEqual(newDeltas, this.state.positionDeltas)) return;
 
     const adjustedNotes = applyPositionDeltas(
       this.props.selectedNotes,
-      newDeltas
+      newDeltas,
     );
 
     this.setState({
-      positionDeltas: newDeltas
+      positionDeltas: newDeltas,
     });
 
     this.props.onDragPreview(adjustedNotes);
@@ -144,8 +144,8 @@ export class Notes extends React.PureComponent {
         bottom: (baseBottom - (maxY - draggedY)) * 40,
         left: (draggedX - minX) * 40,
         right: (baseRight - (maxX - draggedX)) * 40,
-        top: (draggedY - minY) * 40
-      }
+        top: (draggedY - minY) * 40,
+      },
     });
 
     this.erase(draggedNote);
@@ -155,11 +155,11 @@ export class Notes extends React.PureComponent {
 
   handleNoteDragStop = () => {
     this.props.onDrag(
-      applyPositionDeltas(this.props.notes, this.state.positionDeltas)
+      applyPositionDeltas(this.props.notes, this.state.positionDeltas),
     );
 
     this.setState({
-      positionDeltas: {}
+      positionDeltas: {},
     });
   };
 
@@ -172,13 +172,13 @@ export class Notes extends React.PureComponent {
     };
     const newDeltas = this.props.selectedNotes.reduce(
       deltaReducer,
-      this.state.sizeDeltas
+      this.state.sizeDeltas,
     );
 
     if (isEqual(newDeltas, this.state.sizeDeltas)) return;
 
     this.setState({
-      sizeDeltas: newDeltas
+      sizeDeltas: newDeltas,
     });
   };
 
@@ -190,8 +190,8 @@ export class Notes extends React.PureComponent {
     this.setState({
       sizeBounds: {
         left: 40,
-        right: (baseRight - maxPositionX) * 40
-      }
+        right: (baseRight - maxPositionX) * 40,
+      },
     });
 
     this.select(sizedNote, e);
@@ -199,18 +199,18 @@ export class Notes extends React.PureComponent {
 
   handleNoteEndPointDragStop = () => {
     this.props.onResize(
-      applySizeDeltas(this.props.notes, this.state.sizeDeltas)
+      applySizeDeltas(this.props.notes, this.state.sizeDeltas),
     );
 
     this.setState({
-      sizeDeltas: {}
+      sizeDeltas: {},
     });
   };
 
   getAdjustedNotes = () =>
     applySizeDeltas(
       applyPositionDeltas(this.props.notes, this.state.positionDeltas),
-      this.state.sizeDeltas
+      this.state.sizeDeltas,
     );
 
   select = (note, e) => {
@@ -236,8 +236,8 @@ function applyPositionDeltas(notes, deltas) {
       ...note,
       points: note.points.map(point => ({
         x: point.x + noteDelta.x,
-        y: point.y + noteDelta.y
-      }))
+        y: point.y + noteDelta.y,
+      })),
     };
   });
 }
@@ -254,9 +254,9 @@ function applySizeDeltas(notes, deltas) {
         note.points[0],
         {
           x: note.points[1].x + noteDelta.x,
-          y: note.points[1].y
-        }
-      ]
+          y: note.points[1].y,
+        },
+      ],
     };
   });
 }

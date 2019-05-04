@@ -16,7 +16,7 @@ const StyledSongEditor = styled(HotKeys)({
   flex: "1 1 auto",
   flexDirection: "column",
   overflow: "hidden",
-  position: "relative"
+  position: "relative",
 });
 
 export class SongEditor extends React.PureComponent {
@@ -27,11 +27,11 @@ export class SongEditor extends React.PureComponent {
     onPlay: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
     playbackState: PropTypes.string.isRequired,
-    song: PropTypes.object
+    song: PropTypes.object,
   };
 
   state = {
-    isSongInfoModalOpen: false
+    isSongInfoModalOpen: false,
   };
 
   componentDidUpdate(prevProps) {
@@ -75,13 +75,13 @@ export class SongEditor extends React.PureComponent {
 
   closeSongInfo = () => {
     this.setState({
-      isSongInfoModalOpen: false
+      isSongInfoModalOpen: false,
     });
   };
 
   openSongInfo = () => {
     this.setState({
-      isSongInfoModalOpen: true
+      isSongInfoModalOpen: true,
     });
   };
 

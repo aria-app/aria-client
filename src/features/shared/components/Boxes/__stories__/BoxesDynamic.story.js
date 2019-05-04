@@ -1,14 +1,15 @@
-import React from 'react';
-import { Boxes, Shell } from '../../../components';
+import React from "react";
+import { Boxes, Shell } from "../../../components";
 
 const Content = props => (
   <div
     className="content"
     style={{
-      backgroundColor: 'red',
-      color: 'white',
-      flex: '1 1 auto',
-    }}>
+      backgroundColor: "red",
+      color: "white",
+      flex: "1 1 auto",
+    }}
+  >
     {props.item.id}
   </div>
 );
@@ -34,7 +35,8 @@ export class BoxesDynamic extends React.Component {
       <Shell
         style={{
           padding: 16,
-        }}>
+        }}
+      >
         <Boxes
           boxContentComponent={Content}
           items={this.state.items}
@@ -49,7 +51,7 @@ export class BoxesDynamic extends React.Component {
     );
   }
 
-  handleItemsChange = (items) => {
+  handleItemsChange = items => {
     this.setState({
       items,
     });

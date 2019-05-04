@@ -6,9 +6,9 @@ import shared from "../../../shared";
 const { IconButton } = shared.components;
 
 const SongListItemDeleteButton = styled(IconButton).attrs(props => ({
-  color: props.theme.almostwhite
+  color: props.theme.almostwhite,
 }))(props => ({
-  marginRight: props.theme.margin.s * -1
+  marginRight: props.theme.margin.s * -1,
 }));
 
 const SongListItemText = styled.div({
@@ -16,7 +16,7 @@ const SongListItemText = styled.div({
   alignSelf: "stretch",
   color: "white",
   display: "flex",
-  flex: "1 1 auto"
+  flex: "1 1 auto",
 });
 
 const StyledSongListItem = styled.div(props => ({
@@ -27,7 +27,7 @@ const StyledSongListItem = styled.div(props => ({
   height: 48,
   paddingLeft: props.theme.margin.m,
   paddingRight: props.theme.margin.m,
-  position: "relative"
+  position: "relative",
   // TODO: ${mixins.interactionOverlay('white')}
 }));
 
@@ -35,7 +35,7 @@ export class SongListItem extends React.Component {
   static propTypes = {
     onDelete: PropTypes.func,
     onOpen: PropTypes.func,
-    song: PropTypes.object
+    song: PropTypes.object,
   };
 
   render() {

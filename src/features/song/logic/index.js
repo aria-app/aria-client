@@ -1,7 +1,4 @@
-import { fetchSongToEdit } from './fetchSongToEdit';
-import { updateSongOnChange } from './updateSongOnChange';
+import { fetchSongToEdit } from "./fetchSongToEdit";
+import { updateSongOnChange } from "./updateSongOnChange";
 
-export default [
-  fetchSongToEdit,
-  updateSongOnChange,
-];
+export default [fetchSongToEdit, updateSongOnChange];

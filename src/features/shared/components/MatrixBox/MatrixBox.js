@@ -7,7 +7,7 @@ import { getExtraProps } from "../../helpers";
 const StyledMatrixBox = styled.div({
   display: "flex",
   flex: "1 0 auto",
-  position: "relative"
+  position: "relative",
 });
 
 export class MatrixBox extends React.Component {
@@ -15,7 +15,7 @@ export class MatrixBox extends React.Component {
     fill: PropTypes.string,
     height: PropTypes.number,
     width: PropTypes.number,
-    matrix: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))
+    matrix: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   };
 
   shouldComponentUpdate(nextProps) {
@@ -37,12 +37,12 @@ export class MatrixBox extends React.Component {
             marginLeft: -1,
             marginRight: -1,
             marginTop: -1,
-            marginBottom: -1
+            marginBottom: -1,
           }}
           width={width}
           viewBox={`0 0 ${width} ${height}`}
           dangerouslySetInnerHTML={{
-            __html: this.getData()
+            __html: this.getData(),
           }}
         />
       </StyledMatrixBox>

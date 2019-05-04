@@ -1,7 +1,7 @@
-import Dawww from 'dawww';
-import { createLogic } from 'redux-logic';
-import shared from '../../shared';
-import * as selectors from '../selectors';
+import Dawww from "dawww";
+import { createLogic } from "redux-logic";
+import shared from "../../shared";
+import * as selectors from "../selectors";
 
 const { db } = shared.constants;
 
@@ -12,19 +12,21 @@ export const addSong = createLogic({
     const user = selectors.getUser(getState());
 
     const song = {
-  		...Dawww.createSong(),
+      ...Dawww.createSong(),
       dateModified: Date.now(),
-  		userId: user.uid,
+      userId: user.uid,
       ...action.payload.options,
-  	};
+    };
 
-  	db.collection('songs').doc(song.id).set(song)
+    db.collection("songs")
+      .doc(song.id)
+      .set(song)
       .then(() => {
         dispatch(shared.actions.songAddRequestSucceeded(song));
         done();
       })
-      .catch((error) => {
-        console.error('Error while adding song: ', error);
+      .catch(error => {
+        console.error("Error while adding song: ", error);
       });
   },
 });

@@ -12,7 +12,7 @@ const { MatrixBox } = shared.components;
 const RulerMeasureNumber = styled.div({
   color: "rgba(255, 255, 255, 0.5)",
   fontSize: 10,
-  position: "absolute"
+  position: "absolute",
 });
 
 const StyledRuler = styled.div(props => ({
@@ -21,7 +21,7 @@ const StyledRuler = styled.div(props => ({
   flex: "0 0 auto",
   height: 35,
   marginBottom: props.theme.margin.m,
-  position: "relative"
+  position: "relative",
 }));
 
 export class Ruler extends React.PureComponent {
@@ -30,7 +30,7 @@ export class Ruler extends React.PureComponent {
     measureWidth: PropTypes.number.isRequired,
     onMeasureCountChange: PropTypes.func.isRequired,
     onPositionSet: PropTypes.func.isRequired,
-    isStopped: PropTypes.bool.isRequired
+    isStopped: PropTypes.bool.isRequired,
   };
 
   render() {
@@ -38,7 +38,7 @@ export class Ruler extends React.PureComponent {
       <StyledRuler
         onClick={this.handleClick}
         style={{
-          width: this.getWidth()
+          width: this.getWidth(),
         }}
       >
         <MatrixBox
@@ -53,13 +53,13 @@ export class Ruler extends React.PureComponent {
               key={i}
               style={{
                 left: i * 64 + 6,
-                bottom: 0
+                bottom: 0,
               }}
             >
               {i + 1}
             </RulerMeasureNumber>
           ),
-          this.props.measureCount
+          this.props.measureCount,
         )}
         <RulerResizer
           onSizeChange={this.props.onMeasureCountChange}
@@ -88,12 +88,12 @@ export class Ruler extends React.PureComponent {
           }
           return 0;
         }, this.props.measureCount * 8 + 1),
-      5
+      5,
     );
 
   getMeasuresStyle() {
     return {
-      width: this.props.measureCount * this.props.measureWidth
+      width: this.props.measureCount * this.props.measureWidth,
     };
   }
 

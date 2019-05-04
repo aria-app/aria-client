@@ -9,7 +9,7 @@ import { Note } from "../Note/Note";
 
 const DrawLayerGhostNote = styled(Note)({
   opacity: 0.4,
-  pointerEvents: "none"
+  pointerEvents: "none",
 });
 
 const StyledDrawLayer = styled.div({
@@ -17,18 +17,18 @@ const StyledDrawLayer = styled.div({
   left: 0,
   position: "absolute",
   right: 0,
-  top: 0
+  top: 0,
 });
 
 export class DrawLayer extends React.PureComponent {
   static propTypes = {
     mousePoint: PropTypes.object.isRequired,
-    onDraw: PropTypes.func.isRequired
+    onDraw: PropTypes.func.isRequired,
   };
 
   state = {
     isMouseOver: false,
-    isDrawing: false
+    isDrawing: false,
   };
 
   render() {
@@ -41,7 +41,7 @@ export class DrawLayer extends React.PureComponent {
         ref={this.setRef}
       >
         {showIf(this.state.isMouseOver)(
-          <DrawLayerGhostNote note={this.getGhostNoteNote()} />
+          <DrawLayerGhostNote note={this.getGhostNoteNote()} />,
         )}
       </StyledDrawLayer>
     );
@@ -53,13 +53,13 @@ export class DrawLayer extends React.PureComponent {
       points: [
         {
           x: point ? point.x : 0,
-          y: point ? point.y : 0
+          y: point ? point.y : 0,
         },
         {
           x: point ? point.x + 1 : 0,
-          y: point ? point.y : 0
-        }
-      ]
+          y: point ? point.y : 0,
+        },
+      ],
     };
   }
 
@@ -67,32 +67,32 @@ export class DrawLayer extends React.PureComponent {
 
   handleMouseDown = () => {
     this.setState({
-      isDrawing: true
+      isDrawing: true,
     });
   };
 
   handleMouseEnter = () => {
     this.setState({
-      isMouseOver: true
+      isMouseOver: true,
     });
   };
 
   handleMouseLeave = e => {
     this.setState({
-      isMouseOver: false
+      isMouseOver: false,
     });
 
     if (!this.getIsDrawing()) return;
 
     const primaryClassName = `.${compose(
       first,
-      split(" ")
+      split(" "),
     )(e.target.className)}`;
     const isDescendant = !!this.elementRef.querySelector(primaryClassName);
     if (isDescendant) return;
 
     this.setState({
-      isDrawing: false
+      isDrawing: false,
     });
   };
 
@@ -101,7 +101,7 @@ export class DrawLayer extends React.PureComponent {
     const point = this.props.mousePoint;
     this.props.onDraw(point);
     this.setState({
-      isDrawing: false
+      isDrawing: false,
     });
   };
 

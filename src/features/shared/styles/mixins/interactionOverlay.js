@@ -1,4 +1,4 @@
-export const interactionOverlay = (baseBgColor) => `
+export const interactionOverlay = baseBgColor => `
 	&::after {
 		background-color: ${baseBgColor};
 		bottom: 0;

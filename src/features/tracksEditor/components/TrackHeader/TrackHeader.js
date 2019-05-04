@@ -15,9 +15,9 @@ export const TrackHeader = styled.div(props => ({
   transform: "scale(1)",
   transition: "transform 0.2s ease",
   "&:hover:not(:active)": {
-    transform: "scale(1.05)"
+    transform: "scale(1.05)",
   },
   "&:active": {
-    transform: "scale(0.9)"
-  }
+    transform: "scale(0.9)",
+  },
 }));

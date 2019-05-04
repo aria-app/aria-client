@@ -5,7 +5,7 @@ import styled from "styled-components/macro";
 
 const DraggableWrapper = styled.div({
   position: "absolute",
-  transition: "transform 200ms ease"
+  transition: "transform 200ms ease",
 });
 
 const StyledRulerResizer = styled.div(props => ({
@@ -19,10 +19,10 @@ const StyledRulerResizer = styled.div(props => ({
   transition: "box-shadow 250ms ease, opacity 500ms ease, transform 350ms ease",
   width: 24,
   "&:hover:not(:active)": {
-    backgroundColor: "rgba(255, 255, 255, 0.6)"
+    backgroundColor: "rgba(255, 255, 255, 0.6)",
   },
   "&:active": {
-    backgroundColor: "rgba(255, 255, 255, 0.4)"
+    backgroundColor: "rgba(255, 255, 255, 0.4)",
   },
   ":after": {
     borderLeft: "2px dotted white",
@@ -34,7 +34,7 @@ const StyledRulerResizer = styled.div(props => ({
     position: "absolute",
     top: "50%",
     transform: "translate(-50%, -50%)",
-    width: 4
+    width: 4,
   },
   ...(props.isDragging
     ? {
@@ -42,13 +42,13 @@ const StyledRulerResizer = styled.div(props => ({
         opacity: 0.8,
         transform: "translateY(-4px) scale(1.05)",
         transition:
-          "box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease"
+          "box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease",
       }
-    : {})
+    : {}),
 }));
 
 RulerResizer.propTypes = {
-  size: PropTypes.number.isRequired
+  size: PropTypes.number.isRequired,
 };
 
 export function RulerResizer(props) {
@@ -56,12 +56,12 @@ export function RulerResizer(props) {
 
   const getPosition = () => ({
     x: props.size * 64 + 16,
-    y: 0
+    y: 0,
   });
 
   const handleDrag = (e, dragData) => {
     props.onSizeChange(
-      Math.max(1, props.size + Math.round(dragData.deltaX / 64))
+      Math.max(1, props.size + Math.round(dragData.deltaX / 64)),
     );
   };
 
@@ -69,7 +69,7 @@ export function RulerResizer(props) {
     <Draggable
       axis="x"
       bounds={{
-        left: 64 - 16
+        left: 64 - 16,
       }}
       grid={[64, 0]}
       onDrag={handleDrag}

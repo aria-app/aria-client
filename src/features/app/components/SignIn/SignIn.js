@@ -14,12 +14,12 @@ const StyledSignIn = styled.div({
   alignItems: "center",
   display: "flex",
   flex: "1 1 auto",
-  justifyContent: "center"
+  justifyContent: "center",
 });
 
 export class SignIn extends React.Component {
   static propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired
+    isAuthenticated: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {

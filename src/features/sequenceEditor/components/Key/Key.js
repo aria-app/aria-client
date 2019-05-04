@@ -9,7 +9,7 @@ const KeyLabel = styled.div(props => ({
   display:
     includes("C", props.step.name) && !includes("#", props.step.name)
       ? "block"
-      : "none"
+      : "none",
 }));
 
 const StyledKey = styled.div(props => ({
@@ -19,7 +19,7 @@ const StyledKey = styled.div(props => ({
     : props.theme.almostwhite,
   boxShadow: `2px 0 0 ${transparentize(
     includes("#", props.step.name) ? 0.9 : 0.5,
-    props.theme.almostwhite
+    props.theme.almostwhite,
   )}`,
   cursor: "pointer",
   display: "flex",
@@ -40,8 +40,8 @@ const StyledKey = styled.div(props => ({
     pointerEvents: "none",
     position: "absolute",
     top: 0,
-    width: 2
-  }
+    width: 2,
+  },
 }));
 
 export class Key extends React.PureComponent {
@@ -49,7 +49,7 @@ export class Key extends React.PureComponent {
     isHoveredRow: PropTypes.bool,
     onMouseDown: PropTypes.func,
     step: PropTypes.object,
-    style: PropTypes.object
+    style: PropTypes.object,
   };
 
   render() {

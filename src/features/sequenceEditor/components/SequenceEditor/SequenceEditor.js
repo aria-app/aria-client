@@ -24,7 +24,7 @@ const LoadingIndicator = styled.div({
   color: "white",
   display: "flex",
   flex: "1 1 auto",
-  justifyContent: "center"
+  justifyContent: "center",
 });
 
 const SequenceEditorContent = styled.div({
@@ -32,14 +32,14 @@ const SequenceEditorContent = styled.div({
   flex: "1 1 auto",
   flexDirection: "column",
   overflowX: "hidden",
-  overflowY: "scroll"
+  overflowY: "scroll",
 });
 
 const SequenceEditorWrapper = styled.div({
   display: "flex",
   flex: "1 0 auto",
   paddingBottom: 64,
-  paddingTop: 64
+  paddingTop: 64,
 });
 
 const StyledSequenceEditor = styled(HotKeys)({
@@ -47,7 +47,7 @@ const StyledSequenceEditor = styled(HotKeys)({
   flex: "1 1 auto",
   flexDirection: "column",
   overflow: "hidden",
-  position: "relative"
+  position: "relative",
 });
 
 export class SequenceEditor extends React.PureComponent {
@@ -68,7 +68,7 @@ export class SequenceEditor extends React.PureComponent {
     onRedo: PropTypes.func.isRequired,
     onResize: PropTypes.func.isRequired,
     onUndo: PropTypes.func.isRequired,
-    sequence: PropTypes.object.isRequired
+    sequence: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -78,14 +78,14 @@ export class SequenceEditor extends React.PureComponent {
       gridMousePoint: { x: -1, y: -1 },
       previousToolType: toolTypes.SELECT,
       selectedNoteIds: [],
-      toolType: toolTypes.SELECT
+      toolType: toolTypes.SELECT,
     };
   }
 
   componentDidMount() {
     this.props.onLoad(
       this.props.match.params.songId,
-      this.props.match.params.sequenceId
+      this.props.match.params.sequenceId,
     );
 
     this.focusRef.current.focus();
@@ -93,7 +93,7 @@ export class SequenceEditor extends React.PureComponent {
     if (!this.contentElementRef) return;
 
     this.contentElementRef.scrollTop = shared.helpers.getCenteredScroll(
-      this.contentElementRef
+      this.contentElementRef,
     );
   }
 
@@ -103,7 +103,7 @@ export class SequenceEditor extends React.PureComponent {
     if (!this.contentElementRef) return;
 
     this.contentElementRef.scrollTop = shared.helpers.getCenteredScroll(
-      this.contentElementRef
+      this.contentElementRef,
     );
   }
 
@@ -112,7 +112,7 @@ export class SequenceEditor extends React.PureComponent {
       <StyledSequenceEditor focused={true} handlers={this.getKeyHandlers()}>
         <div ref={this.focusRef} tabIndex={-1} />
         {showIf(this.props.isLoading)(
-          <LoadingIndicator>LOADING SONG...</LoadingIndicator>
+          <LoadingIndicator>LOADING SONG...</LoadingIndicator>,
         )}
         {hideIf(this.props.isLoading)(
           <React.Fragment>
@@ -160,7 +160,7 @@ export class SequenceEditor extends React.PureComponent {
               selectedNotes={this.getSelectedNotes()}
               toolType={this.state.toolType}
             />
-          </React.Fragment>
+          </React.Fragment>,
         )}
       </StyledSequenceEditor>
     );
@@ -168,7 +168,7 @@ export class SequenceEditor extends React.PureComponent {
 
   activateDrawTool = () => {
     this.setState({
-      toolType: toolTypes.DRAW
+      toolType: toolTypes.DRAW,
     });
   };
 
@@ -177,26 +177,26 @@ export class SequenceEditor extends React.PureComponent {
     if (e.repeat) return;
     this.setState(state => ({
       previousToolType: state.toolType,
-      toolType: toolTypes.PAN
+      toolType: toolTypes.PAN,
     }));
     window.addEventListener("keyup", this.deactivatePanOverride);
   };
 
   activateEraseTool = () => {
     this.setState({
-      toolType: toolTypes.ERASE
+      toolType: toolTypes.ERASE,
     });
   };
 
   activatePanTool = () => {
     this.setState({
-      toolType: toolTypes.PAN
+      toolType: toolTypes.PAN,
     });
   };
 
   activateSelectTool = () => {
     this.setState({
-      toolType: toolTypes.SELECT
+      toolType: toolTypes.SELECT,
     });
   };
 
@@ -207,7 +207,7 @@ export class SequenceEditor extends React.PureComponent {
   deactivatePanOverride = e => {
     if (e.keyCode !== 32) return;
     this.setState(state => ({
-      toolType: state.previousToolType
+      toolType: state.previousToolType,
     }));
     window.removeEventListener("keyup", this.deactivatePanOverride);
   };
@@ -220,7 +220,7 @@ export class SequenceEditor extends React.PureComponent {
     const selectedNotes = this.getSelectedNotes();
 
     this.setState({
-      selectedNoteIds: []
+      selectedNoteIds: [],
     });
 
     this.props.onDelete(selectedNotes);
@@ -232,7 +232,7 @@ export class SequenceEditor extends React.PureComponent {
     if (isEmpty(this.state.selectedNoteIds)) return;
 
     this.setState({
-      selectedNoteIds: []
+      selectedNoteIds: [],
     });
   };
 
@@ -246,7 +246,7 @@ export class SequenceEditor extends React.PureComponent {
     this.props.onDuplicate(duplicatedNotes);
 
     this.setState({
-      selectedNoteIds: map("id", duplicatedNotes)
+      selectedNoteIds: map("id", duplicatedNotes),
     });
   };
 
@@ -271,13 +271,13 @@ export class SequenceEditor extends React.PureComponent {
     "meta+d": this.deselectAllNotes,
     "meta+shift+d": this.duplicateSelectedNotes,
     "meta+alt+z": this.props.onRedo,
-    "meta+z": this.props.onUndo
+    "meta+z": this.props.onUndo,
   });
 
   getSelectedNotes = () =>
     map(
       noteId => find(n => n.id === noteId, this.props.notes) || {},
-      this.state.selectedNoteIds
+      this.state.selectedNoteIds,
     );
 
   handleGridDragPreview = notes => {
@@ -297,7 +297,7 @@ export class SequenceEditor extends React.PureComponent {
   handleGridErase = note => {
     this.props.onErase(note);
     this.setState({
-      selectedNoteIds: []
+      selectedNoteIds: [],
     });
   };
 
@@ -305,8 +305,8 @@ export class SequenceEditor extends React.PureComponent {
     this.setState({
       gridMousePoint: {
         x: -1,
-        y: -1
-      }
+        y: -1,
+      },
     });
   };
 
@@ -314,11 +314,11 @@ export class SequenceEditor extends React.PureComponent {
     const gridMousePoint = getGridMousePoint(
       e.currentTarget,
       this.contentElementRef,
-      e
+      e,
     );
 
     this.setState(state =>
-      isEqual(state.gridMousePoint, gridMousePoint) ? null : { gridMousePoint }
+      isEqual(state.gridMousePoint, gridMousePoint) ? null : { gridMousePoint },
     );
   };
 
@@ -330,7 +330,7 @@ export class SequenceEditor extends React.PureComponent {
     this.setState(state => ({
       selectedNoteIds: isAdditive
         ? shared.helpers.toggleInArray(note.id, state.selectedNoteIds)
-        : [note.id]
+        : [note.id],
     }));
   };
 
@@ -338,7 +338,7 @@ export class SequenceEditor extends React.PureComponent {
     const notesInArea = Dawww.getNotesInArea(
       startPoint,
       endPoint,
-      this.props.notes
+      this.props.notes,
     );
 
     // if (isEmpty(notesInArea)) return;
@@ -346,7 +346,7 @@ export class SequenceEditor extends React.PureComponent {
     this.setState(state => ({
       selectedNoteIds: isAdditive
         ? uniq([...state.selectedNoteIds, ...map("id", notesInArea)])
-        : map("id", notesInArea)
+        : map("id", notesInArea),
     }));
   };
 
@@ -362,7 +362,7 @@ export class SequenceEditor extends React.PureComponent {
       Dawww.someNoteWillMoveOutside(
         this.props.sequence.measureCount,
         delta,
-        this.getSelectedNotes()
+        this.getSelectedNotes(),
       )
     )
       return;
@@ -409,7 +409,7 @@ export class SequenceEditor extends React.PureComponent {
     if (this.props.notes.length === this.state.selectedNoteIds.length) return;
 
     this.setState({
-      selectedNoteIds: map("id", this.props.notes)
+      selectedNoteIds: map("id", this.props.notes),
     });
   };
 
@@ -436,7 +436,7 @@ function getGridMousePoint(scrollLeftEl, scrollTopEl, e) {
 
   return {
     x: toSlotNumber(x - offsetLeft + scrollLeft - styleOffset),
-    y: toSlotNumber(y - offsetTop + scrollTop)
+    y: toSlotNumber(y - offsetTop + scrollTop),
   };
 }
 

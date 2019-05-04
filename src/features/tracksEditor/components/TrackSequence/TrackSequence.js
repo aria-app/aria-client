@@ -21,7 +21,7 @@ const StyledTrackSequence = styled.div(props => ({
   transform: props.isMounted ? "scaleY(1)" : "scaleY(0)",
   transition: "box-shadow 250ms ease, opacity 500ms ease, transform 350ms ease",
   "&:hover": {
-    backgroundColor: !props.isSelected && props.theme.primary[1]
+    backgroundColor: !props.isSelected && props.theme.primary[1],
   },
   ...(props.isDragging
     ? {
@@ -29,9 +29,9 @@ const StyledTrackSequence = styled.div(props => ({
         opacity: 0.8,
         transform: "translateY(-4px) scale(1.05)",
         transition:
-          "box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease"
+          "box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease",
       }
-    : {})
+    : {}),
 }));
 
 export class TrackSequence extends React.PureComponent {
@@ -42,21 +42,21 @@ export class TrackSequence extends React.PureComponent {
     isSelected: PropTypes.bool.isRequired,
     onOpen: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
-    sequence: PropTypes.object
+    sequence: PropTypes.object,
   };
 
   static defaultProps = {
-    index: 0
+    index: 0,
   };
 
   state = {
-    isMounted: false
+    isMounted: false,
   };
 
   componentDidMount() {
     setTimeout(() => {
       this.setState({
-        isMounted: true
+        isMounted: true,
       });
     }, 16);
   }
@@ -82,7 +82,7 @@ export class TrackSequence extends React.PureComponent {
     const measureCount = getOr(1, "props.sequence.measureCount", this);
 
     return {
-      width: measureCountToPx(measureCount)
+      width: measureCountToPx(measureCount),
     };
   };
 

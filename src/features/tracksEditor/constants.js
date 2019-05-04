@@ -1,1 +1,1 @@
-export const NAME = 'tracksEditor';
+export const NAME = "tracksEditor";

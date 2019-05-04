@@ -10,7 +10,7 @@ const AddSequenceButtonPlusHorizontal = styled.div(props => ({
   position: "absolute",
   top: "50%",
   transform: "translate(-50%, -50%)",
-  width: 9
+  width: 9,
 }));
 
 const AddSequenceButtonPlusVertical = styled.div(props => ({
@@ -20,7 +20,7 @@ const AddSequenceButtonPlusVertical = styled.div(props => ({
   position: "absolute",
   top: "50%",
   transform: "translate(-50%, -50%)",
-  width: 1
+  width: 1,
 }));
 
 const StyledAddSequenceButton = styled.div(props => ({
@@ -33,14 +33,14 @@ const StyledAddSequenceButton = styled.div(props => ({
   height: 84,
   justifyContent: "center",
   position: "absolute",
-  width: 64
+  width: 64,
   // TODO: ${mixins.interactionOverlay("white")}
 }));
 
 export class AddSequenceButton extends React.PureComponent {
   static propTypes = {
     onClick: PropTypes.func,
-    style: PropTypes.object
+    style: PropTypes.object,
   };
 
   render() {

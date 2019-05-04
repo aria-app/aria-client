@@ -1,4 +1,4 @@
-import { interactionOverlay } from './interactionOverlay';
+import { interactionOverlay } from "./interactionOverlay";
 
 export const mixins = {
   interactionOverlay,

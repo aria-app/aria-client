@@ -11,12 +11,12 @@ const StyledSignOut = styled.div({
   display: "flex",
   flex: "1 1 auto",
   justifyContent: "center",
-  textTransform: "uppercase"
+  textTransform: "uppercase",
 });
 
 export class SignOut extends React.Component {
   static propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired
+    isAuthenticated: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -33,7 +33,7 @@ export class SignOut extends React.Component {
       return (
         <Redirect
           to={{
-            pathname: "/sign-in"
+            pathname: "/sign-in",
           }}
         />
       );

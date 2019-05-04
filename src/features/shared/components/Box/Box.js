@@ -4,7 +4,7 @@ import Draggable from "react-draggable";
 import styled from "styled-components/macro";
 
 const BoxResizer = styled.div.attrs({
-  className: "box__resizer"
+  className: "box__resizer",
 })(props => ({
   backgroundColor: "transparent",
   bottom: "0",
@@ -13,7 +13,7 @@ const BoxResizer = styled.div.attrs({
   position: "absolute",
   top: "0",
   width: props.theme.margin.m,
-  zIndex: "2"
+  zIndex: "2",
 }));
 
 const StyledBox = styled.div(props => ({
@@ -25,7 +25,7 @@ const StyledBox = styled.div(props => ({
   top: 0,
   transition: "transform 200ms ease",
   width: props.length * props.step,
-  zIndex: props.isDragging ? "200" : "100"
+  zIndex: props.isDragging ? "200" : "100",
 }));
 
 export class Box extends React.Component {
@@ -34,20 +34,20 @@ export class Box extends React.Component {
     item: PropTypes.shape({
       id: PropTypes.any,
       x: PropTypes.number,
-      length: PropTypes.number
+      length: PropTypes.number,
     }),
     onItemChange: PropTypes.func,
     step: PropTypes.number,
-    style: PropTypes.object
+    style: PropTypes.object,
   };
 
   static defaultProps = {
     contentComponent: () => null,
-    step: 100
+    step: 100,
   };
 
   state = {
-    isDragging: false
+    isDragging: false,
   };
 
   render() {
@@ -72,12 +72,12 @@ export class Box extends React.Component {
           {React.createElement(this.props.contentComponent, {
             isDragging: this.state.isDragging,
             item: this.props.item,
-            step: this.props.step
+            step: this.props.step,
           })}
           <Draggable
             axis="x"
             bounds={{
-              left: this.props.step - 16
+              left: this.props.step - 16,
             }}
             grid={[this.props.step, 0]}
             onDrag={this.handleResizerDrag}
@@ -92,18 +92,18 @@ export class Box extends React.Component {
 
   getPosition = () => ({
     x: this.props.item.x * this.props.step,
-    y: 0
+    y: 0,
   });
 
   getResizerPosition = () => ({
     x: this.props.item.length * this.props.step - 16,
-    y: 0
+    y: 0,
   });
 
   handleDrag = (e, position) => {
     this.props.onItemChange({
       ...this.props.item,
-      x: position.x / this.props.step
+      x: position.x / this.props.step,
     });
   };
 
@@ -112,8 +112,8 @@ export class Box extends React.Component {
       ...this.props.item,
       length: Math.max(
         1,
-        this.props.item.length + position.deltaX / this.props.step
-      )
+        this.props.item.length + position.deltaX / this.props.step,
+      ),
     });
   };
 }

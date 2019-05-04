@@ -1,1 +1,1 @@
-export const NAME = 'song';
+export const NAME = "song";

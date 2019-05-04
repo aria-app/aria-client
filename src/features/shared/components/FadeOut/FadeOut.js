@@ -1,5 +1,5 @@
-import React from 'react';
-import { animated, useTransition } from 'react-spring';
+import React from "react";
+import { animated, useTransition } from "react-spring";
 
 export const FadeOut = ({ children, component, isVisible }) => {
   const transition = useTransition(isVisible, null, {
@@ -7,10 +7,16 @@ export const FadeOut = ({ children, component, isVisible }) => {
     leave: { opacity: 0 },
   });
 
-  return transition.map(({ item, key, props }) => (item &&
-    React.createElement(component || animated.div, {
-      style: props,
-      key,
-    }, children)
-  ));
-}
+  return transition.map(
+    ({ item, key, props }) =>
+      item &&
+      React.createElement(
+        component || animated.div,
+        {
+          style: props,
+          key,
+        },
+        children,
+      ),
+  );
+};

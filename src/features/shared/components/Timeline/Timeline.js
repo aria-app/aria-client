@@ -3,8 +3,8 @@ import styled from "styled-components/macro";
 export const Timeline = styled.div.attrs(props => ({
   style: {
     ...props.style,
-    transform: `translateX(${props.offset}px)`
-  }
+    transform: `translateX(${props.offset}px)`,
+  },
 }))(props => ({
   backgroundColor: props.theme.almostwhite,
   bottom: 0,
@@ -14,5 +14,5 @@ export const Timeline = styled.div.attrs(props => ({
   pointerEvents: "none",
   position: "absolute",
   top: 0,
-  width: 2
+  width: 2,
 }));

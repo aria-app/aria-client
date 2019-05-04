@@ -1,9 +1,9 @@
-import Dawww from 'dawww';
-import isEmpty from 'lodash/fp/isEmpty';
-import PropTypes from 'prop-types';
-import React from 'react';
-import shared from '../../../shared';
-import * as constants from '../../constants';
+import Dawww from "dawww";
+import isEmpty from "lodash/fp/isEmpty";
+import PropTypes from "prop-types";
+import React from "react";
+import shared from "../../../shared";
+import * as constants from "../../constants";
 
 const { IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
@@ -27,7 +27,7 @@ export class SequenceEditorToolbar extends React.PureComponent {
     onUndo: PropTypes.func.isRequired,
     selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
     toolType: PropTypes.string.isRequired,
-  }
+  };
 
   render() {
     return (
@@ -134,8 +134,7 @@ export class SequenceEditorToolbar extends React.PureComponent {
     );
   }
 
-  getAreSomeNotesSelected = () =>
-    !isEmpty(this.props.selectedNotes);
+  getAreSomeNotesSelected = () => !isEmpty(this.props.selectedNotes);
 
   getIsOctaveDownButtonDisabled = () =>
     Dawww.someNoteWillMoveOutside(

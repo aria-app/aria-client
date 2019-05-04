@@ -1,1 +1,3 @@
-export { SequenceEditorContainer } from './SequenceEditor/SequenceEditorContainer';
+export {
+  SequenceEditorContainer,
+} from "./SequenceEditor/SequenceEditorContainer";

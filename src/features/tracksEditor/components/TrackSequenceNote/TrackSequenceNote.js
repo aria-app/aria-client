@@ -13,6 +13,6 @@ export const TrackSequenceNote = styled.div(props => {
     position: "absolute",
     top: 0,
     transform: `translate(${x0 * 2}px, ${y0}px)`,
-    width: (x1 - x0 + 1) * 2
+    width: (x1 - x0 + 1) * 2,
   };
 });

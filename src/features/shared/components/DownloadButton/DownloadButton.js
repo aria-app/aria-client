@@ -4,7 +4,7 @@ import React from "react";
 
 DownloadButton.propTypes = {
   fileContents: PropTypes.string.isRequired,
-  filename: PropTypes.string.isRequired
+  filename: PropTypes.string.isRequired,
 };
 
 export function DownloadButton({ filename, fileContents, ...rest }) {

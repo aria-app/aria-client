@@ -10,26 +10,26 @@ const StyledSongList = styled.div(props => ({
   flex: "1 1 auto",
   flexDirection: "column",
   paddingBottom: props.theme.margin.s,
-  paddingTop: props.theme.margin.s
+  paddingTop: props.theme.margin.s,
 }));
 
 SongList.propTypes = {
   onDelete: PropTypes.func,
   onOpen: PropTypes.func,
-  songs: PropTypes.object
+  songs: PropTypes.object,
 };
 
 // TODO: Transition in songs in Song List to prevent duplicate entries on transition
 export function SongList(props) {
   const sortedSongs = useMemo(
     () => orderBy(x => x.dateModified, "desc", Object.values(props.songs)),
-    [props.songs]
+    [props.songs],
   );
 
   const songTransitions = useTransition(sortedSongs, song => song.id, {
     config: {
       clamp: true,
-      tension: 200
+      tension: 200,
     },
     reset: true,
     trail: 100,
@@ -37,18 +37,18 @@ export function SongList(props) {
     from: {
       height: 0,
       marginLeft: -64,
-      opacity: 0
+      opacity: 0,
     },
     enter: {
       height: 48,
       marginLeft: 0,
-      opacity: 1
+      opacity: 1,
     },
     leave: {
       height: 0,
       marginLeft: 64,
-      opacity: 0
-    }
+      opacity: 0,
+    },
   });
 
   return (

@@ -18,7 +18,7 @@ const StyledTracksEditor = styled(HotKeys)({
   flex: "1 1 auto",
   flexDirection: "column",
   overflow: "hidden",
-  position: "relative"
+  position: "relative",
 });
 
 export class TracksEditor extends React.PureComponent {
@@ -46,12 +46,12 @@ export class TracksEditor extends React.PureComponent {
     sequences: PropTypes.arrayOf(PropTypes.object).isRequired,
     song: PropTypes.object.isRequired,
     songMeasureCount: PropTypes.number.isRequired,
-    tracks: PropTypes.arrayOf(PropTypes.object).isRequired
+    tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
   };
 
   state = {
     selectedSequenceId: "",
-    selectedTrackId: ""
+    selectedTrackId: "",
   };
 
   constructor(props) {
@@ -134,7 +134,7 @@ export class TracksEditor extends React.PureComponent {
 
   deselectTrack = () => {
     this.setState({
-      selectedTrackId: ""
+      selectedTrackId: "",
     });
   };
 
@@ -148,13 +148,13 @@ export class TracksEditor extends React.PureComponent {
     const duplicatedSequence = Dawww.createSequence(
       selectedSequence.trackId,
       selectedSequence.position,
-      selectedSequence.measureCount
+      selectedSequence.measureCount,
     );
 
     this.props.onSequenceDuplicate(duplicatedSequence, selectedSequence);
 
     this.setState({
-      selectedSequenceId: duplicatedSequence.id
+      selectedSequenceId: duplicatedSequence.id,
     });
   };
 
@@ -166,7 +166,7 @@ export class TracksEditor extends React.PureComponent {
     "ctrl+alt+z": this.redo,
     "meta+shift+d": this.duplicateSelectedSequence,
     "meta+z": this.undo,
-    "meta+alt+z": this.redo
+    "meta+alt+z": this.redo,
   });
 
   getSelectedSequence = () =>
@@ -184,13 +184,13 @@ export class TracksEditor extends React.PureComponent {
 
   handleTrackListSequenceDeselect = () => {
     this.setState({
-      selectedSequenceId: ""
+      selectedSequenceId: "",
     });
   };
 
   handleTrackListSequenceSelect = sequence => {
     this.setState({
-      selectedSequenceId: sequence.id
+      selectedSequenceId: sequence.id,
     });
   };
 
@@ -221,7 +221,7 @@ export class TracksEditor extends React.PureComponent {
 
   selectTrack = track => {
     this.setState({
-      selectedTrackId: track.id
+      selectedTrackId: track.id,
     });
   };
 

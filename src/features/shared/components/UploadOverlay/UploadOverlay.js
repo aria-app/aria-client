@@ -13,7 +13,7 @@ const StyledUploadOverlay = styled.div({
   position: "fixed",
   right: 0,
   top: 0,
-  zIndex: 550
+  zIndex: 550,
 });
 
 const UploadOverlayTint = styled.div({
@@ -28,7 +28,7 @@ const UploadOverlayTint = styled.div({
   position: "absolute",
   right: 0,
   top: 0,
-  zIndex: "inherit"
+  zIndex: "inherit",
 });
 
 const UploadOverlayDragIndicator = styled.div(props => ({
@@ -39,14 +39,14 @@ const UploadOverlayDragIndicator = styled.div(props => ({
   justifyContent: "center",
   padding: props.theme.margin.m,
   pointerEvents: "none",
-  zIndex: "inherit"
+  zIndex: "inherit",
 }));
 
 export class UploadOverlay extends React.PureComponent {
   static propTypes = {
     isFileOver: PropTypes.bool.isRequired,
     onCancel: PropTypes.func.isRequired,
-    onUpload: PropTypes.func.isRequired
+    onUpload: PropTypes.func.isRequired,
   };
 
   render() {
@@ -61,7 +61,7 @@ export class UploadOverlay extends React.PureComponent {
             Drop project file to load it
           </UploadOverlayDragIndicator>
         </UploadOverlayTint>
-      </StyledUploadOverlay>
+      </StyledUploadOverlay>,
     );
   }
 

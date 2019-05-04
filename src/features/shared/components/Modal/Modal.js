@@ -66,7 +66,7 @@ const StyledModal = styled.div`
 
 Modal.defaultProps = {
   cancelText: "cancel",
-  confirmText: "confirm"
+  confirmText: "confirm",
 };
 
 Modal.propTypes = {
@@ -79,27 +79,27 @@ Modal.propTypes = {
   onClickOutside: PropTypes.func,
   onConfirm: PropTypes.func,
   style: PropTypes.object,
-  titleText: PropTypes.string
+  titleText: PropTypes.string,
 };
 
 export function Modal(props) {
   const transition = useTransition(props.isOpen, null, {
     config: {
       clamp: true,
-      tension: 200
+      tension: 200,
     },
     from: {
       marginTop: 720,
-      opacity: 0
+      opacity: 0,
     },
     enter: {
       marginTop: 0,
-      opacity: 1
+      opacity: 1,
     },
     leave: {
       marginTop: 720,
-      opacity: 0
-    }
+      opacity: 0,
+    },
   });
 
   return transition.map(
@@ -109,7 +109,7 @@ export function Modal(props) {
           <ModalOverlay
             onClick={props.onClickOutside}
             style={{
-              opacity: animation.opacity
+              opacity: animation.opacity,
             }}
           />
           <ModalWindow style={animation}>
@@ -123,17 +123,17 @@ export function Modal(props) {
                     {showIf(props.onCancel)(
                       <Button onClick={props.onCancel}>
                         {props.cancelText}
-                      </Button>
+                      </Button>,
                     )}
                     <Button onClick={props.onConfirm}>
                       {props.confirmText}
                     </Button>
                   </React.Fragment>
                 }
-              />
+              />,
             )}
           </ModalWindow>
         </StyledModal>
-      )
+      ),
   );
 }

@@ -18,7 +18,7 @@ document.head.insertBefore(styleNode, document.head.firstChild);
 const generateClassName = createGenerateClassName();
 const jss = create({
   ...jssPreset(),
-  insertionPoint: "insertion-point-jss"
+  insertionPoint: "insertion-point-jss",
 });
 
 const { AppContainer } = app.components;
@@ -33,5 +33,5 @@ render(
       </Provider>
     </BrowserRouter>
   </JssProvider>,
-  document.querySelector("#root")
+  document.querySelector("#root"),
 );

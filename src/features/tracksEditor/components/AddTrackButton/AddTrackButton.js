@@ -9,7 +9,7 @@ const AddTrackButtonPlusHorizontal = styled.div({
   position: "absolute",
   top: "50%",
   transform: "translate(-50%, -50%)",
-  width: 9
+  width: 9,
 });
 
 const AddTrackButtonPlusVertical = styled.div({
@@ -19,7 +19,7 @@ const AddTrackButtonPlusVertical = styled.div({
   position: "absolute",
   top: "50%",
   transform: "translate(-50%, -50%)",
-  width: 1
+  width: 1,
 });
 
 const StyledAddTrackButton = styled.div({
@@ -37,11 +37,11 @@ const StyledAddTrackButton = styled.div({
   width: 36,
   "&:hover:not(:active)": {
     backgroundColor: "rgba(255, 255, 255, 0.6)",
-    transform: "scale(1.1)"
+    transform: "scale(1.1)",
   },
   "&:active": {
-    transform: "scale(0.9)"
-  }
+    transform: "scale(0.9)",
+  },
 });
 
 export function AddTrackButton(props) {
@@ -55,5 +55,5 @@ export function AddTrackButton(props) {
 
 AddTrackButton.propTypes = {
   onClick: PropTypes.func,
-  style: PropTypes.object
+  style: PropTypes.object,
 };

@@ -11,13 +11,13 @@ const StyledFence = styled.div({
   left: 0,
   pointerEvents: "none",
   position: "absolute",
-  top: 0
+  top: 0,
 });
 
 export class Fence extends React.PureComponent {
   static propTypes = {
     endPoint: PropTypes.object,
-    startPoint: PropTypes.object
+    startPoint: PropTypes.object,
   };
 
   render() {
@@ -27,7 +27,7 @@ export class Fence extends React.PureComponent {
           display: this.getDisplay(),
           height: this.getHeight(),
           transform: this.getTransform(),
-          width: this.getWidth()
+          width: this.getWidth(),
         }}
       />
     );

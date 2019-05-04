@@ -8,13 +8,13 @@ const StyledKeys = styled.div({
   display: "flex",
   flex: "0 0 auto",
   flexDirection: "column",
-  width: 40
+  width: 40,
 });
 
 export class Keys extends React.PureComponent {
   static propTypes = {
     gridMousePoint: PropTypes.object,
-    onKeyPress: PropTypes.func
+    onKeyPress: PropTypes.func,
   };
 
   render() {
@@ -33,7 +33,7 @@ export class Keys extends React.PureComponent {
                 index === this.getScale().length - 1
                   ? "2px 2px 0 rgba(235, 235, 235, 0.5)"
                   : "",
-              borderTopRightRadius: index === 0 ? 4 : ""
+              borderTopRightRadius: index === 0 ? 4 : "",
             }}
           />
         ))}

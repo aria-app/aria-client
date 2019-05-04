@@ -19,7 +19,7 @@ const LoadingIndicator = styled(animated.div)({
   left: 0,
   position: "absolute",
   right: 0,
-  top: 0
+  top: 0,
 });
 
 const StyledTrackList = styled.div({
@@ -28,7 +28,7 @@ const StyledTrackList = styled.div({
   flex: "1 1 auto",
   flexDirection: "column",
   overflow: "auto",
-  position: "relative"
+  position: "relative",
 });
 
 const TrackListContent = styled.div(props => ({
@@ -41,7 +41,7 @@ const TrackListContent = styled.div(props => ({
   paddingBottom: props.theme.margin.m + 84,
   paddingRight: props.theme.margin.m + 128,
   paddingTop: props.theme.margin.m + 2,
-  position: "relative"
+  position: "relative",
 }));
 
 const TrackListUnderlay = styled.div({
@@ -49,7 +49,7 @@ const TrackListUnderlay = styled.div({
   left: 0,
   position: "absolute",
   right: 0,
-  top: 0
+  top: 0,
 });
 
 TrackList.propTypes = {
@@ -67,27 +67,27 @@ TrackList.propTypes = {
   onTrackStage: PropTypes.func.isRequired,
   selectedSequence: PropTypes.object,
   songMeasureCount: PropTypes.number.isRequired,
-  tracks: PropTypes.arrayOf(PropTypes.object).isRequired
+  tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export function TrackList(props) {
   const trackTransitions = useTransition(props.tracks, track => track.id, {
     config: {
       clamp: true,
-      tension: 200
+      tension: 200,
     },
     from: {
       marginLeft: -64,
-      opacity: 0
+      opacity: 0,
     },
     enter: {
       marginLeft: 0,
-      opacity: 1
+      opacity: 1,
     },
     leave: {
       marginLeft: 64,
-      opacity: 0
-    }
+      opacity: 0,
+    },
   });
 
   return (
@@ -112,8 +112,8 @@ export function TrackList(props) {
                 ...animation,
                 height: animation.opacity.interpolate({
                   range: [0, 0.5, 1],
-                  output: [0, 136, 136]
-                })
+                  output: [0, 136, 136],
+                }),
               }}
             >
               <Track

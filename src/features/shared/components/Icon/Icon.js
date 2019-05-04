@@ -10,7 +10,7 @@ const IconContent = styled.div({
   flex: "0 0 auto",
   height: 24,
   justifyContent: "center",
-  width: 24
+  width: 24,
 });
 
 const StyledIcon = styled.div({
@@ -19,14 +19,14 @@ const StyledIcon = styled.div({
   flex: "0 0 auto",
   height: 40,
   justifyContent: "center",
-  width: 40
+  width: 40,
 });
 
 export class Icon extends React.PureComponent {
   static propTypes = {
     color: PropTypes.string,
     icon: PropTypes.oneOf(Object.keys(icons).concat([""])),
-    size: PropTypes.oneOf(["small", "regular", "large", ""])
+    size: PropTypes.oneOf(["small", "regular", "large", ""]),
   };
 
   render() {
@@ -50,7 +50,7 @@ export class Icon extends React.PureComponent {
 
     return React.createElement(iconComponent, {
       color: this.props.color || theme.color,
-      size: this.getSizePixels()
+      size: this.getSizePixels(),
     });
   }
 

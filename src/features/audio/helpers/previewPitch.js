@@ -1,5 +1,5 @@
-import dawww from '../dawww';
+import dawww from "../dawww";
 
 export const previewPitch = (trackId, pitch) => {
-	dawww.preview(trackId, pitch);
-}
+  dawww.preview(trackId, pitch);
+};

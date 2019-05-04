@@ -9,17 +9,17 @@ const StyledPanner = styled.div({
   left: 0,
   position: "absolute",
   right: 0,
-  top: 0
+  top: 0,
 });
 
 export class Panner extends React.PureComponent {
   static propTypes = {
     scrollLeftEl: PropTypes.object,
-    scrollTopEl: PropTypes.object
+    scrollTopEl: PropTypes.object,
   };
 
   state = {
-    startPoint: {}
+    startPoint: {},
   };
 
   render() {
@@ -40,7 +40,7 @@ export class Panner extends React.PureComponent {
       scrollLeft: this.props.scrollLeftEl.scrollLeft,
       scrollTop: this.props.scrollTopEl.scrollTop,
       x: e.pageX,
-      y: e.pageY
+      y: e.pageY,
     };
   }
 
@@ -49,14 +49,14 @@ export class Panner extends React.PureComponent {
     e.stopPropagation();
 
     this.setState({
-      startPoint: this.getStartPoint(e)
+      startPoint: this.getStartPoint(e),
     });
   };
 
   handleMouseLeave = () => {
     if (!this.getIsPanning()) return;
     this.setState({
-      startPoint: {}
+      startPoint: {},
     });
   };
 
@@ -74,7 +74,7 @@ export class Panner extends React.PureComponent {
   handleMouseUp = () => {
     if (!this.getIsPanning()) return;
     this.setState({
-      startPoint: {}
+      startPoint: {},
     });
   };
 }

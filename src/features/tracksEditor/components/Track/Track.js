@@ -24,15 +24,15 @@ const StyledTrack = styled.div(props => ({
   display: "flex",
   flex: "0 0 auto",
   flexDirection: "column",
-  marginBottom: props.theme.margin.m
+  marginBottom: props.theme.margin.m,
 }));
 
 const TrackMatrixBox = styled(MatrixBox).attrs(props => ({
-  fill: props.theme.primary[2]
+  fill: props.theme.primary[2],
 }))({
   left: 0,
   position: "absolute",
-  top: 0
+  top: 0,
 });
 
 const TrackSequences = styled.div({
@@ -40,7 +40,7 @@ const TrackSequences = styled.div({
   display: "flex",
   flex: "1 0 auto",
   height: 84,
-  position: "relative"
+  position: "relative",
 });
 
 export class Track extends React.PureComponent {
@@ -54,7 +54,7 @@ export class Track extends React.PureComponent {
     onTrackSelect: PropTypes.func.isRequired,
     selectedSequence: PropTypes.object,
     songMeasureCount: PropTypes.number.isRequired,
-    track: PropTypes.object.isRequired
+    track: PropTypes.object.isRequired,
   };
 
   render() {
@@ -77,16 +77,16 @@ export class Track extends React.PureComponent {
             onItemsChange={this.handleBoxesItemsChange}
             step={64}
             style={{
-              height: 84
+              height: 84,
             }}
           />
           {showIf(!isNil(firstEmptyPosition))(
             <AddSequenceButton
               onClick={() => this.handleSequenceAdd(firstEmptyPosition)}
               style={{
-                left: firstEmptyPosition * 64
+                left: firstEmptyPosition * 64,
               }}
-            />
+            />,
           )}
         </TrackSequences>
       </StyledTrack>
@@ -94,7 +94,7 @@ export class Track extends React.PureComponent {
   }
 
   getBodySequencesStyle = () => ({
-    width: this.props.songMeasureCount * 64
+    width: this.props.songMeasureCount * 64,
   });
 
   getBoxesItems = () => {
@@ -104,7 +104,7 @@ export class Track extends React.PureComponent {
       id: sequence.id,
       length: sequence.measureCount,
       x: sequence.position,
-      sequence
+      sequence,
     }));
   };
 
@@ -115,7 +115,7 @@ export class Track extends React.PureComponent {
       inRange(
         sequence.position,
         sequence.position + sequence.measureCount,
-        position
+        position,
       );
     const isEmptyPosition = position =>
       !some(sequenceCoversPosition(position), sequences);
@@ -146,7 +146,7 @@ export class Track extends React.PureComponent {
           }
           return 1;
         }, columnCount),
-      rowCount
+      rowCount,
     );
   };
 
@@ -180,7 +180,7 @@ export class Track extends React.PureComponent {
       .map(item => ({
         ...item.sequence,
         measureCount: item.length,
-        position: item.x
+        position: item.x,
       }));
 
     each(this.props.onSequenceEdit, editedSequences);

@@ -10,7 +10,7 @@ i18n
     fallbackLng: "en",
     keySeparator: false,
     lng: "en",
-    resources
+    resources,
   });
 
 export default i18n;

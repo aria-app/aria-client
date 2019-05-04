@@ -1,8 +1,9 @@
-import getOr from 'lodash/fp/getOr';
-import pipe from 'lodash/fp/pipe';
-import { getSequences } from './getSequences';
+import getOr from "lodash/fp/getOr";
+import pipe from "lodash/fp/pipe";
+import { getSequences } from "./getSequences";
 
-export const getSequenceById = id => pipe(
-  getSequences,
-  getOr({}, id),
-);
+export const getSequenceById = id =>
+  pipe(
+    getSequences,
+    getOr({}, id),
+  );

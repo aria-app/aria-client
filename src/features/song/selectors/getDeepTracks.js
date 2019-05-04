@@ -1,8 +1,8 @@
-import filter from 'lodash/fp/filter';
-import pipe from 'lodash/fp/pipe';
-import map from 'lodash/fp/map';
-import { getDeepSequences } from './getDeepSequences';
-import { getTracksArray } from './getTracksArray';
+import filter from "lodash/fp/filter";
+import pipe from "lodash/fp/pipe";
+import map from "lodash/fp/map";
+import { getDeepSequences } from "./getDeepSequences";
+import { getTracksArray } from "./getTracksArray";
 
 const getDeepTrack = state => track => ({
   ...track,

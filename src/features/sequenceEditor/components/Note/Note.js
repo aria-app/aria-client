@@ -21,7 +21,7 @@ const NoteConnector = styled.div(props => ({
   transformOrigin: "left center",
   transition: "transform 0.1s ease",
   width: 1,
-  zIndex: 100
+  zIndex: 100,
 }));
 
 const NoteFill = styled.div(props => ({
@@ -31,11 +31,11 @@ const NoteFill = styled.div(props => ({
   height: 24,
   width: 24,
   "&:hover": {
-    transform: "scale(1.05)"
+    transform: "scale(1.05)",
   },
   "&:active": {
-    transform: "scale(0.95)"
-  }
+    transform: "scale(0.95)",
+  },
 }));
 
 const NotePoint = styled.div({
@@ -51,7 +51,7 @@ const NotePoint = styled.div({
   top: 0,
   transition: "transform 0.1s ease",
   width: 40,
-  zIndex: 150
+  zIndex: 150,
 });
 
 const StyledNote = styled.div(props => ({
@@ -60,7 +60,7 @@ const StyledNote = styled.div(props => ({
   position: "absolute",
   top: 0,
   transition: "transform 0.1s ease",
-  zIndex: props.isSelected && 300
+  zIndex: props.isSelected && 300,
 }));
 
 export class Note extends React.Component {
@@ -74,7 +74,7 @@ export class Note extends React.Component {
     onEndPointDragStart: PropTypes.func,
     onEndPointDragStop: PropTypes.func,
     positionBounds: PropTypes.object,
-    sizeBounds: PropTypes.object
+    sizeBounds: PropTypes.object,
   };
 
   static defaultProps = {
@@ -83,7 +83,7 @@ export class Note extends React.Component {
     onDragStop: () => {},
     onEndPointDrag: () => {},
     onEndPointDragStart: () => {},
-    onEndPointDragStop: () => {}
+    onEndPointDragStop: () => {},
   };
 
   shouldComponentUpdate(nextProps) {
@@ -143,13 +143,13 @@ export class Note extends React.Component {
     const scale = x !== 0 ? sqrt(abs(x ** 2 + y ** 2)) : 0;
     const rotation = x !== 0 ? asin(abs(y / scale)) * (180 / PI) * sign(y) : 0;
     return {
-      transform: `rotate(${rotation}deg) scaleX(${scale})`
+      transform: `rotate(${rotation}deg) scaleX(${scale})`,
     };
   }
 
   getEndPointPosition = () => ({
     x: (this.props.note.points[1].x - this.props.note.points[0].x) * 40,
-    y: (this.props.note.points[1].y - this.props.note.points[0].y) * 40
+    y: (this.props.note.points[1].y - this.props.note.points[0].y) * 40,
   });
 
   getEndPointStyle() {
@@ -159,19 +159,19 @@ export class Note extends React.Component {
     const y = (endPoint.y - startPoint.y) * 40;
     return {
       display: is32ndNote(this.props.note) ? "none" : "flex",
-      transform: `translate(${x}px, ${y}px)`
+      transform: `translate(${x}px, ${y}px)`,
     };
   }
 
   getPosition = () => ({
     x: this.props.note.points[0].x * 40,
-    y: this.props.note.points[0].y * 40
+    y: this.props.note.points[0].y * 40,
   });
 
   handleDrag = (e, { deltaX, deltaY }) => {
     this.props.onDrag({
       deltaX: Math.round(deltaX / 40),
-      deltaY: Math.round(deltaY / 40)
+      deltaY: Math.round(deltaY / 40),
     });
   };
 
@@ -185,7 +185,7 @@ export class Note extends React.Component {
 
   handleEndPointDrag = (e, { deltaX }) => {
     this.props.onEndPointDrag({
-      deltaX: Math.round(deltaX / 40)
+      deltaX: Math.round(deltaX / 40),
     });
   };
 

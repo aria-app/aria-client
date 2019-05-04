@@ -12,20 +12,20 @@ const StyledToolbar = styled.div(props => ({
   height: 56,
   paddingLeft: props.theme.margin.s,
   paddingRight: props.theme.margin.s,
-  position: "relative"
+  position: "relative",
 }));
 
 const ToolbarLeftItems = styled.div({
   alignItems: "center",
   display: "flex",
-  flex: "1 1 auto"
+  flex: "1 1 auto",
 });
 
 const ToolbarRightItems = styled.div({
   alignItems: "center",
   display: "flex",
   flex: "0 0 auto",
-  marginLeft: "auto"
+  marginLeft: "auto",
 });
 
 export class Toolbar extends React.Component {
@@ -34,14 +34,14 @@ export class Toolbar extends React.Component {
     leftItems: PropTypes.node,
     leftItemsAlt: PropTypes.node,
     rightItems: PropTypes.node,
-    rightItemsAlt: PropTypes.node
+    rightItemsAlt: PropTypes.node,
   };
 
   static defaultProps = {
     leftItems: [],
     leftItemsAlt: [],
     rightItems: [],
-    rightItemsAlt: []
+    rightItemsAlt: [],
   };
 
   render() {

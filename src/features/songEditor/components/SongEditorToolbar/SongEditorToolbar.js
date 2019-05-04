@@ -1,11 +1,11 @@
-import Dawww from 'dawww';
-import isEmpty from 'lodash/fp/isEmpty';
-import negate from 'lodash/fp/negate';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { hideIf, showIf } from 'react-render-helpers';
-import Tone from 'tone';
-import shared from '../../../shared';
+import Dawww from "dawww";
+import isEmpty from "lodash/fp/isEmpty";
+import negate from "lodash/fp/negate";
+import PropTypes from "prop-types";
+import React from "react";
+import { hideIf, showIf } from "react-render-helpers";
+import Tone from "tone";
+import shared from "../../../shared";
 
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 const { IconButton, Toolbar } = shared.components;
@@ -17,7 +17,7 @@ export class SongEditorToolbar extends React.PureComponent {
     onSongInfoOpen: PropTypes.func,
     onStop: PropTypes.func.isRequired,
     playbackState: PropTypes.string.isRequired,
-  }
+  };
 
   render() {
     return (
@@ -36,25 +36,17 @@ export class SongEditorToolbar extends React.PureComponent {
         rightItems={
           <React.Fragment>
             {hideIf(this.props.playbackState === STARTED)(
-              <IconButton
-                icon="play"
-                onClick={this.playPause}
-                title="Play"
-              />
+              <IconButton icon="play" onClick={this.playPause} title="Play" />,
             )}
             {showIf(this.props.playbackState === STARTED)(
               <IconButton
                 icon="pause"
                 onClick={this.playPause}
                 title="Pause"
-              />
+              />,
             )}
             {showIf(this.props.playbackState !== STOPPED)(
-              <IconButton
-                icon="stop"
-                onClick={this.stop}
-                title="Stop"
-              />
+              <IconButton icon="stop" onClick={this.stop} title="Stop" />,
             )}
           </React.Fragment>
         }
@@ -65,11 +57,9 @@ export class SongEditorToolbar extends React.PureComponent {
     );
   }
 
-  getIsAlternate = () =>
-    negate(isEmpty)(this.props.selectedSequence);
+  getIsAlternate = () => negate(isEmpty)(this.props.selectedSequence);
 
-  getIsMoveLeftButtonDisabled = () =>
-    this.props.selectedSequence.position < 1;
+  getIsMoveLeftButtonDisabled = () => this.props.selectedSequence.position < 1;
 
   getIsShortenButtonDisabled = () =>
     this.props.selectedSequence.measureCount < 2;
@@ -79,7 +69,7 @@ export class SongEditorToolbar extends React.PureComponent {
   };
 
   playPause = () => {
-    if (Tone.context.state !== 'running') {
+    if (Tone.context.state !== "running") {
       Tone.context.resume();
     }
 
@@ -88,9 +78,9 @@ export class SongEditorToolbar extends React.PureComponent {
     } else {
       this.props.onPlay();
     }
-  }
+  };
 
   stop = () => {
     this.props.onStop();
-  }
+  };
 }

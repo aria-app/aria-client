@@ -3,5 +3,5 @@ import { mui } from "./mui";
 
 export const themes = {
   emerald,
-  mui
+  mui,
 };

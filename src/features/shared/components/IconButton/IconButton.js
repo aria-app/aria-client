@@ -5,12 +5,12 @@ import { Icon } from "../Icon/Icon";
 
 const IconButtonBackground = styled.div(props => ({
   backgroundColor: props.isActive ? "rgba(255, 255, 255, 0.25)" : "",
-  flex: "1 0 auto"
+  flex: "1 0 auto",
 }));
 
 const IconButtonIconWrapper = styled.div(props => ({
   opacity: props.isDisabled ? 0.5 : "",
-  position: "absolute"
+  position: "absolute",
 }));
 
 const StyledIconButton = styled.div(props => ({
@@ -25,11 +25,11 @@ const StyledIconButton = styled.div(props => ({
   transition: "transform 200ms ease",
   width: 40,
   "&:hover": {
-    transform: !(props.isActive || props.isDisabled) ? "scale(1.1)" : ""
+    transform: !(props.isActive || props.isDisabled) ? "scale(1.1)" : "",
   },
   "&:active": {
-    transform: !props.isDisabled ? "scale(0.9)" : ""
-  }
+    transform: !props.isDisabled ? "scale(0.9)" : "",
+  },
 }));
 
 export class IconButton extends React.PureComponent {
@@ -44,11 +44,11 @@ export class IconButton extends React.PureComponent {
     onClick: PropTypes.func,
     size: PropTypes.oneOf(["small", "regular", "large", ""]),
     style: PropTypes.object,
-    title: PropTypes.string
+    title: PropTypes.string,
   };
 
   static defaultProps = {
-    iconProps: {}
+    iconProps: {},
   };
 
   render() {

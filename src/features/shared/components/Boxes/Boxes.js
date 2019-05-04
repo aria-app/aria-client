@@ -5,7 +5,7 @@ import { Box } from "../Box/Box";
 
 const StyledBoxes = styled.div(props => ({
   position: "relative",
-  width: props.length * props.step
+  width: props.length * props.step,
 }));
 
 export class Boxes extends React.Component {
@@ -15,23 +15,23 @@ export class Boxes extends React.Component {
       PropTypes.shape({
         id: PropTypes.any,
         x: PropTypes.number,
-        length: PropTypes.number
-      })
+        length: PropTypes.number,
+      }),
     ),
     length: PropTypes.number,
     onItemsChange: PropTypes.func,
     step: PropTypes.number,
-    style: PropTypes.object
+    style: PropTypes.object,
   };
 
   static defaultProps = {
     length: 0,
     step: 100,
-    style: {}
+    style: {},
   };
 
   state = {
-    draggedItemId: ""
+    draggedItemId: "",
   };
 
   render() {
@@ -58,7 +58,7 @@ export class Boxes extends React.Component {
 
   handleBoxItemChange = draggedItem => {
     this.setState({
-      draggedItemId: draggedItem.id
+      draggedItemId: draggedItem.id,
     });
 
     this.props.onItemsChange(
@@ -66,7 +66,7 @@ export class Boxes extends React.Component {
         if (item.id !== draggedItem.id) return item;
 
         return draggedItem;
-      })
+      }),
     );
   };
 }
