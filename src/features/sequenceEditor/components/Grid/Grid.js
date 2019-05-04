@@ -15,14 +15,14 @@ const { Timeline } = shared.components;
 const GridWrapper = styled.div({
   height: "100%",
   overflowX: "visible",
-  position: "relative"
+  position: "relative",
 });
 
 const StyledGrid = styled.div({
   overflowX: "scroll",
   overflowY: "visible",
   paddingLeft: 80,
-  position: "relative"
+  position: "relative",
 });
 
 export class Grid extends React.PureComponent {
@@ -41,7 +41,7 @@ export class Grid extends React.PureComponent {
     onSelectInArea: PropTypes.func,
     selectedNotes: PropTypes.arrayOf(PropTypes.object),
     sequenceEditorContentRef: PropTypes.object,
-    toolType: PropTypes.string
+    toolType: PropTypes.string,
   };
 
   render() {
@@ -57,11 +57,13 @@ export class Grid extends React.PureComponent {
             <DrawLayer
               mousePoint={this.props.mousePoint}
               onDraw={this.props.onDraw}
-            />
+            />,
           )}
           <Selector
             isEnabled={this.props.toolType === constants.toolTypes.SELECT}
             onSelect={this.handleSelectorSelect}
+            scrollLeftEl={this.elementRef}
+            scrollTopEl={this.props.sequenceEditorContentRef}
           />
           <Notes
             measureCount={this.props.measureCount}
@@ -78,7 +80,7 @@ export class Grid extends React.PureComponent {
             <Panner
               scrollLeftEl={this.elementRef}
               scrollTopEl={this.props.sequenceEditorContentRef}
-            />
+            />,
           )}
           <Timeline isVisible={false} offset={0 * 40} />
         </GridWrapper>
@@ -91,7 +93,7 @@ export class Grid extends React.PureComponent {
       width:
         this.props.measureCount !== undefined
           ? this.props.measureCount * 4 * 8 * 40 + 80
-          : 0
+          : 0,
     };
   }
 

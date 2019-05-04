@@ -10,18 +10,20 @@ const StyledSelector = styled.div({
   left: 0,
   position: "absolute",
   right: 0,
-  top: 0
+  top: 0,
 });
 
 export class Selector extends React.PureComponent {
   static propTypes = {
     isEnabled: PropTypes.bool,
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
+    scrollLeftEl: PropTypes.object,
+    scrollTopEl: PropTypes.object,
   };
 
   state = {
     endPoint: {},
-    startPoint: {}
+    startPoint: {},
   };
 
   render() {
@@ -34,7 +36,7 @@ export class Selector extends React.PureComponent {
       >
         <StyledSelector
           style={{
-            pointerEvents: this.props.isEnabled ? "all" : "none"
+            pointerEvents: this.props.isEnabled ? "all" : "none",
           }}
         >
           <Fence
@@ -46,21 +48,50 @@ export class Selector extends React.PureComponent {
     );
   }
 
+  adjustScroll = (e, dragData) => {
+    const shouldScrollDown =
+      window.innerHeight - e.pageY < 80 + 128 && dragData.deltaY >= 0;
+    const shouldScrollLeft = e.pageX < 80 && dragData.deltaX <= 0;
+    const shouldScrollRight =
+      window.innerWidth - e.pageX < 80 && dragData.deltaX >= 0;
+    const shouldScrollUp = e.pageY < 80 && dragData.deltaY <= 0;
+
+    if (shouldScrollDown) {
+      this.props.scrollTopEl.scrollTop = this.props.scrollTopEl.scrollTop + 20;
+    }
+
+    if (shouldScrollLeft) {
+      this.props.scrollLeftEl.scrollLeft =
+        this.props.scrollLeftEl.scrollLeft - 20;
+    }
+
+    if (shouldScrollRight) {
+      this.props.scrollLeftEl.scrollLeft =
+        this.props.scrollLeftEl.scrollLeft + 20;
+    }
+
+    if (shouldScrollUp) {
+      this.props.scrollTopEl.scrollTop = this.props.scrollTopEl.scrollTop - 20;
+    }
+  };
+
   handleDrag = (e, dragData) => {
+    this.adjustScroll(e, dragData);
+
     this.setState(state => {
       const newEndPoint = dragDataToGridPoint(dragData);
 
       if (isEqual(newEndPoint, state.endPoint)) return null;
 
       return {
-        endPoint: newEndPoint
+        endPoint: newEndPoint,
       };
     });
   };
 
   handleDragStart = (e, dragData) => {
     this.setState({
-      startPoint: dragDataToGridPoint(dragData)
+      startPoint: dragDataToGridPoint(dragData),
     });
   };
 
@@ -68,12 +99,12 @@ export class Selector extends React.PureComponent {
     this.props.onSelect(
       this.state.startPoint,
       this.state.endPoint,
-      e.ctrlKey || e.metaKey
+      e.ctrlKey || e.metaKey,
     );
 
     this.setState({
       endPoint: {},
-      startPoint: {}
+      startPoint: {},
     });
   };
 }
@@ -81,6 +112,6 @@ export class Selector extends React.PureComponent {
 function dragDataToGridPoint(dragData) {
   return {
     x: Math.floor(dragData.x / 40),
-    y: Math.floor(dragData.y / 40)
+    y: Math.floor(dragData.y / 40),
   };
 }

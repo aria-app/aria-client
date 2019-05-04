@@ -100,6 +100,7 @@ export class Note extends React.Component {
     return (
       <Draggable
         bounds={this.props.positionBounds}
+        enableUserSelectHack={true}
         grid={[40, 40]}
         handle=".start-point"
         onDrag={this.handleDrag}
