@@ -1,4 +1,5 @@
 import first from "lodash/fp/first";
+import isEqual from "lodash/fp/isEqual";
 import last from "lodash/fp/last";
 import { transparentize } from "polished";
 import PropTypes from "prop-types";
@@ -62,7 +63,7 @@ const StyledNote = styled.div(props => ({
   zIndex: props.isSelected && 300
 }));
 
-export class Note extends React.PureComponent {
+export class Note extends React.Component {
   static propTypes = {
     isSelected: PropTypes.bool,
     note: PropTypes.object,
@@ -84,6 +85,16 @@ export class Note extends React.PureComponent {
     onEndPointDragStart: () => {},
     onEndPointDragStop: () => {}
   };
+
+  shouldComponentUpdate(nextProps) {
+    if (
+      isEqual(nextProps.note, this.props.note) &&
+      isEqual(nextProps.isSelected, this.props.isSelected)
+    )
+      return false;
+
+    return true;
+  }
 
   render() {
     return (

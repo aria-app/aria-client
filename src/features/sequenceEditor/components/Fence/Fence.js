@@ -16,8 +16,8 @@ const StyledFence = styled.div({
 
 export class Fence extends React.PureComponent {
   static propTypes = {
-    endPoint: PropTypes.object.isRequired,
-    startPoint: PropTypes.object.isRequired
+    endPoint: PropTypes.object,
+    startPoint: PropTypes.object
   };
 
   render() {

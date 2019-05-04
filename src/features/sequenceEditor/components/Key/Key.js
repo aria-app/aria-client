@@ -40,7 +40,6 @@ const StyledKey = styled.div(props => ({
     pointerEvents: "none",
     position: "absolute",
     top: 0,
-    transition: "opacity 50ms ease",
     width: 2
   }
 }));

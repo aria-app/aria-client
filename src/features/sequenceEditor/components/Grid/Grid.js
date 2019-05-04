@@ -5,7 +5,7 @@ import styled from "styled-components/macro";
 import shared from "../../../shared";
 import * as constants from "../../constants";
 import { DrawLayer } from "../DrawLayer/DrawLayer";
-import Notes from "../Notes/Notes";
+import { Notes } from "../Notes/Notes";
 import { Panner } from "../Panner/Panner";
 import { Selector } from "../Selector/Selector";
 import { Slots } from "../Slots/Slots";
@@ -61,10 +61,7 @@ export class Grid extends React.PureComponent {
           )}
           <Selector
             isEnabled={this.props.toolType === constants.toolTypes.SELECT}
-            mousePoint={this.props.mousePoint}
-            notes={this.props.notes}
             onSelect={this.handleSelectorSelect}
-            selectedNotes={this.props.selectedNotes}
           />
           <Notes
             measureCount={this.props.measureCount}
@@ -98,8 +95,8 @@ export class Grid extends React.PureComponent {
     };
   }
 
-  handleSelectorSelect = (startPoint, isAdditive) =>
-    this.props.onSelectInArea(startPoint, this.props.mousePoint, isAdditive);
+  handleSelectorSelect = (startPoint, endPoint, isAdditive) =>
+    this.props.onSelectInArea(startPoint, endPoint, isAdditive);
 
   setRef = ref => {
     this.elementRef = ref;

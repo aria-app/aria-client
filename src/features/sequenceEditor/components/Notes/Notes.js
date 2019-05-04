@@ -7,7 +7,7 @@ import max from "lodash/fp/max";
 import min from "lodash/fp/min";
 import uniqBy from "lodash/fp/uniqBy";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components/macro";
 import * as constants from "../../constants";
 import { Note } from "../Note/Note";
@@ -22,54 +22,85 @@ const StyledNotes = styled.div(props => ({
   width: props.measureCount * 4 * 8 * 40
 }));
 
-Notes.propTypes = {
-  measureCount: PropTypes.number.isRequired,
-  notes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onDrag: PropTypes.func.isRequired,
-  onDragPreview: PropTypes.func.isRequired,
-  onErase: PropTypes.func.isRequired,
-  onResize: PropTypes.func.isRequired,
-  onSelect: PropTypes.func.isRequired,
-  selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  toolType: PropTypes.string.isRequired
-};
+export class Notes extends React.PureComponent {
+  static propTypes = {
+    measureCount: PropTypes.number.isRequired,
+    notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onDrag: PropTypes.func.isRequired,
+    onDragPreview: PropTypes.func.isRequired,
+    onErase: PropTypes.func.isRequired,
+    onResize: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    toolType: PropTypes.string.isRequired
+  };
 
-Notes.defaultProps = {
-  selectedNotes: []
-};
+  static defaultProps = {
+    selectedNotes: []
+  };
 
-function Notes(props) {
-  const [positionBounds, setPositionBounds] = useState({
-    bottom: (Dawww.OCTAVE_RANGE.length * 12 - 1) * 40,
-    left: 0,
-    right: (props.measureCount * 8 * 4 - 1) * 40,
-    top: 0
-  });
-  const [sizeBounds, setSizeBounds] = useState({
-    left: 0,
-    right: (props.measureCount * 8 * 4 - 1) * 40
-  });
-  const [positionDeltas, setPositionDeltas] = useState({});
-  const [sizeDeltas, setSizeDeltas] = useState({});
+  constructor(props) {
+    super(props);
 
-  const getIsNoteSelected = note =>
-    !!find(x => x.id === note.id, props.selectedNotes);
+    this.state = {
+      positionBounds: {
+        bottom: (Dawww.OCTAVE_RANGE.length * 12 - 1) * 40,
+        left: 0,
+        right: (props.measureCount * 8 * 4 - 1) * 40,
+        top: 0
+      },
+      positionDeltas: {},
+      sizeBounds: {
+        left: 0,
+        right: (props.measureCount * 8 * 4 - 1) * 40
+      },
+      sizeDeltas: {}
+    };
+  }
 
-  const getIsEraseEnabled = () => props.toolType === constants.toolTypes.ERASE;
+  render() {
+    return (
+      <StyledNotes measureCount={this.props.measureCount}>
+        {this.getAdjustedNotes().map(note => (
+          <Note
+            className="notes__note"
+            isSelected={this.getIsNoteSelected(note)}
+            key={note.id}
+            onDrag={this.handleNoteDrag}
+            onDragStart={this.handleNoteDragStart}
+            onDragStop={this.handleNoteDragStop}
+            onEndPointDrag={this.handleNoteEndPointDrag}
+            onEndPointDragStart={this.handleNoteEndPointDragStart}
+            onEndPointDragStop={this.handleNoteEndPointDragStop}
+            onSelect={this.props.onSelect}
+            positionBounds={this.state.positionBounds}
+            sizeBounds={this.state.sizeBounds}
+            toolType={this.props.toolType}
+            note={note}
+          />
+        ))}
+      </StyledNotes>
+    );
+  }
 
-  const getIsSelectEnabled = () =>
-    includes(props.toolType, [
+  getIsNoteSelected = note =>
+    !!find(x => x.id === note.id, this.props.selectedNotes);
+
+  getIsEraseEnabled = () => this.props.toolType === constants.toolTypes.ERASE;
+
+  getIsSelectEnabled = () =>
+    includes(this.props.toolType, [
       constants.toolTypes.DRAW,
       constants.toolTypes.SELECT
     ]);
 
-  const erase = note => {
-    if (!getIsEraseEnabled()) return;
+  erase = note => {
+    if (!this.getIsEraseEnabled()) return;
 
-    props.onErase(note);
+    this.props.onErase(note);
   };
 
-  const handleNoteDrag = ({ deltaX, deltaY }) => {
+  handleNoteDrag = ({ deltaX, deltaY }) => {
     const deltaReducer = (acc, cur) => {
       const prevX = getOr(0, `[${cur.id}].x`, acc);
       const prevY = getOr(0, `[${cur.id}].y`, acc);
@@ -78,19 +109,27 @@ function Notes(props) {
 
       return { ...acc, [cur.id]: { x, y } };
     };
-    const newDeltas = props.selectedNotes.reduce(deltaReducer, positionDeltas);
+    const newDeltas = this.props.selectedNotes.reduce(
+      deltaReducer,
+      this.state.positionDeltas
+    );
 
-    if (isEqual(newDeltas, positionDeltas)) return;
+    if (isEqual(newDeltas, this.state.positionDeltas)) return;
 
-    const adjustedNotes = applyPositionDeltas(props.selectedNotes, newDeltas);
+    const adjustedNotes = applyPositionDeltas(
+      this.props.selectedNotes,
+      newDeltas
+    );
 
-    setPositionDeltas(newDeltas);
+    this.setState({
+      positionDeltas: newDeltas
+    });
 
-    props.onDragPreview(adjustedNotes);
+    this.props.onDragPreview(adjustedNotes);
   };
 
-  const handleNoteDragStart = (draggedNote, e) => {
-    const notes = uniqBy(x => x.id, [draggedNote, ...props.selectedNotes]);
+  handleNoteDragStart = (draggedNote, e) => {
+    const notes = uniqBy(x => x.id, [draggedNote, ...this.props.selectedNotes]);
     const draggedX = getOr(0, "points[0].x", draggedNote);
     const draggedY = getOr(0, "points[0].y", draggedNote);
     const maxX = max(notes.map(getOr(0, "points[1].x")));
@@ -98,95 +137,94 @@ function Notes(props) {
     const minX = min(notes.map(getOr(0, "points[0].x")));
     const minY = min(notes.map(getOr(0, "points[0].y")));
     const baseBottom = Dawww.OCTAVE_RANGE.length * 12 - 1;
-    const baseRight = props.measureCount * 8 * 4 - 1;
+    const baseRight = this.props.measureCount * 8 * 4 - 1;
 
-    setPositionBounds({
-      bottom: (baseBottom - (maxY - draggedY)) * 40,
-      left: (draggedX - minX) * 40,
-      right: (baseRight - (maxX - draggedX)) * 40,
-      top: (draggedY - minY) * 40
+    this.setState({
+      positionBounds: {
+        bottom: (baseBottom - (maxY - draggedY)) * 40,
+        left: (draggedX - minX) * 40,
+        right: (baseRight - (maxX - draggedX)) * 40,
+        top: (draggedY - minY) * 40
+      }
     });
 
-    erase(draggedNote);
+    this.erase(draggedNote);
 
-    select(draggedNote, e);
+    this.select(draggedNote, e);
   };
 
-  const handleNoteDragStop = () => {
-    props.onDrag(applyPositionDeltas(props.notes, positionDeltas));
-    setPositionDeltas({});
+  handleNoteDragStop = () => {
+    this.props.onDrag(
+      applyPositionDeltas(this.props.notes, this.state.positionDeltas)
+    );
+
+    this.setState({
+      positionDeltas: {}
+    });
   };
 
-  const handleNoteEndPointDrag = ({ deltaX }) => {
+  handleNoteEndPointDrag = ({ deltaX }) => {
     const deltaReducer = (acc, cur) => {
       const prevX = getOr(0, `[${cur.id}].x`, acc);
       const x = prevX + deltaX;
 
       return { ...acc, [cur.id]: { x } };
     };
-    const newDeltas = props.selectedNotes.reduce(deltaReducer, sizeDeltas);
+    const newDeltas = this.props.selectedNotes.reduce(
+      deltaReducer,
+      this.state.sizeDeltas
+    );
 
-    if (isEqual(newDeltas, sizeDeltas)) return;
+    if (isEqual(newDeltas, this.state.sizeDeltas)) return;
 
-    setSizeDeltas(newDeltas);
+    this.setState({
+      sizeDeltas: newDeltas
+    });
   };
 
-  const handleNoteEndPointDragStart = (sizedNote, e) => {
-    const notes = uniqBy(x => x.id, [...props.selectedNotes, sizedNote]);
+  handleNoteEndPointDragStart = (sizedNote, e) => {
+    const notes = uniqBy(x => x.id, [...this.props.selectedNotes, sizedNote]);
     const maxPositionX = max(notes.map(getOr(0, "points[0].x")));
-    const baseRight = props.measureCount * 8 * 4 - 1;
+    const baseRight = this.props.measureCount * 8 * 4 - 1;
 
-    setSizeBounds({
-      left: 40,
-      right: (baseRight - maxPositionX) * 40
+    this.setState({
+      sizeBounds: {
+        left: 40,
+        right: (baseRight - maxPositionX) * 40
+      }
     });
 
-    select(sizedNote, e);
+    this.select(sizedNote, e);
   };
 
-  const handleNoteEndPointDragStop = () => {
-    props.onResize(applySizeDeltas(props.notes, sizeDeltas));
-    setSizeDeltas({});
+  handleNoteEndPointDragStop = () => {
+    this.props.onResize(
+      applySizeDeltas(this.props.notes, this.state.sizeDeltas)
+    );
+
+    this.setState({
+      sizeDeltas: {}
+    });
   };
 
-  const adjustedNotes = applySizeDeltas(
-    applyPositionDeltas(props.notes, positionDeltas),
-    sizeDeltas
-  );
+  getAdjustedNotes = () =>
+    applySizeDeltas(
+      applyPositionDeltas(this.props.notes, this.state.positionDeltas),
+      this.state.sizeDeltas
+    );
 
-  function select(note, e) {
+  select = (note, e) => {
     const isAdditive = e.ctrlKey || e.metaKey;
 
-    if (!getIsSelectEnabled() || (props.isSelected && !isAdditive)) return;
+    if (
+      !this.getIsSelectEnabled() ||
+      (this.getIsNoteSelected(note) && !isAdditive)
+    )
+      return;
 
-    props.onSelect(note, isAdditive);
-  }
-
-  return (
-    <StyledNotes measureCount={props.measureCount}>
-      {adjustedNotes.map(note => (
-        <Note
-          className="notes__note"
-          isSelected={getIsNoteSelected(note)}
-          key={note.id}
-          onDrag={handleNoteDrag}
-          onDragStart={handleNoteDragStart}
-          onDragStop={handleNoteDragStop}
-          onEndPointDrag={handleNoteEndPointDrag}
-          onEndPointDragStart={handleNoteEndPointDragStart}
-          onEndPointDragStop={handleNoteEndPointDragStop}
-          onSelect={props.onSelect}
-          positionBounds={positionBounds}
-          sizeBounds={sizeBounds}
-          toolType={props.toolType}
-          note={note}
-        />
-      ))}
-    </StyledNotes>
-  );
+    this.props.onSelect(note, isAdditive);
+  };
 }
-
-export default React.memo(Notes);
 
 function applyPositionDeltas(notes, deltas) {
   return notes.map(note => {

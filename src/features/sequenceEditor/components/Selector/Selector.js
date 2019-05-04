@@ -1,6 +1,7 @@
-import isEmpty from "lodash/fp/isEmpty";
+import isEqual from "lodash/fp/isEqual";
 import PropTypes from "prop-types";
 import React from "react";
+import { DraggableCore } from "react-draggable";
 import styled from "styled-components/macro";
 import { Fence } from "../Fence/Fence";
 
@@ -14,10 +15,8 @@ const StyledSelector = styled.div({
 
 export class Selector extends React.PureComponent {
   static propTypes = {
-    children: PropTypes.node,
     isEnabled: PropTypes.bool,
-    mousePoint: PropTypes.object.isRequired,
-    onSelect: PropTypes.func.isRequired
+    onSelect: PropTypes.func
   };
 
   state = {
@@ -25,45 +24,63 @@ export class Selector extends React.PureComponent {
     startPoint: {}
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.mousePoint.x < 0 || nextProps.mousePoint.y < 0) {
-      this.setState({
-        startPoint: {}
-      });
-    }
-  }
-
   render() {
     return (
-      <StyledSelector
-        onMouseDown={this.handleMouseDown}
-        // onMouseLeave={this.handleMouseLeave}
-        onMouseUp={this.handleMouseUp}
-        style={{
-          pointerEvents: this.props.isEnabled ? "all" : "none"
-        }}
+      <DraggableCore
+        grid={[40, 40]}
+        onDrag={this.handleDrag}
+        onStart={this.handleDragStart}
+        onStop={this.handleDragStop}
       >
-        <Fence
-          endPoint={this.props.mousePoint}
-          startPoint={this.state.startPoint}
-        />
-      </StyledSelector>
+        <StyledSelector
+          style={{
+            pointerEvents: this.props.isEnabled ? "all" : "none"
+          }}
+        >
+          <Fence
+            endPoint={this.state.endPoint}
+            startPoint={this.state.startPoint}
+          />
+        </StyledSelector>
+      </DraggableCore>
     );
   }
 
-  handleMouseDown = () => {
-    this.setState({
-      startPoint: this.props.mousePoint
+  handleDrag = (e, dragData) => {
+    this.setState(state => {
+      const newEndPoint = dragDataToGridPoint(dragData);
+
+      if (isEqual(newEndPoint, state.endPoint)) return null;
+
+      return {
+        endPoint: newEndPoint
+      };
     });
   };
 
-  handleMouseUp = e => {
-    if (isEmpty(this.state.startPoint)) return;
+  handleDragStart = (e, dragData) => {
+    this.setState({
+      startPoint: dragDataToGridPoint(dragData)
+    });
+  };
 
-    this.props.onSelect(this.state.startPoint, e.ctrlKey || e.metaKey);
+  handleDragStop = e => {
+    this.props.onSelect(
+      this.state.startPoint,
+      this.state.endPoint,
+      e.ctrlKey || e.metaKey
+    );
 
     this.setState({
+      endPoint: {},
       startPoint: {}
     });
+  };
+}
+
+function dragDataToGridPoint(dragData) {
+  return {
+    x: Math.floor(dragData.x / 40),
+    y: Math.floor(dragData.y / 40)
   };
 }
