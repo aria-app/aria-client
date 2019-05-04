@@ -7,6 +7,7 @@ import * as constants from "../../constants";
 import { DrawLayer } from "../DrawLayer/DrawLayer";
 import { Notes } from "../Notes/Notes";
 import { Panner } from "../Panner/Panner";
+import { PositionIndicator } from "../PositionIndicator/PositionIndicator";
 import { Selector } from "../Selector/Selector";
 import { Slots } from "../Slots/Slots";
 
@@ -82,6 +83,7 @@ export class Grid extends React.PureComponent {
               scrollTopEl={this.props.sequenceEditorContentRef}
             />,
           )}
+          <PositionIndicator mousePoint={this.props.mousePoint} />
           <Timeline isVisible={false} offset={0 * 40} />
         </GridWrapper>
       </StyledGrid>
