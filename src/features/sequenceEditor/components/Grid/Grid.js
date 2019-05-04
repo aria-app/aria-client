@@ -61,7 +61,7 @@ export class Grid extends React.PureComponent {
           )}
           <Selector
             isEnabled={this.props.toolType === constants.toolTypes.SELECT}
-            onSelect={this.handleSelectorSelect}
+            onSelect={this.props.onSelectInArea}
             scrollLeftEl={this.elementRef}
             scrollTopEl={this.props.sequenceEditorContentRef}
           />
@@ -96,9 +96,6 @@ export class Grid extends React.PureComponent {
           : 0,
     };
   }
-
-  handleSelectorSelect = (startPoint, endPoint, isAdditive) =>
-    this.props.onSelectInArea(startPoint, endPoint, isAdditive);
 
   setRef = ref => {
     this.elementRef = ref;
