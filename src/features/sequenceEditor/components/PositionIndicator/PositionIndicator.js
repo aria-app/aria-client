@@ -11,7 +11,6 @@ const ColumnIndicator = styled.div({
   pointerEvents: "none",
   position: "absolute",
   top: 0,
-  transition: "transform 100ms ease",
   width: 40,
 });
 const RowIndicator = styled.div({
@@ -23,7 +22,6 @@ const RowIndicator = styled.div({
   position: "absolute",
   right: 0,
   top: 0,
-  transition: "transform 100ms ease",
 });
 
 export const PositionIndicator = React.memo(function PositionIndicator(props) {
