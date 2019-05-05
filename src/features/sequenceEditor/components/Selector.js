@@ -1,14 +1,14 @@
-import isEqual from "lodash/fp/isEqual";
-import PropTypes from "prop-types";
-import React from "react";
-import { DraggableCore } from "react-draggable";
-import styled from "styled-components/macro";
-import Fence from "./Fence";
+import isEqual from 'lodash/fp/isEqual';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { DraggableCore } from 'react-draggable';
+import styled from 'styled-components/macro';
+import Fence from './Fence';
 
 const StyledSelector = styled.div({
   bottom: 0,
   left: 0,
-  position: "absolute",
+  position: 'absolute',
   right: 0,
   top: 0,
 });
@@ -36,7 +36,7 @@ export default class Selector extends React.PureComponent {
       >
         <StyledSelector
           style={{
-            pointerEvents: this.props.isEnabled ? "all" : "none",
+            pointerEvents: this.props.isEnabled ? 'all' : 'none',
           }}
         >
           <Fence

@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
-import React from "react";
-import styled from "styled-components/macro";
-import shared from "../../shared";
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components/macro';
+import shared from '../../shared';
 
 const { IconButton } = shared.components;
 
@@ -12,22 +12,22 @@ const SongListItemDeleteButton = styled(IconButton).attrs(props => ({
 }));
 
 const SongListItemText = styled.div({
-  alignItems: "center",
-  alignSelf: "stretch",
-  color: "white",
-  display: "flex",
-  flex: "1 1 auto",
+  alignItems: 'center',
+  alignSelf: 'stretch',
+  color: 'white',
+  display: 'flex',
+  flex: '1 1 auto',
 });
 
 const StyledSongListItem = styled.div(props => ({
-  alignItems: "center",
-  cursor: "pointer",
-  display: "flex",
-  flex: "0 0 auto",
+  alignItems: 'center',
+  cursor: 'pointer',
+  display: 'flex',
+  flex: '0 0 auto',
   height: 48,
   paddingLeft: props.theme.margin.m,
   paddingRight: props.theme.margin.m,
-  position: "relative",
+  position: 'relative',
   // TODO: ${mixins.interactionOverlay('white')}
 }));
 

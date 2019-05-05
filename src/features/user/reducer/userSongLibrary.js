@@ -1,7 +1,7 @@
-import omit from "lodash/fp/omit";
-import Dawww from "dawww";
-import { createReducer } from "redux-create-reducer";
-import shared from "../../shared";
+import omit from 'lodash/fp/omit';
+import Dawww from 'dawww';
+import { createReducer } from 'redux-create-reducer';
+import shared from '../../shared';
 
 export const userSongLibrary = createReducer(
   {},

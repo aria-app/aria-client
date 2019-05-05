@@ -1,13 +1,13 @@
-import Dawww from "dawww";
-import PropTypes from "prop-types";
-import React from "react";
-import styled from "styled-components/macro";
-import Key from "./Key";
+import Dawww from 'dawww';
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components/macro';
+import Key from './Key';
 
 const StyledKeys = styled.div({
-  display: "flex",
-  flex: "0 0 auto",
-  flexDirection: "column",
+  display: 'flex',
+  flex: '0 0 auto',
+  flexDirection: 'column',
   width: 40,
 });
 
@@ -28,12 +28,12 @@ export default class Keys extends React.PureComponent {
             step={step}
             style={{
               borderBottomRightRadius:
-                index === this.getScale().length - 1 ? 4 : "",
+                index === this.getScale().length - 1 ? 4 : '',
               boxShadow:
                 index === this.getScale().length - 1
-                  ? "2px 2px 0 rgba(235, 235, 235, 0.5)"
-                  : "",
-              borderTopRightRadius: index === 0 ? 4 : "",
+                  ? '2px 2px 0 rgba(235, 235, 235, 0.5)'
+                  : '',
+              borderTopRightRadius: index === 0 ? 4 : '',
             }}
           />
         ))}

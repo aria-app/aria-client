@@ -1,56 +1,56 @@
-import PropTypes from "prop-types";
-import React from "react";
-import { hideIf } from "react-render-helpers";
-import { animated } from "react-spring";
-import styled from "styled-components/macro";
-import shared from "../../shared";
-import SongList from "./SongList";
+import PropTypes from 'prop-types';
+import React from 'react';
+import { hideIf } from 'react-render-helpers';
+import { animated } from 'react-spring';
+import styled from 'styled-components/macro';
+import shared from '../../shared';
+import SongList from './SongList';
 
 const { Icon, Toolbar, FadeOut } = shared.components;
 
 const LoadingIndicator = styled(animated.div)({
-  alignItems: "center",
+  alignItems: 'center',
   bottom: 0,
-  color: "white",
-  display: "flex",
-  flex: "1 1 auto",
-  justifyContent: "center",
+  color: 'white',
+  display: 'flex',
+  flex: '1 1 auto',
+  justifyContent: 'center',
   left: 0,
-  position: "absolute",
+  position: 'absolute',
   right: 0,
   top: 0,
 });
 
 const DashboardCenteredContent = styled.div(props => ({
-  alignSelf: "center",
+  alignSelf: 'center',
   maxWidth: props.theme.minWidthWidescreen,
-  width: "100%",
+  width: '100%',
 }));
 
 const DashboardUserImage = styled.img({
-  borderRadius: "50%",
+  borderRadius: '50%',
   height: 40,
   width: 40,
 });
 
 const DashboardUserInfo = styled.div({
-  alignItems: "center",
-  display: "flex",
-  flex: "0 0 auto",
-  height: "100%",
+  alignItems: 'center',
+  display: 'flex',
+  flex: '0 0 auto',
+  height: '100%',
 });
 
 const Fab = styled.div(props => ({
-  alignItems: "center",
+  alignItems: 'center',
   backgroundColor: props.theme.almostwhite,
-  borderRadius: "50%",
+  borderRadius: '50%',
   bottom: 24,
-  cursor: "pointer",
-  display: "flex",
-  flex: "0 0 auto",
+  cursor: 'pointer',
+  display: 'flex',
+  flex: '0 0 auto',
   height: 56,
-  justifyContent: "center",
-  position: "absolute",
+  justifyContent: 'center',
+  position: 'absolute',
   right: 24,
   width: 56,
   // TODO: ${mixins.interactionOverlay("black")}
@@ -61,10 +61,10 @@ const FabIcon = styled(Icon).attrs(props => ({
 }))({});
 
 const StyledDashboard = styled.div({
-  display: "flex",
-  flex: "1 1 auto",
-  flexDirection: "column",
-  position: "relative",
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+  position: 'relative',
 });
 
 export default class Dashboard extends React.Component {
@@ -80,7 +80,7 @@ export default class Dashboard extends React.Component {
   componentDidMount() {
     this.props.onLoad();
 
-    window.document.title = "Dashboard - Aria";
+    window.document.title = 'Dashboard - Aria';
   }
 
   render() {
@@ -122,7 +122,7 @@ export default class Dashboard extends React.Component {
   }
 
   addSong = () => {
-    const name = window.prompt("Enter a name for the song", "New Song");
+    const name = window.prompt('Enter a name for the song', 'New Song');
 
     if (!name) return;
 

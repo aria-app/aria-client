@@ -1,25 +1,25 @@
-import Dawww from "dawww";
-import getOr from "lodash/fp/getOr";
-import isEmpty from "lodash/fp/isEmpty";
-import range from "lodash/fp/range";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import PropTypes from "prop-types";
-import React from "react";
-import { Translation } from "react-i18next";
-import styled from "styled-components/macro";
+import Dawww from 'dawww';
+import getOr from 'lodash/fp/getOr';
+import isEmpty from 'lodash/fp/isEmpty';
+import range from 'lodash/fp/range';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Translation } from 'react-i18next';
+import styled from 'styled-components/macro';
 
 const minVolume = -20;
 const maxVolume = 0;
 
 const DeleteButton = styled(Button)(props => ({
-  alignSelf: "stretch",
+  alignSelf: 'stretch',
   marginLeft: props.theme.margin.s,
   marginRight: props.theme.margin.s,
 }));
@@ -30,17 +30,17 @@ const TrackEditingModalDropdown = styled(FormControl)(props => ({
 }));
 
 const TrackEditingModalContent = styled(DialogContent)(props => ({
-  alignItems: "flex-start",
-  display: "flex",
-  flex: "1 1 auto",
-  flexDirection: "column",
+  alignItems: 'flex-start',
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
   marginLeft: props.theme.margin.s * -1,
   marginRight: props.theme.margin.s * -1,
 }));
 
 const TrackEditingModalTitle = styled(DialogTitle)({
   fontWeight: 800,
-  textTransform: "uppercase",
+  textTransform: 'uppercase',
 });
 
 export default class TrackEditingModal extends React.PureComponent {
@@ -62,14 +62,14 @@ export default class TrackEditingModal extends React.PureComponent {
             onClose={this.props.onDismiss}
             open={this.getIsOpen()}
           >
-            <TrackEditingModalTitle>{t("Edit Track")}</TrackEditingModalTitle>
+            <TrackEditingModalTitle>{t('Edit Track')}</TrackEditingModalTitle>
             <TrackEditingModalContent>
               <TrackEditingModalDropdown>
                 <InputLabel htmlFor="voice">Voice</InputLabel>
                 <Select
-                  inputProps={{ name: "voice", id: "voice" }}
+                  inputProps={{ name: 'voice', id: 'voice' }}
                   onChange={this.handleVoiceChange}
-                  value={getOr("", "props.stagedTrack.voice", this)}
+                  value={getOr('', 'props.stagedTrack.voice', this)}
                 >
                   {Object.keys(Dawww.VOICES).map(voice => (
                     <MenuItem key={voice} value={voice}>
@@ -81,9 +81,9 @@ export default class TrackEditingModal extends React.PureComponent {
               <TrackEditingModalDropdown>
                 <InputLabel htmlFor="volume">Volume</InputLabel>
                 <Select
-                  inputProps={{ name: "volume", id: "volume" }}
+                  inputProps={{ name: 'volume', id: 'volume' }}
                   onChange={this.handleVolumeChange}
-                  value={getOr(0, "props.stagedTrack.volume", this)}
+                  value={getOr(0, 'props.stagedTrack.volume', this)}
                 >
                   {range(maxVolume, minVolume - 1).map(volume => (
                     <MenuItem key={volume} value={volume}>
@@ -97,7 +97,7 @@ export default class TrackEditingModal extends React.PureComponent {
                 onClick={this.handleContentDeleteButtonClick}
                 variant="contained"
               >
-                {t("Delete")}
+                {t('Delete')}
               </DeleteButton>
             </TrackEditingModalContent>
           </Dialog>

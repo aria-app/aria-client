@@ -1,15 +1,15 @@
-import { combineReducers } from "redux";
-import undoable, { includeAction } from "redux-undo";
-import shared from "../../shared";
-import { bpm } from "./bpm";
-import { id } from "./id";
-import { measureCount } from "./measureCount";
-import { name } from "./name";
-import { notes } from "./notes";
-import { sequences } from "./sequences";
-import { syncState } from "./syncState";
-import { tracks } from "./tracks";
-import { userId } from "./userId";
+import { combineReducers } from 'redux';
+import undoable, { includeAction } from 'redux-undo';
+import shared from '../../shared';
+import { bpm } from './bpm';
+import { id } from './id';
+import { measureCount } from './measureCount';
+import { name } from './name';
+import { notes } from './notes';
+import { sequences } from './sequences';
+import { syncState } from './syncState';
+import { tracks } from './tracks';
+import { userId } from './userId';
 
 const rootReducer = combineReducers({
   bpm,

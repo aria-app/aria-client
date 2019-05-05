@@ -1,6 +1,6 @@
-import * as firebase from "firebase/app";
-import { createLogic } from "redux-logic";
-import shared from "../../shared";
+import * as firebase from 'firebase/app';
+import { createLogic } from 'redux-logic';
+import shared from '../../shared';
 
 export const subscribeToAuthState = createLogic({
   type: shared.actions.INITIALIZED,

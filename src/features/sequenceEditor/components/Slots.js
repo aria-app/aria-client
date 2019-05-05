@@ -1,12 +1,12 @@
-import Dawww from "dawww";
-import range from "lodash/fp/range";
-import PropTypes from "prop-types";
-import React from "react";
-import styled from "styled-components/macro";
+import Dawww from 'dawww';
+import range from 'lodash/fp/range';
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components/macro';
 
 const StyledSlots = styled.div({
-  flex: "1 0 auto",
-  minHeight: "100%",
+  flex: '1 0 auto',
+  minHeight: '100%',
 });
 
 export default class Slots extends React.PureComponent {
@@ -63,7 +63,7 @@ export default class Slots extends React.PureComponent {
 
 function getSlot(column, row) {
   const isEven = x => x % 2 === 0;
-  const fill = isEven(Math.floor(column / 8)) ? "white" : "white";
+  const fill = isEven(Math.floor(column / 8)) ? 'white' : 'white';
   const size = 1;
   return `
     <rect

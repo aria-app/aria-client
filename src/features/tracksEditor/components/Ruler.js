@@ -1,27 +1,27 @@
-import getOr from "lodash/fp/getOr";
-import round from "lodash/round";
-import times from "lodash/fp/times";
-import PropTypes from "prop-types";
-import React from "react";
-import styled from "styled-components/macro";
-import shared from "../../shared";
-import RulerResizer from "./RulerResizer";
+import getOr from 'lodash/fp/getOr';
+import round from 'lodash/round';
+import times from 'lodash/fp/times';
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components/macro';
+import shared from '../../shared';
+import RulerResizer from './RulerResizer';
 
 const { MatrixBox } = shared.components;
 
 const RulerMeasureNumber = styled.div({
-  color: "rgba(255, 255, 255, 0.5)",
+  color: 'rgba(255, 255, 255, 0.5)',
   fontSize: 10,
-  position: "absolute",
+  position: 'absolute',
 });
 
 const StyledRuler = styled.div(props => ({
-  cursor: "pointer",
-  display: "flex",
-  flex: "0 0 auto",
+  cursor: 'pointer',
+  display: 'flex',
+  flex: '0 0 auto',
   height: 35,
   marginBottom: props.theme.margin.m,
-  position: "relative",
+  position: 'relative',
 }));
 
 export default class Ruler extends React.PureComponent {
@@ -102,7 +102,7 @@ export default class Ruler extends React.PureComponent {
   handleClick = e => {
     if (this.props.isStopped) return;
 
-    const offset = getOr(0, "nativeEvent.offsetX", e);
+    const offset = getOr(0, 'nativeEvent.offsetX', e);
     const measures = offset / this.props.measureWidth;
     const notesPerMeasure = 32;
 

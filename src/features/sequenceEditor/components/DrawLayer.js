@@ -1,21 +1,21 @@
-import compose from "lodash/fp/compose";
-import first from "lodash/fp/first";
-import split from "lodash/fp/split";
-import PropTypes from "prop-types";
-import React from "react";
-import { showIf } from "react-render-helpers";
-import styled from "styled-components/macro";
-import Note from "./Note";
+import compose from 'lodash/fp/compose';
+import first from 'lodash/fp/first';
+import split from 'lodash/fp/split';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { showIf } from 'react-render-helpers';
+import styled from 'styled-components/macro';
+import Note from './Note';
 
 const DrawLayerGhostNote = styled(Note)({
   opacity: 0.4,
-  pointerEvents: "none",
+  pointerEvents: 'none',
 });
 
 const StyledDrawLayer = styled.div({
   bottom: 0,
   left: 0,
-  position: "absolute",
+  position: 'absolute',
   right: 0,
   top: 0,
 });
@@ -86,7 +86,7 @@ export default class DrawLayer extends React.PureComponent {
 
     const primaryClassName = `.${compose(
       first,
-      split(" "),
+      split(' '),
     )(e.target.className)}`;
     const isDescendant = !!this.elementRef.querySelector(primaryClassName);
     if (isDescendant) return;

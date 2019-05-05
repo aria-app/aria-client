@@ -1,6 +1,6 @@
-import getOr from "lodash/fp/getOr";
-import shared from "../../shared";
-import { NAME } from "../constants";
+import getOr from 'lodash/fp/getOr';
+import shared from '../../shared';
+import { NAME } from '../constants';
 
 const { SYNC_STATES } = shared.constants;
 

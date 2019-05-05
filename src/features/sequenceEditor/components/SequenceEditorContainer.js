@@ -1,7 +1,7 @@
-import { connect } from "react-redux";
-import shared from "../../shared";
-import song from "../../song";
-import SequenceEditor from "./SequenceEditor";
+import { connect } from 'react-redux';
+import shared from '../../shared';
+import song from '../../song';
+import SequenceEditor from './SequenceEditor';
 
 export default connect(
   (state, ownProps) => ({

@@ -1,10 +1,10 @@
-import Dawww from "dawww";
-import filter from "lodash/fp/filter";
-import map from "lodash/fp/map";
-import omit from "lodash/fp/omit";
-import values from "lodash/fp/values";
-import { createReducer } from "redux-create-reducer";
-import shared from "../../shared";
+import Dawww from 'dawww';
+import filter from 'lodash/fp/filter';
+import map from 'lodash/fp/map';
+import omit from 'lodash/fp/omit';
+import values from 'lodash/fp/values';
+import { createReducer } from 'redux-create-reducer';
+import shared from '../../shared';
 
 const initialValue = {};
 const octaveDownDelta = { x: 0, y: 12 };
@@ -31,7 +31,7 @@ export const notes = createReducer(initialValue, {
     omit(action.payload.note.id, state),
 
   [shared.actions.NOTES_DELETED]: (state, action) =>
-    omit(map("id", action.payload.notes), state),
+    omit(map('id', action.payload.notes), state),
 
   [shared.actions.NOTES_DRAGGED]: (state, action) =>
     Dawww.setAtIds(action.payload.notes, state),

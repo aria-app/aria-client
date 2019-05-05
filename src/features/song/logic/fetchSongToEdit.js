@@ -1,9 +1,9 @@
-import isEmpty from "lodash/fp/isEmpty";
-import isEqual from "lodash/fp/isEqual";
-import { createLogic } from "redux-logic";
-import shared from "../../shared";
-import * as helpers from "../helpers";
-import * as selectors from "../selectors";
+import isEmpty from 'lodash/fp/isEmpty';
+import isEqual from 'lodash/fp/isEqual';
+import { createLogic } from 'redux-logic';
+import shared from '../../shared';
+import * as helpers from '../helpers';
+import * as selectors from '../selectors';
 
 export const fetchSongToEdit = createLogic({
   type: [

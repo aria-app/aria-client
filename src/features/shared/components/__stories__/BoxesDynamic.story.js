@@ -1,13 +1,13 @@
-import React from "react";
-import { Boxes, Shell } from "../../../components";
+import React from 'react';
+import { Boxes, Shell } from '../../../components';
 
 const Content = props => (
   <div
     className="content"
     style={{
-      backgroundColor: "red",
-      color: "white",
-      flex: "1 1 auto",
+      backgroundColor: 'red',
+      color: 'white',
+      flex: '1 1 auto',
     }}
   >
     {props.item.id}

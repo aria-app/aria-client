@@ -1,45 +1,45 @@
-import { isEmpty } from "lodash/fp";
-import PropTypes from "prop-types";
-import React from "react";
-import styled from "styled-components/macro";
-import { showIf } from "react-render-helpers";
+import { isEmpty } from 'lodash/fp';
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components/macro';
+import { showIf } from 'react-render-helpers';
 
 const reader = new FileReader();
 
 const StyledUploadOverlay = styled.div({
   bottom: 0,
   left: 0,
-  overflow: "hidden",
-  position: "fixed",
+  overflow: 'hidden',
+  position: 'fixed',
   right: 0,
   top: 0,
   zIndex: 550,
 });
 
 const UploadOverlayTint = styled.div({
-  alignItems: "center",
-  backgroundColor: "rgba(0, 0, 0, 0.5)",
+  alignItems: 'center',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
   bottom: 0,
-  display: "flex",
-  justifyContent: "center",
+  display: 'flex',
+  justifyContent: 'center',
   left: 0,
-  overflow: "hidden",
-  pointerEvents: "none",
-  position: "absolute",
+  overflow: 'hidden',
+  pointerEvents: 'none',
+  position: 'absolute',
   right: 0,
   top: 0,
-  zIndex: "inherit",
+  zIndex: 'inherit',
 });
 
 const UploadOverlayDragIndicator = styled.div(props => ({
-  alignItems: "center",
-  backgroundColor: "rgba(0, 0, 0, 0.5)",
+  alignItems: 'center',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
   borderRadius: 4,
-  display: "flex",
-  justifyContent: "center",
+  display: 'flex',
+  justifyContent: 'center',
   padding: props.theme.margin.m,
-  pointerEvents: "none",
-  zIndex: "inherit",
+  pointerEvents: 'none',
+  zIndex: 'inherit',
 }));
 
 export default class UploadOverlay extends React.PureComponent {

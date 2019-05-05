@@ -1,5 +1,5 @@
-import React from "react";
-import { animated, useTransition } from "react-spring";
+import React from 'react';
+import { animated, useTransition } from 'react-spring';
 
 export default function FadeOut({ children, component, isVisible }) {
   const transition = useTransition(isVisible, null, {

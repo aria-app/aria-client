@@ -1,53 +1,53 @@
-import Dawww from "dawww";
-import find from "lodash/fp/find";
-import getOr from "lodash/fp/getOr";
-import isEmpty from "lodash/fp/isEmpty";
-import isEqual from "lodash/fp/isEqual";
-import map from "lodash/fp/map";
-import uniq from "lodash/fp/uniq";
-import PropTypes from "prop-types";
-import React from "react";
-import { hideIf, showIf } from "react-render-helpers";
-import { HotKeys } from "react-hotkeys";
-import styled from "styled-components/macro";
-import audio from "../../audio";
-import shared from "../../shared";
-import { toolTypes } from "../constants";
-import Grid from "./Grid";
-import Keys from "./Keys";
-import SequenceEditorToolbar from "./SequenceEditorToolbar";
+import Dawww from 'dawww';
+import find from 'lodash/fp/find';
+import getOr from 'lodash/fp/getOr';
+import isEmpty from 'lodash/fp/isEmpty';
+import isEqual from 'lodash/fp/isEqual';
+import map from 'lodash/fp/map';
+import uniq from 'lodash/fp/uniq';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { hideIf, showIf } from 'react-render-helpers';
+import { HotKeys } from 'react-hotkeys';
+import styled from 'styled-components/macro';
+import audio from '../../audio';
+import shared from '../../shared';
+import { toolTypes } from '../constants';
+import Grid from './Grid';
+import Keys from './Keys';
+import SequenceEditorToolbar from './SequenceEditorToolbar';
 
 const { previewPitch } = audio.helpers;
 
 const LoadingIndicator = styled.div({
-  alignItems: "center",
-  color: "white",
-  display: "flex",
-  flex: "1 1 auto",
-  justifyContent: "center",
+  alignItems: 'center',
+  color: 'white',
+  display: 'flex',
+  flex: '1 1 auto',
+  justifyContent: 'center',
 });
 
 const SequenceEditorContent = styled.div({
-  display: "flex",
-  flex: "1 1 auto",
-  flexDirection: "column",
-  overflowX: "hidden",
-  overflowY: "scroll",
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+  overflowX: 'hidden',
+  overflowY: 'scroll',
 });
 
 const SequenceEditorWrapper = styled.div({
-  display: "flex",
-  flex: "1 0 auto",
+  display: 'flex',
+  flex: '1 0 auto',
   paddingBottom: 64,
   paddingTop: 64,
 });
 
 const StyledSequenceEditor = styled(HotKeys)({
-  display: "flex",
-  flex: "1 1 auto",
-  flexDirection: "column",
-  overflow: "hidden",
-  position: "relative",
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+  overflow: 'hidden',
+  position: 'relative',
 });
 
 export default class SequenceEditor extends React.PureComponent {
@@ -179,7 +179,7 @@ export default class SequenceEditor extends React.PureComponent {
       previousToolType: state.toolType,
       toolType: toolTypes.PAN,
     }));
-    window.addEventListener("keyup", this.deactivatePanOverride);
+    window.addEventListener('keyup', this.deactivatePanOverride);
   };
 
   activateEraseTool = () => {
@@ -209,7 +209,7 @@ export default class SequenceEditor extends React.PureComponent {
     this.setState(state => ({
       toolType: state.previousToolType,
     }));
-    window.removeEventListener("keyup", this.deactivatePanOverride);
+    window.removeEventListener('keyup', this.deactivatePanOverride);
   };
 
   deleteSelectedNotes = e => {
@@ -246,7 +246,7 @@ export default class SequenceEditor extends React.PureComponent {
     this.props.onDuplicate(duplicatedNotes);
 
     this.setState({
-      selectedNoteIds: map("id", duplicatedNotes),
+      selectedNoteIds: map('id', duplicatedNotes),
     });
   };
 
@@ -262,16 +262,16 @@ export default class SequenceEditor extends React.PureComponent {
     s: this.activateSelectTool,
     space: this.activatePanOverride,
     up: this.nudgeUp,
-    "ctrl+a": this.selectAll,
-    "ctrl+d": this.deselectAllNotes,
-    "ctrl+shift+d": this.duplicateSelectedNotes,
-    "ctrl+alt+z": this.props.onRedo,
-    "ctrl+z": this.props.onUndo,
-    "meta+a": this.selectAll,
-    "meta+d": this.deselectAllNotes,
-    "meta+shift+d": this.duplicateSelectedNotes,
-    "meta+alt+z": this.props.onRedo,
-    "meta+z": this.props.onUndo,
+    'ctrl+a': this.selectAll,
+    'ctrl+d': this.deselectAllNotes,
+    'ctrl+shift+d': this.duplicateSelectedNotes,
+    'ctrl+alt+z': this.props.onRedo,
+    'ctrl+z': this.props.onUndo,
+    'meta+a': this.selectAll,
+    'meta+d': this.deselectAllNotes,
+    'meta+shift+d': this.duplicateSelectedNotes,
+    'meta+alt+z': this.props.onRedo,
+    'meta+z': this.props.onUndo,
   });
 
   getSelectedNotes = () =>
@@ -281,13 +281,13 @@ export default class SequenceEditor extends React.PureComponent {
     );
 
   handleGridDragPreview = notes => {
-    const pitch = getOr(-1, "[0].points[0].y", notes);
+    const pitch = getOr(-1, '[0].points[0].y', notes);
 
     this.previewPitch(pitch);
   };
 
   handleGridDraw = point => {
-    const pitch = getOr(-1, "y", point);
+    const pitch = getOr(-1, 'y', point);
 
     this.previewPitch(pitch);
 
@@ -323,7 +323,7 @@ export default class SequenceEditor extends React.PureComponent {
   };
 
   handleGridSelect = (note, isAdditive) => {
-    const pitch = getOr(-1, "points[0].y", note);
+    const pitch = getOr(-1, 'points[0].y', note);
 
     this.previewPitch(pitch);
 
@@ -343,8 +343,8 @@ export default class SequenceEditor extends React.PureComponent {
 
     this.setState(state => ({
       selectedNoteIds: isAdditive
-        ? uniq([...state.selectedNoteIds, ...map("id", notesInArea)])
-        : map("id", notesInArea),
+        ? uniq([...state.selectedNoteIds, ...map('id', notesInArea)])
+        : map('id', notesInArea),
     }));
   };
 
@@ -366,7 +366,7 @@ export default class SequenceEditor extends React.PureComponent {
       return;
 
     const selectedNotes = this.getSelectedNotes();
-    const pitch = getOr(-1, "[0].points[0].y", selectedNotes);
+    const pitch = getOr(-1, '[0].points[0].y', selectedNotes);
 
     this.previewPitch(pitch + delta.y);
 
@@ -407,7 +407,7 @@ export default class SequenceEditor extends React.PureComponent {
     if (this.props.notes.length === this.state.selectedNoteIds.length) return;
 
     this.setState({
-      selectedNoteIds: map("id", this.props.notes),
+      selectedNoteIds: map('id', this.props.notes),
     });
   };
 

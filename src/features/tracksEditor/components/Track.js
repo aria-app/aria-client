@@ -1,29 +1,29 @@
-import each from "lodash/fp/each";
-import find from "lodash/fp/find";
-import getOr from "lodash/fp/getOr";
-import inRange from "lodash/fp/inRange";
-import isNil from "lodash/fp/isNil";
-import range from "lodash/fp/range";
-import some from "lodash/fp/some";
-import times from "lodash/fp/times";
-import PropTypes from "prop-types";
-import React from "react";
-import { Translation } from "react-i18next";
-import { showIf } from "react-render-helpers";
-import styled from "styled-components/macro";
-import shared from "../../shared";
-import AddSequenceButton from "./AddSequenceButton";
-import TrackSequence from "./TrackSequence";
-import TrackHeader from "./TrackHeader";
+import each from 'lodash/fp/each';
+import find from 'lodash/fp/find';
+import getOr from 'lodash/fp/getOr';
+import inRange from 'lodash/fp/inRange';
+import isNil from 'lodash/fp/isNil';
+import range from 'lodash/fp/range';
+import some from 'lodash/fp/some';
+import times from 'lodash/fp/times';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Translation } from 'react-i18next';
+import { showIf } from 'react-render-helpers';
+import styled from 'styled-components/macro';
+import shared from '../../shared';
+import AddSequenceButton from './AddSequenceButton';
+import TrackSequence from './TrackSequence';
+import TrackHeader from './TrackHeader';
 
 const { Boxes, MatrixBox } = shared.components;
 
 const StyledTrack = styled.div(props => ({
-  alignItems: "stretch",
-  cursor: "pointer",
-  display: "flex",
-  flex: "0 0 auto",
-  flexDirection: "column",
+  alignItems: 'stretch',
+  cursor: 'pointer',
+  display: 'flex',
+  flex: '0 0 auto',
+  flexDirection: 'column',
   marginBottom: props.theme.margin.m,
 }));
 
@@ -31,16 +31,16 @@ const TrackMatrixBox = styled(MatrixBox).attrs(props => ({
   fill: props.theme.primary[2],
 }))({
   left: 0,
-  position: "absolute",
+  position: 'absolute',
   top: 0,
 });
 
 const TrackSequences = styled.div({
-  alignItems: "stretch",
-  display: "flex",
-  flex: "1 0 auto",
+  alignItems: 'stretch',
+  display: 'flex',
+  flex: '1 0 auto',
   height: 84,
-  position: "relative",
+  position: 'relative',
 });
 
 export default class Track extends React.PureComponent {
@@ -98,7 +98,7 @@ export default class Track extends React.PureComponent {
   });
 
   getBoxesItems = () => {
-    const sequences = getOr([], "props.track.sequences", this);
+    const sequences = getOr([], 'props.track.sequences', this);
 
     return sequences.map(sequence => ({
       id: sequence.id,
@@ -109,7 +109,7 @@ export default class Track extends React.PureComponent {
   };
 
   getFirstEmptyPosition = () => {
-    const sequences = getOr([], "props.track.sequences", this);
+    const sequences = getOr([], 'props.track.sequences', this);
     const allPositions = range(0, this.props.songMeasureCount);
     const sequenceCoversPosition = position => sequence =>
       inRange(
@@ -124,8 +124,8 @@ export default class Track extends React.PureComponent {
   };
 
   getIsSequenceSelected = sequence => {
-    const sequenceId = getOr("", "id", sequence);
-    const selectedSequenceId = getOr("", "props.selectedSequence.id", this);
+    const sequenceId = getOr('', 'id', sequence);
+    const selectedSequenceId = getOr('', 'props.selectedSequence.id', this);
 
     if (!selectedSequenceId) return false;
 

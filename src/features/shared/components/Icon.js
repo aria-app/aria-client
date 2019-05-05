@@ -1,32 +1,32 @@
-import classnames from "classnames";
-import PropTypes from "prop-types";
-import React from "react";
-import styled, { ThemeConsumer } from "styled-components/macro";
-import icons from "./icons";
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled, { ThemeConsumer } from 'styled-components/macro';
+import icons from './icons';
 
 const IconContent = styled.div({
-  alignItems: "center",
-  display: "flex",
-  flex: "0 0 auto",
+  alignItems: 'center',
+  display: 'flex',
+  flex: '0 0 auto',
   height: 24,
-  justifyContent: "center",
+  justifyContent: 'center',
   width: 24,
 });
 
 const StyledIcon = styled.div({
-  alignItems: "center",
-  display: "flex",
-  flex: "0 0 auto",
+  alignItems: 'center',
+  display: 'flex',
+  flex: '0 0 auto',
   height: 40,
-  justifyContent: "center",
+  justifyContent: 'center',
   width: 40,
 });
 
 export default class Icon extends React.PureComponent {
   static propTypes = {
     color: PropTypes.string,
-    icon: PropTypes.oneOf(Object.keys(icons).concat([""])),
-    size: PropTypes.oneOf(["small", "regular", "large", ""]),
+    icon: PropTypes.oneOf(Object.keys(icons).concat([''])),
+    size: PropTypes.oneOf(['small', 'regular', 'large', '']),
   };
 
   render() {
@@ -41,7 +41,7 @@ export default class Icon extends React.PureComponent {
     );
   }
 
-  getClassName = () => classnames("icon", this.props.className);
+  getClassName = () => classnames('icon', this.props.className);
 
   getIcon(theme) {
     const iconComponent = icons[this.props.icon];
@@ -56,9 +56,9 @@ export default class Icon extends React.PureComponent {
 
   getSizePixels() {
     switch (this.props.size) {
-      case "large":
+      case 'large':
         return 24;
-      case "small":
+      case 'small':
         return 12;
       default:
         return 20;

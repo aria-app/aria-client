@@ -1,6 +1,6 @@
-import { createLogic } from "redux-logic";
-import shared from "../../shared";
-import * as selectors from "../selectors";
+import { createLogic } from 'redux-logic';
+import shared from '../../shared';
+import * as selectors from '../selectors';
 
 const { db } = shared.constants;
 
@@ -10,8 +10,8 @@ export const fetchUserSongLibrary = createLogic({
   process({ getState }, dispatch, done) {
     const user = selectors.getUser(getState());
 
-    db.collection("songs")
-      .where("userId", "==", user.uid)
+    db.collection('songs')
+      .where('userId', '==', user.uid)
       .get()
       .then(querySnapshot => {
         const userSongLibrary = querySnapshot.docs.map(doc => doc.data());

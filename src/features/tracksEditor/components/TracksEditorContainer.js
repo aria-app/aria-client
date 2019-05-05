@@ -1,8 +1,8 @@
-import { connect } from "react-redux";
-import audio from "../../audio";
-import shared from "../../shared";
-import song from "../../song";
-import TracksEditor from "./TracksEditor";
+import { connect } from 'react-redux';
+import audio from '../../audio';
+import shared from '../../shared';
+import song from '../../song';
+import TracksEditor from './TracksEditor';
 
 export default connect(
   state => ({

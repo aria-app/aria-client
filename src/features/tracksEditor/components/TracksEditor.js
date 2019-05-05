@@ -1,24 +1,24 @@
-import Dawww from "dawww";
-import find from "lodash/fp/find";
-import isEmpty from "lodash/fp/isEmpty";
-import isNil from "lodash/fp/isNil";
-import PropTypes from "prop-types";
-import React from "react";
-import { HotKeys } from "react-hotkeys";
-import styled from "styled-components/macro";
-import shared from "../../shared";
-import TrackList from "./TrackList";
-import TrackEditingModal from "./TrackEditingModal";
-import TracksEditorToolbar from "./TracksEditorToolbar";
+import Dawww from 'dawww';
+import find from 'lodash/fp/find';
+import isEmpty from 'lodash/fp/isEmpty';
+import isNil from 'lodash/fp/isNil';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { HotKeys } from 'react-hotkeys';
+import styled from 'styled-components/macro';
+import shared from '../../shared';
+import TrackList from './TrackList';
+import TrackEditingModal from './TrackEditingModal';
+import TracksEditorToolbar from './TracksEditorToolbar';
 
 const { Timeline } = shared.components;
 
 const StyledTracksEditor = styled(HotKeys)({
-  display: "flex",
-  flex: "1 1 auto",
-  flexDirection: "column",
-  overflow: "hidden",
-  position: "relative",
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+  overflow: 'hidden',
+  position: 'relative',
 });
 
 export default class TracksEditor extends React.PureComponent {
@@ -50,8 +50,8 @@ export default class TracksEditor extends React.PureComponent {
   };
 
   state = {
-    selectedSequenceId: "",
-    selectedTrackId: "",
+    selectedSequenceId: '',
+    selectedTrackId: '',
   };
 
   constructor(props) {
@@ -134,7 +134,7 @@ export default class TracksEditor extends React.PureComponent {
 
   deselectTrack = () => {
     this.setState({
-      selectedTrackId: "",
+      selectedTrackId: '',
     });
   };
 
@@ -161,12 +161,12 @@ export default class TracksEditor extends React.PureComponent {
   getKeyHandlers = () => ({
     backspace: this.deleteSelectedSequence,
     del: this.deleteSelectedSequence,
-    "ctrl+shift+d": this.duplicateSelectedSequence,
-    "ctrl+z": this.undo,
-    "ctrl+alt+z": this.redo,
-    "meta+shift+d": this.duplicateSelectedSequence,
-    "meta+z": this.undo,
-    "meta+alt+z": this.redo,
+    'ctrl+shift+d': this.duplicateSelectedSequence,
+    'ctrl+z': this.undo,
+    'ctrl+alt+z': this.redo,
+    'meta+shift+d': this.duplicateSelectedSequence,
+    'meta+z': this.undo,
+    'meta+alt+z': this.redo,
   });
 
   getSelectedSequence = () =>
@@ -184,7 +184,7 @@ export default class TracksEditor extends React.PureComponent {
 
   handleTrackListSequenceDeselect = () => {
     this.setState({
-      selectedSequenceId: "",
+      selectedSequenceId: '',
     });
   };
 

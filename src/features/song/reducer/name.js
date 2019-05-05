@@ -1,7 +1,7 @@
-import { createReducer } from "redux-create-reducer";
-import shared from "../../shared";
+import { createReducer } from 'redux-create-reducer';
+import shared from '../../shared';
 
-const initialValue = "";
+const initialValue = '';
 
 export const name = createReducer(initialValue, {
   [shared.actions.DASHBOARD_LOADED]: (state, action) => initialValue,

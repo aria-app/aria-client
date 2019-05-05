@@ -1,10 +1,10 @@
-import Button from "@material-ui/core/Button";
-import PropTypes from "prop-types";
-import React from "react";
-import { showIf } from "react-render-helpers";
-import { animated, useTransition } from "react-spring";
-import styled from "styled-components/macro";
-import Toolbar from "./Toolbar";
+import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { showIf } from 'react-render-helpers';
+import { animated, useTransition } from 'react-spring';
+import styled from 'styled-components/macro';
+import Toolbar from './Toolbar';
 
 const ModalContent = styled.div`
   display: flex;
@@ -78,8 +78,8 @@ Modal.propTypes = {
 };
 
 Modal.defaultProps = {
-  cancelText: "cancel",
-  confirmText: "confirm",
+  cancelText: 'cancel',
+  confirmText: 'confirm',
 };
 
 export default function Modal(props) {

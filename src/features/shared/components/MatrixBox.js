@@ -1,13 +1,13 @@
-import classnames from "classnames";
-import PropTypes from "prop-types";
-import React from "react";
-import styled from "styled-components/macro";
-import { getExtraProps } from "../helpers";
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components/macro';
+import { getExtraProps } from '../helpers';
 
 const StyledMatrixBox = styled.div({
-  display: "flex",
-  flex: "1 0 auto",
-  position: "relative",
+  display: 'flex',
+  flex: '1 0 auto',
+  position: 'relative',
 });
 
 export default class MatrixBox extends React.Component {
@@ -49,7 +49,7 @@ export default class MatrixBox extends React.Component {
     );
   }
 
-  getClassName = () => classnames("matrix-box", this.props.className);
+  getClassName = () => classnames('matrix-box', this.props.className);
 
   getData = () => {
     const rowCount = this.props.matrix.length;
@@ -82,6 +82,6 @@ export default class MatrixBox extends React.Component {
         1} l1,0 l0,-1 l1,0 l0,1 l1,0 l0,1 l-1,0 l0,1 l-1,0 l0,-1 l-1,0 l0,-1`;
     }
 
-    return "";
+    return '';
   };
 }

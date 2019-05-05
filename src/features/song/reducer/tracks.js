@@ -1,7 +1,7 @@
-import Dawww from "dawww";
-import omit from "lodash/fp/omit";
-import { createReducer } from "redux-create-reducer";
-import shared from "../../shared";
+import Dawww from 'dawww';
+import omit from 'lodash/fp/omit';
+import { createReducer } from 'redux-create-reducer';
+import shared from '../../shared';
 
 const initialValue = {};
 

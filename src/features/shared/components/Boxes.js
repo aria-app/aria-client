@@ -1,10 +1,10 @@
-import PropTypes from "prop-types";
-import React from "react";
-import styled from "styled-components/macro";
-import Box from "./Box";
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components/macro';
+import Box from './Box';
 
 const StyledBoxes = styled.div(props => ({
-  position: "relative",
+  position: 'relative',
   width: props.length * props.step,
 }));
 
@@ -31,7 +31,7 @@ export default class Boxes extends React.Component {
   };
 
   state = {
-    draggedItemId: "",
+    draggedItemId: '',
   };
 
   render() {

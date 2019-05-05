@@ -1,5 +1,5 @@
-import { emerald } from "./emerald";
-import { mui } from "./mui";
+import { emerald } from './emerald';
+import { mui } from './mui';
 
 export const themes = {
   emerald,

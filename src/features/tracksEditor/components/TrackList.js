@@ -1,53 +1,53 @@
-import PropTypes from "prop-types";
-import React from "react";
-import { animated, useTransition } from "react-spring";
-import styled from "styled-components/macro";
-import shared from "../../shared";
-import AddTrackButton from "./AddTrackButton";
-import Ruler from "./Ruler";
-import Track from "./Track";
+import PropTypes from 'prop-types';
+import React from 'react';
+import { animated, useTransition } from 'react-spring';
+import styled from 'styled-components/macro';
+import shared from '../../shared';
+import AddTrackButton from './AddTrackButton';
+import Ruler from './Ruler';
+import Track from './Track';
 
 const { FadeIn, FadeOut } = shared.components;
 
 const LoadingIndicator = styled(animated.div)({
-  alignItems: "center",
+  alignItems: 'center',
   bottom: 0,
-  color: "white",
-  display: "flex",
-  flex: "1 1 auto",
-  justifyContent: "center",
+  color: 'white',
+  display: 'flex',
+  flex: '1 1 auto',
+  justifyContent: 'center',
   left: 0,
-  position: "absolute",
+  position: 'absolute',
   right: 0,
   top: 0,
 });
 
 const StyledTrackList = styled.div({
-  alignItems: "flex-start",
-  display: "flex",
-  flex: "1 1 auto",
-  flexDirection: "column",
-  overflow: "auto",
-  position: "relative",
+  alignItems: 'flex-start',
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+  overflow: 'auto',
+  position: 'relative',
 });
 
 const TrackListContent = styled.div(props => ({
-  alignItems: "flex-start",
-  display: "flex",
-  flex: "1 0 auto",
-  flexDirection: "column",
-  minWidth: "100%",
+  alignItems: 'flex-start',
+  display: 'flex',
+  flex: '1 0 auto',
+  flexDirection: 'column',
+  minWidth: '100%',
   padding: props.theme.margin.m,
   paddingBottom: props.theme.margin.m + 84,
   paddingRight: props.theme.margin.m + 128,
   paddingTop: props.theme.margin.m + 2,
-  position: "relative",
+  position: 'relative',
 }));
 
 const TrackListUnderlay = styled.div({
   bottom: 0,
   left: 0,
-  position: "absolute",
+  position: 'absolute',
   right: 0,
   top: 0,
 });

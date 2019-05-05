@@ -1,17 +1,17 @@
-import Dawww from "dawww";
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import PropTypes from "prop-types";
-import React from "react";
-import { HotKeys } from "react-hotkeys";
-import { hideIf, showIf } from "react-render-helpers";
-import { Redirect, Route } from "react-router-dom";
-import styled, { ThemeProvider } from "styled-components/macro";
-import Tone from "tone";
-import dashboard from "../../dashboard";
-import shared from "../../shared";
-import songEditor from "../../songEditor";
-import SignInContainer from "./SignInContainer";
-import SignOutContainer from "./SignOutContainer";
+import Dawww from 'dawww';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { HotKeys } from 'react-hotkeys';
+import { hideIf, showIf } from 'react-render-helpers';
+import { Redirect, Route } from 'react-router-dom';
+import styled, { ThemeProvider } from 'styled-components/macro';
+import Tone from 'tone';
+import dashboard from '../../dashboard';
+import shared from '../../shared';
+import songEditor from '../../songEditor';
+import SignInContainer from './SignInContainer';
+import SignOutContainer from './SignOutContainer';
 
 const { styles } = shared;
 const { DashboardContainer } = dashboard.components;
@@ -28,7 +28,7 @@ const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
       ) : (
         <Redirect
           to={{
-            pathname: "/sign-in",
+            pathname: '/sign-in',
             state: { from: props.location },
           }}
         />
@@ -38,11 +38,11 @@ const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
 );
 
 const LoadingIndicator = styled.div({
-  alignItems: "center",
-  color: "white",
-  display: "flex",
-  flex: "1 1 auto",
-  justifyContent: "center",
+  alignItems: 'center',
+  color: 'white',
+  display: 'flex',
+  flex: '1 1 auto',
+  justifyContent: 'center',
 });
 
 export default class App extends React.PureComponent {
@@ -109,7 +109,7 @@ export default class App extends React.PureComponent {
   });
 
   playPause = () => {
-    if (Tone.context.state !== "running") {
+    if (Tone.context.state !== 'running') {
       Tone.context.resume();
     }
 

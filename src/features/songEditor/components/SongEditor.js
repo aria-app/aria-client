@@ -1,22 +1,22 @@
-import PropTypes from "prop-types";
-import React from "react";
-import { Route } from "react-router-dom";
-import { HotKeys } from "react-hotkeys";
-import styled from "styled-components/macro";
-import sequenceEditor from "../../sequenceEditor";
-import tracksEditor from "../../tracksEditor";
-import SongEditorToolbar from "./SongEditorToolbar";
-import SongInfoModal from "./SongInfoModal";
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Route } from 'react-router-dom';
+import { HotKeys } from 'react-hotkeys';
+import styled from 'styled-components/macro';
+import sequenceEditor from '../../sequenceEditor';
+import tracksEditor from '../../tracksEditor';
+import SongEditorToolbar from './SongEditorToolbar';
+import SongInfoModal from './SongInfoModal';
 
 const { SequenceEditorContainer } = sequenceEditor.components;
 const { TracksEditorContainer } = tracksEditor.components;
 
 const StyledSongEditor = styled(HotKeys)({
-  display: "flex",
-  flex: "1 1 auto",
-  flexDirection: "column",
-  overflow: "hidden",
-  position: "relative",
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+  overflow: 'hidden',
+  position: 'relative',
 });
 
 export default class SongEditor extends React.PureComponent {
@@ -86,10 +86,10 @@ export default class SongEditor extends React.PureComponent {
   };
 
   returnToDashboard = () => {
-    this.props.history.push("/");
+    this.props.history.push('/');
   };
 
   signOut = () => {
-    this.props.history.push("/sign-out");
+    this.props.history.push('/sign-out');
   };
 }

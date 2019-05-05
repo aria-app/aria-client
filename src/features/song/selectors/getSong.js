@@ -1,11 +1,11 @@
-import { getBPM } from "./getBPM";
-import { getId } from "./getId";
-import { getMeasureCount } from "./getMeasureCount";
-import { getName } from "./getName";
-import { getNotes } from "./getNotes";
-import { getSequences } from "./getSequences";
-import { getTracks } from "./getTracks";
-import { getUserId } from "./getUserId";
+import { getBPM } from './getBPM';
+import { getId } from './getId';
+import { getMeasureCount } from './getMeasureCount';
+import { getName } from './getName';
+import { getNotes } from './getNotes';
+import { getSequences } from './getSequences';
+import { getTracks } from './getTracks';
+import { getUserId } from './getUserId';
 
 export const getSong = state => ({
   bpm: getBPM(state),

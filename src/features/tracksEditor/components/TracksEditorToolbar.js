@@ -1,9 +1,9 @@
-import isEmpty from "lodash/fp/isEmpty";
-import negate from "lodash/fp/negate";
-import PropTypes from "prop-types";
-import React from "react";
-import { showIf } from "react-render-helpers";
-import shared from "../../shared";
+import isEmpty from 'lodash/fp/isEmpty';
+import negate from 'lodash/fp/negate';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { showIf } from 'react-render-helpers';
+import shared from '../../shared';
 
 const { IconButton, Toolbar } = shared.components;
 

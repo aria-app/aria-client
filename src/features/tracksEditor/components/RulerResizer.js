@@ -1,48 +1,48 @@
-import PropTypes from "prop-types";
-import React, { useState } from "react";
-import Draggable from "react-draggable";
-import styled from "styled-components/macro";
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import Draggable from 'react-draggable';
+import styled from 'styled-components/macro';
 
 const DraggableWrapper = styled.div({
-  position: "absolute",
-  transition: "transform 200ms ease",
+  position: 'absolute',
+  transition: 'transform 200ms ease',
 });
 
 const StyledRulerResizer = styled.div(props => ({
-  backgroundColor: "rgba(255, 255, 255, 0.5)",
-  border: "1px solid white",
-  cursor: "col-resize",
+  backgroundColor: 'rgba(255, 255, 255, 0.5)',
+  border: '1px solid white',
+  cursor: 'col-resize',
   height: 32,
   left: 0,
-  position: "absolute",
+  position: 'absolute',
   top: 3,
-  transition: "box-shadow 250ms ease, opacity 500ms ease, transform 350ms ease",
+  transition: 'box-shadow 250ms ease, opacity 500ms ease, transform 350ms ease',
   width: 24,
-  "&:hover:not(:active)": {
-    backgroundColor: "rgba(255, 255, 255, 0.6)",
+  '&:hover:not(:active)': {
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
   },
-  "&:active": {
-    backgroundColor: "rgba(255, 255, 255, 0.4)",
+  '&:active': {
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
   },
-  ":after": {
-    borderLeft: "2px dotted white",
-    borderRight: "2px dotted white",
+  ':after': {
+    borderLeft: '2px dotted white',
+    borderRight: '2px dotted white',
     content: "''",
-    display: "block",
+    display: 'block',
     height: 10,
-    left: "50%",
-    position: "absolute",
-    top: "50%",
-    transform: "translate(-50%, -50%)",
+    left: '50%',
+    position: 'absolute',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
     width: 4,
   },
   ...(props.isDragging
     ? {
-        boxShadow: "0 4px 16px 4px rgba(0, 0, 0, 0.25)",
+        boxShadow: '0 4px 16px 4px rgba(0, 0, 0, 0.25)',
         opacity: 0.8,
-        transform: "translateY(-4px) scale(1.05)",
+        transform: 'translateY(-4px) scale(1.05)',
         transition:
-          "box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease",
+          'box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease',
       }
     : {}),
 }));

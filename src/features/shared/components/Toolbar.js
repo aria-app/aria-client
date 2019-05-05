@@ -1,31 +1,31 @@
-import PropTypes from "prop-types";
-import React from "react";
-import styled from "styled-components/macro";
-import { getExtraProps } from "../helpers";
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components/macro';
+import { getExtraProps } from '../helpers';
 
 const StyledToolbar = styled.div(props => ({
-  alignItems: "stretch",
+  alignItems: 'stretch',
   backgroundColor: props.theme.greystone,
   borderTop: `1px solid ${props.theme.midgray}`,
-  display: "flex",
-  flex: "0 0 auto",
+  display: 'flex',
+  flex: '0 0 auto',
   height: 56,
   paddingLeft: props.theme.margin.s,
   paddingRight: props.theme.margin.s,
-  position: "relative",
+  position: 'relative',
 }));
 
 const ToolbarLeftItems = styled.div({
-  alignItems: "center",
-  display: "flex",
-  flex: "1 1 auto",
+  alignItems: 'center',
+  display: 'flex',
+  flex: '1 1 auto',
 });
 
 const ToolbarRightItems = styled.div({
-  alignItems: "center",
-  display: "flex",
-  flex: "0 0 auto",
-  marginLeft: "auto",
+  alignItems: 'center',
+  display: 'flex',
+  flex: '0 0 auto',
+  marginLeft: 'auto',
 });
 
 export default class Toolbar extends React.Component {

@@ -1,38 +1,38 @@
-import { transparentize } from "polished";
-import PropTypes from "prop-types";
-import React from "react";
-import styled from "styled-components/macro";
+import { transparentize } from 'polished';
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components/macro';
 
 const AddSequenceButtonPlusHorizontal = styled.div(props => ({
   backgroundColor: props.theme.primary[2],
   height: 1,
-  left: "50%",
-  position: "absolute",
-  top: "50%",
-  transform: "translate(-50%, -50%)",
+  left: '50%',
+  position: 'absolute',
+  top: '50%',
+  transform: 'translate(-50%, -50%)',
   width: 9,
 }));
 
 const AddSequenceButtonPlusVertical = styled.div(props => ({
   backgroundColor: props.theme.primary[2],
   height: 9,
-  left: "50%",
-  position: "absolute",
-  top: "50%",
-  transform: "translate(-50%, -50%)",
+  left: '50%',
+  position: 'absolute',
+  top: '50%',
+  transform: 'translate(-50%, -50%)',
   width: 1,
 }));
 
 const StyledAddSequenceButton = styled.div(props => ({
-  alignItems: "center",
+  alignItems: 'center',
   backgroundColor: transparentize(0.5, props.theme.primary[2]),
   border: `1px solid ${props.theme.primary[2]}`,
-  cursor: "pointer",
-  display: "flex",
-  flex: "0 0 auto",
+  cursor: 'pointer',
+  display: 'flex',
+  flex: '0 0 auto',
   height: 84,
-  justifyContent: "center",
-  position: "absolute",
+  justifyContent: 'center',
+  position: 'absolute',
   width: 64,
   // TODO: ${mixins.interactionOverlay("white")}
 }));

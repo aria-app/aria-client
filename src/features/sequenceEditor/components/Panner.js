@@ -1,13 +1,13 @@
-import isEmpty from "lodash/fp/isEmpty";
-import PropTypes from "prop-types";
-import React from "react";
-import styled from "styled-components/macro";
+import isEmpty from 'lodash/fp/isEmpty';
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components/macro';
 
 const StyledPanner = styled.div({
   bottom: 0,
-  cursor: "grab",
+  cursor: 'grab',
   left: 0,
-  position: "absolute",
+  position: 'absolute',
   right: 0,
   top: 0,
 });

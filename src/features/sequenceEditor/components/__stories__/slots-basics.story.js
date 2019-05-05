@@ -1,5 +1,5 @@
-import React from "react";
-import { Slots } from "../Slots";
+import React from 'react';
+import { Slots } from '../Slots';
 
 export class SlotsBasics extends React.Component {
   // eslint-disable-next-line
@@ -8,10 +8,10 @@ export class SlotsBasics extends React.Component {
       <div
         style={{
           bottom: 0,
-          display: "flex",
+          display: 'flex',
           left: 0,
-          overflow: "auto",
-          position: "absolute",
+          overflow: 'auto',
+          position: 'absolute',
           right: 0,
           top: 0,
         }}

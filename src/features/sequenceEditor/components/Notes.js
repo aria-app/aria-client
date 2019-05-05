@@ -1,23 +1,23 @@
-import Dawww from "dawww";
-import find from "lodash/fp/find";
-import getOr from "lodash/fp/getOr";
-import includes from "lodash/fp/includes";
-import isEqual from "lodash/fp/isEqual";
-import max from "lodash/fp/max";
-import min from "lodash/fp/min";
-import uniqBy from "lodash/fp/uniqBy";
-import PropTypes from "prop-types";
-import React from "react";
-import styled from "styled-components/macro";
-import * as constants from "../constants";
-import Note from "./Note";
+import Dawww from 'dawww';
+import find from 'lodash/fp/find';
+import getOr from 'lodash/fp/getOr';
+import includes from 'lodash/fp/includes';
+import isEqual from 'lodash/fp/isEqual';
+import max from 'lodash/fp/max';
+import min from 'lodash/fp/min';
+import uniqBy from 'lodash/fp/uniqBy';
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components/macro';
+import * as constants from '../constants';
+import Note from './Note';
 
 const StyledNotes = styled.div(props => ({
   bottom: 0,
-  cursor: "pointer",
+  cursor: 'pointer',
   left: 0,
-  pointerEvents: "none",
-  position: "absolute",
+  pointerEvents: 'none',
+  position: 'absolute',
   top: 0,
   width: props.measureCount * 4 * 8 * 40,
 }));
@@ -130,12 +130,12 @@ export default class Notes extends React.PureComponent {
 
   handleNoteDragStart = (draggedNote, e) => {
     const notes = uniqBy(x => x.id, [draggedNote, ...this.props.selectedNotes]);
-    const draggedX = getOr(0, "points[0].x", draggedNote);
-    const draggedY = getOr(0, "points[0].y", draggedNote);
-    const maxX = max(notes.map(getOr(0, "points[1].x")));
-    const maxY = max(notes.map(getOr(0, "points[1].y")));
-    const minX = min(notes.map(getOr(0, "points[0].x")));
-    const minY = min(notes.map(getOr(0, "points[0].y")));
+    const draggedX = getOr(0, 'points[0].x', draggedNote);
+    const draggedY = getOr(0, 'points[0].y', draggedNote);
+    const maxX = max(notes.map(getOr(0, 'points[1].x')));
+    const maxY = max(notes.map(getOr(0, 'points[1].y')));
+    const minX = min(notes.map(getOr(0, 'points[0].x')));
+    const minY = min(notes.map(getOr(0, 'points[0].y')));
     const baseBottom = Dawww.OCTAVE_RANGE.length * 12 - 1;
     const baseRight = this.props.measureCount * 8 * 4 - 1;
 
@@ -184,7 +184,7 @@ export default class Notes extends React.PureComponent {
 
   handleNoteEndPointDragStart = (sizedNote, e) => {
     const notes = uniqBy(x => x.id, [...this.props.selectedNotes, sizedNote]);
-    const maxPositionX = max(notes.map(getOr(0, "points[0].x")));
+    const maxPositionX = max(notes.map(getOr(0, 'points[0].x')));
     const baseRight = this.props.measureCount * 8 * 4 - 1;
 
     this.setState({

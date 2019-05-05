@@ -1,5 +1,5 @@
-import { createReducer } from "redux-create-reducer";
-import shared from "../../shared";
+import { createReducer } from 'redux-create-reducer';
+import shared from '../../shared';
 
 const { SYNC_STATES } = shared.constants;
 

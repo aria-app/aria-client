@@ -1,65 +1,65 @@
-import first from "lodash/fp/first";
-import isEqual from "lodash/fp/isEqual";
-import last from "lodash/fp/last";
-import { transparentize } from "polished";
-import PropTypes from "prop-types";
-import React from "react";
-import Draggable from "react-draggable";
-import styled from "styled-components/macro";
-import shared from "../../shared";
+import first from 'lodash/fp/first';
+import isEqual from 'lodash/fp/isEqual';
+import last from 'lodash/fp/last';
+import { transparentize } from 'polished';
+import PropTypes from 'prop-types';
+import React from 'react';
+import Draggable from 'react-draggable';
+import styled from 'styled-components/macro';
+import shared from '../../shared';
 
 const { getExtraProps } = shared.helpers;
 
 const NoteConnector = styled.div(props => ({
   backgroundColor: props.isSelected
-    ? "white"
+    ? 'white'
     : transparentize(0.5, props.theme.primary[2]),
   height: 12,
   left: 20,
-  position: "absolute",
+  position: 'absolute',
   top: 14,
-  transformOrigin: "left center",
-  transition: "transform 0.1s ease",
+  transformOrigin: 'left center',
+  transition: 'transform 0.1s ease',
   width: 1,
   zIndex: 100,
 }));
 
 const NoteFill = styled.div(props => ({
-  backgroundColor: props.isSelected ? "white" : props.theme.primary[2],
+  backgroundColor: props.isSelected ? 'white' : props.theme.primary[2],
   borderRadius: 2,
-  boxShadow: props.isSelected && `0 0 10px ${transparentize(0.5, "white")}`,
+  boxShadow: props.isSelected && `0 0 10px ${transparentize(0.5, 'white')}`,
   height: 24,
   width: 24,
-  "&:hover": {
-    transform: "scale(1.05)",
+  '&:hover': {
+    transform: 'scale(1.05)',
   },
-  "&:active": {
-    transform: "scale(0.95)",
+  '&:active': {
+    transform: 'scale(0.95)',
   },
 }));
 
 const NotePoint = styled.div({
-  alignItems: "center",
-  display: "flex",
-  flex: "0 0 auto",
+  alignItems: 'center',
+  display: 'flex',
+  flex: '0 0 auto',
   height: 40,
-  justifyContent: "center",
+  justifyContent: 'center',
   left: 0,
-  overflow: "hidden",
-  pointerEvents: "all",
-  position: "absolute",
+  overflow: 'hidden',
+  pointerEvents: 'all',
+  position: 'absolute',
   top: 0,
-  transition: "transform 0.1s ease",
+  transition: 'transform 0.1s ease',
   width: 40,
   zIndex: 150,
 });
 
 const StyledNote = styled.div(props => ({
   left: 0,
-  pointerEvents: "none",
-  position: "absolute",
+  pointerEvents: 'none',
+  position: 'absolute',
   top: 0,
-  transition: "transform 0.1s ease",
+  transition: 'transform 0.1s ease',
   zIndex: props.isSelected && 300,
 }));
 
@@ -158,7 +158,7 @@ export default class Note extends React.Component {
     const x = (endPoint.x - startPoint.x) * 40;
     const y = (endPoint.y - startPoint.y) * 40;
     return {
-      display: is32ndNote(this.props.note) ? "none" : "flex",
+      display: is32ndNote(this.props.note) ? 'none' : 'flex',
       transform: `translate(${x}px, ${y}px)`,
     };
   }

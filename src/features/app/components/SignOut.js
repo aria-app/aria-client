@@ -1,17 +1,17 @@
-import * as firebase from "firebase/app";
-import PropTypes from "prop-types";
-import React from "react";
-import { Translation } from "react-i18next";
-import { Redirect } from "react-router-dom";
-import styled from "styled-components/macro";
+import * as firebase from 'firebase/app';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Translation } from 'react-i18next';
+import { Redirect } from 'react-router-dom';
+import styled from 'styled-components/macro';
 
 const StyledSignOut = styled.div({
-  alignItems: "center",
-  color: "white",
-  display: "flex",
-  flex: "1 1 auto",
-  justifyContent: "center",
-  textTransform: "uppercase",
+  alignItems: 'center',
+  color: 'white',
+  display: 'flex',
+  flex: '1 1 auto',
+  justifyContent: 'center',
+  textTransform: 'uppercase',
 });
 
 export default class SignOut extends React.Component {
@@ -20,7 +20,7 @@ export default class SignOut extends React.Component {
   };
 
   componentDidMount() {
-    window.document.title = "Sign Out - Aria";
+    window.document.title = 'Sign Out - Aria';
 
     setTimeout(() => {
       // TODO: Convert to auth helper
@@ -33,7 +33,7 @@ export default class SignOut extends React.Component {
       return (
         <Redirect
           to={{
-            pathname: "/sign-in",
+            pathname: '/sign-in',
           }}
         />
       );
@@ -41,7 +41,7 @@ export default class SignOut extends React.Component {
 
     return (
       <Translation>
-        {t => <StyledSignOut>{t("Signing Out")}</StyledSignOut>}
+        {t => <StyledSignOut>{t('Signing Out')}</StyledSignOut>}
       </Translation>
     );
   }

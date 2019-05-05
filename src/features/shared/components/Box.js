@@ -1,31 +1,31 @@
-import PropTypes from "prop-types";
-import React from "react";
-import Draggable from "react-draggable";
-import styled from "styled-components/macro";
+import PropTypes from 'prop-types';
+import React from 'react';
+import Draggable from 'react-draggable';
+import styled from 'styled-components/macro';
 
 const BoxResizer = styled.div.attrs({
-  className: "box__resizer",
+  className: 'box__resizer',
 })(props => ({
-  backgroundColor: "transparent",
-  bottom: "0",
-  cursor: "col-resize",
-  left: "0",
-  position: "absolute",
-  top: "0",
+  backgroundColor: 'transparent',
+  bottom: '0',
+  cursor: 'col-resize',
+  left: '0',
+  position: 'absolute',
+  top: '0',
   width: props.theme.margin.m,
-  zIndex: "2",
+  zIndex: '2',
 }));
 
 const StyledBox = styled.div(props => ({
-  display: "flex",
-  flexDirection: "column",
-  height: "100%",
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
   left: 0,
-  position: "absolute",
+  position: 'absolute',
   top: 0,
-  transition: "transform 200ms ease",
+  transition: 'transform 200ms ease',
   width: props.length * props.step,
-  zIndex: props.isDragging ? "200" : "100",
+  zIndex: props.isDragging ? '200' : '100',
 }));
 
 export default class Box extends React.Component {

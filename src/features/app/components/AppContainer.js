@@ -1,9 +1,9 @@
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import audio from "../../audio";
-import user from "../../user";
-import shared from "../../shared";
-import App from "./App";
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import audio from '../../audio';
+import user from '../../user';
+import shared from '../../shared';
+import App from './App';
 
 export default withRouter(
   connect(

@@ -1,12 +1,12 @@
-import find from "lodash/fp/find";
-import PropTypes from "prop-types";
-import React from "react";
-import styled from "styled-components/macro";
-import { hideIf, showIf } from "react-render-helpers";
-import { getExtraProps } from "../helpers";
-import DropdownListItem from "./DropdownListItem";
-import Icon from "./Icon";
-import IconButton from "./IconButton";
+import find from 'lodash/fp/find';
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components/macro';
+import { hideIf, showIf } from 'react-render-helpers';
+import { getExtraProps } from '../helpers';
+import DropdownListItem from './DropdownListItem';
+import Icon from './Icon';
+import IconButton from './IconButton';
 
 const DropdownListInput = styled.div`
   align-items: center;
@@ -169,7 +169,7 @@ export default class DropdownList extends React.PureComponent {
 
     if (selectedItem) return selectedItem.text;
 
-    return "";
+    return '';
   };
 
   handleButtonClick = () => {

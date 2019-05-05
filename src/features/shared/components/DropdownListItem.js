@@ -1,7 +1,7 @@
-import isEqual from "lodash/fp/isEqual";
-import PropTypes from "prop-types";
-import React from "react";
-import styled from "styled-components/macro";
+import isEqual from 'lodash/fp/isEqual';
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components/macro';
 
 const StyledDropdownListItem = styled.div`
   align-items: center;

@@ -1,29 +1,29 @@
-import PropTypes from "prop-types";
-import React from "react";
-import { showIf } from "react-render-helpers";
-import styled from "styled-components/macro";
-import shared from "../../shared";
-import * as constants from "../constants";
-import DrawLayer from "./DrawLayer";
-import Notes from "./Notes";
-import Panner from "./Panner";
-import PositionIndicator from "./PositionIndicator";
-import Selector from "./Selector";
-import Slots from "./Slots";
+import PropTypes from 'prop-types';
+import React from 'react';
+import { showIf } from 'react-render-helpers';
+import styled from 'styled-components/macro';
+import shared from '../../shared';
+import * as constants from '../constants';
+import DrawLayer from './DrawLayer';
+import Notes from './Notes';
+import Panner from './Panner';
+import PositionIndicator from './PositionIndicator';
+import Selector from './Selector';
+import Slots from './Slots';
 
 const { Timeline } = shared.components;
 
 const GridWrapper = styled.div({
-  height: "100%",
-  overflowX: "visible",
-  position: "relative",
+  height: '100%',
+  overflowX: 'visible',
+  position: 'relative',
 });
 
 const StyledGrid = styled.div({
-  overflowX: "scroll",
-  overflowY: "visible",
+  overflowX: 'scroll',
+  overflowY: 'visible',
   paddingLeft: 80,
-  position: "relative",
+  position: 'relative',
 });
 
 export default class Grid extends React.PureComponent {

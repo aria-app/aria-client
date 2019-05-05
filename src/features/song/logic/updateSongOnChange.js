@@ -1,8 +1,8 @@
-import throttle from "lodash/fp/throttle";
-import { createLogic } from "redux-logic";
-import shared from "../../shared";
-import * as helpers from "../helpers";
-import * as selectors from "../selectors";
+import throttle from 'lodash/fp/throttle';
+import { createLogic } from 'redux-logic';
+import shared from '../../shared';
+import * as helpers from '../helpers';
+import * as selectors from '../selectors';
 
 const throttledUpdate = throttle(500, song => helpers.updateSong(song));
 
@@ -24,7 +24,7 @@ export const updateSongOnChange = createLogic({
         done();
       })
       .catch(error => {
-        console.error("Error while updating song: ", error);
+        console.error('Error while updating song: ', error);
       });
   },
 });

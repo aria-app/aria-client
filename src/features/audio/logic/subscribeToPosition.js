@@ -1,7 +1,7 @@
-import { createLogic } from "redux-logic";
-import * as selectors from "../selectors";
-import shared from "../../shared";
-import dawww from "../dawww";
+import { createLogic } from 'redux-logic';
+import * as selectors from '../selectors';
+import shared from '../../shared';
+import dawww from '../dawww';
 
 export const subscribeToPosition = createLogic({
   type: shared.actions.INITIALIZED,

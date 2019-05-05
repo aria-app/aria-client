@@ -1,24 +1,24 @@
-import "firebase/auth";
-import "firebase/firestore";
-import { create } from "jss";
-import JssProvider from "react-jss/lib/JssProvider";
-import { createGenerateClassName, jssPreset } from "@material-ui/core/styles";
-import React from "react";
-import { render } from "react-dom";
-import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
-import app from "./features/app";
-import shared from "./features/shared";
-import store from "./store";
-import "./resets.css";
+import 'firebase/auth';
+import 'firebase/firestore';
+import { create } from 'jss';
+import JssProvider from 'react-jss/lib/JssProvider';
+import { createGenerateClassName, jssPreset } from '@material-ui/core/styles';
+import React from 'react';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import app from './features/app';
+import shared from './features/shared';
+import store from './store';
+import './resets.css';
 
-const styleNode = document.createComment("insertion-point-jss");
+const styleNode = document.createComment('insertion-point-jss');
 document.head.insertBefore(styleNode, document.head.firstChild);
 
 const generateClassName = createGenerateClassName();
 const jss = create({
   ...jssPreset(),
-  insertionPoint: "insertion-point-jss",
+  insertionPoint: 'insertion-point-jss',
 });
 
 const { AppContainer } = app.components;
@@ -33,5 +33,5 @@ render(
       </Provider>
     </BrowserRouter>
   </JssProvider>,
-  document.querySelector("#root"),
+  document.querySelector('#root'),
 );

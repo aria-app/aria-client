@@ -1,7 +1,7 @@
-import pipe from "lodash/fp/pipe";
-import map from "lodash/fp/map";
-import { getSequenceById } from "./getSequenceById";
-import { getSequences } from "./getSequences";
+import pipe from 'lodash/fp/pipe';
+import map from 'lodash/fp/map';
+import { getSequenceById } from './getSequenceById';
+import { getSequences } from './getSequences';
 
 export const getSequencesArray = state =>
   pipe(

@@ -1,25 +1,25 @@
-import { PropTypes } from "prop-types";
-import React from "react";
-import { showIf } from "react-render-helpers";
-import styled from "styled-components/macro";
+import { PropTypes } from 'prop-types';
+import React from 'react';
+import { showIf } from 'react-render-helpers';
+import styled from 'styled-components/macro';
 
 const ColumnIndicator = styled.div({
-  backgroundColor: "rgba(255, 255, 255, 0.02)",
+  backgroundColor: 'rgba(255, 255, 255, 0.02)',
   borderRadius: 2,
   bottom: 0,
   left: 0,
-  pointerEvents: "none",
-  position: "absolute",
+  pointerEvents: 'none',
+  position: 'absolute',
   top: 0,
   width: 40,
 });
 const RowIndicator = styled.div({
-  backgroundColor: "rgba(255, 255, 255, 0.02)",
+  backgroundColor: 'rgba(255, 255, 255, 0.02)',
   borderRadius: 2,
   left: 0,
   height: 40,
-  pointerEvents: "none",
-  position: "absolute",
+  pointerEvents: 'none',
+  position: 'absolute',
   right: 0,
   top: 0,
 });

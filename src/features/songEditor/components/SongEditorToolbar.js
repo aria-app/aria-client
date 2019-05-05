@@ -1,11 +1,11 @@
-import Dawww from "dawww";
-import isEmpty from "lodash/fp/isEmpty";
-import negate from "lodash/fp/negate";
-import PropTypes from "prop-types";
-import React from "react";
-import { hideIf, showIf } from "react-render-helpers";
-import Tone from "tone";
-import shared from "../../shared";
+import Dawww from 'dawww';
+import isEmpty from 'lodash/fp/isEmpty';
+import negate from 'lodash/fp/negate';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { hideIf, showIf } from 'react-render-helpers';
+import Tone from 'tone';
+import shared from '../../shared';
 
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 const { IconButton, Toolbar } = shared.components;
@@ -69,7 +69,7 @@ export default class SongEditorToolbar extends React.PureComponent {
   };
 
   playPause = () => {
-    if (Tone.context.state !== "running") {
+    if (Tone.context.state !== 'running') {
       Tone.context.resume();
     }
 

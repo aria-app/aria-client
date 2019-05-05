@@ -1,6 +1,6 @@
-import { createLogic } from "redux-logic";
-import shared from "../../shared";
-import dawww from "../dawww";
+import { createLogic } from 'redux-logic';
+import shared from '../../shared';
+import dawww from '../dawww';
 
 export const subscribeToState = createLogic({
   type: shared.actions.INITIALIZED,

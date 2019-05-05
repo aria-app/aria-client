@@ -1,8 +1,8 @@
-import React from "react";
-import { storiesOf } from "@storybook/react";
-import { withKnobs } from "@storybook/addon-knobs";
-import { TrackDynamic } from "./TrackDynamic.story";
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { withKnobs } from '@storybook/addon-knobs';
+import { TrackDynamic } from './TrackDynamic.story';
 
-storiesOf("Track", module)
+storiesOf('Track', module)
   .addDecorator(withKnobs)
-  .add("Dynamic", () => <TrackDynamic />);
+  .add('Dynamic', () => <TrackDynamic />);
