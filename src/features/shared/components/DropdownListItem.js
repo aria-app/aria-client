@@ -19,7 +19,7 @@ const StyledDropdownListItem = styled.div`
   }
 `;
 
-export class DropdownListItem extends React.PureComponent {
+export default class DropdownListItem extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
     item: PropTypes.shape({

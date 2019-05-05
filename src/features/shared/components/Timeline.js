@@ -1,6 +1,6 @@
 import styled from "styled-components/macro";
 
-export const Timeline = styled.div.attrs(props => ({
+export default styled.div.attrs(props => ({
   style: {
     ...props.style,
     transform: `translateX(${props.offset}px)`,

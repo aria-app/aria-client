@@ -1,7 +1,7 @@
 import React from "react";
 import { animated, useTransition } from "react-spring";
 
-export const FadeIn = ({ children, component, isVisible }) => {
+export default function FadeIn({ children, component, isVisible }) {
   const transition = useTransition(isVisible, null, {
     enter: { opacity: 1 },
     from: { opacity: 0 },
@@ -19,4 +19,4 @@ export const FadeIn = ({ children, component, isVisible }) => {
         children,
       ),
   );
-};
+}

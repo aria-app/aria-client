@@ -1,14 +1,14 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components/macro";
-import { Box } from "../Box/Box";
+import Box from "./Box";
 
 const StyledBoxes = styled.div(props => ({
   position: "relative",
   width: props.length * props.step,
 }));
 
-export class Boxes extends React.Component {
+export default class Boxes extends React.Component {
   static propTypes = {
     boxContentComponent: PropTypes.func,
     items: PropTypes.arrayOf(

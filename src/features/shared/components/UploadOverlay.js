@@ -42,7 +42,7 @@ const UploadOverlayDragIndicator = styled.div(props => ({
   zIndex: "inherit",
 }));
 
-export class UploadOverlay extends React.PureComponent {
+export default class UploadOverlay extends React.PureComponent {
   static propTypes = {
     isFileOver: PropTypes.bool.isRequired,
     onCancel: PropTypes.func.isRequired,

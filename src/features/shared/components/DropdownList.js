@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components/macro";
 import { hideIf, showIf } from "react-render-helpers";
-import { getExtraProps } from "../../helpers";
-import { DropdownListItem } from "../DropdownListItem/DropdownListItem";
-import { Icon } from "../Icon/Icon";
-import { IconButton } from "../IconButton/IconButton";
+import { getExtraProps } from "../helpers";
+import DropdownListItem from "./DropdownListItem";
+import Icon from "./Icon";
+import IconButton from "./IconButton";
 
 const DropdownListInput = styled.div`
   align-items: center;
@@ -56,7 +56,7 @@ const StyledDropdownList = styled.div`
   position: relative;
 `;
 
-export class DropdownList extends React.PureComponent {
+export default class DropdownList extends React.PureComponent {
   static propTypes = {
     icon: PropTypes.string,
     items: PropTypes.arrayOf(

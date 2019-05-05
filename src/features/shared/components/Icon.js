@@ -22,7 +22,7 @@ const StyledIcon = styled.div({
   width: 40,
 });
 
-export class Icon extends React.PureComponent {
+export default class Icon extends React.PureComponent {
   static propTypes = {
     color: PropTypes.string,
     icon: PropTypes.oneOf(Object.keys(icons).concat([""])),

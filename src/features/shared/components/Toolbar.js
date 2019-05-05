@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components/macro";
-import { getExtraProps } from "../../helpers";
+import { getExtraProps } from "../helpers";
 
 const StyledToolbar = styled.div(props => ({
   alignItems: "stretch",
@@ -28,7 +28,7 @@ const ToolbarRightItems = styled.div({
   marginLeft: "auto",
 });
 
-export class Toolbar extends React.Component {
+export default class Toolbar extends React.Component {
   static propTypes = {
     isAlternate: PropTypes.bool,
     leftItems: PropTypes.node,

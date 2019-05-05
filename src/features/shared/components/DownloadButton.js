@@ -7,7 +7,7 @@ DownloadButton.propTypes = {
   filename: PropTypes.string.isRequired,
 };
 
-export function DownloadButton({ filename, fileContents, ...rest }) {
+export default function DownloadButton({ filename, fileContents, ...rest }) {
   return (
     <Button
       download={filename}

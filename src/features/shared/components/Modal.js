@@ -4,7 +4,7 @@ import React from "react";
 import { showIf } from "react-render-helpers";
 import { animated, useTransition } from "react-spring";
 import styled from "styled-components/macro";
-import { Toolbar } from "../Toolbar/Toolbar";
+import Toolbar from "./Toolbar";
 
 const ModalContent = styled.div`
   display: flex;
@@ -64,11 +64,6 @@ const StyledModal = styled.div`
   z-index: 300;
 `;
 
-Modal.defaultProps = {
-  cancelText: "cancel",
-  confirmText: "confirm",
-};
-
 Modal.propTypes = {
   cancelText: PropTypes.string,
   children: PropTypes.node,
@@ -82,7 +77,12 @@ Modal.propTypes = {
   titleText: PropTypes.string,
 };
 
-export function Modal(props) {
+Modal.defaultProps = {
+  cancelText: "cancel",
+  confirmText: "confirm",
+};
+
+export default function Modal(props) {
   const transition = useTransition(props.isOpen, null, {
     config: {
       clamp: true,

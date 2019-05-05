@@ -28,7 +28,7 @@ const StyledBox = styled.div(props => ({
   zIndex: props.isDragging ? "200" : "100",
 }));
 
-export class Box extends React.Component {
+export default class Box extends React.Component {
   static propTypes = {
     contentComponent: PropTypes.func,
     item: PropTypes.shape({

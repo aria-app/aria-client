@@ -2,7 +2,7 @@ import classnames from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components/macro";
-import { getExtraProps } from "../../helpers";
+import { getExtraProps } from "../helpers";
 
 const StyledMatrixBox = styled.div({
   display: "flex",
@@ -10,7 +10,7 @@ const StyledMatrixBox = styled.div({
   position: "relative",
 });
 
-export class MatrixBox extends React.Component {
+export default class MatrixBox extends React.Component {
   static propTypes = {
     fill: PropTypes.string,
     height: PropTypes.number,

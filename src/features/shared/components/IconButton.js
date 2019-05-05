@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components/macro";
-import { Icon } from "../Icon/Icon";
+import Icon from "./Icon";
 
 const IconButtonBackground = styled.div(props => ({
   backgroundColor: props.isActive ? "rgba(255, 255, 255, 0.25)" : "",
@@ -32,7 +32,7 @@ const StyledIconButton = styled.div(props => ({
   },
 }));
 
-export class IconButton extends React.PureComponent {
+export default class IconButton extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
     color: PropTypes.string,
