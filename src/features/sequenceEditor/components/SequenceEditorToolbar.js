@@ -2,13 +2,13 @@ import Dawww from "dawww";
 import isEmpty from "lodash/fp/isEmpty";
 import PropTypes from "prop-types";
 import React from "react";
-import shared from "../../../shared";
-import * as constants from "../../constants";
+import shared from "../../shared";
+import * as constants from "../constants";
 
 const { IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
 
-export class SequenceEditorToolbar extends React.PureComponent {
+export default class SequenceEditorToolbar extends React.PureComponent {
   static propTypes = {
     isRedoEnabled: PropTypes.bool.isRequired,
     isUndoEnabled: PropTypes.bool.isRequired,

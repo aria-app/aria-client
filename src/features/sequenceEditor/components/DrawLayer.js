@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { showIf } from "react-render-helpers";
 import styled from "styled-components/macro";
-import { Note } from "../Note/Note";
+import Note from "./Note";
 
 const DrawLayerGhostNote = styled(Note)({
   opacity: 0.4,
@@ -20,7 +20,7 @@ const StyledDrawLayer = styled.div({
   top: 0,
 });
 
-export class DrawLayer extends React.PureComponent {
+export default class DrawLayer extends React.PureComponent {
   static propTypes = {
     mousePoint: PropTypes.object.isRequired,
     onDraw: PropTypes.func.isRequired,

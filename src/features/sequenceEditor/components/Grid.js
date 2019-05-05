@@ -2,14 +2,14 @@ import PropTypes from "prop-types";
 import React from "react";
 import { showIf } from "react-render-helpers";
 import styled from "styled-components/macro";
-import shared from "../../../shared";
-import * as constants from "../../constants";
-import { DrawLayer } from "../DrawLayer/DrawLayer";
-import { Notes } from "../Notes/Notes";
-import { Panner } from "../Panner/Panner";
-import { PositionIndicator } from "../PositionIndicator/PositionIndicator";
-import { Selector } from "../Selector/Selector";
-import { Slots } from "../Slots/Slots";
+import shared from "../../shared";
+import * as constants from "../constants";
+import DrawLayer from "./DrawLayer";
+import Notes from "./Notes";
+import Panner from "./Panner";
+import PositionIndicator from "./PositionIndicator";
+import Selector from "./Selector";
+import Slots from "./Slots";
 
 const { Timeline } = shared.components;
 
@@ -26,7 +26,7 @@ const StyledGrid = styled.div({
   position: "relative",
 });
 
-export class Grid extends React.PureComponent {
+export default class Grid extends React.PureComponent {
   static propTypes = {
     measureCount: PropTypes.number,
     mousePoint: PropTypes.object,

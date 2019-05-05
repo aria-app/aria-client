@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import Draggable from "react-draggable";
 import styled from "styled-components/macro";
-import shared from "../../../shared";
+import shared from "../../shared";
 
 const { getExtraProps } = shared.helpers;
 
@@ -63,7 +63,7 @@ const StyledNote = styled.div(props => ({
   zIndex: props.isSelected && 300,
 }));
 
-export class Note extends React.Component {
+export default class Note extends React.Component {
   static propTypes = {
     isSelected: PropTypes.bool,
     note: PropTypes.object,

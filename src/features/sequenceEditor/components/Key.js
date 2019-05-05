@@ -44,7 +44,7 @@ const StyledKey = styled.div(props => ({
   },
 }));
 
-export class Key extends React.PureComponent {
+export default class Key extends React.PureComponent {
   static propTypes = {
     isHoveredRow: PropTypes.bool,
     onMouseDown: PropTypes.func,

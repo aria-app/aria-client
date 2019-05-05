@@ -9,8 +9,8 @@ import uniqBy from "lodash/fp/uniqBy";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components/macro";
-import * as constants from "../../constants";
-import { Note } from "../Note/Note";
+import * as constants from "../constants";
+import Note from "./Note";
 
 const StyledNotes = styled.div(props => ({
   bottom: 0,
@@ -22,7 +22,7 @@ const StyledNotes = styled.div(props => ({
   width: props.measureCount * 4 * 8 * 40,
 }));
 
-export class Notes extends React.PureComponent {
+export default class Notes extends React.PureComponent {
   static propTypes = {
     measureCount: PropTypes.number.isRequired,
     notes: PropTypes.arrayOf(PropTypes.object).isRequired,

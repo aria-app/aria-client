@@ -12,7 +12,7 @@ const StyledPanner = styled.div({
   top: 0,
 });
 
-export class Panner extends React.PureComponent {
+export default class Panner extends React.PureComponent {
   static propTypes = {
     scrollLeftEl: PropTypes.object,
     scrollTopEl: PropTypes.object,

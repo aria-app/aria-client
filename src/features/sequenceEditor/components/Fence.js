@@ -14,7 +14,7 @@ const StyledFence = styled.div({
   top: 0,
 });
 
-export class Fence extends React.PureComponent {
+export default class Fence extends React.PureComponent {
   static propTypes = {
     endPoint: PropTypes.object,
     startPoint: PropTypes.object,

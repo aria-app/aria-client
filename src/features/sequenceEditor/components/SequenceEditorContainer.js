@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
-import shared from "../../../shared";
-import song from "../../../song";
-import { SequenceEditor } from "./SequenceEditor";
+import shared from "../../shared";
+import song from "../../song";
+import SequenceEditor from "./SequenceEditor";
 
-export const SequenceEditorContainer = connect(
+export default connect(
   (state, ownProps) => ({
     isLoading: song.selectors.getIsSongLoading(state),
     isRedoEnabled: song.selectors.getIsRedoEnabled(state),

@@ -9,7 +9,7 @@ const StyledSlots = styled.div({
   minHeight: "100%",
 });
 
-export class Slots extends React.PureComponent {
+export default class Slots extends React.PureComponent {
   static propTypes = {
     measureCount: PropTypes.number.isRequired,
   };

@@ -2,7 +2,7 @@ import Dawww from "dawww";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components/macro";
-import { Key } from "../Key/Key";
+import Key from "./Key";
 
 const StyledKeys = styled.div({
   display: "flex",
@@ -11,7 +11,7 @@ const StyledKeys = styled.div({
   width: 40,
 });
 
-export class Keys extends React.PureComponent {
+export default class Keys extends React.PureComponent {
   static propTypes = {
     gridMousePoint: PropTypes.object,
     onKeyPress: PropTypes.func,

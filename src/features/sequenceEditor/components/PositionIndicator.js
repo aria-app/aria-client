@@ -24,7 +24,11 @@ const RowIndicator = styled.div({
   top: 0,
 });
 
-export const PositionIndicator = React.memo(function PositionIndicator(props) {
+PositionIndicator.propTypes = {
+  mousePoint: PropTypes.object,
+};
+
+function PositionIndicator(props) {
   return (
     <React.Fragment>
       {showIf(props.mousePoint.x >= 0)(
@@ -43,8 +47,6 @@ export const PositionIndicator = React.memo(function PositionIndicator(props) {
       )}
     </React.Fragment>
   );
-});
+}
 
-PositionIndicator.propTypes = {
-  mousePoint: PropTypes.object,
-};
+export default React.memo(PositionIndicator);

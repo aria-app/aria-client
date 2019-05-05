@@ -1,3 +1,3 @@
-export {
-  SequenceEditorContainer,
-} from "./SequenceEditor/SequenceEditorContainer";
+import _SequenceEditorContainer from "./SequenceEditorContainer";
+
+export const SequenceEditorContainer = _SequenceEditorContainer;

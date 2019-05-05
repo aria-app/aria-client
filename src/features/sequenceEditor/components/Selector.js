@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { DraggableCore } from "react-draggable";
 import styled from "styled-components/macro";
-import { Fence } from "../Fence/Fence";
+import Fence from "./Fence";
 
 const StyledSelector = styled.div({
   bottom: 0,
@@ -13,7 +13,7 @@ const StyledSelector = styled.div({
   top: 0,
 });
 
-export class Selector extends React.PureComponent {
+export default class Selector extends React.PureComponent {
   static propTypes = {
     isEnabled: PropTypes.bool,
     onSelect: PropTypes.func,

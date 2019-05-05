@@ -10,12 +10,12 @@ import React from "react";
 import { hideIf, showIf } from "react-render-helpers";
 import { HotKeys } from "react-hotkeys";
 import styled from "styled-components/macro";
-import audio from "../../../audio";
-import shared from "../../../shared";
-import { toolTypes } from "../../constants";
-import { Grid } from "../Grid/Grid";
-import { Keys } from "../Keys/Keys";
-import { SequenceEditorToolbar } from "../SequenceEditorToolbar/SequenceEditorToolbar";
+import audio from "../../audio";
+import shared from "../../shared";
+import { toolTypes } from "../constants";
+import Grid from "./Grid";
+import Keys from "./Keys";
+import SequenceEditorToolbar from "./SequenceEditorToolbar";
 
 const { previewPitch } = audio.helpers;
 
@@ -50,7 +50,7 @@ const StyledSequenceEditor = styled(HotKeys)({
   position: "relative",
 });
 
-export class SequenceEditor extends React.PureComponent {
+export default class SequenceEditor extends React.PureComponent {
   static propTypes = {
     isRedoEnabled: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
