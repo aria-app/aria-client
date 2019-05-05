@@ -3,10 +3,10 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { HotKeys } from "react-hotkeys";
 import styled from "styled-components/macro";
-import sequenceEditor from "../../../sequenceEditor";
-import tracksEditor from "../../../tracksEditor";
-import { SongEditorToolbar } from "../SongEditorToolbar/SongEditorToolbar";
-import { SongInfoModal } from "../SongInfoModal/SongInfoModal";
+import sequenceEditor from "../../sequenceEditor";
+import tracksEditor from "../../tracksEditor";
+import SongEditorToolbar from "./SongEditorToolbar";
+import SongInfoModal from "./SongInfoModal";
 
 const { SequenceEditorContainer } = sequenceEditor.components;
 const { TracksEditorContainer } = tracksEditor.components;
@@ -19,7 +19,7 @@ const StyledSongEditor = styled(HotKeys)({
   position: "relative",
 });
 
-export class SongEditor extends React.PureComponent {
+export default class SongEditor extends React.PureComponent {
   static propTypes = {
     bpm: PropTypes.number.isRequired,
     onBPMChange: PropTypes.func.isRequired,

@@ -14,7 +14,7 @@ const StyledSignOut = styled.div({
   textTransform: "uppercase",
 });
 
-export class SignOut extends React.Component {
+export default class SignOut extends React.Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
   };

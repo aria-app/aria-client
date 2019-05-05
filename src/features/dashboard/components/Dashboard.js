@@ -3,8 +3,8 @@ import React from "react";
 import { hideIf } from "react-render-helpers";
 import { animated } from "react-spring";
 import styled from "styled-components/macro";
-import shared from "../../../shared";
-import { SongList } from "../SongList/SongList";
+import shared from "../../shared";
+import SongList from "./SongList";
 
 const { Icon, Toolbar, FadeOut } = shared.components;
 
@@ -63,7 +63,7 @@ const StyledDashboard = styled.div({
   position: "relative",
 });
 
-export class Dashboard extends React.Component {
+export default class Dashboard extends React.Component {
   static propTypes = {
     isLoadingSongs: PropTypes.bool,
     onLoad: PropTypes.func,

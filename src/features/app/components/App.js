@@ -7,11 +7,11 @@ import { hideIf, showIf } from "react-render-helpers";
 import { Redirect, Route } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components/macro";
 import Tone from "tone";
-import dashboard from "../../../dashboard";
-import shared from "../../../shared";
-import songEditor from "../../../songEditor";
-import { SignInContainer } from "../SignIn/SignInContainer";
-import { SignOutContainer } from "../SignOut/SignOutContainer";
+import dashboard from "../../dashboard";
+import shared from "../../shared";
+import songEditor from "../../songEditor";
+import SignInContainer from "./SignInContainer";
+import SignOutContainer from "./SignOutContainer";
 
 const { styles } = shared;
 const { DashboardContainer } = dashboard.components;
@@ -45,7 +45,7 @@ const LoadingIndicator = styled.div({
   justifyContent: "center",
 });
 
-export class App extends React.PureComponent {
+export default class App extends React.PureComponent {
   static propTypes = {
     isAuthenticated: PropTypes.bool,
     didAuthenticationRun: PropTypes.bool,

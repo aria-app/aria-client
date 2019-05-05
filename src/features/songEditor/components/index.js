@@ -1,1 +1,3 @@
-export { SongEditorContainer } from "./SongEditor/SongEditorContainer";
+import _SongEditorContainer from "./SongEditorContainer";
+
+export const SongEditorContainer = _SongEditorContainer;

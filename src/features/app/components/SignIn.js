@@ -6,7 +6,7 @@ import React from "react";
 import { Translation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import styled from "styled-components/macro";
-import shared from "../../../shared";
+import shared from "../../shared";
 
 const { authProvider } = shared.constants;
 
@@ -17,7 +17,7 @@ const StyledSignIn = styled.div({
   justifyContent: "center",
 });
 
-export class SignIn extends React.Component {
+export default class SignIn extends React.Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
   };

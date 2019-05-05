@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Translation } from "react-i18next";
 import styled from "styled-components/macro";
-import shared from "../../../shared";
+import shared from "../../shared";
 
 const { DownloadButton } = shared.components;
 const getBPMRangeItem = x => ({ id: x, text: String(x) });
@@ -43,7 +43,7 @@ const SongInfoModalLabel = styled(Typography)(props => ({
   marginTop: props.theme.margin.m,
 }));
 
-export class SongInfoModal extends React.PureComponent {
+export default class SongInfoModal extends React.PureComponent {
   static propTypes = {
     bpm: PropTypes.number.isRequired,
     isOpen: PropTypes.bool.isRequired,

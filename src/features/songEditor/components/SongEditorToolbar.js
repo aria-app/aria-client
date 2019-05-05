@@ -5,12 +5,12 @@ import PropTypes from "prop-types";
 import React from "react";
 import { hideIf, showIf } from "react-render-helpers";
 import Tone from "tone";
-import shared from "../../../shared";
+import shared from "../../shared";
 
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 const { IconButton, Toolbar } = shared.components;
 
-export class SongEditorToolbar extends React.PureComponent {
+export default class SongEditorToolbar extends React.PureComponent {
   static propTypes = {
     onPause: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,

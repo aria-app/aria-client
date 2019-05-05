@@ -1,10 +1,10 @@
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import shared from "../../../shared";
-import user from "../../../user";
-import { Dashboard } from "./Dashboard";
+import shared from "../../shared";
+import user from "../../user";
+import Dashboard from "./Dashboard";
 
-export const DashboardContainer = withRouter(
+export default withRouter(
   connect(
     state => ({
       isLoadingSongs: user.selectors.getIsUserSongLibraryLoading(state),

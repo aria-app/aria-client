@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React, { useMemo } from "react";
 import { animated, useTransition } from "react-spring";
 import styled from "styled-components/macro";
-import { SongListItem } from "../SongListItem/SongListItem";
+import SongListItem from "./SongListItem";
 
 const StyledSongList = styled.div(props => ({
   display: "flex",
@@ -20,7 +20,7 @@ SongList.propTypes = {
 };
 
 // TODO: Transition in songs in Song List to prevent duplicate entries on transition
-export function SongList(props) {
+export default function SongList(props) {
   const sortedSongs = useMemo(
     () => orderBy(x => x.dateModified, "desc", Object.values(props.songs)),
     [props.songs],

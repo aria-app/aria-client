@@ -1,10 +1,10 @@
 import { connect } from "react-redux";
-import audio from "../../../audio";
-import shared from "../../../shared";
-import song from "../../../song";
-import { SongEditor } from "./SongEditor";
+import audio from "../../audio";
+import shared from "../../shared";
+import song from "../../song";
+import SongEditor from "./SongEditor";
 
-export const SongEditorContainer = connect(
+export default connect(
   state => ({
     bpm: song.selectors.getBPM(state),
     playbackState: audio.selectors.getPlaybackState(state),

@@ -1,1 +1,3 @@
-export { DashboardContainer } from "./Dashboard/DashboardContainer";
+import _DashboardContainer from "./DashboardContainer";
+
+export const DashboardContainer = _DashboardContainer;

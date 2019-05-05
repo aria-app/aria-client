@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components/macro";
-import shared from "../../../shared";
+import shared from "../../shared";
 
 const { IconButton } = shared.components;
 
@@ -31,7 +31,7 @@ const StyledSongListItem = styled.div(props => ({
   // TODO: ${mixins.interactionOverlay('white')}
 }));
 
-export class SongListItem extends React.Component {
+export default class SongListItem extends React.Component {
   static propTypes = {
     onDelete: PropTypes.func,
     onOpen: PropTypes.func,
