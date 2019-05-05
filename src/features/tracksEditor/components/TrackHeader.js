@@ -1,6 +1,6 @@
 import styled from "styled-components/macro";
 
-export const TrackHeader = styled.div(props => ({
+export default styled.div(props => ({
   alignItems: "center",
   alignSelf: "flex-start",
   backgroundColor: props.theme.primary[0],

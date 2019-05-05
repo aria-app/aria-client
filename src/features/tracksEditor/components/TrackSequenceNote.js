@@ -1,7 +1,7 @@
 import getOr from "lodash/fp/getOr";
 import styled from "styled-components/macro";
 
-export const TrackSequenceNote = styled.div(props => {
+export default styled.div(props => {
   const x0 = getOr(0, "note.points[0].x", props);
   const x1 = getOr(0, "note.points[1].x", props);
   const y0 = getOr(0, "note.points[0].y", props);

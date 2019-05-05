@@ -44,7 +44,7 @@ const StyledAddTrackButton = styled.div({
   },
 });
 
-export function AddTrackButton(props) {
+export default function AddTrackButton(props) {
   return (
     <StyledAddTrackButton onClick={props.onClick} style={props.style}>
       <AddTrackButtonPlusVertical className="add-track-button__plus__vertical" />

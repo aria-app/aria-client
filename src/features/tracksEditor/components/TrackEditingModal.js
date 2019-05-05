@@ -43,7 +43,7 @@ const TrackEditingModalTitle = styled(DialogTitle)({
   textTransform: "uppercase",
 });
 
-export class TrackEditingModal extends React.PureComponent {
+export default class TrackEditingModal extends React.PureComponent {
   static propTypes = {
     onDelete: PropTypes.func.isRequired,
     onDismiss: PropTypes.func.isRequired,

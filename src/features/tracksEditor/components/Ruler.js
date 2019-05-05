@@ -4,8 +4,8 @@ import times from "lodash/fp/times";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components/macro";
-import shared from "../../../shared";
-import { RulerResizer } from "../RulerResizer/RulerResizer";
+import shared from "../../shared";
+import RulerResizer from "./RulerResizer";
 
 const { MatrixBox } = shared.components;
 
@@ -24,7 +24,7 @@ const StyledRuler = styled.div(props => ({
   position: "relative",
 }));
 
-export class Ruler extends React.PureComponent {
+export default class Ruler extends React.PureComponent {
   static propTypes = {
     measureCount: PropTypes.number.isRequired,
     measureWidth: PropTypes.number.isRequired,

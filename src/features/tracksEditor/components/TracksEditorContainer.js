@@ -1,10 +1,10 @@
 import { connect } from "react-redux";
-import audio from "../../../audio";
-import shared from "../../../shared";
-import song from "../../../song";
-import { TracksEditor } from "./TracksEditor";
+import audio from "../../audio";
+import shared from "../../shared";
+import song from "../../song";
+import TracksEditor from "./TracksEditor";
 
-export const TracksEditorContainer = connect(
+export default connect(
   state => ({
     isLoading: song.selectors.getIsSongLoading(state),
     isRedoEnabled: song.selectors.getIsRedoEnabled(state),

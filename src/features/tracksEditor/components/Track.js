@@ -11,10 +11,10 @@ import React from "react";
 import { Translation } from "react-i18next";
 import { showIf } from "react-render-helpers";
 import styled from "styled-components/macro";
-import shared from "../../../shared";
-import { AddSequenceButton } from "../AddSequenceButton/AddSequenceButton";
-import { TrackSequence } from "../TrackSequence/TrackSequence";
-import { TrackHeader } from "../TrackHeader/TrackHeader";
+import shared from "../../shared";
+import AddSequenceButton from "./AddSequenceButton";
+import TrackSequence from "./TrackSequence";
+import TrackHeader from "./TrackHeader";
 
 const { Boxes, MatrixBox } = shared.components;
 
@@ -43,7 +43,7 @@ const TrackSequences = styled.div({
   position: "relative",
 });
 
-export class Track extends React.PureComponent {
+export default class Track extends React.PureComponent {
   static propTypes = {
     onSequenceAdd: PropTypes.func.isRequired,
     onSequenceEdit: PropTypes.func,

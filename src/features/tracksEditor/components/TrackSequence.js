@@ -2,7 +2,7 @@ import getOr from "lodash/fp/getOr";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components/macro";
-import { TrackSequenceNote } from "../TrackSequenceNote/TrackSequenceNote";
+import TrackSequenceNote from "./TrackSequenceNote";
 
 const StyledTrackSequence = styled.div(props => ({
   display: "flex",
@@ -34,7 +34,7 @@ const StyledTrackSequence = styled.div(props => ({
     : {}),
 }));
 
-export class TrackSequence extends React.PureComponent {
+export default class TrackSequence extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
     index: PropTypes.number.isRequired,

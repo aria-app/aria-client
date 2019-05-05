@@ -2,10 +2,10 @@ import PropTypes from "prop-types";
 import React from "react";
 import { animated, useTransition } from "react-spring";
 import styled from "styled-components/macro";
-import shared from "../../../shared";
-import { AddTrackButton } from "../AddTrackButton/AddTrackButton";
-import { Ruler } from "../Ruler/Ruler";
-import { Track } from "../Track/Track";
+import shared from "../../shared";
+import AddTrackButton from "./AddTrackButton";
+import Ruler from "./Ruler";
+import Track from "./Track";
 
 const { FadeIn, FadeOut } = shared.components;
 
@@ -70,7 +70,7 @@ TrackList.propTypes = {
   tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export function TrackList(props) {
+export default function TrackList(props) {
   const trackTransitions = useTransition(props.tracks, track => track.id, {
     config: {
       clamp: true,

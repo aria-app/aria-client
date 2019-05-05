@@ -6,10 +6,10 @@ import PropTypes from "prop-types";
 import React from "react";
 import { HotKeys } from "react-hotkeys";
 import styled from "styled-components/macro";
-import shared from "../../../shared";
-import { TrackList } from "../TrackList/TrackList";
-import { TrackEditingModal } from "../TrackEditingModal/TrackEditingModal";
-import { TracksEditorToolbar } from "../TracksEditorToolbar/TracksEditorToolbar";
+import shared from "../../shared";
+import TrackList from "./TrackList";
+import TrackEditingModal from "./TrackEditingModal";
+import TracksEditorToolbar from "./TracksEditorToolbar";
 
 const { Timeline } = shared.components;
 
@@ -21,7 +21,7 @@ const StyledTracksEditor = styled(HotKeys)({
   position: "relative",
 });
 
-export class TracksEditor extends React.PureComponent {
+export default class TracksEditor extends React.PureComponent {
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
     isRedoEnabled: PropTypes.bool.isRequired,

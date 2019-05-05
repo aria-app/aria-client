@@ -37,7 +37,7 @@ const StyledAddSequenceButton = styled.div(props => ({
   // TODO: ${mixins.interactionOverlay("white")}
 }));
 
-export class AddSequenceButton extends React.PureComponent {
+export default class AddSequenceButton extends React.PureComponent {
   static propTypes = {
     onClick: PropTypes.func,
     style: PropTypes.object,

@@ -3,11 +3,11 @@ import negate from "lodash/fp/negate";
 import PropTypes from "prop-types";
 import React from "react";
 import { showIf } from "react-render-helpers";
-import shared from "../../../shared";
+import shared from "../../shared";
 
 const { IconButton, Toolbar } = shared.components;
 
-export class TracksEditorToolbar extends React.PureComponent {
+export default class TracksEditorToolbar extends React.PureComponent {
   static propTypes = {
     isRedoEnabled: PropTypes.bool.isRequired,
     isUndoEnabled: PropTypes.bool.isRequired,

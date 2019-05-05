@@ -51,7 +51,7 @@ RulerResizer.propTypes = {
   size: PropTypes.number.isRequired,
 };
 
-export function RulerResizer(props) {
+export default function RulerResizer(props) {
   const [isDragging, setIsDragging] = useState(false);
 
   const getPosition = () => ({
