@@ -56,6 +56,10 @@ const Fab = styled.div(props => ({
   // TODO: ${mixins.interactionOverlay("black")}
 }));
 
+const FabIcon = styled(Icon).attrs(props => ({
+  color: props.theme.almostblack,
+}))({});
+
 const StyledDashboard = styled.div({
   display: "flex",
   flex: "1 1 auto",
@@ -111,7 +115,7 @@ export default class Dashboard extends React.Component {
           ))}
         </DashboardCenteredContent>
         <Fab onClick={this.addSong}>
-          <Icon icon="plus" />
+          <FabIcon icon="plus" />
         </Fab>
       </StyledDashboard>
     );

@@ -13,11 +13,3 @@ script:
   - yarn run build
 after_success:
   - npx framer-cli publish aria.framerfx --public --yes
-deploy:
-  github_token: $GITHUB_TOKEN
-  provider: pages
-  skip_cleanup: true
-  keep_history: true
-  local_dir: build
-  on:
-    branch: master
