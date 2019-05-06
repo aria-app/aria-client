@@ -3,7 +3,7 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@types/react": "^16.4.16",
-		"framer": "^0.10"
+		"framer": "^1.0.0"
 	},
 	"peerDependencies": {
 		"framer": "^0.10",
