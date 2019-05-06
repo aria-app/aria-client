@@ -4505,16 +4505,16 @@ date-now@^0.1.4:
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
   integrity sha1-6vQ5/U1ISK105cx9vvIAZyueNFs=
 
-dawww@1.9.7:
-  version "1.9.7"
-  resolved "https://registry.yarnpkg.com/dawww/-/dawww-1.9.7.tgz#d4c3bd4f65eef7de6c0ddce1ed3a34499b85b9e8"
-  integrity sha512-QlatabhFI6bkhonhWuj/pxIVuhUkKg4QVTKplKmtVFMKjqK3YyPrZQ12iYTxsxYRYGjA+DwzCm+xGf4xfywwYg==
+dawww@1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/dawww/-/dawww-1.10.0.tgz#a95a7e921e687658d1a7446e770ec06b8d4dae5e"
+  integrity sha512-MUH45UWt5RPI1g/Ka82W4B+JqY0m/b5WfyQ4d45cqbgCap21rxYnPaOl1DHHwVo3zD6dIYLchsjtLKsgncdaAg==
   dependencies:
     deep-diff "0.3.8"
     event-emitter "0.3.5"
     lodash "4.17.11"
-    shortid "2.2.8"
-    tone "0.11.11"
+    shortid "2.2.14"
+    tone "13.4.9"
 
 debounce@^1.1.0:
   version "1.2.0"
@@ -8467,6 +8467,11 @@ nan@^2.0.0, nan@^2.12.1:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.13.2.tgz#f51dc7ae66ba7d5d55e1e6d4d8092e802c9aefe7"
   integrity sha512-TghvYc72wlMGMVMluVo9WRJc0mB8KxxF/gZ4YYFy7V2ZQX9l7rgbPg7vjS9mt6U5HXODVFVI2bOduCzwOMv/lw==
 
+nanoid@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-2.0.1.tgz#deb55cac196e3f138071911dabbc3726eb048864"
+  integrity sha512-k1u2uemjIGsn25zmujKnotgniC/gxQ9sdegdezeDiKdkDW56THUMqlz3urndKCXJxA6yPzSZbXx/QCMe/pxqsA==
+
 nanomatch@^1.2.9:
   version "1.2.13"
   resolved "https://registry.yarnpkg.com/nanomatch/-/nanomatch-1.2.13.tgz#b87a8aa4fc0de8fe6be88895b38983ff265bd119"
@@ -11496,10 +11501,12 @@ shellwords@^0.1.1:
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
 
-shortid@2.2.8:
-  version "2.2.8"
-  resolved "https://registry.yarnpkg.com/shortid/-/shortid-2.2.8.tgz#033b117d6a2e975804f6f0969dbe7d3d0b355131"
-  integrity sha1-AzsRfWoul1gE9vCWnb59PQs1UTE=
+shortid@2.2.14:
+  version "2.2.14"
+  resolved "https://registry.yarnpkg.com/shortid/-/shortid-2.2.14.tgz#80db6aafcbc3e3a46850b3c88d39e051b84c8d18"
+  integrity sha512-4UnZgr9gDdA1kaKj/38IiudfC3KHKhDc1zi/HSxd9FQDR0VLwH3/y79tZJLsVYPsJgIjeHjqIWaWVRJUj9qZOQ==
+  dependencies:
+    nanoid "^2.0.0"
 
 sigmund@^1.0.1:
   version "1.0.1"
@@ -12245,10 +12252,10 @@ toggle-selection@^1.0.6:
   resolved "https://registry.yarnpkg.com/toggle-selection/-/toggle-selection-1.0.6.tgz#6e45b1263f2017fa0acc7d89d78b15b8bf77da32"
   integrity sha1-bkWxJj8gF/oKzH2J14sVuL932jI=
 
-tone@0.11.11:
-  version "0.11.11"
-  resolved "https://registry.yarnpkg.com/tone/-/tone-0.11.11.tgz#7af8521eba6df84a910d457485a13705f8c824e5"
-  integrity sha512-q1qFm9qMxXVJOBZYT1xUcOnnNnq/CXO0rnWlcwUaRggKkdAVdnouQoSFKKwwsgrOkNRQBTlcVz1ATe5UUHIXNQ==
+tone@13.4.9:
+  version "13.4.9"
+  resolved "https://registry.yarnpkg.com/tone/-/tone-13.4.9.tgz#c5e9f69d0cdea6d2fa03e108766b10d5f9185dde"
+  integrity sha512-jU3MJOzt9wcGbo57TIzgAQe13EgwvdC7N6N/cA6ZkGYHH8gop+L6a87NRP3LIBCcJxVps6I6i/39ZUJI2aCWUA==
 
 topo@3.x.x:
   version "3.0.3"
