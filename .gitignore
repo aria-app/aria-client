@@ -11,6 +11,9 @@
 # production
 /build
 
+# nyc test coverage
+.nyc_output
+
 # misc
 .DS_Store
 .env.local

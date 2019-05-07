@@ -7,10 +7,17 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import Tone from 'tone';
 import app from './features/app';
 import shared from './features/shared';
 import store from './store';
 import './resets.css';
+
+['keydown', 'mousedown', 'touchdown'].forEach(eventName => {
+  document.body.addEventListener(eventName, () => {
+    Tone.start();
+  });
+});
 
 const styleNode = document.createComment('insertion-point-jss');
 document.head.insertBefore(styleNode, document.head.firstChild);

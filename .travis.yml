@@ -10,6 +10,8 @@ cache:
     - node_modules
 script:
   - yarn run lint
+  - yarn run testonce
   - yarn run build
 after_success:
+  - './node_modules/.bin/nyc report --reporter=text-lcov > coverage.lcov && ./node_modules/.bin/codecov'
   - npx framer-cli publish aria.framerfx --public --yes

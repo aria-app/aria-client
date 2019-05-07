@@ -9,14 +9,18 @@
     "build": "react-scripts build",
     "build-storybook": "build-storybook -s public",
     "lint": "eslint src && prettier --write \"src/**/*.js\"",
+    "prepush": "npm run lint && npm run testonce && npm run trybuild",
     "start": "react-scripts start",
     "storybook": "start-storybook -p 9009 -s public",
-    "test": "react-scripts test"
+    "test": "ava --watch",
+    "testonce": "nyc ava"
   },
   "dependencies": {
     "@material-ui/core": "3.9.3",
     "classnames": "2.2.6",
-    "dawww": "1.9.7",
+    "dawww": "1.10.2",
+    "deep-diff": "0.3.8",
+    "event-emitter": "0.3.5",
     "firebase": "5.11.1",
     "i18next": "15.1.0",
     "i18next-browser-languagedetector": "3.0.1",
@@ -38,19 +42,34 @@
     "redux-create-reducer": "2.0.0",
     "redux-logic": "2.1.1",
     "redux-undo": "1.0.0-beta9-9-7",
-    "styled-components": "4.2.0"
+    "shortid": "2.2.14",
+    "styled-components": "4.2.0",
+    "tone": "13.4.9"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "7.4.4",
+    "@babel/register": "7.4.4",
     "@storybook/addon-actions": "5.0.11",
     "@storybook/addon-knobs": "5.0.11",
     "@storybook/addons": "5.0.11",
     "@storybook/react": "5.0.11",
+    "ava": "1.4.1",
+    "browser-env": "3.2.6",
+    "codecov": "3.3.0",
+    "nyc": "14.1.0",
     "prettier": "1.17.0",
     "react-scripts": "3.0.0",
-    "redux-devtools-extension": "2.13.8"
+    "redux-devtools-extension": "2.13.8",
+    "sinon": "7.3.2"
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "ava": {
+    "require": [
+      "@babel/register",
+      "./test/helpers/setup-browser-env.js"
+    ]
   },
   "browserslist": [
     ">0.2%",
