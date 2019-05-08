@@ -9,7 +9,6 @@
     "build": "react-scripts build",
     "build-storybook": "build-storybook -s public",
     "lint": "eslint src && prettier --write \"src/**/*.js\"",
-    "prepush": "npm run lint && npm run testonce && npm run trybuild",
     "start": "react-scripts start",
     "storybook": "start-storybook -p 9009 -s public",
     "test": "ava --watch",
