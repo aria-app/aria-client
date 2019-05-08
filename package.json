@@ -54,6 +54,7 @@
     "@storybook/addons": "5.0.11",
     "@storybook/react": "5.0.11",
     "ava": "1.4.1",
+    "babel-loader": "8.0.5",
     "browser-env": "3.2.6",
     "codecov": "3.3.0",
     "nyc": "14.1.0",

@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { MatrixBox } from '../MatrixBox';
+import MatrixBox from '../MatrixBox';
 
 storiesOf('MatrixBox', module).add('Basics', () => (
   <div

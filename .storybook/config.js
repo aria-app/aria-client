@@ -6,15 +6,12 @@ import shared from '../src/features/shared';
 const { Shell } = shared.components;
 const { themes } = shared.styles;
 
-const req = require.context('../src/features', true, /\.stories\.js$/);
+const req = require.context('../src', true, /\.stories\.js$/);
 
 function loadStories() {
   addDecorator(storyFn => (
-    <ThemeProvider
-      theme={themes.emerald}>
-      <Shell>
-        {storyFn()}
-      </Shell>
+    <ThemeProvider theme={themes.emerald}>
+      <Shell>{storyFn()}</Shell>
     </ThemeProvider>
   ));
   req.keys().forEach(filename => req(filename));
