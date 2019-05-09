@@ -55,7 +55,7 @@
     "ava": "1.4.1",
     "babel-loader": "8.0.5",
     "browser-env": "3.2.6",
-    "codecov": "3.3.0",
+    "codecov": "3.4.0",
     "nyc": "14.1.0",
     "prettier": "1.17.0",
     "react-scripts": "3.0.0",
