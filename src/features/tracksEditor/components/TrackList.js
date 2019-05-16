@@ -93,8 +93,6 @@ function TrackList(props) {
     },
   });
 
-  console.log('rerender');
-
   return (
     <StyledTrackList>
       <FadeOut component={LoadingIndicator} isVisible={props.isLoading}>
