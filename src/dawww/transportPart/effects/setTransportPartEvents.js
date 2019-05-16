@@ -1,5 +1,6 @@
 import getOr from 'lodash/fp/getOr';
 import noop from 'lodash/fp/noop';
+import Tone from 'tone';
 import * as actions from '../../actions';
 
 export function setTransportPartEvents(getState, action, shared) {
@@ -9,7 +10,7 @@ export function setTransportPartEvents(getState, action, shared) {
 
   mapEvents(
     (event, index) => ({
-      fn: payload => {
+      fn: (payload, time) => {
         const focusedSequenceId = getOr(
           '',
           'song.focusedSequenceId',
@@ -18,7 +19,9 @@ export function setTransportPartEvents(getState, action, shared) {
 
         if (focusedSequenceId) return;
 
-        dispatch(actions.positionSet(payload));
+        Tone.Draw.schedule(() => {
+          dispatch(actions.positionSet(payload));
+        }, time);
       },
       payload: index,
     }),

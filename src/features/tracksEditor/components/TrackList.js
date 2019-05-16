@@ -1,3 +1,4 @@
+import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { animated, useTransition } from 'react-spring';
@@ -70,7 +71,9 @@ TrackList.propTypes = {
   tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default function TrackList(props) {
+export default React.memo(TrackList, isEqual);
+
+function TrackList(props) {
   const trackTransitions = useTransition(props.tracks, track => track.id, {
     config: {
       clamp: true,
@@ -89,6 +92,8 @@ export default function TrackList(props) {
       opacity: 0,
     },
   });
+
+  console.log('rerender');
 
   return (
     <StyledTrackList>

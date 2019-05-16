@@ -1,4 +1,5 @@
 import getOr from 'lodash/fp/getOr';
+import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components/macro';
@@ -34,7 +35,7 @@ const StyledTrackSequence = styled.div(props => ({
     : {}),
 }));
 
-export default class TrackSequence extends React.PureComponent {
+export default class TrackSequence extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     index: PropTypes.number.isRequired,
@@ -59,6 +60,10 @@ export default class TrackSequence extends React.PureComponent {
         isMounted: true,
       });
     }, 16);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !(isEqual(this.props, nextProps) && isEqual(this.state, nextState));
   }
 
   render() {
