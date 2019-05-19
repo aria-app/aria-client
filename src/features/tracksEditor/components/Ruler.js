@@ -30,7 +30,6 @@ export default class Ruler extends React.PureComponent {
     measureWidth: PropTypes.number,
     onMeasureCountChange: PropTypes.func,
     onPositionSet: PropTypes.func,
-    isStopped: PropTypes.bool,
   };
 
   render() {
@@ -100,8 +99,6 @@ export default class Ruler extends React.PureComponent {
   getWidth = () => this.props.measureWidth * this.props.measureCount + 1;
 
   handleClick = e => {
-    if (this.props.isStopped) return;
-
     const offset = getOr(0, 'nativeEvent.offsetX', e);
     const measures = offset / this.props.measureWidth;
     const notesPerMeasure = 32;

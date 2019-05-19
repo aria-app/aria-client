@@ -1,3 +1,4 @@
+import { createStructuredSelector } from 'reselect';
 import { getBPM } from './getBPM';
 import { getId } from './getId';
 import { getMeasureCount } from './getMeasureCount';
@@ -7,13 +8,13 @@ import { getSequences } from './getSequences';
 import { getTracks } from './getTracks';
 import { getUserId } from './getUserId';
 
-export const getSong = state => ({
-  bpm: getBPM(state),
-  id: getId(state),
-  measureCount: getMeasureCount(state),
-  name: getName(state),
-  notes: getNotes(state),
-  sequences: getSequences(state),
-  tracks: getTracks(state),
-  userId: getUserId(state),
+export const getSong = createStructuredSelector({
+  bpm: getBPM,
+  id: getId,
+  measureCount: getMeasureCount,
+  name: getName,
+  notes: getNotes,
+  sequences: getSequences,
+  tracks: getTracks,
+  userId: getUserId,
 });

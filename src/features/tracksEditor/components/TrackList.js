@@ -54,7 +54,6 @@ const TrackListUnderlay = styled.div({
 });
 
 TrackList.propTypes = {
-  isStopped: PropTypes.bool,
   onPositionSet: PropTypes.func,
   onSequenceAdd: PropTypes.func,
   onSequenceDeselect: PropTypes.func,
@@ -102,7 +101,6 @@ function TrackList(props) {
         <TrackListUnderlay onClick={props.onSequenceDeselect} />
         <FadeIn isVisible={!props.isLoading}>
           <Ruler
-            isStopped={props.isStopped}
             measureCount={props.songMeasureCount}
             measureWidth={64}
             onMeasureCountChange={props.onSongMeasureCountChange}

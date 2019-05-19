@@ -73,8 +73,7 @@ export default class TracksEditor extends React.PureComponent {
         <React.Fragment>
           <TrackList
             isLoading={this.props.isLoading}
-            isStopped={this.props.isStopped}
-            onPositionSet={this.props.onPositionSet}
+            onPositionSet={this.handleTrackListPositionSet}
             onSequenceAdd={this.handleTrackListSequenceAdd}
             onSequenceDelete={this.props.onSequenceDelete}
             onSequenceEdit={this.props.onSequenceEdit}
@@ -174,6 +173,12 @@ export default class TracksEditor extends React.PureComponent {
 
   getSelectedTrack = () =>
     find(t => t.id === this.state.selectedTrackId, this.props.tracks);
+
+  handleTrackListPositionSet = position => {
+    if (this.props.isStopped) return;
+
+    this.props.onPositionSet(position);
+  };
 
   handleTrackListSequenceAdd = (track, position) => {
     const sequence = Dawww.createSequence(track.id, position);
