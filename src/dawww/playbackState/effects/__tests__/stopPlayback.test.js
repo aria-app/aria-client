@@ -18,9 +18,10 @@ test('should invoke toneAdapter.stop, dispatch with actions.playbackStateSet(con
       dispatch,
     },
   );
-  t.deepEqual(dispatch.getCall(0).args, [
+  t.deepEqual(dispatch.getCall(0).args, [actions.releaseAllRequested()]);
+  t.deepEqual(dispatch.getCall(1).args, [
     actions.playbackStateSet(constants.PLAYBACK_STATES.STOPPED),
   ]);
-  t.deepEqual(dispatch.getCall(1).args, [actions.positionSetRequested(0)]);
+  t.deepEqual(dispatch.getCall(2).args, [actions.positionSetRequested(0)]);
   t.deepEqual(stop.calledOnce, true);
 });
