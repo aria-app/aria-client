@@ -44,9 +44,9 @@ const UploadOverlayDragIndicator = styled.div(props => ({
 
 export default class UploadOverlay extends React.PureComponent {
   static propTypes = {
-    isFileOver: PropTypes.bool.isRequired,
-    onCancel: PropTypes.func.isRequired,
-    onUpload: PropTypes.func.isRequired,
+    isFileOver: PropTypes.bool,
+    onCancel: PropTypes.func,
+    onUpload: PropTypes.func,
   };
 
   render() {

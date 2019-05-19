@@ -21,12 +21,12 @@ const StyledSongEditor = styled(HotKeys)({
 
 export default class SongEditor extends React.PureComponent {
   static propTypes = {
-    bpm: PropTypes.number.isRequired,
-    onBPMChange: PropTypes.func.isRequired,
-    onPause: PropTypes.func.isRequired,
-    onPlay: PropTypes.func.isRequired,
-    onStop: PropTypes.func.isRequired,
-    playbackState: PropTypes.string.isRequired,
+    bpm: PropTypes.number,
+    onBPMChange: PropTypes.func,
+    onPause: PropTypes.func,
+    onPlay: PropTypes.func,
+    onStop: PropTypes.func,
+    playbackState: PropTypes.string,
     song: PropTypes.object,
   };
 

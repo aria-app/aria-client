@@ -1,6 +1,5 @@
 import Dawww from 'dawww';
 import getOr from 'lodash/fp/getOr';
-import isEmpty from 'lodash/fp/isEmpty';
 import range from 'lodash/fp/range';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -45,11 +44,11 @@ const TrackEditingModalTitle = styled(DialogTitle)({
 
 export default class TrackEditingModal extends React.PureComponent {
   static propTypes = {
-    onDelete: PropTypes.func.isRequired,
-    onDismiss: PropTypes.func.isRequired,
-    onVoiceSet: PropTypes.func.isRequired,
-    onVolumeSet: PropTypes.func.isRequired,
-    stagedTrack: PropTypes.object.isRequired,
+    onDelete: PropTypes.func,
+    onDismiss: PropTypes.func,
+    onVoiceSet: PropTypes.func,
+    onVolumeSet: PropTypes.func,
+    stagedTrack: PropTypes.object,
   };
 
   render() {
@@ -106,7 +105,7 @@ export default class TrackEditingModal extends React.PureComponent {
     );
   }
 
-  getIsOpen = () => !isEmpty(this.props.stagedTrack);
+  getIsOpen = () => !!this.props.stagedTrack;
 
   handleContentDeleteButtonClick = () => {
     this.props.onDelete(this.props.stagedTrack);

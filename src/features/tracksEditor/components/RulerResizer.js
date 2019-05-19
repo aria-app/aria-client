@@ -48,7 +48,7 @@ const StyledRulerResizer = styled.div(props => ({
 }));
 
 RulerResizer.propTypes = {
-  size: PropTypes.number.isRequired,
+  size: PropTypes.number,
 };
 
 export default function RulerResizer(props) {

@@ -1,4 +1,4 @@
-import isEqual from 'lodash/fp/isEqual';
+// import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { animated, useTransition } from 'react-spring';
@@ -54,24 +54,24 @@ const TrackListUnderlay = styled.div({
 });
 
 TrackList.propTypes = {
-  isStopped: PropTypes.bool.isRequired,
-  onPositionSet: PropTypes.func.isRequired,
-  onSequenceAdd: PropTypes.func.isRequired,
-  onSequenceDeselect: PropTypes.func.isRequired,
-  onSequenceEdit: PropTypes.func.isRequired,
-  onSequenceOpen: PropTypes.func.isRequired,
-  onSequenceSelect: PropTypes.func.isRequired,
-  onSongMeasureCountChange: PropTypes.func.isRequired,
-  onTrackAdd: PropTypes.func.isRequired,
-  onTrackIsMutedToggle: PropTypes.func.isRequired,
-  onTrackIsSoloingToggle: PropTypes.func.isRequired,
-  onTrackStage: PropTypes.func.isRequired,
+  isStopped: PropTypes.bool,
+  onPositionSet: PropTypes.func,
+  onSequenceAdd: PropTypes.func,
+  onSequenceDeselect: PropTypes.func,
+  onSequenceEdit: PropTypes.func,
+  onSequenceOpen: PropTypes.func,
+  onSequenceSelect: PropTypes.func,
+  onSongMeasureCountChange: PropTypes.func,
+  onTrackAdd: PropTypes.func,
+  onTrackIsMutedToggle: PropTypes.func,
+  onTrackIsSoloingToggle: PropTypes.func,
+  onTrackStage: PropTypes.func,
   selectedSequence: PropTypes.object,
-  songMeasureCount: PropTypes.number.isRequired,
-  tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  songMeasureCount: PropTypes.number,
+  tracks: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default React.memo(TrackList, isEqual);
+export default React.memo(TrackList);
 
 function TrackList(props) {
   const trackTransitions = useTransition(props.tracks, track => track.id, {

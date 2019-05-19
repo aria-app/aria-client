@@ -11,7 +11,7 @@ const StyledSlots = styled.div({
 
 export default class Slots extends React.PureComponent {
   static propTypes = {
-    measureCount: PropTypes.number.isRequired,
+    measureCount: PropTypes.number,
   };
 
   render() {

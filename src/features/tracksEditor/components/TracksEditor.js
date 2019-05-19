@@ -23,30 +23,30 @@ const StyledTracksEditor = styled(HotKeys)({
 
 export default class TracksEditor extends React.PureComponent {
   static propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    isRedoEnabled: PropTypes.bool.isRequired,
-    isStopped: PropTypes.bool.isRequired,
-    isUndoEnabled: PropTypes.bool.isRequired,
-    onLoad: PropTypes.func.isRequired,
-    onPositionSet: PropTypes.func.isRequired,
-    onRedo: PropTypes.func.isRequired,
-    onSequenceAdd: PropTypes.func.isRequired,
-    onSequenceDelete: PropTypes.func.isRequired,
-    onSequenceDuplicate: PropTypes.func.isRequired,
-    onSequenceEdit: PropTypes.func.isRequired,
-    onSongMeasureCountChange: PropTypes.func.isRequired,
-    onTrackAdd: PropTypes.func.isRequired,
-    onTrackDelete: PropTypes.func.isRequired,
-    onTrackIsMutedToggle: PropTypes.func.isRequired,
-    onTrackIsSoloingToggle: PropTypes.func.isRequired,
-    onTrackVoiceSet: PropTypes.func.isRequired,
-    onTrackVolumeSet: PropTypes.func.isRequired,
-    onUndo: PropTypes.func.isRequired,
-    position: PropTypes.number.isRequired,
-    sequences: PropTypes.arrayOf(PropTypes.object).isRequired,
-    song: PropTypes.object.isRequired,
-    songMeasureCount: PropTypes.number.isRequired,
-    tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
+    isLoading: PropTypes.bool,
+    isRedoEnabled: PropTypes.bool,
+    isStopped: PropTypes.bool,
+    isUndoEnabled: PropTypes.bool,
+    onLoad: PropTypes.func,
+    onPositionSet: PropTypes.func,
+    onRedo: PropTypes.func,
+    onSequenceAdd: PropTypes.func,
+    onSequenceDelete: PropTypes.func,
+    onSequenceDuplicate: PropTypes.func,
+    onSequenceEdit: PropTypes.func,
+    onSongMeasureCountChange: PropTypes.func,
+    onTrackAdd: PropTypes.func,
+    onTrackDelete: PropTypes.func,
+    onTrackIsMutedToggle: PropTypes.func,
+    onTrackIsSoloingToggle: PropTypes.func,
+    onTrackVoiceSet: PropTypes.func,
+    onTrackVolumeSet: PropTypes.func,
+    onUndo: PropTypes.func,
+    position: PropTypes.number,
+    sequences: PropTypes.arrayOf(PropTypes.object),
+    song: PropTypes.object,
+    songMeasureCount: PropTypes.number,
+    tracks: PropTypes.arrayOf(PropTypes.object),
   };
 
   state = {
@@ -170,11 +170,10 @@ export default class TracksEditor extends React.PureComponent {
   });
 
   getSelectedSequence = () =>
-    find(s => s.id === this.state.selectedSequenceId, this.props.sequences) ||
-    {};
+    find(s => s.id === this.state.selectedSequenceId, this.props.sequences);
 
   getSelectedTrack = () =>
-    find(t => t.id === this.state.selectedTrackId, this.props.tracks) || {};
+    find(t => t.id === this.state.selectedTrackId, this.props.tracks);
 
   handleTrackListSequenceAdd = (track, position) => {
     const sequence = Dawww.createSequence(track.id, position);

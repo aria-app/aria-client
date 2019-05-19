@@ -22,8 +22,8 @@ const StyledDrawLayer = styled.div({
 
 export default class DrawLayer extends React.PureComponent {
   static propTypes = {
-    mousePoint: PropTypes.object.isRequired,
-    onDraw: PropTypes.func.isRequired,
+    mousePoint: PropTypes.object,
+    onDraw: PropTypes.func,
   };
 
   state = {

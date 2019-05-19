@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 DownloadButton.propTypes = {
-  fileContents: PropTypes.string.isRequired,
-  filename: PropTypes.string.isRequired,
+  fileContents: PropTypes.string,
+  filename: PropTypes.string,
 };
 
 export default function DownloadButton({ filename, fileContents, ...rest }) {

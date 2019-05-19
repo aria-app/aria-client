@@ -16,7 +16,7 @@ const StyledSignOut = styled.div({
 
 export default class SignOut extends React.Component {
   static propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.bool,
   };
 
   componentDidMount() {

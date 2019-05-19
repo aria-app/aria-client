@@ -19,7 +19,7 @@ const StyledSignIn = styled.div({
 
 export default class SignIn extends React.Component {
   static propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.bool,
   };
 
   componentDidMount() {

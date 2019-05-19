@@ -26,11 +26,11 @@ const StyledRuler = styled.div(props => ({
 
 export default class Ruler extends React.PureComponent {
   static propTypes = {
-    measureCount: PropTypes.number.isRequired,
-    measureWidth: PropTypes.number.isRequired,
-    onMeasureCountChange: PropTypes.func.isRequired,
-    onPositionSet: PropTypes.func.isRequired,
-    isStopped: PropTypes.bool.isRequired,
+    measureCount: PropTypes.number,
+    measureWidth: PropTypes.number,
+    onMeasureCountChange: PropTypes.func,
+    onPositionSet: PropTypes.func,
+    isStopped: PropTypes.bool,
   };
 
   render() {

@@ -9,8 +9,8 @@ const { IconButton, Toolbar } = shared.components;
 
 export default class TracksEditorToolbar extends React.PureComponent {
   static propTypes = {
-    isRedoEnabled: PropTypes.bool.isRequired,
-    isUndoEnabled: PropTypes.bool.isRequired,
+    isRedoEnabled: PropTypes.bool,
+    isUndoEnabled: PropTypes.bool,
     onRedo: PropTypes.func,
     onSequenceDelete: PropTypes.func,
     onSequenceDuplicate: PropTypes.func,

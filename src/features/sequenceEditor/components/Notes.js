@@ -24,15 +24,15 @@ const StyledNotes = styled.div(props => ({
 
 export default class Notes extends React.PureComponent {
   static propTypes = {
-    measureCount: PropTypes.number.isRequired,
-    notes: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onDrag: PropTypes.func.isRequired,
-    onDragPreview: PropTypes.func.isRequired,
-    onErase: PropTypes.func.isRequired,
-    onResize: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired,
-    selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
-    toolType: PropTypes.string.isRequired,
+    measureCount: PropTypes.number,
+    notes: PropTypes.arrayOf(PropTypes.object),
+    onDrag: PropTypes.func,
+    onDragPreview: PropTypes.func,
+    onErase: PropTypes.func,
+    onResize: PropTypes.func,
+    onSelect: PropTypes.func,
+    selectedNotes: PropTypes.arrayOf(PropTypes.object),
+    toolType: PropTypes.string,
   };
 
   static defaultProps = {

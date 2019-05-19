@@ -12,11 +12,11 @@ const { IconButton, Toolbar } = shared.components;
 
 export default class SongEditorToolbar extends React.PureComponent {
   static propTypes = {
-    onPause: PropTypes.func.isRequired,
-    onPlay: PropTypes.func.isRequired,
+    onPause: PropTypes.func,
+    onPlay: PropTypes.func,
     onSongInfoOpen: PropTypes.func,
-    onStop: PropTypes.func.isRequired,
-    playbackState: PropTypes.string.isRequired,
+    onStop: PropTypes.func,
+    playbackState: PropTypes.string,
   };
 
   render() {

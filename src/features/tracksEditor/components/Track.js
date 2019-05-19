@@ -45,16 +45,16 @@ const TrackSequences = styled.div({
 
 export default class Track extends React.PureComponent {
   static propTypes = {
-    onSequenceAdd: PropTypes.func.isRequired,
+    onSequenceAdd: PropTypes.func,
     onSequenceEdit: PropTypes.func,
-    onSequenceOpen: PropTypes.func.isRequired,
-    onSequenceSelect: PropTypes.func.isRequired,
-    onTrackIsMutedToggle: PropTypes.func.isRequired,
-    onTrackIsSoloingToggle: PropTypes.func.isRequired,
-    onTrackSelect: PropTypes.func.isRequired,
+    onSequenceOpen: PropTypes.func,
+    onSequenceSelect: PropTypes.func,
+    onTrackIsMutedToggle: PropTypes.func,
+    onTrackIsSoloingToggle: PropTypes.func,
+    onTrackSelect: PropTypes.func,
     selectedSequence: PropTypes.object,
-    songMeasureCount: PropTypes.number.isRequired,
-    track: PropTypes.object.isRequired,
+    songMeasureCount: PropTypes.number,
+    track: PropTypes.object,
   };
 
   render() {

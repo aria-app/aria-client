@@ -25,8 +25,8 @@ export default class DropdownListItem extends React.PureComponent {
     item: PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
       text: PropTypes.string,
-    }).isRequired,
-    onClick: PropTypes.func.isRequired,
+    }),
+    onClick: PropTypes.func,
     selectedId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     selectedItem: PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

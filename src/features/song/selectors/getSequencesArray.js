@@ -1,11 +1,8 @@
-import pipe from 'lodash/fp/pipe';
-import map from 'lodash/fp/map';
-import { getSequenceById } from './getSequenceById';
+import values from 'lodash/fp/values';
+import { createSelector } from 'reselect';
 import { getSequences } from './getSequences';
 
-export const getSequencesArray = state =>
-  pipe(
-    getSequences,
-    Object.keys,
-    map(id => getSequenceById(id)(state)),
-  )(state);
+export const getSequencesArray = createSelector(
+  getSequences,
+  sequences => values(sequences),
+);

@@ -14,7 +14,7 @@ export default connect(
     songMeasureCount: song.selectors.getMeasureCount(state),
     sequences: song.selectors.getSequencesArray(state),
     song: song.selectors.getSong(state),
-    tracks: song.selectors.getDeepTracks(state),
+    tracks: song.selectors.getDeepTracksArray(state),
   }),
   {
     onLoad: shared.actions.songEditorLoaded,

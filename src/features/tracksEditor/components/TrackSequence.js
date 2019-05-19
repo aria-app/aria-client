@@ -38,11 +38,11 @@ const StyledTrackSequence = styled.div(props => ({
 export default class TrackSequence extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    index: PropTypes.number.isRequired,
-    isDragging: PropTypes.bool.isRequired,
-    isSelected: PropTypes.bool.isRequired,
-    onOpen: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired,
+    index: PropTypes.number,
+    isDragging: PropTypes.bool,
+    isSelected: PropTypes.bool,
+    onOpen: PropTypes.func,
+    onSelect: PropTypes.func,
     sequence: PropTypes.object,
   };
 

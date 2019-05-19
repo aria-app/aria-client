@@ -64,7 +64,7 @@ export default class DropdownList extends React.PureComponent {
         id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
         text: PropTypes.string,
       }),
-    ).isRequired,
+    ),
     onSelectedIdChange: PropTypes.func,
     onSelectedItemChange: PropTypes.func,
     selectedId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

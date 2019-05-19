@@ -45,12 +45,12 @@ const SongInfoModalLabel = styled(Typography)(props => ({
 
 export default class SongInfoModal extends React.PureComponent {
   static propTypes = {
-    bpm: PropTypes.number.isRequired,
-    isOpen: PropTypes.bool.isRequired,
-    onBPMChange: PropTypes.func.isRequired,
-    onConfirm: PropTypes.func.isRequired,
-    onReturnToDashboard: PropTypes.func.isRequired,
-    onSignOut: PropTypes.func.isRequired,
+    bpm: PropTypes.number,
+    isOpen: PropTypes.bool,
+    onBPMChange: PropTypes.func,
+    onConfirm: PropTypes.func,
+    onReturnToDashboard: PropTypes.func,
+    onSignOut: PropTypes.func,
     song: PropTypes.object,
   };
 

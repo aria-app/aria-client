@@ -1,11 +1,8 @@
-import pipe from 'lodash/fp/pipe';
-import map from 'lodash/fp/map';
-import { getNoteById } from './getNoteById';
+import values from 'lodash/fp/values';
+import { createSelector } from 'reselect';
 import { getNotes } from './getNotes';
 
-export const getNotesArray = state =>
-  pipe(
-    getNotes,
-    Object.keys,
-    map(id => getNoteById(id)(state)),
-  )(state);
+export const getNotesArray = createSelector(
+  getNotes,
+  notes => values(notes),
+);

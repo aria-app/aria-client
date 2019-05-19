@@ -49,10 +49,10 @@ export default class App extends React.PureComponent {
   static propTypes = {
     isAuthenticated: PropTypes.bool,
     didAuthenticationRun: PropTypes.bool,
-    onPause: PropTypes.func.isRequired,
-    onPlay: PropTypes.func.isRequired,
-    onStop: PropTypes.func.isRequired,
-    playbackState: PropTypes.string.isRequired,
+    onPause: PropTypes.func,
+    onPlay: PropTypes.func,
+    onStop: PropTypes.func,
+    playbackState: PropTypes.string,
   };
 
   render() {
