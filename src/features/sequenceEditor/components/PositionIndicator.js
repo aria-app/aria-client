@@ -1,10 +1,11 @@
 import { PropTypes } from 'prop-types';
+import { transparentize } from 'polished';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
 import styled from 'styled-components/macro';
 
-const ColumnIndicator = styled.div({
-  backgroundColor: 'rgba(255, 255, 255, 0.02)',
+const ColumnIndicator = styled.div(props => ({
+  backgroundColor: transparentize(0.95, props.theme.primary[2]),
   borderRadius: 2,
   bottom: 0,
   left: 0,
@@ -12,9 +13,9 @@ const ColumnIndicator = styled.div({
   position: 'absolute',
   top: 0,
   width: 40,
-});
-const RowIndicator = styled.div({
-  backgroundColor: 'rgba(255, 255, 255, 0.02)',
+}));
+const RowIndicator = styled.div(props => ({
+  backgroundColor: transparentize(0.95, props.theme.primary[2]),
   borderRadius: 2,
   left: 0,
   height: 40,
@@ -22,7 +23,7 @@ const RowIndicator = styled.div({
   position: 'absolute',
   right: 0,
   top: 0,
-});
+}));
 
 PositionIndicator.propTypes = {
   mousePoint: PropTypes.object,

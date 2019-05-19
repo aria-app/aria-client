@@ -1,5 +1,6 @@
 import Dawww from 'dawww';
 import getOr from 'lodash/fp/getOr';
+import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
 import uniq from 'lodash/fp/uniq';
@@ -353,20 +354,29 @@ export default class SequenceEditor extends React.PureComponent {
   nudge = delta => {
     if (isEmpty(this.state.selectedNotes)) return;
 
+    const notes = this.props.notes.filter(note =>
+      includes(
+        note.id,
+        this.state.selectedNotes.map(selectedNote => selectedNote.id),
+      ),
+    );
+
     if (
       Dawww.someNoteWillMoveOutside(
         this.props.sequence.measureCount,
         delta,
-        this.state.selectedNotes,
+        notes,
       )
     )
       return;
 
-    const pitch = getOr(-1, '[0].points[0].y', this.state.selectedNotes);
+    if (delta.y !== 0) {
+      const pitch = getOr(-1, '[0].points[0].y', notes);
 
-    this.previewPitch(pitch + delta.y);
+      this.previewPitch(pitch + delta.y);
+    }
 
-    this.props.onNudge(delta, this.state.selectedNotes);
+    this.props.onNudge(delta, notes);
   };
 
   nudgeDown = e => {

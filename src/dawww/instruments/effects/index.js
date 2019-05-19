@@ -1,6 +1,7 @@
 import * as actions from '../../actions';
 import { handleNotePlay } from './handleNotePlay';
 import { handlePartStepTriggered } from './handlePartStepTriggered';
+import { handleReleaseAllRequested } from './handleReleaseAllRequested';
 import { handleTrackVoiceEdit } from './handleTrackVoiceEdit';
 
 export default function effects(getState, action, shared) {
@@ -10,6 +11,9 @@ export default function effects(getState, action, shared) {
       break;
     case actions.PART_STEP_TRIGGERED:
       handlePartStepTriggered(getState, action, shared);
+      break;
+    case actions.RELEASE_ALL_REQUESTED:
+      handleReleaseAllRequested(getState, action, shared);
       break;
     case actions.TRACK_VOICE_EDITED:
       handleTrackVoiceEdit(getState, action, shared);

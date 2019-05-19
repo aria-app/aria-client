@@ -16,6 +16,7 @@ export const PLAYBACK_STATE_SET = 'PLAYBACK_STATE_SET';
 export const PLAYBACK_STOP_REQUESTED = 'PLAYBACK_STOP_REQUESTED';
 export const POSITION_SET = 'POSITION_SET';
 export const POSITION_SET_REQUESTED = 'POSITION_SET_REQUESTED';
+export const RELEASE_ALL_REQUESTED = 'RELEASE_ALL_REQUESTED';
 export const SEQUENCE_ADDED = 'SEQUENCE_ADDED';
 export const SEQUENCE_DELETION_ACCEPTED = 'SEQUENCE_DELETION_ACCEPTED';
 export const SEQUENCE_DELETION_REQUESTED = 'SEQUENCE_DELETION_REQUESTED';
@@ -117,6 +118,10 @@ export const positionSet = position => ({
 export const positionSetRequested = position => ({
   type: POSITION_SET_REQUESTED,
   payload: { position },
+});
+
+export const releaseAllRequested = () => ({
+  type: RELEASE_ALL_REQUESTED,
 });
 
 export const sequenceAdded = sequence => ({
