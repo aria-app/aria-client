@@ -104,8 +104,14 @@ export const SCALE = [
   { name: 'C0', y: 83 },
 ];
 export const VOICES = {
+  FATSAWTOOTH: 'FATSAWTOOTH',
+  FATSINE: 'FATSINE',
+  FATSQUARE: 'FATSQUARE',
+  FATTRIANGLE: 'FATTRIANGLE',
+  PULSE: 'PULSE',
   PWM: 'PWM',
   SAWTOOTH: 'SAWTOOTH',
   SINE: 'SINE',
   SQUARE: 'SQUARE',
+  TRIANGLE: 'TRIANGLE',
 };

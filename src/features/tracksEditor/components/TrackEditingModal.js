@@ -1,4 +1,3 @@
-import Dawww from 'dawww';
 import getOr from 'lodash/fp/getOr';
 import range from 'lodash/fp/range';
 import Button from '@material-ui/core/Button';
@@ -13,6 +12,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import styled from 'styled-components/macro';
+import Dawww from '../../../dawww';
 
 const minVolume = -20;
 const maxVolume = 0;
