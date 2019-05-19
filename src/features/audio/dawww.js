@@ -1,3 +1,3 @@
-import Dawww from 'dawww';
+import Dawww from '../../dawww';
 
 export default Dawww({});
