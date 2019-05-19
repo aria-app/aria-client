@@ -1,4 +1,4 @@
-// import isEqual from 'lodash/fp/isEqual';
+import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { animated, useTransition } from 'react-spring';
@@ -125,7 +125,11 @@ function TrackList(props) {
                 onTrackIsMutedToggle={props.onTrackIsMutedToggle}
                 onTrackIsSoloingToggle={props.onTrackIsSoloingToggle}
                 onTrackSelect={props.onTrackStage}
-                selectedSequence={props.selectedSequence}
+                selectedSequenceId={getOr(
+                  undefined,
+                  'selectedSequence.id',
+                  props,
+                )}
                 songMeasureCount={props.songMeasureCount}
                 track={item}
               />

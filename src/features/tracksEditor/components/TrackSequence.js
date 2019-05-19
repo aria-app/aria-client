@@ -1,4 +1,5 @@
 import getOr from 'lodash/fp/getOr';
+import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components/macro';
@@ -15,10 +16,9 @@ const StyledTrackSequence = styled.div(props => ({
     props.isSelected ? props.theme.almostwhite : props.theme.primary[0]
   }`,
   boxShadow: props.isSelected && '0 0 10px rgba(255, 255, 255, 0.5)}',
-  opacity: props.isMounted ? 1 : 0,
+  opacity: 1,
   overflow: 'hidden',
   position: 'relative',
-  transform: props.isMounted ? 'scaleY(1)' : 'scaleY(0)',
   transition: 'box-shadow 250ms ease, opacity 500ms ease, transform 350ms ease',
   '&:hover': {
     backgroundColor: !props.isSelected && props.theme.primary[1],
@@ -34,10 +34,9 @@ const StyledTrackSequence = styled.div(props => ({
     : {}),
 }));
 
-export default class TrackSequence extends React.PureComponent {
+export default class TrackSequence extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    index: PropTypes.number,
     isDragging: PropTypes.bool,
     isSelected: PropTypes.bool,
     onOpen: PropTypes.func,
@@ -45,27 +44,14 @@ export default class TrackSequence extends React.PureComponent {
     sequence: PropTypes.object,
   };
 
-  static defaultProps = {
-    index: 0,
-  };
-
-  state = {
-    isMounted: false,
-  };
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        isMounted: true,
-      });
-    }, 16);
+  shouldComponentUpdate(nextProps) {
+    return !isEqual(nextProps, this.props);
   }
 
   render() {
     return (
       <StyledTrackSequence
         isDragging={this.props.isDragging}
-        isMounted={this.state.isMounted}
         isSelected={this.props.isSelected}
         style={this.getStyle()}
         onClick={this.handleClick}

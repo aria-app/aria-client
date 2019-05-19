@@ -40,19 +40,25 @@ const StyledAddSequenceButton = styled.div(props => ({
 export default class AddSequenceButton extends React.PureComponent {
   static propTypes = {
     onClick: PropTypes.func,
-    style: PropTypes.object,
+    position: PropTypes.number,
   };
 
   render() {
     return (
       <StyledAddSequenceButton
         className="add-sequence-button"
-        onClick={this.props.onClick}
-        style={this.props.style}
+        onClick={this.handleClick}
+        style={{
+          left: this.props.position * 64,
+        }}
       >
         <AddSequenceButtonPlusVertical className="add-sequence-button__plus__vertical" />
         <AddSequenceButtonPlusHorizontal className="add-sequence-button__plus__horizontal" />
       </StyledAddSequenceButton>
     );
   }
+
+  handleClick = () => {
+    this.props.onClick(this.props.position);
+  };
 }

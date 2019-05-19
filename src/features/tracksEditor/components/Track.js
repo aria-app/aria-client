@@ -2,6 +2,7 @@ import each from 'lodash/fp/each';
 import find from 'lodash/fp/find';
 import getOr from 'lodash/fp/getOr';
 import inRange from 'lodash/fp/inRange';
+import isEqual from 'lodash/fp/isEqual';
 import isNil from 'lodash/fp/isNil';
 import range from 'lodash/fp/range';
 import some from 'lodash/fp/some';
@@ -43,7 +44,7 @@ const TrackSequences = styled.div({
   position: 'relative',
 });
 
-export default class Track extends React.PureComponent {
+export default class Track extends React.Component {
   static propTypes = {
     onSequenceAdd: PropTypes.func,
     onSequenceEdit: PropTypes.func,
@@ -52,18 +53,26 @@ export default class Track extends React.PureComponent {
     onTrackIsMutedToggle: PropTypes.func,
     onTrackIsSoloingToggle: PropTypes.func,
     onTrackSelect: PropTypes.func,
-    selectedSequence: PropTypes.object,
+    selectedSequenceId: PropTypes.string,
     songMeasureCount: PropTypes.number,
     track: PropTypes.object,
   };
+
+  shouldComponentUpdate(nextProps) {
+    return !isEqual(nextProps, this.props);
+  }
 
   render() {
     const firstEmptyPosition = this.getFirstEmptyPosition();
     return (
       <StyledTrack>
-        <TrackHeader onClick={this.handleHeaderClick}>
-          <Translation>{t => t(this.props.track.voice)}</Translation>
-        </TrackHeader>
+        <Translation>
+          {t => (
+            <TrackHeader onClick={this.handleHeaderClick}>
+              {t(this.props.track.voice)}
+            </TrackHeader>
+          )}
+        </Translation>
         <TrackSequences style={this.getBodySequencesStyle()}>
           <TrackMatrixBox
             matrix={this.getMatrix()}
@@ -82,10 +91,8 @@ export default class Track extends React.PureComponent {
           />
           {showIf(!isNil(firstEmptyPosition))(
             <AddSequenceButton
-              onClick={() => this.handleSequenceAdd(firstEmptyPosition)}
-              style={{
-                left: firstEmptyPosition * 64,
-              }}
+              onClick={this.handleSequenceAdd}
+              position={firstEmptyPosition}
             />,
           )}
         </TrackSequences>
@@ -125,7 +132,7 @@ export default class Track extends React.PureComponent {
 
   getIsSequenceSelected = sequence => {
     const sequenceId = getOr('', 'id', sequence);
-    const selectedSequenceId = getOr('', 'props.selectedSequence.id', this);
+    const selectedSequenceId = getOr('', 'props.selectedSequenceId', this);
 
     if (!selectedSequenceId) return false;
 
