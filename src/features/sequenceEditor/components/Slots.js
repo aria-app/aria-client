@@ -69,17 +69,9 @@ function getSlot(column, row) {
     <rect
       fill="${fill}"
       opacity="0.5"
-      x="${column * 40 + (40 - (size + 2)) / 2}"
+      x="${column * 40 + (40 - size) / 2}"
       y="${row * 40 + (40 - size) / 2}"
       width="${size + 2}"
-      height="${size}"
-    ></rect>
-    <rect
-      fill="${fill}"
-      opacity="0.5"
-      x="${column * 40 + (40 - size) / 2}"
-      y="${row * 40 + (40 - (size + 2)) / 2}"
-      width="${size}"
       height="${size + 2}"
     ></rect>
   `;

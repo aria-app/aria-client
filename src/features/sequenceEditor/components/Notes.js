@@ -22,7 +22,7 @@ const StyledNotes = styled.div(props => ({
   width: props.measureCount * 4 * 8 * 40,
 }));
 
-export default class Notes extends React.PureComponent {
+export default class Notes extends React.Component {
   static propTypes = {
     measureCount: PropTypes.number,
     notes: PropTypes.arrayOf(PropTypes.object),
@@ -58,6 +58,10 @@ export default class Notes extends React.PureComponent {
     };
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return !(isEqual(this.props, nextProps) && isEqual(this.state, nextState));
+  }
+
   render() {
     return (
       <StyledNotes measureCount={this.props.measureCount}>
@@ -82,6 +86,12 @@ export default class Notes extends React.PureComponent {
       </StyledNotes>
     );
   }
+
+  getAdjustedNotes = () =>
+    applySizeDeltas(
+      applyPositionDeltas(this.props.notes, this.state.positionDeltas),
+      this.state.sizeDeltas,
+    );
 
   getIsNoteSelected = note =>
     !!find(x => x.id === note.id, this.props.selectedNotes);
@@ -154,9 +164,14 @@ export default class Notes extends React.PureComponent {
   };
 
   handleNoteDragStop = () => {
-    this.props.onDrag(
-      applyPositionDeltas(this.props.notes, this.state.positionDeltas),
+    const draggedNotes = applyPositionDeltas(
+      this.props.notes,
+      this.state.positionDeltas,
     );
+
+    if (!isEqual(draggedNotes, this.props.notes)) {
+      this.props.onDrag(draggedNotes);
+    }
 
     this.setState({
       positionDeltas: {},
@@ -206,12 +221,6 @@ export default class Notes extends React.PureComponent {
       sizeDeltas: {},
     });
   };
-
-  getAdjustedNotes = () =>
-    applySizeDeltas(
-      applyPositionDeltas(this.props.notes, this.state.positionDeltas),
-      this.state.sizeDeltas,
-    );
 
   select = (note, e) => {
     const isAdditive = e.ctrlKey || e.metaKey;

@@ -11,39 +11,44 @@ const StyledKeys = styled.div({
   width: 40,
 });
 
+const keyStyles = Dawww.SCALE.reduce((acc, currentStep) => {
+  return {
+    ...acc,
+    [currentStep.y]: {
+      borderBottomRightRadius:
+        currentStep.y === Dawww.SCALE.length - 1 ? 4 : '',
+      boxShadow:
+        currentStep.y === Dawww.SCALE.length - 1
+          ? '2px 2px 0 rgba(235, 235, 235, 0.5)'
+          : '',
+      borderTopRightRadius: currentStep.y === 0 ? 4 : '',
+    },
+  };
+}, {});
+
 export default class Keys extends React.PureComponent {
   static propTypes = {
-    gridMousePoint: PropTypes.object,
+    hoveredRow: PropTypes.number,
     onKeyPress: PropTypes.func,
   };
 
   render() {
     return (
       <StyledKeys>
-        {this.getScale().map((step, index) => (
+        {Dawww.SCALE.map(step => (
           <Key
             isHoveredRow={this.getIsHoveredRow(step)}
             key={step.y}
             onMouseDown={this.handleKeyMouseDown}
             step={step}
-            style={{
-              borderBottomRightRadius:
-                index === this.getScale().length - 1 ? 4 : '',
-              boxShadow:
-                index === this.getScale().length - 1
-                  ? '2px 2px 0 rgba(235, 235, 235, 0.5)'
-                  : '',
-              borderTopRightRadius: index === 0 ? 4 : '',
-            }}
+            style={keyStyles[step.y]}
           />
         ))}
       </StyledKeys>
     );
   }
 
-  getIsHoveredRow = step => step.y === this.props.gridMousePoint.y;
-
-  getScale = () => Dawww.SCALE;
+  getIsHoveredRow = step => step.y === this.props.hoveredRow;
 
   handleKeyMouseDown = step => {
     this.props.onKeyPress(step.y);

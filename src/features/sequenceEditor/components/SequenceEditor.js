@@ -1,9 +1,7 @@
 import Dawww from 'dawww';
-import find from 'lodash/fp/find';
 import getOr from 'lodash/fp/getOr';
 import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
-import map from 'lodash/fp/map';
 import uniq from 'lodash/fp/uniq';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -77,7 +75,7 @@ export default class SequenceEditor extends React.PureComponent {
     this.state = {
       gridMousePoint: { x: -1, y: -1 },
       previousToolType: toolTypes.SELECT,
-      selectedNoteIds: [],
+      selectedNotes: [],
       toolType: toolTypes.SELECT,
     };
   }
@@ -119,7 +117,7 @@ export default class SequenceEditor extends React.PureComponent {
             <SequenceEditorContent ref={this.setContentRef}>
               <SequenceEditorWrapper>
                 <Keys
-                  gridMousePoint={this.state.gridMousePoint}
+                  hoveredRow={this.state.gridMousePoint.y}
                   onKeyPress={this.previewPitch}
                 />
                 <Grid
@@ -135,7 +133,7 @@ export default class SequenceEditor extends React.PureComponent {
                   onResize={this.props.onResize}
                   onSelect={this.handleGridSelect}
                   onSelectInArea={this.handleGridSelectInArea}
-                  selectedNotes={this.getSelectedNotes()}
+                  selectedNotes={this.state.selectedNotes}
                   sequenceEditorContentRef={this.contentElementRef}
                   toolType={this.state.toolType}
                 />
@@ -157,7 +155,7 @@ export default class SequenceEditor extends React.PureComponent {
               onRedo={this.redo}
               onSelectToolSelect={this.activateSelectTool}
               onUndo={this.undo}
-              selectedNotes={this.getSelectedNotes()}
+              selectedNotes={this.state.selectedNotes}
               toolType={this.state.toolType}
             />
           </React.Fragment>,
@@ -215,38 +213,36 @@ export default class SequenceEditor extends React.PureComponent {
   deleteSelectedNotes = e => {
     e.preventDefault();
 
-    if (isEmpty(this.state.selectedNoteIds)) return;
+    if (isEmpty(this.state.selectedNotes)) return;
 
-    const selectedNotes = this.getSelectedNotes();
+    this.props.onDelete(this.state.selectedNotes);
 
     this.setState({
-      selectedNoteIds: [],
+      selectedNotes: [],
     });
-
-    this.props.onDelete(selectedNotes);
   };
 
   deselectAllNotes = e => {
     e.preventDefault();
 
-    if (isEmpty(this.state.selectedNoteIds)) return;
+    if (isEmpty(this.state.selectedNotes)) return;
 
     this.setState({
-      selectedNoteIds: [],
+      selectedNotes: [],
     });
   };
 
   duplicateSelectedNotes = e => {
     e.preventDefault();
 
-    if (isEmpty(this.state.selectedNoteIds)) return;
+    if (isEmpty(this.state.selectedNotes)) return;
 
-    const duplicatedNotes = Dawww.duplicateNotes(this.getSelectedNotes());
+    const duplicatedNotes = Dawww.duplicateNotes(this.state.selectedNotes);
 
     this.props.onDuplicate(duplicatedNotes);
 
     this.setState({
-      selectedNoteIds: map('id', duplicatedNotes),
+      selectedNotes: duplicatedNotes,
     });
   };
 
@@ -274,12 +270,6 @@ export default class SequenceEditor extends React.PureComponent {
     'meta+z': this.props.onUndo,
   });
 
-  getSelectedNotes = () =>
-    map(
-      noteId => find(n => n.id === noteId, this.props.notes) || {},
-      this.state.selectedNoteIds,
-    );
-
   handleGridDragPreview = notes => {
     const pitch = getOr(-1, '[0].points[0].y', notes);
 
@@ -297,7 +287,7 @@ export default class SequenceEditor extends React.PureComponent {
   handleGridErase = note => {
     this.props.onErase(note);
     this.setState({
-      selectedNoteIds: [],
+      selectedNotes: [],
     });
   };
 
@@ -328,9 +318,9 @@ export default class SequenceEditor extends React.PureComponent {
     this.previewPitch(pitch);
 
     this.setState(state => ({
-      selectedNoteIds: isAdditive
-        ? shared.helpers.toggleInArray(note.id, state.selectedNoteIds)
-        : [note.id],
+      selectedNotes: isAdditive
+        ? shared.helpers.toggleInArray(note, state.selectedNotes)
+        : [note],
     }));
   };
 
@@ -341,36 +331,42 @@ export default class SequenceEditor extends React.PureComponent {
       this.props.notes,
     );
 
+    if (isEmpty(notesInArea)) {
+      this.setState(state =>
+        isEmpty(state.selectedNotes) ? null : { selectedNotes: [] },
+      );
+      return;
+    }
+
     this.setState(state => ({
-      selectedNoteIds: isAdditive
-        ? uniq([...state.selectedNoteIds, ...map('id', notesInArea)])
-        : map('id', notesInArea),
+      selectedNotes: isAdditive
+        ? uniq([...state.selectedNotes, ...notesInArea])
+        : notesInArea,
     }));
   };
 
   handleToolbarOctaveDown = () =>
-    this.props.onOctaveDown(this.getSelectedNotes());
+    this.props.onOctaveDown(this.state.selectedNotes);
 
-  handleToolbarOctaveUp = () => this.props.onOctaveUp(this.getSelectedNotes());
+  handleToolbarOctaveUp = () => this.props.onOctaveUp(this.state.selectedNotes);
 
   nudge = delta => {
-    if (isEmpty(this.state.selectedNoteIds)) return;
+    if (isEmpty(this.state.selectedNotes)) return;
 
     if (
       Dawww.someNoteWillMoveOutside(
         this.props.sequence.measureCount,
         delta,
-        this.getSelectedNotes(),
+        this.state.selectedNotes,
       )
     )
       return;
 
-    const selectedNotes = this.getSelectedNotes();
-    const pitch = getOr(-1, '[0].points[0].y', selectedNotes);
+    const pitch = getOr(-1, '[0].points[0].y', this.state.selectedNotes);
 
     this.previewPitch(pitch + delta.y);
 
-    this.props.onNudge(delta, selectedNotes);
+    this.props.onNudge(delta, this.state.selectedNotes);
   };
 
   nudgeDown = e => {
@@ -404,10 +400,10 @@ export default class SequenceEditor extends React.PureComponent {
   };
 
   selectAll = () => {
-    if (this.props.notes.length === this.state.selectedNoteIds.length) return;
+    if (this.props.notes.length === this.state.selectedNotes.length) return;
 
     this.setState({
-      selectedNoteIds: map('id', this.props.notes),
+      selectedNotes: this.props.notes,
     });
   };
 
