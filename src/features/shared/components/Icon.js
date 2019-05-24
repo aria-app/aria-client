@@ -1,7 +1,7 @@
-import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled, { ThemeConsumer } from 'styled-components/macro';
+import { getExtraProps } from '../helpers/getExtraProps';
 import icons from './icons';
 
 const IconContent = styled.div({
@@ -33,15 +33,13 @@ export default class Icon extends React.PureComponent {
     return (
       <ThemeConsumer>
         {theme => (
-          <StyledIcon color={this.props.color}>
+          <StyledIcon color={this.props.color} {...getExtraProps(this)}>
             <IconContent>{this.getIcon(theme)}</IconContent>
           </StyledIcon>
         )}
       </ThemeConsumer>
     );
   }
-
-  getClassName = () => classnames('icon', this.props.className);
 
   getIcon(theme) {
     const iconComponent = icons[this.props.icon];
