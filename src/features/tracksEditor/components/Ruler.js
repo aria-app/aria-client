@@ -3,29 +3,31 @@ import round from 'lodash/round';
 import times from 'lodash/fp/times';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
+import withStyles from '@material-ui/styles/withStyles';
 import shared from '../../shared';
 import RulerResizer from './RulerResizer';
 
 const { MatrixBox } = shared.components;
 
-const RulerMeasureNumber = styled('div')({
-  color: 'rgba(255, 255, 255, 0.5)',
-  fontSize: 10,
-  position: 'absolute',
+const getStyles = theme => ({
+  root: {
+    cursor: 'pointer',
+    display: 'flex',
+    flex: '0 0 auto',
+    height: 35,
+    marginBottom: theme.margin.m,
+    position: 'relative',
+  },
+  measureNumber: {
+    color: 'rgba(255, 255, 255, 0.5)',
+    fontSize: 10,
+    position: 'absolute',
+  },
 });
 
-const StyledRuler = styled('div')(props => ({
-  cursor: 'pointer',
-  display: 'flex',
-  flex: '0 0 auto',
-  height: 35,
-  marginBottom: props.theme.margin.m,
-  position: 'relative',
-}));
-
-export default class Ruler extends React.PureComponent {
+class Ruler extends React.PureComponent {
   static propTypes = {
+    classes: PropTypes.object,
     measureCount: PropTypes.number,
     measureWidth: PropTypes.number,
     onMeasureCountChange: PropTypes.func,
@@ -34,7 +36,8 @@ export default class Ruler extends React.PureComponent {
 
   render() {
     return (
-      <StyledRuler
+      <div
+        className={this.props.classes.root}
         onClick={this.handleClick}
         style={{
           width: this.getWidth(),
@@ -48,7 +51,8 @@ export default class Ruler extends React.PureComponent {
         />
         {times(
           i => (
-            <RulerMeasureNumber
+            <div
+              className={this.props.classes.measureNumber}
               key={i}
               style={{
                 left: i * 64 + 6,
@@ -56,7 +60,7 @@ export default class Ruler extends React.PureComponent {
               }}
             >
               {i + 1}
-            </RulerMeasureNumber>
+            </div>
           ),
           this.props.measureCount,
         )}
@@ -64,7 +68,7 @@ export default class Ruler extends React.PureComponent {
           onSizeChange={this.props.onMeasureCountChange}
           size={this.props.measureCount}
         />
-      </StyledRuler>
+      </div>
     );
   }
 
@@ -106,3 +110,5 @@ export default class Ruler extends React.PureComponent {
     this.props.onPositionSet(round(measures * notesPerMeasure));
   };
 }
+
+export default withStyles(getStyles)(Ruler);
