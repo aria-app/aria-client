@@ -6,13 +6,13 @@ import { animated, useTransition } from 'react-spring';
 import styled from 'styled-components/macro';
 import Toolbar from './Toolbar';
 
-const ModalContent = styled.div`
+const ModalContent = styled('div')`
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
 `;
 
-const ModalHeader = styled.div`
+const ModalHeader = styled('div')`
   align-items: center;
   display: flex;
   height: 56px;
@@ -53,7 +53,7 @@ const ModalWindow = styled(animated.div)`
   transform: translate(-50%, -50%);
 `;
 
-const StyledModal = styled.div`
+const StyledModal = styled('div')`
   bottom: 0;
   display: flex;
   left: 0;

@@ -11564,10 +11564,10 @@ react-hotkeys@2.0.0-pre4:
   dependencies:
     prop-types "^15.6.1"
 
-react-i18next@10.9.1:
-  version "10.9.1"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-10.9.1.tgz#98d96954eb2249746e190b1fdd96782916b20d98"
-  integrity sha512-e00AJK6AImhqBY3diqbO2UI8Sq3rt4IF1LikadpIei+1fqNWobZ0gDAEXGxMoiG/rbd+JfpBI68Kg42pUf9m4A==
+react-i18next@10.10.0:
+  version "10.10.0"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-10.10.0.tgz#b341fb6a8deb046e430eb922a55627400d2c77b9"
+  integrity sha512-ZoaWZ4JVfZBzvBQrlFQIvxnnSleZKNTlBl8n2pvxLVxvtNgQVoKDQ6cJjYrjZcnvIGcreJn2ZTyKEYivqgqxPA==
   dependencies:
     "@babel/runtime" "^7.3.1"
     html-parse-stringify2 "2.0.1"
@@ -11665,10 +11665,10 @@ react-redux@7.0.3:
     prop-types "^15.7.2"
     react-is "^16.8.6"
 
-react-render-helpers@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-render-helpers/-/react-render-helpers-1.0.3.tgz#5a76f7a14e8be8520b27a004160e4d5296ae9db4"
-  integrity sha512-DWOz3cgClzBUgO2ckppRhEP25sDJjLq7H488+0up6oAr3J+Li7YxtCcl2QvxYIb3LJ67oSgnns1T/mSPL8POHw==
+react-render-helpers@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-render-helpers/-/react-render-helpers-1.2.0.tgz#62c178daedf768c3439af4a001ba57724c67a5d2"
+  integrity sha512-3YYU+Hn+PZ2hxNBQDc7gZJSFsLbKnmpDPjM7RBa4Xjo+G18HXQwdLOZ+rsSHPUYqz7YiBCXsE/wpMELz3pgxiA==
 
 react-resize-detector@^3.2.1:
   version "3.4.0"

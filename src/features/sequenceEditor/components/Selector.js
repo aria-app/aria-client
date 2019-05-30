@@ -5,7 +5,7 @@ import { DraggableCore } from 'react-draggable';
 import styled from 'styled-components/macro';
 import Fence from './Fence';
 
-const StyledSelector = styled.div({
+const StyledSelector = styled('div')({
   bottom: 0,
   left: 0,
   position: 'absolute',

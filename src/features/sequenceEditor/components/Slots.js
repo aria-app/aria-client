@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components/macro';
 
-const StyledSlots = styled.div({
+const StyledSlots = styled('div')({
   flex: '1 0 auto',
   minHeight: '100%',
 });

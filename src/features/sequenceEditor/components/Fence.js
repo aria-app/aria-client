@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components/macro';
 
-const StyledFence = styled.div({
+const StyledFence = styled('div')({
   backgroundColor: 'rgba(255, 255, 255, 0.25)',
   border: '2px solid white',
   borderRadius: 2,

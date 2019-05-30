@@ -3,6 +3,7 @@ import React from 'react';
 import { hideIf } from 'react-render-helpers';
 import { animated } from 'react-spring';
 import styled from 'styled-components/macro';
+import { withTheme } from 'styled-components';
 import shared from '../../shared';
 import SongList from './SongList';
 
@@ -21,26 +22,26 @@ const LoadingIndicator = styled(animated.div)({
   top: 0,
 });
 
-const DashboardCenteredContent = styled.div(props => ({
+const DashboardCenteredContent = styled('div')(props => ({
   alignSelf: 'center',
   maxWidth: props.theme.minWidthWidescreen,
   width: '100%',
 }));
 
-const DashboardUserImage = styled.img({
+const DashboardUserImage = styled('img')({
   borderRadius: '50%',
   height: 40,
   width: 40,
 });
 
-const DashboardUserInfo = styled.div({
+const DashboardUserInfo = styled('div')({
   alignItems: 'center',
   display: 'flex',
   flex: '0 0 auto',
   height: '100%',
 });
 
-const Fab = styled.div(props => ({
+const Fab = styled('div')(props => ({
   alignItems: 'center',
   backgroundColor: props.theme.almostwhite,
   borderRadius: '50%',
@@ -56,11 +57,11 @@ const Fab = styled.div(props => ({
   // TODO: ${mixins.interactionOverlay("black")}
 }));
 
-const FabIcon = styled(Icon).attrs(props => ({
-  color: props.theme.almostblack,
-}))({});
+const FabIcon = withTheme(({ theme, ...rest }) => (
+  <Icon color={theme.almostblack} {...rest} />
+));
 
-const StyledDashboard = styled.div({
+const StyledDashboard = styled('div')({
   display: 'flex',
   flex: '1 1 auto',
   flexDirection: 'column',

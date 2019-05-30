@@ -10,7 +10,7 @@ import shared from '../../shared';
 
 const { authProvider } = shared.constants;
 
-const StyledSignIn = styled.div({
+const StyledSignIn = styled('div')({
   alignItems: 'center',
   display: 'flex',
   flex: '1 1 auto',

@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 
-export default styled.div(props => ({
+export default styled('div')(props => ({
   backgroundColor: props.theme.backgroundColor,
   color: props.theme.almostwhite,
   bottom: 0,

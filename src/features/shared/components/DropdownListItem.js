@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components/macro';
 
-const StyledDropdownListItem = styled.div`
+const StyledDropdownListItem = styled('div')`
   align-items: center;
   background-color: ${props => props.isSelected && props.theme.midgray};
   cursor: pointer;

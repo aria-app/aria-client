@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components/macro';
 
-const AddTrackButtonPlusHorizontal = styled.div({
+const AddTrackButtonPlusHorizontal = styled('div')({
   backgroundColor: 'white',
   height: 1,
   left: '50%',
@@ -12,7 +12,7 @@ const AddTrackButtonPlusHorizontal = styled.div({
   width: 9,
 });
 
-const AddTrackButtonPlusVertical = styled.div({
+const AddTrackButtonPlusVertical = styled('div')({
   backgroundColor: 'white',
   height: 9,
   left: '50%',
@@ -22,7 +22,7 @@ const AddTrackButtonPlusVertical = styled.div({
   width: 1,
 });
 
-const StyledAddTrackButton = styled.div({
+const StyledAddTrackButton = styled('div')({
   alignItems: 'center',
   backgroundColor: 'rgba(255, 255, 255, 0.5)',
   border: '1px solid white',

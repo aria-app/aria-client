@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components/macro';
 
-const StyledPanner = styled.div({
+const StyledPanner = styled('div')({
   bottom: 0,
   cursor: 'grab',
   left: 0,

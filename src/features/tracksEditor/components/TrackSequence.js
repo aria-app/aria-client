@@ -5,7 +5,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import TrackSequenceNote from './TrackSequenceNote';
 
-const StyledTrackSequence = styled.div(props => ({
+const StyledTrackSequence = styled('div')(props => ({
   display: 'flex',
   height: 84,
   padding: props.theme.margin.s,

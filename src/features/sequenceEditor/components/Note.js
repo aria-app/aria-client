@@ -10,7 +10,7 @@ import shared from '../../shared';
 
 const { getExtraProps } = shared.helpers;
 
-const NoteConnector = styled.div(props => ({
+const NoteConnector = styled('div')(props => ({
   backgroundColor: props.isSelected
     ? 'white'
     : transparentize(0.5, props.theme.primary[2]),
@@ -24,7 +24,7 @@ const NoteConnector = styled.div(props => ({
   zIndex: 100,
 }));
 
-const NoteFill = styled.div(props => ({
+const NoteFill = styled('div')(props => ({
   backgroundColor: props.isSelected ? 'white' : props.theme.primary[2],
   borderRadius: 2,
   boxShadow: props.isSelected && `0 0 10px ${transparentize(0.5, 'white')}`,
@@ -38,7 +38,7 @@ const NoteFill = styled.div(props => ({
   },
 }));
 
-const NotePoint = styled.div({
+const NotePoint = styled('div')({
   alignItems: 'center',
   display: 'flex',
   flex: '0 0 auto',
@@ -54,7 +54,7 @@ const NotePoint = styled.div({
   zIndex: 150,
 });
 
-const StyledNote = styled.div(props => ({
+const StyledNote = styled('div')(props => ({
   left: 0,
   pointerEvents: 'none',
   position: 'absolute',

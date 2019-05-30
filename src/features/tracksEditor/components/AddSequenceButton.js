@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components/macro';
 
-const AddSequenceButtonPlusHorizontal = styled.div(props => ({
+const AddSequenceButtonPlusHorizontal = styled('div')(props => ({
   backgroundColor: props.theme.primary[2],
   height: 1,
   left: '50%',
@@ -13,7 +13,7 @@ const AddSequenceButtonPlusHorizontal = styled.div(props => ({
   width: 9,
 }));
 
-const AddSequenceButtonPlusVertical = styled.div(props => ({
+const AddSequenceButtonPlusVertical = styled('div')(props => ({
   backgroundColor: props.theme.primary[2],
   height: 9,
   left: '50%',
@@ -23,7 +23,7 @@ const AddSequenceButtonPlusVertical = styled.div(props => ({
   width: 1,
 }));
 
-const StyledAddSequenceButton = styled.div(props => ({
+const StyledAddSequenceButton = styled('div')(props => ({
   alignItems: 'center',
   backgroundColor: transparentize(0.5, props.theme.primary[2]),
   border: `1px solid ${props.theme.primary[2]}`,

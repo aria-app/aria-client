@@ -3,17 +3,17 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import Icon from './Icon';
 
-const IconButtonBackground = styled.div(props => ({
+const IconButtonBackground = styled('div')(props => ({
   backgroundColor: props.isActive ? 'rgba(255, 255, 255, 0.25)' : '',
   flex: '1 0 auto',
 }));
 
-const IconButtonIconWrapper = styled.div(props => ({
+const IconButtonIconWrapper = styled('div')(props => ({
   opacity: props.isDisabled ? 0.5 : '',
   position: 'absolute',
 }));
 
-const StyledIconButton = styled.div(props => ({
+const StyledIconButton = styled('div')(props => ({
   alignItems: 'stretch',
   cursor: props.isDisabled ? 'not-allowed' : 'pointer',
   display: 'flex',

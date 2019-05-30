@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import Box from './Box';
 
-const StyledBoxes = styled.div(props => ({
+const StyledBoxes = styled('div')(props => ({
   position: 'relative',
   width: props.length * props.step,
 }));

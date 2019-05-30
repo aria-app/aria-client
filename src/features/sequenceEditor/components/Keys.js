@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import Key from './Key';
 
-const StyledKeys = styled.div({
+const StyledKeys = styled('div')({
   display: 'flex',
   flex: '0 0 auto',
   flexDirection: 'column',

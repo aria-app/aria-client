@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 
 export default React.memo(
-  styled.div(props => ({
+  styled('div')(props => ({
     alignItems: 'center',
     alignSelf: 'flex-start',
     backgroundColor: props.theme.primary[0],

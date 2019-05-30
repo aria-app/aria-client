@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components/macro';
 
-const KeyLabel = styled.div(props => ({
+const KeyLabel = styled('div')(props => ({
   color: props.theme.almostblack,
   display:
     includes('C', props.step.name) && !includes('#', props.step.name)
@@ -12,7 +12,7 @@ const KeyLabel = styled.div(props => ({
       : 'none',
 }));
 
-const StyledKey = styled.div(props => ({
+const StyledKey = styled('div')(props => ({
   alignItems: 'center',
   backgroundColor: includes('#', props.step.name)
     ? transparentize(0.75, props.theme.almostwhite)

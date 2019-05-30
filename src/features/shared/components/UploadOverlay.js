@@ -6,7 +6,7 @@ import { showIf } from 'react-render-helpers';
 
 const reader = new FileReader();
 
-const StyledUploadOverlay = styled.div({
+const StyledUploadOverlay = styled('div')({
   bottom: 0,
   left: 0,
   overflow: 'hidden',
@@ -16,7 +16,7 @@ const StyledUploadOverlay = styled.div({
   zIndex: 550,
 });
 
-const UploadOverlayTint = styled.div({
+const UploadOverlayTint = styled('div')({
   alignItems: 'center',
   backgroundColor: 'rgba(0, 0, 0, 0.5)',
   bottom: 0,
@@ -31,7 +31,7 @@ const UploadOverlayTint = styled.div({
   zIndex: 'inherit',
 });
 
-const UploadOverlayDragIndicator = styled.div(props => ({
+const UploadOverlayDragIndicator = styled('div')(props => ({
   alignItems: 'center',
   backgroundColor: 'rgba(0, 0, 0, 0.5)',
   borderRadius: 4,

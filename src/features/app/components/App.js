@@ -37,7 +37,7 @@ const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
   />
 );
 
-const LoadingIndicator = styled.div({
+const LoadingIndicator = styled('div')({
   alignItems: 'center',
   color: 'white',
   display: 'flex',

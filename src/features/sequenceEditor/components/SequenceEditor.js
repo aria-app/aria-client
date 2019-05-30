@@ -18,7 +18,7 @@ import SequenceEditorToolbar from './SequenceEditorToolbar';
 
 const { previewPitch } = audio.helpers;
 
-const LoadingIndicator = styled.div({
+const LoadingIndicator = styled('div')({
   alignItems: 'center',
   color: 'white',
   display: 'flex',
@@ -26,7 +26,7 @@ const LoadingIndicator = styled.div({
   justifyContent: 'center',
 });
 
-const SequenceEditorContent = styled.div({
+const SequenceEditorContent = styled('div')({
   display: 'flex',
   flex: '1 1 auto',
   flexDirection: 'column',
@@ -34,7 +34,7 @@ const SequenceEditorContent = styled.div({
   overflowY: 'scroll',
 });
 
-const SequenceEditorWrapper = styled.div({
+const SequenceEditorWrapper = styled('div')({
   display: 'flex',
   flex: '1 0 auto',
   paddingBottom: 64,

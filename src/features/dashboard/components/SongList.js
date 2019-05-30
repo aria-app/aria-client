@@ -5,7 +5,7 @@ import { animated, useTransition } from 'react-spring';
 import styled from 'styled-components/macro';
 import SongListItem from './SongListItem';
 
-const StyledSongList = styled.div(props => ({
+const StyledSongList = styled('div')(props => ({
   display: 'flex',
   flex: '1 1 auto',
   flexDirection: 'column',

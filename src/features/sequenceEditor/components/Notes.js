@@ -12,7 +12,7 @@ import styled from 'styled-components/macro';
 import * as constants from '../constants';
 import Note from './Note';
 
-const StyledNotes = styled.div(props => ({
+const StyledNotes = styled('div')(props => ({
   bottom: 0,
   cursor: 'pointer',
   left: 0,

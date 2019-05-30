@@ -13,13 +13,13 @@ import Slots from './Slots';
 
 const { Timeline } = shared.components;
 
-const GridWrapper = styled.div({
+const GridWrapper = styled('div')({
   height: '100%',
   overflowX: 'visible',
   position: 'relative',
 });
 
-const StyledGrid = styled.div({
+const StyledGrid = styled('div')({
   overflowX: 'scroll',
   overflowY: 'visible',
   paddingLeft: 80,

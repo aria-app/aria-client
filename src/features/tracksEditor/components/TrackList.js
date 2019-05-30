@@ -23,7 +23,7 @@ const LoadingIndicator = styled(animated.div)({
   top: 0,
 });
 
-const StyledTrackList = styled.div({
+const StyledTrackList = styled('div')({
   alignItems: 'flex-start',
   display: 'flex',
   flex: '1 1 auto',
@@ -32,7 +32,7 @@ const StyledTrackList = styled.div({
   position: 'relative',
 });
 
-const TrackListContent = styled.div(props => ({
+const TrackListContent = styled('div')(props => ({
   alignItems: 'flex-start',
   display: 'flex',
   flex: '1 0 auto',
@@ -45,7 +45,7 @@ const TrackListContent = styled.div(props => ({
   position: 'relative',
 }));
 
-const TrackListUnderlay = styled.div({
+const TrackListUnderlay = styled('div')({
   bottom: 0,
   left: 0,
   position: 'absolute',

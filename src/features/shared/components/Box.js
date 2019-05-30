@@ -3,9 +3,9 @@ import React from 'react';
 import Draggable from 'react-draggable';
 import styled from 'styled-components/macro';
 
-const BoxResizer = styled.div.attrs({
-  className: 'box__resizer',
-})(props => ({
+const BoxResizer = styled(({ className, ...rest }) => (
+  <div className={`${className} box__resizer`} {...rest} />
+))(props => ({
   backgroundColor: 'transparent',
   bottom: '0',
   cursor: 'col-resize',
@@ -16,7 +16,7 @@ const BoxResizer = styled.div.attrs({
   zIndex: '2',
 }));
 
-const StyledBox = styled.div(props => ({
+const StyledBox = styled('div')(props => ({
   display: 'flex',
   flexDirection: 'column',
   height: '100%',

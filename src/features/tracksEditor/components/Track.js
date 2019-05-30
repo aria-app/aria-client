@@ -12,6 +12,7 @@ import React from 'react';
 import { Translation } from 'react-i18next';
 import { showIf } from 'react-render-helpers';
 import styled from 'styled-components/macro';
+import { withTheme } from 'styled-components';
 import shared from '../../shared';
 import AddSequenceButton from './AddSequenceButton';
 import TrackSequence from './TrackSequence';
@@ -19,7 +20,7 @@ import TrackHeader from './TrackHeader';
 
 const { Boxes, MatrixBox } = shared.components;
 
-const StyledTrack = styled.div(props => ({
+const StyledTrack = styled('div')(props => ({
   alignItems: 'stretch',
   cursor: 'pointer',
   display: 'flex',
@@ -28,15 +29,17 @@ const StyledTrack = styled.div(props => ({
   marginBottom: props.theme.margin.m,
 }));
 
-const TrackMatrixBox = styled(MatrixBox).attrs(props => ({
-  fill: props.theme.primary[2],
-}))({
+const TrackMatrixBox = styled(
+  withTheme(({ theme, ...rest }) => (
+    <MatrixBox fill={theme.primary[2]} {...rest} />
+  )),
+)({
   left: 0,
   position: 'absolute',
   top: 0,
 });
 
-const TrackSequences = styled.div({
+const TrackSequences = styled('div')({
   alignItems: 'stretch',
   display: 'flex',
   flex: '1 0 auto',

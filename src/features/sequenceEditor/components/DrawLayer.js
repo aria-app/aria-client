@@ -12,7 +12,7 @@ const DrawLayerGhostNote = styled(Note)({
   pointerEvents: 'none',
 });
 
-const StyledDrawLayer = styled.div({
+const StyledDrawLayer = styled('div')({
   bottom: 0,
   left: 0,
   position: 'absolute',

@@ -4,7 +4,7 @@ import styled, { ThemeConsumer } from 'styled-components/macro';
 import { getExtraProps } from '../helpers/getExtraProps';
 import icons from './icons';
 
-const IconContent = styled.div({
+const IconContent = styled('div')({
   alignItems: 'center',
   display: 'flex',
   flex: '0 0 auto',
@@ -13,7 +13,7 @@ const IconContent = styled.div({
   width: 24,
 });
 
-const StyledIcon = styled.div({
+const StyledIcon = styled('div')({
   alignItems: 'center',
   display: 'flex',
   flex: '0 0 auto',

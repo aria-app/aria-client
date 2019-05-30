@@ -1,17 +1,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components/macro';
+import { withTheme } from 'styled-components';
 import shared from '../../shared';
 
 const { IconButton } = shared.components;
 
-const SongListItemDeleteButton = styled(IconButton).attrs(props => ({
-  color: props.theme.almostwhite,
-}))(props => ({
+const SongListItemDeleteButton = styled(
+  withTheme(({ theme, ...rest }) => (
+    <IconButton color={theme.almostwhite} {...rest} />
+  )),
+)(props => ({
   marginRight: props.theme.margin.s * -1,
 }));
 
-const SongListItemText = styled.div({
+const SongListItemText = styled('div')({
   alignItems: 'center',
   alignSelf: 'stretch',
   color: 'white',
@@ -19,7 +22,7 @@ const SongListItemText = styled.div({
   flex: '1 1 auto',
 });
 
-const StyledSongListItem = styled.div(props => ({
+const StyledSongListItem = styled('div')(props => ({
   alignItems: 'center',
   cursor: 'pointer',
   display: 'flex',

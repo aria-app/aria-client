@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { getExtraProps } from '../helpers';
 
-const StyledMatrixBox = styled.div({
+const StyledMatrixBox = styled('div')({
   display: 'flex',
   flex: '1 0 auto',
   position: 'relative',

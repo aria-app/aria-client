@@ -8,7 +8,7 @@ import DropdownListItem from './DropdownListItem';
 import Icon from './Icon';
 import IconButton from './IconButton';
 
-const DropdownListInput = styled.div`
+const DropdownListInput = styled('div')`
   align-items: center;
   border-bottom: 1px solid ${props => props.theme.almostblack};
   cursor: pointer;
@@ -22,12 +22,12 @@ const DropdownListInput = styled.div`
   width: 100%;
 `;
 
-const DropdownListItems = styled.div`
+const DropdownListItems = styled('div')`
   padding-bottom: ${props => props.theme.margin.s}px;
   padding-top: ${props => props.theme.margin.s}px;
 `;
 
-const DropdownListOverlay = styled.div`
+const DropdownListOverlay = styled('div')`
   bottom: 0;
   left: 0;
   overflow: hidden;
@@ -37,7 +37,7 @@ const DropdownListOverlay = styled.div`
   z-index: 500;
 `;
 
-const DropdownListPopup = styled.div`
+const DropdownListPopup = styled('div')`
   background-color: ${props => props.theme.almostblack};
   border-radius: ${props => props.borderRadius};
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
@@ -51,7 +51,7 @@ const DropdownListPopup = styled.div`
   z-index: 500;
 `;
 
-const StyledDropdownList = styled.div`
+const StyledDropdownList = styled('div')`
   flex: 0 0 auto;
   position: relative;
 `;

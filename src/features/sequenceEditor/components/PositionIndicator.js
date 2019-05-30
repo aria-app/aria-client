@@ -4,7 +4,7 @@ import React from 'react';
 import { showIf } from 'react-render-helpers';
 import styled from 'styled-components/macro';
 
-const ColumnIndicator = styled.div(props => ({
+const ColumnIndicator = styled('div')(props => ({
   backgroundColor: transparentize(0.95, props.theme.primary[2]),
   borderRadius: 2,
   bottom: 0,
@@ -14,7 +14,7 @@ const ColumnIndicator = styled.div(props => ({
   top: 0,
   width: 40,
 }));
-const RowIndicator = styled.div(props => ({
+const RowIndicator = styled('div')(props => ({
   backgroundColor: transparentize(0.95, props.theme.primary[2]),
   borderRadius: 2,
   left: 0,

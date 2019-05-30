@@ -5,7 +5,7 @@ import { Translation } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components/macro';
 
-const StyledSignOut = styled.div({
+const StyledSignOut = styled('div')({
   alignItems: 'center',
   color: 'white',
   display: 'flex',
