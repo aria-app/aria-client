@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@material-ui/core": "4.0.1",
+    "@material-ui/styles": "4.0.1",
     "classnames": "2.2.6",
     "dawww": "1.10.2",
     "deep-diff": "1.0.2",
@@ -43,7 +44,6 @@
     "redux-undo": "1.0.0-beta9-9-7",
     "reselect": "4.0.0",
     "shortid": "2.2.14",
-    "styled-components": "4.2.0",
     "tone": "13.4.9"
   },
   "devDependencies": {

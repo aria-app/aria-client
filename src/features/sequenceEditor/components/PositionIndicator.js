@@ -2,7 +2,7 @@ import { PropTypes } from 'prop-types';
 import { transparentize } from 'polished';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 
 const ColumnIndicator = styled('div')(props => ({
   backgroundColor: transparentize(0.95, props.theme.primary[2]),

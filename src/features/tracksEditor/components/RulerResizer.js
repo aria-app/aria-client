@@ -1,14 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import Draggable from 'react-draggable';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 
 const DraggableWrapper = styled('div')({
   position: 'absolute',
   transition: 'transform 200ms ease',
 });
 
-const StyledRulerResizer = styled('div')(props => ({
+const StyledRulerResizer = styled(({ isDragging, isDisabled, ...rest }) => (
+  <div {...rest} />
+))(props => ({
   backgroundColor: 'rgba(255, 255, 255, 0.5)',
   border: '1px solid white',
   cursor: 'col-resize',

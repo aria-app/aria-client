@@ -8,19 +8,21 @@ import min from 'lodash/fp/min';
 import uniqBy from 'lodash/fp/uniqBy';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 import * as constants from '../constants';
 import Note from './Note';
 
-const StyledNotes = styled('div')(props => ({
-  bottom: 0,
-  cursor: 'pointer',
-  left: 0,
-  pointerEvents: 'none',
-  position: 'absolute',
-  top: 0,
-  width: props.measureCount * 4 * 8 * 40,
-}));
+const StyledNotes = styled(({ measureCount, ...rest }) => <div {...rest} />)(
+  props => ({
+    bottom: 0,
+    cursor: 'pointer',
+    left: 0,
+    pointerEvents: 'none',
+    position: 'absolute',
+    top: 0,
+    width: props.measureCount * 4 * 8 * 40,
+  }),
+);
 
 export default class Notes extends React.Component {
   static propTypes = {
@@ -79,7 +81,6 @@ export default class Notes extends React.Component {
             onSelect={this.props.onSelect}
             positionBounds={this.state.positionBounds}
             sizeBounds={this.state.sizeBounds}
-            toolType={this.props.toolType}
             note={note}
           />
         ))}

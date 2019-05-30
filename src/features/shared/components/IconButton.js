@@ -1,19 +1,25 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 import Icon from './Icon';
 
-const IconButtonBackground = styled('div')(props => ({
+const IconButtonBackground = styled(({ isActive, ...rest }) => (
+  <div {...rest} />
+))(props => ({
   backgroundColor: props.isActive ? 'rgba(255, 255, 255, 0.25)' : '',
   flex: '1 0 auto',
 }));
 
-const IconButtonIconWrapper = styled('div')(props => ({
+const IconButtonIconWrapper = styled(({ isDisabled, ...rest }) => (
+  <div {...rest} />
+))(props => ({
   opacity: props.isDisabled ? 0.5 : '',
   position: 'absolute',
 }));
 
-const StyledIconButton = styled('div')(props => ({
+const StyledIconButton = styled(({ isActive, isDisabled, ...rest }) => (
+  <div {...rest} />
+))(props => ({
   alignItems: 'stretch',
   cursor: props.isDisabled ? 'not-allowed' : 'pointer',
   display: 'flex',

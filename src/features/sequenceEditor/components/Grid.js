@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 import shared from '../../shared';
 import * as constants from '../constants';
 import DrawLayer from './DrawLayer';

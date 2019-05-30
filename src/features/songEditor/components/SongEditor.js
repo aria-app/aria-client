@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { HotKeys } from 'react-hotkeys';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 import sequenceEditor from '../../sequenceEditor';
 import tracksEditor from '../../tracksEditor';
 import SongEditorToolbar from './SongEditorToolbar';

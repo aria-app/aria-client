@@ -11,7 +11,7 @@ import Select from '@material-ui/core/Select';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 import Dawww from '../../../dawww';
 
 const minVolume = -20;

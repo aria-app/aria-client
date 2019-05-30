@@ -1,7 +1,7 @@
 import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 
 const StyledPanner = styled('div')({
   bottom: 0,

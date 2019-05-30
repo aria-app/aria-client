@@ -5,38 +5,42 @@ import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Draggable from 'react-draggable';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 import shared from '../../shared';
 
 const { getExtraProps } = shared.helpers;
 
-const NoteConnector = styled('div')(props => ({
-  backgroundColor: props.isSelected
-    ? 'white'
-    : transparentize(0.5, props.theme.primary[2]),
-  height: 12,
-  left: 20,
-  position: 'absolute',
-  top: 14,
-  transformOrigin: 'left center',
-  transition: 'transform 0.1s ease',
-  width: 1,
-  zIndex: 100,
-}));
+const NoteConnector = styled(({ isSelected, ...rest }) => <div {...rest} />)(
+  props => ({
+    backgroundColor: props.isSelected
+      ? 'white'
+      : transparentize(0.5, props.theme.primary[2]),
+    height: 12,
+    left: 20,
+    position: 'absolute',
+    top: 14,
+    transformOrigin: 'left center',
+    transition: 'transform 0.1s ease',
+    width: 1,
+    zIndex: 100,
+  }),
+);
 
-const NoteFill = styled('div')(props => ({
-  backgroundColor: props.isSelected ? 'white' : props.theme.primary[2],
-  borderRadius: 2,
-  boxShadow: props.isSelected && `0 0 10px ${transparentize(0.5, 'white')}`,
-  height: 24,
-  width: 24,
-  '&:hover': {
-    transform: 'scale(1.05)',
-  },
-  '&:active': {
-    transform: 'scale(0.95)',
-  },
-}));
+const NoteFill = styled(({ isSelected, ...rest }) => <div {...rest} />)(
+  props => ({
+    backgroundColor: props.isSelected ? 'white' : props.theme.primary[2],
+    borderRadius: 2,
+    boxShadow: props.isSelected && `0 0 10px ${transparentize(0.5, 'white')}`,
+    height: 24,
+    width: 24,
+    '&:hover': {
+      transform: 'scale(1.05)',
+    },
+    '&:active': {
+      transform: 'scale(0.95)',
+    },
+  }),
+);
 
 const NotePoint = styled('div')({
   alignItems: 'center',
@@ -54,14 +58,16 @@ const NotePoint = styled('div')({
   zIndex: 150,
 });
 
-const StyledNote = styled('div')(props => ({
-  left: 0,
-  pointerEvents: 'none',
-  position: 'absolute',
-  top: 0,
-  transition: 'transform 0.1s ease',
-  zIndex: props.isSelected && 300,
-}));
+const StyledNote = styled(({ isSelected, ...rest }) => <div {...rest} />)(
+  props => ({
+    left: 0,
+    pointerEvents: 'none',
+    position: 'absolute',
+    top: 0,
+    transition: 'transform 0.1s ease',
+    zIndex: props.isSelected && 300,
+  }),
+);
 
 export default class Note extends React.Component {
   static propTypes = {

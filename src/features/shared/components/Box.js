@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Draggable from 'react-draggable';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 
 const BoxResizer = styled(({ className, ...rest }) => (
   <div className={`${className} box__resizer`} {...rest} />
@@ -16,17 +16,19 @@ const BoxResizer = styled(({ className, ...rest }) => (
   zIndex: '2',
 }));
 
-const StyledBox = styled('div')(props => ({
-  display: 'flex',
-  flexDirection: 'column',
-  height: '100%',
-  left: 0,
-  position: 'absolute',
-  top: 0,
-  transition: 'transform 200ms ease',
-  width: props.length * props.step,
-  zIndex: props.isDragging ? '200' : '100',
-}));
+const StyledBox = styled(({ isDragging, ...rest }) => <div {...rest} />)(
+  props => ({
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    left: 0,
+    position: 'absolute',
+    top: 0,
+    transition: 'transform 200ms ease',
+    width: props.length * props.step,
+    zIndex: props.isDragging ? '200' : '100',
+  }),
+);
 
 export default class Box extends React.Component {
   static propTypes = {

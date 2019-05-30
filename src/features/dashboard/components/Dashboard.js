@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { hideIf } from 'react-render-helpers';
 import { animated } from 'react-spring';
-import styled from 'styled-components/macro';
-import { withTheme } from 'styled-components';
+import styled from '@material-ui/styles/styled';
+import withTheme from '@material-ui/styles/withTheme';
 import shared from '../../shared';
 import SongList from './SongList';
 

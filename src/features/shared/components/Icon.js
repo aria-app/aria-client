@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled, { ThemeConsumer } from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
+import withTheme from '@material-ui/styles/withTheme';
 import { getExtraProps } from '../helpers/getExtraProps';
 import icons from './icons';
 
@@ -22,32 +23,31 @@ const StyledIcon = styled('div')({
   width: 40,
 });
 
-export default class Icon extends React.PureComponent {
+class Icon extends React.PureComponent {
   static propTypes = {
     color: PropTypes.string,
     icon: PropTypes.oneOf(Object.keys(icons).concat([''])),
     size: PropTypes.oneOf(['small', 'regular', 'large', '']),
+    theme: PropTypes.object,
   };
 
   render() {
     return (
-      <ThemeConsumer>
-        {theme => (
-          <StyledIcon color={this.props.color} {...getExtraProps(this)}>
-            <IconContent>{this.getIcon(theme)}</IconContent>
-          </StyledIcon>
-        )}
-      </ThemeConsumer>
+      <StyledIcon color={this.props.color} {...getExtraProps(this)}>
+        <IconContent>{this.getIcon()}</IconContent>
+      </StyledIcon>
     );
   }
 
   getIcon(theme) {
+    const color =
+      this.props.color || (this.props.theme && this.props.theme.color);
     const iconComponent = icons[this.props.icon];
 
     if (!iconComponent) return null;
 
     return React.createElement(iconComponent, {
-      color: this.props.color || theme.color,
+      color,
       size: this.getSizePixels(),
     });
   }
@@ -63,3 +63,5 @@ export default class Icon extends React.PureComponent {
     }
   }
 }
+
+export default withTheme(Icon);

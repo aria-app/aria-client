@@ -2,10 +2,12 @@ import getOr from 'lodash/fp/getOr';
 import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 import TrackSequenceNote from './TrackSequenceNote';
 
-const StyledTrackSequence = styled('div')(props => ({
+const StyledTrackSequence = styled(({ isDragging, isSelected, ...rest }) => (
+  <div {...rest} />
+))(props => ({
   display: 'flex',
   height: 84,
   padding: props.theme.margin.s,

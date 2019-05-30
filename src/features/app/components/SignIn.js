@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 import shared from '../../shared';
 
 const { authProvider } = shared.constants;

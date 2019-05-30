@@ -4,7 +4,7 @@ import split from 'lodash/fp/split';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 import Note from './Note';
 
 const DrawLayerGhostNote = styled(Note)({

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components/macro';
-import { withTheme } from 'styled-components';
+import styled from '@material-ui/styles/styled';
+import withTheme from '@material-ui/styles/withTheme';
 import shared from '../../shared';
 
 const { IconButton } = shared.components;

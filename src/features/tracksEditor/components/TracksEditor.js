@@ -5,7 +5,7 @@ import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { HotKeys } from 'react-hotkeys';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 import shared from '../../shared';
 import TrackList from './TrackList';
 import TrackEditingModal from './TrackEditingModal';

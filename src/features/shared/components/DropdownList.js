@@ -1,7 +1,7 @@
 import find from 'lodash/fp/find';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 import { hideIf, showIf } from 'react-render-helpers';
 import { getExtraProps } from '../helpers';
 import DropdownListItem from './DropdownListItem';

@@ -2,7 +2,7 @@ import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { DraggableCore } from 'react-draggable';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 import Fence from './Fence';
 
 const StyledSelector = styled('div')({

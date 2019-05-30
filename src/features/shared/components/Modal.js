@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
 import { animated, useTransition } from 'react-spring';
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 import Toolbar from './Toolbar';
 
 const ModalContent = styled('div')`

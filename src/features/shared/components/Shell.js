@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro';
+import styled from '@material-ui/styles/styled';
 
 export default styled('div')(props => ({
   backgroundColor: props.theme.backgroundColor,
