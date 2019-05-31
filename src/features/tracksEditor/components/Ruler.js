@@ -1,9 +1,10 @@
 import getOr from 'lodash/fp/getOr';
 import round from 'lodash/round';
 import times from 'lodash/fp/times';
+import withStyles from '@material-ui/styles/withStyles';
+import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
-import withStyles from '@material-ui/styles/withStyles';
 import shared from '../../shared';
 import RulerResizer from './RulerResizer';
 
@@ -15,11 +16,11 @@ const getStyles = theme => ({
     display: 'flex',
     flex: '0 0 auto',
     height: 35,
-    marginBottom: theme.margin.m,
+    marginBottom: theme.spacing(2),
     position: 'relative',
   },
   measureNumber: {
-    color: 'rgba(255, 255, 255, 0.5)',
+    color: transparentize(0.5, theme.palette.text.primary),
     fontSize: 10,
     position: 'absolute',
   },
@@ -44,7 +45,7 @@ class Ruler extends React.PureComponent {
         }}
       >
         <MatrixBox
-          fill="white"
+          fill="black"
           height={35}
           matrix={this.getMatrix()}
           width={this.getWidth()}

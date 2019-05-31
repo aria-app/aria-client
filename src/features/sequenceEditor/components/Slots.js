@@ -47,8 +47,8 @@ export default class Slots extends React.PureComponent {
 
   getStripe = n => `
     <rect
-      fill="white"
-      opacity="0.02"
+      fill="black"
+      opacity="0.025"
       rx="4"
       ry="4"
       x="${(2 * n + 1) * 320}"
@@ -63,7 +63,7 @@ export default class Slots extends React.PureComponent {
 
 function getSlot(column, row) {
   const isEven = x => x % 2 === 0;
-  const fill = isEven(Math.floor(column / 8)) ? 'white' : 'white';
+  const fill = isEven(Math.floor(column / 8)) ? 'black' : 'black';
   const size = 1;
   return `
     <rect

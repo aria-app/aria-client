@@ -20,8 +20,8 @@ const getBPMRangeItem = x => ({ id: x, text: String(x) });
 const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
 const SongInfoModalBPMDropdown = styled(FormControl)(props => ({
-  marginBottom: props.theme.margin.m,
-  marginLeft: props.theme.margin.s,
+  marginBottom: props.theme.spacing(2),
+  marginLeft: props.theme.spacing(1),
 }));
 
 const SongInfoModalContent = styled(DialogContent)(props => ({
@@ -29,8 +29,8 @@ const SongInfoModalContent = styled(DialogContent)(props => ({
   display: 'flex',
   flex: '1 1 auto',
   flexDirection: 'column',
-  marginLeft: props.theme.margin.s * -1,
-  marginRight: props.theme.margin.s * -1,
+  marginLeft: props.theme.spacing(-1),
+  marginRight: props.theme.spacing(-1),
 }));
 
 const SongInfoModalTitle = styled(DialogTitle)({
@@ -39,8 +39,8 @@ const SongInfoModalTitle = styled(DialogTitle)({
 });
 
 const SongInfoModalLabel = styled(Typography)(props => ({
-  marginLeft: props.theme.margin.s,
-  marginTop: props.theme.margin.m,
+  marginLeft: props.theme.spacing(1),
+  marginTop: props.theme.spacing(2),
 }));
 
 export default class SongInfoModal extends React.PureComponent {

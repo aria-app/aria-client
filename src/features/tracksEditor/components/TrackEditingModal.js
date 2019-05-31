@@ -19,13 +19,13 @@ const maxVolume = 0;
 
 const DeleteButton = styled(Button)(props => ({
   alignSelf: 'stretch',
-  marginLeft: props.theme.margin.s,
-  marginRight: props.theme.margin.s,
+  marginLeft: props.theme.spacing(1),
+  marginRight: props.theme.spacing(1),
 }));
 
 const TrackEditingModalDropdown = styled(FormControl)(props => ({
-  marginBottom: props.theme.margin.m,
-  marginLeft: props.theme.margin.s,
+  marginBottom: props.theme.spacing(2),
+  marginLeft: props.theme.spacing(1),
 }));
 
 const TrackEditingModalContent = styled(DialogContent)(props => ({
@@ -33,8 +33,8 @@ const TrackEditingModalContent = styled(DialogContent)(props => ({
   display: 'flex',
   flex: '1 1 auto',
   flexDirection: 'column',
-  marginLeft: props.theme.margin.s * -1,
-  marginRight: props.theme.margin.s * -1,
+  marginLeft: props.theme.spacing(-1),
+  marginRight: props.theme.spacing(-1),
 }));
 
 const TrackEditingModalTitle = styled(DialogTitle)({

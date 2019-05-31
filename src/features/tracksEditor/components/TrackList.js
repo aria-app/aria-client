@@ -13,7 +13,6 @@ const { FadeIn, FadeOut } = shared.components;
 const LoadingIndicator = styled(animated.div)({
   alignItems: 'center',
   bottom: 0,
-  color: 'white',
   display: 'flex',
   flex: '1 1 auto',
   justifyContent: 'center',
@@ -38,10 +37,10 @@ const TrackListContent = styled('div')(props => ({
   flex: '1 0 auto',
   flexDirection: 'column',
   minWidth: '100%',
-  padding: props.theme.margin.m,
-  paddingBottom: props.theme.margin.m + 84,
-  paddingRight: props.theme.margin.m + 128,
-  paddingTop: props.theme.margin.m + 2,
+  padding: props.theme.spacing(2),
+  paddingBottom: props.theme.spacing(2) + 84,
+  paddingRight: props.theme.spacing(2) + 128,
+  paddingTop: props.theme.spacing(2) + 2,
   position: 'relative',
 }));
 

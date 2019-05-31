@@ -6,7 +6,7 @@ import Icon from './Icon';
 const IconButtonBackground = styled(({ isActive, ...rest }) => (
   <div {...rest} />
 ))(props => ({
-  backgroundColor: props.isActive ? 'rgba(255, 255, 255, 0.25)' : '',
+  backgroundColor: props.isActive ? props.theme.palette.action.selected : '',
   flex: '1 0 auto',
 }));
 

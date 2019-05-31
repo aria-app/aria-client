@@ -1,7 +1,8 @@
+import styled from '@material-ui/styles/styled';
+import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import Draggable from 'react-draggable';
-import styled from '@material-ui/styles/styled';
 
 const DraggableWrapper = styled('div')({
   position: 'absolute',
@@ -11,8 +12,8 @@ const DraggableWrapper = styled('div')({
 const StyledRulerResizer = styled(({ isDragging, isDisabled, ...rest }) => (
   <div {...rest} />
 ))(props => ({
-  backgroundColor: 'rgba(255, 255, 255, 0.5)',
-  border: '1px solid white',
+  backgroundColor: transparentize(0.5, props.theme.palette.text.primary),
+  border: `1px solid ${props.theme.palette.text.primary}`,
   cursor: 'col-resize',
   height: 32,
   left: 0,
@@ -21,14 +22,14 @@ const StyledRulerResizer = styled(({ isDragging, isDisabled, ...rest }) => (
   transition: 'box-shadow 250ms ease, opacity 500ms ease, transform 350ms ease',
   width: 24,
   '&:hover:not(:active)': {
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    backgroundColor: transparentize(0.4, props.theme.palette.text.primary),
   },
   '&:active': {
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    backgroundColor: transparentize(0.6, props.theme.palette.text.primary),
   },
-  ':after': {
-    borderLeft: '2px dotted white',
-    borderRight: '2px dotted white',
+  '&::after': {
+    borderLeft: `2px dotted ${props.theme.palette.text.primary}`,
+    borderRight: `2px dotted ${props.theme.palette.text.primary}`,
     content: "''",
     display: 'block',
     height: 10,
@@ -40,7 +41,7 @@ const StyledRulerResizer = styled(({ isDragging, isDisabled, ...rest }) => (
   },
   ...(props.isDragging
     ? {
-        boxShadow: '0 4px 16px 4px rgba(0, 0, 0, 0.25)',
+        boxShadow: props.theme.shadows[3],
         opacity: 0.8,
         transform: 'translateY(-4px) scale(1.05)',
         transition:

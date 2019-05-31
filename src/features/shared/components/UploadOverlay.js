@@ -1,7 +1,8 @@
 import { isEmpty } from 'lodash/fp';
+import styled from '@material-ui/styles/styled';
+import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
 import { showIf } from 'react-render-helpers';
 
 const reader = new FileReader();
@@ -16,9 +17,9 @@ const StyledUploadOverlay = styled('div')({
   zIndex: 550,
 });
 
-const UploadOverlayTint = styled('div')({
+const UploadOverlayTint = styled('div')(props => ({
   alignItems: 'center',
-  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  backgroundColor: transparentize(0.5, props.theme.palette.text.primary),
   bottom: 0,
   display: 'flex',
   justifyContent: 'center',
@@ -29,15 +30,15 @@ const UploadOverlayTint = styled('div')({
   right: 0,
   top: 0,
   zIndex: 'inherit',
-});
+}));
 
 const UploadOverlayDragIndicator = styled('div')(props => ({
   alignItems: 'center',
-  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  backgroundColor: transparentize(0.5, props.theme.palette.text.primary),
   borderRadius: 4,
   display: 'flex',
   justifyContent: 'center',
-  padding: props.theme.margin.m,
+  padding: props.theme.spacing(2),
   pointerEvents: 'none',
   zIndex: 'inherit',
 }));

@@ -4,7 +4,7 @@ import React from 'react';
 import styled from '@material-ui/styles/styled';
 
 const AddSequenceButtonPlusHorizontal = styled('div')(props => ({
-  backgroundColor: props.theme.primary[2],
+  backgroundColor: props.theme.palette.primary.main,
   height: 1,
   left: '50%',
   position: 'absolute',
@@ -14,7 +14,7 @@ const AddSequenceButtonPlusHorizontal = styled('div')(props => ({
 }));
 
 const AddSequenceButtonPlusVertical = styled('div')(props => ({
-  backgroundColor: props.theme.primary[2],
+  backgroundColor: props.theme.palette.primary.main,
   height: 9,
   left: '50%',
   position: 'absolute',
@@ -25,8 +25,8 @@ const AddSequenceButtonPlusVertical = styled('div')(props => ({
 
 const StyledAddSequenceButton = styled('div')(props => ({
   alignItems: 'center',
-  backgroundColor: transparentize(0.5, props.theme.primary[2]),
-  border: `1px solid ${props.theme.primary[2]}`,
+  backgroundColor: transparentize(0.5, props.theme.palette.primary.main),
+  border: `1px solid ${props.theme.palette.primary.main}`,
   cursor: 'pointer',
   display: 'flex',
   flex: '0 0 auto',
@@ -34,7 +34,6 @@ const StyledAddSequenceButton = styled('div')(props => ({
   justifyContent: 'center',
   position: 'absolute',
   width: 64,
-  // TODO: ${mixins.interactionOverlay("white")}
 }));
 
 export default class AddSequenceButton extends React.PureComponent {

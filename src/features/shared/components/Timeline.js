@@ -7,7 +7,7 @@ export default styled(props => (
     style={{ ...props.style, transform: `translateX(${props.offset}px)` }}
   />
 ))(props => ({
-  backgroundColor: props.theme.almostwhite,
+  backgroundColor: props.theme.palette.text.primary,
   bottom: 0,
   display: props.isVisible ? 'block' : 'none',
   left: 0,

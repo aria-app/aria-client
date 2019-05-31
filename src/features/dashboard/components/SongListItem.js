@@ -1,23 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@material-ui/styles/styled';
-import withTheme from '@material-ui/styles/withTheme';
 import shared from '../../shared';
 
 const { IconButton } = shared.components;
 
-const SongListItemDeleteButton = styled(
-  withTheme(({ theme, ...rest }) => (
-    <IconButton color={theme.almostwhite} {...rest} />
-  )),
-)(props => ({
-  marginRight: props.theme.margin.s * -1,
+const SongListItemDeleteButton = styled(IconButton)(props => ({
+  marginRight: props.theme.spacing(-1),
 }));
 
 const SongListItemText = styled('div')({
   alignItems: 'center',
   alignSelf: 'stretch',
-  color: 'white',
   display: 'flex',
   flex: '1 1 auto',
 });
@@ -28,10 +22,9 @@ const StyledSongListItem = styled('div')(props => ({
   display: 'flex',
   flex: '0 0 auto',
   height: 48,
-  paddingLeft: props.theme.margin.m,
-  paddingRight: props.theme.margin.m,
+  paddingLeft: props.theme.spacing(2),
+  paddingRight: props.theme.spacing(2),
   position: 'relative',
-  // TODO: ${mixins.interactionOverlay('white')}
 }));
 
 export default class SongListItem extends React.Component {

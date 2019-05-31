@@ -5,13 +5,14 @@ import { getExtraProps } from '../helpers';
 
 const StyledToolbar = styled('div')(props => ({
   alignItems: 'stretch',
-  backgroundColor: props.theme.greystone,
-  borderTop: `1px solid ${props.theme.midgray}`,
+  backgroundColor: props.theme.palette.background.paper,
+  borderTop: `1px solid ${props.theme.palette.divider}`,
+  boxShadow: props.theme.shadows[1],
   display: 'flex',
   flex: '0 0 auto',
   height: 56,
-  paddingLeft: props.theme.margin.s,
-  paddingRight: props.theme.margin.s,
+  paddingLeft: props.theme.spacing(1),
+  paddingRight: props.theme.spacing(1),
   position: 'relative',
 }));
 

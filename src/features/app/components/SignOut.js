@@ -7,7 +7,6 @@ import styled from '@material-ui/styles/styled';
 
 const StyledSignOut = styled('div')({
   alignItems: 'center',
-  color: 'white',
   display: 'flex',
   flex: '1 1 auto',
   justifyContent: 'center',

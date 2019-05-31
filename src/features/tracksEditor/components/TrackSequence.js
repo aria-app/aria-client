@@ -1,8 +1,9 @@
 import getOr from 'lodash/fp/getOr';
 import isEqual from 'lodash/fp/isEqual';
+import styled from '@material-ui/styles/styled';
+import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
 import TrackSequenceNote from './TrackSequenceNote';
 
 const StyledTrackSequence = styled(({ isDragging, isSelected, ...rest }) => (
@@ -10,24 +11,21 @@ const StyledTrackSequence = styled(({ isDragging, isSelected, ...rest }) => (
 ))(props => ({
   display: 'flex',
   height: 84,
-  padding: props.theme.margin.s,
+  padding: props.theme.spacing(1),
   backgroundColor: props.isSelected
-    ? props.theme.almostwhite
-    : props.theme.primary[2],
-  borderRight: `2px solid ${
-    props.isSelected ? props.theme.almostwhite : props.theme.primary[0]
-  }`,
-  boxShadow: props.isSelected && '0 0 10px rgba(255, 255, 255, 0.5)}',
+    ? props.theme.palette.secondary.main
+    : props.theme.palette.primary.main,
+  borderRight: `2px solid ${props.theme.palette.divider}`,
+  boxShadow: props.isSelected && props.theme.shadows[1],
   opacity: 1,
   overflow: 'hidden',
   position: 'relative',
   transition: 'box-shadow 250ms ease, opacity 500ms ease, transform 350ms ease',
-  '&:hover': {
-    backgroundColor: !props.isSelected && props.theme.primary[1],
-  },
   ...(props.isDragging
     ? {
-        boxShadow: '0 4px 16px 4px rgba(0, 0, 0, 0.25)',
+        boxShadow:
+          props.isSelected &&
+          `0 0 10px ${transparentize(0.5, props.theme.palette.secondary.main)}`,
         opacity: 0.8,
         transform: 'translateY(-4px) scale(1.05)',
         transition:

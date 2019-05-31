@@ -5,7 +5,7 @@ import { showIf } from 'react-render-helpers';
 import styled from '@material-ui/styles/styled';
 
 const ColumnIndicator = styled('div')(props => ({
-  backgroundColor: transparentize(0.95, props.theme.primary[2]),
+  backgroundColor: transparentize(0.95, props.theme.palette.primary.main),
   borderRadius: 2,
   bottom: 0,
   left: 0,
@@ -15,7 +15,7 @@ const ColumnIndicator = styled('div')(props => ({
   width: 40,
 }));
 const RowIndicator = styled('div')(props => ({
-  backgroundColor: transparentize(0.95, props.theme.primary[2]),
+  backgroundColor: transparentize(0.95, props.theme.palette.primary.main),
   borderRadius: 2,
   left: 0,
   height: 40,

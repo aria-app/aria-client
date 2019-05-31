@@ -13,8 +13,8 @@ const { getExtraProps } = shared.helpers;
 const NoteConnector = styled(({ isSelected, ...rest }) => <div {...rest} />)(
   props => ({
     backgroundColor: props.isSelected
-      ? 'white'
-      : transparentize(0.5, props.theme.primary[2]),
+      ? props.theme.palette.secondary.main
+      : transparentize(0.5, props.theme.palette.primary.main),
     height: 12,
     left: 20,
     position: 'absolute',
@@ -28,9 +28,13 @@ const NoteConnector = styled(({ isSelected, ...rest }) => <div {...rest} />)(
 
 const NoteFill = styled(({ isSelected, ...rest }) => <div {...rest} />)(
   props => ({
-    backgroundColor: props.isSelected ? 'white' : props.theme.primary[2],
+    backgroundColor: props.isSelected
+      ? props.theme.palette.secondary.main
+      : props.theme.palette.primary.main,
     borderRadius: 2,
-    boxShadow: props.isSelected && `0 0 10px ${transparentize(0.5, 'white')}`,
+    boxShadow:
+      props.isSelected &&
+      `0 0 10px ${transparentize(0.5, props.theme.palette.secondary.main)}`,
     height: 24,
     width: 24,
     '&:hover': {

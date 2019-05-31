@@ -9,8 +9,8 @@ const StyledSongList = styled('div')(props => ({
   display: 'flex',
   flex: '1 1 auto',
   flexDirection: 'column',
-  paddingBottom: props.theme.margin.s,
-  paddingTop: props.theme.margin.s,
+  paddingBottom: props.theme.spacing(1),
+  paddingTop: props.theme.spacing(1),
 }));
 
 SongList.propTypes = {

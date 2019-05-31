@@ -12,7 +12,7 @@ const BoxResizer = styled(({ className, ...rest }) => (
   left: '0',
   position: 'absolute',
   top: '0',
-  width: props.theme.margin.m,
+  width: props.theme.spacing(2),
   zIndex: '2',
 }));
 

@@ -26,12 +26,12 @@ const StyledTrack = styled('div')(props => ({
   display: 'flex',
   flex: '0 0 auto',
   flexDirection: 'column',
-  marginBottom: props.theme.margin.m,
+  marginBottom: props.theme.spacing(2),
 }));
 
 const TrackMatrixBox = styled(
   withTheme(({ theme, ...rest }) => (
-    <MatrixBox fill={theme.primary[2]} {...rest} />
+    <MatrixBox fill={theme.palette.primary.main} {...rest} />
   )),
 )({
   left: 0,

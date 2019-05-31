@@ -17,10 +17,6 @@ const keyStyles = Dawww.SCALE.reduce((acc, currentStep) => {
     [currentStep.y]: {
       borderBottomRightRadius:
         currentStep.y === Dawww.SCALE.length - 1 ? 4 : '',
-      boxShadow:
-        currentStep.y === Dawww.SCALE.length - 1
-          ? '2px 2px 0 rgba(235, 235, 235, 0.5)'
-          : '',
       borderTopRightRadius: currentStep.y === 0 ? 4 : '',
     },
   };

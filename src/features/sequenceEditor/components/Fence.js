@@ -1,18 +1,19 @@
 import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
+import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@material-ui/styles/styled';
 
-const StyledFence = styled('div')({
-  backgroundColor: 'rgba(255, 255, 255, 0.25)',
-  border: '2px solid white',
+const StyledFence = styled('div')(props => ({
+  backgroundColor: transparentize(0.75, props.theme.palette.secondary.main),
+  border: `2px solid ${props.theme.palette.secondary.main}`,
   borderRadius: 2,
   left: 0,
   pointerEvents: 'none',
   position: 'absolute',
   top: 0,
-});
+}));
 
 export default class Fence extends React.PureComponent {
   static propTypes = {

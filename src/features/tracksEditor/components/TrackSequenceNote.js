@@ -9,7 +9,7 @@ export default React.memo(
     const y0 = getOr(0, 'note.points[0].y', props);
 
     return {
-      backgroundColor: props.theme.almostblack,
+      backgroundColor: props.theme.palette.primary.contrastText,
       height: 1,
       left: 0,
       position: 'absolute',

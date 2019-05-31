@@ -41,7 +41,8 @@ class Icon extends React.PureComponent {
 
   getIcon(theme) {
     const color =
-      this.props.color || (this.props.theme && this.props.theme.color);
+      this.props.color ||
+      (this.props.theme && this.props.theme.palette.text.primary);
     const iconComponent = icons[this.props.icon];
 
     if (!iconComponent) return null;

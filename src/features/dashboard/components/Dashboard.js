@@ -12,7 +12,6 @@ const { Icon, Toolbar, FadeOut } = shared.components;
 const LoadingIndicator = styled(animated.div)({
   alignItems: 'center',
   bottom: 0,
-  color: 'white',
   display: 'flex',
   flex: '1 1 auto',
   justifyContent: 'center',
@@ -24,7 +23,7 @@ const LoadingIndicator = styled(animated.div)({
 
 const DashboardCenteredContent = styled('div')(props => ({
   alignSelf: 'center',
-  maxWidth: props.theme.minWidthWidescreen,
+  maxWidth: props.theme.breakpoints.values.sm,
   width: '100%',
 }));
 
@@ -43,7 +42,7 @@ const DashboardUserInfo = styled('div')({
 
 const Fab = styled('div')(props => ({
   alignItems: 'center',
-  backgroundColor: props.theme.almostwhite,
+  backgroundColor: props.theme.palette.primary.main,
   borderRadius: '50%',
   bottom: 24,
   cursor: 'pointer',
@@ -54,11 +53,10 @@ const Fab = styled('div')(props => ({
   position: 'absolute',
   right: 24,
   width: 56,
-  // TODO: ${mixins.interactionOverlay("black")}
 }));
 
 const FabIcon = withTheme(({ theme, ...rest }) => (
-  <Icon color={theme.almostblack} {...rest} />
+  <Icon color={theme.palette.primary.contrastText} {...rest} />
 ));
 
 const StyledDashboard = styled('div')({

@@ -20,7 +20,6 @@ const { previewPitch } = audio.helpers;
 
 const LoadingIndicator = styled('div')({
   alignItems: 'center',
-  color: 'white',
   display: 'flex',
   flex: '1 1 auto',
   justifyContent: 'center',

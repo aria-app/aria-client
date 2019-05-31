@@ -3,7 +3,7 @@ import * as components from './components';
 import * as constants from './constants';
 import * as helpers from './helpers';
 import i18n from './i18n';
-import * as styles from './styles';
+import theme from './theme';
 
 export default {
   actions,
@@ -11,5 +11,5 @@ export default {
   constants,
   helpers,
   i18n,
-  styles,
+  theme,
 };
