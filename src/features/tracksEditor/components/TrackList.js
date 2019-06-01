@@ -8,19 +8,7 @@ import AddTrackButton from './AddTrackButton';
 import Ruler from './Ruler';
 import Track from './Track';
 
-const { FadeIn, FadeOut } = shared.components;
-
-const LoadingIndicator = styled(animated.div)({
-  alignItems: 'center',
-  bottom: 0,
-  display: 'flex',
-  flex: '1 1 auto',
-  justifyContent: 'center',
-  left: 0,
-  position: 'absolute',
-  right: 0,
-  top: 0,
-});
+const { FadeIn, FadeOut, LoadingIndicator } = shared.components;
 
 const StyledTrackList = styled('div')({
   alignItems: 'flex-start',
@@ -73,28 +61,16 @@ export default React.memo(TrackList);
 
 function TrackList(props) {
   const trackTransitions = useTransition(props.tracks, track => track.id, {
-    config: {
-      clamp: true,
-      tension: 200,
-    },
-    from: {
-      marginLeft: -64,
-      opacity: 0,
-    },
-    enter: {
-      marginLeft: 0,
-      opacity: 1,
-    },
-    leave: {
-      marginLeft: 64,
-      opacity: 0,
-    },
+    config: { clamp: true, tension: 200 },
+    from: { marginLeft: -64, opacity: 0 },
+    enter: { marginLeft: 0, opacity: 1 },
+    leave: { marginLeft: 64, opacity: 0 },
   });
 
   return (
     <StyledTrackList>
-      <FadeOut component={LoadingIndicator} isVisible={props.isLoading}>
-        LOADING SONG...
+      <FadeOut isVisible={props.isLoading}>
+        <LoadingIndicator>LOADING SONG...</LoadingIndicator>
       </FadeOut>
       <TrackListContent>
         <TrackListUnderlay onClick={props.onSequenceDeselect} />

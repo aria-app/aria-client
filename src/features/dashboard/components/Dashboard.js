@@ -1,25 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { hideIf } from 'react-render-helpers';
-import { animated } from 'react-spring';
+import hideIf from 'react-render-helpers/hideIf';
+// import showIf from 'react-render-helpers/showIf';
 import styled from '@material-ui/styles/styled';
 import withTheme from '@material-ui/styles/withTheme';
 import shared from '../../shared';
 import SongList from './SongList';
 
-const { Icon, Toolbar, FadeOut } = shared.components;
-
-const LoadingIndicator = styled(animated.div)({
-  alignItems: 'center',
-  bottom: 0,
-  display: 'flex',
-  flex: '1 1 auto',
-  justifyContent: 'center',
-  left: 0,
-  position: 'absolute',
-  right: 0,
-  top: 0,
-});
+const { FadeOut, Icon, LoadingIndicator, Toolbar } = shared.components;
 
 const DashboardCenteredContent = styled('div')(props => ({
   alignSelf: 'center',
@@ -98,11 +86,8 @@ export default class Dashboard extends React.Component {
             </React.Fragment>
           }
         />
-        <FadeOut
-          component={LoadingIndicator}
-          isVisible={this.props.isLoadingSongs}
-        >
-          LOADING SONGS...
+        <FadeOut isVisible={this.props.isLoadingSongs}>
+          <LoadingIndicator>LOADING SONGS...</LoadingIndicator>
         </FadeOut>
         <DashboardCenteredContent>
           {hideIf(this.props.isLoadingSongs)(() => (

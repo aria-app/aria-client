@@ -4,7 +4,6 @@ import React from 'react';
 import { HotKeys } from 'react-hotkeys';
 import { hideIf, showIf } from 'react-render-helpers';
 import { Redirect, Route } from 'react-router-dom';
-import styled from '@material-ui/styles/styled';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import Tone from 'tone';
 import dashboard from '../../dashboard';
@@ -14,7 +13,7 @@ import SignInContainer from './SignInContainer';
 import SignOutContainer from './SignOutContainer';
 
 const { DashboardContainer } = dashboard.components;
-const { Shell } = shared.components;
+const { LoadingIndicator, Shell } = shared.components;
 const { STARTED } = Dawww.PLAYBACK_STATES;
 const { SongEditorContainer } = songEditor.components;
 
@@ -35,13 +34,6 @@ const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
     }
   />
 );
-
-const LoadingIndicator = styled('div')({
-  alignItems: 'center',
-  display: 'flex',
-  flex: '1 1 auto',
-  justifyContent: 'center',
-});
 
 export default class App extends React.PureComponent {
   static propTypes = {

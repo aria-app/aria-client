@@ -6,7 +6,7 @@ import isEqual from 'lodash/fp/isEqual';
 import uniq from 'lodash/fp/uniq';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { hideIf, showIf } from 'react-render-helpers';
+// import { hideIf } from 'react-render-helpers';
 import { HotKeys } from 'react-hotkeys';
 import styled from '@material-ui/styles/styled';
 import audio from '../../audio';
@@ -17,13 +17,7 @@ import Keys from './Keys';
 import SequenceEditorToolbar from './SequenceEditorToolbar';
 
 const { previewPitch } = audio.helpers;
-
-const LoadingIndicator = styled('div')({
-  alignItems: 'center',
-  display: 'flex',
-  flex: '1 1 auto',
-  justifyContent: 'center',
-});
+const { FadeIn, FadeOut, LoadingIndicator } = shared.components;
 
 const SequenceEditorContent = styled('div')({
   display: 'flex',
@@ -109,12 +103,12 @@ export default class SequenceEditor extends React.PureComponent {
     return (
       <StyledSequenceEditor focused={true} handlers={this.getKeyHandlers()}>
         <div ref={this.focusRef} tabIndex={-1} />
-        {showIf(this.props.isLoading)(
+        <FadeOut isVisible={this.props.isLoading}>
           <LoadingIndicator>LOADING SONG...</LoadingIndicator>,
-        )}
-        {hideIf(this.props.isLoading)(
-          <React.Fragment>
-            <SequenceEditorContent ref={this.setContentRef}>
+        </FadeOut>
+        <React.Fragment>
+          <SequenceEditorContent ref={this.setContentRef}>
+            <FadeIn isVisible={!this.props.isLoading}>
               <SequenceEditorWrapper>
                 <Keys
                   hoveredRow={this.state.gridMousePoint.y}
@@ -138,28 +132,28 @@ export default class SequenceEditor extends React.PureComponent {
                   toolType={this.state.toolType}
                 />
               </SequenceEditorWrapper>
-            </SequenceEditorContent>
-            <SequenceEditorToolbar
-              isRedoEnabled={this.props.isRedoEnabled}
-              isUndoEnabled={this.props.isUndoEnabled}
-              measureCount={this.props.sequence.measureCount}
-              onClose={this.close}
-              onDelete={this.deleteSelectedNotes}
-              onDeselectAll={this.deselectAllNotes}
-              onDrawToolSelect={this.activateDrawTool}
-              onDuplicate={this.duplicateSelectedNotes}
-              onEraseToolSelect={this.activateEraseTool}
-              onOctaveDown={this.handleToolbarOctaveDown}
-              onOctaveUp={this.handleToolbarOctaveUp}
-              onPanToolSelect={this.activatePanTool}
-              onRedo={this.redo}
-              onSelectToolSelect={this.activateSelectTool}
-              onUndo={this.undo}
-              selectedNotes={this.state.selectedNotes}
-              toolType={this.state.toolType}
-            />
-          </React.Fragment>,
-        )}
+            </FadeIn>
+          </SequenceEditorContent>
+          <SequenceEditorToolbar
+            isRedoEnabled={this.props.isRedoEnabled}
+            isUndoEnabled={this.props.isUndoEnabled}
+            measureCount={this.props.sequence.measureCount}
+            onClose={this.close}
+            onDelete={this.deleteSelectedNotes}
+            onDeselectAll={this.deselectAllNotes}
+            onDrawToolSelect={this.activateDrawTool}
+            onDuplicate={this.duplicateSelectedNotes}
+            onEraseToolSelect={this.activateEraseTool}
+            onOctaveDown={this.handleToolbarOctaveDown}
+            onOctaveUp={this.handleToolbarOctaveUp}
+            onPanToolSelect={this.activatePanTool}
+            onRedo={this.redo}
+            onSelectToolSelect={this.activateSelectTool}
+            onUndo={this.undo}
+            selectedNotes={this.state.selectedNotes}
+            toolType={this.state.toolType}
+          />
+        </React.Fragment>
       </StyledSequenceEditor>
     );
   }
