@@ -1,20 +1,26 @@
+import classnames from 'classnames';
 import first from 'lodash/fp/first';
 import isEqual from 'lodash/fp/isEqual';
 import last from 'lodash/fp/last';
+import withStyles from '@material-ui/styles/withStyles';
 import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Draggable from 'react-draggable';
-import styled from '@material-ui/styles/styled';
 import shared from '../../shared';
 
 const { getExtraProps } = shared.helpers;
 
-const NoteConnector = styled(({ isSelected, ...rest }) => <div {...rest} />)(
-  props => ({
-    backgroundColor: props.isSelected
-      ? props.theme.palette.secondary.main
-      : transparentize(0.5, props.theme.palette.primary.main),
+const styles = theme => ({
+  root: {
+    left: 0,
+    pointerEvents: 'none',
+    position: 'absolute',
+    top: 0,
+    transition: 'transform 0.1s ease',
+  },
+  connector: {
+    backgroundColor: transparentize(0.5, theme.palette.primary.main),
     height: 12,
     left: 20,
     position: 'absolute',
@@ -23,18 +29,10 @@ const NoteConnector = styled(({ isSelected, ...rest }) => <div {...rest} />)(
     transition: 'transform 0.1s ease',
     width: 1,
     zIndex: 100,
-  }),
-);
-
-const NoteFill = styled(({ isSelected, ...rest }) => <div {...rest} />)(
-  props => ({
-    backgroundColor: props.isSelected
-      ? props.theme.palette.secondary.main
-      : props.theme.palette.primary.main,
+  },
+  fill: {
+    backgroundColor: theme.palette.primary.main,
     borderRadius: 2,
-    boxShadow:
-      props.isSelected &&
-      `0 0 10px ${transparentize(0.5, props.theme.palette.secondary.main)}`,
     height: 24,
     width: 24,
     '&:hover': {
@@ -43,38 +41,41 @@ const NoteFill = styled(({ isSelected, ...rest }) => <div {...rest} />)(
     '&:active': {
       transform: 'scale(0.95)',
     },
-  }),
-);
-
-const NotePoint = styled('div')({
-  alignItems: 'center',
-  display: 'flex',
-  flex: '0 0 auto',
-  height: 40,
-  justifyContent: 'center',
-  left: 0,
-  overflow: 'hidden',
-  pointerEvents: 'all',
-  position: 'absolute',
-  top: 0,
-  transition: 'transform 0.1s ease',
-  width: 40,
-  zIndex: 150,
-});
-
-const StyledNote = styled(({ isSelected, ...rest }) => <div {...rest} />)(
-  props => ({
+  },
+  point: {
+    alignItems: 'center',
+    display: 'flex',
+    flex: '0 0 auto',
+    height: 40,
+    justifyContent: 'center',
     left: 0,
-    pointerEvents: 'none',
+    overflow: 'hidden',
+    pointerEvents: 'all',
     position: 'absolute',
     top: 0,
     transition: 'transform 0.1s ease',
-    zIndex: props.isSelected && 300,
-  }),
-);
+    width: 40,
+    zIndex: 150,
+  },
+  selected: {
+    zIndex: 300,
+    '& $connector': {
+      backgroundColor: theme.palette.secondary.main,
+    },
+    '& $fill': {
+      backgroundColor: theme.palette.secondary.main,
+      boxShadow: `0 0 10px ${transparentize(
+        0.5,
+        theme.palette.secondary.main,
+      )}`,
+    },
+  },
+});
 
-export default class Note extends React.Component {
+class Note extends React.Component {
   static propTypes = {
+    className: PropTypes.string,
+    classes: PropTypes.object,
     isSelected: PropTypes.bool,
     note: PropTypes.object,
     onDrag: PropTypes.func,
@@ -118,12 +119,12 @@ export default class Note extends React.Component {
         onStop={this.handleDragStop}
         position={this.getPosition()}
       >
-        <StyledNote isSelected={this.props.isSelected} {...getExtraProps(this)}>
-          <NotePoint className="start-point">
-            <NoteFill isSelected={this.props.isSelected} />
-          </NotePoint>
-          <NoteConnector
-            isSelected={this.props.isSelected}
+        <div className={this.getClassName()} {...getExtraProps(this)}>
+          <div className={classnames(this.props.classes.point, 'start-point')}>
+            <div className={this.props.classes.fill} />
+          </div>
+          <div
+            className={this.props.classes.connector}
             style={this.getConnectorStyle()}
           />
           <Draggable
@@ -135,14 +136,26 @@ export default class Note extends React.Component {
             onStop={this.handleEndPointDragStop}
             position={this.getEndPointPosition()}
           >
-            <NotePoint style={this.getEndPointStyle()}>
-              <NoteFill isSelected={this.props.isSelected} />
-            </NotePoint>
+            <div
+              className={this.props.classes.point}
+              style={this.getEndPointStyle()}
+            >
+              <div className={this.props.classes.fill} />
+            </div>
           </Draggable>
-        </StyledNote>
+        </div>
       </Draggable>
     );
   }
+
+  getClassName = () =>
+    classnames(
+      this.props.classes.root,
+      {
+        [this.props.classes.selected]: this.props.isSelected,
+      },
+      this.props.className,
+    );
 
   getConnectorStyle() {
     const startPoint = first(this.props.note.points);
@@ -207,6 +220,8 @@ export default class Note extends React.Component {
     this.props.onEndPointDragStop();
   };
 }
+
+export default withStyles(styles)(Note);
 
 function is32ndNote(note) {
   const length = last(note.points).x - first(note.points).x;

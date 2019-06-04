@@ -4,11 +4,10 @@ import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
 import uniq from 'lodash/fp/uniq';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
-// import { hideIf } from 'react-render-helpers';
 import { HotKeys } from 'react-hotkeys';
-import styled from '@material-ui/styles/styled';
 import audio from '../../audio';
 import shared from '../../shared';
 import { toolTypes } from '../constants';
@@ -19,30 +18,30 @@ import SequenceEditorToolbar from './SequenceEditorToolbar';
 const { previewPitch } = audio.helpers;
 const { FadeIn, FadeOut, LoadingIndicator } = shared.components;
 
-const SequenceEditorContent = styled('div')({
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  overflowX: 'hidden',
-  overflowY: 'scroll',
-});
+const styles = {
+  root: {
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  content: {
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    overflowX: 'hidden',
+    overflowY: 'scroll',
+  },
+  wrapper: {
+    display: 'flex',
+    flex: '1 0 auto',
+    paddingBottom: 64,
+    paddingTop: 64,
+  },
+};
 
-const SequenceEditorWrapper = styled('div')({
-  display: 'flex',
-  flex: '1 0 auto',
-  paddingBottom: 64,
-  paddingTop: 64,
-});
-
-const StyledSequenceEditor = styled(HotKeys)({
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  overflow: 'hidden',
-  position: 'relative',
-});
-
-export default class SequenceEditor extends React.PureComponent {
+class SequenceEditor extends React.PureComponent {
   static propTypes = {
     isRedoEnabled: PropTypes.bool,
     isLoading: PropTypes.bool,
@@ -101,15 +100,19 @@ export default class SequenceEditor extends React.PureComponent {
 
   render() {
     return (
-      <StyledSequenceEditor focused={true} handlers={this.getKeyHandlers()}>
+      <HotKeys
+        className={this.props.classes.root}
+        focused={true}
+        handlers={this.getKeyHandlers()}
+      >
         <div ref={this.focusRef} tabIndex={-1} />
         <FadeOut isVisible={this.props.isLoading}>
           <LoadingIndicator>LOADING SONG...</LoadingIndicator>,
         </FadeOut>
         <React.Fragment>
-          <SequenceEditorContent ref={this.setContentRef}>
+          <div className={this.props.classes.content} ref={this.setContentRef}>
             <FadeIn isVisible={!this.props.isLoading}>
-              <SequenceEditorWrapper>
+              <div className={this.props.classes.wrapper}>
                 <Keys
                   hoveredRow={this.state.gridMousePoint.y}
                   onKeyPress={this.previewPitch}
@@ -131,9 +134,9 @@ export default class SequenceEditor extends React.PureComponent {
                   sequenceEditorContentRef={this.contentElementRef}
                   toolType={this.state.toolType}
                 />
-              </SequenceEditorWrapper>
+              </div>
             </FadeIn>
-          </SequenceEditorContent>
+          </div>
           <SequenceEditorToolbar
             isRedoEnabled={this.props.isRedoEnabled}
             isUndoEnabled={this.props.isUndoEnabled}
@@ -154,7 +157,7 @@ export default class SequenceEditor extends React.PureComponent {
             toolType={this.state.toolType}
           />
         </React.Fragment>
-      </StyledSequenceEditor>
+      </HotKeys>
     );
   }
 
@@ -421,6 +424,8 @@ export default class SequenceEditor extends React.PureComponent {
     this.props.onUndo();
   };
 }
+
+export default withStyles(styles)(SequenceEditor);
 
 function getGridMousePoint(scrollLeftEl, scrollTopEl, e) {
   const styleOffset = 80;

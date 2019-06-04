@@ -1,33 +1,33 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
+import withStyles from '@material-ui/styles/withStyles';
 import shared from '../../shared';
 
 const { IconButton } = shared.components;
 
-const SongListItemDeleteButton = styled(IconButton)(props => ({
-  marginRight: props.theme.spacing(-1),
-}));
-
-const SongListItemText = styled('div')({
-  alignItems: 'center',
-  alignSelf: 'stretch',
-  display: 'flex',
-  flex: '1 1 auto',
+const styles = theme => ({
+  root: {
+    alignItems: 'center',
+    cursor: 'pointer',
+    display: 'flex',
+    flex: '0 0 auto',
+    height: 48,
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    position: 'relative',
+  },
+  text: {
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    display: 'flex',
+    flex: '1 1 auto',
+  },
+  deleteButton: {
+    marginRight: theme.spacing(-1),
+  },
 });
 
-const StyledSongListItem = styled('div')(props => ({
-  alignItems: 'center',
-  cursor: 'pointer',
-  display: 'flex',
-  flex: '0 0 auto',
-  height: 48,
-  paddingLeft: props.theme.spacing(2),
-  paddingRight: props.theme.spacing(2),
-  position: 'relative',
-}));
-
-export default class SongListItem extends React.Component {
+class SongListItem extends React.PureComponent {
   static propTypes = {
     onDelete: PropTypes.func,
     onOpen: PropTypes.func,
@@ -36,12 +36,16 @@ export default class SongListItem extends React.Component {
 
   render() {
     return (
-      <StyledSongListItem>
-        <SongListItemText onClick={this.open}>
+      <div className={this.props.classes.root}>
+        <div className={this.props.classes.text} onClick={this.open}>
           {this.props.song.name}
-        </SongListItemText>
-        <SongListItemDeleteButton icon="close" onClick={this.delete} />
-      </StyledSongListItem>
+        </div>
+        <IconButton
+          className={this.props.classes.deleteButton}
+          icon="close"
+          onClick={this.delete}
+        />
+      </div>
     );
   }
 
@@ -53,3 +57,5 @@ export default class SongListItem extends React.Component {
     this.props.onOpen(this.props.song);
   };
 }
+
+export default withStyles(styles)(SongListItem);

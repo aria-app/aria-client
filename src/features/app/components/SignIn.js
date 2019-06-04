@@ -5,19 +5,21 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
-import styled from '@material-ui/styles/styled';
+import withStyles from '@material-ui/styles/withStyles';
 import shared from '../../shared';
 
 const { authProvider } = shared.constants;
 
-const StyledSignIn = styled('div')({
-  alignItems: 'center',
-  display: 'flex',
-  flex: '1 1 auto',
-  justifyContent: 'center',
+const styles = () => ({
+  root: {
+    alignItems: 'center',
+    display: 'flex',
+    flex: '1 1 auto',
+    justifyContent: 'center',
+  },
 });
 
-export default class SignIn extends React.Component {
+class SignIn extends React.Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool,
   };
@@ -34,14 +36,14 @@ export default class SignIn extends React.Component {
     return (
       <Translation>
         {t => (
-          <StyledSignIn>
+          <div className={this.props.classes.root}>
             <Button
               onClick={() => firebase.auth().signInWithRedirect(authProvider)}
               variant="contained"
             >
               {t('Sign in with Google')}
             </Button>
-          </StyledSignIn>
+          </div>
         )}
       </Translation>
     );
@@ -50,3 +52,5 @@ export default class SignIn extends React.Component {
   getRedirectFrom = () =>
     getOr({ pathname: '/' }, 'props.location.state.from', this);
 }
+
+export default withStyles(styles)(SignIn);

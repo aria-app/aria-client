@@ -1,15 +1,17 @@
 import Dawww from 'dawww';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
 import Key from './Key';
 
-const StyledKeys = styled('div')({
-  display: 'flex',
-  flex: '0 0 auto',
-  flexDirection: 'column',
-  width: 40,
-});
+const styles = {
+  root: {
+    display: 'flex',
+    flex: '0 0 auto',
+    flexDirection: 'column',
+    width: 40,
+  },
+};
 
 const keyStyles = Dawww.SCALE.reduce((acc, currentStep) => {
   return {
@@ -22,7 +24,7 @@ const keyStyles = Dawww.SCALE.reduce((acc, currentStep) => {
   };
 }, {});
 
-export default class Keys extends React.PureComponent {
+class Keys extends React.PureComponent {
   static propTypes = {
     hoveredRow: PropTypes.number,
     onKeyPress: PropTypes.func,
@@ -30,7 +32,7 @@ export default class Keys extends React.PureComponent {
 
   render() {
     return (
-      <StyledKeys>
+      <div className={this.props.classes.root}>
         {Dawww.SCALE.map(step => (
           <Key
             isHoveredRow={this.getIsHoveredRow(step)}
@@ -40,7 +42,7 @@ export default class Keys extends React.PureComponent {
             style={keyStyles[step.y]}
           />
         ))}
-      </StyledKeys>
+      </div>
     );
   }
 
@@ -50,3 +52,5 @@ export default class Keys extends React.PureComponent {
     this.props.onKeyPress(step.y);
   };
 }
+
+export default withStyles(styles)(Keys);

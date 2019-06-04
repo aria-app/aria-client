@@ -1,18 +1,20 @@
 import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
+import withStyles from '@material-ui/styles/withStyles';
 
-const StyledPanner = styled('div')({
-  bottom: 0,
-  cursor: 'grab',
-  left: 0,
-  position: 'absolute',
-  right: 0,
-  top: 0,
-});
+const styles = {
+  root: {
+    bottom: 0,
+    cursor: 'grab',
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
+};
 
-export default class Panner extends React.PureComponent {
+class Panner extends React.PureComponent {
   static propTypes = {
     scrollLeftEl: PropTypes.object,
     scrollTopEl: PropTypes.object,
@@ -24,7 +26,8 @@ export default class Panner extends React.PureComponent {
 
   render() {
     return (
-      <StyledPanner
+      <div
+        className={this.props.classes.root}
         onMouseDown={this.handleMouseDown}
         onMouseLeave={this.handleMouseLeave}
         onMouseMove={this.handleMouseMove}
@@ -78,3 +81,5 @@ export default class Panner extends React.PureComponent {
     });
   };
 }
+
+export default withStyles(styles)(Panner);

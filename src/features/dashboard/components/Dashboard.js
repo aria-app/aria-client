@@ -1,61 +1,61 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import hideIf from 'react-render-helpers/hideIf';
-// import showIf from 'react-render-helpers/showIf';
-import styled from '@material-ui/styles/styled';
+import withStyles from '@material-ui/styles/withStyles';
 import withTheme from '@material-ui/styles/withTheme';
 import shared from '../../shared';
 import SongList from './SongList';
 
 const { FadeOut, Icon, LoadingIndicator, Toolbar } = shared.components;
 
-const DashboardCenteredContent = styled('div')(props => ({
-  alignSelf: 'center',
-  maxWidth: props.theme.breakpoints.values.sm,
-  width: '100%',
-}));
-
-const DashboardUserImage = styled('img')({
-  borderRadius: '50%',
-  height: 40,
-  width: 40,
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    position: 'relative',
+  },
+  centeredContent: {
+    alignSelf: 'center',
+    maxWidth: theme.breakpoints.values.sm,
+    width: '100%',
+  },
+  userInfo: {
+    alignItems: 'center',
+    display: 'flex',
+    flex: '0 0 auto',
+    height: '100%',
+  },
+  userImage: {
+    borderRadius: '50%',
+    height: 40,
+    width: 40,
+  },
+  fab: {
+    alignItems: 'center',
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: '50%',
+    bottom: 24,
+    border: `2px solid ${theme.palette.divider}`,
+    cursor: 'pointer',
+    display: 'flex',
+    flex: '0 0 auto',
+    height: 56,
+    justifyContent: 'center',
+    position: 'absolute',
+    right: 24,
+    width: 56,
+  },
+  fabIcon: {},
 });
-
-const DashboardUserInfo = styled('div')({
-  alignItems: 'center',
-  display: 'flex',
-  flex: '0 0 auto',
-  height: '100%',
-});
-
-const Fab = styled('div')(props => ({
-  alignItems: 'center',
-  backgroundColor: props.theme.palette.primary.main,
-  borderRadius: '50%',
-  bottom: 24,
-  cursor: 'pointer',
-  display: 'flex',
-  flex: '0 0 auto',
-  height: 56,
-  justifyContent: 'center',
-  position: 'absolute',
-  right: 24,
-  width: 56,
-}));
 
 const FabIcon = withTheme(({ theme, ...rest }) => (
   <Icon color={theme.palette.primary.contrastText} {...rest} />
 ));
 
-const StyledDashboard = styled('div')({
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  position: 'relative',
-});
-
-export default class Dashboard extends React.Component {
+class Dashboard extends React.Component {
   static propTypes = {
+    classes: PropTypes.object,
     isLoadingSongs: PropTypes.bool,
     onLoad: PropTypes.func,
     onSongAdd: PropTypes.func,
@@ -72,24 +72,25 @@ export default class Dashboard extends React.Component {
 
   render() {
     return (
-      <StyledDashboard>
+      <div className={this.props.classes.root}>
         <Toolbar
           rightItems={
             <React.Fragment>
-              <DashboardUserInfo>
-                <DashboardUserImage
+              <div className={this.props.classes.userInfo}>
+                <img
+                  className={this.props.classes.userImage}
                   alt="User"
                   src={this.props.user.photoURL}
                   title={this.props.user.email}
                 />
-              </DashboardUserInfo>
+              </div>
             </React.Fragment>
           }
         />
         <FadeOut isVisible={this.props.isLoadingSongs}>
           <LoadingIndicator>LOADING SONGS...</LoadingIndicator>
         </FadeOut>
-        <DashboardCenteredContent>
+        <div className={this.props.classes.centeredContent}>
           {hideIf(this.props.isLoadingSongs)(() => (
             <SongList
               onDelete={this.deleteSong}
@@ -97,11 +98,11 @@ export default class Dashboard extends React.Component {
               songs={this.props.songs}
             />
           ))}
-        </DashboardCenteredContent>
-        <Fab onClick={this.addSong}>
+        </div>
+        <div className={this.props.classes.fab} onClick={this.addSong}>
           <FabIcon icon="plus" />
-        </Fab>
-      </StyledDashboard>
+        </div>
+      </div>
     );
   }
 
@@ -129,3 +130,5 @@ export default class Dashboard extends React.Component {
     this.props.history.push(`/song/${song.id}`);
   };
 }
+
+export default withStyles(styles)(Dashboard);

@@ -1,20 +1,23 @@
 import isEqual from 'lodash/fp/isEqual';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { DraggableCore } from 'react-draggable';
-import styled from '@material-ui/styles/styled';
 import Fence from './Fence';
 
-const StyledSelector = styled('div')({
-  bottom: 0,
-  left: 0,
-  position: 'absolute',
-  right: 0,
-  top: 0,
-});
+const styles = {
+  root: {
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
+};
 
-export default class Selector extends React.PureComponent {
+class Selector extends React.PureComponent {
   static propTypes = {
+    classes: PropTypes.object,
     isEnabled: PropTypes.bool,
     onSelect: PropTypes.func,
     scrollLeftEl: PropTypes.object,
@@ -34,7 +37,8 @@ export default class Selector extends React.PureComponent {
         onStart={this.handleDragStart}
         onStop={this.handleDragStop}
       >
-        <StyledSelector
+        <div
+          className={this.props.classes.root}
           style={{
             pointerEvents: this.props.isEnabled ? 'all' : 'none',
           }}
@@ -43,7 +47,7 @@ export default class Selector extends React.PureComponent {
             endPoint={this.state.endPoint}
             startPoint={this.state.startPoint}
           />
-        </StyledSelector>
+        </div>
       </DraggableCore>
     );
   }
@@ -108,6 +112,8 @@ export default class Selector extends React.PureComponent {
     });
   };
 }
+
+export default withStyles(styles)(Selector);
 
 function dragDataToGridPoint(dragData) {
   return {

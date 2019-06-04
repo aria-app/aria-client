@@ -2,28 +2,30 @@ import { PropTypes } from 'prop-types';
 import { transparentize } from 'polished';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import styled from '@material-ui/styles/styled';
+import withStyles from '@material-ui/styles/withStyles';
 
-const ColumnIndicator = styled('div')(props => ({
-  backgroundColor: transparentize(0.95, props.theme.palette.primary.main),
-  borderRadius: 2,
-  bottom: 0,
-  left: 0,
-  pointerEvents: 'none',
-  position: 'absolute',
-  top: 0,
-  width: 40,
-}));
-const RowIndicator = styled('div')(props => ({
-  backgroundColor: transparentize(0.95, props.theme.palette.primary.main),
-  borderRadius: 2,
-  left: 0,
-  height: 40,
-  pointerEvents: 'none',
-  position: 'absolute',
-  right: 0,
-  top: 0,
-}));
+const styles = theme => ({
+  column: {
+    backgroundColor: transparentize(0.95, theme.palette.primary.main),
+    borderRadius: 2,
+    bottom: 0,
+    left: 0,
+    pointerEvents: 'none',
+    position: 'absolute',
+    top: 0,
+    width: 40,
+  },
+  row: {
+    backgroundColor: transparentize(0.95, theme.palette.primary.main),
+    borderRadius: 2,
+    left: 0,
+    height: 40,
+    pointerEvents: 'none',
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
+});
 
 PositionIndicator.propTypes = {
   mousePoint: PropTypes.object,
@@ -33,14 +35,16 @@ function PositionIndicator(props) {
   return (
     <React.Fragment>
       {showIf(props.mousePoint.x >= 0)(
-        <ColumnIndicator
+        <div
+          className={props.classes.column}
           style={{
             transform: `translateX(${props.mousePoint.x * 40}px)`,
           }}
         />,
       )}
       {showIf(props.mousePoint.y >= 0)(
-        <RowIndicator
+        <div
+          className={props.classes.row}
           style={{
             transform: `translateY(${props.mousePoint.y * 40}px)`,
           }}
@@ -50,4 +54,4 @@ function PositionIndicator(props) {
   );
 }
 
-export default React.memo(PositionIndicator);
+export default React.memo(withStyles(styles)(PositionIndicator));

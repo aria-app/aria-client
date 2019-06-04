@@ -1,46 +1,56 @@
+import classnames from 'classnames';
 import { includes } from 'lodash/fp';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
 
-const KeyLabel = styled(({ step, ...rest }) => <div {...rest} />)(props => ({
-  display:
-    includes('C', props.step.name) && !includes('#', props.step.name)
-      ? 'block'
-      : 'none',
-}));
-
-const StyledKey = styled(({ isHoveredRow, step, ...rest }) => (
-  <div {...rest} />
-))(props => ({
-  alignItems: 'center',
-  backgroundColor: includes('#', props.step.name)
-    ? props.theme.palette.text.primary
-    : props.theme.palette.background.paper,
-  boxShadow: props.theme.shadows[2],
-  cursor: 'pointer',
-  display: 'flex',
-  flex: '0 0 auto',
-  height: 40,
-  justifyContent: 'center',
-  position: 'relative',
-  '&::after': {
-    backgroundColor: props.theme.palette.primary.main,
-    bottom: 0,
-    boxShadow: `2px 0 5px ${props.theme.palette.primary.main}`,
-    content: "''",
-    display: 'block',
-    right: -2,
-    opacity: props.isHoveredRow ? 1 : 0,
-    pointerEvents: 'none',
-    position: 'absolute',
-    top: 0,
-    width: 2,
+const styles = theme => ({
+  root: {
+    alignItems: 'center',
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[2],
+    cursor: 'pointer',
+    display: 'flex',
+    flex: '0 0 auto',
+    height: 40,
+    justifyContent: 'center',
+    position: 'relative',
+    '&::after': {
+      backgroundColor: theme.palette.primary.main,
+      bottom: 0,
+      boxShadow: `2px 0 5px ${theme.palette.primary.main}`,
+      content: "''",
+      display: 'block',
+      right: -2,
+      opacity: 0,
+      pointerEvents: 'none',
+      position: 'absolute',
+      top: 0,
+      width: 2,
+    },
   },
-}));
+  label: {
+    display: 'none',
+  },
+  c: {
+    '& $label': {
+      display: 'block',
+    },
+  },
+  hoveredRow: {
+    '&::after': {
+      opacity: 1,
+    },
+  },
+  sharp: {
+    backgroundColor: theme.palette.text.primary,
+  },
+});
 
-export default class Key extends React.PureComponent {
+class Key extends React.PureComponent {
   static propTypes = {
+    className: PropTypes.string,
+    classes: PropTypes.object,
     isHoveredRow: PropTypes.bool,
     onMouseDown: PropTypes.func,
     step: PropTypes.object,
@@ -49,16 +59,32 @@ export default class Key extends React.PureComponent {
 
   render() {
     return (
-      <StyledKey
-        isHoveredRow={this.props.isHoveredRow}
+      <div
+        className={this.getClassName()}
         onMouseDown={this.handleMouseDown}
-        step={this.props.step}
         style={this.props.style}
       >
-        <KeyLabel step={this.props.step}>{this.props.step.name}</KeyLabel>
-      </StyledKey>
+        <div className={this.props.classes.label} step={this.props.step}>
+          {this.props.step.name}
+        </div>
+      </div>
     );
   }
 
+  getClassName = () =>
+    classnames(
+      this.props.classes.root,
+      {
+        [this.props.classes.c]:
+          includes('C', this.props.step.name) &&
+          !includes('#', this.props.step.name),
+        [this.props.classes.hoveredRow]: this.props.isHoveredRow,
+        [this.props.classes.sharp]: includes('#', this.props.step.name),
+      },
+      this.props.className,
+    );
+
   handleMouseDown = () => this.props.onMouseDown(this.props.step);
 }
+
+export default withStyles(styles)(Key);

@@ -3,17 +3,19 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
-import styled from '@material-ui/styles/styled';
+import withStyles from '@material-ui/styles/withStyles';
 
-const StyledSignOut = styled('div')({
-  alignItems: 'center',
-  display: 'flex',
-  flex: '1 1 auto',
-  justifyContent: 'center',
-  textTransform: 'uppercase',
+const styles = () => ({
+  root: {
+    alignItems: 'center',
+    display: 'flex',
+    flex: '1 1 auto',
+    justifyContent: 'center',
+    textTransform: 'uppercase',
+  },
 });
 
-export default class SignOut extends React.Component {
+class SignOut extends React.PureComponent {
   static propTypes = {
     isAuthenticated: PropTypes.bool,
   };
@@ -40,8 +42,10 @@ export default class SignOut extends React.Component {
 
     return (
       <Translation>
-        {t => <StyledSignOut>{t('Signing Out')}</StyledSignOut>}
+        {t => <div className={this.props.classes.root}>{t('Signing Out')}</div>}
       </Translation>
     );
   }
 }
+
+export default withStyles(styles)(SignOut);

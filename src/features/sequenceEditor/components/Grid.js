@@ -1,7 +1,7 @@
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import styled from '@material-ui/styles/styled';
 import shared from '../../shared';
 import * as constants from '../constants';
 import DrawLayer from './DrawLayer';
@@ -13,20 +13,21 @@ import Slots from './Slots';
 
 const { Timeline } = shared.components;
 
-const GridWrapper = styled('div')({
-  height: '100%',
-  overflowX: 'visible',
-  position: 'relative',
-});
+const styles = {
+  root: {
+    overflowX: 'scroll',
+    overflowY: 'visible',
+    paddingLeft: 80,
+    position: 'relative',
+  },
+  wrapper: {
+    height: '100%',
+    overflowX: 'visible',
+    position: 'relative',
+  },
+};
 
-const StyledGrid = styled('div')({
-  overflowX: 'scroll',
-  overflowY: 'visible',
-  paddingLeft: 80,
-  position: 'relative',
-});
-
-export default class Grid extends React.PureComponent {
+class Grid extends React.PureComponent {
   static propTypes = {
     measureCount: PropTypes.number,
     mousePoint: PropTypes.object,
@@ -47,12 +48,16 @@ export default class Grid extends React.PureComponent {
 
   render() {
     return (
-      <StyledGrid
+      <div
+        className={this.props.classes.root}
         onMouseLeave={this.props.onMouseLeave}
         onMouseMove={this.props.onMouseMove}
         ref={this.setRef}
       >
-        <GridWrapper style={this.getWrapperStyle()}>
+        <div
+          className={this.props.classes.wrapper}
+          style={this.getWrapperStyle()}
+        >
           <Slots measureCount={this.props.measureCount} />
           {showIf(this.props.toolType === constants.toolTypes.DRAW)(
             <DrawLayer
@@ -85,8 +90,8 @@ export default class Grid extends React.PureComponent {
           )}
           <PositionIndicator mousePoint={this.props.mousePoint} />
           <Timeline isVisible={false} offset={0 * 40} />
-        </GridWrapper>
-      </StyledGrid>
+        </div>
+      </div>
     );
   }
 
@@ -103,3 +108,5 @@ export default class Grid extends React.PureComponent {
     this.elementRef = ref;
   };
 }
+
+export default withStyles(styles)(Grid);

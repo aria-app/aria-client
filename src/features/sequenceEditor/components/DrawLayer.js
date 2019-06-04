@@ -1,26 +1,27 @@
 import compose from 'lodash/fp/compose';
 import first from 'lodash/fp/first';
 import split from 'lodash/fp/split';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import styled from '@material-ui/styles/styled';
 import Note from './Note';
 
-const DrawLayerGhostNote = styled(Note)({
-  opacity: 0.4,
-  pointerEvents: 'none',
-});
+const styles = {
+  root: {
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
+  ghostNote: {
+    opacity: 0.4,
+    pointerEvents: 'none',
+  },
+};
 
-const StyledDrawLayer = styled('div')({
-  bottom: 0,
-  left: 0,
-  position: 'absolute',
-  right: 0,
-  top: 0,
-});
-
-export default class DrawLayer extends React.PureComponent {
+class DrawLayer extends React.PureComponent {
   static propTypes = {
     mousePoint: PropTypes.object,
     onDraw: PropTypes.func,
@@ -33,7 +34,8 @@ export default class DrawLayer extends React.PureComponent {
 
   render() {
     return (
-      <StyledDrawLayer
+      <div
+        className={this.props.classes.root}
         onMouseDown={this.handleMouseDown}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
@@ -41,9 +43,12 @@ export default class DrawLayer extends React.PureComponent {
         ref={this.setRef}
       >
         {showIf(this.state.isMouseOver)(
-          <DrawLayerGhostNote note={this.getGhostNoteNote()} />,
+          <Note
+            className={this.props.classes.ghostNote}
+            note={this.getGhostNoteNote()}
+          />,
         )}
-      </StyledDrawLayer>
+      </div>
     );
   }
 
@@ -109,3 +114,5 @@ export default class DrawLayer extends React.PureComponent {
     this.elementRef = ref;
   };
 }
+
+export default withStyles(styles)(DrawLayer);

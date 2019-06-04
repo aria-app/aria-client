@@ -6,26 +6,26 @@ import isEqual from 'lodash/fp/isEqual';
 import max from 'lodash/fp/max';
 import min from 'lodash/fp/min';
 import uniqBy from 'lodash/fp/uniqBy';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
 import * as constants from '../constants';
 import Note from './Note';
 
-const StyledNotes = styled(({ measureCount, ...rest }) => <div {...rest} />)(
-  props => ({
+const styles = {
+  root: {
     bottom: 0,
     cursor: 'pointer',
     left: 0,
     pointerEvents: 'none',
     position: 'absolute',
     top: 0,
-    width: props.measureCount * 4 * 8 * 40,
-  }),
-);
+  },
+};
 
-export default class Notes extends React.Component {
+class Notes extends React.Component {
   static propTypes = {
+    classes: PropTypes.object,
     measureCount: PropTypes.number,
     notes: PropTypes.arrayOf(PropTypes.object),
     onDrag: PropTypes.func,
@@ -66,7 +66,7 @@ export default class Notes extends React.Component {
 
   render() {
     return (
-      <StyledNotes measureCount={this.props.measureCount}>
+      <div className={this.props.classes.root} style={this.getStyle()}>
         {this.getAdjustedNotes().map(note => (
           <Note
             className="notes__note"
@@ -84,7 +84,7 @@ export default class Notes extends React.Component {
             note={note}
           />
         ))}
-      </StyledNotes>
+      </div>
     );
   }
 
@@ -104,6 +104,10 @@ export default class Notes extends React.Component {
       constants.toolTypes.DRAW,
       constants.toolTypes.SELECT,
     ]);
+
+  getStyle = () => ({
+    width: this.props.measureCount * 4 * 8 * 40,
+  });
 
   erase = note => {
     if (!this.getIsEraseEnabled()) return;
@@ -235,6 +239,8 @@ export default class Notes extends React.Component {
     this.props.onSelect(note, isAdditive);
   };
 }
+
+export default withStyles(styles)(Notes);
 
 function applyPositionDeltas(notes, deltas) {
   return notes.map(note => {

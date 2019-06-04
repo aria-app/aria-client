@@ -2,21 +2,25 @@ import Dawww from 'dawww';
 import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
+import withStyles from '@material-ui/styles/withStyles';
 
-const StyledSlots = styled('div')({
-  flex: '1 0 auto',
-  minHeight: '100%',
-});
+const styles = {
+  root: {
+    flex: '1 0 auto',
+    minHeight: '100%',
+  },
+};
 
-export default class Slots extends React.PureComponent {
+class Slots extends React.PureComponent {
   static propTypes = {
+    classes: PropTypes.object,
     measureCount: PropTypes.number,
   };
 
   render() {
     return (
-      <StyledSlots
+      <div
+        className={this.props.classes.root}
         dangerouslySetInnerHTML={{
           __html: this.getHTML(),
         }}
@@ -76,3 +80,5 @@ function getSlot(column, row) {
     ></rect>
   `;
 }
+
+export default withStyles(styles)(Slots);

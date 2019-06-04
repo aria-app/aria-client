@@ -3,19 +3,21 @@ import isEqual from 'lodash/fp/isEqual';
 import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
+import withStyles from '@material-ui/styles/withStyles';
 
-const StyledFence = styled('div')(props => ({
-  backgroundColor: transparentize(0.75, props.theme.palette.secondary.main),
-  border: `2px solid ${props.theme.palette.secondary.main}`,
-  borderRadius: 2,
-  left: 0,
-  pointerEvents: 'none',
-  position: 'absolute',
-  top: 0,
-}));
+const styles = theme => ({
+  root: {
+    backgroundColor: transparentize(0.75, theme.palette.secondary.main),
+    border: `2px solid ${theme.palette.secondary.main}`,
+    borderRadius: 2,
+    left: 0,
+    pointerEvents: 'none',
+    position: 'absolute',
+    top: 0,
+  },
+});
 
-export default class Fence extends React.PureComponent {
+class Fence extends React.PureComponent {
   static propTypes = {
     endPoint: PropTypes.object,
     startPoint: PropTypes.object,
@@ -23,7 +25,8 @@ export default class Fence extends React.PureComponent {
 
   render() {
     return (
-      <StyledFence
+      <div
+        className={this.props.classes.root}
         style={{
           display: this.getDisplay(),
           height: this.getHeight(),
@@ -74,3 +77,5 @@ export default class Fence extends React.PureComponent {
     return (Math.abs(end.x - start.x) + 1) * 40;
   }
 }
+
+export default withStyles(styles)(Fence);

@@ -2,16 +2,18 @@ import orderBy from 'lodash/fp/orderBy';
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { animated, useTransition } from 'react-spring';
-import styled from '@material-ui/styles/styled';
+import withStyles from '@material-ui/styles/withStyles';
 import SongListItem from './SongListItem';
 
-const StyledSongList = styled('div')(props => ({
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  paddingBottom: props.theme.spacing(1),
-  paddingTop: props.theme.spacing(1),
-}));
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    paddingBottom: theme.spacing(1),
+    paddingTop: theme.spacing(1),
+  },
+});
 
 SongList.propTypes = {
   onDelete: PropTypes.func,
@@ -20,7 +22,7 @@ SongList.propTypes = {
 };
 
 // TODO: Transition in songs in Song List to prevent duplicate entries on transition
-export default function SongList(props) {
+function SongList(props) {
   const sortedSongs = useMemo(
     () => orderBy(x => x.dateModified, 'desc', Object.values(props.songs)),
     [props.songs],
@@ -52,7 +54,7 @@ export default function SongList(props) {
   });
 
   return (
-    <StyledSongList>
+    <div className={props.classes.root}>
       {songTransitions.map(({ item, key, props: animation }) => (
         <animated.div key={key} style={animation}>
           <SongListItem
@@ -62,6 +64,8 @@ export default function SongList(props) {
           />
         </animated.div>
       ))}
-    </StyledSongList>
+    </div>
   );
 }
+
+export default React.memo(withStyles(styles)(SongList));

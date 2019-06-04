@@ -1,46 +1,63 @@
+import classnames from 'classnames';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
 import Icon from './Icon';
 
-const IconButtonBackground = styled(({ isActive, ...rest }) => (
-  <div {...rest} />
-))(props => ({
-  backgroundColor: props.isActive ? props.theme.palette.action.selected : '',
-  flex: '1 0 auto',
-}));
-
-const IconButtonIconWrapper = styled(({ isDisabled, ...rest }) => (
-  <div {...rest} />
-))(props => ({
-  opacity: props.isDisabled ? 0.5 : '',
-  position: 'absolute',
-}));
-
-const StyledIconButton = styled(({ isActive, isDisabled, ...rest }) => (
-  <div {...rest} />
-))(props => ({
-  alignItems: 'stretch',
-  cursor: props.isDisabled ? 'not-allowed' : 'pointer',
-  display: 'flex',
-  flex: '0 0 auto',
-  flexDirection: 'column',
-  height: 40,
-  position: 'relative',
-  transform: 'scale(1)',
-  transition: 'transform 200ms ease',
-  width: 40,
-  '&:hover': {
-    transform: !(props.isActive || props.isDisabled) ? 'scale(1.1)' : '',
+const styles = theme => ({
+  root: {
+    alignItems: 'stretch',
+    cursor: 'pointer',
+    display: 'flex',
+    flex: '0 0 auto',
+    flexDirection: 'column',
+    height: 40,
+    position: 'relative',
+    transform: 'scale(1)',
+    transition: 'transform 200ms ease',
+    width: 40,
+    '&:hover': {
+      transform: 'scale(1.2)',
+    },
+    '&:active': {
+      transform: 'scale(0.9)',
+    },
   },
-  '&:active': {
-    transform: !props.isDisabled ? 'scale(0.9)' : '',
+  background: {
+    flex: '1 0 auto',
   },
-}));
+  iconWrapper: {
+    position: 'absolute',
+  },
+  active: {
+    '&:hover': {
+      transform: 'none',
+    },
+    '&:active': {
+      transform: 'none',
+    },
+    '& $background': {
+      backgroundColor: theme.palette.action.selected,
+    },
+  },
+  disabled: {
+    cursor: 'not-allowed',
+    '&:hover': {
+      transform: 'none',
+    },
+    '&:active': {
+      transform: 'none',
+    },
+    '& $iconWrapper': {
+      opacity: 0.5,
+    },
+  },
+});
 
-export default class IconButton extends React.PureComponent {
+class IconButton extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
+    classes: PropTypes.object,
     color: PropTypes.string,
     getRef: PropTypes.func,
     icon: PropTypes.string,
@@ -59,27 +76,35 @@ export default class IconButton extends React.PureComponent {
 
   render() {
     return (
-      <StyledIconButton
-        className={this.props.className}
-        isActive={this.props.isActive}
-        isDisabled={this.props.isDisabled}
+      <div
+        className={this.getClassName()}
         onClick={this.handleClick}
         ref={this.props.getRef}
         style={this.props.style}
         title={this.props.title}
       >
-        <IconButtonBackground isActive={this.props.isActive} />
-        <IconButtonIconWrapper isDisabled={this.props.isDisabled}>
+        <div className={this.props.classes.background} />
+        <div className={this.props.classes.iconWrapper}>
           <Icon
             color={this.props.color}
             icon={this.props.icon}
             size={this.props.size}
             {...this.props.iconProps}
           />
-        </IconButtonIconWrapper>
-      </StyledIconButton>
+        </div>
+      </div>
     );
   }
+
+  getClassName = () =>
+    classnames(
+      this.props.classes.root,
+      {
+        [this.props.classes.active]: this.props.isActive,
+        [this.props.classes.disabled]: this.props.isDisabled,
+      },
+      this.props.className,
+    );
 
   handleClick = e => {
     if (this.props.isDisabled) return;
@@ -87,3 +112,5 @@ export default class IconButton extends React.PureComponent {
     this.props.onClick(e);
   };
 }
+
+export default withStyles(styles)(IconButton);
