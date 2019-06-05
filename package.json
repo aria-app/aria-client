@@ -52,7 +52,7 @@
     "@storybook/addon-actions": "5.1.1",
     "@storybook/addon-knobs": "5.1.1",
     "@storybook/addons": "5.1.1",
-    "@storybook/react": "5.0.11",
+    "@storybook/react": "5.1.1",
     "ava": "1.4.1",
     "babel-loader": "8.0.5",
     "browser-env": "3.2.6",
