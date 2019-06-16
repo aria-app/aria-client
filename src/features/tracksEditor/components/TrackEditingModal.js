@@ -8,42 +8,43 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
-import styled from '@material-ui/styles/styled';
 import Dawww from '../../../dawww';
 
 const minVolume = -20;
 const maxVolume = 0;
 
-const DeleteButton = styled(Button)(props => ({
-  alignSelf: 'stretch',
-  marginLeft: props.theme.spacing(1),
-  marginRight: props.theme.spacing(1),
-}));
-
-const TrackEditingModalDropdown = styled(FormControl)(props => ({
-  marginBottom: props.theme.spacing(2),
-  marginLeft: props.theme.spacing(1),
-}));
-
-const TrackEditingModalContent = styled(DialogContent)(props => ({
-  alignItems: 'flex-start',
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  marginLeft: props.theme.spacing(-1),
-  marginRight: props.theme.spacing(-1),
-}));
-
-const TrackEditingModalTitle = styled(DialogTitle)({
-  fontWeight: 800,
-  textTransform: 'uppercase',
+const styles = theme => ({
+  root: {},
+  deleteButton: {
+    alignSelf: 'stretch',
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
+  dropdown: {
+    marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(1),
+  },
+  content: {
+    alignItems: 'flex-start',
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    marginLeft: theme.spacing(-1),
+    marginRight: theme.spacing(-1),
+  },
+  title: {
+    fontWeight: 800,
+    textTransform: 'uppercase',
+  },
 });
 
-export default class TrackEditingModal extends React.PureComponent {
+class TrackEditingModal extends React.PureComponent {
   static propTypes = {
+    classes: PropTypes.object,
     onDelete: PropTypes.func,
     onDismiss: PropTypes.func,
     onVoiceSet: PropTypes.func,
@@ -56,14 +57,17 @@ export default class TrackEditingModal extends React.PureComponent {
       <Translation>
         {t => (
           <Dialog
+            className={this.props.classes.root}
             fullWidth={true}
             maxWidth="xs"
             onClose={this.props.onDismiss}
             open={this.getIsOpen()}
           >
-            <TrackEditingModalTitle>{t('Edit Track')}</TrackEditingModalTitle>
-            <TrackEditingModalContent>
-              <TrackEditingModalDropdown>
+            <DialogTitle className={this.props.classes.title}>
+              {t('Edit Track')}
+            </DialogTitle>
+            <DialogContent className={this.props.classes.content}>
+              <FormControl className={this.props.classes.dropdown}>
                 <InputLabel htmlFor="voice">Voice</InputLabel>
                 <Select
                   inputProps={{ name: 'voice', id: 'voice' }}
@@ -76,8 +80,8 @@ export default class TrackEditingModal extends React.PureComponent {
                     </MenuItem>
                   ))}
                 </Select>
-              </TrackEditingModalDropdown>
-              <TrackEditingModalDropdown>
+              </FormControl>
+              <FormControl className={this.props.classes.dropdown}>
                 <InputLabel htmlFor="volume">Volume</InputLabel>
                 <Select
                   inputProps={{ name: 'volume', id: 'volume' }}
@@ -90,15 +94,16 @@ export default class TrackEditingModal extends React.PureComponent {
                     </MenuItem>
                   ))}
                 </Select>
-              </TrackEditingModalDropdown>
-              <DeleteButton
+              </FormControl>
+              <Button
+                className={this.props.classes.deleteButton}
                 color="secondary"
                 onClick={this.handleContentDeleteButtonClick}
                 variant="contained"
               >
                 {t('Delete')}
-              </DeleteButton>
-            </TrackEditingModalContent>
+              </Button>
+            </DialogContent>
           </Dialog>
         )}
       </Translation>
@@ -117,3 +122,5 @@ export default class TrackEditingModal extends React.PureComponent {
   handleVolumeChange = e =>
     this.props.onVolumeSet(this.props.stagedTrack, e.target.value);
 }
+
+export default withStyles(styles)(TrackEditingModal);

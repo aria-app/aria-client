@@ -2,10 +2,10 @@ import Dawww from 'dawww';
 import find from 'lodash/fp/find';
 import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { HotKeys } from 'react-hotkeys';
-import styled from '@material-ui/styles/styled';
 import shared from '../../shared';
 import TrackList from './TrackList';
 import TrackEditingModal from './TrackEditingModal';
@@ -13,16 +13,19 @@ import TracksEditorToolbar from './TracksEditorToolbar';
 
 const { Timeline } = shared.components;
 
-const StyledTracksEditor = styled(HotKeys)({
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  overflow: 'hidden',
-  position: 'relative',
-});
+const styles = {
+  root: {
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    position: 'relative',
+  },
+};
 
-export default class TracksEditor extends React.PureComponent {
+class TracksEditor extends React.PureComponent {
   static propTypes = {
+    classes: PropTypes.object,
     isLoading: PropTypes.bool,
     isRedoEnabled: PropTypes.bool,
     isStopped: PropTypes.bool,
@@ -68,7 +71,11 @@ export default class TracksEditor extends React.PureComponent {
 
   render() {
     return (
-      <StyledTracksEditor focused={true} handlers={this.getKeyHandlers()}>
+      <HotKeys
+        className={this.props.classes.root}
+        focused={true}
+        handlers={this.getKeyHandlers()}
+      >
         <div ref={this.focusRef} tabIndex={-1} />
         <React.Fragment>
           <TrackList
@@ -111,7 +118,7 @@ export default class TracksEditor extends React.PureComponent {
             stagedTrack={this.getSelectedTrack()}
           />
         </React.Fragment>
-      </StyledTracksEditor>
+      </HotKeys>
     );
   }
 
@@ -235,3 +242,5 @@ export default class TracksEditor extends React.PureComponent {
     this.props.onUndo();
   };
 }
+
+export default withStyles(styles)(TracksEditor);

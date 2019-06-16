@@ -1,8 +1,8 @@
 import getOr from 'lodash/fp/getOr';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { animated, useTransition } from 'react-spring';
-import styled from '@material-ui/styles/styled';
 import shared from '../../shared';
 import AddTrackButton from './AddTrackButton';
 import Ruler from './Ruler';
@@ -10,37 +10,38 @@ import Track from './Track';
 
 const { FadeIn, FadeOut, LoadingIndicator } = shared.components;
 
-const StyledTrackList = styled('div')({
-  alignItems: 'flex-start',
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  overflow: 'auto',
-  position: 'relative',
-});
-
-const TrackListContent = styled('div')(props => ({
-  alignItems: 'flex-start',
-  display: 'flex',
-  flex: '1 0 auto',
-  flexDirection: 'column',
-  minWidth: '100%',
-  padding: props.theme.spacing(2),
-  paddingBottom: props.theme.spacing(2) + 84,
-  paddingRight: props.theme.spacing(2) + 128,
-  paddingTop: props.theme.spacing(2) + 2,
-  position: 'relative',
-}));
-
-const TrackListUnderlay = styled('div')({
-  bottom: 0,
-  left: 0,
-  position: 'absolute',
-  right: 0,
-  top: 0,
+const styles = theme => ({
+  root: {
+    alignItems: 'flex-start',
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    overflow: 'auto',
+    position: 'relative',
+  },
+  content: {
+    alignItems: 'flex-start',
+    display: 'flex',
+    flex: '1 0 auto',
+    flexDirection: 'column',
+    minWidth: '100%',
+    padding: theme.spacing(2),
+    paddingBottom: theme.spacing(2) + 84,
+    paddingRight: theme.spacing(2) + 128,
+    paddingTop: theme.spacing(2) + 2,
+    position: 'relative',
+  },
+  underlay: {
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
 });
 
 TrackList.propTypes = {
+  classes: PropTypes.object,
   onPositionSet: PropTypes.func,
   onSequenceAdd: PropTypes.func,
   onSequenceDeselect: PropTypes.func,
@@ -57,8 +58,6 @@ TrackList.propTypes = {
   tracks: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default React.memo(TrackList);
-
 function TrackList(props) {
   const trackTransitions = useTransition(props.tracks, track => track.id, {
     config: { clamp: true, tension: 200 },
@@ -68,12 +67,15 @@ function TrackList(props) {
   });
 
   return (
-    <StyledTrackList>
+    <div className={props.classes.root}>
       <FadeOut isVisible={props.isLoading}>
         <LoadingIndicator>LOADING SONG...</LoadingIndicator>
       </FadeOut>
-      <TrackListContent>
-        <TrackListUnderlay onClick={props.onSequenceDeselect} />
+      <div className={props.classes.content}>
+        <div
+          className={props.classes.underlay}
+          onClick={props.onSequenceDeselect}
+        />
         <FadeIn isVisible={!props.isLoading}>
           <Ruler
             measureCount={props.songMeasureCount}
@@ -115,7 +117,9 @@ function TrackList(props) {
             songMeasureCount={props.songMeasureCount}
           />
         </FadeIn>
-      </TrackListContent>
-    </StyledTrackList>
+      </div>
+    </div>
   );
 }
+
+export default React.memo(withStyles(styles)(TrackList));

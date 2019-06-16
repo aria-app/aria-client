@@ -7,11 +7,11 @@ import isNil from 'lodash/fp/isNil';
 import range from 'lodash/fp/range';
 import some from 'lodash/fp/some';
 import times from 'lodash/fp/times';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import { showIf } from 'react-render-helpers';
-import styled from '@material-ui/styles/styled';
 import withTheme from '@material-ui/styles/withTheme';
 import shared from '../../shared';
 import AddSequenceButton from './AddSequenceButton';
@@ -20,35 +20,32 @@ import TrackHeader from './TrackHeader';
 
 const { Boxes, MatrixBox } = shared.components;
 
-const StyledTrack = styled('div')(props => ({
-  alignItems: 'stretch',
-  cursor: 'pointer',
-  display: 'flex',
-  flex: '0 0 auto',
-  flexDirection: 'column',
-  marginBottom: props.theme.spacing(2),
-}));
-
-const TrackMatrixBox = styled(
-  withTheme(({ theme, ...rest }) => (
-    <MatrixBox fill={theme.palette.primary.main} {...rest} />
-  )),
-)({
-  left: 0,
-  position: 'absolute',
-  top: 0,
+const styles = theme => ({
+  root: {
+    alignItems: 'stretch',
+    cursor: 'pointer',
+    display: 'flex',
+    flex: '0 0 auto',
+    flexDirection: 'column',
+    marginBottom: theme.spacing(2),
+  },
+  matrixBox: {
+    left: 0,
+    position: 'absolute',
+    top: 0,
+  },
+  sequences: {
+    alignItems: 'stretch',
+    display: 'flex',
+    flex: '1 0 auto',
+    height: 84,
+    position: 'relative',
+  },
 });
 
-const TrackSequences = styled('div')({
-  alignItems: 'stretch',
-  display: 'flex',
-  flex: '1 0 auto',
-  height: 84,
-  position: 'relative',
-});
-
-export default class Track extends React.Component {
+class Track extends React.Component {
   static propTypes = {
+    classes: PropTypes.object,
     onSequenceAdd: PropTypes.func,
     onSequenceEdit: PropTypes.func,
     onSequenceOpen: PropTypes.func,
@@ -58,6 +55,7 @@ export default class Track extends React.Component {
     onTrackSelect: PropTypes.func,
     selectedSequenceId: PropTypes.string,
     songMeasureCount: PropTypes.number,
+    theme: PropTypes.object,
     track: PropTypes.object,
   };
 
@@ -68,7 +66,7 @@ export default class Track extends React.Component {
   render() {
     const firstEmptyPosition = this.getFirstEmptyPosition();
     return (
-      <StyledTrack>
+      <div className={this.props.classes.root}>
         <Translation>
           {t => (
             <TrackHeader onClick={this.handleHeaderClick}>
@@ -76,8 +74,13 @@ export default class Track extends React.Component {
             </TrackHeader>
           )}
         </Translation>
-        <TrackSequences style={this.getBodySequencesStyle()}>
-          <TrackMatrixBox
+        <div
+          className={this.props.classes.sequences}
+          style={this.getBodySequencesStyle()}
+        >
+          <MatrixBox
+            className={this.props.classes.matrixBox}
+            fill={this.props.theme.palette.primary.main}
             matrix={this.getMatrix()}
             height={84}
             width={this.props.songMeasureCount * 64}
@@ -98,8 +101,8 @@ export default class Track extends React.Component {
               position={firstEmptyPosition}
             />,
           )}
-        </TrackSequences>
-      </StyledTrack>
+        </div>
+      </div>
     );
   }
 
@@ -212,3 +215,5 @@ export default class Track extends React.Component {
     this.props.onSequenceAdd(this.props.track, position);
   };
 }
+
+export default withTheme(withStyles(styles)(Track));

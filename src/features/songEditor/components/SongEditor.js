@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { HotKeys } from 'react-hotkeys';
-import styled from '@material-ui/styles/styled';
+import withStyles from '@material-ui/styles/withStyles';
 import sequenceEditor from '../../sequenceEditor';
 import tracksEditor from '../../tracksEditor';
 import SongEditorToolbar from './SongEditorToolbar';
@@ -11,17 +11,20 @@ import SongInfoModal from './SongInfoModal';
 const { SequenceEditorContainer } = sequenceEditor.components;
 const { TracksEditorContainer } = tracksEditor.components;
 
-const StyledSongEditor = styled(HotKeys)({
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  overflow: 'hidden',
-  position: 'relative',
-});
+const styles = {
+  root: {
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    position: 'relative',
+  },
+};
 
-export default class SongEditor extends React.PureComponent {
+class SongEditor extends React.PureComponent {
   static propTypes = {
     bpm: PropTypes.number,
+    classes: PropTypes.object,
     onBPMChange: PropTypes.func,
     onPause: PropTypes.func,
     onPlay: PropTypes.func,
@@ -42,7 +45,7 @@ export default class SongEditor extends React.PureComponent {
 
   render() {
     return (
-      <StyledSongEditor focused={true} handlers={{}}>
+      <HotKeys className={this.props.classes.root} focused={true} handlers={{}}>
         <Route
           component={TracksEditorContainer}
           exact={true}
@@ -69,7 +72,7 @@ export default class SongEditor extends React.PureComponent {
           onSignOut={this.signOut}
           song={this.props.song}
         />
-      </StyledSongEditor>
+      </HotKeys>
     );
   }
 
@@ -93,3 +96,5 @@ export default class SongEditor extends React.PureComponent {
     this.props.history.push('/sign-out');
   };
 }
+
+export default withStyles(styles)(SongEditor);

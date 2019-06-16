@@ -1,6 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import teal from '@material-ui/core/colors/teal';
-console.log(teal);
 
 // Default theme reference: https://material-ui.com/customization/default-theme/
 export default createMuiTheme({

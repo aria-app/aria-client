@@ -1,30 +1,34 @@
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
+import withStyles from '@material-ui/styles/withStyles';
 import withTheme from '@material-ui/styles/withTheme';
 import { getExtraProps } from '../helpers/getExtraProps';
 import icons from './icons';
 
-const IconContent = styled('div')({
-  alignItems: 'center',
-  display: 'flex',
-  flex: '0 0 auto',
-  height: 24,
-  justifyContent: 'center',
-  width: 24,
-});
-
-const StyledIcon = styled('div')({
-  alignItems: 'center',
-  display: 'flex',
-  flex: '0 0 auto',
-  height: 40,
-  justifyContent: 'center',
-  width: 40,
+const styles = theme => ({
+  root: {
+    alignItems: 'center',
+    display: 'flex',
+    flex: '0 0 auto',
+    height: 40,
+    justifyContent: 'center',
+    width: 40,
+  },
+  content: {
+    alignItems: 'center',
+    display: 'flex',
+    flex: '0 0 auto',
+    height: 24,
+    justifyContent: 'center',
+    width: 24,
+  },
 });
 
 class Icon extends React.PureComponent {
   static propTypes = {
+    className: PropTypes.string,
+    classes: PropTypes.object,
     color: PropTypes.string,
     icon: PropTypes.oneOf(Object.keys(icons).concat([''])),
     size: PropTypes.oneOf(['small', 'regular', 'large', '']),
@@ -33,9 +37,13 @@ class Icon extends React.PureComponent {
 
   render() {
     return (
-      <StyledIcon color={this.props.color} {...getExtraProps(this)}>
-        <IconContent>{this.getIcon()}</IconContent>
-      </StyledIcon>
+      <div
+        className={classnames(this.props.classes.root, this.props.className)}
+        color={this.props.color}
+        {...getExtraProps(this)}
+      >
+        <div className={this.props.classes.content}>{this.getIcon()}</div>
+      </div>
     );
   }
 
@@ -65,4 +73,4 @@ class Icon extends React.PureComponent {
   }
 }
 
-export default withTheme(Icon);
+export default withTheme(withStyles(styles)(Icon));

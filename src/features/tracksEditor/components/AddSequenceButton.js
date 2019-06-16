@@ -1,59 +1,60 @@
+import withStyles from '@material-ui/styles/withStyles';
 import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
 
-const AddSequenceButtonPlusHorizontal = styled('div')(props => ({
-  backgroundColor: props.theme.palette.primary.main,
-  height: 1,
-  left: '50%',
-  position: 'absolute',
-  top: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 9,
-}));
+const styles = theme => ({
+  root: {
+    alignItems: 'center',
+    backgroundColor: transparentize(0.5, theme.palette.primary.main),
+    border: `1px solid ${theme.palette.primary.main}`,
+    cursor: 'pointer',
+    display: 'flex',
+    flex: '0 0 auto',
+    height: 84,
+    justifyContent: 'center',
+    position: 'absolute',
+    width: 64,
+  },
+  plusHorizontal: {
+    backgroundColor: theme.palette.primary.main,
+    height: 1,
+    left: '50%',
+    position: 'absolute',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 9,
+  },
+  plusVertical: {
+    backgroundColor: theme.palette.primary.main,
+    height: 9,
+    left: '50%',
+    position: 'absolute',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 1,
+  },
+});
 
-const AddSequenceButtonPlusVertical = styled('div')(props => ({
-  backgroundColor: props.theme.palette.primary.main,
-  height: 9,
-  left: '50%',
-  position: 'absolute',
-  top: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 1,
-}));
-
-const StyledAddSequenceButton = styled('div')(props => ({
-  alignItems: 'center',
-  backgroundColor: transparentize(0.5, props.theme.palette.primary.main),
-  border: `1px solid ${props.theme.palette.primary.main}`,
-  cursor: 'pointer',
-  display: 'flex',
-  flex: '0 0 auto',
-  height: 84,
-  justifyContent: 'center',
-  position: 'absolute',
-  width: 64,
-}));
-
-export default class AddSequenceButton extends React.PureComponent {
+class AddSequenceButton extends React.PureComponent {
   static propTypes = {
+    classes: PropTypes.object,
     onClick: PropTypes.func,
     position: PropTypes.number,
   };
 
   render() {
     return (
-      <StyledAddSequenceButton
-        className="add-sequence-button"
+      <div
+        className={this.props.classes.root}
         onClick={this.handleClick}
         style={{
           left: this.props.position * 64,
         }}
       >
-        <AddSequenceButtonPlusVertical className="add-sequence-button__plus__vertical" />
-        <AddSequenceButtonPlusHorizontal className="add-sequence-button__plus__horizontal" />
-      </StyledAddSequenceButton>
+        <div className={this.props.classes.plusVertical} />
+        <div className={this.props.classes.plusHorizontal} />
+      </div>
     );
   }
 
@@ -61,3 +62,5 @@ export default class AddSequenceButton extends React.PureComponent {
     this.props.onClick(this.props.position);
   };
 }
+
+export default withStyles(styles)(AddSequenceButton);

@@ -1,36 +1,39 @@
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
+import withStyles from '@material-ui/styles/withStyles';
 import { getExtraProps } from '../helpers';
 
-const StyledToolbar = styled('div')(props => ({
-  alignItems: 'stretch',
-  backgroundColor: props.theme.palette.background.paper,
-  borderTop: `1px solid ${props.theme.palette.divider}`,
-  boxShadow: props.theme.shadows[1],
-  display: 'flex',
-  flex: '0 0 auto',
-  height: 56,
-  paddingLeft: props.theme.spacing(1),
-  paddingRight: props.theme.spacing(1),
-  position: 'relative',
-}));
-
-const ToolbarLeftItems = styled('div')({
-  alignItems: 'center',
-  display: 'flex',
-  flex: '1 1 auto',
+const styles = theme => ({
+  root: {
+    alignItems: 'stretch',
+    backgroundColor: theme.palette.background.paper,
+    borderTop: `1px solid ${theme.palette.divider}`,
+    boxShadow: theme.shadows[1],
+    display: 'flex',
+    flex: '0 0 auto',
+    height: 56,
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    position: 'relative',
+  },
+  leftItems: {
+    alignItems: 'center',
+    display: 'flex',
+    flex: '1 1 auto',
+  },
+  rightItems: {
+    alignItems: 'center',
+    display: 'flex',
+    flex: '0 0 auto',
+    marginLeft: 'auto',
+  },
 });
 
-const ToolbarRightItems = styled('div')({
-  alignItems: 'center',
-  display: 'flex',
-  flex: '0 0 auto',
-  marginLeft: 'auto',
-});
-
-export default class Toolbar extends React.Component {
+class Toolbar extends React.PureComponent {
   static propTypes = {
+    className: PropTypes.string,
+    classes: PropTypes.object,
     isAlternate: PropTypes.bool,
     leftItems: PropTypes.node,
     leftItemsAlt: PropTypes.node,
@@ -47,10 +50,17 @@ export default class Toolbar extends React.Component {
 
   render() {
     return (
-      <StyledToolbar {...getExtraProps(this)}>
-        <ToolbarLeftItems>{this.getLeftItems()}</ToolbarLeftItems>
-        <ToolbarRightItems>{this.getRightItems()}</ToolbarRightItems>
-      </StyledToolbar>
+      <div
+        className={classnames(this.props.classes.root, this.props.className)}
+        {...getExtraProps(this)}
+      >
+        <div className={this.props.classes.leftItems}>
+          {this.getLeftItems()}
+        </div>
+        <div className={this.props.classes.rightItems}>
+          {this.getRightItems()}
+        </div>
+      </div>
     );
   }
 
@@ -66,3 +76,5 @@ export default class Toolbar extends React.Component {
       : this.props.rightItems;
   }
 }
+
+export default withStyles(styles)(Toolbar);

@@ -1,18 +1,19 @@
+import withStyles from '@material-ui/styles/withStyles';
+import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
 
-export default React.memo(
-  styled('div')(props => ({
+const styles = theme => ({
+  root: {
     alignItems: 'center',
     alignSelf: 'flex-start',
-    backgroundColor: props.theme.palette.primary.dark,
-    color: props.theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.primary.dark,
+    color: theme.palette.primary.contrastText,
     display: 'flex',
     fontWeight: 800,
     height: 28,
-    marginBottom: props.theme.spacing(1),
-    paddingLeft: props.theme.spacing(1),
-    paddingRight: props.theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
     textTransform: 'uppercase',
     transform: 'scale(1)',
     transition: 'transform 0.2s ease',
@@ -22,5 +23,17 @@ export default React.memo(
     '&:active': {
       transform: 'scale(0.9)',
     },
-  })),
-);
+  },
+});
+
+TrackHeader.propTypes = {
+  classes: PropTypes.object,
+};
+
+function TrackHeader(props) {
+  const { classes, ...rest } = props;
+
+  return <div className={classes.root} {...rest} />;
+}
+
+export default React.memo(withStyles(styles)(TrackHeader));

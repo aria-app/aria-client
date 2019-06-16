@@ -1,16 +1,18 @@
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
 import Box from './Box';
 
-const StyledBoxes = styled('div')(props => ({
-  position: 'relative',
-  width: props.length * props.step,
-}));
+const styles = {
+  root: {
+    position: 'relative',
+  },
+};
 
-export default class Boxes extends React.Component {
+class Boxes extends React.Component {
   static propTypes = {
     boxContentComponent: PropTypes.func,
+    classes: PropTypes.object,
     items: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.any,
@@ -36,10 +38,14 @@ export default class Boxes extends React.Component {
 
   render() {
     return (
-      <StyledBoxes
+      <div
+        className={this.props.classes.root}
         length={this.props.length}
         step={this.props.step}
-        style={this.props.style}
+        style={{
+          ...this.props.style,
+          width: this.props.length * this.props.step,
+        }}
       >
         {this.getBoxes().map(item => (
           <Box
@@ -50,7 +56,7 @@ export default class Boxes extends React.Component {
             item={item}
           />
         ))}
-      </StyledBoxes>
+      </div>
     );
   }
 
@@ -70,3 +76,5 @@ export default class Boxes extends React.Component {
     );
   };
 }
+
+export default withStyles(styles)(Boxes);

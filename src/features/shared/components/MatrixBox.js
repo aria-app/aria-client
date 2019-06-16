@@ -1,17 +1,21 @@
 import classnames from 'classnames';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@material-ui/styles/styled';
 import { getExtraProps } from '../helpers';
 
-const StyledMatrixBox = styled('div')({
-  display: 'flex',
-  flex: '1 0 auto',
-  position: 'relative',
-});
+const styles = {
+  root: {
+    display: 'flex',
+    flex: '1 0 auto',
+    position: 'relative',
+  },
+};
 
-export default class MatrixBox extends React.Component {
+class MatrixBox extends React.Component {
   static propTypes = {
+    className: PropTypes.string,
+    classes: PropTypes.object,
     fill: PropTypes.string,
     height: PropTypes.number,
     width: PropTypes.number,
@@ -30,7 +34,10 @@ export default class MatrixBox extends React.Component {
     const width = this.props.width + 3;
 
     return (
-      <StyledMatrixBox {...getExtraProps(this)}>
+      <div
+        className={classnames(this.props.classes.root, this.props.className)}
+        {...getExtraProps(this)}
+      >
         <svg
           height={height}
           style={{
@@ -45,11 +52,9 @@ export default class MatrixBox extends React.Component {
             __html: this.getData(),
           }}
         />
-      </StyledMatrixBox>
+      </div>
     );
   }
-
-  getClassName = () => classnames('matrix-box', this.props.className);
 
   getData = () => {
     const rowCount = this.props.matrix.length;
@@ -85,3 +90,5 @@ export default class MatrixBox extends React.Component {
     return '';
   };
 }
+
+export default withStyles(styles)(MatrixBox);

@@ -1,50 +1,53 @@
-import { isEmpty } from 'lodash/fp';
-import styled from '@material-ui/styles/styled';
+import classnames from 'classnames';
+import isEmpty from 'lodash/fp/isEmpty';
+import withStyles from '@material-ui/styles/withStyles';
 import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { showIf } from 'react-render-helpers';
+import showIf from 'react-render-helpers/showIf';
 
 const reader = new FileReader();
 
-const StyledUploadOverlay = styled('div')({
-  bottom: 0,
-  left: 0,
-  overflow: 'hidden',
-  position: 'fixed',
-  right: 0,
-  top: 0,
-  zIndex: 550,
+const styles = theme => ({
+  root: {
+    bottom: 0,
+    left: 0,
+    overflow: 'hidden',
+    position: 'fixed',
+    right: 0,
+    top: 0,
+    zIndex: 550,
+  },
+  tint: {
+    alignItems: 'center',
+    backgroundColor: transparentize(0.5, theme.palette.text.primary),
+    bottom: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    left: 0,
+    overflow: 'hidden',
+    pointerEvents: 'none',
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 'inherit',
+  },
+  dragIndicator: {
+    alignItems: 'center',
+    backgroundColor: transparentize(0.5, theme.palette.text.primary),
+    borderRadius: 4,
+    display: 'flex',
+    justifyContent: 'center',
+    padding: theme.spacing(2),
+    pointerEvents: 'none',
+    zIndex: 'inherit',
+  },
 });
 
-const UploadOverlayTint = styled('div')(props => ({
-  alignItems: 'center',
-  backgroundColor: transparentize(0.5, props.theme.palette.text.primary),
-  bottom: 0,
-  display: 'flex',
-  justifyContent: 'center',
-  left: 0,
-  overflow: 'hidden',
-  pointerEvents: 'none',
-  position: 'absolute',
-  right: 0,
-  top: 0,
-  zIndex: 'inherit',
-}));
-
-const UploadOverlayDragIndicator = styled('div')(props => ({
-  alignItems: 'center',
-  backgroundColor: transparentize(0.5, props.theme.palette.text.primary),
-  borderRadius: 4,
-  display: 'flex',
-  justifyContent: 'center',
-  padding: props.theme.spacing(2),
-  pointerEvents: 'none',
-  zIndex: 'inherit',
-}));
-
-export default class UploadOverlay extends React.PureComponent {
+class UploadOverlay extends React.PureComponent {
   static propTypes = {
+    className: PropTypes.string,
+    classnames: PropTypes.object,
     isFileOver: PropTypes.bool,
     onCancel: PropTypes.func,
     onUpload: PropTypes.func,
@@ -52,17 +55,18 @@ export default class UploadOverlay extends React.PureComponent {
 
   render() {
     return showIf(this.props.isFileOver)(
-      <StyledUploadOverlay
+      <div
+        className={classnames(this.props.classes.root, this.props.className)}
         onDragLeave={this.handleDragLeave}
         onDragOver={this.handleDragOver}
         onDrop={this.handleDrop}
       >
-        <UploadOverlayTint>
-          <UploadOverlayDragIndicator className="upload-overlay__tint__drag-indicator">
+        <div className={this.props.classes.tint}>
+          <div className={this.props.classes.dragIndicator}>
             Drop project file to load it
-          </UploadOverlayDragIndicator>
-        </UploadOverlayTint>
-      </StyledUploadOverlay>,
+          </div>
+        </div>
+      </div>,
     );
   }
 
@@ -90,6 +94,8 @@ export default class UploadOverlay extends React.PureComponent {
     return false;
   };
 }
+
+export default withStyles(styles)(UploadOverlay);
 
 function getFileContents(file) {
   return new Promise(resolve => {

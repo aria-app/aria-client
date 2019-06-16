@@ -9,43 +9,44 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
-import styled from '@material-ui/styles/styled';
 import shared from '../../shared';
 
 const { DownloadButton } = shared.components;
 const getBPMRangeItem = x => ({ id: x, text: String(x) });
 const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
-const SongInfoModalBPMDropdown = styled(FormControl)(props => ({
-  marginBottom: props.theme.spacing(2),
-  marginLeft: props.theme.spacing(1),
-}));
-
-const SongInfoModalContent = styled(DialogContent)(props => ({
-  alignItems: 'flex-start',
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  marginLeft: props.theme.spacing(-1),
-  marginRight: props.theme.spacing(-1),
-}));
-
-const SongInfoModalTitle = styled(DialogTitle)({
-  fontWeight: 800,
-  textTransform: 'uppercase',
+const styles = theme => ({
+  root: {},
+  bpmDropdown: {
+    marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(1),
+  },
+  content: {
+    alignItems: 'flex-start',
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    marginLeft: theme.spacing(-1),
+    marginRight: theme.spacing(-1),
+  },
+  title: {
+    fontWeight: 800,
+    textTransform: 'uppercase',
+  },
+  label: {
+    marginLeft: theme.spacing(1),
+    marginTop: theme.spacing(2),
+  },
 });
 
-const SongInfoModalLabel = styled(Typography)(props => ({
-  marginLeft: props.theme.spacing(1),
-  marginTop: props.theme.spacing(2),
-}));
-
-export default class SongInfoModal extends React.PureComponent {
+class SongInfoModal extends React.PureComponent {
   static propTypes = {
     bpm: PropTypes.number,
+    classes: PropTypes.object,
     isOpen: PropTypes.bool,
     onBPMChange: PropTypes.func,
     onConfirm: PropTypes.func,
@@ -59,14 +60,17 @@ export default class SongInfoModal extends React.PureComponent {
       <Translation>
         {t => (
           <Dialog
+            className={this.props.classes.root}
             fullWidth={true}
             maxWidth="xs"
             onClose={this.props.onConfirm}
             open={this.props.isOpen}
           >
-            <SongInfoModalTitle>{t('Song Info')}</SongInfoModalTitle>
-            <SongInfoModalContent className="song-info-modal__content">
-              <SongInfoModalBPMDropdown>
+            <DialogTitle className={this.props.classes.title}>
+              {t('Song Info')}
+            </DialogTitle>
+            <DialogContent className={this.props.classes.content}>
+              <FormControl className={this.props.classes.bpmDropdown}>
                 <InputLabel htmlFor="bpm">BPM</InputLabel>
                 <Select
                   inputProps={{ name: 'bpm', id: 'bpm' }}
@@ -79,7 +83,7 @@ export default class SongInfoModal extends React.PureComponent {
                     </MenuItem>
                   ))}
                 </Select>
-              </SongInfoModalBPMDropdown>
+              </FormControl>
               <Button onClick={this.props.onReturnToDashboard}>
                 {t('Return to Dashboard')}
               </Button>
@@ -90,16 +94,19 @@ export default class SongInfoModal extends React.PureComponent {
               >
                 {t('Download Song')}
               </DownloadButton>
-              <SongInfoModalLabel variant="subtitle1">
+              <Typography
+                className={this.props.classes.label}
+                variant="subtitle1"
+              >
                 {t('Select Language')}
-              </SongInfoModalLabel>
+              </Typography>
               <Button onClick={() => shared.i18n.changeLanguage('en')}>
                 {t('English')}
               </Button>
               <Button onClick={() => shared.i18n.changeLanguage('jp')}>
                 {t('Japanese')}
               </Button>
-            </SongInfoModalContent>
+            </DialogContent>
           </Dialog>
         )}
       </Translation>
@@ -112,3 +119,5 @@ export default class SongInfoModal extends React.PureComponent {
     this.props.onBPMChange(event.target.value);
   };
 }
+
+export default withStyles(styles)(SongInfoModal);

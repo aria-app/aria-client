@@ -1,61 +1,54 @@
-import styled from '@material-ui/styles/styled';
+import withStyles from '@material-ui/styles/withStyles';
+import withTheme from '@material-ui/styles/withTheme';
 import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import Draggable from 'react-draggable';
 
-const DraggableWrapper = styled('div')({
-  position: 'absolute',
-  transition: 'transform 200ms ease',
+const styles = theme => ({
+  root: {
+    backgroundColor: transparentize(0.5, theme.palette.text.primary),
+    border: `1px solid ${theme.palette.text.primary}`,
+    cursor: 'col-resize',
+    height: 32,
+    left: 0,
+    position: 'absolute',
+    top: 3,
+    transition:
+      'box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease',
+    width: 24,
+    '&:hover:not(:active)': {
+      backgroundColor: transparentize(0.4, theme.palette.text.primary),
+    },
+    '&:active': {
+      backgroundColor: transparentize(0.6, theme.palette.text.primary),
+    },
+    '&::after': {
+      borderLeft: `2px dotted ${theme.palette.text.primary}`,
+      borderRight: `2px dotted ${theme.palette.text.primary}`,
+      content: "''",
+      display: 'block',
+      height: 10,
+      left: '50%',
+      position: 'absolute',
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 4,
+    },
+  },
+  draggableWrapper: {
+    position: 'absolute',
+    transition: 'transform 200ms ease',
+  },
 });
 
-const StyledRulerResizer = styled(({ isDragging, isDisabled, ...rest }) => (
-  <div {...rest} />
-))(props => ({
-  backgroundColor: transparentize(0.5, props.theme.palette.text.primary),
-  border: `1px solid ${props.theme.palette.text.primary}`,
-  cursor: 'col-resize',
-  height: 32,
-  left: 0,
-  position: 'absolute',
-  top: 3,
-  transition: 'box-shadow 250ms ease, opacity 500ms ease, transform 350ms ease',
-  width: 24,
-  '&:hover:not(:active)': {
-    backgroundColor: transparentize(0.4, props.theme.palette.text.primary),
-  },
-  '&:active': {
-    backgroundColor: transparentize(0.6, props.theme.palette.text.primary),
-  },
-  '&::after': {
-    borderLeft: `2px dotted ${props.theme.palette.text.primary}`,
-    borderRight: `2px dotted ${props.theme.palette.text.primary}`,
-    content: "''",
-    display: 'block',
-    height: 10,
-    left: '50%',
-    position: 'absolute',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 4,
-  },
-  ...(props.isDragging
-    ? {
-        boxShadow: props.theme.shadows[3],
-        opacity: 0.8,
-        transform: 'translateY(-4px) scale(1.05)',
-        transition:
-          'box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease',
-      }
-    : {}),
-}));
-
 RulerResizer.propTypes = {
+  classes: PropTypes.object,
   size: PropTypes.number,
 };
 
-export default function RulerResizer(props) {
-  const [isDragging, setIsDragging] = useState(false);
+function RulerResizer(props) {
+  const [isDragging, setIsDragging] = React.useState(false);
 
   const getPosition = () => ({
     x: props.size * 64 + 16,
@@ -80,9 +73,18 @@ export default function RulerResizer(props) {
       onStop={() => setIsDragging(false)}
       position={getPosition()}
     >
-      <DraggableWrapper>
-        <StyledRulerResizer isDragging={isDragging} />
-      </DraggableWrapper>
+      <div className={props.classes.draggableWrapper}>
+        <div
+          className={props.classes.root}
+          style={{
+            boxShadow: isDragging && props.theme.shadows[3],
+            opacity: isDragging && 0.8,
+            transform: isDragging && 'translateY(-4px) scale(1.05)',
+          }}
+        />
+      </div>
     </Draggable>
   );
 }
+
+export default React.memo(withTheme(withStyles(styles)(RulerResizer)));
