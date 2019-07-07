@@ -47,7 +47,7 @@
     "reselect": "4.0.0",
     "shortid": "2.2.14",
     "tone": "13.4.9",
-    "snyk": "^1.189.0"
+    "snyk": "^1.192.3"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "7.5.0",
