@@ -5,6 +5,7 @@ import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
 import uniq from 'lodash/fp/uniq';
 import withStyles from '@material-ui/styles/withStyles';
+import memoizeOne from 'memoize-one';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { HotKeys } from 'react-hotkeys';
@@ -17,6 +18,10 @@ import SequenceEditorToolbar from './SequenceEditorToolbar';
 
 const { previewPitch } = audio.helpers;
 const { FadeIn, FadeOut, LoadingIndicator } = shared.components;
+
+const getNotesByIds = memoizeOne((notes, ids) =>
+  notes.filter(note => includes(note.id, ids)),
+);
 
 const styles = {
   root: {
@@ -68,7 +73,7 @@ class SequenceEditor extends React.PureComponent {
     this.state = {
       gridMousePoint: { x: -1, y: -1 },
       previousToolType: toolTypes.SELECT,
-      selectedNotes: [],
+      selectedNoteIds: [],
       toolType: toolTypes.SELECT,
     };
   }
@@ -130,7 +135,7 @@ class SequenceEditor extends React.PureComponent {
                   onResize={this.props.onResize}
                   onSelect={this.handleGridSelect}
                   onSelectInArea={this.handleGridSelectInArea}
-                  selectedNotes={this.state.selectedNotes}
+                  selectedNotes={this.getSelectedNotes()}
                   sequenceEditorContentRef={this.contentElementRef}
                   toolType={this.state.toolType}
                 />
@@ -153,7 +158,7 @@ class SequenceEditor extends React.PureComponent {
             onRedo={this.redo}
             onSelectToolSelect={this.activateSelectTool}
             onUndo={this.undo}
-            selectedNotes={this.state.selectedNotes}
+            selectedNotes={this.getSelectedNotes()}
             toolType={this.state.toolType}
           />
         </React.Fragment>
@@ -210,36 +215,36 @@ class SequenceEditor extends React.PureComponent {
   deleteSelectedNotes = e => {
     e.preventDefault();
 
-    if (isEmpty(this.state.selectedNotes)) return;
+    if (isEmpty(this.getSelectedNotes())) return;
 
-    this.props.onDelete(this.state.selectedNotes);
+    this.props.onDelete(this.getSelectedNotes());
 
     this.setState({
-      selectedNotes: [],
+      selectedNoteIds: [],
     });
   };
 
   deselectAllNotes = e => {
     e.preventDefault();
 
-    if (isEmpty(this.state.selectedNotes)) return;
+    if (isEmpty(this.getSelectedNotes())) return;
 
     this.setState({
-      selectedNotes: [],
+      selectedNoteIds: [],
     });
   };
 
   duplicateSelectedNotes = e => {
     e.preventDefault();
 
-    if (isEmpty(this.state.selectedNotes)) return;
+    if (isEmpty(this.getSelectedNotes())) return;
 
-    const duplicatedNotes = Dawww.duplicateNotes(this.state.selectedNotes);
+    const duplicatedNotes = Dawww.duplicateNotes(this.getSelectedNotes());
 
     this.props.onDuplicate(duplicatedNotes);
 
     this.setState({
-      selectedNotes: duplicatedNotes,
+      selectedNoteIds: duplicatedNotes.map(note => note.id),
     });
   };
 
@@ -267,6 +272,9 @@ class SequenceEditor extends React.PureComponent {
     'meta+z': this.props.onUndo,
   });
 
+  getSelectedNotes = () =>
+    getNotesByIds(this.props.notes, this.state.selectedNoteIds);
+
   handleGridDragPreview = notes => {
     const pitch = getOr(-1, '[0].points[0].y', notes);
 
@@ -284,7 +292,7 @@ class SequenceEditor extends React.PureComponent {
   handleGridErase = note => {
     this.props.onErase(note);
     this.setState({
-      selectedNotes: [],
+      selectedNoteIds: [],
     });
   };
 
@@ -315,9 +323,9 @@ class SequenceEditor extends React.PureComponent {
     this.previewPitch(pitch);
 
     this.setState(state => ({
-      selectedNotes: isAdditive
-        ? shared.helpers.toggleInArray(note, state.selectedNotes)
-        : [note],
+      selectedNoteIds: isAdditive
+        ? shared.helpers.toggleInArray(note.id, state.selectedNoteIds)
+        : [note.id],
     }));
   };
 
@@ -330,30 +338,30 @@ class SequenceEditor extends React.PureComponent {
 
     if (isEmpty(notesInArea)) {
       this.setState(state =>
-        isEmpty(state.selectedNotes) ? null : { selectedNotes: [] },
+        isEmpty(state.selectedNoteIds) ? null : { selectedNoteIds: [] },
       );
       return;
     }
 
     this.setState(state => ({
-      selectedNotes: isAdditive
-        ? uniq([...state.selectedNotes, ...notesInArea])
-        : notesInArea,
+      selectedNoteIds: isAdditive
+        ? uniq([...state.selectedNoteIds, ...notesInArea.map(note => note.id)])
+        : notesInArea.map(note => note.id),
     }));
   };
 
   handleToolbarOctaveDown = () =>
-    this.props.onOctaveDown(this.state.selectedNotes);
+    this.props.onOctaveDown(this.getSelectedNotes());
 
-  handleToolbarOctaveUp = () => this.props.onOctaveUp(this.state.selectedNotes);
+  handleToolbarOctaveUp = () => this.props.onOctaveUp(this.getSelectedNotes());
 
   nudge = delta => {
-    if (isEmpty(this.state.selectedNotes)) return;
+    if (isEmpty(this.getSelectedNotes())) return;
 
     const notes = this.props.notes.filter(note =>
       includes(
         note.id,
-        this.state.selectedNotes.map(selectedNote => selectedNote.id),
+        this.getSelectedNotes().map(selectedNote => selectedNote.id),
       ),
     );
 
@@ -406,10 +414,10 @@ class SequenceEditor extends React.PureComponent {
   };
 
   selectAll = () => {
-    if (this.props.notes.length === this.state.selectedNotes.length) return;
+    if (this.props.notes.length === this.getSelectedNotes().length) return;
 
     this.setState({
-      selectedNotes: this.props.notes,
+      selectedNoteIds: this.props.notes.map(note => note.id),
     });
   };
 
