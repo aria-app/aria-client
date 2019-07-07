@@ -7,9 +7,6 @@ import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Draggable from 'react-draggable';
-import shared from '../../shared';
-
-const { getExtraProps } = shared.helpers;
 
 const styles = theme => ({
   root: {
@@ -108,9 +105,25 @@ class Note extends React.Component {
   }
 
   render() {
+    const {
+      className,
+      classes,
+      isSelected,
+      note,
+      onDrag,
+      onDragStart,
+      onDragStop,
+      onEndPointDrag,
+      onEndPointDragStart,
+      onEndPointDragStop,
+      positionBounds,
+      sizeBounds,
+      ...rest
+    } = this.props;
+
     return (
       <Draggable
-        bounds={this.props.positionBounds}
+        bounds={positionBounds}
         enableUserSelectHack={true}
         grid={[40, 40]}
         handle=".start-point"
@@ -119,28 +132,22 @@ class Note extends React.Component {
         onStop={this.handleDragStop}
         position={this.getPosition()}
       >
-        <div className={this.getClassName()} {...getExtraProps(this)}>
-          <div className={classnames(this.props.classes.point, 'start-point')}>
-            <div className={this.props.classes.fill} />
+        <div className={this.getClassName()} {...rest}>
+          <div className={classnames(classes.point, 'start-point')}>
+            <div className={classes.fill} />
           </div>
-          <div
-            className={this.props.classes.connector}
-            style={this.getConnectorStyle()}
-          />
+          <div className={classes.connector} style={this.getConnectorStyle()} />
           <Draggable
             axis="x"
-            bounds={this.props.sizeBounds}
+            bounds={sizeBounds}
             grid={[40, 40]}
             onDrag={this.handleEndPointDrag}
             onStart={this.handleEndPointDragStart}
             onStop={this.handleEndPointDragStop}
             position={this.getEndPointPosition()}
           >
-            <div
-              className={this.props.classes.point}
-              style={this.getEndPointStyle()}
-            >
-              <div className={this.props.classes.fill} />
+            <div className={classes.point} style={this.getEndPointStyle()}>
+              <div className={classes.fill} />
             </div>
           </Draggable>
         </div>

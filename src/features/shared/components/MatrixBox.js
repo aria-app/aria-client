@@ -2,7 +2,6 @@ import classnames from 'classnames';
 import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { getExtraProps } from '../helpers';
 
 const styles = {
   root: {
@@ -30,24 +29,28 @@ class MatrixBox extends React.Component {
   }
 
   render() {
-    const height = this.props.height + 3;
-    const width = this.props.width + 3;
+    const {
+      className,
+      classes,
+      fill,
+      height,
+      width,
+      matrix,
+      ...rest
+    } = this.props;
 
     return (
-      <div
-        className={classnames(this.props.classes.root, this.props.className)}
-        {...getExtraProps(this)}
-      >
+      <div className={classnames(classes.root, className)} {...rest}>
         <svg
-          height={height}
+          height={height + 3}
           style={{
             marginLeft: -1,
             marginRight: -1,
             marginTop: -1,
             marginBottom: -1,
           }}
-          width={width}
-          viewBox={`0 0 ${width} ${height}`}
+          width={width + 3}
+          viewBox={`0 0 ${width + 3} ${height + 3}`}
           dangerouslySetInnerHTML={{
             __html: this.getData(),
           }}

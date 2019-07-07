@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import withStyles from '@material-ui/styles/withStyles';
 import withTheme from '@material-ui/styles/withTheme';
-import { getExtraProps } from '../helpers/getExtraProps';
 import icons from './icons';
 
 const styles = theme => ({
@@ -36,13 +35,23 @@ class Icon extends React.PureComponent {
   };
 
   render() {
+    const {
+      className,
+      classes,
+      color,
+      icon,
+      size,
+      theme,
+      ...rest
+    } = this.props;
+
     return (
       <div
-        className={classnames(this.props.classes.root, this.props.className)}
-        color={this.props.color}
-        {...getExtraProps(this)}
+        className={classnames(classes.root, className)}
+        color={color}
+        {...rest}
       >
-        <div className={this.props.classes.content}>{this.getIcon()}</div>
+        <div className={classes.content}>{this.getIcon()}</div>
       </div>
     );
   }

@@ -2,7 +2,6 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import withStyles from '@material-ui/styles/withStyles';
-import { getExtraProps } from '../helpers';
 
 const styles = theme => ({
   root: {
@@ -49,17 +48,21 @@ class Toolbar extends React.PureComponent {
   };
 
   render() {
+    const {
+      className,
+      classes,
+      isAlternate,
+      leftItems,
+      leftItemsAlt,
+      rightItems,
+      rightItemsAlt,
+      ...rest
+    } = this.props;
+
     return (
-      <div
-        className={classnames(this.props.classes.root, this.props.className)}
-        {...getExtraProps(this)}
-      >
-        <div className={this.props.classes.leftItems}>
-          {this.getLeftItems()}
-        </div>
-        <div className={this.props.classes.rightItems}>
-          {this.getRightItems()}
-        </div>
+      <div className={classnames(classes.root, className)} {...rest}>
+        <div className={classes.leftItems}>{this.getLeftItems()}</div>
+        <div className={classes.rightItems}>{this.getRightItems()}</div>
       </div>
     );
   }
