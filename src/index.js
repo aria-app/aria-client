@@ -9,7 +9,6 @@ import Tone from 'tone';
 import app from './features/app';
 import shared from './features/shared';
 import store from './store';
-import './resets.css';
 
 ['keydown', 'mousedown', 'touchdown'].forEach(eventName => {
   document.body.addEventListener(eventName, () => {

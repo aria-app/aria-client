@@ -17,6 +17,37 @@ const styles = theme => ({
     right: 0,
     top: 0,
   },
+  '@global': {
+    '*': {
+      margin: 0,
+      outline: 'none !important',
+      padding: 0,
+      boxSizing: 'border-box',
+      WebkitFocusRingColor: 'transparent !important',
+      WebkitTapHighlightColor: 'transparent !important',
+      WebkitTouchCallout: 'none !important',
+      WebkitUserSelect: 'none !important',
+      KhtmlUserSelect: 'none !important',
+      MozUserSelect: 'none !important',
+      MsUserSelect: 'none !important',
+      userSelect: 'none !important',
+    },
+    'html, body': {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      overflow: 'hidden',
+    },
+    body: {
+      fontFamily: '"Open Sans", Helvetica, sans-serif',
+      fontSize: 14,
+    },
+    '::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
 });
 
 Shell.propTypes = {
