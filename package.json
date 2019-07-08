@@ -57,7 +57,7 @@
     "@storybook/addon-knobs": "5.0.11",
     "@storybook/addons": "5.0.11",
     "@storybook/react": "5.0.11",
-    "ava": "1.4.1",
+    "ava": "2.2.0",
     "babel-loader": "8.0.5",
     "browser-env": "3.2.6",
     "codecov": "3.5.0",
