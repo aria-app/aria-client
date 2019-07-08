@@ -4,5 +4,5 @@
       "packages": ["aria.framerfx/package.json", "package.json"]
     }
   },
-  "ignore": ["babel-loader", "react-icons"]
+  "ignore": ["babel-loader", "react-icons", "snyk"]
 }
