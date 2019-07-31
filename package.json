@@ -55,7 +55,7 @@
     "@babel/register": "7.5.5",
     "@storybook/addon-actions": "5.1.10",
     "@storybook/addon-knobs": "5.1.10",
-    "@storybook/addons": "5.0.11",
+    "@storybook/addons": "5.1.10",
     "@storybook/react": "5.0.11",
     "ava": "1.4.1",
     "babel-loader": "8.0.5",
