@@ -37,7 +37,7 @@
     "react-i18next": "10.11.4",
     "react-icons": "2.2.5",
     "react-jss": "8.6.1",
-    "react-redux": "7.1.0",
+    "react-redux": "7.1.1",
     "react-render-helpers": "1.2.0",
     "react-router-dom": "5.0.1",
     "react-spring": "8.0.26",
