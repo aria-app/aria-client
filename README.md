@@ -1,6 +1,5 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/585d4f2a-ebb5-4f13-99db-a6328c5370dd/deploy-status)](https://app.netlify.com/sites/ariaapp/deploys)
 [![Build Status](https://travis-ci.org/aria-app/aria.svg?branch=master)](https://travis-ci.org/aria-app/aria)
-[![Greenkeeper badge](https://badges.greenkeeper.io/aria-app/aria.svg)](https://greenkeeper.io/)
 
 Easy-to-use music sequencer inspired by Little Big Planet 2 + 3.
 
