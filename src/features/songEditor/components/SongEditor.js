@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { HotKeys } from 'react-hotkeys';
 import withStyles from '@material-ui/styles/withStyles';
 import sequenceEditor from '../../sequenceEditor';
 import tracksEditor from '../../tracksEditor';
@@ -45,7 +44,7 @@ class SongEditor extends React.PureComponent {
 
   render() {
     return (
-      <HotKeys className={this.props.classes.root} focused={true} handlers={{}}>
+      <div className={this.props.classes.root}>
         <Route
           component={TracksEditorContainer}
           exact={true}
@@ -72,7 +71,7 @@ class SongEditor extends React.PureComponent {
           onSignOut={this.signOut}
           song={this.props.song}
         />
-      </HotKeys>
+      </div>
     );
   }
 

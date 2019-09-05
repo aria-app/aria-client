@@ -3,12 +3,15 @@ import 'firebase/firestore';
 import StylesProvider from '@material-ui/styles/StylesProvider';
 import React from 'react';
 import { render } from 'react-dom';
+import { configure } from 'react-hotkeys';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import Tone from 'tone';
 import app from './features/app';
 import shared from './features/shared';
 import store from './store';
+
+configure({ ignoreRepeatedEventsWhenKeyHeldDown: false });
 
 ['keydown', 'mousedown', 'touchdown'].forEach(eventName => {
   document.body.addEventListener(eventName, () => {

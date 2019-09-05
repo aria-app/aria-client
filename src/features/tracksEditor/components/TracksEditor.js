@@ -5,7 +5,7 @@ import isNil from 'lodash/fp/isNil';
 import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { HotKeys } from 'react-hotkeys';
+import { GlobalHotKeys } from 'react-hotkeys';
 import shared from '../../shared';
 import TrackList from './TrackList';
 import TrackEditingModal from './TrackEditingModal';
@@ -57,26 +57,27 @@ class TracksEditor extends React.PureComponent {
     selectedTrackId: '',
   };
 
-  constructor(props) {
-    super(props);
-
-    this.focusRef = React.createRef();
-  }
-
   componentDidMount() {
     this.props.onLoad(this.props.match.params.songId);
-
-    this.focusRef.current.focus();
   }
 
   render() {
     return (
-      <HotKeys
-        className={this.props.classes.root}
-        focused={true}
-        handlers={this.getKeyHandlers()}
-      >
-        <div ref={this.focusRef} tabIndex={-1} />
+      <div className={this.props.classes.root}>
+        <GlobalHotKeys
+          handlers={{
+            DELETE: this.deleteSelectedSequence,
+            DUPLICATE: this.duplicateSelectedSequence,
+            REDO: this.redo,
+            UNDO: this.undo,
+          }}
+          keyMap={{
+            DELETE: ['backspace', 'del'],
+            DUPLICATE: ['ctrl+shift+d', 'meta+shift+d'],
+            REDO: ['ctrl+alt+z', 'meta+alt+z'],
+            UNDO: ['ctrl+z', 'meta+z'],
+          }}
+        />
         <React.Fragment>
           <TrackList
             isLoading={this.props.isLoading}
@@ -118,7 +119,7 @@ class TracksEditor extends React.PureComponent {
             stagedTrack={this.getSelectedTrack()}
           />
         </React.Fragment>
-      </HotKeys>
+      </div>
     );
   }
 
@@ -163,17 +164,6 @@ class TracksEditor extends React.PureComponent {
       selectedSequenceId: duplicatedSequence.id,
     });
   };
-
-  getKeyHandlers = () => ({
-    backspace: this.deleteSelectedSequence,
-    del: this.deleteSelectedSequence,
-    'ctrl+shift+d': this.duplicateSelectedSequence,
-    'ctrl+z': this.undo,
-    'ctrl+alt+z': this.redo,
-    'meta+shift+d': this.duplicateSelectedSequence,
-    'meta+z': this.undo,
-    'meta+alt+z': this.redo,
-  });
 
   getSelectedSequence = () =>
     find(s => s.id === this.state.selectedSequenceId, this.props.sequences);

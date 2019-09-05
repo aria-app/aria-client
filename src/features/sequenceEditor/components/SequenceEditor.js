@@ -8,7 +8,7 @@ import withStyles from '@material-ui/styles/withStyles';
 import memoizeOne from 'memoize-one';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { HotKeys } from 'react-hotkeys';
+import { GlobalHotKeys } from 'react-hotkeys';
 import audio from '../../audio';
 import shared from '../../shared';
 import { toolTypes } from '../constants';
@@ -69,7 +69,7 @@ class SequenceEditor extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    this.focusRef = React.createRef();
+
     this.state = {
       gridMousePoint: { x: -1, y: -1 },
       previousToolType: toolTypes.SELECT,
@@ -83,8 +83,6 @@ class SequenceEditor extends React.PureComponent {
       this.props.match.params.songId,
       this.props.match.params.sequenceId,
     );
-
-    this.focusRef.current.focus();
 
     if (!this.contentElementRef) return;
 
@@ -105,12 +103,43 @@ class SequenceEditor extends React.PureComponent {
 
   render() {
     return (
-      <HotKeys
-        className={this.props.classes.root}
-        focused={true}
-        handlers={this.getKeyHandlers()}
-      >
-        <div ref={this.focusRef} tabIndex={-1} />
+      <div className={this.props.classes.root}>
+        <GlobalHotKeys
+          handlers={{
+            DELETE: this.deleteSelectedNotes,
+            DRAW_TOOL: this.activateDrawTool,
+            NUDGE_DOWN: this.nudgeDown,
+            ERASE_TOOL: this.activateEraseTool,
+            NUDGE_LEFT: this.nudgeLeft,
+            PAN_TOOL: this.activatePanTool,
+            NUDGE_RIGHT: this.nudgeRight,
+            SELECT_TOOL: this.activateSelectTool,
+            PAN: this.activatePanOverride,
+            NUDGE_UP: this.nudgeUp,
+            SELECT_ALL: this.selectAll,
+            DESELECT: this.deselectAllNotes,
+            DUPLICATE: this.duplicateSelectedNotes,
+            REDO: this.props.onRedo,
+            UNDO: this.props.onUndo,
+          }}
+          keyMap={{
+            DELETE: ['backspace', 'del'],
+            DRAW_TOOL: 'd',
+            NUDGE_DOWN: 'down',
+            ERASE_TOOL: 'e',
+            NUDGE_LEFT: 'left',
+            PAN_TOOL: 'p',
+            NUDGE_RIGHT: 'right',
+            SELECT_TOOL: 's',
+            PAN: 'space',
+            NUDGE_UP: 'up',
+            SELECT_ALL: ['ctrl+a', 'meta+a'],
+            DESELECT: ['ctrl+d', 'meta+d'],
+            DUPLICATE: ['ctrl+shift+d', 'meta+shift+d'],
+            REDO: ['ctrl+alt+z', 'meta+alt+z'],
+            UNDO: ['ctrl+z', 'meta+z'],
+          }}
+        />
         <FadeOut isVisible={this.props.isLoading}>
           <LoadingIndicator>LOADING SONG...</LoadingIndicator>,
         </FadeOut>
@@ -162,7 +191,7 @@ class SequenceEditor extends React.PureComponent {
             toolType={this.state.toolType}
           />
         </React.Fragment>
-      </HotKeys>
+      </div>
     );
   }
 
@@ -174,11 +203,14 @@ class SequenceEditor extends React.PureComponent {
 
   activatePanOverride = e => {
     e.preventDefault();
+
     if (e.repeat) return;
+
     this.setState(state => ({
       previousToolType: state.toolType,
       toolType: toolTypes.PAN,
     }));
+
     window.addEventListener('keyup', this.deactivatePanOverride);
   };
 
@@ -206,9 +238,11 @@ class SequenceEditor extends React.PureComponent {
 
   deactivatePanOverride = e => {
     if (e.keyCode !== 32) return;
+
     this.setState(state => ({
       toolType: state.previousToolType,
     }));
+
     window.removeEventListener('keyup', this.deactivatePanOverride);
   };
 
@@ -247,30 +281,6 @@ class SequenceEditor extends React.PureComponent {
       selectedNoteIds: duplicatedNotes.map(note => note.id),
     });
   };
-
-  getKeyHandlers = () => ({
-    backspace: this.deleteSelectedNotes,
-    d: this.activateDrawTool,
-    del: this.deleteSelectedNotes,
-    down: this.nudgeDown,
-    e: this.activateEraseTool,
-    left: this.nudgeLeft,
-    p: this.activatePanTool,
-    right: this.nudgeRight,
-    s: this.activateSelectTool,
-    space: this.activatePanOverride,
-    up: this.nudgeUp,
-    'ctrl+a': this.selectAll,
-    'ctrl+d': this.deselectAllNotes,
-    'ctrl+shift+d': this.duplicateSelectedNotes,
-    'ctrl+alt+z': this.props.onRedo,
-    'ctrl+z': this.props.onUndo,
-    'meta+a': this.selectAll,
-    'meta+d': this.deselectAllNotes,
-    'meta+shift+d': this.duplicateSelectedNotes,
-    'meta+alt+z': this.props.onRedo,
-    'meta+z': this.props.onUndo,
-  });
 
   getSelectedNotes = () =>
     getNotesByIds(this.props.notes, this.state.selectedNoteIds);

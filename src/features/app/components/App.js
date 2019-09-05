@@ -1,7 +1,7 @@
 import Dawww from 'dawww';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { HotKeys } from 'react-hotkeys';
+import { GlobalHotKeys } from 'react-hotkeys';
 import { hideIf, showIf } from 'react-render-helpers';
 import { Redirect, Route } from 'react-router-dom';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
@@ -48,9 +48,11 @@ export default class App extends React.PureComponent {
   render() {
     return (
       <ThemeProvider theme={shared.theme}>
-        <HotKeys
-          focused={true}
-          handlers={this.getKeyHandlers()}
+        <GlobalHotKeys
+          handlers={{ PLAY_PAUSE: this.playPause, STOP: this.stop }}
+          keyMap={{ PLAY_PAUSE: 'enter', STOP: 'esc' }}
+        />
+        <div
           onDragEnter={this.handleDragEnter}
           onDragOver={this.handleDragOver}
           onDrop={this.handleDrop}
@@ -86,15 +88,10 @@ export default class App extends React.PureComponent {
               </React.Fragment>,
             )}
           </Shell>
-        </HotKeys>
+        </div>
       </ThemeProvider>
     );
   }
-
-  getKeyHandlers = () => ({
-    enter: this.playPause,
-    esc: this.stop,
-  });
 
   playPause = () => {
     if (Tone.context.state !== 'running') {
