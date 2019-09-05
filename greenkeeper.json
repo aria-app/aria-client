@@ -1,8 +1,0 @@
-{
-  "groups": {
-    "default": {
-      "packages": ["aria.framerfx/package.json", "package.json"]
-    }
-  },
-  "ignore": ["babel-loader", "react-icons", "snyk"]
-}

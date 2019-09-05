@@ -12,9 +12,7 @@
     "start": "react-scripts start",
     "storybook": "start-storybook -p 9009 -s public",
     "test": "ava --watch",
-    "testonce": "nyc ava",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "testonce": "nyc ava"
   },
   "dependencies": {
     "@material-ui/core": "4.1.1",
@@ -47,7 +45,6 @@
     "redux-undo": "1.0.0-beta9-9-7",
     "reselect": "4.0.0",
     "shortid": "2.2.14",
-    "snyk": "^1.189.0",
     "tone": "13.4.9"
   },
   "devDependencies": {
@@ -90,6 +87,5 @@
   },
   "bugs": {
     "url": "https://github.com/nickjohnson-dev/aria/issues"
-  },
-  "snyk": true
+  }
 }
