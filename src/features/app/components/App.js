@@ -17,7 +17,12 @@ const { LoadingIndicator, Shell } = shared.components;
 const { STARTED } = Dawww.PLAYBACK_STATES;
 const { SongEditorContainer } = songEditor.components;
 
-const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
+const PrivateRoute = ({
+  component: Component,
+  isAuthenticated,
+  location,
+  ...rest
+}) => (
   <Route
     {...rest}
     render={props =>
@@ -27,7 +32,7 @@ const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
         <Redirect
           to={{
             pathname: '/sign-in',
-            state: { from: props.location },
+            state: { from: location },
           }}
         />
       )
@@ -35,77 +40,69 @@ const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
   />
 );
 
-export default class App extends React.PureComponent {
-  static propTypes = {
-    isAuthenticated: PropTypes.bool,
-    didAuthenticationRun: PropTypes.bool,
-    onPause: PropTypes.func,
-    onPlay: PropTypes.func,
-    onStop: PropTypes.func,
-    playbackState: PropTypes.string,
-  };
+export default function App(props) {
+  const {
+    didAuthenticationRun,
+    isAuthenticated,
+    onPause,
+    onPlay,
+    onStop,
+    playbackState,
+  } = props;
 
-  render() {
-    return (
-      <ThemeProvider theme={shared.theme}>
-        <GlobalHotKeys
-          handlers={{ PLAY_PAUSE: this.playPause, STOP: this.stop }}
-          keyMap={{ PLAY_PAUSE: 'enter', STOP: 'esc' }}
-        />
-        <div
-          onDragEnter={this.handleDragEnter}
-          onDragOver={this.handleDragOver}
-          onDrop={this.handleDrop}
-        >
-          <Shell>
-            {hideIf(this.props.didAuthenticationRun)(
-              <LoadingIndicator>AUTHENTICATING...</LoadingIndicator>,
-            )}
-            {showIf(this.props.didAuthenticationRun)(
-              <React.Fragment>
-                <Route
-                  component={SignInContainer}
-                  exact={true}
-                  path="/sign-in"
-                />
-                <Route
-                  component={SignOutContainer}
-                  exact={true}
-                  path="/sign-out"
-                />
-                <PrivateRoute
-                  component={DashboardContainer}
-                  exact={true}
-                  isAuthenticated={this.props.isAuthenticated}
-                  path="/"
-                />
-                <PrivateRoute
-                  component={SongEditorContainer}
-                  exact={false}
-                  isAuthenticated={this.props.isAuthenticated}
-                  path="/song/:songId"
-                />
-              </React.Fragment>,
-            )}
-          </Shell>
-        </div>
-      </ThemeProvider>
-    );
-  }
+  const playPause = React.useCallback(
+    function playPause() {
+      if (Tone.context.state !== 'running') {
+        Tone.context.resume();
+      }
 
-  playPause = () => {
-    if (Tone.context.state !== 'running') {
-      Tone.context.resume();
-    }
+      if (playbackState === STARTED) {
+        onPause();
+      } else {
+        onPlay();
+      }
+    },
+    [onPause, onPlay, playbackState],
+  );
 
-    if (this.props.playbackState === STARTED) {
-      this.props.onPause();
-    } else {
-      this.props.onPlay();
-    }
-  };
-
-  stop = () => {
-    this.props.onStop();
-  };
+  return (
+    <ThemeProvider theme={shared.theme}>
+      <GlobalHotKeys
+        handlers={{ PLAY_PAUSE: playPause, STOP: onStop }}
+        keyMap={{ PLAY_PAUSE: 'enter', STOP: 'esc' }}
+      />
+      <Shell>
+        {hideIf(didAuthenticationRun)(
+          <LoadingIndicator>AUTHENTICATING...</LoadingIndicator>,
+        )}
+        {showIf(didAuthenticationRun)(
+          <React.Fragment>
+            <Route component={SignInContainer} exact={true} path="/sign-in" />
+            <Route component={SignOutContainer} exact={true} path="/sign-out" />
+            <PrivateRoute
+              component={DashboardContainer}
+              exact={true}
+              isAuthenticated={isAuthenticated}
+              path="/"
+            />
+            <PrivateRoute
+              component={SongEditorContainer}
+              exact={false}
+              isAuthenticated={isAuthenticated}
+              path="/song/:songId"
+            />
+          </React.Fragment>,
+        )}
+      </Shell>
+    </ThemeProvider>
+  );
 }
+
+App.propTypes = {
+  isAuthenticated: PropTypes.bool,
+  didAuthenticationRun: PropTypes.bool,
+  onPause: PropTypes.func,
+  onPlay: PropTypes.func,
+  onStop: PropTypes.func,
+  playbackState: PropTypes.string,
+};
