@@ -4,7 +4,7 @@
     "children" : [
       {
         "__class" : "FrameNode",
-        "aspectRatio" : null,
+        "aspectRatio" : 1.333984375,
         "blendingEnabled" : 0,
         "blendingMode" : "normal",
         "bottom" : null,
@@ -12,51 +12,575 @@
         "centerAnchorY" : 0,
         "children" : [
           {
-            "__class" : "CodeComponentNode",
+            "__class" : "FrameNode",
             "aspectRatio" : null,
-            "bottom" : null,
-            "centerAnchorX" : 0.29999999999999999,
-            "centerAnchorY" : 0.15032679738562091,
+            "blendingEnabled" : 0,
+            "blendingMode" : "normal",
+            "borderBottom" : 0,
+            "borderColor" : "var(--token-e98c529a-62d0-474b-aa7c-80f37db4ec14, rgba(0, 0, 0, 0.12)) \/* {\"name\":\"Divider\"} *\/",
+            "borderEnabled" : 1,
+            "borderLeft" : 0,
+            "borderPerSide" : true,
+            "borderRight" : 1,
+            "borderStyle" : "solid",
+            "borderTop" : 0,
+            "borderWidth" : 0,
+            "bottom" : 0,
+            "centerAnchorX" : 0.125,
+            "centerAnchorY" : 0.54166666666666663,
             "children" : [
+              {
+                "__class" : "CodeComponentNode",
+                "aspectRatio" : null,
+                "bottom" : 0,
+                "centerAnchorX" : 0.5,
+                "centerAnchorY" : 0.5,
+                "children" : [
+                  {
+                    "__class" : "FrameNode",
+                    "aspectRatio" : null,
+                    "blendingEnabled" : 0,
+                    "blendingMode" : "normal",
+                    "bottom" : null,
+                    "centerAnchorX" : 0.5,
+                    "centerAnchorY" : 0.175561797752809,
+                    "children" : [
+                      {
+                        "__class" : "TextNode",
+                        "autoSize" : true,
+                        "bottom" : null,
+                        "centerAnchorX" : 0.3671875,
+                        "centerAnchorY" : 0.51041666666666663,
+                        "codeOverrideEnabled" : false,
+                        "constraintsLocked" : false,
+                        "exportOptions" : [
 
+                        ],
+                        "height" : 19,
+                        "heightType" : 0,
+                        "id" : "LiW8GtAvV",
+                        "isTarget" : false,
+                        "left" : 16,
+                        "locked" : false,
+                        "name" : "SongListItemName",
+                        "opacity" : 1,
+                        "originalid" : null,
+                        "parentid" : "TfMtGAJNW",
+                        "right" : null,
+                        "rotation" : 0,
+                        "styledText" : {
+                          "__class" : "StyledTextDraft",
+                          "blocks" : [
+                            {
+                              "data" : {
+                                "emptyStyle" : [
+                                  "SIZE:16",
+                                  "LETTERSPACING:0",
+                                  "LINEHEIGHT:1.2",
+                                  "FONT:OpenSans",
+                                  "COLOR:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {\"name\":\"TextPrimary\"} *\/"
+                                ]
+                              },
+                              "depth" : 0,
+                              "entityRanges" : [
+
+                              ],
+                              "inlineStyleRanges" : [
+                                {
+                                  "length" : 9,
+                                  "offset" : 0,
+                                  "style" : "SIZE:16"
+                                },
+                                {
+                                  "length" : 9,
+                                  "offset" : 0,
+                                  "style" : "LETTERSPACING:0"
+                                },
+                                {
+                                  "length" : 9,
+                                  "offset" : 0,
+                                  "style" : "LINEHEIGHT:1.2"
+                                },
+                                {
+                                  "length" : 9,
+                                  "offset" : 0,
+                                  "style" : "FONT:OpenSans"
+                                },
+                                {
+                                  "length" : 9,
+                                  "offset" : 0,
+                                  "style" : "COLOR:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {\"name\":\"TextPrimary\"} *\/"
+                                }
+                              ],
+                              "key" : "3lgi1",
+                              "text" : "Song Name",
+                              "type" : "unstyled"
+                            }
+                          ],
+                          "cached" : {
+                            "html" : "<div data-offset-key=\"3lgi1-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"3lgi1-0-0\" style=\"tab-size:4;font-family:&quot;OpenSans&quot;, &quot;Open Sans&quot;, sans-serif;-webkit-text-fill-color:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {&quot;name&quot;:&quot;TextPrimary&quot;} *\/;font-size:16px;letter-spacing:0px;line-height:1.2;font-weight:400\"><span data-text=\"true\">Song Name<\/span><\/span><\/div>",
+                            "os" : "10_13",
+                            "size" : {
+                              "height" : 19,
+                              "width" : 88
+                            },
+                            "width" : 0
+                          },
+                          "entityMap" : {
+
+                          }
+                        },
+                        "top" : null,
+                        "visible" : true,
+                        "width" : 88,
+                        "widthType" : 0
+                      }
+                    ],
+                    "clip" : false,
+                    "codeOverrideEnabled" : false,
+                    "constraintsLocked" : false,
+                    "deviceType" : null,
+                    "exportOptions" : [
+
+                    ],
+                    "fillColor" : "rgba(0, 153, 255, 0.5)",
+                    "fillEnabled" : false,
+                    "fillImage" : null,
+                    "fillImagePixelHeight" : null,
+                    "fillImagePixelWidth" : null,
+                    "fillImageResize" : "fill",
+                    "fillType" : "color",
+                    "guidesX" : [
+
+                    ],
+                    "guidesY" : [
+
+                    ],
+                    "height" : 48,
+                    "heightType" : 0,
+                    "id" : "TfMtGAJNW",
+                    "intrinsicHeight" : null,
+                    "intrinsicWidth" : null,
+                    "isExternalMaster" : null,
+                    "isMaster" : true,
+                    "isTarget" : false,
+                    "left" : 0,
+                    "locked" : false,
+                    "name" : "SongListItem",
+                    "navigationTarget" : null,
+                    "navigationTransition" : "push",
+                    "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+                    "navigationTransitionDirection" : "left",
+                    "opacity" : 1,
+                    "originalid" : null,
+                    "parentid" : "ShOSYrB0Q",
+                    "previewSettings" : null,
+                    "radius" : 0,
+                    "radiusBottomLeft" : 0,
+                    "radiusBottomRight" : 0,
+                    "radiusIsRelative" : false,
+                    "radiusPerCorner" : false,
+                    "radiusTopLeft" : 0,
+                    "radiusTopRight" : 0,
+                    "replicaInfo" : null,
+                    "right" : 0,
+                    "rotation" : 0,
+                    "top" : 105,
+                    "visible" : true,
+                    "width" : 256,
+                    "widthType" : 0
+                  },
+                  {
+                    "__class" : "FrameNode",
+                    "aspectRatio" : null,
+                    "blendingEnabled" : 0,
+                    "blendingMode" : "normal",
+                    "bottom" : null,
+                    "centerAnchorX" : 0.5,
+                    "centerAnchorY" : 0.175561797752809,
+                    "children" : [
+
+                    ],
+                    "clip" : false,
+                    "codeOverrideEnabled" : false,
+                    "constraintsLocked" : false,
+                    "deviceType" : null,
+                    "exportOptions" : [
+
+                    ],
+                    "fillColor" : "var(--token-9e3b28b2-1783-4c73-9503-4bd8fd257d5d, rgb(89, 68, 255)) \/* {\"name\":\"PrimaryMain\"} *\/",
+                    "fillEnabled" : true,
+                    "fillImage" : null,
+                    "fillImagePixelHeight" : null,
+                    "fillImagePixelWidth" : null,
+                    "fillImageResize" : "fill",
+                    "fillType" : "color",
+                    "guidesX" : [
+
+                    ],
+                    "guidesY" : [
+
+                    ],
+                    "height" : 48,
+                    "heightType" : 0,
+                    "id" : "RZb2Ql4u_",
+                    "intrinsicHeight" : null,
+                    "intrinsicWidth" : null,
+                    "isExternalMaster" : null,
+                    "isMaster" : false,
+                    "isTarget" : false,
+                    "left" : 0,
+                    "locked" : false,
+                    "name" : "SongListItem",
+                    "navigationTarget" : null,
+                    "navigationTransition" : "push",
+                    "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+                    "navigationTransitionDirection" : "left",
+                    "opacity" : 1,
+                    "originalid" : "TfMtGAJNW",
+                    "parentid" : "ShOSYrB0Q",
+                    "previewSettings" : null,
+                    "radius" : 0,
+                    "radiusBottomLeft" : 0,
+                    "radiusBottomRight" : 0,
+                    "radiusIsRelative" : false,
+                    "radiusPerCorner" : false,
+                    "radiusTopLeft" : 0,
+                    "radiusTopRight" : 0,
+                    "replicaInfo" : {
+                      "master" : "TfMtGAJNW",
+                      "overrides" : {
+                        "LiW8GtAvV" : {
+                          "styledText" : {
+                            "__class" : "StyledTextDraft",
+                            "blocks" : [
+                              {
+                                "data" : {
+                                  "emptyStyle" : [
+                                    "SIZE:16",
+                                    "LETTERSPACING:0",
+                                    "LINEHEIGHT:1.2",
+                                    "FONT:OpenSans",
+                                    "COLOR:hsl(0, 0%, 100%)"
+                                  ]
+                                },
+                                "depth" : 0,
+                                "entityRanges" : [
+
+                                ],
+                                "inlineStyleRanges" : [
+                                  {
+                                    "length" : 9,
+                                    "offset" : 0,
+                                    "style" : "SIZE:16"
+                                  },
+                                  {
+                                    "length" : 9,
+                                    "offset" : 0,
+                                    "style" : "LETTERSPACING:0"
+                                  },
+                                  {
+                                    "length" : 9,
+                                    "offset" : 0,
+                                    "style" : "LINEHEIGHT:1.2"
+                                  },
+                                  {
+                                    "length" : 9,
+                                    "offset" : 0,
+                                    "style" : "FONT:OpenSans"
+                                  },
+                                  {
+                                    "length" : 9,
+                                    "offset" : 0,
+                                    "style" : "COLOR:hsl(0, 0%, 100%)"
+                                  }
+                                ],
+                                "key" : "3lgi1",
+                                "text" : "Song Name",
+                                "type" : "unstyled"
+                              }
+                            ],
+                            "cached" : {
+                              "html" : "<div data-offset-key=\"3lgi1-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"3lgi1-0-0\" style=\"tab-size:4;font-family:&quot;OpenSans&quot;, &quot;Open Sans&quot;, sans-serif;-webkit-text-fill-color:hsl(0, 0%, 100%);font-size:16px;letter-spacing:0px;line-height:1.2;font-weight:400\"><span data-text=\"true\">Song Name<\/span><\/span><\/div>",
+                              "os" : "10_13",
+                              "size" : {
+                                "height" : 19,
+                                "width" : 88
+                              },
+                              "width" : 0
+                            },
+                            "entityMap" : {
+
+                            }
+                          }
+                        },
+                        "TfMtGAJNW" : {
+                          "bottom" : null,
+                          "centerAnchorX" : 0.5,
+                          "centerAnchorY" : 0.175561797752809,
+                          "fillColor" : "var(--token-9e3b28b2-1783-4c73-9503-4bd8fd257d5d, rgb(89, 68, 255)) \/* {\"name\":\"PrimaryMain\"} *\/",
+                          "fillEnabled" : true,
+                          "left" : 0,
+                          "right" : 0,
+                          "top" : 105
+                        }
+                      }
+                    },
+                    "right" : 0,
+                    "rotation" : 0,
+                    "top" : 105,
+                    "visible" : true,
+                    "width" : 256,
+                    "widthType" : 0
+                  },
+                  {
+                    "__class" : "FrameNode",
+                    "aspectRatio" : null,
+                    "blendingEnabled" : 0,
+                    "blendingMode" : "normal",
+                    "bottom" : null,
+                    "centerAnchorX" : 0.5,
+                    "centerAnchorY" : 0.175561797752809,
+                    "children" : [
+
+                    ],
+                    "clip" : false,
+                    "codeOverrideEnabled" : false,
+                    "constraintsLocked" : false,
+                    "deviceType" : null,
+                    "exportOptions" : [
+
+                    ],
+                    "fillColor" : "rgba(0, 153, 255, 0.5)",
+                    "fillEnabled" : false,
+                    "fillImage" : null,
+                    "fillImagePixelHeight" : null,
+                    "fillImagePixelWidth" : null,
+                    "fillImageResize" : "fill",
+                    "fillType" : "color",
+                    "guidesX" : [
+
+                    ],
+                    "guidesY" : [
+
+                    ],
+                    "height" : 48,
+                    "heightType" : 0,
+                    "id" : "F0C0Fr28b",
+                    "intrinsicHeight" : null,
+                    "intrinsicWidth" : null,
+                    "isExternalMaster" : null,
+                    "isMaster" : false,
+                    "isTarget" : false,
+                    "left" : 0,
+                    "locked" : false,
+                    "name" : "SongListItem",
+                    "navigationTarget" : null,
+                    "navigationTransition" : "push",
+                    "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+                    "navigationTransitionDirection" : "left",
+                    "opacity" : 1,
+                    "originalid" : "TfMtGAJNW",
+                    "parentid" : "ShOSYrB0Q",
+                    "previewSettings" : null,
+                    "radius" : 0,
+                    "radiusBottomLeft" : 0,
+                    "radiusBottomRight" : 0,
+                    "radiusIsRelative" : false,
+                    "radiusPerCorner" : false,
+                    "radiusTopLeft" : 0,
+                    "radiusTopRight" : 0,
+                    "replicaInfo" : {
+                      "master" : "TfMtGAJNW",
+                      "overrides" : {
+                        "TfMtGAJNW" : {
+                          "bottom" : null,
+                          "centerAnchorX" : 0.5,
+                          "centerAnchorY" : 0.175561797752809,
+                          "left" : 0,
+                          "right" : 0,
+                          "top" : 105
+                        }
+                      }
+                    },
+                    "right" : 0,
+                    "rotation" : 0,
+                    "top" : 105,
+                    "visible" : true,
+                    "width" : 256,
+                    "widthType" : 0
+                  },
+                  {
+                    "__class" : "FrameNode",
+                    "aspectRatio" : null,
+                    "blendingEnabled" : 0,
+                    "blendingMode" : "normal",
+                    "bottom" : null,
+                    "centerAnchorX" : 0.5,
+                    "centerAnchorY" : 0.175561797752809,
+                    "children" : [
+
+                    ],
+                    "clip" : false,
+                    "codeOverrideEnabled" : false,
+                    "constraintsLocked" : false,
+                    "deviceType" : null,
+                    "exportOptions" : [
+
+                    ],
+                    "fillColor" : "rgba(0, 153, 255, 0.5)",
+                    "fillEnabled" : false,
+                    "fillImage" : null,
+                    "fillImagePixelHeight" : null,
+                    "fillImagePixelWidth" : null,
+                    "fillImageResize" : "fill",
+                    "fillType" : "color",
+                    "guidesX" : [
+
+                    ],
+                    "guidesY" : [
+
+                    ],
+                    "height" : 48,
+                    "heightType" : 0,
+                    "id" : "D3RwI4T0C",
+                    "intrinsicHeight" : null,
+                    "intrinsicWidth" : null,
+                    "isExternalMaster" : null,
+                    "isMaster" : false,
+                    "isTarget" : false,
+                    "left" : 0,
+                    "locked" : false,
+                    "name" : "SongListItem",
+                    "navigationTarget" : null,
+                    "navigationTransition" : "push",
+                    "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+                    "navigationTransitionDirection" : "left",
+                    "opacity" : 1,
+                    "originalid" : "TfMtGAJNW",
+                    "parentid" : "ShOSYrB0Q",
+                    "previewSettings" : null,
+                    "radius" : 0,
+                    "radiusBottomLeft" : 0,
+                    "radiusBottomRight" : 0,
+                    "radiusIsRelative" : false,
+                    "radiusPerCorner" : false,
+                    "radiusTopLeft" : 0,
+                    "radiusTopRight" : 0,
+                    "replicaInfo" : {
+                      "master" : "TfMtGAJNW",
+                      "overrides" : {
+                        "TfMtGAJNW" : {
+                          "bottom" : null,
+                          "centerAnchorX" : 0.5,
+                          "centerAnchorY" : 0.175561797752809,
+                          "left" : 0,
+                          "right" : 0,
+                          "top" : 105
+                        }
+                      }
+                    },
+                    "right" : 0,
+                    "rotation" : 0,
+                    "top" : 105,
+                    "visible" : true,
+                    "width" : 256,
+                    "widthType" : 0
+                  }
+                ],
+                "clip" : true,
+                "codeComponentIdentifier" : "framer\/Stack",
+                "codeComponentProps" : {
+                  "alignment" : "center",
+                  "direction" : "vertical",
+                  "distribution" : "start",
+                  "gap" : 0,
+                  "padding" : 0,
+                  "paddingBottom" : 8,
+                  "paddingLeft" : 0,
+                  "paddingPerSide" : true,
+                  "paddingRight" : 0,
+                  "paddingTop" : 8
+                },
+                "codeOverrideEnabled" : false,
+                "constraintsLocked" : false,
+                "deviceType" : null,
+                "exportOptions" : [
+
+                ],
+                "fillColor" : "rgba(255,255,255,1)",
+                "fillEnabled" : false,
+                "fillImage" : null,
+                "fillImagePixelHeight" : null,
+                "fillImagePixelWidth" : null,
+                "fillImageResize" : "fill",
+                "fillType" : "color",
+                "height" : 712,
+                "heightType" : 0,
+                "id" : "ShOSYrB0Q",
+                "intrinsicHeight" : null,
+                "intrinsicWidth" : null,
+                "left" : 0,
+                "locked" : false,
+                "name" : "SongListStack",
+                "opacity" : 1,
+                "originalid" : null,
+                "parentid" : "KLepYBxqb",
+                "previewSettings" : null,
+                "radius" : 0,
+                "radiusBottomLeft" : 0,
+                "radiusBottomRight" : 0,
+                "radiusIsRelative" : false,
+                "radiusPerCorner" : false,
+                "radiusTopLeft" : 0,
+                "radiusTopRight" : 0,
+                "right" : 0,
+                "rotation" : 0,
+                "top" : 0,
+                "visible" : true,
+                "width" : 256,
+                "widthType" : 0
+              }
             ],
-            "clip" : true,
-            "codeComponentIdentifier" : ".\/Button.tsx_Button",
-            "codeComponentProps" : {
-              "backgroundColor" : "hsl(0, 85%, 72%)",
-              "text" : "Poopity Scoop",
-              "variant" : "outlined"
-            },
+            "clip" : false,
             "codeOverrideEnabled" : false,
             "constraintsLocked" : false,
+            "deviceType" : null,
             "exportOptions" : [
 
             ],
-            "fillColor" : "rgba(255,255,255,1)",
-            "fillEnabled" : false,
-            "fillGradient" : {
-              "__class" : "LinearGradient",
-              "alpha" : 1,
-              "angle" : 0,
-              "end" : "rgba(0,0,0,0)",
-              "start" : "black"
-            },
+            "fillColor" : "var(--token-9ccac2cb-8047-407b-bfc5-fd4586fee600, rgb(255, 255, 255)) \/* {\"name\":\"BackgroundPaper\"} *\/",
+            "fillEnabled" : true,
             "fillImage" : null,
             "fillImagePixelHeight" : null,
             "fillImagePixelWidth" : null,
             "fillImageResize" : "fill",
             "fillType" : "color",
-            "height" : 36,
+            "guidesX" : [
+
+            ],
+            "guidesY" : [
+
+            ],
+            "height" : 704,
             "heightType" : 0,
-            "id" : "cT5Rysnqg",
+            "id" : "KLepYBxqb",
             "intrinsicHeight" : null,
             "intrinsicWidth" : null,
-            "left" : 49,
+            "isExternalMaster" : null,
+            "isMaster" : false,
+            "isTarget" : false,
+            "left" : 0,
             "locked" : false,
-            "name" : null,
+            "name" : "SongList",
+            "navigationTarget" : null,
+            "navigationTransition" : "push",
+            "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+            "navigationTransitionDirection" : "left",
             "opacity" : 1,
             "originalid" : null,
-            "parentid" : "EzlbeEyZV",
+            "parentid" : "vS4SEkWeg",
+            "previewSettings" : null,
             "radius" : 0,
             "radiusBottomLeft" : 0,
             "radiusBottomRight" : 0,
@@ -64,11 +588,1493 @@
             "radiusPerCorner" : false,
             "radiusTopLeft" : 0,
             "radiusTopRight" : 0,
+            "replicaInfo" : null,
             "right" : null,
             "rotation" : 0,
-            "top" : 51,
+            "top" : 64,
             "visible" : true,
-            "width" : 142,
+            "width" : 256,
+            "widthType" : 0
+          },
+          {
+            "__class" : "FrameNode",
+            "aspectRatio" : null,
+            "blendingEnabled" : 0,
+            "blendingMode" : "normal",
+            "bottom" : 0,
+            "centerAnchorX" : 0.625,
+            "centerAnchorY" : 0.54166666666666663,
+            "children" : [
+              {
+                "__class" : "FrameNode",
+                "aspectRatio" : null,
+                "blendingEnabled" : 0,
+                "blendingMode" : "normal",
+                "borderBottom" : 1,
+                "borderColor" : "var(--token-e98c529a-62d0-474b-aa7c-80f37db4ec14, rgba(0, 0, 0, 0.12)) \/* {\"name\":\"Divider\"} *\/",
+                "borderEnabled" : -1,
+                "borderLeft" : 0,
+                "borderPerSide" : true,
+                "borderRight" : 0,
+                "borderStyle" : "solid",
+                "borderTop" : 0,
+                "borderWidth" : 0,
+                "bottom" : null,
+                "centerAnchorX" : 0.5,
+                "centerAnchorY" : 0.073863636363636367,
+                "children" : [
+                  {
+                    "__class" : "TextNode",
+                    "autoSize" : true,
+                    "bottom" : null,
+                    "centerAnchorX" : 0.15104166666666666,
+                    "centerAnchorY" : 0.5,
+                    "codeOverrideEnabled" : false,
+                    "constraintsLocked" : true,
+                    "exportOptions" : [
+
+                    ],
+                    "height" : 39,
+                    "heightType" : 0,
+                    "id" : "afIeKQqzS",
+                    "isTarget" : false,
+                    "left" : 24,
+                    "locked" : false,
+                    "name" : null,
+                    "opacity" : 1,
+                    "originalid" : null,
+                    "parentid" : "SKkgrsyhY",
+                    "right" : null,
+                    "rotation" : 0,
+                    "styledText" : {
+                      "__class" : "StyledTextDraft",
+                      "blocks" : [
+                        {
+                          "data" : {
+                            "emptyStyle" : [
+                              "COLOR:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {\"name\":\"TextPrimary\"} *\/",
+                              "FONT:OpenSans",
+                              "SIZE:34",
+                              "LETTERSPACING:0.00735",
+                              "LINEHEIGHT:1.17"
+                            ]
+                          },
+                          "depth" : 0,
+                          "entityRanges" : [
+
+                          ],
+                          "inlineStyleRanges" : [
+                            {
+                              "length" : 9,
+                              "offset" : 0,
+                              "style" : "COLOR:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {\"name\":\"TextPrimary\"} *\/"
+                            },
+                            {
+                              "length" : 9,
+                              "offset" : 0,
+                              "style" : "FONT:OpenSans"
+                            },
+                            {
+                              "length" : 9,
+                              "offset" : 0,
+                              "style" : "SIZE:34"
+                            },
+                            {
+                              "length" : 9,
+                              "offset" : 0,
+                              "style" : "LETTERSPACING:0.00735"
+                            },
+                            {
+                              "length" : 9,
+                              "offset" : 0,
+                              "style" : "LINEHEIGHT:1.17"
+                            }
+                          ],
+                          "key" : "4ic9h",
+                          "text" : "Song Name",
+                          "type" : "unstyled"
+                        }
+                      ],
+                      "cached" : {
+                        "html" : "<div data-offset-key=\"4ic9h-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"4ic9h-0-0\" style=\"tab-size:4;font-family:&quot;OpenSans&quot;, &quot;Open Sans&quot;, sans-serif;-webkit-text-fill-color:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {&quot;name&quot;:&quot;TextPrimary&quot;} *\/;font-size:34px;letter-spacing:0.00735px;line-height:1.17;font-weight:400\"><span data-text=\"true\">Song Name<\/span><\/span><\/div>",
+                        "os" : "10_13",
+                        "size" : {
+                          "height" : 39,
+                          "width" : 184
+                        },
+                        "width" : 0
+                      },
+                      "entityMap" : {
+
+                      }
+                    },
+                    "top" : null,
+                    "visible" : true,
+                    "width" : 184,
+                    "widthType" : 0
+                  },
+                  {
+                    "__class" : "FrameNode",
+                    "aspectRatio" : null,
+                    "blendingEnabled" : 0,
+                    "blendingMode" : "normal",
+                    "borderBottom" : 1,
+                    "borderColor" : "#222",
+                    "borderEnabled" : -1,
+                    "borderLeft" : 1,
+                    "borderPerSide" : false,
+                    "borderRight" : 1,
+                    "borderStyle" : "solid",
+                    "borderTop" : 1,
+                    "borderWidth" : 1,
+                    "bottom" : null,
+                    "boxShadows" : [
+                      {
+                        "__class" : "BoxShadow",
+                        "blur" : 5,
+                        "color" : "rgba(0,0,0,0.25)",
+                        "enabled" : true,
+                        "inset" : false,
+                        "spread" : 0,
+                        "x" : 0,
+                        "y" : 2
+                      }
+                    ],
+                    "centerAnchorX" : 0.927734375,
+                    "centerAnchorY" : 0.50574712643678166,
+                    "children" : [
+                      {
+                        "__class" : "TextNode",
+                        "autoSize" : true,
+                        "bottom" : null,
+                        "centerAnchorX" : 0.5,
+                        "centerAnchorY" : 0.5,
+                        "codeOverrideEnabled" : false,
+                        "constraintsLocked" : false,
+                        "exportOptions" : [
+
+                        ],
+                        "height" : 16,
+                        "heightType" : 0,
+                        "id" : "Zm91_1eHe",
+                        "isTarget" : false,
+                        "left" : null,
+                        "locked" : false,
+                        "name" : "SongDetailsEditButtonLabel",
+                        "opacity" : 1,
+                        "originalid" : null,
+                        "parentid" : "NU60djt4W",
+                        "right" : null,
+                        "rotation" : 0,
+                        "styledText" : {
+                          "__class" : "StyledTextDraft",
+                          "blocks" : [
+                            {
+                              "data" : {
+                                "emptyStyle" : [
+                                  "FONT:OpenSans",
+                                  "LINEHEIGHT:1.17",
+                                  "LETTERSPACING:0",
+                                  "SIZE:14",
+                                  "COLOR:rgb(255, 255, 255)"
+                                ]
+                              },
+                              "depth" : 0,
+                              "entityRanges" : [
+
+                              ],
+                              "inlineStyleRanges" : [
+                                {
+                                  "length" : 4,
+                                  "offset" : 0,
+                                  "style" : "FONT:OpenSans"
+                                },
+                                {
+                                  "length" : 4,
+                                  "offset" : 0,
+                                  "style" : "LINEHEIGHT:1.17"
+                                },
+                                {
+                                  "length" : 4,
+                                  "offset" : 0,
+                                  "style" : "LETTERSPACING:0"
+                                },
+                                {
+                                  "length" : 4,
+                                  "offset" : 0,
+                                  "style" : "SIZE:14"
+                                },
+                                {
+                                  "length" : 4,
+                                  "offset" : 0,
+                                  "style" : "COLOR:rgb(255, 255, 255)"
+                                }
+                              ],
+                              "key" : "ljs5",
+                              "text" : "EDIT",
+                              "type" : "unstyled"
+                            }
+                          ],
+                          "cached" : {
+                            "html" : "<div data-offset-key=\"ljs5-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"ljs5-0-0\" style=\"tab-size:4;font-family:&quot;OpenSans&quot;, &quot;Open Sans&quot;, sans-serif;-webkit-text-fill-color:rgb(255, 255, 255);font-size:14px;letter-spacing:0px;line-height:1.17;font-weight:400\"><span data-text=\"true\">EDIT<\/span><\/span><\/div>",
+                            "os" : "10_13",
+                            "size" : {
+                              "height" : 16,
+                              "width" : 31
+                            },
+                            "width" : 0
+                          },
+                          "entityMap" : {
+
+                          }
+                        },
+                        "top" : null,
+                        "visible" : true,
+                        "width" : 31,
+                        "widthType" : 0
+                      }
+                    ],
+                    "clip" : false,
+                    "codeOverrideEnabled" : false,
+                    "constraintsLocked" : false,
+                    "deviceType" : null,
+                    "exportOptions" : [
+
+                    ],
+                    "fillColor" : "var(--token-9e3b28b2-1783-4c73-9503-4bd8fd257d5d, rgb(89, 68, 255)) \/* {\"name\":\"PrimaryMain\"} *\/",
+                    "fillEnabled" : true,
+                    "fillImage" : null,
+                    "fillImagePixelHeight" : null,
+                    "fillImagePixelWidth" : null,
+                    "fillImageResize" : "fill",
+                    "fillType" : "color",
+                    "guidesX" : [
+
+                    ],
+                    "guidesY" : [
+
+                    ],
+                    "height" : 36,
+                    "heightType" : 0,
+                    "id" : "NU60djt4W",
+                    "intrinsicHeight" : null,
+                    "intrinsicWidth" : null,
+                    "isExternalMaster" : null,
+                    "isMaster" : false,
+                    "isTarget" : false,
+                    "left" : null,
+                    "locked" : false,
+                    "name" : "SongDetailsEditButton",
+                    "navigationTarget" : null,
+                    "navigationTransition" : "push",
+                    "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+                    "navigationTransitionDirection" : "left",
+                    "opacity" : 1,
+                    "originalid" : null,
+                    "parentid" : "SKkgrsyhY",
+                    "previewSettings" : null,
+                    "radius" : 6,
+                    "radiusBottomLeft" : 6,
+                    "radiusBottomRight" : 6,
+                    "radiusIsRelative" : false,
+                    "radiusPerCorner" : false,
+                    "radiusTopLeft" : 6,
+                    "radiusTopRight" : 6,
+                    "replicaInfo" : null,
+                    "right" : 24,
+                    "rotation" : 0,
+                    "top" : null,
+                    "visible" : true,
+                    "width" : 63,
+                    "widthType" : 0
+                  }
+                ],
+                "clip" : false,
+                "codeOverrideEnabled" : false,
+                "constraintsLocked" : false,
+                "deviceType" : null,
+                "exportOptions" : [
+
+                ],
+                "fillColor" : "rgba(0, 153, 255, 0.5)",
+                "fillEnabled" : false,
+                "fillImage" : null,
+                "fillImagePixelHeight" : null,
+                "fillImagePixelWidth" : null,
+                "fillImageResize" : "fill",
+                "fillType" : "color",
+                "guidesX" : [
+
+                ],
+                "guidesY" : [
+
+                ],
+                "height" : 64,
+                "heightType" : 0,
+                "id" : "SKkgrsyhY",
+                "intrinsicHeight" : null,
+                "intrinsicWidth" : null,
+                "isExternalMaster" : null,
+                "isMaster" : false,
+                "isTarget" : false,
+                "left" : 0,
+                "locked" : false,
+                "name" : "SongDetailsHeader",
+                "navigationTarget" : null,
+                "navigationTransition" : "push",
+                "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+                "navigationTransitionDirection" : "left",
+                "opacity" : 1,
+                "originalid" : null,
+                "parentid" : "FGznKMbvV",
+                "previewSettings" : null,
+                "radius" : 0,
+                "radiusBottomLeft" : 0,
+                "radiusBottomRight" : 0,
+                "radiusIsRelative" : false,
+                "radiusPerCorner" : false,
+                "radiusTopLeft" : 0,
+                "radiusTopRight" : 0,
+                "replicaInfo" : null,
+                "right" : 0,
+                "rotation" : 0,
+                "top" : 0,
+                "visible" : true,
+                "width" : 768,
+                "widthType" : 0
+              },
+              {
+                "__class" : "FrameNode",
+                "aspectRatio" : null,
+                "blendingEnabled" : 0,
+                "blendingMode" : "normal",
+                "bottom" : 0,
+                "centerAnchorX" : 0.5,
+                "centerAnchorY" : 0.54545454545454541,
+                "children" : [
+                  {
+                    "__class" : "FrameNode",
+                    "aspectRatio" : null,
+                    "blendingEnabled" : 0,
+                    "blendingMode" : "normal",
+                    "bottom" : null,
+                    "centerAnchorX" : 0.5,
+                    "centerAnchorY" : 0.35980551053484605,
+                    "children" : [
+                      {
+                        "__class" : "FrameNode",
+                        "aspectRatio" : null,
+                        "blendingEnabled" : 0,
+                        "blendingMode" : "normal",
+                        "bottom" : null,
+                        "centerAnchorX" : 0.5,
+                        "centerAnchorY" : 0.084337349397590355,
+                        "children" : [
+                          {
+                            "__class" : "TextNode",
+                            "autoSize" : true,
+                            "bottom" : null,
+                            "centerAnchorX" : 0.041666666666666664,
+                            "centerAnchorY" : 0.5089285714285714,
+                            "codeOverrideEnabled" : false,
+                            "constraintsLocked" : false,
+                            "exportOptions" : [
+
+                            ],
+                            "height" : 23,
+                            "heightType" : 0,
+                            "id" : "qG3rKNimB",
+                            "isTarget" : false,
+                            "left" : 0,
+                            "locked" : false,
+                            "name" : null,
+                            "opacity" : 1,
+                            "originalid" : null,
+                            "parentid" : "Gv4RVwVdR",
+                            "right" : null,
+                            "rotation" : 0,
+                            "styledText" : {
+                              "__class" : "StyledTextDraft",
+                              "blocks" : [
+                                {
+                                  "data" : {
+                                    "emptyStyle" : [
+                                      "FONT:OpenSans",
+                                      "SIZE:20",
+                                      "LETTERSPACING:0",
+                                      "LINEHEIGHT:1.17",
+                                      "COLOR:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {\"name\":\"TextPrimary\"} *\/"
+                                    ]
+                                  },
+                                  "depth" : 0,
+                                  "entityRanges" : [
+
+                                  ],
+                                  "inlineStyleRanges" : [
+                                    {
+                                      "length" : 6,
+                                      "offset" : 0,
+                                      "style" : "FONT:OpenSans"
+                                    },
+                                    {
+                                      "length" : 6,
+                                      "offset" : 0,
+                                      "style" : "SIZE:20"
+                                    },
+                                    {
+                                      "length" : 6,
+                                      "offset" : 0,
+                                      "style" : "LETTERSPACING:0"
+                                    },
+                                    {
+                                      "length" : 6,
+                                      "offset" : 0,
+                                      "style" : "LINEHEIGHT:1.17"
+                                    },
+                                    {
+                                      "length" : 6,
+                                      "offset" : 0,
+                                      "style" : "COLOR:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {\"name\":\"TextPrimary\"} *\/"
+                                    }
+                                  ],
+                                  "key" : "5o91a",
+                                  "text" : "Tracks",
+                                  "type" : "unstyled"
+                                }
+                              ],
+                              "cached" : {
+                                "html" : "<div data-offset-key=\"5o91a-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"5o91a-0-0\" style=\"tab-size:4;font-family:&quot;OpenSans&quot;, &quot;Open Sans&quot;, sans-serif;-webkit-text-fill-color:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {&quot;name&quot;:&quot;TextPrimary&quot;} *\/;font-size:20px;letter-spacing:0px;line-height:1.17;font-weight:400\"><span data-text=\"true\">Tracks<\/span><\/span><\/div>",
+                                "os" : "10_13",
+                                "size" : {
+                                  "height" : 23,
+                                  "width" : 60
+                                },
+                                "width" : 0
+                              },
+                              "entityMap" : {
+
+                              }
+                            },
+                            "top" : null,
+                            "visible" : true,
+                            "width" : 60,
+                            "widthType" : 0
+                          }
+                        ],
+                        "clip" : false,
+                        "codeOverrideEnabled" : false,
+                        "constraintsLocked" : false,
+                        "deviceType" : null,
+                        "exportOptions" : [
+
+                        ],
+                        "fillColor" : "rgba(0, 153, 255, 0.5)",
+                        "fillEnabled" : false,
+                        "fillImage" : null,
+                        "fillImagePixelHeight" : null,
+                        "fillImagePixelWidth" : null,
+                        "fillImageResize" : "fill",
+                        "fillType" : "color",
+                        "guidesX" : [
+
+                        ],
+                        "guidesY" : [
+
+                        ],
+                        "height" : 56,
+                        "heightType" : 0,
+                        "id" : "Gv4RVwVdR",
+                        "intrinsicHeight" : null,
+                        "intrinsicWidth" : null,
+                        "isExternalMaster" : null,
+                        "isMaster" : false,
+                        "isTarget" : false,
+                        "left" : 0,
+                        "locked" : false,
+                        "name" : "SongDetailsInfoTracksHeader",
+                        "navigationTarget" : null,
+                        "navigationTransition" : "push",
+                        "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+                        "navigationTransitionDirection" : "left",
+                        "opacity" : 1,
+                        "originalid" : null,
+                        "parentid" : "IaszD8gFm",
+                        "previewSettings" : null,
+                        "radius" : 0,
+                        "radiusBottomLeft" : 0,
+                        "radiusBottomRight" : 0,
+                        "radiusIsRelative" : false,
+                        "radiusPerCorner" : false,
+                        "radiusTopLeft" : 0,
+                        "radiusTopRight" : 0,
+                        "replicaInfo" : null,
+                        "right" : 0,
+                        "rotation" : 0,
+                        "top" : 0,
+                        "visible" : true,
+                        "width" : 720,
+                        "widthType" : 0
+                      },
+                      {
+                        "__class" : "CodeComponentNode",
+                        "aspectRatio" : null,
+                        "bottom" : 0,
+                        "centerAnchorX" : 0.5,
+                        "centerAnchorY" : 0.58433734939759041,
+                        "children" : [
+                          {
+                            "__class" : "FrameNode",
+                            "aspectRatio" : null,
+                            "blendingEnabled" : 0,
+                            "blendingMode" : "normal",
+                            "bottom" : null,
+                            "centerAnchorX" : 0.5,
+                            "centerAnchorY" : 0.1539855072463768,
+                            "children" : [
+                              {
+                                "__class" : "FrameNode",
+                                "aspectRatio" : 1,
+                                "blendingEnabled" : 0,
+                                "blendingMode" : "normal",
+                                "bottom" : null,
+                                "centerAnchorX" : 0.044444444444444446,
+                                "centerAnchorY" : 0.50588235294117645,
+                                "children" : [
+
+                                ],
+                                "clip" : false,
+                                "codeOverrideEnabled" : false,
+                                "constraintsLocked" : true,
+                                "deviceType" : null,
+                                "exportOptions" : [
+
+                                ],
+                                "fillColor" : "var(--token-bb03464a-5932-4639-bac3-c304fe68e7bf, rgb(155, 155, 249)) \/* {\"name\":\"PrimaryLight\"} *\/",
+                                "fillEnabled" : true,
+                                "fillImage" : null,
+                                "fillImagePixelHeight" : null,
+                                "fillImagePixelWidth" : null,
+                                "fillImageResize" : "fill",
+                                "fillType" : "color",
+                                "guidesX" : [
+
+                                ],
+                                "guidesY" : [
+
+                                ],
+                                "height" : 64,
+                                "heightType" : 0,
+                                "id" : "ICXrD6vDe",
+                                "intrinsicHeight" : null,
+                                "intrinsicWidth" : null,
+                                "isExternalMaster" : null,
+                                "isMaster" : false,
+                                "isTarget" : false,
+                                "left" : 0,
+                                "locked" : false,
+                                "name" : "TrackTypeImage",
+                                "navigationTarget" : null,
+                                "navigationTransition" : "push",
+                                "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+                                "navigationTransitionDirection" : "left",
+                                "opacity" : 1,
+                                "originalid" : null,
+                                "parentid" : "bxhCVbQFg",
+                                "previewSettings" : null,
+                                "radius" : 6,
+                                "radiusBottomLeft" : 6,
+                                "radiusBottomRight" : 6,
+                                "radiusIsRelative" : false,
+                                "radiusPerCorner" : false,
+                                "radiusTopLeft" : 6,
+                                "radiusTopRight" : 6,
+                                "replicaInfo" : null,
+                                "right" : null,
+                                "rotation" : 0,
+                                "top" : null,
+                                "visible" : true,
+                                "width" : 64,
+                                "widthType" : 0
+                              },
+                              {
+                                "__class" : "TextNode",
+                                "autoSize" : true,
+                                "bottom" : null,
+                                "centerAnchorX" : 0.11527777777777778,
+                                "centerAnchorY" : 0.5117647058823529,
+                                "codeOverrideEnabled" : false,
+                                "constraintsLocked" : false,
+                                "exportOptions" : [
+
+                                ],
+                                "height" : 23,
+                                "heightType" : 0,
+                                "id" : "SRfPipjK6",
+                                "isTarget" : false,
+                                "left" : 83,
+                                "locked" : false,
+                                "name" : "TrackName",
+                                "opacity" : 1,
+                                "originalid" : null,
+                                "parentid" : "bxhCVbQFg",
+                                "right" : null,
+                                "rotation" : 0,
+                                "styledText" : {
+                                  "__class" : "StyledTextDraft",
+                                  "blocks" : [
+                                    {
+                                      "data" : {
+                                        "emptyStyle" : [
+                                          "FONT:OpenSans",
+                                          "COLOR:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {\"name\":\"TextPrimary\"} *\/",
+                                          "SIZE:20",
+                                          "LETTERSPACING:0",
+                                          "LINEHEIGHT:1.17"
+                                        ]
+                                      },
+                                      "depth" : 0,
+                                      "entityRanges" : [
+
+                                      ],
+                                      "inlineStyleRanges" : [
+                                        {
+                                          "length" : 4,
+                                          "offset" : 0,
+                                          "style" : "FONT:OpenSans"
+                                        },
+                                        {
+                                          "length" : 4,
+                                          "offset" : 0,
+                                          "style" : "COLOR:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {\"name\":\"TextPrimary\"} *\/"
+                                        },
+                                        {
+                                          "length" : 4,
+                                          "offset" : 0,
+                                          "style" : "SIZE:20"
+                                        },
+                                        {
+                                          "length" : 4,
+                                          "offset" : 0,
+                                          "style" : "LETTERSPACING:0"
+                                        },
+                                        {
+                                          "length" : 4,
+                                          "offset" : 0,
+                                          "style" : "LINEHEIGHT:1.17"
+                                        }
+                                      ],
+                                      "key" : "10es9",
+                                      "text" : "Lead",
+                                      "type" : "unstyled"
+                                    }
+                                  ],
+                                  "cached" : {
+                                    "html" : "<div data-offset-key=\"10es9-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"10es9-0-0\" style=\"tab-size:4;font-family:&quot;OpenSans&quot;, &quot;Open Sans&quot;, sans-serif;-webkit-text-fill-color:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {&quot;name&quot;:&quot;TextPrimary&quot;} *\/;font-size:20px;letter-spacing:0px;line-height:1.17;font-weight:400\"><span data-text=\"true\">Lead<\/span><\/span><\/div>",
+                                    "os" : "10_13",
+                                    "size" : {
+                                      "height" : 23,
+                                      "width" : 46
+                                    },
+                                    "width" : 0
+                                  },
+                                  "entityMap" : {
+
+                                  }
+                                },
+                                "top" : null,
+                                "visible" : true,
+                                "width" : 46,
+                                "widthType" : 0
+                              }
+                            ],
+                            "clip" : false,
+                            "codeOverrideEnabled" : false,
+                            "constraintsLocked" : false,
+                            "deviceType" : null,
+                            "exportOptions" : [
+
+                            ],
+                            "fillColor" : "hsla(0, 0%, 100%, 0.5)",
+                            "fillEnabled" : false,
+                            "fillImage" : null,
+                            "fillImagePixelHeight" : null,
+                            "fillImagePixelWidth" : null,
+                            "fillImageResize" : "fill",
+                            "fillType" : "color",
+                            "guidesX" : [
+
+                            ],
+                            "guidesY" : [
+
+                            ],
+                            "height" : 80,
+                            "heightType" : 0,
+                            "id" : "bxhCVbQFg",
+                            "intrinsicHeight" : null,
+                            "intrinsicWidth" : null,
+                            "isExternalMaster" : null,
+                            "isMaster" : true,
+                            "isTarget" : false,
+                            "left" : null,
+                            "locked" : false,
+                            "name" : "Track",
+                            "navigationTarget" : null,
+                            "navigationTransition" : "push",
+                            "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+                            "navigationTransitionDirection" : "left",
+                            "opacity" : 1,
+                            "originalid" : null,
+                            "parentid" : "wjnqrPfGa",
+                            "previewSettings" : null,
+                            "radius" : 0,
+                            "radiusBottomLeft" : 0,
+                            "radiusBottomRight" : 0,
+                            "radiusIsRelative" : false,
+                            "radiusPerCorner" : false,
+                            "radiusTopLeft" : 0,
+                            "radiusTopRight" : 0,
+                            "replicaInfo" : null,
+                            "right" : null,
+                            "rotation" : 0,
+                            "top" : null,
+                            "visible" : true,
+                            "width" : 720,
+                            "widthType" : 0
+                          },
+                          {
+                            "__class" : "FrameNode",
+                            "aspectRatio" : null,
+                            "blendingEnabled" : 0,
+                            "blendingMode" : "normal",
+                            "bottom" : null,
+                            "centerAnchorX" : 0.5,
+                            "centerAnchorY" : 0.1539855072463768,
+                            "children" : [
+
+                            ],
+                            "clip" : false,
+                            "codeOverrideEnabled" : false,
+                            "constraintsLocked" : false,
+                            "deviceType" : null,
+                            "exportOptions" : [
+
+                            ],
+                            "fillColor" : "hsla(0, 0%, 100%, 0.5)",
+                            "fillEnabled" : false,
+                            "fillImage" : null,
+                            "fillImagePixelHeight" : null,
+                            "fillImagePixelWidth" : null,
+                            "fillImageResize" : "fill",
+                            "fillType" : "color",
+                            "guidesX" : [
+
+                            ],
+                            "guidesY" : [
+
+                            ],
+                            "height" : 80,
+                            "heightType" : 0,
+                            "id" : "DXg75LtUp",
+                            "intrinsicHeight" : null,
+                            "intrinsicWidth" : null,
+                            "isExternalMaster" : null,
+                            "isMaster" : false,
+                            "isTarget" : false,
+                            "left" : null,
+                            "locked" : false,
+                            "name" : "Track",
+                            "navigationTarget" : null,
+                            "navigationTransition" : "push",
+                            "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+                            "navigationTransitionDirection" : "left",
+                            "opacity" : 1,
+                            "originalid" : "bxhCVbQFg",
+                            "parentid" : "wjnqrPfGa",
+                            "previewSettings" : null,
+                            "radius" : 0,
+                            "radiusBottomLeft" : 0,
+                            "radiusBottomRight" : 0,
+                            "radiusIsRelative" : false,
+                            "radiusPerCorner" : false,
+                            "radiusTopLeft" : 0,
+                            "radiusTopRight" : 0,
+                            "replicaInfo" : {
+                              "master" : "bxhCVbQFg",
+                              "overrides" : {
+                                "bxhCVbQFg" : {
+                                  "bottom" : null,
+                                  "centerAnchorX" : 0.5,
+                                  "centerAnchorY" : 0.1539855072463768,
+                                  "left" : null,
+                                  "right" : null,
+                                  "top" : null
+                                },
+                                "SRfPipjK6" : {
+                                  "styledText" : {
+                                    "__class" : "StyledTextDraft",
+                                    "blocks" : [
+                                      {
+                                        "data" : {
+                                          "emptyStyle" : [
+                                            "FONT:OpenSans",
+                                            "COLOR:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {\"name\":\"TextPrimary\"} *\/",
+                                            "SIZE:20",
+                                            "LETTERSPACING:0",
+                                            "LINEHEIGHT:1.17"
+                                          ]
+                                        },
+                                        "depth" : 0,
+                                        "entityRanges" : [
+
+                                        ],
+                                        "inlineStyleRanges" : [
+                                          {
+                                            "length" : 4,
+                                            "offset" : 0,
+                                            "style" : "FONT:OpenSans"
+                                          },
+                                          {
+                                            "length" : 4,
+                                            "offset" : 0,
+                                            "style" : "COLOR:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {\"name\":\"TextPrimary\"} *\/"
+                                          },
+                                          {
+                                            "length" : 4,
+                                            "offset" : 0,
+                                            "style" : "SIZE:20"
+                                          },
+                                          {
+                                            "length" : 4,
+                                            "offset" : 0,
+                                            "style" : "LETTERSPACING:0"
+                                          },
+                                          {
+                                            "length" : 4,
+                                            "offset" : 0,
+                                            "style" : "LINEHEIGHT:1.17"
+                                          }
+                                        ],
+                                        "key" : "10es9",
+                                        "text" : "Bass",
+                                        "type" : "unstyled"
+                                      }
+                                    ],
+                                    "cached" : {
+                                      "html" : "<div data-offset-key=\"10es9-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"10es9-0-0\" style=\"tab-size:4;font-family:&quot;OpenSans&quot;, &quot;Open Sans&quot;, sans-serif;-webkit-text-fill-color:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {&quot;name&quot;:&quot;TextPrimary&quot;} *\/;font-size:20px;letter-spacing:0px;line-height:1.17;font-weight:400\"><span data-text=\"true\">Bass<\/span><\/span><\/div>",
+                                      "os" : "10_13",
+                                      "size" : {
+                                        "height" : 23,
+                                        "width" : 45
+                                      },
+                                      "width" : 0
+                                    },
+                                    "entityMap" : {
+
+                                    }
+                                  },
+                                  "width" : 45
+                                }
+                              }
+                            },
+                            "right" : null,
+                            "rotation" : 0,
+                            "top" : null,
+                            "visible" : true,
+                            "width" : 720,
+                            "widthType" : 0
+                          },
+                          {
+                            "__class" : "FrameNode",
+                            "aspectRatio" : null,
+                            "blendingEnabled" : 0,
+                            "blendingMode" : "normal",
+                            "bottom" : null,
+                            "centerAnchorX" : 0.5,
+                            "centerAnchorY" : 0.1539855072463768,
+                            "children" : [
+
+                            ],
+                            "clip" : false,
+                            "codeOverrideEnabled" : false,
+                            "constraintsLocked" : false,
+                            "deviceType" : null,
+                            "exportOptions" : [
+
+                            ],
+                            "fillColor" : "hsla(0, 0%, 100%, 0.5)",
+                            "fillEnabled" : false,
+                            "fillImage" : null,
+                            "fillImagePixelHeight" : null,
+                            "fillImagePixelWidth" : null,
+                            "fillImageResize" : "fill",
+                            "fillType" : "color",
+                            "guidesX" : [
+
+                            ],
+                            "guidesY" : [
+
+                            ],
+                            "height" : 80,
+                            "heightType" : 0,
+                            "id" : "UDu4v2XY6",
+                            "intrinsicHeight" : null,
+                            "intrinsicWidth" : null,
+                            "isExternalMaster" : null,
+                            "isMaster" : false,
+                            "isTarget" : false,
+                            "left" : null,
+                            "locked" : false,
+                            "name" : "Track",
+                            "navigationTarget" : null,
+                            "navigationTransition" : "push",
+                            "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+                            "navigationTransitionDirection" : "left",
+                            "opacity" : 1,
+                            "originalid" : "bxhCVbQFg",
+                            "parentid" : "wjnqrPfGa",
+                            "previewSettings" : null,
+                            "radius" : 0,
+                            "radiusBottomLeft" : 0,
+                            "radiusBottomRight" : 0,
+                            "radiusIsRelative" : false,
+                            "radiusPerCorner" : false,
+                            "radiusTopLeft" : 0,
+                            "radiusTopRight" : 0,
+                            "replicaInfo" : {
+                              "master" : "bxhCVbQFg",
+                              "overrides" : {
+                                "bxhCVbQFg" : {
+                                  "bottom" : null,
+                                  "centerAnchorX" : 0.5,
+                                  "centerAnchorY" : 0.1539855072463768,
+                                  "left" : null,
+                                  "right" : null,
+                                  "top" : null
+                                },
+                                "SRfPipjK6" : {
+                                  "centerAnchorY" : 0.5117647058823529,
+                                  "height" : 23,
+                                  "styledText" : {
+                                    "__class" : "StyledTextDraft",
+                                    "blocks" : [
+                                      {
+                                        "data" : {
+                                          "emptyStyle" : [
+                                            "FONT:OpenSans",
+                                            "COLOR:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {\"name\":\"TextPrimary\"} *\/",
+                                            "SIZE:20",
+                                            "LETTERSPACING:0",
+                                            "LINEHEIGHT:1.17"
+                                          ]
+                                        },
+                                        "depth" : 0,
+                                        "entityRanges" : [
+
+                                        ],
+                                        "inlineStyleRanges" : [
+                                          {
+                                            "length" : 3,
+                                            "offset" : 0,
+                                            "style" : "FONT:OpenSans"
+                                          },
+                                          {
+                                            "length" : 3,
+                                            "offset" : 0,
+                                            "style" : "COLOR:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {\"name\":\"TextPrimary\"} *\/"
+                                          },
+                                          {
+                                            "length" : 3,
+                                            "offset" : 0,
+                                            "style" : "SIZE:20"
+                                          },
+                                          {
+                                            "length" : 3,
+                                            "offset" : 0,
+                                            "style" : "LETTERSPACING:0"
+                                          },
+                                          {
+                                            "length" : 3,
+                                            "offset" : 0,
+                                            "style" : "LINEHEIGHT:1.17"
+                                          }
+                                        ],
+                                        "key" : "10es9",
+                                        "text" : "Pad",
+                                        "type" : "unstyled"
+                                      }
+                                    ],
+                                    "cached" : {
+                                      "html" : "<div data-offset-key=\"10es9-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"10es9-0-0\" style=\"tab-size:4;font-family:&quot;OpenSans&quot;, &quot;Open Sans&quot;, sans-serif;-webkit-text-fill-color:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {&quot;name&quot;:&quot;TextPrimary&quot;} *\/;font-size:20px;letter-spacing:0px;line-height:1.17;font-weight:400\"><span data-text=\"true\">Pad<\/span><\/span><\/div>",
+                                      "os" : "10_13",
+                                      "size" : {
+                                        "height" : 23,
+                                        "width" : 37
+                                      },
+                                      "width" : 0
+                                    },
+                                    "entityMap" : {
+
+                                    }
+                                  },
+                                  "width" : 37
+                                }
+                              }
+                            },
+                            "right" : null,
+                            "rotation" : 0,
+                            "top" : null,
+                            "visible" : true,
+                            "width" : 720,
+                            "widthType" : 0
+                          }
+                        ],
+                        "clip" : true,
+                        "codeComponentIdentifier" : "framer\/Stack",
+                        "codeComponentProps" : {
+                          "alignment" : "start",
+                          "direction" : "vertical",
+                          "distribution" : "start",
+                          "gap" : 0,
+                          "padding" : 0,
+                          "paddingBottom" : 0,
+                          "paddingLeft" : 0,
+                          "paddingPerSide" : false,
+                          "paddingRight" : 0,
+                          "paddingTop" : 0
+                        },
+                        "codeOverrideEnabled" : false,
+                        "constraintsLocked" : false,
+                        "deviceType" : null,
+                        "exportOptions" : [
+
+                        ],
+                        "fillColor" : "rgba(255,255,255,1)",
+                        "fillEnabled" : false,
+                        "fillImage" : null,
+                        "fillImagePixelHeight" : null,
+                        "fillImagePixelWidth" : null,
+                        "fillImageResize" : "fill",
+                        "fillType" : "color",
+                        "height" : 276,
+                        "heightType" : 0,
+                        "id" : "wjnqrPfGa",
+                        "intrinsicHeight" : null,
+                        "intrinsicWidth" : null,
+                        "left" : 0,
+                        "locked" : false,
+                        "name" : "SongDetailsInfoTracksStack",
+                        "opacity" : 1,
+                        "originalid" : null,
+                        "parentid" : "IaszD8gFm",
+                        "previewSettings" : null,
+                        "radius" : 0,
+                        "radiusBottomLeft" : 0,
+                        "radiusBottomRight" : 0,
+                        "radiusIsRelative" : false,
+                        "radiusPerCorner" : false,
+                        "radiusTopLeft" : 0,
+                        "radiusTopRight" : 0,
+                        "right" : 0,
+                        "rotation" : 0,
+                        "top" : 56,
+                        "visible" : true,
+                        "width" : 720,
+                        "widthType" : 0
+                      }
+                    ],
+                    "clip" : false,
+                    "codeOverrideEnabled" : false,
+                    "constraintsLocked" : false,
+                    "deviceType" : null,
+                    "exportOptions" : [
+
+                    ],
+                    "fillColor" : "rgba(0, 153, 255, 0.5)",
+                    "fillEnabled" : false,
+                    "fillImage" : null,
+                    "fillImagePixelHeight" : null,
+                    "fillImagePixelWidth" : null,
+                    "fillImageResize" : "fill",
+                    "fillType" : "color",
+                    "guidesX" : [
+
+                    ],
+                    "guidesY" : [
+
+                    ],
+                    "height" : 332,
+                    "heightType" : 0,
+                    "id" : "IaszD8gFm",
+                    "intrinsicHeight" : null,
+                    "intrinsicWidth" : null,
+                    "isExternalMaster" : null,
+                    "isMaster" : false,
+                    "isTarget" : false,
+                    "left" : 24,
+                    "locked" : false,
+                    "name" : "SongDetailsInfoTracks",
+                    "navigationTarget" : null,
+                    "navigationTransition" : "push",
+                    "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+                    "navigationTransitionDirection" : "left",
+                    "opacity" : 1,
+                    "originalid" : null,
+                    "parentid" : "Z2zTL8dMw",
+                    "previewSettings" : null,
+                    "radius" : 0,
+                    "radiusBottomLeft" : 0,
+                    "radiusBottomRight" : 0,
+                    "radiusIsRelative" : false,
+                    "radiusPerCorner" : false,
+                    "radiusTopLeft" : 0,
+                    "radiusTopRight" : 0,
+                    "replicaInfo" : null,
+                    "right" : 24,
+                    "rotation" : 0,
+                    "top" : 56,
+                    "visible" : true,
+                    "width" : 720,
+                    "widthType" : 0
+                  },
+                  {
+                    "__class" : "FrameNode",
+                    "aspectRatio" : null,
+                    "blendingEnabled" : 0,
+                    "blendingMode" : "normal",
+                    "bottom" : null,
+                    "centerAnchorX" : 0.5,
+                    "centerAnchorY" : 0.045380875202593193,
+                    "children" : [
+                      {
+                        "__class" : "TextNode",
+                        "autoSize" : true,
+                        "bottom" : null,
+                        "centerAnchorX" : 0.057942708333333336,
+                        "centerAnchorY" : 0.5089285714285714,
+                        "codeOverrideEnabled" : false,
+                        "constraintsLocked" : false,
+                        "exportOptions" : [
+
+                        ],
+                        "height" : 23,
+                        "heightType" : 0,
+                        "id" : "R8OmDi5hu",
+                        "isTarget" : false,
+                        "left" : 24,
+                        "locked" : false,
+                        "name" : null,
+                        "opacity" : 1,
+                        "originalid" : null,
+                        "parentid" : "DueJpuKUd",
+                        "right" : null,
+                        "rotation" : 0,
+                        "styledText" : {
+                          "__class" : "StyledTextDraft",
+                          "blocks" : [
+                            {
+                              "data" : {
+                                "emptyStyle" : [
+                                  "FONT:OpenSans",
+                                  "LETTERSPACING:0",
+                                  "LINEHEIGHT:1.17",
+                                  "COLOR:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {\"name\":\"TextPrimary\"} *\/",
+                                  "SIZE:20"
+                                ]
+                              },
+                              "depth" : 0,
+                              "entityRanges" : [
+
+                              ],
+                              "inlineStyleRanges" : [
+                                {
+                                  "length" : 12,
+                                  "offset" : 0,
+                                  "style" : "FONT:OpenSans"
+                                },
+                                {
+                                  "length" : 12,
+                                  "offset" : 0,
+                                  "style" : "LETTERSPACING:0"
+                                },
+                                {
+                                  "length" : 12,
+                                  "offset" : 0,
+                                  "style" : "LINEHEIGHT:1.17"
+                                },
+                                {
+                                  "length" : 12,
+                                  "offset" : 0,
+                                  "style" : "COLOR:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {\"name\":\"TextPrimary\"} *\/"
+                                },
+                                {
+                                  "length" : 12,
+                                  "offset" : 0,
+                                  "style" : "SIZE:20"
+                                }
+                              ],
+                              "key" : "6um08",
+                              "text" : "Length: 1:00",
+                              "type" : "unstyled"
+                            }
+                          ],
+                          "cached" : {
+                            "html" : "<div data-offset-key=\"6um08-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"6um08-0-0\" style=\"tab-size:4;font-family:&quot;OpenSans&quot;, &quot;Open Sans&quot;, sans-serif;-webkit-text-fill-color:var(--token-a865d633-e1bb-430e-b339-6cf5d7f1e33c, rgba(0, 0, 0, 0.87)) \/* {&quot;name&quot;:&quot;TextPrimary&quot;} *\/;font-size:20px;letter-spacing:0px;line-height:1.17;font-weight:400\"><span data-text=\"true\">Length: 1:00<\/span><\/span><\/div>",
+                            "os" : "10_13",
+                            "size" : {
+                              "height" : 23,
+                              "width" : 116
+                            },
+                            "width" : 0
+                          },
+                          "entityMap" : {
+
+                          }
+                        },
+                        "top" : null,
+                        "visible" : true,
+                        "width" : 116,
+                        "widthType" : 0
+                      }
+                    ],
+                    "clip" : false,
+                    "codeOverrideEnabled" : false,
+                    "constraintsLocked" : false,
+                    "deviceType" : null,
+                    "exportOptions" : [
+
+                    ],
+                    "fillColor" : "rgba(0, 153, 255, 0.5)",
+                    "fillEnabled" : false,
+                    "fillImage" : null,
+                    "fillImagePixelHeight" : null,
+                    "fillImagePixelWidth" : null,
+                    "fillImageResize" : "fill",
+                    "fillType" : "color",
+                    "guidesX" : [
+
+                    ],
+                    "guidesY" : [
+
+                    ],
+                    "height" : 56,
+                    "heightType" : 0,
+                    "id" : "DueJpuKUd",
+                    "intrinsicHeight" : null,
+                    "intrinsicWidth" : null,
+                    "isExternalMaster" : null,
+                    "isMaster" : false,
+                    "isTarget" : false,
+                    "left" : 0,
+                    "locked" : false,
+                    "name" : "SongDetailsInfoLength",
+                    "navigationTarget" : null,
+                    "navigationTransition" : "push",
+                    "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+                    "navigationTransitionDirection" : "left",
+                    "opacity" : 1,
+                    "originalid" : null,
+                    "parentid" : "Z2zTL8dMw",
+                    "previewSettings" : null,
+                    "radius" : 0,
+                    "radiusBottomLeft" : 0,
+                    "radiusBottomRight" : 0,
+                    "radiusIsRelative" : false,
+                    "radiusPerCorner" : false,
+                    "radiusTopLeft" : 0,
+                    "radiusTopRight" : 0,
+                    "replicaInfo" : null,
+                    "right" : 0,
+                    "rotation" : 0,
+                    "top" : 0,
+                    "visible" : true,
+                    "width" : 768,
+                    "widthType" : 0
+                  }
+                ],
+                "clip" : false,
+                "codeOverrideEnabled" : false,
+                "constraintsLocked" : false,
+                "deviceType" : null,
+                "exportOptions" : [
+
+                ],
+                "fillColor" : "hsla(204, 22%, 62%, 0.5)",
+                "fillEnabled" : false,
+                "fillImage" : null,
+                "fillImagePixelHeight" : null,
+                "fillImagePixelWidth" : null,
+                "fillImageResize" : "fill",
+                "fillType" : "color",
+                "guidesX" : [
+
+                ],
+                "guidesY" : [
+
+                ],
+                "height" : 640,
+                "heightType" : 0,
+                "id" : "Z2zTL8dMw",
+                "intrinsicHeight" : null,
+                "intrinsicWidth" : null,
+                "isExternalMaster" : null,
+                "isMaster" : false,
+                "isTarget" : false,
+                "left" : 0,
+                "locked" : false,
+                "name" : "SongDetailsInfo",
+                "navigationTarget" : null,
+                "navigationTransition" : "push",
+                "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+                "navigationTransitionDirection" : "left",
+                "opacity" : 1,
+                "originalid" : null,
+                "parentid" : "FGznKMbvV",
+                "previewSettings" : null,
+                "radius" : 0,
+                "radiusBottomLeft" : 0,
+                "radiusBottomRight" : 0,
+                "radiusIsRelative" : false,
+                "radiusPerCorner" : false,
+                "radiusTopLeft" : 0,
+                "radiusTopRight" : 0,
+                "replicaInfo" : null,
+                "right" : 0,
+                "rotation" : 0,
+                "top" : 64,
+                "visible" : true,
+                "width" : 768,
+                "widthType" : 0
+              }
+            ],
+            "clip" : false,
+            "codeOverrideEnabled" : false,
+            "constraintsLocked" : false,
+            "deviceType" : null,
+            "exportOptions" : [
+
+            ],
+            "fillColor" : "var(--token-d0cda82b-c7d2-45f0-90e2-f3c915322df2, rgb(250, 250, 250)) \/* {\"name\":\"BackgroundDefault\"} *\/",
+            "fillEnabled" : true,
+            "fillImage" : null,
+            "fillImagePixelHeight" : null,
+            "fillImagePixelWidth" : null,
+            "fillImageResize" : "fill",
+            "fillType" : "color",
+            "guidesX" : [
+
+            ],
+            "guidesY" : [
+
+            ],
+            "height" : 704,
+            "heightType" : 0,
+            "id" : "FGznKMbvV",
+            "intrinsicHeight" : null,
+            "intrinsicWidth" : null,
+            "isExternalMaster" : null,
+            "isMaster" : false,
+            "isTarget" : false,
+            "left" : null,
+            "locked" : false,
+            "name" : "SongDetails",
+            "navigationTarget" : null,
+            "navigationTransition" : "push",
+            "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+            "navigationTransitionDirection" : "left",
+            "opacity" : 1,
+            "originalid" : null,
+            "parentid" : "vS4SEkWeg",
+            "previewSettings" : null,
+            "radius" : 0,
+            "radiusBottomLeft" : 0,
+            "radiusBottomRight" : 0,
+            "radiusIsRelative" : false,
+            "radiusPerCorner" : false,
+            "radiusTopLeft" : 0,
+            "radiusTopRight" : 0,
+            "replicaInfo" : null,
+            "right" : 0,
+            "rotation" : 0,
+            "top" : 64,
+            "visible" : true,
+            "width" : 768,
+            "widthType" : 0
+          },
+          {
+            "__class" : "FrameNode",
+            "aspectRatio" : null,
+            "blendingEnabled" : 0,
+            "blendingMode" : "normal",
+            "bottom" : null,
+            "boxShadows" : [
+              {
+                "__class" : "BoxShadow",
+                "blur" : 5,
+                "color" : "rgba(0,0,0,0.25)",
+                "enabled" : true,
+                "inset" : false,
+                "spread" : 0,
+                "x" : 0,
+                "y" : 2
+              }
+            ],
+            "centerAnchorX" : 0.5,
+            "centerAnchorY" : 0.036458333333333336,
+            "children" : [
+
+            ],
+            "clip" : false,
+            "codeOverrideEnabled" : false,
+            "constraintsLocked" : false,
+            "deviceType" : null,
+            "exportOptions" : [
+
+            ],
+            "fillColor" : "var(--token-9e3b28b2-1783-4c73-9503-4bd8fd257d5d, rgb(89, 68, 255)) \/* {\"name\":\"PrimaryMain\"} *\/",
+            "fillEnabled" : true,
+            "fillImage" : null,
+            "fillImagePixelHeight" : null,
+            "fillImagePixelWidth" : null,
+            "fillImageResize" : "fill",
+            "fillType" : "color",
+            "guidesX" : [
+
+            ],
+            "guidesY" : [
+
+            ],
+            "height" : 64,
+            "heightType" : 0,
+            "id" : "ieS01b49E",
+            "intrinsicHeight" : null,
+            "intrinsicWidth" : null,
+            "isExternalMaster" : null,
+            "isMaster" : false,
+            "isTarget" : false,
+            "left" : 0,
+            "locked" : false,
+            "name" : "Topbar",
+            "navigationTarget" : null,
+            "navigationTransition" : "push",
+            "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
+            "navigationTransitionDirection" : "left",
+            "opacity" : 1,
+            "originalid" : null,
+            "parentid" : "vS4SEkWeg",
+            "previewSettings" : null,
+            "radius" : 0,
+            "radiusBottomLeft" : 0,
+            "radiusBottomRight" : 0,
+            "radiusIsRelative" : false,
+            "radiusPerCorner" : false,
+            "radiusTopLeft" : 0,
+            "radiusTopRight" : 0,
+            "replicaInfo" : null,
+            "right" : 0,
+            "rotation" : 0,
+            "top" : 0,
+            "visible" : true,
+            "width" : 1024,
             "widthType" : 0
           }
         ],
@@ -79,23 +2085,22 @@
         "exportOptions" : [
 
         ],
-        "fillColor" : "white",
+        "fillColor" : "rgba(255,255,255,1)",
         "fillEnabled" : true,
-        "fillGradient" : {
-          "__class" : "LinearGradient",
-          "alpha" : 1,
-          "angle" : 0,
-          "end" : "rgba(0,0,0,0)",
-          "start" : "black"
-        },
         "fillImage" : null,
         "fillImagePixelHeight" : null,
         "fillImagePixelWidth" : null,
         "fillImageResize" : "fill",
         "fillType" : "color",
-        "height" : 459,
+        "guidesX" : [
+
+        ],
+        "guidesY" : [
+
+        ],
+        "height" : 767.62518301610544,
         "heightType" : 0,
-        "id" : "EzlbeEyZV",
+        "id" : "vS4SEkWeg",
         "intrinsicHeight" : null,
         "intrinsicWidth" : null,
         "isExternalMaster" : null,
@@ -103,7 +2108,7 @@
         "isTarget" : false,
         "left" : 0,
         "locked" : false,
-        "name" : null,
+        "name" : "DashboardWidescreen",
         "navigationTarget" : null,
         "navigationTransition" : "push",
         "navigationTransitionBackdropColor" : "rgba(4,4,15,.4)",
@@ -114,10 +2119,10 @@
         "previewSettings" : {
           "__class" : "PreviewSettings",
           "bezel" : false,
-          "responsive" : true,
-          "rotate" : false,
-          "skin" : "",
-          "touch" : true,
+          "deviceType" : "framer\/FramerAppleIPadPro",
+          "responsive" : false,
+          "rotate" : true,
+          "touch" : false,
           "zoom" : -1
         },
         "radius" : 0,
@@ -132,15 +2137,74 @@
         "rotation" : 0,
         "top" : 0,
         "visible" : true,
-        "width" : 400,
+        "width" : 1024,
         "widthType" : 0
       }
+    ],
+    "guidesX" : [
+
+    ],
+    "guidesY" : [
+
     ],
     "id" : "dFlOFNJB8",
     "name" : null,
     "originalid" : null,
     "parentid" : null,
+    "tokens" : {
+      "0f7008a0-ab7a-4a41-8192-a9cc79e4179a" : {
+        "__class" : "ColorTokenNode",
+        "id" : "0f7008a0-ab7a-4a41-8192-a9cc79e4179a",
+        "name" : "PrimaryDark",
+        "value" : "rgb(47, 42, 155)"
+      },
+      "9ccac2cb-8047-407b-bfc5-fd4586fee600" : {
+        "__class" : "ColorTokenNode",
+        "id" : "9ccac2cb-8047-407b-bfc5-fd4586fee600",
+        "name" : "BackgroundPaper",
+        "value" : "rgb(255, 255, 255)"
+      },
+      "9e3b28b2-1783-4c73-9503-4bd8fd257d5d" : {
+        "__class" : "ColorTokenNode",
+        "id" : "9e3b28b2-1783-4c73-9503-4bd8fd257d5d",
+        "name" : "PrimaryMain",
+        "value" : "rgb(89, 68, 255)"
+      },
+      "a865d633-e1bb-430e-b339-6cf5d7f1e33c" : {
+        "__class" : "ColorTokenNode",
+        "id" : "a865d633-e1bb-430e-b339-6cf5d7f1e33c",
+        "name" : "TextPrimary",
+        "value" : "rgba(0, 0, 0, 0.87)"
+      },
+      "bb03464a-5932-4639-bac3-c304fe68e7bf" : {
+        "__class" : "ColorTokenNode",
+        "id" : "bb03464a-5932-4639-bac3-c304fe68e7bf",
+        "name" : "PrimaryLight",
+        "value" : "rgb(155, 155, 249)"
+      },
+      "d0cda82b-c7d2-45f0-90e2-f3c915322df2" : {
+        "__class" : "ColorTokenNode",
+        "id" : "d0cda82b-c7d2-45f0-90e2-f3c915322df2",
+        "name" : "BackgroundDefault",
+        "value" : "rgb(250, 250, 250)"
+      },
+      "e98c529a-62d0-474b-aa7c-80f37db4ec14" : {
+        "__class" : "ColorTokenNode",
+        "id" : "e98c529a-62d0-474b-aa7c-80f37db4ec14",
+        "name" : "Divider",
+        "value" : "rgba(0, 0, 0, 0.12)"
+      }
+    },
+    "tokensIndex" : [
+      "0f7008a0-ab7a-4a41-8192-a9cc79e4179a",
+      "9e3b28b2-1783-4c73-9503-4bd8fd257d5d",
+      "bb03464a-5932-4639-bac3-c304fe68e7bf",
+      "d0cda82b-c7d2-45f0-90e2-f3c915322df2",
+      "9ccac2cb-8047-407b-bfc5-fd4586fee600",
+      "e98c529a-62d0-474b-aa7c-80f37db4ec14",
+      "a865d633-e1bb-430e-b339-6cf5d7f1e33c"
+    ],
     "visible" : false
   },
-  "version" : 48
+  "version" : 54
 }
