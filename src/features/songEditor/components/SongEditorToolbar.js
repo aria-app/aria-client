@@ -1,6 +1,6 @@
 import Dawww from 'dawww';
-import isEmpty from 'lodash/fp/isEmpty';
-import negate from 'lodash/fp/negate';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { hideIf, showIf } from 'react-render-helpers';
@@ -10,77 +10,73 @@ import shared from '../../shared';
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 const { IconButton, Toolbar } = shared.components;
 
-export default class SongEditorToolbar extends React.PureComponent {
-  static propTypes = {
-    onPause: PropTypes.func,
-    onPlay: PropTypes.func,
-    onSongInfoOpen: PropTypes.func,
-    onStop: PropTypes.func,
-    playbackState: PropTypes.string,
-  };
+const styles = () =>
+  createStyles({
+    root: {
+      zIndex: 1,
+    },
+  });
 
-  render() {
-    return (
-      <Toolbar
-        position="top"
-        isAlternate={this.getIsAlternate()}
-        leftItems={
-          <React.Fragment>
-            <IconButton
-              icon="cog"
-              onClick={this.props.onSongInfoOpen}
-              title="Settings"
-            />
-          </React.Fragment>
-        }
-        rightItems={
-          <React.Fragment>
-            {hideIf(this.props.playbackState === STARTED)(
-              <IconButton icon="play" onClick={this.playPause} title="Play" />,
-            )}
-            {showIf(this.props.playbackState === STARTED)(
-              <IconButton
-                icon="pause"
-                onClick={this.playPause}
-                title="Pause"
-              />,
-            )}
-            {showIf(this.props.playbackState !== STOPPED)(
-              <IconButton icon="stop" onClick={this.stop} title="Stop" />,
-            )}
-          </React.Fragment>
-        }
-        style={{
-          borderTop: 0,
-        }}
-      />
-    );
-  }
+function SongEditorToolbar(props) {
+  const {
+    classes,
+    onPause,
+    onPlay,
+    onSongInfoOpen,
+    onStop,
+    playbackState,
+  } = props;
 
-  getIsAlternate = () => negate(isEmpty)(this.props.selectedSequence);
+  const playPause = React.useCallback(
+    function playPause() {
+      if (Tone.context.state !== 'running') {
+        Tone.context.resume();
+      }
 
-  getIsMoveLeftButtonDisabled = () => this.props.selectedSequence.position < 1;
+      if (playbackState === STARTED) {
+        onPause();
+      } else {
+        onPlay();
+      }
+    },
+    [onPause, onPlay, playbackState],
+  );
 
-  getIsShortenButtonDisabled = () =>
-    this.props.selectedSequence.measureCount < 2;
-
-  openSequence = () => {
-    this.props.onSequenceOpen(this.props.selectedSequence);
-  };
-
-  playPause = () => {
-    if (Tone.context.state !== 'running') {
-      Tone.context.resume();
-    }
-
-    if (this.props.playbackState === STARTED) {
-      this.props.onPause();
-    } else {
-      this.props.onPlay();
-    }
-  };
-
-  stop = () => {
-    this.props.onStop();
-  };
+  return (
+    <Toolbar
+      className={classes.root}
+      leftItems={
+        <React.Fragment>
+          <IconButton icon="cog" onClick={onSongInfoOpen} title="Settings" />
+        </React.Fragment>
+      }
+      position="top"
+      rightItems={
+        <React.Fragment>
+          {hideIf(playbackState === STARTED)(
+            <IconButton icon="play" onClick={playPause} title="Play" />,
+          )}
+          {showIf(playbackState === STARTED)(
+            <IconButton icon="pause" onClick={playPause} title="Pause" />,
+          )}
+          {showIf(playbackState !== STOPPED)(
+            <IconButton icon="stop" onClick={onStop} title="Stop" />,
+          )}
+        </React.Fragment>
+      }
+      style={{
+        borderTop: 0,
+      }}
+    />
+  );
 }
+
+SongEditorToolbar.propTypes = {
+  onPause: PropTypes.func,
+  onPlay: PropTypes.func,
+  onSongInfoOpen: PropTypes.func,
+  onStop: PropTypes.func,
+  playbackState: PropTypes.string,
+};
+
+export default React.memo(withStyles(styles)(SongEditorToolbar));

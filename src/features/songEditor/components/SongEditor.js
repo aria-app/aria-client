@@ -45,6 +45,13 @@ class SongEditor extends React.PureComponent {
   render() {
     return (
       <div className={this.props.classes.root}>
+        <SongEditorToolbar
+          onPause={this.props.onPause}
+          onPlay={this.props.onPlay}
+          onSongInfoOpen={this.openSongInfo}
+          onStop={this.props.onStop}
+          playbackState={this.props.playbackState}
+        />
         <Route
           component={TracksEditorContainer}
           exact={true}
@@ -54,13 +61,6 @@ class SongEditor extends React.PureComponent {
           component={SequenceEditorContainer}
           exact={true}
           path={`${this.props.match.path}/sequencer/:sequenceId`}
-        />
-        <SongEditorToolbar
-          onPause={this.props.onPause}
-          onPlay={this.props.onPlay}
-          onSongInfoOpen={this.openSongInfo}
-          onStop={this.props.onStop}
-          playbackState={this.props.playbackState}
         />
         <SongInfoModal
           bpm={this.props.bpm}

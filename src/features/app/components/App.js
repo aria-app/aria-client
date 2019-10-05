@@ -40,7 +40,7 @@ const PrivateRoute = ({
   />
 );
 
-export default function App(props) {
+function App(props) {
   const {
     didAuthenticationRun,
     isAuthenticated,
@@ -106,3 +106,5 @@ App.propTypes = {
   onStop: PropTypes.func,
   playbackState: PropTypes.string,
 };
+
+export default React.memo(App);

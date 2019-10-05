@@ -19,38 +19,39 @@ const styles = () => ({
   },
 });
 
-class SignIn extends React.Component {
-  static propTypes = {
-    isAuthenticated: PropTypes.bool,
-  };
+function SignIn(props) {
+  const { classes, isAuthenticated, location } = props;
+  const redirectFrom = React.useMemo(
+    () => getOr({ pathname: '/' }, 'state.from', location),
+    [location],
+  );
 
-  componentDidMount() {
+  React.useEffect(() => {
     window.document.title = 'Sign In - Aria';
+  }, []);
+
+  if (isAuthenticated) {
+    return <Redirect to={redirectFrom} />;
   }
 
-  render() {
-    if (this.props.isAuthenticated) {
-      return <Redirect to={this.getRedirectFrom()} />;
-    }
-
-    return (
-      <Translation>
-        {t => (
-          <div className={this.props.classes.root}>
-            <Button
-              onClick={() => firebase.auth().signInWithRedirect(authProvider)}
-              variant="contained"
-            >
-              {t('Sign in with Google')}
-            </Button>
-          </div>
-        )}
-      </Translation>
-    );
-  }
-
-  getRedirectFrom = () =>
-    getOr({ pathname: '/' }, 'props.location.state.from', this);
+  return (
+    <Translation>
+      {t => (
+        <div className={classes.root}>
+          <Button
+            onClick={() => firebase.auth().signInWithRedirect(authProvider)}
+            variant="contained"
+          >
+            {t('Sign in with Google')}
+          </Button>
+        </div>
+      )}
+    </Translation>
+  );
 }
 
-export default withStyles(styles)(SignIn);
+SignIn.propTypes = {
+  isAuthenticated: PropTypes.bool,
+};
+
+export default React.memo(withStyles(styles)(SignIn));
