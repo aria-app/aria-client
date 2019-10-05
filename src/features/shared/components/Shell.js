@@ -41,6 +41,7 @@ const styles = theme => ({
       overflow: 'hidden',
     },
     body: {
+      color: theme.palette.text.primary,
       fontFamily: '"Open Sans", Helvetica, sans-serif',
       fontSize: 14,
     },

@@ -10,9 +10,9 @@ export default createMuiTheme({
       dark: '#2f2a9b',
     },
     secondary: teal,
+    // type: 'dark',
   },
   typography: {
     fontFamily: ['Open Sans', 'Helvetica', 'sans-serif'],
-    useNextVariants: true,
   },
 });

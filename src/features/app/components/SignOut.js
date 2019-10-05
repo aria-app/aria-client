@@ -15,37 +15,31 @@ const styles = () => ({
   },
 });
 
-class SignOut extends React.PureComponent {
-  static propTypes = {
-    isAuthenticated: PropTypes.bool,
-  };
+function SignOut(props) {
+  const { classes, isAuthenticated } = props;
 
-  componentDidMount() {
+  React.useEffect(() => {
     window.document.title = 'Sign Out - Aria';
 
     setTimeout(() => {
       // TODO: Convert to auth helper
       firebase.auth().signOut();
     }, 1000);
+  }, []);
+
+  if (!isAuthenticated) {
+    return <Redirect to={{ pathname: '/sign-in' }} />;
   }
 
-  render() {
-    if (!this.props.isAuthenticated) {
-      return (
-        <Redirect
-          to={{
-            pathname: '/sign-in',
-          }}
-        />
-      );
-    }
-
-    return (
-      <Translation>
-        {t => <div className={this.props.classes.root}>{t('Signing Out')}</div>}
-      </Translation>
-    );
-  }
+  return (
+    <Translation>
+      {t => <div className={classes.root}>{t('Signing Out')}</div>}
+    </Translation>
+  );
 }
 
-export default withStyles(styles)(SignOut);
+SignOut.propTypes = {
+  isAuthenticated: PropTypes.bool,
+};
+
+export default React.memo(withStyles(styles)(SignOut));

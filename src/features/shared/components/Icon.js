@@ -46,11 +46,7 @@ class Icon extends React.PureComponent {
     } = this.props;
 
     return (
-      <div
-        className={classnames(classes.root, className)}
-        color={color}
-        {...rest}
-      >
+      <div className={classnames(classes.root, className)} {...rest}>
         <div className={classes.content}>{this.getIcon()}</div>
       </div>
     );
@@ -59,7 +55,7 @@ class Icon extends React.PureComponent {
   getIcon(theme) {
     const color =
       this.props.color ||
-      (this.props.theme && this.props.theme.palette.text.primary);
+      (this.props.theme && this.props.theme.palette.action.active);
     const iconComponent = icons[this.props.icon];
 
     if (!iconComponent) return null;
