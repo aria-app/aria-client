@@ -2,24 +2,20 @@ import orderBy from 'lodash/fp/orderBy';
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { animated, useTransition } from 'react-spring';
+import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import SongListItem from './SongListItem';
 
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flex: '1 1 auto',
-    flexDirection: 'column',
-    paddingBottom: theme.spacing(1),
-    paddingTop: theme.spacing(1),
-  },
-});
-
-SongList.propTypes = {
-  onDelete: PropTypes.func,
-  onOpen: PropTypes.func,
-  songs: PropTypes.object,
-};
+const styles = theme =>
+  createStyles({
+    root: {
+      display: 'flex',
+      flex: '1 1 auto',
+      flexDirection: 'column',
+      paddingBottom: theme.spacing(1),
+      paddingTop: theme.spacing(1),
+    },
+  });
 
 // TODO: Transition in songs in Song List to prevent duplicate entries on transition
 function SongList(props) {
@@ -67,5 +63,11 @@ function SongList(props) {
     </div>
   );
 }
+
+SongList.propTypes = {
+  onDelete: PropTypes.func,
+  onOpen: PropTypes.func,
+  songs: PropTypes.object,
+};
 
 export default React.memo(withStyles(styles)(SongList));

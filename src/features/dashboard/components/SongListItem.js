@@ -27,35 +27,35 @@ const styles = theme => ({
   },
 });
 
-class SongListItem extends React.PureComponent {
-  static propTypes = {
-    onDelete: PropTypes.func,
-    onOpen: PropTypes.func,
-    song: PropTypes.object,
-  };
+function SongListItem(props) {
+  const { classes, onDelete, onOpen, song } = props;
 
-  render() {
-    return (
-      <div className={this.props.classes.root}>
-        <div className={this.props.classes.text} onClick={this.open}>
-          {this.props.song.name}
-        </div>
-        <IconButton
-          className={this.props.classes.deleteButton}
-          icon="close"
-          onClick={this.delete}
-        />
+  const handleDelete = React.useCallback(() => {
+    onDelete(song);
+  }, [onDelete, song]);
+
+  const handleOpen = React.useCallback(() => {
+    onOpen(song);
+  }, [onOpen, song]);
+
+  return (
+    <div className={classes.root}>
+      <div className={classes.text} onClick={handleOpen}>
+        {song.name}
       </div>
-    );
-  }
-
-  delete = () => {
-    this.props.onDelete(this.props.song);
-  };
-
-  open = () => {
-    this.props.onOpen(this.props.song);
-  };
+      <IconButton
+        className={classes.deleteButton}
+        icon="close"
+        onClick={handleDelete}
+      />
+    </div>
+  );
 }
 
-export default withStyles(styles)(SongListItem);
+SongListItem.propTypes = {
+  onDelete: PropTypes.func,
+  onOpen: PropTypes.func,
+  song: PropTypes.object,
+};
+
+export default React.memo(withStyles(styles)(SongListItem));
