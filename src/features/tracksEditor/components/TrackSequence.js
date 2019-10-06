@@ -1,6 +1,5 @@
 import classnames from 'classnames';
 import withStyles from '@material-ui/styles/withStyles';
-import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
 import TrackSequenceNote from './TrackSequenceNote';
@@ -8,11 +7,11 @@ import TrackSequenceNote from './TrackSequenceNote';
 const styles = theme => ({
   root: {
     display: 'flex',
-    height: 84,
+    height: 64,
     padding: theme.spacing(1),
-    backgroundColor: transparentize(0.4, theme.palette.primary.main),
-    borderRadius: theme.shape.borderRadius,
-    borderRight: `2px solid ${theme.palette.divider}`,
+    backgroundColor: theme.palette.primary.light,
+    border: `2px solid ${theme.palette.background.paper}`,
+    borderRadius: theme.shape.borderRadius * 2,
     overflow: 'hidden',
     position: 'relative',
     transition:

@@ -6,11 +6,11 @@ import React from 'react';
 
 const styles = theme => ({
   root: {
-    backgroundColor: theme.palette.text.primary,
+    backgroundColor: theme.palette.primary.dark,
     height: 1,
-    left: 0,
+    left: 2,
     position: 'absolute',
-    top: 0,
+    top: 2,
   },
   selectedSequence: {
     backgroundColor: theme.palette.primary.contrastText,
@@ -27,7 +27,7 @@ function TrackSequenceNote(props) {
   const { classes, isSequenceSelected, note } = props;
   const x0 = getOr(0, 'points[0].x', note);
   const x1 = getOr(0, 'points[1].x', note);
-  const y0 = getOr(0, 'points[0].y', note);
+  const y0 = getOr(0, 'points[0].y', note) * (64 / 84);
 
   return (
     <div

@@ -1,4 +1,3 @@
-import getOr from 'lodash/fp/getOr';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import withStyles from '@material-ui/styles/withStyles';
@@ -8,7 +7,6 @@ import { animated, useTransition } from 'react-spring';
 import shared from '../../shared';
 import Ruler from './Ruler';
 import Track from './Track';
-import { classes } from 'istanbul-lib-coverage';
 
 const { FadeIn, FadeOut, LoadingIndicator } = shared.components;
 
@@ -40,13 +38,23 @@ const styles = theme => ({
     right: 0,
     top: 0,
   },
+  addTrackButton: {
+    backgroundColor: theme.palette.background.paper,
+    border: `2px solid ${theme.palette.action.hover}`,
+    borderRadius: theme.shape.borderRadius,
+    boxShadow: 'none',
+    color: theme.palette.text.hint,
+    paddingLeft: theme.spacing(1),
+  },
   addTrackButtonIcon: {
+    fill: theme.palette.text.hint,
     marginRight: theme.spacing(1),
   },
 });
 
 TrackList.propTypes = {
   classes: PropTypes.object,
+  isLoading: PropTypes.bool,
   onPositionSet: PropTypes.func,
   onSequenceAdd: PropTypes.func,
   onSequenceDeselect: PropTypes.func,
@@ -62,7 +70,23 @@ TrackList.propTypes = {
 };
 
 function TrackList(props) {
-  const trackTransitions = useTransition(props.tracks, track => track.id, {
+  const {
+    classes,
+    isLoading,
+    onPositionSet,
+    onSequenceAdd,
+    onSequenceDeselect,
+    onSequenceEdit,
+    onSequenceOpen,
+    onSequenceSelect,
+    onSongMeasureCountChange,
+    onTrackAdd,
+    onTrackStage,
+    selectedSequence = {},
+    songMeasureCount,
+    tracks,
+  } = props;
+  const trackTransitions = useTransition(tracks, track => track.id, {
     config: { clamp: true, tension: 200 },
     from: { marginLeft: -64, opacity: 0 },
     enter: { marginLeft: 0, opacity: 1 },
@@ -70,59 +94,44 @@ function TrackList(props) {
   });
 
   return (
-    <div className={props.classes.root}>
-      <FadeOut isVisible={props.isLoading}>
+    <div className={classes.root}>
+      <FadeOut isVisible={isLoading}>
         <LoadingIndicator>LOADING SONG...</LoadingIndicator>
       </FadeOut>
-      <div className={props.classes.content}>
-        <div
-          className={props.classes.underlay}
-          onClick={props.onSequenceDeselect}
-        />
-        <FadeIn isVisible={!props.isLoading}>
+      <div className={classes.content}>
+        <div className={classes.underlay} onClick={onSequenceDeselect} />
+        <FadeIn isVisible={!isLoading}>
           <Ruler
-            measureCount={props.songMeasureCount}
+            measureCount={songMeasureCount}
             measureWidth={64}
-            onMeasureCountChange={props.onSongMeasureCountChange}
-            onPositionSet={props.onPositionSet}
+            onMeasureCountChange={onSongMeasureCountChange}
+            onPositionSet={onPositionSet}
           />
           {trackTransitions.map(({ item, key, props: animation }) => (
             <animated.div
               key={key}
               style={{
                 ...animation,
-                height: animation.opacity.interpolate({
-                  range: [0, 0.5, 1],
-                  output: [0, 144, 144],
-                }),
               }}
             >
               <Track
-                onSequenceAdd={props.onSequenceAdd}
-                onSequenceEdit={props.onSequenceEdit}
-                onSequenceOpen={props.onSequenceOpen}
-                onSequenceSelect={props.onSequenceSelect}
-                onTrackSelect={props.onTrackStage}
-                selectedSequenceId={getOr(
-                  undefined,
-                  'selectedSequence.id',
-                  props,
-                )}
-                songMeasureCount={props.songMeasureCount}
+                onSequenceAdd={onSequenceAdd}
+                onSequenceEdit={onSequenceEdit}
+                onSequenceOpen={onSequenceOpen}
+                onSequenceSelect={onSequenceSelect}
+                onTrackSelect={onTrackStage}
+                selectedSequenceId={selectedSequence.id}
+                songMeasureCount={songMeasureCount}
                 track={item}
               />
             </animated.div>
           ))}
           <Fab
             className={classes.addTrackButton}
-            color="primary"
-            onClick={props.onTrackAdd}
+            onClick={onTrackAdd}
             variant="extended"
           >
-            <AddIcon
-              className={classes.addTrackButtonIcon}
-              style={{ marginRight: 8 }}
-            />
+            <AddIcon className={classes.addTrackButtonIcon} />
             Add Track
           </Fab>
         </FadeIn>

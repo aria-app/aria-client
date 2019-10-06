@@ -19,22 +19,19 @@ const { Boxes } = shared.components;
 const styles = theme => ({
   root: {
     alignItems: 'stretch',
-    cursor: 'pointer',
     display: 'flex',
     flex: '0 0 auto',
     flexDirection: 'column',
     marginBottom: theme.spacing(3),
   },
-  matrixBox: {
-    left: 0,
-    position: 'absolute',
-    top: 0,
-  },
   sequences: {
     alignItems: 'stretch',
-    backgroundColor: theme.palette.action.hover,
-    border: `2px solid ${theme.palette.divider}`,
-    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.background.paper,
+    // backgroundColor: theme.palette.action.hover,
+    border: '2px solid transparent',
+    // border: `2px solid ${theme.palette.divider}`,
+    boxShadow: `0 0 0 2px ${theme.palette.action.hover}`,
+    borderRadius: theme.shape.borderRadius * 2,
     display: 'flex',
     flex: '1 0 auto',
     position: 'relative',
@@ -142,7 +139,7 @@ function Track(props) {
       </Translation>
       <div
         className={classes.sequences}
-        style={{ width: songMeasureCount * 64 }}
+        style={{ width: songMeasureCount * 64 + 4 }}
       >
         <Boxes
           boxContentComponent={sequenceComponent}
@@ -151,7 +148,7 @@ function Track(props) {
           length={songMeasureCount}
           onItemsChange={handleBoxesItemsChange}
           step={64}
-          style={{ height: 84 }}
+          style={{ height: 64 }}
         />
         {showIf(!isNil(firstEmptyPosition))(
           <AddSequenceButton

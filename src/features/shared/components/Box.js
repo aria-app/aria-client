@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -25,7 +26,11 @@ const styles = theme => ({
     zIndex: '2',
   },
   dragging: {
+    cursor: 'move',
     zIndex: 200,
+    '& $resizer': {
+      cursor: 'move',
+    },
   },
 });
 
@@ -81,7 +86,9 @@ function Box(props) {
       position={{ x: item.x * step, y: 0 }}
     >
       <div
-        className={classes.root}
+        className={classnames(classes.root, {
+          [classes.dragging]: isDragging,
+        })}
         style={{ width: item.length * step, ...style }}
       >
         <ContentComponent isDragging={isDragging} item={item} step={step} />
