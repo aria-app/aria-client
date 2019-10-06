@@ -1,4 +1,4 @@
-export const NAME = 'sequenceEditor';
+export const NAME = 'notesEditor';
 
 export const toolTypes = {
   DRAW: 'DRAW',

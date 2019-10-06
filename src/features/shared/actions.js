@@ -6,6 +6,7 @@ export const NOTE_DRAWN = 'NOTE_DRAWN';
 export const NOTE_ERASED = 'NOTE_ERASED';
 export const NOTES_DRAGGED = 'NOTES_DRAGGED';
 export const NOTES_DUPLICATED = 'NOTES_DUPLICATED';
+export const NOTES_EDITOR_LOADED = 'NOTES_EDITOR_LOADED';
 export const NOTES_MOVED_OCTAVE_DOWN = 'NOTES_MOVED_OCTAVE_DOWN';
 export const NOTES_MOVED_OCTAVE_UP = 'NOTES_MOVED_OCTAVE_UP';
 export const NOTES_NUDGED = 'NOTES_NUDGED';
@@ -23,7 +24,6 @@ export const SEQUENCE_ADDED = 'SEQUENCE_ADDED';
 export const SEQUENCE_DELETED = 'SEQUENCE_DELETED';
 export const SEQUENCE_DUPLICATED = 'SEQUENCE_DUPLICATED';
 export const SEQUENCE_EDITED = 'SEQUENCE_EDITED';
-export const SEQUENCE_EDITOR_LOADED = 'SEQUENCE_EDITOR_LOADED';
 export const SYNC_STARTED = 'SYNC_STARTED';
 export const SYNC_SUCCEEDED = 'SYNC_SUCCEEDED';
 export const SONG_ADD_REQUEST_STARTED = 'SONG_ADD_REQUEST_STARTED';
@@ -96,7 +96,7 @@ export const serverUpdatingActions = [
 
 export const dawwwUpdatingActions = [
   ...serverUpdatingActions,
-  SEQUENCE_EDITOR_LOADED,
+  NOTES_EDITOR_LOADED,
   SONG_EDITOR_LOADED,
 ];
 
@@ -155,6 +155,14 @@ export const notesDuplicated = notes => ({
   type: NOTES_DUPLICATED,
   payload: {
     notes,
+  },
+});
+
+export const notesEditorLoaded = (songId, sequenceId) => ({
+  type: NOTES_EDITOR_LOADED,
+  payload: {
+    sequenceId,
+    songId,
   },
 });
 
@@ -251,14 +259,6 @@ export const sequenceEdited = sequence => ({
   type: SEQUENCE_EDITED,
   payload: {
     sequence,
-  },
-});
-
-export const sequenceEditorLoaded = (songId, sequenceId) => ({
-  type: SEQUENCE_EDITOR_LOADED,
-  payload: {
-    sequenceId,
-    songId,
   },
 });
 

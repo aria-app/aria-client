@@ -101,7 +101,7 @@ function TracksEditor(props) {
 
   const handleSequenceOpen = React.useCallback(
     sequence => {
-      history.push(`${match.url}/sequencer/${sequence.id}`);
+      history.push(`${match.url}/sequence/${sequence.id}`);
     },
     [history, match.url],
   );

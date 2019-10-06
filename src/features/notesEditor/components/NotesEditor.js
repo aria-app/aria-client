@@ -13,7 +13,7 @@ import shared from '../../shared';
 import { toolTypes } from '../constants';
 import Grid from './Grid';
 import Keys from './Keys';
-import SequenceEditorToolbar from './SequenceEditorToolbar';
+import NotesEditorToolbar from './NotesEditorToolbar';
 
 const { previewPitch } = audio.helpers;
 const { FadeIn, FadeOut, LoadingIndicator } = shared.components;
@@ -46,7 +46,7 @@ const styles = {
   },
 };
 
-function SequenceEditor(props) {
+function NotesEditor(props) {
   const {
     classes,
     history,
@@ -396,13 +396,13 @@ function SequenceEditor(props) {
                 onSelect={handleGridSelect}
                 onSelectInArea={handleGridSelectInArea}
                 selectedNotes={selectedNotes}
-                sequenceEditorContentRef={contentEl}
+                notesEditorContentEl={contentEl}
                 toolType={toolType}
               />
             </div>
           </FadeIn>
         </div>
-        <SequenceEditorToolbar
+        <NotesEditorToolbar
           isRedoEnabled={isRedoEnabled}
           isUndoEnabled={isUndoEnabled}
           measureCount={sequence.measureCount}
@@ -426,7 +426,7 @@ function SequenceEditor(props) {
   );
 }
 
-SequenceEditor.propTypes = {
+NotesEditor.propTypes = {
   isRedoEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   isUndoEnabled: PropTypes.bool,
@@ -446,4 +446,4 @@ SequenceEditor.propTypes = {
   sequence: PropTypes.object,
 };
 
-export default React.memo(withStyles(styles)(SequenceEditor));
+export default React.memo(withStyles(styles)(NotesEditor));

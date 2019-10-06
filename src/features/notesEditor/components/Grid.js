@@ -34,6 +34,7 @@ function Grid(props) {
     measureCount,
     mousePoint,
     notes,
+    notesEditorContentEl = {},
     onDrag,
     onDragPreview,
     onDraw,
@@ -43,7 +44,6 @@ function Grid(props) {
     onSelect,
     onSelectInArea,
     selectedNotes,
-    sequenceEditorContentRef = {},
     toolType,
   } = props;
 
@@ -63,7 +63,7 @@ function Grid(props) {
       const offsetLeft = scrollLeftEl.offsetLeft || 0;
       const offsetTop = scrollLeftEl.offsetTop || 0;
       const scrollLeft = scrollLeftEl.scrollLeft || 0;
-      const scrollTop = sequenceEditorContentRef.scrollTop || 0;
+      const scrollTop = notesEditorContentEl.scrollTop || 0;
 
       const nextGridMousePoint = {
         x: Math.floor((x - offsetLeft + scrollLeft - styleOffset) / 40),
@@ -72,7 +72,7 @@ function Grid(props) {
 
       onMousePointChange(nextGridMousePoint);
     },
-    [onMousePointChange, sequenceEditorContentRef.scrollTop],
+    [onMousePointChange, notesEditorContentEl.scrollTop],
   );
 
   return (
@@ -97,7 +97,7 @@ function Grid(props) {
           isEnabled={toolType === constants.toolTypes.SELECT}
           onSelect={onSelectInArea}
           scrollLeftEl={ref.current}
-          scrollTopEl={sequenceEditorContentRef}
+          scrollTopEl={notesEditorContentEl}
         />
         <Notes
           measureCount={measureCount}
@@ -113,7 +113,7 @@ function Grid(props) {
         {showIf(toolType === constants.toolTypes.PAN)(
           <Panner
             scrollLeftEl={ref.current}
-            scrollTopEl={sequenceEditorContentRef}
+            scrollTopEl={notesEditorContentEl}
           />,
         )}
         <PositionIndicator mousePoint={mousePoint} />
@@ -136,7 +136,7 @@ Grid.propTypes = {
   onSelect: PropTypes.func,
   onSelectInArea: PropTypes.func,
   selectedNotes: PropTypes.arrayOf(PropTypes.object),
-  sequenceEditorContentRef: PropTypes.object,
+  notesEditorContentEl: PropTypes.object,
   toolType: PropTypes.string,
 };
 

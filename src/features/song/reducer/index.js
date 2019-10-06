@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
 
 export default undoable(rootReducer, {
   clearHistoryType: [
-    shared.actions.SEQUENCE_EDITOR_LOADED,
+    shared.actions.NOTES_EDITOR_LOADED,
     shared.actions.SONG_EDITOR_LOADED,
   ],
   filter: includeAction(shared.actions.undoableActions),

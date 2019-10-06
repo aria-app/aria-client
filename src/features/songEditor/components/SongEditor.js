@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Route } from 'react-router-dom';
 import withStyles from '@material-ui/styles/withStyles';
-import sequenceEditor from '../../sequenceEditor';
+import notesEditor from '../../notesEditor';
 import tracksEditor from '../../tracksEditor';
 import SongEditorToolbar from './SongEditorToolbar';
 import SongInfoModal from './SongInfoModal';
 
-const { SequenceEditorContainer } = sequenceEditor.components;
+const { NotesEditorContainer } = notesEditor.components;
 const { TracksEditorContainer } = tracksEditor.components;
 
 const styles = {
@@ -66,9 +66,9 @@ function SongEditor(props) {
       />
       <Route component={TracksEditorContainer} exact={true} path={match.path} />
       <Route
-        component={SequenceEditorContainer}
+        component={NotesEditorContainer}
         exact={true}
-        path={`${match.path}/sequencer/:sequenceId`}
+        path={`${match.path}/sequence/:sequenceId`}
       />
       <SongInfoModal
         bpm={bpm}

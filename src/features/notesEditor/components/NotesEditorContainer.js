@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import shared from '../../shared';
 import song from '../../song';
-import SequenceEditor from './SequenceEditor';
+import NotesEditor from './NotesEditor';
 
 export default connect(
   (state, ownProps) => ({
@@ -21,7 +21,7 @@ export default connect(
     onDrag: shared.actions.notesDragged,
     onDuplicate: shared.actions.notesDuplicated,
     onErase: shared.actions.noteErased,
-    onLoad: shared.actions.sequenceEditorLoaded,
+    onLoad: shared.actions.notesEditorLoaded,
     onNudge: shared.actions.notesNudged,
     onOctaveDown: shared.actions.notesMovedOctaveDown,
     onOctaveUp: shared.actions.notesMovedOctaveUp,
@@ -37,4 +37,4 @@ export default connect(
     onNudge: (delta, selectedNotes) =>
       dispatchProps.onNudge(delta, selectedNotes, stateProps.sequence),
   }),
-)(SequenceEditor);
+)(NotesEditor);

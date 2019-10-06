@@ -15,7 +15,7 @@ const styles = theme => ({
   },
 });
 
-function SequenceEditorToolbar(props) {
+function NotesEditorToolbar(props) {
   const {
     classes,
     isRedoEnabled,
@@ -153,7 +153,7 @@ function SequenceEditorToolbar(props) {
   );
 }
 
-SequenceEditorToolbar.propTypes = {
+NotesEditorToolbar.propTypes = {
   isRedoEnabled: PropTypes.bool,
   isUndoEnabled: PropTypes.bool,
   measureCount: PropTypes.number,
@@ -173,4 +173,4 @@ SequenceEditorToolbar.propTypes = {
   toolType: PropTypes.string,
 };
 
-export default React.memo(withStyles(styles)(SequenceEditorToolbar));
+export default React.memo(withStyles(styles)(NotesEditorToolbar));

@@ -6,10 +6,7 @@ import * as helpers from '../helpers';
 import * as selectors from '../selectors';
 
 export const fetchSongToEdit = createLogic({
-  type: [
-    shared.actions.SEQUENCE_EDITOR_LOADED,
-    shared.actions.SONG_EDITOR_LOADED,
-  ],
+  type: [shared.actions.NOTES_EDITOR_LOADED, shared.actions.SONG_EDITOR_LOADED],
   warnTimeout: 0,
   process({ action, getState }, dispatch, done) {
     helpers.fetchSongById(action.payload.songId).then(song => {
