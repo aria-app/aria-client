@@ -7,8 +7,8 @@ const styles = theme => ({
   root: {
     alignItems: 'stretch',
     backgroundColor: theme.palette.background.paper,
-    borderTop: `1px solid ${theme.palette.divider}`,
-    boxShadow: theme.shadows[1],
+    // borderTop: `1px solid ${theme.palette.divider}`,
+    // boxShadow: theme.shadows[1],
     display: 'flex',
     flex: '0 0 auto',
     height: 56,

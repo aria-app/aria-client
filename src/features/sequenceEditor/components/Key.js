@@ -8,7 +8,6 @@ const styles = theme => ({
   root: {
     alignItems: 'center',
     backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[2],
     cursor: 'pointer',
     display: 'flex',
     flex: '0 0 auto',
@@ -17,19 +16,21 @@ const styles = theme => ({
     position: 'relative',
     '&::after': {
       backgroundColor: theme.palette.primary.main,
+      borderBottomRightRadius: 3,
+      borderTopRightRadius: 3,
       bottom: 0,
-      boxShadow: `2px 0 5px ${theme.palette.primary.main}`,
       content: "''",
       display: 'block',
-      right: -2,
+      right: -4,
       opacity: 0,
       pointerEvents: 'none',
       position: 'absolute',
       top: 0,
-      width: 2,
+      width: 4,
     },
   },
   label: {
+    color: theme.palette.text.hint,
     display: 'none',
   },
   c: {
@@ -43,7 +44,7 @@ const styles = theme => ({
     },
   },
   sharp: {
-    backgroundColor: theme.palette.text.primary,
+    backgroundColor: theme.palette.text.secondary,
   },
 });
 

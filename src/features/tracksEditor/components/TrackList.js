@@ -26,9 +26,9 @@ const styles = theme => ({
     flexDirection: 'column',
     minWidth: '100%',
     padding: theme.spacing(2),
-    paddingBottom: theme.spacing(2) + 84,
+    paddingBottom: theme.spacing(2) + 64,
     paddingRight: theme.spacing(2) + 128,
-    paddingTop: theme.spacing(2) + 2,
+    paddingTop: theme.spacing(2),
     position: 'relative',
   },
   underlay: {
@@ -40,7 +40,7 @@ const styles = theme => ({
   },
   addTrackButton: {
     backgroundColor: theme.palette.background.paper,
-    border: `2px solid ${theme.palette.action.hover}`,
+    border: `2px solid ${theme.palette.text.hint}`,
     borderRadius: theme.shape.borderRadius,
     boxShadow: 'none',
     color: theme.palette.text.hint,

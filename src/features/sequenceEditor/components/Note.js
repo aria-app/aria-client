@@ -2,7 +2,6 @@ import classnames from 'classnames';
 import first from 'lodash/fp/first';
 import last from 'lodash/fp/last';
 import withStyles from '@material-ui/styles/withStyles';
-import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Draggable from 'react-draggable';
@@ -16,19 +15,19 @@ const styles = theme => ({
     transition: 'transform 0.1s ease',
   },
   connector: {
-    backgroundColor: transparentize(0.5, theme.palette.primary.main),
-    height: 12,
+    backgroundColor: theme.palette.primary.light,
+    height: 10,
     left: 20,
     position: 'absolute',
-    top: 14,
+    top: 15,
     transformOrigin: 'left center',
     transition: 'transform 0.1s ease',
     width: 1,
     zIndex: 100,
   },
   fill: {
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: 2,
+    backgroundColor: theme.palette.primary.light,
+    borderRadius: theme.shape.borderRadius,
     height: 24,
     width: 24,
     '&:hover': {
@@ -56,14 +55,10 @@ const styles = theme => ({
   selected: {
     zIndex: 300,
     '& $connector': {
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.primary.main,
     },
     '& $fill': {
-      backgroundColor: theme.palette.secondary.main,
-      boxShadow: `0 0 10px ${transparentize(
-        0.5,
-        theme.palette.secondary.main,
-      )}`,
+      backgroundColor: theme.palette.primary.main,
     },
   },
 });

@@ -4,14 +4,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Key from './Key';
 
-const styles = {
+const styles = theme => ({
   root: {
+    border: `2px solid ${theme.palette.action.hover}`,
+    borderBottomRightRadius: theme.shape.borderRadius,
+    borderTopRightRadius: theme.shape.borderRadius,
+    borderLeft: 0,
     display: 'flex',
     flex: '0 0 auto',
     flexDirection: 'column',
     width: 40,
   },
-};
+});
 
 const keyStyles = Dawww.SCALE.reduce((acc, currentStep) => {
   return {

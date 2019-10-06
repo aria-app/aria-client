@@ -1,31 +1,31 @@
 import withStyles from '@material-ui/styles/withStyles';
 import withTheme from '@material-ui/styles/withTheme';
-import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Draggable from 'react-draggable';
 
 const styles = theme => ({
   root: {
-    backgroundColor: transparentize(0.5, theme.palette.text.primary),
-    border: `1px solid ${theme.palette.text.primary}`,
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    border: `2px solid ${theme.palette.text.hint}`,
+    borderRadius: theme.shape.borderRadius,
     cursor: 'col-resize',
-    height: 32,
+    height: 36,
     left: 0,
     position: 'absolute',
-    top: 3,
+    top: 0,
     transition:
       'box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease',
     width: 24,
     '&:hover:not(:active)': {
-      backgroundColor: transparentize(0.4, theme.palette.text.primary),
+      backgroundColor: 'rgba(0, 0, 0, 0.05)',
     },
     '&:active': {
-      backgroundColor: transparentize(0.6, theme.palette.text.primary),
+      backgroundColor: 'rgba(0, 0, 0, 0.1)',
     },
     '&::after': {
-      borderLeft: `2px dotted ${theme.palette.text.primary}`,
-      borderRight: `2px dotted ${theme.palette.text.primary}`,
+      borderLeft: `2px dotted ${theme.palette.text.hint}`,
+      borderRight: `2px dotted ${theme.palette.text.hint}`,
       content: "''",
       display: 'block',
       height: 10,

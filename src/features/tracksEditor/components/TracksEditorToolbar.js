@@ -7,12 +7,15 @@ import shared from '../../shared';
 
 const { IconButton, Toolbar } = shared.components;
 
-const styles = {
-  root: {},
-};
+const styles = theme => ({
+  root: {
+    borderTop: `2px solid ${theme.palette.divider}`,
+  },
+});
 
 function TracksEditorToolbar(props) {
   const {
+    classes,
     isRedoEnabled,
     isUndoEnabled,
     onRedo,
@@ -29,6 +32,7 @@ function TracksEditorToolbar(props) {
 
   return (
     <Toolbar
+      className={classes.root}
       position="top"
       isAlternate={!isEmpty(selectedSequence)}
       leftItems={

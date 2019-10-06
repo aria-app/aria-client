@@ -9,9 +9,11 @@ import * as constants from '../constants';
 const { IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
 
-const styles = {
-  root: {},
-};
+const styles = theme => ({
+  root: {
+    borderTop: `2px solid ${theme.palette.divider}`,
+  },
+});
 
 function SequenceEditorToolbar(props) {
   const {

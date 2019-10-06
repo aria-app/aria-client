@@ -9,8 +9,8 @@ import withStyles from '@material-ui/styles/withStyles';
 const styles = theme =>
   createStyles({
     root: {
-      backgroundColor: transparentize(0.75, theme.palette.secondary.main),
-      border: `2px solid ${theme.palette.secondary.main}`,
+      backgroundColor: transparentize(0.75, theme.palette.primary.main),
+      border: `2px solid ${theme.palette.primary.main}`,
       borderRadius: 2,
       left: 0,
       pointerEvents: 'none',

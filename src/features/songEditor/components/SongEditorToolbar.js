@@ -10,9 +10,10 @@ import shared from '../../shared';
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 const { IconButton, Toolbar } = shared.components;
 
-const styles = () =>
+const styles = theme =>
   createStyles({
     root: {
+      borderBottom: `2px solid ${theme.palette.divider}`,
       zIndex: 1,
     },
   });

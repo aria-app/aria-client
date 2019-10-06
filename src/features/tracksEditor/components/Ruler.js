@@ -11,14 +11,49 @@ const getStyles = theme => ({
     cursor: 'pointer',
     display: 'flex',
     flex: '0 0 auto',
-    height: 35,
-    marginBottom: theme.spacing(2),
+    height: 36,
+    marginBottom: theme.spacing(3),
     position: 'relative',
+    '&::before': {
+      backgroundColor: theme.palette.action.hover,
+      bottom: 0,
+      content: '""',
+      display: 'block',
+      height: 2,
+      left: 0,
+      position: 'absolute',
+      right: 0,
+    },
+    '&::after': {
+      backgroundColor: theme.palette.action.hover,
+      borderTopLeftRadius: 2,
+      borderTopRightRadius: 2,
+      bottom: 2,
+      content: '""',
+      display: 'block',
+      height: 34,
+      right: 0,
+      position: 'absolute',
+      width: 2,
+    },
   },
   measureNumber: {
     color: transparentize(0.5, theme.palette.text.primary),
     fontSize: 10,
+    fontWeight: 'bold',
     position: 'absolute',
+    '&::after': {
+      backgroundColor: theme.palette.action.hover,
+      borderTopLeftRadius: 2,
+      borderTopRightRadius: 2,
+      bottom: 0,
+      content: '""',
+      display: 'block',
+      height: 34,
+      left: -6,
+      position: 'absolute',
+      width: 2,
+    },
   },
 });
 
@@ -54,7 +89,7 @@ function Ruler(props) {
             key={i}
             style={{
               left: i * 64 + 6,
-              bottom: 0,
+              bottom: 2,
             }}
           >
             {i + 1}
