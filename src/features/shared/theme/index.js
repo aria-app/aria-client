@@ -1,5 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import teal from '@material-ui/core/colors/teal';
+import red from '@material-ui/core/colors/red';
 
 // Default theme reference: https://material-ui.com/customization/default-theme/
 export default createMuiTheme({
@@ -9,7 +9,7 @@ export default createMuiTheme({
       main: '#5944ff',
       dark: '#2f2a9b',
     },
-    secondary: teal,
+    secondary: red,
     // type: 'dark',
   },
   typography: {

@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -12,6 +13,7 @@ const styles = {
 function Boxes(props) {
   const {
     boxContentComponent,
+    className,
     classes,
     items,
     length = 0,
@@ -40,7 +42,7 @@ function Boxes(props) {
 
   return (
     <div
-      className={classes.root}
+      className={classnames(classes.root, className)}
       length={length}
       step={step}
       style={{ ...style, width: length * step }}

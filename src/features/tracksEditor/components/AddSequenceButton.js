@@ -1,13 +1,11 @@
+import Fab from '@material-ui/core/Fab';
 import withStyles from '@material-ui/styles/withStyles';
-import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 const styles = theme => ({
   root: {
     alignItems: 'center',
-    backgroundColor: transparentize(0.5, theme.palette.primary.main),
-    border: `1px solid ${theme.palette.primary.main}`,
     cursor: 'pointer',
     display: 'flex',
     flex: '0 0 auto',
@@ -17,7 +15,7 @@ const styles = theme => ({
     width: 64,
   },
   plusHorizontal: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.contrastText,
     height: 1,
     left: '50%',
     position: 'absolute',
@@ -26,7 +24,7 @@ const styles = theme => ({
     width: 9,
   },
   plusVertical: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.contrastText,
     height: 9,
     left: '50%',
     position: 'absolute',
@@ -47,12 +45,12 @@ function AddSequenceButton(props) {
     <div
       className={classes.root}
       onClick={handleClick}
-      style={{
-        left: position * 64,
-      }}
+      style={{ left: position * 64 }}
     >
-      <div className={classes.plusVertical} />
-      <div className={classes.plusHorizontal} />
+      <Fab className="classes.button" color="primary" size="small">
+        <div className={classes.plusVertical} />
+        <div className={classes.plusHorizontal} />
+      </Fab>
     </div>
   );
 }

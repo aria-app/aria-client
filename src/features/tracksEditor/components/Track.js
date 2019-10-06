@@ -4,19 +4,17 @@ import inRange from 'lodash/fp/inRange';
 import isNil from 'lodash/fp/isNil';
 import range from 'lodash/fp/range';
 import some from 'lodash/fp/some';
-import times from 'lodash/fp/times';
 import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import { showIf } from 'react-render-helpers';
-import withTheme from '@material-ui/styles/withTheme';
 import shared from '../../shared';
 import AddSequenceButton from './AddSequenceButton';
 import TrackSequence from './TrackSequence';
 import TrackHeader from './TrackHeader';
 
-const { Boxes, MatrixBox } = shared.components;
+const { Boxes } = shared.components;
 
 const styles = theme => ({
   root: {
@@ -25,7 +23,7 @@ const styles = theme => ({
     display: 'flex',
     flex: '0 0 auto',
     flexDirection: 'column',
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(3),
   },
   matrixBox: {
     left: 0,
@@ -34,9 +32,11 @@ const styles = theme => ({
   },
   sequences: {
     alignItems: 'stretch',
+    backgroundColor: theme.palette.action.hover,
+    border: `2px solid ${theme.palette.divider}`,
+    borderRadius: theme.shape.borderRadius,
     display: 'flex',
     flex: '1 0 auto',
-    height: 84,
     position: 'relative',
   },
 });
@@ -51,7 +51,6 @@ function Track(props) {
     onTrackSelect,
     selectedSequenceId,
     songMeasureCount,
-    theme,
     track,
   } = props;
 
@@ -77,24 +76,6 @@ function Track(props) {
 
     return find(isEmptyPosition, allPositions);
   }, [songMeasureCount, track.sequences]);
-
-  const matrix = React.useMemo(() => {
-    const rowCount = 7;
-    const columnCount = 4 * songMeasureCount + 1;
-
-    return times(
-      row =>
-        times(column => {
-          if (column === 0 || column % 4 === 0) {
-            if (row === 0 || row === 3 || row === 6) {
-              return 2;
-            }
-          }
-          return 1;
-        }, columnCount),
-      rowCount,
-    );
-  }, [songMeasureCount]);
 
   const getIsSequenceSelected = React.useCallback(
     sequence => {
@@ -163,15 +144,9 @@ function Track(props) {
         className={classes.sequences}
         style={{ width: songMeasureCount * 64 }}
       >
-        <MatrixBox
-          className={classes.matrixBox}
-          fill={theme.palette.primary.main}
-          matrix={matrix}
-          height={84}
-          width={songMeasureCount * 64}
-        />
         <Boxes
           boxContentComponent={sequenceComponent}
+          className={classes.boxes}
           items={boxesItems}
           length={songMeasureCount}
           onItemsChange={handleBoxesItemsChange}
@@ -204,4 +179,4 @@ Track.propTypes = {
   track: PropTypes.object,
 };
 
-export default React.memo(withTheme(withStyles(styles)(Track)));
+export default React.memo(withStyles(styles)(Track));

@@ -1,12 +1,14 @@
 import getOr from 'lodash/fp/getOr';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { animated, useTransition } from 'react-spring';
 import shared from '../../shared';
-import AddTrackButton from './AddTrackButton';
 import Ruler from './Ruler';
 import Track from './Track';
+import { classes } from 'istanbul-lib-coverage';
 
 const { FadeIn, FadeOut, LoadingIndicator } = shared.components;
 
@@ -37,6 +39,9 @@ const styles = theme => ({
     position: 'absolute',
     right: 0,
     top: 0,
+  },
+  addTrackButtonIcon: {
+    marginRight: theme.spacing(1),
   },
 });
 
@@ -88,7 +93,7 @@ function TrackList(props) {
                 ...animation,
                 height: animation.opacity.interpolate({
                   range: [0, 0.5, 1],
-                  output: [0, 136, 136],
+                  output: [0, 144, 144],
                 }),
               }}
             >
@@ -108,10 +113,18 @@ function TrackList(props) {
               />
             </animated.div>
           ))}
-          <AddTrackButton
+          <Fab
+            className={classes.addTrackButton}
+            color="primary"
             onClick={props.onTrackAdd}
-            songMeasureCount={props.songMeasureCount}
-          />
+            variant="extended"
+          >
+            <AddIcon
+              className={classes.addTrackButtonIcon}
+              style={{ marginRight: 8 }}
+            />
+            Add Track
+          </Fab>
         </FadeIn>
       </div>
     </div>

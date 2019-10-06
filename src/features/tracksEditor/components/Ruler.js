@@ -4,10 +4,7 @@ import withStyles from '@material-ui/styles/withStyles';
 import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
-import shared from '../../shared';
 import RulerResizer from './RulerResizer';
-
-const { MatrixBox } = shared.components;
 
 const getStyles = theme => ({
   root: {
@@ -34,27 +31,6 @@ function Ruler(props) {
     onPositionSet,
   } = props;
 
-  const matrix = React.useMemo(
-    () =>
-      times(
-        row =>
-          times(column => {
-            if (column === 0 || column % 8 === 0) {
-              if (row === 0 || row === 4) {
-                return 2;
-              }
-              return 1;
-            }
-            if (row === 0) {
-              return 1;
-            }
-            return 0;
-          }, measureCount * 8 + 1),
-        5,
-      ),
-    [measureCount],
-  );
-
   const handleClick = React.useCallback(
     e => {
       const measures = e.nativeEvent.offsetX / measureWidth;
@@ -71,12 +47,6 @@ function Ruler(props) {
       onClick={handleClick}
       style={{ width: measureWidth * measureCount + 1 }}
     >
-      <MatrixBox
-        fill="black"
-        height={35}
-        matrix={matrix}
-        width={measureWidth * measureCount + 1}
-      />
       {times(
         i => (
           <div

@@ -6,7 +6,8 @@ const styles = theme => ({
   root: {
     alignItems: 'center',
     alignSelf: 'flex-start',
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: theme.shape.borderRadius,
     color: theme.palette.primary.contrastText,
     display: 'flex',
     fontWeight: 800,

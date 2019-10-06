@@ -1,5 +1,6 @@
 import classnames from 'classnames';
 import withStyles from '@material-ui/styles/withStyles';
+import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
 import TrackSequenceNote from './TrackSequenceNote';
@@ -9,7 +10,8 @@ const styles = theme => ({
     display: 'flex',
     height: 84,
     padding: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: transparentize(0.4, theme.palette.primary.main),
+    borderRadius: theme.shape.borderRadius,
     borderRight: `2px solid ${theme.palette.divider}`,
     overflow: 'hidden',
     position: 'relative',
@@ -17,12 +19,10 @@ const styles = theme => ({
       'box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease',
   },
   selected: {
-    backgroundColor: theme.palette.secondary.main,
-    boxShadow: theme.shadows[1],
+    backgroundColor: theme.palette.primary.main,
   },
   dragging: {
     opacity: 0.8,
-    transform: 'translateY(-4px) scale(1.05)',
   },
 });
 
@@ -50,7 +50,11 @@ function TrackSequence(props) {
       onDoubleClick={handleDoubleClick}
     >
       {sequence.notes.map(note => (
-        <TrackSequenceNote key={note.id} note={note} />
+        <TrackSequenceNote
+          isSequenceSelected={isSelected}
+          key={note.id}
+          note={note}
+        />
       ))}
     </div>
   );
