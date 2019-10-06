@@ -62,4 +62,4 @@ function Shell(props) {
   return <div className={classnames(classes.root, className)} {...rest} />;
 }
 
-export default withStyles(styles)(Shell);
+export default React.memo(withStyles(styles)(Shell));

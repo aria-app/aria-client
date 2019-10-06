@@ -109,4 +109,4 @@ DrawLayer.propTypes = {
   onDraw: PropTypes.func,
 };
 
-export default withStyles(styles)(DrawLayer);
+export default React.memo(withStyles(styles)(DrawLayer));

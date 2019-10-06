@@ -1,8 +1,6 @@
 import each from 'lodash/fp/each';
 import find from 'lodash/fp/find';
-import getOr from 'lodash/fp/getOr';
 import inRange from 'lodash/fp/inRange';
-import isEqual from 'lodash/fp/isEqual';
 import isNil from 'lodash/fp/isNil';
 import range from 'lodash/fp/range';
 import some from 'lodash/fp/some';
@@ -43,87 +41,31 @@ const styles = theme => ({
   },
 });
 
-class Track extends React.Component {
-  static propTypes = {
-    classes: PropTypes.object,
-    onSequenceAdd: PropTypes.func,
-    onSequenceEdit: PropTypes.func,
-    onSequenceOpen: PropTypes.func,
-    onSequenceSelect: PropTypes.func,
-    onTrackIsMutedToggle: PropTypes.func,
-    onTrackIsSoloingToggle: PropTypes.func,
-    onTrackSelect: PropTypes.func,
-    selectedSequenceId: PropTypes.string,
-    songMeasureCount: PropTypes.number,
-    theme: PropTypes.object,
-    track: PropTypes.object,
-  };
+function Track(props) {
+  const {
+    classes,
+    onSequenceAdd,
+    onSequenceEdit,
+    onSequenceOpen,
+    onSequenceSelect,
+    onTrackSelect,
+    selectedSequenceId,
+    songMeasureCount,
+    theme,
+    track,
+  } = props;
 
-  shouldComponentUpdate(nextProps) {
-    return !isEqual(nextProps, this.props);
-  }
-
-  render() {
-    const firstEmptyPosition = this.getFirstEmptyPosition();
-    return (
-      <div className={this.props.classes.root}>
-        <Translation>
-          {t => (
-            <TrackHeader onClick={this.handleHeaderClick}>
-              {t(this.props.track.voice)}
-            </TrackHeader>
-          )}
-        </Translation>
-        <div
-          className={this.props.classes.sequences}
-          style={this.getBodySequencesStyle()}
-        >
-          <MatrixBox
-            className={this.props.classes.matrixBox}
-            fill={this.props.theme.palette.primary.main}
-            matrix={this.getMatrix()}
-            height={84}
-            width={this.props.songMeasureCount * 64}
-          />
-          <Boxes
-            boxContentComponent={this.getSequenceComponent}
-            items={this.getBoxesItems()}
-            length={this.props.songMeasureCount}
-            onItemsChange={this.handleBoxesItemsChange}
-            step={64}
-            style={{
-              height: 84,
-            }}
-          />
-          {showIf(!isNil(firstEmptyPosition))(
-            <AddSequenceButton
-              onClick={this.handleSequenceAdd}
-              position={firstEmptyPosition}
-            />,
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  getBodySequencesStyle = () => ({
-    width: this.props.songMeasureCount * 64,
-  });
-
-  getBoxesItems = () => {
-    const sequences = getOr([], 'props.track.sequences', this);
-
-    return sequences.map(sequence => ({
+  const boxesItems = React.useMemo(() => {
+    return track.sequences.map(sequence => ({
       id: sequence.id,
       length: sequence.measureCount,
       x: sequence.position,
       sequence,
     }));
-  };
+  }, [track.sequences]);
 
-  getFirstEmptyPosition = () => {
-    const sequences = getOr([], 'props.track.sequences', this);
-    const allPositions = range(0, this.props.songMeasureCount);
+  const firstEmptyPosition = React.useMemo(() => {
+    const allPositions = range(0, songMeasureCount);
     const sequenceCoversPosition = position => sequence =>
       inRange(
         sequence.position,
@@ -131,23 +73,14 @@ class Track extends React.Component {
         position,
       );
     const isEmptyPosition = position =>
-      !some(sequenceCoversPosition(position), sequences);
+      !some(sequenceCoversPosition(position), track.sequences);
 
     return find(isEmptyPosition, allPositions);
-  };
+  }, [songMeasureCount, track.sequences]);
 
-  getIsSequenceSelected = sequence => {
-    const sequenceId = getOr('', 'id', sequence);
-    const selectedSequenceId = getOr('', 'props.selectedSequenceId', this);
-
-    if (!selectedSequenceId) return false;
-
-    return sequenceId === selectedSequenceId;
-  };
-
-  getMatrix = () => {
+  const matrix = React.useMemo(() => {
     const rowCount = 7;
-    const columnCount = 4 * this.props.songMeasureCount + 1;
+    const columnCount = 4 * songMeasureCount + 1;
 
     return times(
       row =>
@@ -161,59 +94,114 @@ class Track extends React.Component {
         }, columnCount),
       rowCount,
     );
-  };
+  }, [songMeasureCount]);
 
-  getSequenceComponent = ({ isDragging, item }) => (
-    <TrackSequence
-      isDragging={isDragging}
-      isSelected={this.getIsSequenceSelected(item.sequence)}
-      onOpen={this.props.onSequenceOpen}
-      onSelect={this.props.onSequenceSelect}
-      sequence={item.sequence}
-    />
+  const getIsSequenceSelected = React.useCallback(
+    sequence => {
+      if (!selectedSequenceId) return false;
+
+      return sequence.id === selectedSequenceId;
+    },
+    [selectedSequenceId],
   );
 
-  handleBodySequencesSequenceOpen = sequence => {
-    this.props.onSequenceOpen(sequence);
-  };
+  const handleBoxesItemsChange = React.useCallback(
+    items => {
+      const editedSequences = items
+        .filter(item => {
+          if (item.sequence.measureCount !== item.length) return true;
 
-  handleBodySequencesSequenceSelect = sequence => {
-    this.props.onSequenceSelect(sequence);
-  };
+          if (item.sequence.position !== item.x) return true;
 
-  handleBoxesItemsChange = items => {
-    const editedSequences = items
-      .filter(item => {
-        if (item.sequence.measureCount !== item.length) return true;
+          return false;
+        })
+        .map(item => ({
+          ...item.sequence,
+          measureCount: item.length,
+          position: item.x,
+        }));
 
-        if (item.sequence.position !== item.x) return true;
+      each(onSequenceEdit, editedSequences);
+    },
+    [onSequenceEdit],
+  );
 
-        return false;
-      })
-      .map(item => ({
-        ...item.sequence,
-        measureCount: item.length,
-        position: item.x,
-      }));
+  const handleHeaderClick = React.useCallback(() => {
+    onTrackSelect(track);
+  }, [onTrackSelect, track]);
 
-    each(this.props.onSequenceEdit, editedSequences);
-  };
+  const handleSequenceAdd = React.useCallback(
+    position => {
+      onSequenceAdd(track, position);
+    },
+    [onSequenceAdd, track],
+  );
 
-  handleHeaderClick = () => {
-    this.props.onTrackSelect(this.props.track);
-  };
+  const sequenceComponent = React.useCallback(
+    ({ isDragging, item }) => (
+      <TrackSequence
+        isDragging={isDragging}
+        isSelected={getIsSequenceSelected(item.sequence)}
+        onOpen={onSequenceOpen}
+        onSelect={onSequenceSelect}
+        sequence={item.sequence}
+      />
+    ),
+    [getIsSequenceSelected, onSequenceOpen, onSequenceSelect],
+  );
 
-  handleHeaderIsMutedToggle = () => {
-    this.props.onTrackIsMutedToggle(this.props.track);
-  };
-
-  handleHeaderIsSoloingToggle = () => {
-    this.props.onTrackIsSoloingToggle(this.props.track);
-  };
-
-  handleSequenceAdd = position => {
-    this.props.onSequenceAdd(this.props.track, position);
-  };
+  return (
+    <div className={classes.root}>
+      <Translation>
+        {t => (
+          <TrackHeader onClick={handleHeaderClick}>
+            {t(track.voice)}
+          </TrackHeader>
+        )}
+      </Translation>
+      <div
+        className={classes.sequences}
+        style={{ width: songMeasureCount * 64 }}
+      >
+        <MatrixBox
+          className={classes.matrixBox}
+          fill={theme.palette.primary.main}
+          matrix={matrix}
+          height={84}
+          width={songMeasureCount * 64}
+        />
+        <Boxes
+          boxContentComponent={sequenceComponent}
+          items={boxesItems}
+          length={songMeasureCount}
+          onItemsChange={handleBoxesItemsChange}
+          step={64}
+          style={{ height: 84 }}
+        />
+        {showIf(!isNil(firstEmptyPosition))(
+          <AddSequenceButton
+            onClick={handleSequenceAdd}
+            position={firstEmptyPosition}
+          />,
+        )}
+      </div>
+    </div>
+  );
 }
 
-export default withTheme(withStyles(styles)(Track));
+Track.propTypes = {
+  classes: PropTypes.object,
+  onSequenceAdd: PropTypes.func,
+  onSequenceEdit: PropTypes.func,
+  onSequenceOpen: PropTypes.func,
+  onSequenceSelect: PropTypes.func,
+  onTrackIsMutedToggle: PropTypes.func,
+  onTrackIsSoloingToggle: PropTypes.func,
+  onTrackSelect: PropTypes.func,
+  selectedSequenceId: PropTypes.string,
+  songMeasureCount: PropTypes.number,
+  theme: PropTypes.object,
+  track: PropTypes.object,
+};
+
+export default React.memo(withTheme(withStyles(styles)(Track)));

@@ -1,4 +1,3 @@
-import getOr from 'lodash/fp/getOr';
 import round from 'lodash/round';
 import times from 'lodash/fp/times';
 import withStyles from '@material-ui/styles/withStyles';
@@ -26,90 +25,84 @@ const getStyles = theme => ({
   },
 });
 
-class Ruler extends React.PureComponent {
-  static propTypes = {
-    classes: PropTypes.object,
-    measureCount: PropTypes.number,
-    measureWidth: PropTypes.number,
-    onMeasureCountChange: PropTypes.func,
-    onPositionSet: PropTypes.func,
-  };
+function Ruler(props) {
+  const {
+    classes,
+    measureCount,
+    measureWidth,
+    onMeasureCountChange,
+    onPositionSet,
+  } = props;
 
-  render() {
-    return (
-      <div
-        className={this.props.classes.root}
-        onClick={this.handleClick}
-        style={{
-          width: this.getWidth(),
-        }}
-      >
-        <MatrixBox
-          fill="black"
-          height={35}
-          matrix={this.getMatrix()}
-          width={this.getWidth()}
-        />
-        {times(
-          i => (
-            <div
-              className={this.props.classes.measureNumber}
-              key={i}
-              style={{
-                left: i * 64 + 6,
-                bottom: 0,
-              }}
-            >
-              {i + 1}
-            </div>
-          ),
-          this.props.measureCount,
-        )}
-        <RulerResizer
-          onSizeChange={this.props.onMeasureCountChange}
-          size={this.props.measureCount}
-        />
-      </div>
-    );
-  }
-
-  getIsLastMeasure(measureIndex) {
-    return measureIndex === this.props.measureCount;
-  }
-
-  getMatrix = () =>
-    times(
-      row =>
-        times(column => {
-          if (column === 0 || column % 8 === 0) {
-            if (row === 0 || row === 4) {
-              return 2;
+  const matrix = React.useMemo(
+    () =>
+      times(
+        row =>
+          times(column => {
+            if (column === 0 || column % 8 === 0) {
+              if (row === 0 || row === 4) {
+                return 2;
+              }
+              return 1;
             }
-            return 1;
-          }
-          if (row === 0) {
-            return 1;
-          }
-          return 0;
-        }, this.props.measureCount * 8 + 1),
-      5,
-    );
+            if (row === 0) {
+              return 1;
+            }
+            return 0;
+          }, measureCount * 8 + 1),
+        5,
+      ),
+    [measureCount],
+  );
 
-  getMeasuresStyle() {
-    return {
-      width: this.props.measureCount * this.props.measureWidth,
-    };
-  }
+  const handleClick = React.useCallback(
+    e => {
+      const measures = e.nativeEvent.offsetX / measureWidth;
+      const notesPerMeasure = 32;
 
-  getWidth = () => this.props.measureWidth * this.props.measureCount + 1;
+      onPositionSet(round(measures * notesPerMeasure));
+    },
+    [measureWidth, onPositionSet],
+  );
 
-  handleClick = e => {
-    const offset = getOr(0, 'nativeEvent.offsetX', e);
-    const measures = offset / this.props.measureWidth;
-    const notesPerMeasure = 32;
-
-    this.props.onPositionSet(round(measures * notesPerMeasure));
-  };
+  return (
+    <div
+      className={classes.root}
+      onClick={handleClick}
+      style={{ width: measureWidth * measureCount + 1 }}
+    >
+      <MatrixBox
+        fill="black"
+        height={35}
+        matrix={matrix}
+        width={measureWidth * measureCount + 1}
+      />
+      {times(
+        i => (
+          <div
+            className={classes.measureNumber}
+            key={i}
+            style={{
+              left: i * 64 + 6,
+              bottom: 0,
+            }}
+          >
+            {i + 1}
+          </div>
+        ),
+        measureCount,
+      )}
+      <RulerResizer onSizeChange={onMeasureCountChange} size={measureCount} />
+    </div>
+  );
 }
 
-export default withStyles(getStyles)(Ruler);
+Ruler.propTypes = {
+  classes: PropTypes.object,
+  measureCount: PropTypes.number,
+  measureWidth: PropTypes.number,
+  onMeasureCountChange: PropTypes.func,
+  onPositionSet: PropTypes.func,
+};
+
+export default React.memo(withStyles(getStyles)(Ruler));

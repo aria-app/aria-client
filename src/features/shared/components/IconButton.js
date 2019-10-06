@@ -109,4 +109,4 @@ IconButton.propTypes = {
   title: PropTypes.string,
 };
 
-export default withStyles(styles)(IconButton);
+export default React.memo(withStyles(styles)(IconButton));

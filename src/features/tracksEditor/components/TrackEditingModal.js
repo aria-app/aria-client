@@ -1,4 +1,4 @@
-import getOr from 'lodash/fp/getOr';
+import isEmpty from 'lodash/fp/isEmpty';
 import range from 'lodash/fp/range';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -42,85 +42,96 @@ const styles = theme => ({
   },
 });
 
-class TrackEditingModal extends React.PureComponent {
-  static propTypes = {
-    classes: PropTypes.object,
-    onDelete: PropTypes.func,
-    onDismiss: PropTypes.func,
-    onVoiceSet: PropTypes.func,
-    onVolumeSet: PropTypes.func,
-    stagedTrack: PropTypes.object,
-  };
+function TrackEditingModal(props) {
+  const {
+    classes,
+    onDelete,
+    onDismiss,
+    onVoiceSet,
+    onVolumeSet,
+    stagedTrack = {},
+  } = props;
 
-  render() {
-    return (
-      <Translation>
-        {t => (
-          <Dialog
-            className={this.props.classes.root}
-            fullWidth={true}
-            maxWidth="xs"
-            onClose={this.props.onDismiss}
-            open={this.getIsOpen()}
-          >
-            <DialogTitle className={this.props.classes.title}>
-              {t('Edit Track')}
-            </DialogTitle>
-            <DialogContent className={this.props.classes.content}>
-              <FormControl className={this.props.classes.dropdown}>
-                <InputLabel htmlFor="voice">Voice</InputLabel>
-                <Select
-                  inputProps={{ name: 'voice', id: 'voice' }}
-                  onChange={this.handleVoiceChange}
-                  value={getOr('', 'props.stagedTrack.voice', this)}
-                >
-                  {Object.keys(Dawww.VOICES).map(voice => (
-                    <MenuItem key={voice} value={voice}>
-                      {t(voice)}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl className={this.props.classes.dropdown}>
-                <InputLabel htmlFor="volume">Volume</InputLabel>
-                <Select
-                  inputProps={{ name: 'volume', id: 'volume' }}
-                  onChange={this.handleVolumeChange}
-                  value={getOr(0, 'props.stagedTrack.volume', this)}
-                >
-                  {range(maxVolume, minVolume - 1).map(volume => (
-                    <MenuItem key={volume} value={volume}>
-                      {volume}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <Button
-                className={this.props.classes.deleteButton}
-                color="secondary"
-                onClick={this.handleContentDeleteButtonClick}
-                variant="contained"
+  const handleContentDeleteButtonClick = React.useCallback(() => {
+    onDelete(stagedTrack);
+  }, [onDelete, stagedTrack]);
+
+  const handleVoiceChange = React.useCallback(
+    e => {
+      onVoiceSet(stagedTrack, e.target.value);
+    },
+    [onVoiceSet, stagedTrack],
+  );
+
+  const handleVolumeChange = React.useCallback(
+    e => {
+      onVolumeSet(stagedTrack, e.target.value);
+    },
+    [onVolumeSet, stagedTrack],
+  );
+
+  return (
+    <Translation>
+      {t => (
+        <Dialog
+          className={classes.root}
+          fullWidth={true}
+          maxWidth="xs"
+          onClose={onDismiss}
+          open={!isEmpty(stagedTrack)}
+        >
+          <DialogTitle className={classes.title}>{t('Edit Track')}</DialogTitle>
+          <DialogContent className={classes.content}>
+            <FormControl className={classes.dropdown}>
+              <InputLabel htmlFor="voice">Voice</InputLabel>
+              <Select
+                inputProps={{ name: 'voice', id: 'voice' }}
+                onChange={handleVoiceChange}
+                value={stagedTrack.voice || ''}
               >
-                {t('Delete')}
-              </Button>
-            </DialogContent>
-          </Dialog>
-        )}
-      </Translation>
-    );
-  }
-
-  getIsOpen = () => !!this.props.stagedTrack;
-
-  handleContentDeleteButtonClick = () => {
-    this.props.onDelete(this.props.stagedTrack);
-  };
-
-  handleVoiceChange = e =>
-    this.props.onVoiceSet(this.props.stagedTrack, e.target.value);
-
-  handleVolumeChange = e =>
-    this.props.onVolumeSet(this.props.stagedTrack, e.target.value);
+                {Object.keys(Dawww.VOICES).map(voice => (
+                  <MenuItem key={voice} value={voice}>
+                    {t(voice)}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl className={classes.dropdown}>
+              <InputLabel htmlFor="volume">Volume</InputLabel>
+              <Select
+                inputProps={{ name: 'volume', id: 'volume' }}
+                onChange={handleVolumeChange}
+                value={stagedTrack.volume || 0}
+              >
+                {range(maxVolume, minVolume - 1).map(volume => (
+                  <MenuItem key={volume} value={volume}>
+                    {volume}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Button
+              className={classes.deleteButton}
+              color="secondary"
+              onClick={handleContentDeleteButtonClick}
+              variant="contained"
+            >
+              {t('Delete')}
+            </Button>
+          </DialogContent>
+        </Dialog>
+      )}
+    </Translation>
+  );
 }
 
-export default withStyles(styles)(TrackEditingModal);
+TrackEditingModal.propTypes = {
+  classes: PropTypes.object,
+  onDelete: PropTypes.func,
+  onDismiss: PropTypes.func,
+  onVoiceSet: PropTypes.func,
+  onVolumeSet: PropTypes.func,
+  stagedTrack: PropTypes.object,
+};
+
+export default React.memo(withStyles(styles)(TrackEditingModal));

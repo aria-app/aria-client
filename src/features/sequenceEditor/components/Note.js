@@ -206,7 +206,7 @@ Note.propTypes = {
   sizeBounds: PropTypes.object,
 };
 
-export default withStyles(styles)(Note);
+export default React.memo(withStyles(styles)(Note));
 
 function is32ndNote(note) {
   const length = last(note.points).x - first(note.points).x;

@@ -64,4 +64,4 @@ AddTrackButton.propTypes = {
   style: PropTypes.object,
 };
 
-export default withStyles(styles)(AddTrackButton);
+export default React.memo(withStyles(styles)(AddTrackButton));

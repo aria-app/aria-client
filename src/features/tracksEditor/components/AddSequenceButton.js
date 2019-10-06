@@ -36,31 +36,31 @@ const styles = theme => ({
   },
 });
 
-class AddSequenceButton extends React.PureComponent {
-  static propTypes = {
-    classes: PropTypes.object,
-    onClick: PropTypes.func,
-    position: PropTypes.number,
-  };
+function AddSequenceButton(props) {
+  const { classes, onClick, position } = props;
 
-  render() {
-    return (
-      <div
-        className={this.props.classes.root}
-        onClick={this.handleClick}
-        style={{
-          left: this.props.position * 64,
-        }}
-      >
-        <div className={this.props.classes.plusVertical} />
-        <div className={this.props.classes.plusHorizontal} />
-      </div>
-    );
-  }
+  const handleClick = React.useCallback(() => {
+    onClick(position);
+  }, [onClick, position]);
 
-  handleClick = () => {
-    this.props.onClick(this.props.position);
-  };
+  return (
+    <div
+      className={classes.root}
+      onClick={handleClick}
+      style={{
+        left: position * 64,
+      }}
+    >
+      <div className={classes.plusVertical} />
+      <div className={classes.plusHorizontal} />
+    </div>
+  );
 }
 
-export default withStyles(styles)(AddSequenceButton);
+AddSequenceButton.propTypes = {
+  classes: PropTypes.object,
+  onClick: PropTypes.func,
+  position: PropTypes.number,
+};
+
+export default React.memo(withStyles(styles)(AddSequenceButton));

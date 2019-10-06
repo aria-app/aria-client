@@ -50,8 +50,6 @@ TrackList.propTypes = {
   onSequenceSelect: PropTypes.func,
   onSongMeasureCountChange: PropTypes.func,
   onTrackAdd: PropTypes.func,
-  onTrackIsMutedToggle: PropTypes.func,
-  onTrackIsSoloingToggle: PropTypes.func,
   onTrackStage: PropTypes.func,
   selectedSequence: PropTypes.object,
   songMeasureCount: PropTypes.number,
@@ -99,8 +97,6 @@ function TrackList(props) {
                 onSequenceEdit={props.onSequenceEdit}
                 onSequenceOpen={props.onSequenceOpen}
                 onSequenceSelect={props.onSequenceSelect}
-                onTrackIsMutedToggle={props.onTrackIsMutedToggle}
-                onTrackIsSoloingToggle={props.onTrackIsSoloingToggle}
                 onTrackSelect={props.onTrackStage}
                 selectedSequenceId={getOr(
                   undefined,
