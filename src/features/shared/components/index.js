@@ -1,6 +1,5 @@
 import _Box from './Box';
 import _Boxes from './Boxes';
-import _DownloadButton from './DownloadButton';
 import _Icon from './Icon';
 import _IconButton from './IconButton';
 import _LoadingIndicator from './LoadingIndicator';
@@ -10,11 +9,9 @@ import _Timeline from './Timeline';
 import _Toolbar from './Toolbar';
 import _FadeIn from './FadeIn';
 import _FadeOut from './FadeOut';
-import _UploadOverlay from './UploadOverlay';
 
 export const Box = _Box;
 export const Boxes = _Boxes;
-export const DownloadButton = _DownloadButton;
 export const Icon = _Icon;
 export const IconButton = _IconButton;
 export const LoadingIndicator = _LoadingIndicator;
@@ -24,4 +21,3 @@ export const Timeline = _Timeline;
 export const Toolbar = _Toolbar;
 export const FadeIn = _FadeIn;
 export const FadeOut = _FadeOut;
-export const UploadOverlay = _UploadOverlay;

@@ -14,72 +14,67 @@ const styles = {
   },
 };
 
-class Panner extends React.PureComponent {
-  static propTypes = {
-    scrollLeftEl: PropTypes.object,
-    scrollTopEl: PropTypes.object,
-  };
+function Panner(props) {
+  const { classes, scrollLeftEl, scrollTopEl } = props;
+  const [startPoint, setStartPoint] = React.useState({});
 
-  state = {
-    startPoint: {},
-  };
+  const handleMouseDown = React.useCallback(
+    e => {
+      e.preventDefault();
+      e.stopPropagation();
 
-  render() {
-    return (
-      <div
-        className={this.props.classes.root}
-        onMouseDown={this.handleMouseDown}
-        onMouseLeave={this.handleMouseLeave}
-        onMouseMove={this.handleMouseMove}
-        onMouseUp={this.handleMouseUp}
-      />
-    );
-  }
+      setStartPoint({
+        scrollLeft: scrollLeftEl.scrollLeft,
+        scrollTop: scrollTopEl.scrollTop,
+        x: e.pageX,
+        y: e.pageY,
+      });
+    },
+    [scrollLeftEl.scrollLeft, scrollTopEl.scrollTop],
+  );
 
-  getIsPanning = () => !isEmpty(this.state.startPoint);
+  const handleMouseLeave = React.useCallback(() => {
+    if (isEmpty(startPoint)) return;
 
-  getStartPoint(e) {
-    return {
-      scrollLeft: this.props.scrollLeftEl.scrollLeft,
-      scrollTop: this.props.scrollTopEl.scrollTop,
-      x: e.pageX,
-      y: e.pageY,
-    };
-  }
+    setStartPoint({});
+  }, [startPoint]);
 
-  handleMouseDown = e => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleMouseMove = React.useCallback(
+    e => {
+      if (isEmpty(startPoint)) return;
 
-    this.setState({
-      startPoint: this.getStartPoint(e),
-    });
-  };
+      const dx = e.pageX - startPoint.x;
+      const dy = e.pageY - startPoint.y;
+      const scrollLeft = startPoint.scrollLeft - dx;
+      const scrollTop = startPoint.scrollTop - dy;
 
-  handleMouseLeave = () => {
-    if (!this.getIsPanning()) return;
-    this.setState({
-      startPoint: {},
-    });
-  };
+      scrollLeftEl.scrollLeft = scrollLeft;
+      scrollTopEl.scrollTop = scrollTop;
+    },
+    [scrollLeftEl.scrollLeft, scrollTopEl.scrollTop, startPoint],
+  );
 
-  handleMouseMove = e => {
-    if (!this.getIsPanning()) return;
-    const dx = e.pageX - this.state.startPoint.x;
-    const dy = e.pageY - this.state.startPoint.y;
-    const scrollLeft = this.state.startPoint.scrollLeft - dx;
-    const scrollTop = this.state.startPoint.scrollTop - dy;
+  const handleMouseUp = React.useCallback(() => {
+    if (isEmpty(startPoint)) return;
 
-    this.props.scrollLeftEl.scrollLeft = scrollLeft;
-    this.props.scrollTopEl.scrollTop = scrollTop;
-  };
+    setStartPoint({});
+  }, [startPoint]);
 
-  handleMouseUp = () => {
-    if (!this.getIsPanning()) return;
-    this.setState({
-      startPoint: {},
-    });
-  };
+  return (
+    <div
+      className={classes.root}
+      onMouseDown={handleMouseDown}
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+    />
+  );
 }
 
-export default withStyles(styles)(Panner);
+Panner.propTypes = {
+  classes: PropTypes.object,
+  scrollLeftEl: PropTypes.object,
+  scrollTopEl: PropTypes.object,
+};
+
+export default React.memo(withStyles(styles)(Panner));

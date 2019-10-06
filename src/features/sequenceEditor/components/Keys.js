@@ -24,33 +24,39 @@ const keyStyles = Dawww.SCALE.reduce((acc, currentStep) => {
   };
 }, {});
 
-class Keys extends React.PureComponent {
-  static propTypes = {
-    hoveredRow: PropTypes.number,
-    onKeyPress: PropTypes.func,
-  };
+function Keys(props) {
+  const { classes, hoveredRow, onKeyPress } = props;
 
-  render() {
-    return (
-      <div className={this.props.classes.root}>
-        {Dawww.SCALE.map(step => (
-          <Key
-            isHoveredRow={this.getIsHoveredRow(step)}
-            key={step.y}
-            onMouseDown={this.handleKeyMouseDown}
-            step={step}
-            style={keyStyles[step.y]}
-          />
-        ))}
-      </div>
-    );
-  }
+  const getIsHoveredRow = React.useCallback(step => step.y === hoveredRow, [
+    hoveredRow,
+  ]);
 
-  getIsHoveredRow = step => step.y === this.props.hoveredRow;
+  const handleKeyMouseDown = React.useCallback(
+    step => {
+      onKeyPress(step.y);
+    },
+    [onKeyPress],
+  );
 
-  handleKeyMouseDown = step => {
-    this.props.onKeyPress(step.y);
-  };
+  return (
+    <div className={classes.root}>
+      {Dawww.SCALE.map(step => (
+        <Key
+          isHoveredRow={getIsHoveredRow(step)}
+          key={step.y}
+          onMouseDown={handleKeyMouseDown}
+          step={step}
+          style={keyStyles[step.y]}
+        />
+      ))}
+    </div>
+  );
 }
 
-export default withStyles(styles)(Keys);
+Keys.propTypes = {
+  classes: PropTypes.object,
+  hoveredRow: PropTypes.number,
+  onKeyPress: PropTypes.func,
+};
+
+export default React.memo(withStyles(styles)(Keys));

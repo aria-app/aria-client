@@ -1,5 +1,5 @@
 import isEmpty from 'lodash/fp/isEmpty';
-import negate from 'lodash/fp/negate';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
@@ -7,77 +7,86 @@ import shared from '../../shared';
 
 const { IconButton, Toolbar } = shared.components;
 
-export default class TracksEditorToolbar extends React.PureComponent {
-  static propTypes = {
-    isRedoEnabled: PropTypes.bool,
-    isUndoEnabled: PropTypes.bool,
-    onRedo: PropTypes.func,
-    onSequenceDelete: PropTypes.func,
-    onSequenceDuplicate: PropTypes.func,
-    onSequenceOpen: PropTypes.func,
-    onUndo: PropTypes.func,
-    selectedSequence: PropTypes.object,
-  };
+const styles = {
+  root: {},
+};
 
-  static defaultProps = {
-    selectedSequence: {},
-  };
+function TracksEditorToolbar(props) {
+  const {
+    isRedoEnabled,
+    isUndoEnabled,
+    onRedo,
+    onSequenceDelete,
+    onSequenceDuplicate,
+    onSequenceOpen,
+    onUndo,
+    selectedSequence = {},
+  } = props;
 
-  render() {
-    return (
-      <Toolbar
-        position="top"
-        isAlternate={this.getIsAlternate()}
-        leftItems={
-          <React.Fragment>
+  const handleSequenceOpen = React.useCallback(() => {
+    onSequenceOpen(selectedSequence);
+  }, [onSequenceOpen, selectedSequence]);
+
+  return (
+    <Toolbar
+      position="top"
+      isAlternate={!isEmpty(selectedSequence)}
+      leftItems={
+        <React.Fragment>
+          <IconButton
+            icon="undo"
+            isDisabled={!isUndoEnabled}
+            onClick={onUndo}
+            title="Undo"
+          />
+          {showIf(isRedoEnabled)(
             <IconButton
-              icon="undo"
-              isDisabled={!this.props.isUndoEnabled}
-              onClick={this.props.onUndo}
-              title="Undo"
-            />
-            {showIf(this.props.isRedoEnabled)(
-              <IconButton
-                icon="redo"
-                isDisabled={!this.props.isRedoEnabled}
-                onClick={this.props.onRedo}
-                title="Redo"
-              />,
-            )}
-          </React.Fragment>
-        }
-        leftItemsAlt={
-          <React.Fragment>
+              icon="redo"
+              isDisabled={!isRedoEnabled}
+              onClick={onRedo}
+              title="Redo"
+            />,
+          )}
+        </React.Fragment>
+      }
+      leftItemsAlt={
+        <React.Fragment>
+          <IconButton
+            icon="undo"
+            isDisabled={!isUndoEnabled}
+            onClick={onUndo}
+            title="Undo"
+          />
+          {showIf(isRedoEnabled)(
             <IconButton
-              icon="undo"
-              isDisabled={!this.props.isUndoEnabled}
-              onClick={this.props.onUndo}
-              title="Undo"
-            />
-            {showIf(this.props.isRedoEnabled)(
-              <IconButton
-                icon="redo"
-                isDisabled={!this.props.isRedoEnabled}
-                onClick={this.props.onRedo}
-                title="Redo"
-              />,
-            )}
-          </React.Fragment>
-        }
-        rightItemsAlt={
-          <React.Fragment>
-            <IconButton icon="pencil" onClick={this.openSequence} />
-            <IconButton icon="clone" onClick={this.props.onSequenceDuplicate} />
-            <IconButton icon="trash" onClick={this.props.onSequenceDelete} />
-          </React.Fragment>
-        }
-      />
-    );
-  }
-
-  getIsAlternate = () => negate(isEmpty)(this.props.selectedSequence);
-
-  openSequence = () => {
-    this.props.onSequenceOpen(this.props.selectedSequence);
-  };
+              icon="redo"
+              isDisabled={!isRedoEnabled}
+              onClick={onRedo}
+              title="Redo"
+            />,
+          )}
+        </React.Fragment>
+      }
+      rightItemsAlt={
+        <React.Fragment>
+          <IconButton icon="pencil" onClick={handleSequenceOpen} />
+          <IconButton icon="clone" onClick={onSequenceDuplicate} />
+          <IconButton icon="trash" onClick={onSequenceDelete} />
+        </React.Fragment>
+      }
+    />
+  );
 }
+
+TracksEditorToolbar.propTypes = {
+  isRedoEnabled: PropTypes.bool,
+  isUndoEnabled: PropTypes.bool,
+  onRedo: PropTypes.func,
+  onSequenceDelete: PropTypes.func,
+  onSequenceDuplicate: PropTypes.func,
+  onSequenceOpen: PropTypes.func,
+  onUndo: PropTypes.func,
+  selectedSequence: PropTypes.object,
+};
+
+export default React.memo(withStyles(styles)(TracksEditorToolbar));

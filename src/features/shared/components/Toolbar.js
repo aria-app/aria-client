@@ -29,55 +29,38 @@ const styles = theme => ({
   },
 });
 
-class Toolbar extends React.PureComponent {
-  static propTypes = {
-    className: PropTypes.string,
-    classes: PropTypes.object,
-    isAlternate: PropTypes.bool,
-    leftItems: PropTypes.node,
-    leftItemsAlt: PropTypes.node,
-    rightItems: PropTypes.node,
-    rightItemsAlt: PropTypes.node,
-  };
+function Toolbar(props) {
+  const {
+    className,
+    classes,
+    isAlternate,
+    leftItems,
+    leftItemsAlt,
+    rightItems,
+    rightItemsAlt,
+    ...rest
+  } = props;
 
-  static defaultProps = {
-    leftItems: [],
-    leftItemsAlt: [],
-    rightItems: [],
-    rightItemsAlt: [],
-  };
-
-  render() {
-    const {
-      className,
-      classes,
-      isAlternate,
-      leftItems,
-      leftItemsAlt,
-      rightItems,
-      rightItemsAlt,
-      ...rest
-    } = this.props;
-
-    return (
-      <div className={classnames(classes.root, className)} {...rest}>
-        <div className={classes.leftItems}>{this.getLeftItems()}</div>
-        <div className={classes.rightItems}>{this.getRightItems()}</div>
+  return (
+    <div className={classnames(classes.root, className)} {...rest}>
+      <div className={classes.leftItems}>
+        {isAlternate ? leftItemsAlt : leftItems}
       </div>
-    );
-  }
-
-  getLeftItems() {
-    return this.props.isAlternate
-      ? this.props.leftItemsAlt
-      : this.props.leftItems;
-  }
-
-  getRightItems() {
-    return this.props.isAlternate
-      ? this.props.rightItemsAlt
-      : this.props.rightItems;
-  }
+      <div className={classes.rightItems}>
+        {isAlternate ? rightItemsAlt : rightItems}
+      </div>
+    </div>
+  );
 }
 
-export default withStyles(styles)(Toolbar);
+Toolbar.propTypes = {
+  className: PropTypes.string,
+  classes: PropTypes.object,
+  isAlternate: PropTypes.bool,
+  leftItems: PropTypes.node,
+  leftItemsAlt: PropTypes.node,
+  rightItems: PropTypes.node,
+  rightItemsAlt: PropTypes.node,
+};
+
+export default React.memo(withStyles(styles)(Toolbar));

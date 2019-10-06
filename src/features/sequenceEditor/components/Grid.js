@@ -27,86 +27,91 @@ const styles = {
   },
 };
 
-class Grid extends React.PureComponent {
-  static propTypes = {
-    measureCount: PropTypes.number,
-    mousePoint: PropTypes.object,
-    notes: PropTypes.arrayOf(PropTypes.object),
-    onDrag: PropTypes.func,
-    onDragPreview: PropTypes.func,
-    onDraw: PropTypes.func,
-    onErase: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    onMouseMove: PropTypes.func,
-    onResize: PropTypes.func,
-    onSelect: PropTypes.func,
-    onSelectInArea: PropTypes.func,
-    selectedNotes: PropTypes.arrayOf(PropTypes.object),
-    sequenceEditorContentRef: PropTypes.object,
-    toolType: PropTypes.string,
-  };
+function Grid(props) {
+  const ref = React.useRef();
+  const {
+    classes,
+    measureCount,
+    mousePoint,
+    notes,
+    onDrag,
+    onDragPreview,
+    onDraw,
+    onErase,
+    onMouseLeave,
+    onMouseMove,
+    onResize,
+    onSelect,
+    onSelectInArea,
+    selectedNotes,
+    sequenceEditorContentRef,
+    toolType,
+  } = props;
 
-  render() {
-    return (
+  return (
+    <div
+      className={classes.root}
+      onMouseLeave={onMouseLeave}
+      onMouseMove={onMouseMove}
+      ref={ref}
+    >
       <div
-        className={this.props.classes.root}
-        onMouseLeave={this.props.onMouseLeave}
-        onMouseMove={this.props.onMouseMove}
-        ref={this.setRef}
+        className={classes.wrapper}
+        style={{
+          width:
+            measureCount !== undefined ? measureCount * 4 * 8 * 40 + 80 : 0,
+        }}
       >
-        <div
-          className={this.props.classes.wrapper}
-          style={this.getWrapperStyle()}
-        >
-          <Slots measureCount={this.props.measureCount} />
-          {showIf(this.props.toolType === constants.toolTypes.DRAW)(
-            <DrawLayer
-              mousePoint={this.props.mousePoint}
-              onDraw={this.props.onDraw}
-            />,
-          )}
-          <Selector
-            isEnabled={this.props.toolType === constants.toolTypes.SELECT}
-            onSelect={this.props.onSelectInArea}
-            scrollLeftEl={this.elementRef}
-            scrollTopEl={this.props.sequenceEditorContentRef}
-          />
-          <Notes
-            measureCount={this.props.measureCount}
-            notes={this.props.notes}
-            onDrag={this.props.onDrag}
-            onDragPreview={this.props.onDragPreview}
-            onErase={this.props.onErase}
-            onResize={this.props.onResize}
-            onSelect={this.props.onSelect}
-            selectedNotes={this.props.selectedNotes}
-            toolType={this.props.toolType}
-          />
-          {showIf(this.props.toolType === constants.toolTypes.PAN)(
-            <Panner
-              scrollLeftEl={this.elementRef}
-              scrollTopEl={this.props.sequenceEditorContentRef}
-            />,
-          )}
-          <PositionIndicator mousePoint={this.props.mousePoint} />
-          <Timeline isVisible={false} offset={0 * 40} />
-        </div>
+        <Slots measureCount={measureCount} />
+        {showIf(toolType === constants.toolTypes.DRAW)(
+          <DrawLayer mousePoint={mousePoint} onDraw={onDraw} />,
+        )}
+        <Selector
+          isEnabled={toolType === constants.toolTypes.SELECT}
+          onSelect={onSelectInArea}
+          scrollLeftEl={ref.current}
+          scrollTopEl={sequenceEditorContentRef}
+        />
+        <Notes
+          measureCount={measureCount}
+          notes={notes}
+          onDrag={onDrag}
+          onDragPreview={onDragPreview}
+          onErase={onErase}
+          onResize={onResize}
+          onSelect={onSelect}
+          selectedNotes={selectedNotes}
+          toolType={toolType}
+        />
+        {showIf(toolType === constants.toolTypes.PAN)(
+          <Panner
+            scrollLeftEl={ref.current}
+            scrollTopEl={sequenceEditorContentRef}
+          />,
+        )}
+        <PositionIndicator mousePoint={mousePoint} />
+        <Timeline isVisible={false} offset={0 * 40} />
       </div>
-    );
-  }
-
-  getWrapperStyle() {
-    return {
-      width:
-        this.props.measureCount !== undefined
-          ? this.props.measureCount * 4 * 8 * 40 + 80
-          : 0,
-    };
-  }
-
-  setRef = ref => {
-    this.elementRef = ref;
-  };
+    </div>
+  );
 }
 
-export default withStyles(styles)(Grid);
+Grid.propTypes = {
+  measureCount: PropTypes.number,
+  mousePoint: PropTypes.object,
+  notes: PropTypes.arrayOf(PropTypes.object),
+  onDrag: PropTypes.func,
+  onDragPreview: PropTypes.func,
+  onDraw: PropTypes.func,
+  onErase: PropTypes.func,
+  onMouseLeave: PropTypes.func,
+  onMouseMove: PropTypes.func,
+  onResize: PropTypes.func,
+  onSelect: PropTypes.func,
+  onSelectInArea: PropTypes.func,
+  selectedNotes: PropTypes.arrayOf(PropTypes.object),
+  sequenceEditorContentRef: PropTypes.object,
+  toolType: PropTypes.string,
+};
+
+export default React.memo(withStyles(styles)(Grid));

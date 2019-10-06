@@ -13,7 +13,6 @@ export default connect(
     position: audio.selectors.getPosition(state),
     songMeasureCount: song.selectors.getMeasureCount(state),
     sequences: song.selectors.getSequencesArray(state),
-    song: song.selectors.getSong(state),
     tracks: song.selectors.getDeepTracksArray(state),
   }),
   {
@@ -27,8 +26,6 @@ export default connect(
     onSongMeasureCountChange: shared.actions.measureCountSet,
     onTrackAdd: shared.actions.trackAdded,
     onTrackDelete: shared.actions.trackDeleted,
-    onTrackIsMutedToggle: shared.actions.trackIsMutedToggled,
-    onTrackIsSoloingToggle: shared.actions.trackIsSoloingToggled,
     onTrackVoiceSet: shared.actions.trackVoiceSet,
     onTrackVolumeSet: shared.actions.trackVolumeSet,
     onUndo: shared.actions.undoRequested,

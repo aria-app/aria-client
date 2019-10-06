@@ -23,214 +23,232 @@ const styles = {
   },
 };
 
-class TracksEditor extends React.PureComponent {
-  static propTypes = {
-    classes: PropTypes.object,
-    isLoading: PropTypes.bool,
-    isRedoEnabled: PropTypes.bool,
-    isStopped: PropTypes.bool,
-    isUndoEnabled: PropTypes.bool,
-    onLoad: PropTypes.func,
-    onPositionSet: PropTypes.func,
-    onRedo: PropTypes.func,
-    onSequenceAdd: PropTypes.func,
-    onSequenceDelete: PropTypes.func,
-    onSequenceDuplicate: PropTypes.func,
-    onSequenceEdit: PropTypes.func,
-    onSongMeasureCountChange: PropTypes.func,
-    onTrackAdd: PropTypes.func,
-    onTrackDelete: PropTypes.func,
-    onTrackIsMutedToggle: PropTypes.func,
-    onTrackIsSoloingToggle: PropTypes.func,
-    onTrackVoiceSet: PropTypes.func,
-    onTrackVolumeSet: PropTypes.func,
-    onUndo: PropTypes.func,
-    position: PropTypes.number,
-    sequences: PropTypes.arrayOf(PropTypes.object),
-    song: PropTypes.object,
-    songMeasureCount: PropTypes.number,
-    tracks: PropTypes.arrayOf(PropTypes.object),
-  };
+function TracksEditor(props) {
+  const {
+    classes,
+    history,
+    isLoading,
+    isRedoEnabled,
+    isStopped,
+    isUndoEnabled,
+    match,
+    onLoad,
+    onPositionSet,
+    onRedo,
+    onSequenceAdd,
+    onSequenceDelete,
+    onSequenceDuplicate,
+    onSequenceEdit,
+    onSongMeasureCountChange,
+    onTrackAdd,
+    onTrackDelete,
+    onTrackVoiceSet,
+    onTrackVolumeSet,
+    onUndo,
+    position,
+    sequences,
+    songMeasureCount,
+    tracks,
+  } = props;
+  const [selectedSequenceId, setSelectedSequenceId] = React.useState('');
+  const [selectedTrackId, setSelectedTrackId] = React.useState('');
 
-  state = {
-    selectedSequenceId: '',
-    selectedTrackId: '',
-  };
+  const selectedSequence = React.useMemo(
+    () => find(s => s.id === selectedSequenceId, sequences),
+    [selectedSequenceId, sequences],
+  );
 
-  componentDidMount() {
-    this.props.onLoad(this.props.match.params.songId);
-  }
+  const selectedTrack = React.useMemo(
+    () => find(t => t.id === selectedTrackId, tracks),
+    [selectedTrackId, tracks],
+  );
 
-  render() {
-    return (
-      <div className={this.props.classes.root}>
-        <GlobalHotKeys
-          handlers={{
-            DELETE: this.deleteSelectedSequence,
-            DUPLICATE: this.duplicateSelectedSequence,
-            REDO: this.redo,
-            UNDO: this.undo,
-          }}
-          keyMap={{
-            DELETE: ['backspace', 'del'],
-            DUPLICATE: ['ctrl+shift+d', 'meta+shift+d'],
-            REDO: ['ctrl+alt+z', 'meta+alt+z'],
-            UNDO: ['ctrl+z', 'meta+z'],
-          }}
-        />
-        <React.Fragment>
-          <TrackList
-            isLoading={this.props.isLoading}
-            onPositionSet={this.handleTrackListPositionSet}
-            onSequenceAdd={this.handleTrackListSequenceAdd}
-            onSequenceDelete={this.props.onSequenceDelete}
-            onSequenceEdit={this.props.onSequenceEdit}
-            onSequenceDeselect={this.handleTrackListSequenceDeselect}
-            onSequenceOpen={this.openSequence}
-            onSequenceSelect={this.handleTrackListSequenceSelect}
-            onSongMeasureCountChange={this.props.onSongMeasureCountChange}
-            onTrackAdd={this.handleTrackListTrackAdd}
-            onTrackIsMutedToggle={this.props.onTrackIsMutedToggle}
-            onTrackIsSoloingToggle={this.props.onTrackIsSoloingToggle}
-            onTrackStage={this.selectTrack}
-            selectedSequence={this.getSelectedSequence()}
-            songMeasureCount={this.props.songMeasureCount}
-            tracks={this.props.tracks}
-          />
-          <TracksEditorToolbar
-            isRedoEnabled={this.props.isRedoEnabled}
-            isUndoEnabled={this.props.isUndoEnabled}
-            onRedo={this.redo}
-            onSequenceDelete={this.deleteSelectedSequence}
-            onSequenceDuplicate={this.duplicateSelectedSequence}
-            onSequenceOpen={this.openSequence}
-            onUndo={this.undo}
-            selectedSequence={this.getSelectedSequence()}
-          />
-          <Timeline
-            isVisible={!this.props.isStopped}
-            offset={this.props.position * 2 + 16}
-          />
-          <TrackEditingModal
-            onDelete={this.deleteTrack}
-            onDismiss={this.deselectTrack}
-            onVoiceSet={this.props.onTrackVoiceSet}
-            onVolumeSet={this.props.onTrackVolumeSet}
-            stagedTrack={this.getSelectedTrack()}
-          />
-        </React.Fragment>
-      </div>
-    );
-  }
+  const handleRedo = React.useCallback(() => {
+    if (!isRedoEnabled) return;
 
-  deleteSelectedSequence = e => {
-    e.preventDefault();
+    onRedo();
+  }, [isRedoEnabled, onRedo]);
 
-    const selectedSequence = this.getSelectedSequence();
+  const handleSequenceDelete = React.useCallback(
+    e => {
+      e.preventDefault();
 
-    if (isNil(selectedSequence)) return;
+      if (isNil(selectedSequence)) return;
 
-    this.props.onSequenceDelete(selectedSequence);
-  };
+      onSequenceDelete(selectedSequence);
+    },
+    [onSequenceDelete, selectedSequence],
+  );
 
-  deleteTrack = track => {
-    this.props.onTrackDelete(track);
+  const handleSequenceDuplicate = React.useCallback(
+    e => {
+      e.preventDefault();
 
-    this.deselectTrack();
-  };
+      if (isEmpty(selectedSequence)) return;
 
-  deselectTrack = () => {
-    this.setState({
-      selectedTrackId: '',
-    });
-  };
+      const duplicatedSequence = Dawww.createSequence(
+        selectedSequence.trackId,
+        selectedSequence.position,
+        selectedSequence.measureCount,
+      );
 
-  duplicateSelectedSequence = e => {
-    e.preventDefault();
+      onSequenceDuplicate(duplicatedSequence, selectedSequence);
 
-    const selectedSequence = this.getSelectedSequence();
+      setSelectedSequenceId(duplicatedSequence.id);
+    },
+    [onSequenceDuplicate, selectedSequence],
+  );
 
-    if (isEmpty(selectedSequence)) return;
+  const handleSequenceOpen = React.useCallback(
+    sequence => {
+      history.push(`${match.url}/sequencer/${sequence.id}`);
+    },
+    [history, match.url],
+  );
 
-    const duplicatedSequence = Dawww.createSequence(
-      selectedSequence.trackId,
-      selectedSequence.position,
-      selectedSequence.measureCount,
-    );
+  const handleTrackDeselect = React.useCallback(() => {
+    setSelectedTrackId('');
+  }, []);
 
-    this.props.onSequenceDuplicate(duplicatedSequence, selectedSequence);
+  const handleTrackDelete = React.useCallback(
+    track => {
+      onTrackDelete(track);
 
-    this.setState({
-      selectedSequenceId: duplicatedSequence.id,
-    });
-  };
+      handleTrackDeselect();
+    },
+    [handleTrackDeselect, onTrackDelete],
+  );
 
-  getSelectedSequence = () =>
-    find(s => s.id === this.state.selectedSequenceId, this.props.sequences);
+  const handleTrackListPositionSet = React.useCallback(
+    position => {
+      if (isStopped) return;
 
-  getSelectedTrack = () =>
-    find(t => t.id === this.state.selectedTrackId, this.props.tracks);
+      onPositionSet(position);
+    },
+    [isStopped, onPositionSet],
+  );
 
-  handleTrackListPositionSet = position => {
-    if (this.props.isStopped) return;
+  const handleTrackListSequenceAdd = React.useCallback(
+    (track, position) => {
+      const sequence = Dawww.createSequence(track.id, position);
 
-    this.props.onPositionSet(position);
-  };
+      onSequenceAdd(sequence);
+    },
+    [onSequenceAdd],
+  );
 
-  handleTrackListSequenceAdd = (track, position) => {
-    const sequence = Dawww.createSequence(track.id, position);
+  const handleTrackListSequenceDeselect = React.useCallback(() => {
+    setSelectedSequenceId('');
+  }, []);
 
-    this.props.onSequenceAdd(sequence);
-  };
+  const handleTrackListSequenceSelect = React.useCallback(sequence => {
+    setSelectedSequenceId(sequence.id);
+  }, []);
 
-  handleTrackListSequenceDeselect = () => {
-    this.setState({
-      selectedSequenceId: '',
-    });
-  };
-
-  handleTrackListSequenceSelect = sequence => {
-    this.setState({
-      selectedSequenceId: sequence.id,
-    });
-  };
-
-  handleTrackListTrackAdd = () => {
+  const handleTrackListTrackAdd = React.useCallback(() => {
     const track = Dawww.createTrack();
     const sequence = Dawww.createSequence(track.id);
 
-    this.props.onTrackAdd(track, sequence);
-  };
+    onTrackAdd(track, sequence);
+  }, [onTrackAdd]);
 
-  handleTracksEditorToolbarSequenceDelete = () => {
-    this.props.onSequenceDelete(this.getSelectedSequence());
-  };
+  const handleTrackSelect = React.useCallback(track => {
+    setSelectedTrackId(track.id);
+  }, []);
 
-  handleTracksEditorToolbarSequenceOpen = () => {
-    this.openSequence(this.getSelectedSequence());
-  };
+  const handleUndo = React.useCallback(() => {
+    if (!isUndoEnabled) return;
 
-  openSequence = sequence => {
-    this.props.history.push(`${this.props.match.url}/sequencer/${sequence.id}`);
-  };
+    onUndo();
+  }, [isUndoEnabled, onUndo]);
 
-  redo = () => {
-    if (!this.props.isRedoEnabled) return;
+  React.useEffect(() => {
+    onLoad(match.params.songId);
+  }, [match.params.songId, onLoad]);
 
-    this.props.onRedo();
-  };
-
-  selectTrack = track => {
-    this.setState({
-      selectedTrackId: track.id,
-    });
-  };
-
-  undo = () => {
-    if (!this.props.isUndoEnabled) return;
-
-    this.props.onUndo();
-  };
+  return (
+    <div className={classes.root}>
+      <GlobalHotKeys
+        allowChanges={true}
+        handlers={{
+          DELETE: handleSequenceDelete,
+          DUPLICATE: handleSequenceDuplicate,
+          REDO: handleRedo,
+          UNDO: handleUndo,
+        }}
+        keyMap={{
+          DELETE: ['backspace', 'del'],
+          DUPLICATE: ['ctrl+shift+d', 'meta+shift+d'],
+          REDO: ['ctrl+alt+z', 'meta+alt+z'],
+          UNDO: ['ctrl+z', 'meta+z'],
+        }}
+      />
+      <React.Fragment>
+        <TrackList
+          isLoading={isLoading}
+          onPositionSet={handleTrackListPositionSet}
+          onSequenceAdd={handleTrackListSequenceAdd}
+          onSequenceDelete={onSequenceDelete}
+          onSequenceEdit={onSequenceEdit}
+          onSequenceDeselect={handleTrackListSequenceDeselect}
+          onSequenceOpen={handleSequenceOpen}
+          onSequenceSelect={handleTrackListSequenceSelect}
+          onSongMeasureCountChange={onSongMeasureCountChange}
+          onTrackAdd={handleTrackListTrackAdd}
+          onTrackStage={handleTrackSelect}
+          selectedSequence={selectedSequence}
+          songMeasureCount={songMeasureCount}
+          tracks={tracks}
+        />
+        <TracksEditorToolbar
+          isRedoEnabled={isRedoEnabled}
+          isUndoEnabled={isUndoEnabled}
+          onRedo={handleRedo}
+          onSequenceDelete={handleSequenceDelete}
+          onSequenceDuplicate={handleSequenceDuplicate}
+          onSequenceOpen={handleSequenceOpen}
+          onUndo={handleUndo}
+          selectedSequence={selectedSequence}
+        />
+        <Timeline isVisible={!isStopped} offset={position * 2 + 16} />
+        <TrackEditingModal
+          onDelete={handleTrackDelete}
+          onDismiss={handleTrackDeselect}
+          onVoiceSet={onTrackVoiceSet}
+          onVolumeSet={onTrackVolumeSet}
+          stagedTrack={selectedTrack}
+        />
+      </React.Fragment>
+    </div>
+  );
 }
 
-export default withStyles(styles)(TracksEditor);
+TracksEditor.propTypes = {
+  classes: PropTypes.object,
+  history: PropTypes.object,
+  isLoading: PropTypes.bool,
+  isRedoEnabled: PropTypes.bool,
+  isStopped: PropTypes.bool,
+  isUndoEnabled: PropTypes.bool,
+  match: PropTypes.object,
+  onLoad: PropTypes.func,
+  onPositionSet: PropTypes.func,
+  onRedo: PropTypes.func,
+  onSequenceAdd: PropTypes.func,
+  onSequenceDelete: PropTypes.func,
+  onSequenceDuplicate: PropTypes.func,
+  onSequenceEdit: PropTypes.func,
+  onSongMeasureCountChange: PropTypes.func,
+  onTrackAdd: PropTypes.func,
+  onTrackDelete: PropTypes.func,
+  onTrackVoiceSet: PropTypes.func,
+  onTrackVolumeSet: PropTypes.func,
+  onUndo: PropTypes.func,
+  position: PropTypes.number,
+  sequences: PropTypes.arrayOf(PropTypes.object),
+  song: PropTypes.object,
+  songMeasureCount: PropTypes.number,
+  tracks: PropTypes.arrayOf(PropTypes.object),
+};
+
+export default React.memo(withStyles(styles)(TracksEditor));

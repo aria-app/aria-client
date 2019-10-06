@@ -10,72 +10,47 @@ const styles = theme => ({
     alignItems: 'center',
     display: 'flex',
     flex: '0 0 auto',
-    height: 40,
+    height: theme.spacing(5),
     justifyContent: 'center',
-    width: 40,
+    width: theme.spacing(5),
   },
   content: {
     alignItems: 'center',
     display: 'flex',
     flex: '0 0 auto',
-    height: 24,
+    height: theme.spacing(3),
     justifyContent: 'center',
-    width: 24,
+    width: theme.spacing(3),
   },
 });
 
-class Icon extends React.PureComponent {
-  static propTypes = {
-    className: PropTypes.string,
-    classes: PropTypes.object,
-    color: PropTypes.string,
-    icon: PropTypes.oneOf(Object.keys(icons).concat([''])),
-    size: PropTypes.oneOf(['small', 'regular', 'large', '']),
-    theme: PropTypes.object,
-  };
+function Icon(props) {
+  const { className, classes, color, icon, size, theme, ...rest } = props;
 
-  render() {
-    const {
-      className,
-      classes,
-      color,
-      icon,
-      size,
-      theme,
-      ...rest
-    } = this.props;
+  const IconComponent = icons[icon];
 
-    return (
-      <div className={classnames(classes.root, className)} {...rest}>
-        <div className={classes.content}>{this.getIcon()}</div>
+  return (
+    <div className={classnames(classes.root, className)} {...rest}>
+      <div className={classes.content}>
+        <IconComponent
+          color={color || (theme && theme.palette.action.active)}
+          size={
+            { large: theme.spacing(3), small: theme.spacing(1.5) }[size] ||
+            theme.spacing(2.5)
+          }
+        />
       </div>
-    );
-  }
-
-  getIcon(theme) {
-    const color =
-      this.props.color ||
-      (this.props.theme && this.props.theme.palette.action.active);
-    const iconComponent = icons[this.props.icon];
-
-    if (!iconComponent) return null;
-
-    return React.createElement(iconComponent, {
-      color,
-      size: this.getSizePixels(),
-    });
-  }
-
-  getSizePixels() {
-    switch (this.props.size) {
-      case 'large':
-        return 24;
-      case 'small':
-        return 12;
-      default:
-        return 20;
-    }
-  }
+    </div>
+  );
 }
 
-export default withTheme(withStyles(styles)(Icon));
+Icon.propTypes = {
+  className: PropTypes.string,
+  classes: PropTypes.object,
+  color: PropTypes.string,
+  icon: PropTypes.oneOf(Object.keys(icons).concat([''])),
+  size: PropTypes.oneOf(['small', 'regular', 'large', '']),
+  theme: PropTypes.object,
+};
+
+export default React.memo(withTheme(withStyles(styles)(Icon)));

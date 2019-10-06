@@ -47,44 +47,42 @@ const styles = theme => ({
   },
 });
 
-class Key extends React.PureComponent {
-  static propTypes = {
-    className: PropTypes.string,
-    classes: PropTypes.object,
-    isHoveredRow: PropTypes.bool,
-    onMouseDown: PropTypes.func,
-    step: PropTypes.object,
-    style: PropTypes.object,
-  };
+function Key(props) {
+  const { className, classes, isHoveredRow, onMouseDown, step, style } = props;
 
-  render() {
-    return (
-      <div
-        className={this.getClassName()}
-        onMouseDown={this.handleMouseDown}
-        style={this.props.style}
-      >
-        <div className={this.props.classes.label} step={this.props.step}>
-          {this.props.step.name}
-        </div>
+  const handleMouseDown = React.useCallback(() => onMouseDown(step), [
+    onMouseDown,
+    step,
+  ]);
+
+  return (
+    <div
+      className={classnames(
+        classes.root,
+        {
+          [classes.c]: includes('C', step.name) && !includes('#', step.name),
+          [classes.hoveredRow]: isHoveredRow,
+          [classes.sharp]: includes('#', step.name),
+        },
+        className,
+      )}
+      onMouseDown={handleMouseDown}
+      style={style}
+    >
+      <div className={classes.label} step={step}>
+        {step.name}
       </div>
-    );
-  }
-
-  getClassName = () =>
-    classnames(
-      this.props.classes.root,
-      {
-        [this.props.classes.c]:
-          includes('C', this.props.step.name) &&
-          !includes('#', this.props.step.name),
-        [this.props.classes.hoveredRow]: this.props.isHoveredRow,
-        [this.props.classes.sharp]: includes('#', this.props.step.name),
-      },
-      this.props.className,
-    );
-
-  handleMouseDown = () => this.props.onMouseDown(this.props.step);
+    </div>
+  );
 }
 
-export default withStyles(styles)(Key);
+Key.propTypes = {
+  className: PropTypes.string,
+  classes: PropTypes.object,
+  isHoveredRow: PropTypes.bool,
+  onMouseDown: PropTypes.func,
+  step: PropTypes.object,
+  style: PropTypes.object,
+};
+
+export default React.memo(withStyles(styles)(Key));

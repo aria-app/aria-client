@@ -9,72 +9,69 @@ const styles = {
   },
 };
 
-class Boxes extends React.Component {
-  static propTypes = {
-    boxContentComponent: PropTypes.func,
-    classes: PropTypes.object,
-    items: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.any,
-        x: PropTypes.number,
-        length: PropTypes.number,
-      }),
-    ),
-    length: PropTypes.number,
-    onItemsChange: PropTypes.func,
-    step: PropTypes.number,
-    style: PropTypes.object,
-  };
+function Boxes(props) {
+  const {
+    boxContentComponent,
+    classes,
+    items,
+    length = 0,
+    onItemsChange,
+    step = 100,
+    style = {},
+  } = props;
 
-  static defaultProps = {
-    length: 0,
-    step: 100,
-    style: {},
-  };
+  const boxes = React.useMemo(() => items.filter(i => i.x < length), [
+    items,
+    length,
+  ]);
 
-  state = {
-    draggedItemId: '',
-  };
+  const handleBoxItemChange = React.useCallback(
+    draggedItem => {
+      onItemsChange(
+        items.map(item => {
+          if (item.id !== draggedItem.id) return item;
 
-  render() {
-    return (
-      <div
-        className={this.props.classes.root}
-        length={this.props.length}
-        step={this.props.step}
-        style={{
-          ...this.props.style,
-          width: this.props.length * this.props.step,
-        }}
-      >
-        {this.getBoxes().map(item => (
-          <Box
-            contentComponent={this.props.boxContentComponent}
-            key={item.id}
-            onItemChange={this.handleBoxItemChange}
-            step={this.props.step}
-            item={item}
-          />
-        ))}
-      </div>
-    );
-  }
+          return draggedItem;
+        }),
+      );
+    },
+    [items, onItemsChange],
+  );
 
-  getBoxes = () => this.props.items.filter(i => i.x < this.props.length);
-
-  handleBoxItemChange = draggedItem => {
-    this.setState({
-      draggedItemId: draggedItem.id,
-    });
-
-    this.props.onItemsChange(
-      this.props.items.map(item => {
-        if (item.id !== draggedItem.id) return item;
-
-        return draggedItem;
-      }),
-    );
-  };
+  return (
+    <div
+      className={classes.root}
+      length={length}
+      step={step}
+      style={{ ...style, width: length * step }}
+    >
+      {boxes.map(item => (
+        <Box
+          contentComponent={boxContentComponent}
+          key={item.id}
+          onItemChange={handleBoxItemChange}
+          step={step}
+          item={item}
+        />
+      ))}
+    </div>
+  );
 }
 
-export default withStyles(styles)(Boxes);
+Boxes.propTypes = {
+  boxContentComponent: PropTypes.func,
+  classes: PropTypes.object,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.any,
+      x: PropTypes.number,
+      length: PropTypes.number,
+    }),
+  ),
+  length: PropTypes.number,
+  onItemsChange: PropTypes.func,
+  step: PropTypes.number,
+  style: PropTypes.object,
+};
+
+export default React.memo(withStyles(styles)(Boxes));

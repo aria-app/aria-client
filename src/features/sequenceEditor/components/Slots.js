@@ -11,59 +11,62 @@ const styles = {
   },
 };
 
-class Slots extends React.PureComponent {
-  static propTypes = {
-    classes: PropTypes.object,
-    measureCount: PropTypes.number,
-  };
+function Slots(props) {
+  const { classes, measureCount } = props;
 
-  render() {
-    return (
-      <div
-        className={this.props.classes.root}
-        dangerouslySetInnerHTML={{
-          __html: this.getHTML(),
-        }}
-      />
-    );
-  }
-
-  getHTML() {
-    const slots = range(0, this.props.measureCount * 4 * 8).map(columnNumber =>
-      range(0, Dawww.SCALE.length).map(rowNumber =>
-        getSlot(columnNumber, rowNumber),
+  const slots = React.useMemo(
+    () =>
+      range(0, measureCount * 4 * 8).map(columnNumber =>
+        range(0, Dawww.SCALE.length).map(rowNumber =>
+          getSlot(columnNumber, rowNumber),
+        ),
       ),
-    );
-    const stripes = range(0, this.props.measureCount * 2).map(n =>
-      this.getStripe(n),
-    );
-    return `
-      <svg
-        width="${this.props.measureCount * 4 * 8 * 40}"
-        height="${Dawww.SCALE.length * 40}"
-        viewBox="0 0 ${this.props.measureCount * 4 * 8 * 40} ${Dawww.SCALE
-      .length * 40}">
-        ${stripes}
-        ${slots}
-      </svg>
-    `;
-  }
+    [measureCount],
+  );
 
-  getStripe = n => `
-    <rect
-      fill="black"
-      opacity="0.025"
-      rx="4"
-      ry="4"
-      x="${(2 * n + 1) * 320}"
-      y="0"
-      width="320"
-      height="${Dawww.SCALE.length * 40}"
-    ></rect>
-  `;
+  const stripes = React.useMemo(
+    () =>
+      range(0, measureCount * 2).map(
+        n => `
+          <rect
+            fill="black"
+            opacity="0.025"
+            rx="4"
+            ry="4"
+            x="${(2 * n + 1) * 320}"
+            y="0"
+            width="320"
+            height="${Dawww.SCALE.length * 40}"
+          ></rect>
+        `,
+      ),
+    [measureCount],
+  );
 
-  getWidth = () => this.props.measureCount * 4 * 8 * 40;
+  return (
+    <div
+      className={classes.root}
+      dangerouslySetInnerHTML={{
+        __html: `
+        <svg
+          width="${measureCount * 4 * 8 * 40}"
+          height="${Dawww.SCALE.length * 40}"
+          viewBox="0 0 ${measureCount * 4 * 8 * 40} ${Dawww.SCALE.length * 40}">
+          ${stripes}
+          ${slots}
+        </svg>
+      `,
+      }}
+    />
+  );
 }
+
+Slots.propTypes = {
+  classes: PropTypes.object,
+  measureCount: PropTypes.number,
+};
+
+export default React.memo(withStyles(styles)(Slots));
 
 function getSlot(column, row) {
   const isEven = x => x % 2 === 0;
@@ -80,5 +83,3 @@ function getSlot(column, row) {
     ></rect>
   `;
 }
-
-export default withStyles(styles)(Slots);

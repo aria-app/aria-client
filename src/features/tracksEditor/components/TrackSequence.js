@@ -1,7 +1,5 @@
-import getOr from 'lodash/fp/getOr';
-import isEqual from 'lodash/fp/isEqual';
+import classnames from 'classnames';
 import withStyles from '@material-ui/styles/withStyles';
-import withTheme from '@material-ui/styles/withTheme';
 import PropTypes from 'prop-types';
 import React from 'react';
 import TrackSequenceNote from './TrackSequenceNote';
@@ -11,70 +9,63 @@ const styles = theme => ({
     display: 'flex',
     height: 84,
     padding: theme.spacing(1),
-    backgroundColor: props =>
-      props.isSelected
-        ? theme.palette.secondary.main
-        : theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.main,
     borderRight: `2px solid ${theme.palette.divider}`,
-    boxShadow: props => props.isSelected && theme.shadows[1],
-    opacity: props => props.isDragging && 0.8,
     overflow: 'hidden',
     position: 'relative',
-    transform: props => props.isDragging && 'translateY(-4px) scale(1.05)',
     transition:
       'box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease',
   },
+  selected: {
+    backgroundColor: theme.palette.secondary.main,
+    boxShadow: theme.shadows[1],
+  },
+  dragging: {
+    opacity: 0.8,
+    transform: 'translateY(-4px) scale(1.05)',
+  },
 });
 
-class TrackSequence extends React.Component {
-  static propTypes = {
-    classes: PropTypes.object,
-    isDragging: PropTypes.bool,
-    isSelected: PropTypes.bool,
-    onOpen: PropTypes.func,
-    onSelect: PropTypes.func,
-    sequence: PropTypes.object,
-  };
+function TrackSequence(props) {
+  const { classes, isDragging, isSelected, onOpen, onSelect, sequence } = props;
 
-  shouldComponentUpdate(nextProps) {
-    return !isEqual(nextProps, this.props);
-  }
+  const handleClick = React.useCallback(() => {
+    if (isSelected) return;
 
-  render() {
-    return (
-      <div
-        className={this.props.classes.root}
-        style={this.getStyle()}
-        onClick={this.handleClick}
-        onDoubleClick={this.handleDoubleClick}
-      >
-        {this.props.sequence.notes.map(note => (
-          <TrackSequenceNote key={note.id} note={note} />
-        ))}
-      </div>
-    );
-  }
+    onSelect(sequence);
+  }, [isSelected, onSelect, sequence]);
 
-  getStyle = () => {
-    const measureCount = getOr(1, 'props.sequence.measureCount', this);
+  const handleDoubleClick = React.useCallback(() => {
+    onOpen(sequence);
+  }, [onOpen, sequence]);
 
-    return {
-      width: measureCountToPx(measureCount),
-    };
-  };
-
-  handleClick = () => {
-    if (this.props.isSelected) return;
-
-    this.props.onSelect(this.props.sequence);
-  };
-
-  handleDoubleClick = () => {
-    this.props.onOpen(this.props.sequence);
-  };
+  return (
+    <div
+      className={classnames(classes.root, {
+        [classes.dragging]: isDragging,
+        [classes.selected]: isSelected,
+      })}
+      style={{ width: measureCountToPx(sequence.measureCount) }}
+      onClick={handleClick}
+      onDoubleClick={handleDoubleClick}
+    >
+      {sequence.notes.map(note => (
+        <TrackSequenceNote key={note.id} note={note} />
+      ))}
+    </div>
+  );
 }
 
-export default withTheme(withStyles(styles)(TrackSequence));
+TrackSequence.propTypes = {
+  classes: PropTypes.object,
+  isDragging: PropTypes.bool,
+  isSelected: PropTypes.bool,
+  onOpen: PropTypes.func,
+  onSelect: PropTypes.func,
+  sequence: PropTypes.object.isRequired,
+};
+
+export default React.memo(withStyles(styles)(TrackSequence));
 
 function measureCountToPx(count) {
   return count * 4 * 8 * 2;

@@ -15,44 +15,12 @@ const styles = {
   },
 };
 
-class Selector extends React.PureComponent {
-  static propTypes = {
-    classes: PropTypes.object,
-    isEnabled: PropTypes.bool,
-    onSelect: PropTypes.func,
-    scrollLeftEl: PropTypes.object,
-    scrollTopEl: PropTypes.object,
-  };
+function Selector(props) {
+  const { classes, isEnabled, onSelect, scrollLeftEl, scrollTopEl } = props;
+  const [endPoint, setEndPoint] = React.useState({});
+  const [startPoint, setStartPoint] = React.useState({});
 
-  state = {
-    endPoint: {},
-    startPoint: {},
-  };
-
-  render() {
-    return (
-      <DraggableCore
-        grid={[40, 40]}
-        onDrag={this.handleDrag}
-        onStart={this.handleDragStart}
-        onStop={this.handleDragStop}
-      >
-        <div
-          className={this.props.classes.root}
-          style={{
-            pointerEvents: this.props.isEnabled ? 'all' : 'none',
-          }}
-        >
-          <Fence
-            endPoint={this.state.endPoint}
-            startPoint={this.state.startPoint}
-          />
-        </div>
-      </DraggableCore>
-    );
-  }
-
-  adjustScroll = (e, dragData) => {
+  const handleDrag = (e, dragData) => {
     const shouldScrollDown =
       window.innerHeight - e.pageY < 80 + 128 && dragData.deltaY >= 0;
     const shouldScrollLeft = e.pageX < 80 && dragData.deltaX <= 0;
@@ -61,59 +29,70 @@ class Selector extends React.PureComponent {
     const shouldScrollUp = e.pageY < 80 && dragData.deltaY <= 0;
 
     if (shouldScrollDown) {
-      this.props.scrollTopEl.scrollTop = this.props.scrollTopEl.scrollTop + 20;
+      scrollTopEl.scrollTop = scrollTopEl.scrollTop + 20;
     }
 
     if (shouldScrollLeft) {
-      this.props.scrollLeftEl.scrollLeft =
-        this.props.scrollLeftEl.scrollLeft - 20;
+      scrollLeftEl.scrollLeft = scrollLeftEl.scrollLeft - 20;
     }
 
     if (shouldScrollRight) {
-      this.props.scrollLeftEl.scrollLeft =
-        this.props.scrollLeftEl.scrollLeft + 20;
+      scrollLeftEl.scrollLeft = scrollLeftEl.scrollLeft + 20;
     }
 
     if (shouldScrollUp) {
-      this.props.scrollTopEl.scrollTop = this.props.scrollTopEl.scrollTop - 20;
+      scrollTopEl.scrollTop = scrollTopEl.scrollTop - 20;
     }
+
+    const newEndPoint = dragDataToGridPoint(dragData);
+
+    if (isEqual(newEndPoint, endPoint)) return null;
+
+    setEndPoint(newEndPoint);
   };
 
-  handleDrag = (e, dragData) => {
-    this.adjustScroll(e, dragData);
+  const handleDragStart = React.useCallback((e, dragData) => {
+    setStartPoint(dragDataToGridPoint(dragData));
+  }, []);
 
-    this.setState(state => {
-      const newEndPoint = dragDataToGridPoint(dragData);
+  const handleDragStop = React.useCallback(
+    e => {
+      onSelect(startPoint, endPoint, e.ctrlKey || e.metaKey);
 
-      if (isEqual(newEndPoint, state.endPoint)) return null;
+      setEndPoint({});
+      setStartPoint({});
+    },
+    [endPoint, onSelect, startPoint],
+  );
 
-      return {
-        endPoint: newEndPoint,
-      };
-    });
-  };
-
-  handleDragStart = (e, dragData) => {
-    this.setState({
-      startPoint: dragDataToGridPoint(dragData),
-    });
-  };
-
-  handleDragStop = e => {
-    this.props.onSelect(
-      this.state.startPoint,
-      this.state.endPoint,
-      e.ctrlKey || e.metaKey,
-    );
-
-    this.setState({
-      endPoint: {},
-      startPoint: {},
-    });
-  };
+  return (
+    <DraggableCore
+      grid={[40, 40]}
+      onDrag={handleDrag}
+      onStart={handleDragStart}
+      onStop={handleDragStop}
+    >
+      <div
+        className={classes.root}
+        style={{
+          pointerEvents: isEnabled ? 'all' : 'none',
+        }}
+      >
+        <Fence endPoint={endPoint} startPoint={startPoint} />
+      </div>
+    </DraggableCore>
+  );
 }
 
-export default withStyles(styles)(Selector);
+Selector.propTypes = {
+  classes: PropTypes.object,
+  isEnabled: PropTypes.bool,
+  onSelect: PropTypes.func,
+  scrollLeftEl: PropTypes.object,
+  scrollTopEl: PropTypes.object,
+};
+
+export default React.memo(withStyles(styles)(Selector));
 
 function dragDataToGridPoint(dragData) {
   return {

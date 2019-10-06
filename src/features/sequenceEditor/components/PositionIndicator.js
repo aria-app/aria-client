@@ -27,31 +27,34 @@ const styles = theme => ({
   },
 });
 
-PositionIndicator.propTypes = {
-  mousePoint: PropTypes.object,
-};
-
 function PositionIndicator(props) {
+  const { classes, mousePoint } = props;
+
   return (
     <React.Fragment>
-      {showIf(props.mousePoint.x >= 0)(
+      {showIf(mousePoint.x >= 0)(
         <div
-          className={props.classes.column}
+          className={classes.column}
           style={{
-            transform: `translateX(${props.mousePoint.x * 40}px)`,
+            transform: `translateX(${mousePoint.x * 40}px)`,
           }}
         />,
       )}
-      {showIf(props.mousePoint.y >= 0)(
+      {showIf(mousePoint.y >= 0)(
         <div
-          className={props.classes.row}
+          className={classes.row}
           style={{
-            transform: `translateY(${props.mousePoint.y * 40}px)`,
+            transform: `translateY(${mousePoint.y * 40}px)`,
           }}
         />,
       )}
     </React.Fragment>
   );
 }
+
+PositionIndicator.propTypes = {
+  classes: PropTypes.object,
+  mousePoint: PropTypes.object,
+};
 
 export default React.memo(withStyles(styles)(PositionIndicator));
