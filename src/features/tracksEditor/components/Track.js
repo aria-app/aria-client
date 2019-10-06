@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import each from 'lodash/fp/each';
 import find from 'lodash/fp/find';
 import inRange from 'lodash/fp/inRange';
@@ -27,14 +28,13 @@ const styles = theme => ({
   sequences: {
     alignItems: 'stretch',
     backgroundColor: theme.palette.background.paper,
-    // backgroundColor: theme.palette.action.hover,
     border: '2px solid transparent',
-    // border: `2px solid ${theme.palette.divider}`,
     boxShadow: `0 0 0 2px ${theme.palette.action.hover}`,
     borderRadius: theme.shape.borderRadius * 2,
     display: 'flex',
     flex: '1 0 auto',
     position: 'relative',
+    transition: 'width 500ms ease',
   },
 });
 
@@ -150,12 +150,21 @@ function Track(props) {
           step={64}
           style={{ height: 64 }}
         />
-        {showIf(!isNil(firstEmptyPosition))(
-          <AddSequenceButton
-            onClick={handleSequenceAdd}
-            position={firstEmptyPosition}
-          />,
-        )}
+        <AnimatePresence>
+          {showIf(!isNil(firstEmptyPosition))(() => (
+            <motion.div
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+            >
+              <AddSequenceButton
+                onClick={handleSequenceAdd}
+                position={firstEmptyPosition}
+              />
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   );
