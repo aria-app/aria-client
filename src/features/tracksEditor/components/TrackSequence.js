@@ -24,7 +24,6 @@ const styles = theme => ({
 
 function TrackSequence(props) {
   const { classes, isSelected, onOpen, onSelect, sequence } = props;
-
   const handleClick = React.useCallback(() => {
     if (isSelected) return;
 
@@ -40,7 +39,6 @@ function TrackSequence(props) {
       className={classnames(classes.root, {
         [classes.selected]: isSelected,
       })}
-      style={{ width: measureCountToPx(sequence.measureCount) }}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
     >
@@ -65,7 +63,3 @@ TrackSequence.propTypes = {
 };
 
 export default React.memo(withStyles(styles)(TrackSequence));
-
-function measureCountToPx(count) {
-  return count * 4 * 8 * 2;
-}

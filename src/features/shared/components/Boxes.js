@@ -52,8 +52,9 @@ function Boxes(props) {
           contentComponent={boxContentComponent}
           key={item.id}
           onItemChange={handleBoxItemChange}
-          step={step}
           item={item}
+          step={step}
+          totalLength={length}
         />
       ))}
     </div>
