@@ -2,7 +2,6 @@ import Dawww from 'dawww';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
-import isEqual from 'lodash/fp/isEqual';
 import uniq from 'lodash/fp/uniq';
 import withStyles from '@material-ui/styles/withStyles';
 import memoizeOne from 'memoize-one';
@@ -71,7 +70,7 @@ function SequenceEditor(props) {
     sequence,
   } = props;
   const [contentEl, setContentEl] = React.useState();
-  const [gridMousePoint, setGridMousePoint] = React.useState({ x: -1, y: 1 });
+  const [mousePoint, setMousePoint] = React.useState({ x: -1, y: 1 });
   const [previousToolType, setPreviousToolType] = React.useState(
     toolTypes.SELECT,
   );
@@ -130,8 +129,8 @@ function SequenceEditor(props) {
   );
 
   const handleEraseToolActivate = React.useCallback(() => {
-    setToolType(toolType.ERASE);
-  }, [toolType.ERASE]);
+    setToolType(toolTypes.ERASE);
+  }, []);
 
   const handlePreviewPitch = React.useCallback(
     pitch => {
@@ -165,28 +164,6 @@ function SequenceEditor(props) {
       setSelectedNoteIds([]);
     },
     [onErase],
-  );
-
-  const handleGridMouseLeave = React.useCallback(e => {
-    setGridMousePoint({
-      x: -1,
-      y: -1,
-    });
-  }, []);
-
-  const handleGridMouseMove = React.useCallback(
-    e => {
-      const nextGridMousePoint = getGridMousePoint(
-        e.currentTarget,
-        contentEl,
-        e,
-      );
-
-      if (isEqual(gridMousePoint, nextGridMousePoint)) return;
-
-      setGridMousePoint(nextGridMousePoint);
-    },
-    [contentEl, gridMousePoint],
   );
 
   const handleGridSelect = React.useCallback(
@@ -308,8 +285,8 @@ function SequenceEditor(props) {
   );
 
   const handlePanToolActivate = React.useCallback(() => {
-    setToolType(toolType.PAN);
-  }, [toolType.PAN]);
+    setToolType(toolTypes.PAN);
+  }, []);
 
   const handleRedo = React.useCallback(() => {
     if (!isRedoEnabled) return;
@@ -324,8 +301,8 @@ function SequenceEditor(props) {
   }, [notes, selectedNotes.length]);
 
   const handleSelectToolActivate = React.useCallback(() => {
-    setToolType(toolType.SELECT);
-  }, [toolType.SELECT]);
+    setToolType(toolTypes.SELECT);
+  }, []);
 
   const handleToolbarOctaveDown = React.useCallback(
     () => onOctaveDown(selectedNotes),
@@ -405,20 +382,16 @@ function SequenceEditor(props) {
         <div className={classes.content} ref={handleContentRefChange}>
           <FadeIn isVisible={!isLoading}>
             <div className={classes.wrapper}>
-              <Keys
-                hoveredRow={gridMousePoint.y}
-                onKeyPress={handlePreviewPitch}
-              />
+              <Keys hoveredRow={mousePoint.y} onKeyPress={handlePreviewPitch} />
               <Grid
                 measureCount={sequence.measureCount}
-                mousePoint={gridMousePoint}
+                mousePoint={mousePoint}
                 notes={notes}
                 onDrag={onDrag}
                 onDragPreview={handleGridDragPreview}
                 onDraw={handleGridDraw}
                 onErase={handleGridErase}
-                onMouseLeave={handleGridMouseLeave}
-                onMouseMove={handleGridMouseMove}
+                onMousePointChange={setMousePoint}
                 onResize={onResize}
                 onSelect={handleGridSelect}
                 onSelectInArea={handleGridSelectInArea}
@@ -474,22 +447,3 @@ SequenceEditor.propTypes = {
 };
 
 export default React.memo(withStyles(styles)(SequenceEditor));
-
-function getGridMousePoint(scrollLeftEl, scrollTopEl, e) {
-  const styleOffset = 80;
-  const x = e.pageX || 0;
-  const y = e.pageY - 56 || 0;
-  const offsetLeft = scrollLeftEl.offsetLeft || 0;
-  const offsetTop = scrollLeftEl.offsetTop || 0;
-  const scrollLeft = scrollLeftEl.scrollLeft || 0;
-  const scrollTop = scrollTopEl.scrollTop || 0;
-
-  return {
-    x: toSlotNumber(x - offsetLeft + scrollLeft - styleOffset),
-    y: toSlotNumber(y - offsetTop + scrollTop),
-  };
-}
-
-function toSlotNumber(n) {
-  return Math.floor(n / 40);
-}

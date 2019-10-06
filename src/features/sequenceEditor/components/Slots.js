@@ -71,7 +71,7 @@ export default React.memo(withStyles(styles)(Slots));
 function getSlot(column, row) {
   const isEven = x => x % 2 === 0;
   const fill = isEven(Math.floor(column / 8)) ? 'black' : 'black';
-  const size = 2;
+  const size = 4;
   return `
     <rect
       fill="${fill}"
@@ -80,8 +80,8 @@ function getSlot(column, row) {
       ry="2"
       x="${column * 40 + (40 - size) / 2}"
       y="${row * 40 + (40 - size) / 2}"
-      width="${size + 2}"
-      height="${size + 2}"
+      width="${size}"
+      height="${size}"
     ></rect>
   `;
 }

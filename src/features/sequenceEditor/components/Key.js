@@ -16,8 +16,8 @@ const styles = theme => ({
     position: 'relative',
     '&::after': {
       backgroundColor: theme.palette.primary.main,
-      borderBottomRightRadius: 3,
-      borderTopRightRadius: 3,
+      borderBottomRightRadius: 4,
+      borderTopRightRadius: 4,
       bottom: 0,
       content: "''",
       display: 'block',

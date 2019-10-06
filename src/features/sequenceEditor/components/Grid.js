@@ -38,21 +38,48 @@ function Grid(props) {
     onDragPreview,
     onDraw,
     onErase,
-    onMouseLeave,
-    onMouseMove,
+    onMousePointChange,
     onResize,
     onSelect,
     onSelectInArea,
     selectedNotes,
-    sequenceEditorContentRef,
+    sequenceEditorContentRef = {},
     toolType,
   } = props;
+
+  const handleMouseLeave = React.useCallback(
+    e => {
+      onMousePointChange({ x: -1, y: -1 });
+    },
+    [onMousePointChange],
+  );
+
+  const handleMouseMove = React.useCallback(
+    e => {
+      const scrollLeftEl = e.currentTarget;
+      const styleOffset = 80;
+      const x = e.pageX || 0;
+      const y = e.pageY - 56 || 0;
+      const offsetLeft = scrollLeftEl.offsetLeft || 0;
+      const offsetTop = scrollLeftEl.offsetTop || 0;
+      const scrollLeft = scrollLeftEl.scrollLeft || 0;
+      const scrollTop = sequenceEditorContentRef.scrollTop || 0;
+
+      const nextGridMousePoint = {
+        x: Math.floor((x - offsetLeft + scrollLeft - styleOffset) / 40),
+        y: Math.floor((y - offsetTop + scrollTop) / 40),
+      };
+
+      onMousePointChange(nextGridMousePoint);
+    },
+    [onMousePointChange, sequenceEditorContentRef.scrollTop],
+  );
 
   return (
     <div
       className={classes.root}
-      onMouseLeave={onMouseLeave}
-      onMouseMove={onMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
       ref={ref}
     >
       <div
@@ -104,8 +131,7 @@ Grid.propTypes = {
   onDragPreview: PropTypes.func,
   onDraw: PropTypes.func,
   onErase: PropTypes.func,
-  onMouseLeave: PropTypes.func,
-  onMouseMove: PropTypes.func,
+  onMousePointChange: PropTypes.func,
   onResize: PropTypes.func,
   onSelect: PropTypes.func,
   onSelectInArea: PropTypes.func,

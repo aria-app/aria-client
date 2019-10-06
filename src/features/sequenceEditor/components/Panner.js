@@ -1,4 +1,4 @@
-import isEmpty from 'lodash/fp/isEmpty';
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import withStyles from '@material-ui/styles/withStyles';
@@ -12,11 +12,14 @@ const styles = {
     right: 0,
     top: 0,
   },
+  panning: {
+    cursor: 'grabbing',
+  },
 };
 
 function Panner(props) {
   const { classes, scrollLeftEl, scrollTopEl } = props;
-  const [startPoint, setStartPoint] = React.useState({});
+  const [startPoint, setStartPoint] = React.useState();
 
   const handleMouseDown = React.useCallback(
     e => {
@@ -34,14 +37,14 @@ function Panner(props) {
   );
 
   const handleMouseLeave = React.useCallback(() => {
-    if (isEmpty(startPoint)) return;
+    if (!startPoint) return;
 
-    setStartPoint({});
+    setStartPoint(null);
   }, [startPoint]);
 
   const handleMouseMove = React.useCallback(
     e => {
-      if (isEmpty(startPoint)) return;
+      if (!startPoint) return;
 
       const dx = e.pageX - startPoint.x;
       const dy = e.pageY - startPoint.y;
@@ -55,14 +58,16 @@ function Panner(props) {
   );
 
   const handleMouseUp = React.useCallback(() => {
-    if (isEmpty(startPoint)) return;
+    if (!startPoint) return;
 
-    setStartPoint({});
+    setStartPoint(null);
   }, [startPoint]);
 
   return (
     <div
-      className={classes.root}
+      className={classnames(classes.root, {
+        [classes.panning]: !!startPoint,
+      })}
       onMouseDown={handleMouseDown}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}

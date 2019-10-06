@@ -7,7 +7,7 @@ import withStyles from '@material-ui/styles/withStyles';
 const styles = theme => ({
   column: {
     backgroundColor: transparentize(0.95, theme.palette.primary.main),
-    borderRadius: 2,
+    borderRadius: theme.shape.borderRadius,
     bottom: 0,
     left: 0,
     pointerEvents: 'none',
@@ -17,7 +17,7 @@ const styles = theme => ({
   },
   row: {
     backgroundColor: transparentize(0.95, theme.palette.primary.main),
-    borderRadius: 2,
+    borderRadius: theme.shape.borderRadius,
     left: 0,
     height: 40,
     pointerEvents: 'none',
