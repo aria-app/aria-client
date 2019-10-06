@@ -13,6 +13,7 @@ export default createMuiTheme({
     // type: 'dark',
   },
   typography: {
-    fontFamily: ['Open Sans', 'Helvetica', 'sans-serif'],
+    fontFamily: ['Nunito', 'Helvetica', 'sans-serif'],
+    fontSize: 14,
   },
 });

@@ -46,6 +46,7 @@ const styles = theme => ({
     color: theme.palette.text.hint,
     fontWeight: 600,
     height: 40,
+    lineHeight: 'inherit',
     paddingLeft: theme.spacing(1),
     '&:hover': {
       backgroundColor: theme.palette.background.paper,

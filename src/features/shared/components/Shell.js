@@ -42,8 +42,8 @@ const styles = theme => ({
     },
     body: {
       color: theme.palette.text.primary,
-      fontFamily: '"Open Sans", Helvetica, sans-serif',
-      fontSize: 14,
+      fontFamily: theme.typography.fontFamily,
+      fontSize: theme.typography.fontSize,
     },
     '::-webkit-scrollbar': {
       display: 'none',
