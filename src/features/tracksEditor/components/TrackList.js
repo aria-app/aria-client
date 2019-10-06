@@ -44,6 +44,7 @@ const styles = theme => ({
     borderRadius: theme.shape.borderRadius,
     boxShadow: 'none',
     color: theme.palette.text.hint,
+    height: 40,
     paddingLeft: theme.spacing(1),
   },
   addTrackButtonIcon: {
