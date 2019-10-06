@@ -83,49 +83,15 @@ function SequenceEditor(props) {
     [notes, selectedNoteIds],
   );
 
-  const activateDrawTool = React.useCallback(() => {
-    setToolType(toolTypes.DRAW);
-  }, []);
-
-  const activatePanOverride = React.useCallback(
-    e => {
-      e.preventDefault();
-
-      if (e.repeat) return;
-
-      setPreviousToolType(toolType);
-
-      setToolType(toolTypes.PAN);
-    },
-    [toolType],
-  );
-
-  const activateEraseTool = React.useCallback(() => {
-    setToolType(toolType.ERASE);
-  }, [toolType.ERASE]);
-
-  const activatePanTool = React.useCallback(() => {
-    setToolType(toolType.PAN);
-  }, [toolType.PAN]);
-
-  const activateSelectTool = React.useCallback(() => {
-    setToolType(toolType.SELECT);
-  }, [toolType.SELECT]);
-
   const handleClose = React.useCallback(() => {
     history.push(`/song/${match.params.songId}`);
   }, [history, match.params.songId]);
 
-  const deactivatePanOverride = React.useCallback(
-    e => {
-      if (e.keyCode !== 32) return;
+  const handleContentRefChange = React.useCallback(ref => {
+    setContentEl(ref);
+  }, []);
 
-      setToolType(previousToolType);
-    },
-    [previousToolType],
-  );
-
-  const deleteSelectedNotes = React.useCallback(
+  const handleDelete = React.useCallback(
     e => {
       e.preventDefault();
 
@@ -138,13 +104,17 @@ function SequenceEditor(props) {
     [onDelete, selectedNotes],
   );
 
-  const deselectAllNotes = React.useCallback(e => {
+  const handleDeselectAll = React.useCallback(e => {
     e.preventDefault();
 
     setSelectedNoteIds([]);
   }, []);
 
-  const duplicateSelectedNotes = React.useCallback(
+  const handleDrawToolActivate = React.useCallback(() => {
+    setToolType(toolTypes.DRAW);
+  }, []);
+
+  const handleDuplicate = React.useCallback(
     e => {
       e.preventDefault();
 
@@ -158,6 +128,10 @@ function SequenceEditor(props) {
     },
     [onDuplicate, selectedNotes],
   );
+
+  const handleEraseToolActivate = React.useCallback(() => {
+    setToolType(toolType.ERASE);
+  }, [toolType.ERASE]);
 
   const handlePreviewPitch = React.useCallback(
     pitch => {
@@ -247,17 +221,7 @@ function SequenceEditor(props) {
     [notes, selectedNoteIds],
   );
 
-  const handleToolbarOctaveDown = React.useCallback(
-    () => onOctaveDown(selectedNotes),
-    [onOctaveDown, selectedNotes],
-  );
-
-  const handleToolbarOctaveUp = React.useCallback(
-    () => onOctaveUp(selectedNotes),
-    [onOctaveUp, selectedNotes],
-  );
-
-  const nudge = React.useCallback(
+  const handleNudge = React.useCallback(
     delta => {
       if (isEmpty(selectedNotes)) return;
 
@@ -285,59 +249,95 @@ function SequenceEditor(props) {
     [handlePreviewPitch, notes, onNudge, selectedNotes, sequence.measureCount],
   );
 
-  const nudgeDown = React.useCallback(
+  const handleNudgeDown = React.useCallback(
     e => {
       e.preventDefault();
 
-      nudge({ x: 0, y: 1 });
+      handleNudge({ x: 0, y: 1 });
     },
-    [nudge],
+    [handleNudge],
   );
 
-  const nudgeLeft = React.useCallback(
+  const handleNudgeLeft = React.useCallback(
     e => {
       e.preventDefault();
 
-      nudge({ x: -1, y: 0 });
+      handleNudge({ x: -1, y: 0 });
     },
-    [nudge],
+    [handleNudge],
   );
 
-  const nudgeRight = React.useCallback(
+  const handleNudgeRight = React.useCallback(
     e => {
       e.preventDefault();
 
-      nudge({ x: 1, y: 0 });
+      handleNudge({ x: 1, y: 0 });
     },
-    [nudge],
+    [handleNudge],
   );
 
-  const nudgeUp = React.useCallback(
+  const handleNudgeUp = React.useCallback(
     e => {
       e.preventDefault();
 
-      nudge({ x: 0, y: -1 });
+      handleNudge({ x: 0, y: -1 });
     },
-    [nudge],
+    [handleNudge],
   );
 
-  const redo = React.useCallback(() => {
+  const handlePanOverrideActivate = React.useCallback(
+    e => {
+      e.preventDefault();
+
+      if (e.repeat) return;
+
+      setPreviousToolType(toolType);
+
+      setToolType(toolTypes.PAN);
+    },
+    [toolType],
+  );
+
+  const handlePanOverrideDeactivate = React.useCallback(
+    e => {
+      if (e.keyCode !== 32) return;
+
+      setToolType(previousToolType);
+    },
+    [previousToolType],
+  );
+
+  const handlePanToolActivate = React.useCallback(() => {
+    setToolType(toolType.PAN);
+  }, [toolType.PAN]);
+
+  const handleRedo = React.useCallback(() => {
     if (!isRedoEnabled) return;
 
     onRedo();
   }, [isRedoEnabled, onRedo]);
 
-  const selectAll = React.useCallback(() => {
+  const handleSelectAll = React.useCallback(() => {
     if (notes.length === selectedNotes.length) return;
 
     setSelectedNoteIds(notes.map(note => note.id));
   }, [notes, selectedNotes.length]);
 
-  const handleContentRefChange = React.useCallback(ref => {
-    setContentEl(ref);
-  }, []);
+  const handleSelectToolActivate = React.useCallback(() => {
+    setToolType(toolType.SELECT);
+  }, [toolType.SELECT]);
 
-  const undo = React.useCallback(() => {
+  const handleToolbarOctaveDown = React.useCallback(
+    () => onOctaveDown(selectedNotes),
+    [onOctaveDown, selectedNotes],
+  );
+
+  const handleToolbarOctaveUp = React.useCallback(
+    () => onOctaveUp(selectedNotes),
+    [onOctaveUp, selectedNotes],
+  );
+
+  const handleUndo = React.useCallback(() => {
     if (!isUndoEnabled) return;
 
     onUndo();
@@ -362,20 +362,20 @@ function SequenceEditor(props) {
       <GlobalHotKeys
         allowChanges={true}
         handlers={{
-          DELETE: deleteSelectedNotes,
-          DRAW_TOOL: activateDrawTool,
-          NUDGE_DOWN: nudgeDown,
-          ERASE_TOOL: activateEraseTool,
-          NUDGE_LEFT: nudgeLeft,
-          PAN_TOOL: activatePanTool,
-          NUDGE_RIGHT: nudgeRight,
-          SELECT_TOOL: activateSelectTool,
-          PAN_START: activatePanOverride,
-          PAN_STOP: deactivatePanOverride,
-          NUDGE_UP: nudgeUp,
-          SELECT_ALL: selectAll,
-          DESELECT: deselectAllNotes,
-          DUPLICATE: duplicateSelectedNotes,
+          DELETE: handleDelete,
+          DRAW_TOOL: handleDrawToolActivate,
+          NUDGE_DOWN: handleNudgeDown,
+          ERASE_TOOL: handleEraseToolActivate,
+          NUDGE_LEFT: handleNudgeLeft,
+          PAN_TOOL: handlePanToolActivate,
+          NUDGE_RIGHT: handleNudgeRight,
+          SELECT_TOOL: handleSelectToolActivate,
+          PAN_START: handlePanOverrideActivate,
+          PAN_STOP: handlePanOverrideDeactivate,
+          NUDGE_UP: handleNudgeUp,
+          SELECT_ALL: handleSelectAll,
+          DESELECT: handleDeselectAll,
+          DUPLICATE: handleDuplicate,
           REDO: onRedo,
           UNDO: onUndo,
         }}
@@ -434,17 +434,17 @@ function SequenceEditor(props) {
           isUndoEnabled={isUndoEnabled}
           measureCount={sequence.measureCount}
           onClose={handleClose}
-          onDelete={deleteSelectedNotes}
-          onDeselectAll={deselectAllNotes}
-          onDrawToolSelect={activateDrawTool}
-          onDuplicate={duplicateSelectedNotes}
-          onEraseToolSelect={activateEraseTool}
+          onDelete={handleDelete}
+          onDeselectAll={handleDeselectAll}
+          onDrawToolSelect={handleDrawToolActivate}
+          onDuplicate={handleDuplicate}
+          onEraseToolSelect={handleEraseToolActivate}
           onOctaveDown={handleToolbarOctaveDown}
           onOctaveUp={handleToolbarOctaveUp}
-          onPanToolSelect={activatePanTool}
-          onRedo={redo}
-          onSelectToolSelect={activateSelectTool}
-          onUndo={undo}
+          onPanToolSelect={handlePanToolActivate}
+          onRedo={handleRedo}
+          onSelectToolSelect={handleSelectToolActivate}
+          onUndo={handleUndo}
           selectedNotes={selectedNotes}
           toolType={toolType}
         />
