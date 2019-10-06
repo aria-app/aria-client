@@ -1,5 +1,6 @@
 import compose from 'lodash/fp/compose';
 import first from 'lodash/fp/first';
+import noop from 'lodash/fp/noop';
 import split from 'lodash/fp/split';
 import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
@@ -88,7 +89,16 @@ function DrawLayer(props) {
       ref={ref}
     >
       {showIf(isMouseOver)(
-        <Note className={classes.ghostNote} note={ghostNoteNote} />,
+        <Note
+          className={classes.ghostNote}
+          note={ghostNoteNote}
+          onDrag={noop}
+          onDragStart={noop}
+          onDragStop={noop}
+          onEndPointDrag={noop}
+          onEndPointDragStart={noop}
+          onEndPointDragStop={noop}
+        />,
       )}
     </div>
   );

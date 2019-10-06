@@ -68,6 +68,7 @@ function App(props) {
   return (
     <ThemeProvider theme={shared.theme}>
       <GlobalHotKeys
+        allowChanges={true}
         handlers={{ PLAY_PAUSE: playPause, STOP: onStop }}
         keyMap={{ PLAY_PAUSE: 'enter', STOP: 'esc' }}
       />

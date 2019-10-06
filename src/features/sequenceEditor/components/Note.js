@@ -1,6 +1,5 @@
 import classnames from 'classnames';
 import first from 'lodash/fp/first';
-import isEqual from 'lodash/fp/isEqual';
 import last from 'lodash/fp/last';
 import withStyles from '@material-ui/styles/withStyles';
 import { transparentize } from 'polished';
@@ -69,164 +68,143 @@ const styles = theme => ({
   },
 });
 
-class Note extends React.Component {
-  static propTypes = {
-    className: PropTypes.string,
-    classes: PropTypes.object,
-    isSelected: PropTypes.bool,
-    note: PropTypes.object,
-    onDrag: PropTypes.func,
-    onDragStart: PropTypes.func,
-    onDragStop: PropTypes.func,
-    onEndPointDrag: PropTypes.func,
-    onEndPointDragStart: PropTypes.func,
-    onEndPointDragStop: PropTypes.func,
-    positionBounds: PropTypes.object,
-    sizeBounds: PropTypes.object,
-  };
+function Note(props) {
+  const {
+    className,
+    classes,
+    isSelected,
+    note,
+    onDrag,
+    onDragStart,
+    onDragStop,
+    onEndPointDrag,
+    onEndPointDragStart,
+    onEndPointDragStop,
+    positionBounds,
+    sizeBounds,
+    ...rest
+  } = props;
 
-  static defaultProps = {
-    onDrag: () => {},
-    onDragStart: () => {},
-    onDragStop: () => {},
-    onEndPointDrag: () => {},
-    onEndPointDragStart: () => {},
-    onEndPointDragStop: () => {},
-  };
-
-  shouldComponentUpdate(nextProps) {
-    if (
-      isEqual(nextProps.note, this.props.note) &&
-      isEqual(nextProps.isSelected, this.props.isSelected)
-    )
-      return false;
-
-    return true;
-  }
-
-  render() {
-    const {
-      className,
-      classes,
-      isSelected,
-      note,
-      onDrag,
-      onDragStart,
-      onDragStop,
-      onEndPointDrag,
-      onEndPointDragStart,
-      onEndPointDragStop,
-      positionBounds,
-      sizeBounds,
-      ...rest
-    } = this.props;
-
-    return (
-      <Draggable
-        bounds={positionBounds}
-        enableUserSelectHack={true}
-        grid={[40, 40]}
-        handle=".start-point"
-        onDrag={this.handleDrag}
-        onStart={this.handleDragStart}
-        onStop={this.handleDragStop}
-        position={this.getPosition()}
-      >
-        <div className={this.getClassName()} {...rest}>
-          <div className={classnames(classes.point, 'start-point')}>
-            <div className={classes.fill} />
-          </div>
-          <div className={classes.connector} style={this.getConnectorStyle()} />
-          <Draggable
-            axis="x"
-            bounds={sizeBounds}
-            grid={[40, 40]}
-            onDrag={this.handleEndPointDrag}
-            onStart={this.handleEndPointDragStart}
-            onStop={this.handleEndPointDragStop}
-            position={this.getEndPointPosition()}
-          >
-            <div className={classes.point} style={this.getEndPointStyle()}>
-              <div className={classes.fill} />
-            </div>
-          </Draggable>
-        </div>
-      </Draggable>
-    );
-  }
-
-  getClassName = () =>
-    classnames(
-      this.props.classes.root,
-      {
-        [this.props.classes.selected]: this.props.isSelected,
-      },
-      this.props.className,
-    );
-
-  getConnectorStyle() {
-    const startPoint = first(this.props.note.points);
-    const endPoint = last(this.props.note.points);
+  const connectorStyle = React.useMemo(() => {
+    const startPoint = first(note.points);
+    const endPoint = last(note.points);
     const { asin, abs, PI, sign, sqrt } = Math;
     const x = (endPoint.x - startPoint.x) * 40;
     const y = (endPoint.y - startPoint.y) * 40;
     const scale = x !== 0 ? sqrt(abs(x ** 2 + y ** 2)) : 0;
     const rotation = x !== 0 ? asin(abs(y / scale)) * (180 / PI) * sign(y) : 0;
+
     return {
       transform: `rotate(${rotation}deg) scaleX(${scale})`,
     };
-  }
+  }, [note.points]);
 
-  getEndPointPosition = () => ({
-    x: (this.props.note.points[1].x - this.props.note.points[0].x) * 40,
-    y: (this.props.note.points[1].y - this.props.note.points[0].y) * 40,
-  });
-
-  getEndPointStyle() {
-    const startPoint = first(this.props.note.points);
-    const endPoint = last(this.props.note.points);
+  const endPointStyle = React.useMemo(() => {
+    const startPoint = first(note.points);
+    const endPoint = last(note.points);
     const x = (endPoint.x - startPoint.x) * 40;
     const y = (endPoint.y - startPoint.y) * 40;
+
     return {
-      display: is32ndNote(this.props.note) ? 'none' : 'flex',
+      display: is32ndNote(note) ? 'none' : 'flex',
       transform: `translate(${x}px, ${y}px)`,
     };
-  }
+  }, [note]);
 
-  getPosition = () => ({
-    x: this.props.note.points[0].x * 40,
-    y: this.props.note.points[0].y * 40,
-  });
+  const handleDrag = React.useCallback(
+    (e, { deltaX, deltaY }) => {
+      onDrag({
+        deltaX: Math.round(deltaX / 40),
+        deltaY: Math.round(deltaY / 40),
+      });
+    },
+    [onDrag],
+  );
 
-  handleDrag = (e, { deltaX, deltaY }) => {
-    this.props.onDrag({
-      deltaX: Math.round(deltaX / 40),
-      deltaY: Math.round(deltaY / 40),
-    });
-  };
+  const handleDragStart = React.useCallback(
+    e => {
+      onDragStart(note, e);
+    },
+    [note, onDragStart],
+  );
 
-  handleDragStart = e => {
-    this.props.onDragStart(this.props.note, e);
-  };
+  const handleEndPointDrag = React.useCallback(
+    (e, { deltaX }) => {
+      onEndPointDrag({
+        deltaX: Math.round(deltaX / 40),
+      });
+    },
+    [onEndPointDrag],
+  );
 
-  handleDragStop = () => {
-    this.props.onDragStop();
-  };
+  const handleEndPointDragStart = React.useCallback(
+    e => {
+      onEndPointDragStart(note, e);
+    },
+    [note, onEndPointDragStart],
+  );
 
-  handleEndPointDrag = (e, { deltaX }) => {
-    this.props.onEndPointDrag({
-      deltaX: Math.round(deltaX / 40),
-    });
-  };
-
-  handleEndPointDragStart = e => {
-    this.props.onEndPointDragStart(this.props.note, e);
-  };
-
-  handleEndPointDragStop = () => {
-    this.props.onEndPointDragStop();
-  };
+  return (
+    <Draggable
+      bounds={positionBounds}
+      enableUserSelectHack={true}
+      grid={[40, 40]}
+      handle=".start-point"
+      onDrag={handleDrag}
+      onStart={handleDragStart}
+      onStop={onDragStop}
+      position={{
+        x: note.points[0].x * 40,
+        y: note.points[0].y * 40,
+      }}
+    >
+      <div
+        className={classnames(
+          classes.root,
+          { [classes.selected]: isSelected },
+          className,
+        )}
+        {...rest}
+      >
+        <div className={classnames(classes.point, 'start-point')}>
+          <div className={classes.fill} />
+        </div>
+        <div className={classes.connector} style={connectorStyle} />
+        <Draggable
+          axis="x"
+          bounds={sizeBounds}
+          grid={[40, 40]}
+          onDrag={handleEndPointDrag}
+          onStart={handleEndPointDragStart}
+          onStop={onEndPointDragStop}
+          position={{
+            x: (note.points[1].x - note.points[0].x) * 40,
+            y: (note.points[1].y - note.points[0].y) * 40,
+          }}
+        >
+          <div className={classes.point} style={endPointStyle}>
+            <div className={classes.fill} />
+          </div>
+        </Draggable>
+      </div>
+    </Draggable>
+  );
 }
+
+Note.propTypes = {
+  className: PropTypes.string,
+  classes: PropTypes.object,
+  isSelected: PropTypes.bool,
+  note: PropTypes.object,
+  onDrag: PropTypes.func,
+  onDragStart: PropTypes.func,
+  onDragStop: PropTypes.func,
+  onEndPointDrag: PropTypes.func,
+  onEndPointDragStart: PropTypes.func,
+  onEndPointDragStop: PropTypes.func,
+  positionBounds: PropTypes.object,
+  sizeBounds: PropTypes.object,
+};
 
 export default withStyles(styles)(Note);
 
