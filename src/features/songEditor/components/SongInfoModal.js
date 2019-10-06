@@ -15,7 +15,7 @@ import React from 'react';
 import { Translation } from 'react-i18next';
 import shared from '../../shared';
 
-const { DownloadButton } = shared.components;
+const { changeLanguage } = shared.i18n;
 const getBPMRangeItem = x => ({ id: x, text: String(x) });
 const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
@@ -43,81 +43,77 @@ const styles = theme => ({
   },
 });
 
-class SongInfoModal extends React.PureComponent {
-  static propTypes = {
-    bpm: PropTypes.number,
-    classes: PropTypes.object,
-    isOpen: PropTypes.bool,
-    onBPMChange: PropTypes.func,
-    onConfirm: PropTypes.func,
-    onReturnToDashboard: PropTypes.func,
-    onSignOut: PropTypes.func,
-    song: PropTypes.object,
-  };
+function SongInfoModal(props) {
+  const {
+    bpm,
+    classes,
+    isOpen,
+    onBPMChange,
+    onConfirm,
+    onReturnToDashboard,
+    onSignOut,
+  } = props;
 
-  render() {
-    return (
-      <Translation>
-        {t => (
-          <Dialog
-            className={this.props.classes.root}
-            fullWidth={true}
-            maxWidth="xs"
-            onClose={this.props.onConfirm}
-            open={this.props.isOpen}
-          >
-            <DialogTitle className={this.props.classes.title}>
-              {t('Song Info')}
-            </DialogTitle>
-            <DialogContent className={this.props.classes.content}>
-              <FormControl className={this.props.classes.bpmDropdown}>
-                <InputLabel htmlFor="bpm">BPM</InputLabel>
-                <Select
-                  inputProps={{ name: 'bpm', id: 'bpm' }}
-                  onChange={this.handleBPMSelectChange}
-                  value={this.props.bpm}
-                >
-                  {bpmRangeItems.map(bpmRangeItem => (
-                    <MenuItem key={bpmRangeItem.id} value={bpmRangeItem.id}>
-                      {bpmRangeItem.text}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <Button onClick={this.props.onReturnToDashboard}>
-                {t('Return to Dashboard')}
-              </Button>
-              <Button onClick={this.props.onSignOut}>{t('Sign Out')}</Button>
-              <DownloadButton
-                fileContents={this.getStringifiedSong()}
-                filename="song.json"
+  const handleBPMSelectChange = React.useCallback(
+    e => {
+      onBPMChange(e.target.value);
+    },
+    [onBPMChange],
+  );
+
+  return (
+    <Translation>
+      {t => (
+        <Dialog
+          className={classes.root}
+          fullWidth={true}
+          maxWidth="xs"
+          onClose={onConfirm}
+          open={isOpen}
+        >
+          <DialogTitle className={classes.title}>{t('Song Info')}</DialogTitle>
+          <DialogContent className={classes.content}>
+            <FormControl className={classes.bpmDropdown}>
+              <InputLabel htmlFor="bpm">BPM</InputLabel>
+              <Select
+                inputProps={{ name: 'bpm', id: 'bpm' }}
+                onChange={handleBPMSelectChange}
+                value={bpm}
               >
-                {t('Download Song')}
-              </DownloadButton>
-              <Typography
-                className={this.props.classes.label}
-                variant="subtitle1"
-              >
-                {t('Select Language')}
-              </Typography>
-              <Button onClick={() => shared.i18n.changeLanguage('en')}>
-                {t('English')}
-              </Button>
-              <Button onClick={() => shared.i18n.changeLanguage('jp')}>
-                {t('Japanese')}
-              </Button>
-            </DialogContent>
-          </Dialog>
-        )}
-      </Translation>
-    );
-  }
-
-  getStringifiedSong = () => JSON.stringify(this.props.song);
-
-  handleBPMSelectChange = event => {
-    this.props.onBPMChange(event.target.value);
-  };
+                {bpmRangeItems.map(bpmRangeItem => (
+                  <MenuItem key={bpmRangeItem.id} value={bpmRangeItem.id}>
+                    {bpmRangeItem.text}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Button onClick={onReturnToDashboard}>
+              {t('Return to Dashboard')}
+            </Button>
+            <Button onClick={onSignOut}>{t('Sign Out')}</Button>
+            <Typography className={classes.label} variant="subtitle1">
+              {t('Select Language')}
+            </Typography>
+            <Button onClick={() => changeLanguage('en')}>{t('English')}</Button>
+            <Button onClick={() => changeLanguage('jp')}>
+              {t('Japanese')}
+            </Button>
+          </DialogContent>
+        </Dialog>
+      )}
+    </Translation>
+  );
 }
 
-export default withStyles(styles)(SongInfoModal);
+SongInfoModal.propTypes = {
+  bpm: PropTypes.number,
+  classes: PropTypes.object,
+  isOpen: PropTypes.bool,
+  onBPMChange: PropTypes.func,
+  onConfirm: PropTypes.func,
+  onReturnToDashboard: PropTypes.func,
+  onSignOut: PropTypes.func,
+  song: PropTypes.object,
+};
+
+export default React.memo(withStyles(styles)(SongInfoModal));

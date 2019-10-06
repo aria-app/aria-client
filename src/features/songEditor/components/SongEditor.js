@@ -20,80 +20,79 @@ const styles = {
   },
 };
 
-class SongEditor extends React.PureComponent {
-  static propTypes = {
-    bpm: PropTypes.number,
-    classes: PropTypes.object,
-    onBPMChange: PropTypes.func,
-    onPause: PropTypes.func,
-    onPlay: PropTypes.func,
-    onStop: PropTypes.func,
-    playbackState: PropTypes.string,
-    song: PropTypes.object,
-  };
+function SongEditor(props) {
+  const {
+    bpm,
+    classes,
+    history,
+    match,
+    onBPMChange,
+    onPause,
+    onPlay,
+    onStop,
+    playbackState,
+    song,
+  } = props;
+  const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);
 
-  state = {
-    isSongInfoModalOpen: false,
-  };
+  const handleSongInfoModalConfirm = React.useCallback(() => {
+    setIsSongInfoModalOpen(false);
+  }, []);
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.song.name !== this.props.song.name) {
-      window.document.title = `${this.props.song.name} - Aria`;
-    }
-  }
+  const handleSongInfoOpen = React.useCallback(() => {
+    setIsSongInfoModalOpen(true);
+  }, []);
 
-  render() {
-    return (
-      <div className={this.props.classes.root}>
-        <SongEditorToolbar
-          onPause={this.props.onPause}
-          onPlay={this.props.onPlay}
-          onSongInfoOpen={this.openSongInfo}
-          onStop={this.props.onStop}
-          playbackState={this.props.playbackState}
-        />
-        <Route
-          component={TracksEditorContainer}
-          exact={true}
-          path={this.props.match.path}
-        />
-        <Route
-          component={SequenceEditorContainer}
-          exact={true}
-          path={`${this.props.match.path}/sequencer/:sequenceId`}
-        />
-        <SongInfoModal
-          bpm={this.props.bpm}
-          isOpen={this.state.isSongInfoModalOpen}
-          onBPMChange={this.props.onBPMChange}
-          onConfirm={this.closeSongInfo}
-          onReturnToDashboard={this.returnToDashboard}
-          onSignOut={this.signOut}
-          song={this.props.song}
-        />
-      </div>
-    );
-  }
+  const handleReturnToDashboard = React.useCallback(() => {
+    history.push('/');
+  }, [history]);
 
-  closeSongInfo = () => {
-    this.setState({
-      isSongInfoModalOpen: false,
-    });
-  };
+  const handleSignOut = React.useCallback(() => {
+    history.push('/sign-out');
+  }, [history]);
 
-  openSongInfo = () => {
-    this.setState({
-      isSongInfoModalOpen: true,
-    });
-  };
+  React.useEffect(() => {
+    window.document.title = `${song.name} - Aria`;
+  }, [song.name]);
 
-  returnToDashboard = () => {
-    this.props.history.push('/');
-  };
-
-  signOut = () => {
-    this.props.history.push('/sign-out');
-  };
+  return (
+    <div className={classes.root}>
+      <SongEditorToolbar
+        onPause={onPause}
+        onPlay={onPlay}
+        onSongInfoOpen={handleSongInfoOpen}
+        onStop={onStop}
+        playbackState={playbackState}
+      />
+      <Route component={TracksEditorContainer} exact={true} path={match.path} />
+      <Route
+        component={SequenceEditorContainer}
+        exact={true}
+        path={`${match.path}/sequencer/:sequenceId`}
+      />
+      <SongInfoModal
+        bpm={bpm}
+        isOpen={isSongInfoModalOpen}
+        onBPMChange={onBPMChange}
+        onConfirm={handleSongInfoModalConfirm}
+        onReturnToDashboard={handleReturnToDashboard}
+        onSignOut={handleSignOut}
+      />
+    </div>
+  );
 }
 
-export default withStyles(styles)(SongEditor);
+SongEditor.propTypes = {
+  bpm: PropTypes.number,
+  classes: PropTypes.object,
+  history: PropTypes.object,
+  match: PropTypes.object,
+  onBPMChange: PropTypes.func,
+  onPause: PropTypes.func,
+  onPlay: PropTypes.func,
+  onStop: PropTypes.func,
+  playbackState: PropTypes.string,
+  song: PropTypes.object,
+};
+
+export default React.memo(withStyles(styles)(SongEditor));

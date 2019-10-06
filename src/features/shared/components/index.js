@@ -1,6 +1,5 @@
 import _Box from './Box';
 import _Boxes from './Boxes';
-import _DownloadButton from './DownloadButton';
 import _Icon from './Icon';
 import _IconButton from './IconButton';
 import _LoadingIndicator from './LoadingIndicator';
@@ -13,7 +12,6 @@ import _FadeOut from './FadeOut';
 
 export const Box = _Box;
 export const Boxes = _Boxes;
-export const DownloadButton = _DownloadButton;
 export const Icon = _Icon;
 export const IconButton = _IconButton;
 export const LoadingIndicator = _LoadingIndicator;
