@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import noop from 'lodash/fp/noop';
 import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -54,63 +55,58 @@ const styles = theme => ({
   },
 });
 
-class IconButton extends React.PureComponent {
-  static propTypes = {
-    className: PropTypes.string,
-    classes: PropTypes.object,
-    color: PropTypes.string,
-    getRef: PropTypes.func,
-    icon: PropTypes.string,
-    iconProps: PropTypes.object,
-    isActive: PropTypes.bool,
-    isDisabled: PropTypes.bool,
-    onClick: PropTypes.func,
-    size: PropTypes.oneOf(['small', 'regular', 'large', '']),
-    style: PropTypes.object,
-    title: PropTypes.string,
-  };
+function IconButton(props) {
+  const {
+    className,
+    classes,
+    color,
+    getRef,
+    icon,
+    iconProps = {},
+    isActive,
+    isDisabled,
+    onClick,
+    size,
+    style,
+    title,
+  } = props;
 
-  static defaultProps = {
-    iconProps: {},
-  };
-
-  render() {
-    return (
-      <div
-        className={this.getClassName()}
-        onClick={this.handleClick}
-        ref={this.props.getRef}
-        style={this.props.style}
-        title={this.props.title}
-      >
-        <div className={this.props.classes.background} />
-        <div className={this.props.classes.iconWrapper}>
-          <Icon
-            color={this.props.color}
-            icon={this.props.icon}
-            size={this.props.size}
-            {...this.props.iconProps}
-          />
-        </div>
+  return (
+    <div
+      className={classnames(
+        classes.root,
+        {
+          [classes.active]: isActive,
+          [classes.disabled]: isDisabled,
+        },
+        className,
+      )}
+      onClick={isDisabled ? noop : onClick}
+      ref={getRef}
+      style={style}
+      title={title}
+    >
+      <div className={classes.background} />
+      <div className={classes.iconWrapper}>
+        <Icon color={color} icon={icon} size={size} {...iconProps} />
       </div>
-    );
-  }
-
-  getClassName = () =>
-    classnames(
-      this.props.classes.root,
-      {
-        [this.props.classes.active]: this.props.isActive,
-        [this.props.classes.disabled]: this.props.isDisabled,
-      },
-      this.props.className,
-    );
-
-  handleClick = e => {
-    if (this.props.isDisabled) return;
-
-    this.props.onClick(e);
-  };
+    </div>
+  );
 }
+
+IconButton.propTypes = {
+  className: PropTypes.string,
+  classes: PropTypes.object,
+  color: PropTypes.string,
+  getRef: PropTypes.func,
+  icon: PropTypes.string,
+  iconProps: PropTypes.object,
+  isActive: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  onClick: PropTypes.func,
+  size: PropTypes.oneOf(['small', 'regular', 'large', '']),
+  style: PropTypes.object,
+  title: PropTypes.string,
+};
 
 export default withStyles(styles)(IconButton);

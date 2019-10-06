@@ -10,7 +10,6 @@ import _Timeline from './Timeline';
 import _Toolbar from './Toolbar';
 import _FadeIn from './FadeIn';
 import _FadeOut from './FadeOut';
-import _UploadOverlay from './UploadOverlay';
 
 export const Box = _Box;
 export const Boxes = _Boxes;
@@ -24,4 +23,3 @@ export const Timeline = _Timeline;
 export const Toolbar = _Toolbar;
 export const FadeIn = _FadeIn;
 export const FadeOut = _FadeOut;
-export const UploadOverlay = _UploadOverlay;

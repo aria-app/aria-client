@@ -1,4 +1,3 @@
-import classnames from 'classnames';
 import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -30,97 +29,87 @@ const styles = theme => ({
   },
 });
 
-class Box extends React.PureComponent {
-  static propTypes = {
-    contentComponent: PropTypes.func,
-    item: PropTypes.shape({
-      id: PropTypes.any,
-      x: PropTypes.number,
-      length: PropTypes.number,
-    }),
-    onItemChange: PropTypes.func,
-    step: PropTypes.number,
-    style: PropTypes.object,
-  };
+function Box(props) {
+  const {
+    classes,
+    contentComponent: ContentComponent = () => null,
+    item,
+    onItemChange,
+    step = 100,
+    style = {},
+  } = props;
+  const [isDragging, setIsDragging] = React.useState(false);
 
-  static defaultProps = {
-    contentComponent: () => null,
-    step: 100,
-    style: {},
-  };
+  const handleDrag = React.useCallback(
+    (e, position) => {
+      onItemChange({
+        ...item,
+        x: position.x / step,
+      });
+    },
+    [item, onItemChange, step],
+  );
 
-  state = {
-    isDragging: false,
-  };
+  const handleDragStart = React.useCallback(() => {
+    setIsDragging(true);
+  }, []);
 
-  render() {
-    return (
-      <Draggable
-        axis="x"
-        bounds="parent"
-        cancel=".box__resizer"
-        grid={[this.props.step, 0]}
-        key={this.props.item.id}
-        onDrag={this.handleDrag}
-        onStart={() => this.setState({ isDragging: true })}
-        onStop={() => this.setState({ isDragging: false })}
-        position={this.getPosition()}
+  const handleDragStop = React.useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  const handleResizerDrag = React.useCallback(
+    (e, position) => {
+      onItemChange({
+        ...item,
+        length: Math.max(1, item.length + position.deltaX / step),
+      });
+    },
+    [item, onItemChange, step],
+  );
+
+  return (
+    <Draggable
+      axis="x"
+      bounds="parent"
+      cancel={`.${classes.resizer}`}
+      grid={[step, 0]}
+      key={item.id}
+      onDrag={handleDrag}
+      onStart={handleDragStart}
+      onStop={handleDragStop}
+      position={{ x: item.x * step, y: 0 }}
+    >
+      <div
+        className={classes.root}
+        style={{ width: item.length * step, ...style }}
       >
-        <div className={this.props.classes.root} style={this.getStyle()}>
-          {React.createElement(this.props.contentComponent, {
-            isDragging: this.state.isDragging,
-            item: this.props.item,
-            step: this.props.step,
-          })}
-          <Draggable
-            axis="x"
-            bounds={{
-              left: this.props.step - 16,
-            }}
-            grid={[this.props.step, 0]}
-            onDrag={this.handleResizerDrag}
-            position={this.getResizerPosition()}
-          >
-            <div
-              className={classnames(this.props.classes.resizer, 'box__resizer')}
-            />
-          </Draggable>
-        </div>
-      </Draggable>
-    );
-  }
-
-  getPosition = () => ({
-    x: this.props.item.x * this.props.step,
-    y: 0,
-  });
-
-  getResizerPosition = () => ({
-    x: this.props.item.length * this.props.step - 16,
-    y: 0,
-  });
-
-  getStyle = () => ({
-    width: this.props.item.length * this.props.step,
-    ...this.props.style,
-  });
-
-  handleDrag = (e, position) => {
-    this.props.onItemChange({
-      ...this.props.item,
-      x: position.x / this.props.step,
-    });
-  };
-
-  handleResizerDrag = (e, position) => {
-    this.props.onItemChange({
-      ...this.props.item,
-      length: Math.max(
-        1,
-        this.props.item.length + position.deltaX / this.props.step,
-      ),
-    });
-  };
+        <ContentComponent isDragging={isDragging} item={item} step={step} />
+        <Draggable
+          axis="x"
+          bounds={{ left: step - 16 }}
+          grid={[step, 0]}
+          onDrag={handleResizerDrag}
+          position={{ x: item.length * step - 16, y: 0 }}
+        >
+          <div className={classes.resizer} />
+        </Draggable>
+      </div>
+    </Draggable>
+  );
 }
 
-export default withStyles(styles)(Box);
+Box.propTypes = {
+  classes: PropTypes.object,
+  contentComponent: PropTypes.func,
+  item: PropTypes.shape({
+    id: PropTypes.any,
+    x: PropTypes.number,
+    length: PropTypes.number,
+  }),
+  onItemChange: PropTypes.func,
+  step: PropTypes.number,
+  style: PropTypes.object,
+};
+
+export default React.memo(withStyles(styles)(Box));
