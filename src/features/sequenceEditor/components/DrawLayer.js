@@ -21,98 +21,82 @@ const styles = {
   },
 };
 
-class DrawLayer extends React.PureComponent {
-  static propTypes = {
-    mousePoint: PropTypes.object,
-    onDraw: PropTypes.func,
-  };
+function DrawLayer(props) {
+  const ref = React.useRef();
+  const { classes, mousePoint, onDraw } = props;
+  const [isDrawing, setIsDrawing] = React.useState(false);
+  const [isMouseOver, setIsMouseOver] = React.useState(false);
 
-  state = {
-    isMouseOver: false,
-    isDrawing: false,
-  };
-
-  render() {
-    return (
-      <div
-        className={this.props.classes.root}
-        onMouseDown={this.handleMouseDown}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-        onMouseUp={this.handleMouseUp}
-        ref={this.setRef}
-      >
-        {showIf(this.state.isMouseOver)(
-          <Note
-            className={this.props.classes.ghostNote}
-            note={this.getGhostNoteNote()}
-          />,
-        )}
-      </div>
-    );
-  }
-
-  getGhostNoteNote() {
-    const point = this.props.mousePoint;
-    return {
+  const ghostNoteNote = React.useMemo(
+    () => ({
       points: [
         {
-          x: point ? point.x : 0,
-          y: point ? point.y : 0,
+          x: mousePoint ? mousePoint.x : 0,
+          y: mousePoint ? mousePoint.y : 0,
         },
         {
-          x: point ? point.x + 1 : 0,
-          y: point ? point.y : 0,
+          x: mousePoint ? mousePoint.x + 1 : 0,
+          y: mousePoint ? mousePoint.y : 0,
         },
       ],
-    };
-  }
+    }),
+    [mousePoint],
+  );
 
-  getIsDrawing = () => this.state.isDrawing;
+  const handleMouseDown = React.useCallback(() => {
+    setIsDrawing(true);
+  }, []);
 
-  handleMouseDown = () => {
-    this.setState({
-      isDrawing: true,
-    });
-  };
+  const handleMouseEnter = React.useCallback(() => {
+    setIsMouseOver(true);
+  }, []);
 
-  handleMouseEnter = () => {
-    this.setState({
-      isMouseOver: true,
-    });
-  };
+  const handleMouseLeave = React.useCallback(
+    e => {
+      setIsMouseOver(false);
 
-  handleMouseLeave = e => {
-    this.setState({
-      isMouseOver: false,
-    });
+      if (!isDrawing) return;
 
-    if (!this.getIsDrawing()) return;
+      const primaryClassName = `.${compose(
+        first,
+        split(' '),
+      )(e.target.className)}`;
+      const isDescendant = !!ref.current.querySelector(primaryClassName);
 
-    const primaryClassName = `.${compose(
-      first,
-      split(' '),
-    )(e.target.className)}`;
-    const isDescendant = !!this.elementRef.querySelector(primaryClassName);
-    if (isDescendant) return;
+      if (isDescendant) return;
 
-    this.setState({
-      isDrawing: false,
-    });
-  };
+      setIsDrawing(false);
+    },
+    [isDrawing],
+  );
 
-  handleMouseUp = () => {
-    if (!this.getIsDrawing()) return;
-    const point = this.props.mousePoint;
-    this.props.onDraw(point);
-    this.setState({
-      isDrawing: false,
-    });
-  };
+  const handleMouseUp = React.useCallback(() => {
+    if (!isDrawing) return;
 
-  setRef = ref => {
-    this.elementRef = ref;
-  };
+    onDraw(mousePoint);
+
+    setIsDrawing(false);
+  }, [isDrawing, mousePoint, onDraw]);
+
+  return (
+    <div
+      className={classes.root}
+      onMouseDown={handleMouseDown}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseUp={handleMouseUp}
+      ref={ref}
+    >
+      {showIf(isMouseOver)(
+        <Note className={classes.ghostNote} note={ghostNoteNote} />,
+      )}
+    </div>
+  );
 }
+
+DrawLayer.propTypes = {
+  mousePoint: PropTypes.object,
+  onDraw: PropTypes.func,
+};
 
 export default withStyles(styles)(DrawLayer);

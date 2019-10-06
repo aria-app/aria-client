@@ -448,7 +448,7 @@ export default withStyles(styles)(SequenceEditor);
 function getGridMousePoint(scrollLeftEl, scrollTopEl, e) {
   const styleOffset = 80;
   const x = e.pageX || 0;
-  const y = e.pageY || 0;
+  const y = e.pageY - 56 || 0;
   const offsetLeft = scrollLeftEl.offsetLeft || 0;
   const offsetTop = scrollLeftEl.offsetTop || 0;
   const scrollLeft = scrollLeftEl.scrollLeft || 0;
