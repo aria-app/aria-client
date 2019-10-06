@@ -12,7 +12,9 @@ const styles = theme => ({
     flex: '0 0 auto',
     height: 64,
     justifyContent: 'center',
+    left: 0,
     position: 'absolute',
+    transition: 'transform 200ms ease',
     width: 64,
   },
   button: {
@@ -20,9 +22,16 @@ const styles = theme => ({
     border: `2px solid ${theme.palette.primary.light}`,
     borderRadius: theme.shape.borderRadius,
     boxShadow: 'none',
+    '&:hover': {
+      backgroundColor: 'transparent',
+      borderColor: theme.palette.primary.main,
+    },
   },
   icon: {
     fill: theme.palette.primary.light,
+    '$button:hover &': {
+      fill: theme.palette.primary.main,
+    },
   },
 });
 
@@ -37,7 +46,7 @@ function AddSequenceButton(props) {
     <div
       className={classes.root}
       onClick={handleClick}
-      style={{ left: position * 64 }}
+      style={{ transform: `translateX(${position * 64}px)` }}
     >
       <Fab className={classes.button} size="small">
         <AddIcon className={classes.icon} />

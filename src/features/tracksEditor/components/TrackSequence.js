@@ -20,13 +20,10 @@ const styles = theme => ({
   selected: {
     backgroundColor: theme.palette.primary.main,
   },
-  dragging: {
-    opacity: 0.8,
-  },
 });
 
 function TrackSequence(props) {
-  const { classes, isDragging, isSelected, onOpen, onSelect, sequence } = props;
+  const { classes, isSelected, onOpen, onSelect, sequence } = props;
 
   const handleClick = React.useCallback(() => {
     if (isSelected) return;
@@ -41,7 +38,6 @@ function TrackSequence(props) {
   return (
     <div
       className={classnames(classes.root, {
-        [classes.dragging]: isDragging,
         [classes.selected]: isSelected,
       })}
       style={{ width: measureCountToPx(sequence.measureCount) }}

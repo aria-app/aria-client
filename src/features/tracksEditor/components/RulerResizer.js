@@ -14,14 +14,10 @@ const styles = theme => ({
     left: 0,
     position: 'absolute',
     top: 0,
-    transition:
-      'box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease',
+    transition: 'border-color 150ms ease',
     width: 24,
     '&:hover:not(:active)': {
-      backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    },
-    '&:active': {
-      backgroundColor: 'rgba(0, 0, 0, 0.1)',
+      borderColor: theme.palette.text.secondary,
     },
     '&::after': {
       borderLeft: `2px dotted ${theme.palette.text.hint}`,
@@ -38,50 +34,32 @@ const styles = theme => ({
   },
   draggableWrapper: {
     position: 'absolute',
-    transition: 'transform 200ms ease',
   },
 });
 
 RulerResizer.propTypes = {
   classes: PropTypes.object,
+  onSizeChange: PropTypes.func,
   size: PropTypes.number,
 };
 
 function RulerResizer(props) {
-  const [isDragging, setIsDragging] = React.useState(false);
-
-  const getPosition = () => ({
-    x: props.size * 64 + 16,
-    y: 0,
-  });
+  const { classes, onSizeChange, size } = props;
 
   const handleDrag = (e, dragData) => {
-    props.onSizeChange(
-      Math.max(1, props.size + Math.round(dragData.deltaX / 64)),
-    );
+    onSizeChange(Math.max(1, size + Math.round(dragData.deltaX / 64)));
   };
 
   return (
     <Draggable
       axis="x"
-      bounds={{
-        left: 64 - 16,
-      }}
+      bounds={{ left: 64 - 16 }}
       grid={[64, 0]}
       onDrag={handleDrag}
-      onStart={() => setIsDragging(true)}
-      onStop={() => setIsDragging(false)}
-      position={getPosition()}
+      position={{ x: size * 64 + 16, y: 0 }}
     >
-      <div className={props.classes.draggableWrapper}>
-        <div
-          className={props.classes.root}
-          style={{
-            boxShadow: isDragging && props.theme.shadows[3],
-            opacity: isDragging && 0.8,
-            transform: isDragging && 'translateY(-4px) scale(1.05)',
-          }}
-        />
+      <div className={classes.draggableWrapper}>
+        <div className={classes.root} />
       </div>
     </Draggable>
   );

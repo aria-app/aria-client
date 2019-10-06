@@ -27,6 +27,7 @@ const styles = theme => ({
   },
   dragging: {
     cursor: 'move',
+    transition: 'none',
     zIndex: 200,
     '& $resizer': {
       cursor: 'move',
@@ -45,23 +46,21 @@ function Box(props) {
   } = props;
   const [isDragging, setIsDragging] = React.useState(false);
 
-  const handleDrag = React.useCallback(
-    (e, position) => {
-      onItemChange({
-        ...item,
-        x: position.x / step,
-      });
-    },
-    [item, onItemChange, step],
-  );
-
   const handleDragStart = React.useCallback(() => {
     setIsDragging(true);
   }, []);
 
-  const handleDragStop = React.useCallback(() => {
-    setIsDragging(false);
-  }, []);
+  const handleDragStop = React.useCallback(
+    (e, dragData) => {
+      setIsDragging(false);
+
+      onItemChange({
+        ...item,
+        x: Math.round(dragData.lastX / 64),
+      });
+    },
+    [item, onItemChange],
+  );
 
   const handleResizerDrag = React.useCallback(
     (e, position) => {
@@ -78,9 +77,7 @@ function Box(props) {
       axis="x"
       bounds="parent"
       cancel={`.${classes.resizer}`}
-      grid={[step, 0]}
       key={item.id}
-      onDrag={handleDrag}
       onStart={handleDragStart}
       onStop={handleDragStop}
       position={{ x: item.x * step, y: 0 }}

@@ -40,16 +40,25 @@ const styles = theme => ({
   },
   addTrackButton: {
     backgroundColor: theme.palette.background.paper,
-    border: `2px solid ${theme.palette.text.hint}`,
+    border: `2px solid ${theme.palette.divider}`,
     borderRadius: theme.shape.borderRadius,
     boxShadow: 'none',
     color: theme.palette.text.hint,
+    fontWeight: 600,
     height: 40,
     paddingLeft: theme.spacing(1),
+    '&:hover': {
+      backgroundColor: theme.palette.background.paper,
+      borderColor: theme.palette.text.secondary,
+      color: theme.palette.text.secondary,
+    },
   },
   addTrackButtonIcon: {
     fill: theme.palette.text.hint,
     marginRight: theme.spacing(1),
+    '$addTrackButton:hover &': {
+      fill: theme.palette.text.secondary,
+    },
   },
 });
 
