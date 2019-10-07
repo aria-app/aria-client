@@ -64,7 +64,7 @@ export interface IconButtonProps extends WithStyles<typeof styles> {
   iconProps?: object;
   isActive?: boolean;
   isDisabled?: boolean;
-  onClick?: (e: React.MouseEvent<MouseEvent, HTMLDivElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   size?: 'small' | 'regular' | 'large' | '';
   style?: object;
   title?: string;

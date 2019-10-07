@@ -1,9 +1,9 @@
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
-import withStyles from '@material-ui/styles/withStyles';
 
-const styles = {
+const styles = createStyles({
   root: {
     bottom: 0,
     cursor: 'grab',
@@ -15,9 +15,14 @@ const styles = {
   panning: {
     cursor: 'grabbing',
   },
-};
+});
 
-function Panner(props) {
+export interface PannerProps extends WithStyles<typeof styles> {
+  scrollLeftEl?: HTMLElement;
+  scrollTopEl?: HTMLElement;
+}
+
+function Panner(props: PannerProps) {
   const { classes, scrollLeftEl, scrollTopEl } = props;
   const [startPoint, setStartPoint] = React.useState();
 
@@ -75,11 +80,5 @@ function Panner(props) {
     />
   );
 }
-
-Panner.propTypes = {
-  classes: PropTypes.object,
-  scrollLeftEl: PropTypes.object,
-  scrollTopEl: PropTypes.object,
-};
 
 export default React.memo(withStyles(styles)(Panner));

@@ -1,7 +1,8 @@
 import Dawww from 'dawww';
 import isEmpty from 'lodash/fp/isEmpty';
-import withStyles from '@material-ui/styles/withStyles';
-import PropTypes from 'prop-types';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import shared from '../../shared';
 import * as constants from '../constants';
@@ -9,13 +10,36 @@ import * as constants from '../constants';
 const { IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
 
-const styles = theme => ({
-  root: {
-    borderTop: `2px solid ${theme.palette.divider}`,
-  },
-});
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      borderTop: `2px solid ${theme.palette.divider}`,
+    },
+  });
 
-function NotesEditorToolbar(props) {
+export interface NotesEditorToolbarProps extends WithStyles<typeof styles> {
+  isRedoEnabled?: boolean;
+  isUndoEnabled?: boolean;
+  measureCount?: number;
+  onClose?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onDelete?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onDeselectAll?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onDrawToolSelect?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onDuplicate?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onEraseToolSelect?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onOctaveDown?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onOctaveUp?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onPanToolSelect?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onRedo?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onSelectToolSelect?: (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => void;
+  onUndo?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  selectedNotes?: Array<{ [key: string]: any }>;
+  toolType?: string;
+}
+
+function NotesEditorToolbar(props: NotesEditorToolbarProps) {
   const {
     classes,
     isRedoEnabled,
@@ -66,7 +90,7 @@ function NotesEditorToolbar(props) {
           <IconButton
             icon="arrow-left"
             onClick={onClose}
-            toolTip="Back to tracks"
+            title="Back to tracks"
           />
         </React.Fragment>
       }
@@ -75,7 +99,7 @@ function NotesEditorToolbar(props) {
           <IconButton
             icon="close"
             onClick={onDeselectAll}
-            toolTip="Deselect notes"
+            title="Deselect notes"
           />
         </React.Fragment>
       }
@@ -139,38 +163,18 @@ function NotesEditorToolbar(props) {
             icon="arrow-up"
             isDisabled={isOctaveUpButtonDisabled}
             onClick={onOctaveUp}
-            toolTip="Octave up"
+            title="Octave up"
           />
           <IconButton
             icon="arrow-down"
             isDisabled={isOctaveDownButtonDisabled}
             onClick={onOctaveDown}
-            toolTip="Octave down"
+            title="Octave down"
           />
         </React.Fragment>
       }
     />
   );
 }
-
-NotesEditorToolbar.propTypes = {
-  isRedoEnabled: PropTypes.bool,
-  isUndoEnabled: PropTypes.bool,
-  measureCount: PropTypes.number,
-  onClose: PropTypes.func,
-  onDelete: PropTypes.func,
-  onDeselectAll: PropTypes.func,
-  onDrawToolSelect: PropTypes.func,
-  onDuplicate: PropTypes.func,
-  onEraseToolSelect: PropTypes.func,
-  onOctaveDown: PropTypes.func,
-  onOctaveUp: PropTypes.func,
-  onPanToolSelect: PropTypes.func,
-  onRedo: PropTypes.func,
-  onSelectToolSelect: PropTypes.func,
-  onUndo: PropTypes.func,
-  selectedNotes: PropTypes.arrayOf(PropTypes.object),
-  toolType: PropTypes.string,
-};
 
 export default React.memo(withStyles(styles)(NotesEditorToolbar));

@@ -15,6 +15,6 @@
     "noEmit": true,
     "jsx": "preserve"
   },
-  "include": ["src/features/shared"],
+  "include": ["src/features/notesEditor"],
   "exclude": ["node_modules"]
 }

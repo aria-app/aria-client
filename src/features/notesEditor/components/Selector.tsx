@@ -1,11 +1,11 @@
 import isEqual from 'lodash/fp/isEqual';
-import withStyles from '@material-ui/styles/withStyles';
-import PropTypes from 'prop-types';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { DraggableCore } from 'react-draggable';
 import Fence from './Fence';
 
-const styles = {
+const styles = createStyles({
   root: {
     bottom: 0,
     left: 0,
@@ -13,12 +13,24 @@ const styles = {
     right: 0,
     top: 0,
   },
-};
+});
 
-function Selector(props) {
+interface Point {
+  x: number;
+  y: number;
+}
+
+export interface SelectorProps extends WithStyles<typeof styles> {
+  isEnabled?: boolean;
+  onSelect?: (startPoint: Point, endPoint: Point, isAdditive: boolean) => void;
+  scrollLeftEl?: HTMLElement;
+  scrollTopEl?: HTMLElement;
+}
+
+function Selector(props: SelectorProps) {
   const { classes, isEnabled, onSelect, scrollLeftEl, scrollTopEl } = props;
-  const [endPoint, setEndPoint] = React.useState({});
-  const [startPoint, setStartPoint] = React.useState({});
+  const [endPoint, setEndPoint] = React.useState();
+  const [startPoint, setStartPoint] = React.useState();
 
   const handleDrag = (e, dragData) => {
     const shouldScrollDown =
@@ -59,8 +71,8 @@ function Selector(props) {
     e => {
       onSelect(startPoint, endPoint, e.ctrlKey || e.metaKey);
 
-      setEndPoint({});
-      setStartPoint({});
+      setEndPoint(undefined);
+      setStartPoint(undefined);
     },
     [endPoint, onSelect, startPoint],
   );
@@ -74,23 +86,13 @@ function Selector(props) {
     >
       <div
         className={classes.root}
-        style={{
-          pointerEvents: isEnabled ? 'all' : 'none',
-        }}
+        style={{ pointerEvents: isEnabled ? 'all' : 'none' }}
       >
         <Fence endPoint={endPoint} startPoint={startPoint} />
       </div>
     </DraggableCore>
   );
 }
-
-Selector.propTypes = {
-  classes: PropTypes.object,
-  isEnabled: PropTypes.bool,
-  onSelect: PropTypes.func,
-  scrollLeftEl: PropTypes.object,
-  scrollTopEl: PropTypes.object,
-};
 
 export default React.memo(withStyles(styles)(Selector));
 

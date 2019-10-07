@@ -1,5 +1,5 @@
-import withStyles from '@material-ui/styles/withStyles';
-import PropTypes from 'prop-types';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
 import shared from '../../shared';
@@ -13,7 +13,7 @@ import Slots from './Slots';
 
 const { Timeline } = shared.components;
 
-const styles = {
+const styles = createStyles({
   root: {
     overflowX: 'scroll',
     overflowY: 'visible',
@@ -25,16 +25,46 @@ const styles = {
     overflowX: 'visible',
     position: 'relative',
   },
-};
+});
 
-function Grid(props) {
+interface Note {
+  [key: string]: any;
+}
+
+interface Point {
+  x?: number;
+  y?: number;
+}
+
+export interface GridProps extends WithStyles<typeof styles> {
+  measureCount?: number;
+  mousePoint?: Point;
+  notes?: Array<Note>;
+  notesEditorContentEl?: HTMLElement;
+  onDrag?: (notes: Array<Note>) => void;
+  onDragPreview?: (notes: Array<Note>) => void;
+  onDraw?: (startingPoint: Point) => void;
+  onErase?: (note: Note) => void;
+  onMousePointChange?: (mousePoint: Point) => void;
+  onResize?: (resizedNotes: Array<Note>) => void;
+  onSelect?: (note: Note, isAdditive: boolean) => void;
+  onSelectInArea?: (
+    startPoint: Point,
+    endPoint: Point,
+    isAdditive: boolean,
+  ) => void;
+  selectedNotes?: Array<Note>;
+  toolType?: string;
+}
+
+function Grid(props: GridProps) {
   const ref = React.useRef();
   const {
     classes,
     measureCount,
     mousePoint,
     notes,
-    notesEditorContentEl = {},
+    notesEditorContentEl = {} as HTMLElement,
     onDrag,
     onDragPreview,
     onDraw,
@@ -122,22 +152,5 @@ function Grid(props) {
     </div>
   );
 }
-
-Grid.propTypes = {
-  measureCount: PropTypes.number,
-  mousePoint: PropTypes.object,
-  notes: PropTypes.arrayOf(PropTypes.object),
-  onDrag: PropTypes.func,
-  onDragPreview: PropTypes.func,
-  onDraw: PropTypes.func,
-  onErase: PropTypes.func,
-  onMousePointChange: PropTypes.func,
-  onResize: PropTypes.func,
-  onSelect: PropTypes.func,
-  onSelectInArea: PropTypes.func,
-  selectedNotes: PropTypes.arrayOf(PropTypes.object),
-  notesEditorContentEl: PropTypes.object,
-  toolType: PropTypes.string,
-};
 
 export default React.memo(withStyles(styles)(Grid));

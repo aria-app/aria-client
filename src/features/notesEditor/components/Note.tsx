@@ -1,69 +1,103 @@
 import classnames from 'classnames';
 import first from 'lodash/fp/first';
 import last from 'lodash/fp/last';
-import withStyles from '@material-ui/styles/withStyles';
-import PropTypes from 'prop-types';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
-import Draggable from 'react-draggable';
+import Draggable, {
+  DraggableBounds,
+  DraggableEventHandler,
+} from 'react-draggable';
 
-const styles = theme => ({
-  root: {
-    left: 0,
-    pointerEvents: 'none',
-    position: 'absolute',
-    top: 0,
-    transition: 'transform 0.1s ease',
-  },
-  connector: {
-    backgroundColor: theme.palette.primary.light,
-    height: 10,
-    left: 20,
-    position: 'absolute',
-    top: 15,
-    transformOrigin: 'left center',
-    transition: 'transform 0.1s ease',
-    width: 1,
-    zIndex: 100,
-  },
-  fill: {
-    backgroundColor: theme.palette.primary.light,
-    borderRadius: theme.shape.borderRadius,
-    height: 24,
-    width: 24,
-    '&:hover': {
-      transform: 'scale(1.05)',
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      left: 0,
+      pointerEvents: 'none',
+      position: 'absolute',
+      top: 0,
+      transition: 'transform 0.1s ease',
     },
-    '&:active': {
-      transform: 'scale(0.95)',
+    connector: {
+      backgroundColor: theme.palette.primary.light,
+      height: 10,
+      left: 20,
+      position: 'absolute',
+      top: 15,
+      transformOrigin: 'left center',
+      transition: 'transform 0.1s ease',
+      width: 1,
+      zIndex: 100,
     },
-  },
-  point: {
-    alignItems: 'center',
-    display: 'flex',
-    flex: '0 0 auto',
-    height: 40,
-    justifyContent: 'center',
-    left: 0,
-    overflow: 'hidden',
-    pointerEvents: 'all',
-    position: 'absolute',
-    top: 0,
-    transition: 'transform 0.1s ease',
-    width: 40,
-    zIndex: 150,
-  },
-  selected: {
-    zIndex: 300,
-    '& $connector': {
-      backgroundColor: theme.palette.primary.main,
+    fill: {
+      backgroundColor: theme.palette.primary.light,
+      borderRadius: theme.shape.borderRadius,
+      height: 24,
+      width: 24,
+      '&:hover': {
+        transform: 'scale(1.05)',
+      },
+      '&:active': {
+        transform: 'scale(0.95)',
+      },
     },
-    '& $fill': {
-      backgroundColor: theme.palette.primary.main,
+    point: {
+      alignItems: 'center',
+      display: 'flex',
+      flex: '0 0 auto',
+      height: 40,
+      justifyContent: 'center',
+      left: 0,
+      overflow: 'hidden',
+      pointerEvents: 'all',
+      position: 'absolute',
+      top: 0,
+      transition: 'transform 0.1s ease',
+      width: 40,
+      zIndex: 150,
     },
-  },
-});
+    selected: {
+      zIndex: 300,
+      '& $connector': {
+        backgroundColor: theme.palette.primary.main,
+      },
+      '& $fill': {
+        backgroundColor: theme.palette.primary.main,
+      },
+    },
+  });
 
-function Note(props) {
+interface Note {
+  [key: string]: any;
+}
+
+interface Point {
+  x?: number;
+  y?: number;
+}
+
+export interface NoteProps extends WithStyles<typeof styles> {
+  className?: string;
+  isSelected?: boolean;
+  note?: Note;
+  onDrag?: (delta: Point) => void;
+  onDragStart?: (
+    note: Note,
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => void;
+  onDragStop?: DraggableEventHandler;
+  onEndPointDrag?: (delta: Point) => void;
+  onEndPointDragStart?: (
+    note: Note,
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => void;
+  onEndPointDragStop?: DraggableEventHandler;
+  positionBounds?: DraggableBounds;
+  sizeBounds?: DraggableBounds;
+}
+
+function Note(props: NoteProps) {
   const {
     className,
     classes,
@@ -108,10 +142,7 @@ function Note(props) {
 
   const handleDrag = React.useCallback(
     (e, { deltaX, deltaY }) => {
-      onDrag({
-        deltaX: Math.round(deltaX / 40),
-        deltaY: Math.round(deltaY / 40),
-      });
+      onDrag({ x: Math.round(deltaX / 40), y: Math.round(deltaY / 40) });
     },
     [onDrag],
   );
@@ -125,9 +156,7 @@ function Note(props) {
 
   const handleEndPointDrag = React.useCallback(
     (e, { deltaX }) => {
-      onEndPointDrag({
-        deltaX: Math.round(deltaX / 40),
-      });
+      onEndPointDrag({ x: Math.round(deltaX / 40) });
     },
     [onEndPointDrag],
   );
@@ -185,21 +214,6 @@ function Note(props) {
     </Draggable>
   );
 }
-
-Note.propTypes = {
-  className: PropTypes.string,
-  classes: PropTypes.object,
-  isSelected: PropTypes.bool,
-  note: PropTypes.object,
-  onDrag: PropTypes.func,
-  onDragStart: PropTypes.func,
-  onDragStop: PropTypes.func,
-  onEndPointDrag: PropTypes.func,
-  onEndPointDragStart: PropTypes.func,
-  onEndPointDragStop: PropTypes.func,
-  positionBounds: PropTypes.object,
-  sizeBounds: PropTypes.object,
-};
 
 export default React.memo(withStyles(styles)(Note));
 

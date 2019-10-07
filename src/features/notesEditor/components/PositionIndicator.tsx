@@ -1,33 +1,44 @@
-import { PropTypes } from 'prop-types';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import { transparentize } from 'polished';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import withStyles from '@material-ui/styles/withStyles';
 
-const styles = theme => ({
-  column: {
-    backgroundColor: transparentize(0.95, theme.palette.primary.main),
-    borderRadius: theme.shape.borderRadius,
-    bottom: 0,
-    left: 0,
-    pointerEvents: 'none',
-    position: 'absolute',
-    top: 0,
-    width: 40,
-  },
-  row: {
-    backgroundColor: transparentize(0.95, theme.palette.primary.main),
-    borderRadius: theme.shape.borderRadius,
-    left: 0,
-    height: 40,
-    pointerEvents: 'none',
-    position: 'absolute',
-    right: 0,
-    top: 0,
-  },
-});
+const styles = (theme: Theme) =>
+  createStyles({
+    column: {
+      backgroundColor: transparentize(0.95, theme.palette.primary.main),
+      borderRadius: theme.shape.borderRadius,
+      bottom: 0,
+      left: 0,
+      pointerEvents: 'none',
+      position: 'absolute',
+      top: 0,
+      width: 40,
+    },
+    row: {
+      backgroundColor: transparentize(0.95, theme.palette.primary.main),
+      borderRadius: theme.shape.borderRadius,
+      left: 0,
+      height: 40,
+      pointerEvents: 'none',
+      position: 'absolute',
+      right: 0,
+      top: 0,
+    },
+  });
 
-function PositionIndicator(props) {
+interface Point {
+  x?: number;
+  y?: number;
+}
+
+export interface PositionIndicatorProps extends WithStyles<typeof styles> {
+  mousePoint?: Point;
+}
+
+function PositionIndicator(props: PositionIndicatorProps) {
   const { classes, mousePoint } = props;
 
   return (
@@ -51,10 +62,5 @@ function PositionIndicator(props) {
     </React.Fragment>
   );
 }
-
-PositionIndicator.propTypes = {
-  classes: PropTypes.object,
-  mousePoint: PropTypes.object,
-};
 
 export default React.memo(withStyles(styles)(PositionIndicator));

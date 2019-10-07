@@ -4,9 +4,9 @@ import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
 import uniq from 'lodash/fp/uniq';
 import Fade from '@material-ui/core/Fade';
-import withStyles from '@material-ui/styles/withStyles';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import memoizeOne from 'memoize-one';
-import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import audio from '../../audio';
@@ -24,7 +24,7 @@ const getNotesByIds = memoizeOne((notes, ids) =>
   notes.filter(note => includes(note.id, ids)),
 );
 
-const styles = {
+const styles = createStyles({
   root: {
     display: 'flex',
     flex: '1 1 auto',
@@ -45,9 +45,44 @@ const styles = {
     paddingBottom: 64,
     paddingTop: 64,
   },
-};
+});
 
-function NotesEditor(props) {
+interface Note {
+  [key: string]: any;
+}
+
+interface Point {
+  x?: number;
+  y?: number;
+}
+
+interface Sequence {
+  [key: string]: any;
+}
+
+export interface NotesEditorProps extends WithStyles<typeof styles> {
+  history?: { [key: string]: any };
+  isRedoEnabled?: boolean;
+  isLoading?: boolean;
+  isUndoEnabled?: boolean;
+  match?: { [key: string]: any };
+  notes?: Array<Note>;
+  onDelete?: (notes: Array<Note>) => void;
+  onDrag?: (notes: Array<Note>) => void;
+  onDraw?: (startingPoint: Point) => void;
+  onDuplicate?: (notes: Array<Note>) => void;
+  onErase?: (note: Note) => void;
+  onLoad?: (songId: string, sequenceId: string) => void;
+  onNudge?: (delta: Point, notes: Array<Note>) => void;
+  onOctaveDown?: (notes: Array<Note>) => void;
+  onOctaveUp?: (notes: Array<Note>) => void;
+  onRedo?: () => void;
+  onResize?: (resizedNotes: Array<Note>) => void;
+  onUndo?: () => void;
+  sequence?: Sequence;
+}
+
+function NotesEditor(props: NotesEditorProps) {
   const {
     classes,
     history,
@@ -71,7 +106,7 @@ function NotesEditor(props) {
     sequence,
   } = props;
   const [contentEl, setContentEl] = React.useState();
-  const [mousePoint, setMousePoint] = React.useState({ x: -1, y: 1 });
+  const [mousePoint, setMousePoint] = React.useState<Point>({ x: -1, y: 1 });
   const [previousToolType, setPreviousToolType] = React.useState(
     toolTypes.SELECT,
   );
@@ -426,25 +461,5 @@ function NotesEditor(props) {
     </div>
   );
 }
-
-NotesEditor.propTypes = {
-  isRedoEnabled: PropTypes.bool,
-  isLoading: PropTypes.bool,
-  isUndoEnabled: PropTypes.bool,
-  notes: PropTypes.arrayOf(PropTypes.object),
-  onDelete: PropTypes.func,
-  onDrag: PropTypes.func,
-  onDraw: PropTypes.func,
-  onDuplicate: PropTypes.func,
-  onErase: PropTypes.func,
-  onLoad: PropTypes.func,
-  onNudge: PropTypes.func,
-  onOctaveDown: PropTypes.func,
-  onOctaveUp: PropTypes.func,
-  onRedo: PropTypes.func,
-  onResize: PropTypes.func,
-  onUndo: PropTypes.func,
-  sequence: PropTypes.object,
-};
 
 export default React.memo(withStyles(styles)(NotesEditor));

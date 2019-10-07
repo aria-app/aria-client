@@ -2,13 +2,13 @@ import compose from 'lodash/fp/compose';
 import first from 'lodash/fp/first';
 import noop from 'lodash/fp/noop';
 import split from 'lodash/fp/split';
-import withStyles from '@material-ui/styles/withStyles';
-import PropTypes from 'prop-types';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
 import Note from './Note';
 
-const styles = {
+const styles = createStyles({
   root: {
     bottom: 0,
     left: 0,
@@ -20,10 +20,20 @@ const styles = {
     opacity: 0.4,
     pointerEvents: 'none',
   },
-};
+});
 
-function DrawLayer(props) {
-  const ref = React.useRef();
+interface Point {
+  x?: number;
+  y?: number;
+}
+
+export interface DrawLayerProps extends WithStyles<typeof styles> {
+  mousePoint?: Point;
+  onDraw?: (startingPoint: Point) => void;
+}
+
+function DrawLayer(props: DrawLayerProps) {
+  const ref: React.MutableRefObject<HTMLDivElement> = React.useRef();
   const { classes, mousePoint, onDraw } = props;
   const [isDrawing, setIsDrawing] = React.useState(false);
   const [isMouseOver, setIsMouseOver] = React.useState(false);
@@ -103,10 +113,5 @@ function DrawLayer(props) {
     </div>
   );
 }
-
-DrawLayer.propTypes = {
-  mousePoint: PropTypes.object,
-  onDraw: PropTypes.func,
-};
 
 export default React.memo(withStyles(styles)(DrawLayer));

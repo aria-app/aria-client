@@ -1,17 +1,21 @@
 import Dawww from 'dawww';
 import range from 'lodash/fp/range';
-import PropTypes from 'prop-types';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
-import withStyles from '@material-ui/styles/withStyles';
 
-const styles = {
+const styles = createStyles({
   root: {
     flex: '1 0 auto',
     minHeight: '100%',
   },
-};
+});
 
-function Slots(props) {
+export interface SlotsProps extends WithStyles<typeof styles> {
+  measureCount?: number;
+}
+
+function Slots(props: SlotsProps) {
   const { classes, measureCount } = props;
 
   const slots = React.useMemo(
@@ -60,11 +64,6 @@ function Slots(props) {
     />
   );
 }
-
-Slots.propTypes = {
-  classes: PropTypes.object,
-  measureCount: PropTypes.number,
-};
 
 export default React.memo(withStyles(styles)(Slots));
 

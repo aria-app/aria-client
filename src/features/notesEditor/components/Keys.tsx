@@ -1,21 +1,23 @@
 import Dawww from 'dawww';
-import withStyles from '@material-ui/styles/withStyles';
-import PropTypes from 'prop-types';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import Key from './Key';
 
-const styles = theme => ({
-  root: {
-    border: `2px solid ${theme.palette.action.hover}`,
-    borderBottomRightRadius: theme.shape.borderRadius,
-    borderTopRightRadius: theme.shape.borderRadius,
-    borderLeft: 0,
-    display: 'flex',
-    flex: '0 0 auto',
-    flexDirection: 'column',
-    width: 40,
-  },
-});
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      border: `2px solid ${theme.palette.action.hover}`,
+      borderBottomRightRadius: theme.shape.borderRadius,
+      borderTopRightRadius: theme.shape.borderRadius,
+      borderLeft: 0,
+      display: 'flex',
+      flex: '0 0 auto',
+      flexDirection: 'column',
+      width: 40,
+    },
+  });
 
 const keyStyles = Dawww.SCALE.reduce((acc, currentStep) => {
   return {
@@ -28,7 +30,12 @@ const keyStyles = Dawww.SCALE.reduce((acc, currentStep) => {
   };
 }, {});
 
-function Keys(props) {
+export interface KeysProps extends WithStyles<typeof styles> {
+  hoveredRow?: number;
+  onKeyPress?: (pitch: number) => void;
+}
+
+function Keys(props: KeysProps) {
   const { classes, hoveredRow, onKeyPress } = props;
 
   const getIsHoveredRow = React.useCallback(step => step.y === hoveredRow, [
@@ -56,11 +63,5 @@ function Keys(props) {
     </div>
   );
 }
-
-Keys.propTypes = {
-  classes: PropTypes.object,
-  hoveredRow: PropTypes.number,
-  onKeyPress: PropTypes.func,
-};
 
 export default React.memo(withStyles(styles)(Keys));
