@@ -1,57 +1,41 @@
-import * as firebase from 'firebase/app';
-import getOr from 'lodash/fp/getOr';
-import Button from '@material-ui/core/Button';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Translation } from 'react-i18next';
-import { Redirect } from 'react-router-dom';
-import withStyles from '@material-ui/styles/withStyles';
-import shared from '../../shared';
-
-const { authProvider } = shared.constants;
-
-const styles = () => ({
-  root: {
-    alignItems: 'center',
-    display: 'flex',
-    flex: '1 1 auto',
-    justifyContent: 'center',
-  },
-});
-
+"use strict";
+exports.__esModule = true;
+var firebase = require("firebase/app");
+var getOr_1 = require("lodash/fp/getOr");
+var Button_1 = require("@material-ui/core/Button");
+var prop_types_1 = require("prop-types");
+var react_1 = require("react");
+var react_i18next_1 = require("react-i18next");
+var react_router_dom_1 = require("react-router-dom");
+var withStyles_1 = require("@material-ui/styles/withStyles");
+var shared_1 = require("../../shared");
+var authProvider = shared_1["default"].constants.authProvider;
+var styles = function () { return ({
+    root: {
+        alignItems: 'center',
+        display: 'flex',
+        flex: '1 1 auto',
+        justifyContent: 'center'
+    }
+}); };
 function SignIn(props) {
-  const { classes, isAuthenticated, location } = props;
-  const redirectFrom = React.useMemo(
-    () => getOr({ pathname: '/' }, 'state.from', location),
-    [location],
-  );
-
-  React.useEffect(() => {
-    window.document.title = 'Sign In - Aria';
-  }, []);
-
-  if (isAuthenticated) {
-    return <Redirect to={redirectFrom} />;
-  }
-
-  return (
-    <Translation>
-      {t => (
-        <div className={classes.root}>
-          <Button
-            onClick={() => firebase.auth().signInWithRedirect(authProvider)}
-            variant="contained"
-          >
+    var classes = props.classes, isAuthenticated = props.isAuthenticated, location = props.location;
+    var redirectFrom = react_1["default"].useMemo(function () { return getOr_1["default"]({ pathname: '/' }, 'state.from', location); }, [location]);
+    react_1["default"].useEffect(function () {
+        window.document.title = 'Sign In - Aria';
+    }, []);
+    if (isAuthenticated) {
+        return <react_router_dom_1.Redirect to={redirectFrom}/>;
+    }
+    return (<react_i18next_1.Translation>
+      {function (t) { return (<div className={classes.root}>
+          <Button_1["default"] onClick={function () { return firebase.auth().signInWithRedirect(authProvider); }} variant="contained">
             {t('Sign in with Google')}
-          </Button>
-        </div>
-      )}
-    </Translation>
-  );
+          </Button_1["default"]>
+        </div>); }}
+    </react_i18next_1.Translation>);
 }
-
 SignIn.propTypes = {
-  isAuthenticated: PropTypes.bool,
+    isAuthenticated: prop_types_1["default"].bool
 };
-
-export default React.memo(withStyles(styles)(SignIn));
+exports["default"] = react_1["default"].memo(withStyles_1["default"](styles)(SignIn));

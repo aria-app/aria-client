@@ -1,21 +1,38 @@
 import classnames from 'classnames';
-import withStyles from '@material-ui/styles/withStyles';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Box from './Box';
 
-const styles = {
+const styles = createStyles({
   root: {
     position: 'relative',
   },
-};
+});
 
-function Boxes(props) {
+interface BoxItem {
+  id: any;
+  length: number;
+  x: number;
+}
+
+export interface BoxesProps extends WithStyles<typeof styles> {
+  boxContentComponent?: React.ElementType;
+  className?: string;
+  items?: Array<BoxItem>;
+  length?: number;
+  onItemsChange?: (items: Array<BoxItem>) => void;
+  step?: number;
+  style?: React.CSSProperties;
+}
+
+function Boxes(props: BoxesProps) {
   const {
     boxContentComponent,
     className,
     classes,
-    items,
+    items = [],
     length = 0,
     onItemsChange,
     step = 100,
@@ -29,6 +46,8 @@ function Boxes(props) {
 
   const handleBoxItemChange = React.useCallback(
     draggedItem => {
+      if (!onItemsChange) return;
+
       onItemsChange(
         items.map(item => {
           if (item.id !== draggedItem.id) return item;
@@ -43,8 +62,6 @@ function Boxes(props) {
   return (
     <div
       className={classnames(classes.root, className)}
-      length={length}
-      step={step}
       style={{ ...style, width: length * step }}
     >
       {boxes.map(item => (
@@ -60,21 +77,5 @@ function Boxes(props) {
     </div>
   );
 }
-
-Boxes.propTypes = {
-  boxContentComponent: PropTypes.func,
-  classes: PropTypes.object,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.any,
-      x: PropTypes.number,
-      length: PropTypes.number,
-    }),
-  ),
-  length: PropTypes.number,
-  onItemsChange: PropTypes.func,
-  step: PropTypes.number,
-  style: PropTypes.object,
-};
 
 export default React.memo(withStyles(styles)(Boxes));

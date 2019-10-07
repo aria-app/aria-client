@@ -1,11 +1,13 @@
 import classnames from 'classnames';
 import noop from 'lodash/fp/noop';
-import withStyles from '@material-ui/styles/withStyles';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from './Icon';
 
-const styles = theme => ({
+const styles = (theme: Theme) => createStyles({
   root: {
     alignItems: 'stretch',
     cursor: 'pointer',
@@ -55,12 +57,24 @@ const styles = theme => ({
   },
 });
 
-function IconButton(props) {
+export interface IconButtonProps extends WithStyles<typeof styles> {
+  className?: string;
+  color?: string;
+  icon?: string;
+  iconProps?: object;
+  isActive?: boolean;
+  isDisabled?: boolean;
+  onClick?: (e: React.MouseEvent<MouseEvent, HTMLDivElement>);
+  size?: 'small' | 'regular' | 'large' | '';
+  style?: object;
+  title?: string;
+}
+
+function IconButton(props: IconButtonProps) {
   const {
     className,
     classes,
     color,
-    getRef,
     icon,
     iconProps = {},
     isActive,
@@ -82,7 +96,6 @@ function IconButton(props) {
         className,
       )}
       onClick={isDisabled ? noop : onClick}
-      ref={getRef}
       style={style}
       title={title}
     >
@@ -93,20 +106,5 @@ function IconButton(props) {
     </div>
   );
 }
-
-IconButton.propTypes = {
-  className: PropTypes.string,
-  classes: PropTypes.object,
-  color: PropTypes.string,
-  getRef: PropTypes.func,
-  icon: PropTypes.string,
-  iconProps: PropTypes.object,
-  isActive: PropTypes.bool,
-  isDisabled: PropTypes.bool,
-  onClick: PropTypes.func,
-  size: PropTypes.oneOf(['small', 'regular', 'large', '']),
-  style: PropTypes.object,
-  title: PropTypes.string,
-};
 
 export default React.memo(withStyles(styles)(IconButton));

@@ -13,6 +13,6 @@ i18n
     resources,
   });
 
-export default function changeLanguage(...args) {
-  i18n.changeLanguage(...args);
+export default function changeLanguage(lng: string) {
+  i18n.changeLanguage(lng);
 }
