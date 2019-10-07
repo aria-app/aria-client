@@ -1,13 +1,14 @@
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import hideIf from 'react-render-helpers/hideIf';
-import createStyles from '@material-ui/styles/createStyles';
-import withStyles from '@material-ui/styles/withStyles';
-import withTheme from '@material-ui/styles/withTheme';
 import shared from '../../shared';
 import SongList from './SongList';
 
-const { FadeOut, Icon, LoadingIndicator, Toolbar } = shared.components;
+const { FadeOut, LoadingIndicator, Toolbar } = shared.components;
 
 const styles = theme =>
   createStyles({
@@ -16,6 +17,9 @@ const styles = theme =>
       flex: '1 1 auto',
       flexDirection: 'column',
       position: 'relative',
+    },
+    toolbar: {
+      borderBottom: `2px solid ${theme.palette.divider}`,
     },
     centeredContent: {
       alignSelf: 'center',
@@ -33,27 +37,25 @@ const styles = theme =>
       height: 40,
       width: 40,
     },
-    fab: {
-      alignItems: 'center',
-      backgroundColor: theme.palette.primary.main,
-      borderRadius: '50%',
-      bottom: 24,
-      border: `2px solid ${theme.palette.divider}`,
-      cursor: 'pointer',
-      display: 'flex',
-      flex: '0 0 auto',
-      height: 56,
-      justifyContent: 'center',
+    addSongButton: {
+      bottom: theme.spacing(3),
       position: 'absolute',
-      right: 24,
-      width: 56,
+      right: theme.spacing(3),
+      // alignItems: 'center',
+      // backgroundColor: theme.palette.primary.main,
+      // borderRadius: '50%',
+      // bottom: 24,
+      // border: `2px solid ${theme.palette.divider}`,
+      // cursor: 'pointer',
+      // display: 'flex',
+      // flex: '0 0 auto',
+      // height: 56,
+      // justifyContent: 'center',
+      // position: 'absolute',
+      // right: 24,
+      // width: 56,
     },
-    fabIcon: {},
   });
-
-const FabIcon = withTheme(({ theme, ...rest }) => (
-  <Icon color={theme.palette.primary.contrastText} {...rest} />
-));
 
 function Dashboard(props) {
   const {
@@ -67,7 +69,7 @@ function Dashboard(props) {
     user,
   } = props;
 
-  const addSong = React.useCallback(() => {
+  const handleAddSong = React.useCallback(() => {
     const name = window.prompt('Enter a name for the song', 'New Song');
 
     if (!name) return;
@@ -75,7 +77,7 @@ function Dashboard(props) {
     onSongAdd({ name });
   }, [onSongAdd]);
 
-  const deleteSong = React.useCallback(
+  const handleDeleteSong = React.useCallback(
     song => {
       const shouldDelete = window.confirm(
         `Are you sure you want to delete the song "${song.name}"?`,
@@ -104,6 +106,7 @@ function Dashboard(props) {
   return (
     <div className={classes.root}>
       <Toolbar
+        className={classes.toolbar}
         rightItems={
           <React.Fragment>
             <div className={classes.userInfo}>
@@ -122,12 +125,20 @@ function Dashboard(props) {
       </FadeOut>
       <div className={classes.centeredContent}>
         {hideIf(isLoadingSongs)(() => (
-          <SongList onDelete={deleteSong} onOpen={openSong} songs={songs} />
+          <SongList
+            onDelete={handleDeleteSong}
+            onOpen={openSong}
+            songs={songs}
+          />
         ))}
       </div>
-      <div className={classes.fab} onClick={addSong}>
-        <FabIcon icon="plus" />
-      </div>
+      <Fab
+        className={classes.addSongButton}
+        color="primary"
+        onClick={handleAddSong}
+      >
+        <AddIcon />
+      </Fab>
     </div>
   );
 }

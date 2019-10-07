@@ -1,31 +1,36 @@
+import CloseIcon from '@material-ui/icons/Close';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
-import withStyles from '@material-ui/styles/withStyles';
-import shared from '../../shared';
 
-const { IconButton } = shared.components;
-
-const styles = theme => ({
-  root: {
-    alignItems: 'center',
-    cursor: 'pointer',
-    display: 'flex',
-    flex: '0 0 auto',
-    height: 48,
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    position: 'relative',
-  },
-  text: {
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    display: 'flex',
-    flex: '1 1 auto',
-  },
-  deleteButton: {
-    marginRight: theme.spacing(-1),
-  },
-});
+const styles = theme =>
+  createStyles({
+    root: {
+      alignItems: 'center',
+      cursor: 'pointer',
+      display: 'flex',
+      flex: '0 0 auto',
+      height: 48,
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      position: 'relative',
+    },
+    text: {
+      alignItems: 'center',
+      alignSelf: 'stretch',
+      display: 'flex',
+      flex: '1 1 auto',
+    },
+    deleteButton: {
+      alignItems: 'center',
+      display: 'flex',
+      justifyContent: 'center',
+      height: 40,
+      marginRight: theme.spacing(-1),
+      width: 40,
+    },
+  });
 
 function SongListItem(props) {
   const { classes, onDelete, onOpen, song } = props;
@@ -43,11 +48,9 @@ function SongListItem(props) {
       <div className={classes.text} onClick={handleOpen}>
         {song.name}
       </div>
-      <IconButton
-        className={classes.deleteButton}
-        icon="close"
-        onClick={handleDelete}
-      />
+      <div className={classes.deleteButton} onClick={handleDelete}>
+        <CloseIcon fontSize="small" />
+      </div>
     </div>
   );
 }

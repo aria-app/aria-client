@@ -1,7 +1,7 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import orderBy from 'lodash/fp/orderBy';
 import PropTypes from 'prop-types';
-import React, { useMemo } from 'react';
-import { animated, useTransition } from 'react-spring';
+import React from 'react';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import SongListItem from './SongListItem';
@@ -19,47 +19,27 @@ const styles = theme =>
 
 // TODO: Transition in songs in Song List to prevent duplicate entries on transition
 function SongList(props) {
-  const sortedSongs = useMemo(
-    () => orderBy(x => x.dateModified, 'desc', Object.values(props.songs)),
-    [props.songs],
+  const { classes, onDelete, onOpen, songs } = props;
+
+  const sortedSongs = React.useMemo(
+    () => orderBy(x => x.dateModified, 'desc', Object.values(songs)),
+    [songs],
   );
 
-  const songTransitions = useTransition(sortedSongs, song => song.id, {
-    config: {
-      clamp: true,
-      tension: 200,
-    },
-    reset: true,
-    trail: 100,
-    unique: true,
-    from: {
-      height: 0,
-      marginLeft: -64,
-      opacity: 0,
-    },
-    enter: {
-      height: 48,
-      marginLeft: 0,
-      opacity: 1,
-    },
-    leave: {
-      height: 0,
-      marginLeft: 64,
-      opacity: 0,
-    },
-  });
-
   return (
-    <div className={props.classes.root}>
-      {songTransitions.map(({ item, key, props: animation }) => (
-        <animated.div key={key} style={animation}>
-          <SongListItem
-            onDelete={props.onDelete}
-            onOpen={props.onOpen}
-            song={item}
-          />
-        </animated.div>
-      ))}
+    <div className={classes.root}>
+      <AnimatePresence>
+        {sortedSongs.map(song => (
+          <motion.div
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            key={song.id}
+          >
+            <SongListItem onDelete={onDelete} onOpen={onOpen} song={song} />
+          </motion.div>
+        ))}
+      </AnimatePresence>
     </div>
   );
 }
