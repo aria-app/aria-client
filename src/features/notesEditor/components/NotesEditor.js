@@ -3,6 +3,7 @@ import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
 import uniq from 'lodash/fp/uniq';
+import Fade from '@material-ui/core/Fade';
 import withStyles from '@material-ui/styles/withStyles';
 import memoizeOne from 'memoize-one';
 import PropTypes from 'prop-types';
@@ -16,7 +17,7 @@ import Keys from './Keys';
 import NotesEditorToolbar from './NotesEditorToolbar';
 
 const { previewPitch } = audio.helpers;
-const { FadeIn, FadeOut, LoadingIndicator } = shared.components;
+const { LoadingIndicator } = shared.components;
 const { toggleInArray } = shared.helpers;
 
 const getNotesByIds = memoizeOne((notes, ids) =>
@@ -375,12 +376,12 @@ function NotesEditor(props) {
           UNDO: ['ctrl+z', 'meta+z'],
         }}
       />
-      <FadeOut isVisible={isLoading}>
+      <Fade in={isLoading} mountOnEnter unmountOnExit>
         <LoadingIndicator>LOADING SONG...</LoadingIndicator>,
-      </FadeOut>
+      </Fade>
       <React.Fragment>
         <div className={classes.content} ref={handleContentRefChange}>
-          <FadeIn isVisible={!isLoading}>
+          <Fade in={!isLoading} mountOnEnter unmountOnExit>
             <div className={classes.wrapper}>
               <Keys hoveredRow={mousePoint.y} onKeyPress={handlePreviewPitch} />
               <Grid
@@ -400,7 +401,7 @@ function NotesEditor(props) {
                 toolType={toolType}
               />
             </div>
-          </FadeIn>
+          </Fade>
         </div>
         <NotesEditorToolbar
           isRedoEnabled={isRedoEnabled}

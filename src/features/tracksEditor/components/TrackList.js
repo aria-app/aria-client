@@ -1,14 +1,15 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import Fab from '@material-ui/core/Fab';
+import Fade from '@material-ui/core/Fade';
 import AddIcon from '@material-ui/icons/Add';
 import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { animated, useTransition } from 'react-spring';
 import shared from '../../shared';
 import Ruler from './Ruler';
 import Track from './Track';
 
-const { FadeIn, FadeOut, LoadingIndicator } = shared.components;
+const { LoadingIndicator } = shared.components;
 
 const styles = theme => ({
   root: {
@@ -97,46 +98,42 @@ function TrackList(props) {
     songMeasureCount,
     tracks,
   } = props;
-  const trackTransitions = useTransition(tracks, track => track.id, {
-    config: { clamp: true, tension: 200 },
-    from: { marginLeft: -64, opacity: 0 },
-    enter: { marginLeft: 0, opacity: 1 },
-    leave: { marginLeft: 64, opacity: 0 },
-  });
 
   return (
     <div className={classes.root}>
-      <FadeOut isVisible={isLoading}>
+      <Fade in={isLoading} mountOnEnter unmountOnExit>
         <LoadingIndicator>LOADING SONG...</LoadingIndicator>
-      </FadeOut>
-      <div className={classes.content}>
-        <div className={classes.underlay} onClick={onSequenceDeselect} />
-        <FadeIn isVisible={!isLoading}>
+      </Fade>
+      <Fade in={!isLoading} mountOnEnter unmountOnExit>
+        <div className={classes.content}>
+          <div className={classes.underlay} onClick={onSequenceDeselect} />
           <Ruler
             measureCount={songMeasureCount}
             measureWidth={64}
             onMeasureCountChange={onSongMeasureCountChange}
             onPositionSet={onPositionSet}
           />
-          {trackTransitions.map(({ item, key, props: animation }) => (
-            <animated.div
-              key={key}
-              style={{
-                ...animation,
-              }}
-            >
-              <Track
-                onSequenceAdd={onSequenceAdd}
-                onSequenceEdit={onSequenceEdit}
-                onSequenceOpen={onSequenceOpen}
-                onSequenceSelect={onSequenceSelect}
-                onTrackSelect={onTrackStage}
-                selectedSequenceId={selectedSequence.id}
-                songMeasureCount={songMeasureCount}
-                track={item}
-              />
-            </animated.div>
-          ))}
+          <AnimatePresence>
+            {tracks.map(track => (
+              <motion.div
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                initial={{ opacity: 0 }}
+                key={track.id}
+              >
+                <Track
+                  onSequenceAdd={onSequenceAdd}
+                  onSequenceEdit={onSequenceEdit}
+                  onSequenceOpen={onSequenceOpen}
+                  onSequenceSelect={onSequenceSelect}
+                  onTrackSelect={onTrackStage}
+                  selectedSequenceId={selectedSequence.id}
+                  songMeasureCount={songMeasureCount}
+                  track={track}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
           <Fab
             className={classes.addTrackButton}
             onClick={onTrackAdd}
@@ -145,8 +142,8 @@ function TrackList(props) {
             <AddIcon className={classes.addTrackButtonIcon} />
             Add Track
           </Fab>
-        </FadeIn>
-      </div>
+        </div>
+      </Fade>
     </div>
   );
 }

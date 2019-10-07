@@ -12071,14 +12071,6 @@ react-select@^2.3.0:
     react-input-autosize "^2.2.1"
     react-transition-group "^2.2.1"
 
-react-spring@8.0.26:
-  version "8.0.26"
-  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-8.0.26.tgz#0d11053a3a4fa2e73f1ffc535ce78d509258d558"
-  integrity sha512-JtRRvLixwyjP1hgGx9E/DgO2s2UlFi084ceN0MO6Nze3ktp768ev53qC62WCMjRr+zXG2NM6mzTAWrfLY2lJlQ==
-  dependencies:
-    "@babel/runtime" "^7.3.1"
-    prop-types "^15.5.8"
-
 react-syntax-highlighter@^8.0.1:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/react-syntax-highlighter/-/react-syntax-highlighter-8.1.0.tgz#59103ff17a828a27ed7c8f035ae2558f09b6b78c"
