@@ -1,47 +1,64 @@
 import classnames from 'classnames';
 import clamp from 'lodash/fp/clamp';
-import withStyles from '@material-ui/styles/withStyles';
-import PropTypes from 'prop-types';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import Draggable from 'react-draggable';
 
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    left: 0,
-    position: 'absolute',
-    top: 0,
-    transition: 'transform 200ms ease, width 200ms ease',
-    zIndex: 100,
-  },
-  resizer: {
-    backgroundColor: 'transparent',
-    bottom: '0',
-    cursor: 'col-resize',
-    left: '0',
-    position: 'absolute',
-    top: '0',
-    width: theme.spacing(2),
-    zIndex: '2',
-  },
-  dragging: {
-    cursor: 'move',
-    transition: 'none',
-    zIndex: 200,
-    '& $resizer': {
-      cursor: 'move',
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
+      left: 0,
+      position: 'absolute',
+      top: 0,
+      transition: 'transform 200ms ease, width 200ms ease',
+      zIndex: 100,
     },
-  },
-  resizing: {
-    cursor: 'col-resize',
-    transition: 'none',
-    zIndex: 200,
-  },
-});
+    resizer: {
+      backgroundColor: 'transparent',
+      bottom: '0',
+      cursor: 'col-resize',
+      left: '0',
+      position: 'absolute' as const,
+      top: '0',
+      width: theme.spacing(2),
+      zIndex: 2,
+    },
+    dragging: {
+      cursor: 'move',
+      transition: 'none',
+      zIndex: 200,
+      '& $resizer': {
+        cursor: 'move',
+      },
+    },
+    resizing: {
+      cursor: 'col-resize',
+      transition: 'none',
+      zIndex: 200,
+    },
+  });
 
-function Box(props) {
+interface BoxItem {
+  id: any;
+  length: number;
+  x: number;
+}
+
+export interface BoxProps extends WithStyles<typeof styles> {
+  contentComponent?: React.ElementType;
+  item?: BoxItem;
+  onItemChange?: (item?: BoxItem) => void;
+  step?: number;
+  style?: React.CSSProperties;
+  totalLength?: number;
+}
+
+function Box(props: BoxProps) {
   const {
     classes,
     contentComponent: ContentComponent = () => null,
@@ -115,7 +132,12 @@ function Box(props) {
         <ContentComponent isDragging={isDragging} item={item} step={step} />
         <Draggable
           axis="x"
-          bounds={{ left: step - 16 }}
+          bounds={{
+            bottom: undefined,
+            left: step - 16,
+            right: undefined,
+            top: undefined,
+          }}
           onDrag={handleResizerDrag}
           onStart={handleResizerDragStart}
           onStop={handleResizerDragStop}
@@ -127,19 +149,5 @@ function Box(props) {
     </Draggable>
   );
 }
-
-Box.propTypes = {
-  classes: PropTypes.object,
-  contentComponent: PropTypes.func,
-  item: PropTypes.shape({
-    id: PropTypes.any,
-    x: PropTypes.number,
-    length: PropTypes.number,
-  }),
-  onItemChange: PropTypes.func,
-  step: PropTypes.number,
-  style: PropTypes.object,
-  totalLength: PropTypes.number,
-};
 
 export default React.memo(withStyles(styles)(Box));

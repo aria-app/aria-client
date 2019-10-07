@@ -3,59 +3,59 @@ import noop from 'lodash/fp/noop';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
-import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from './Icon';
 
-const styles = (theme: Theme) => createStyles({
-  root: {
-    alignItems: 'stretch',
-    cursor: 'pointer',
-    display: 'flex',
-    flex: '0 0 auto',
-    flexDirection: 'column',
-    height: 40,
-    position: 'relative',
-    transform: 'scale(1)',
-    transition: 'transform 200ms ease',
-    width: 40,
-    '&:hover': {
-      transform: 'scale(1.2)',
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      alignItems: 'stretch',
+      cursor: 'pointer',
+      display: 'flex',
+      flex: '0 0 auto',
+      flexDirection: 'column',
+      height: 40,
+      position: 'relative',
+      transform: 'scale(1)',
+      transition: 'transform 200ms ease',
+      width: 40,
+      '&:hover': {
+        transform: 'scale(1.2)',
+      },
+      '&:active': {
+        transform: 'scale(0.9)',
+      },
     },
-    '&:active': {
-      transform: 'scale(0.9)',
+    background: {
+      flex: '1 0 auto',
     },
-  },
-  background: {
-    flex: '1 0 auto',
-  },
-  iconWrapper: {
-    position: 'absolute',
-  },
-  active: {
-    '&:hover': {
-      transform: 'none',
+    iconWrapper: {
+      position: 'absolute',
     },
-    '&:active': {
-      transform: 'none',
+    active: {
+      '&:hover': {
+        transform: 'none',
+      },
+      '&:active': {
+        transform: 'none',
+      },
+      '& $background': {
+        backgroundColor: theme.palette.action.selected,
+      },
     },
-    '& $background': {
-      backgroundColor: theme.palette.action.selected,
+    disabled: {
+      cursor: 'not-allowed',
+      '&:hover': {
+        transform: 'none',
+      },
+      '&:active': {
+        transform: 'none',
+      },
+      '& $iconWrapper': {
+        opacity: 0.5,
+      },
     },
-  },
-  disabled: {
-    cursor: 'not-allowed',
-    '&:hover': {
-      transform: 'none',
-    },
-    '&:active': {
-      transform: 'none',
-    },
-    '& $iconWrapper': {
-      opacity: 0.5,
-    },
-  },
-});
+  });
 
 export interface IconButtonProps extends WithStyles<typeof styles> {
   className?: string;
@@ -64,7 +64,7 @@ export interface IconButtonProps extends WithStyles<typeof styles> {
   iconProps?: object;
   isActive?: boolean;
   isDisabled?: boolean;
-  onClick?: (e: React.MouseEvent<MouseEvent, HTMLDivElement>);
+  onClick?: (e: React.MouseEvent<MouseEvent, HTMLDivElement>) => void;
   size?: 'small' | 'regular' | 'large' | '';
   style?: object;
   title?: string;

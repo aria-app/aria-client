@@ -1,62 +1,66 @@
 import classnames from 'classnames';
-import withStyles from '@material-ui/styles/withStyles';
-import PropTypes from 'prop-types';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 
-const styles = theme => ({
-  root: {
-    backgroundColor: theme.palette.background.default,
-    color: theme.palette.text.primary,
-    bottom: 0,
-    display: 'flex',
-    flex: '1 1 auto',
-    flexDirection: 'column',
-    left: 0,
-    overflow: 'hidden',
-    position: 'absolute',
-    right: 0,
-    top: 0,
-  },
-  '@global': {
-    '*': {
-      margin: 0,
-      outline: 'none !important',
-      padding: 0,
-      boxSizing: 'border-box',
-      WebkitFocusRingColor: 'transparent !important',
-      WebkitTapHighlightColor: 'transparent !important',
-      WebkitTouchCallout: 'none !important',
-      WebkitUserSelect: 'none !important',
-      KhtmlUserSelect: 'none !important',
-      MozUserSelect: 'none !important',
-      MsUserSelect: 'none !important',
-      userSelect: 'none !important',
-    },
-    'html, body': {
-      position: 'absolute',
-      top: 0,
-      right: 0,
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      backgroundColor: theme.palette.background.default,
+      color: theme.palette.text.primary,
       bottom: 0,
+      display: 'flex',
+      flex: '1 1 auto',
+      flexDirection: 'column' as const,
       left: 0,
       overflow: 'hidden',
+      position: 'absolute',
+      right: 0,
+      top: 0,
     },
-    body: {
-      color: theme.palette.text.primary,
-      fontFamily: theme.typography.fontFamily,
-      fontSize: theme.typography.fontSize,
+    '@global': {
+      '& *': {
+        margin: 0,
+        outline: 'none' as const,
+        padding: 0,
+        boxSizing: 'border-box' as const,
+        WebkitFocusRingColor: 'transparent' as const,
+        WebkitTapHighlightColor: 'transparent' as const,
+        WebkitTouchCallout: 'none' as const,
+        WebkitUserSelect: 'none' as const,
+        KhtmlUserSelect: 'none' as const,
+        MozUserSelect: 'none' as const,
+        MsUserSelect: 'none' as const,
+        userSelect: 'none' as const,
+      },
+      'html, body': {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        overflow: 'hidden',
+      },
+      body: {
+        color: theme.palette.text.primary,
+        fontFamily: theme.typography.fontFamily,
+        fontSize: theme.typography.fontSize,
+      },
+      '::-webkit-scrollbar': {
+        display: 'none',
+      },
     },
-    '::-webkit-scrollbar': {
-      display: 'none',
-    },
-  },
-});
+  });
 
-Shell.propTypes = {
-  className: PropTypes.string,
-  classes: PropTypes.object,
-};
+export interface ShellProps
+  extends WithStyles<typeof styles>,
+    React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode;
+  className?: string;
+}
 
-function Shell(props) {
+function Shell(props: ShellProps) {
   const { className, classes, ...rest } = props;
 
   return <div className={classnames(classes.root, className)} {...rest} />;

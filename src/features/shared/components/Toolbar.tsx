@@ -1,9 +1,8 @@
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import React from 'react';
 
 const styles = (theme: Theme) =>
   createStyles({
