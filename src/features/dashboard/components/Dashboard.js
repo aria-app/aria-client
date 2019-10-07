@@ -1,4 +1,5 @@
 import Fab from '@material-ui/core/Fab';
+import Fade from '@material-ui/core/Fade';
 import AddIcon from '@material-ui/icons/Add';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
@@ -8,7 +9,7 @@ import hideIf from 'react-render-helpers/hideIf';
 import shared from '../../shared';
 import SongList from './SongList';
 
-const { FadeOut, LoadingIndicator, Toolbar } = shared.components;
+const { LoadingIndicator, Toolbar } = shared.components;
 
 const styles = theme =>
   createStyles({
@@ -107,9 +108,9 @@ function Dashboard(props) {
           </React.Fragment>
         }
       />
-      <FadeOut isVisible={isLoadingSongs}>
+      <Fade in={isLoadingSongs} mountOnEnter unmountOnExit>
         <LoadingIndicator>LOADING SONGS...</LoadingIndicator>
-      </FadeOut>
+      </Fade>
       <div className={classes.centeredContent}>
         {hideIf(isLoadingSongs)(() => (
           <SongList
