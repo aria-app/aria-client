@@ -1,12 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import orderBy from 'lodash/fp/orderBy';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles from '@material-ui/styles/withStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import React from 'react';
 import SongListItem from './SongListItem';
 
-const styles = theme =>
+const styles = (theme: Theme) =>
   createStyles({
     root: {
       display: 'flex',
@@ -17,8 +17,17 @@ const styles = theme =>
     },
   });
 
-// TODO: Transition in songs in Song List to prevent duplicate entries on transition
-function SongList(props) {
+interface Song {
+  [key: string]: any;
+}
+
+export interface SongListProps extends WithStyles<typeof styles> {
+  onDelete?: (song: Song) => void;
+  onOpen?: (song: Song) => void;
+  songs?: Array<Song>;
+}
+
+function SongList(props: SongListProps) {
   const { classes, onDelete, onOpen, songs } = props;
 
   const sortedSongs = React.useMemo(
@@ -43,11 +52,5 @@ function SongList(props) {
     </div>
   );
 }
-
-SongList.propTypes = {
-  onDelete: PropTypes.func,
-  onOpen: PropTypes.func,
-  songs: PropTypes.object,
-};
 
 export default React.memo(withStyles(styles)(SongList));

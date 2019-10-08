@@ -1,10 +1,10 @@
 import CloseIcon from '@material-ui/icons/Close';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles from '@material-ui/styles/withStyles';
-import PropTypes from 'prop-types';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 
-const styles = theme =>
+const styles = (theme: Theme) =>
   createStyles({
     root: {
       alignItems: 'center',
@@ -32,7 +32,17 @@ const styles = theme =>
     },
   });
 
-function SongListItem(props) {
+interface Song {
+  [key: string]: any;
+}
+
+export interface SongListItemProps extends WithStyles<typeof styles> {
+  onDelete?: (song: Song) => void;
+  onOpen?: (song: Song) => void;
+  song?: Song;
+}
+
+function SongListItem(props: SongListItemProps) {
   const { classes, onDelete, onOpen, song } = props;
 
   const handleDelete = React.useCallback(() => {
@@ -54,11 +64,5 @@ function SongListItem(props) {
     </div>
   );
 }
-
-SongListItem.propTypes = {
-  onDelete: PropTypes.func,
-  onOpen: PropTypes.func,
-  song: PropTypes.object,
-};
 
 export default React.memo(withStyles(styles)(SongListItem));

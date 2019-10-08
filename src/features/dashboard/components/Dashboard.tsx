@@ -1,16 +1,17 @@
 import Fab from '@material-ui/core/Fab';
+import Fade from '@material-ui/core/Fade';
 import AddIcon from '@material-ui/icons/Add';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles from '@material-ui/styles/withStyles';
-import PropTypes from 'prop-types';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import hideIf from 'react-render-helpers/hideIf';
 import shared from '../../shared';
 import SongList from './SongList';
 
-const { FadeOut, LoadingIndicator, Toolbar } = shared.components;
+const { LoadingIndicator, Toolbar } = shared.components;
 
-const styles = theme =>
+const styles = (theme: Theme) =>
   createStyles({
     root: {
       display: 'flex',
@@ -44,7 +45,29 @@ const styles = theme =>
     },
   });
 
-function Dashboard(props) {
+interface Song {
+  [key: string]: any;
+}
+
+interface NewSongOptions {
+  name: string;
+}
+
+interface User {
+  [key: string]: any;
+}
+
+export interface DashboardProps extends WithStyles<typeof styles> {
+  history?: { [key: string]: any };
+  isLoadingSongs?: boolean;
+  onLoad?: () => void;
+  onSongAdd?: (options: NewSongOptions) => void;
+  onSongDelete?: (song: Song) => void;
+  songs?: Array<Song>;
+  user?: User;
+}
+
+function Dashboard(props: DashboardProps) {
   const {
     classes,
     history,
@@ -56,7 +79,7 @@ function Dashboard(props) {
     user,
   } = props;
 
-  const handleAddSong = React.useCallback(() => {
+  const handleSongAdd = React.useCallback(() => {
     const name = window.prompt('Enter a name for the song', 'New Song');
 
     if (!name) return;
@@ -64,7 +87,7 @@ function Dashboard(props) {
     onSongAdd({ name });
   }, [onSongAdd]);
 
-  const handleDeleteSong = React.useCallback(
+  const handleSongDelete = React.useCallback(
     song => {
       const shouldDelete = window.confirm(
         `Are you sure you want to delete the song "${song.name}"?`,
@@ -77,7 +100,7 @@ function Dashboard(props) {
     [onSongDelete],
   );
 
-  const openSong = React.useCallback(
+  const handleSongOpen = React.useCallback(
     song => {
       history.push(`/song/${song.id}`);
     },
@@ -107,14 +130,14 @@ function Dashboard(props) {
           </React.Fragment>
         }
       />
-      <FadeOut isVisible={isLoadingSongs}>
+      <Fade in={isLoadingSongs} mountOnEnter unmountOnExit>
         <LoadingIndicator>LOADING SONGS...</LoadingIndicator>
-      </FadeOut>
+      </Fade>
       <div className={classes.centeredContent}>
         {hideIf(isLoadingSongs)(() => (
           <SongList
-            onDelete={handleDeleteSong}
-            onOpen={openSong}
+            onDelete={handleSongDelete}
+            onOpen={handleSongOpen}
             songs={songs}
           />
         ))}
@@ -122,23 +145,12 @@ function Dashboard(props) {
       <Fab
         className={classes.addSongButton}
         color="primary"
-        onClick={handleAddSong}
+        onClick={handleSongAdd}
       >
         <AddIcon />
       </Fab>
     </div>
   );
 }
-
-Dashboard.propTypes = {
-  classes: PropTypes.object,
-  history: PropTypes.object,
-  isLoadingSongs: PropTypes.bool,
-  onLoad: PropTypes.func,
-  onSongAdd: PropTypes.func,
-  onSongDelete: PropTypes.func,
-  songs: PropTypes.object,
-  user: PropTypes.object,
-};
 
 export default React.memo(withStyles(styles)(Dashboard));
