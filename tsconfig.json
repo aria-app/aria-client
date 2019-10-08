@@ -15,6 +15,6 @@
     "skipLibCheck": true,
     "target": "es5"
   },
-  "include": ["src/features/dashboard"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }

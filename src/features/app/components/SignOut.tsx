@@ -1,11 +1,11 @@
 import * as firebase from 'firebase/app';
-import PropTypes from 'prop-types';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
-import withStyles from '@material-ui/styles/withStyles';
 
-const styles = () => ({
+const styles = createStyles({
   root: {
     alignItems: 'center',
     display: 'flex',
@@ -15,7 +15,11 @@ const styles = () => ({
   },
 });
 
-function SignOut(props) {
+export interface SignOutProps extends WithStyles<typeof styles> {
+  isAuthenticated?: boolean;
+}
+
+function SignOut(props: SignOutProps) {
   const { classes, isAuthenticated } = props;
 
   React.useEffect(() => {
@@ -37,9 +41,5 @@ function SignOut(props) {
     </Translation>
   );
 }
-
-SignOut.propTypes = {
-  isAuthenticated: PropTypes.bool,
-};
 
 export default React.memo(withStyles(styles)(SignOut));

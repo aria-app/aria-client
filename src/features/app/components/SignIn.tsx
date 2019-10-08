@@ -1,16 +1,16 @@
 import * as firebase from 'firebase/app';
 import getOr from 'lodash/fp/getOr';
 import Button from '@material-ui/core/Button';
-import PropTypes from 'prop-types';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
-import withStyles from '@material-ui/styles/withStyles';
 import shared from '../../shared';
 
 const { authProvider } = shared.constants;
 
-const styles = () => ({
+const styles = createStyles({
   root: {
     alignItems: 'center',
     display: 'flex',
@@ -19,7 +19,12 @@ const styles = () => ({
   },
 });
 
-function SignIn(props) {
+export interface SignInProps extends WithStyles<typeof styles> {
+  isAuthenticated?: boolean;
+  location?: { [key: string]: any };
+}
+
+function SignIn(props: SignInProps) {
   const { classes, isAuthenticated, location } = props;
   const redirectFrom = React.useMemo(
     () => getOr({ pathname: '/' }, 'state.from', location),
@@ -49,9 +54,5 @@ function SignIn(props) {
     </Translation>
   );
 }
-
-SignIn.propTypes = {
-  isAuthenticated: PropTypes.bool,
-};
 
 export default React.memo(withStyles(styles)(SignIn));

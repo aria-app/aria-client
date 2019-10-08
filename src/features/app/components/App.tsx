@@ -1,5 +1,4 @@
 import Dawww from 'dawww';
-import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import { hideIf, showIf } from 'react-render-helpers';
@@ -17,30 +16,53 @@ const { LoadingIndicator, Shell } = shared.components;
 const { STARTED } = Dawww.PLAYBACK_STATES;
 const { SongEditorContainer } = songEditor.components;
 
-const PrivateRoute = ({
-  component: Component,
-  isAuthenticated,
-  location,
-  ...rest
-}) => (
-  <Route
-    {...rest}
-    render={props =>
-      isAuthenticated ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: '/sign-in',
-            state: { from: location },
-          }}
-        />
-      )
-    }
-  />
-);
+interface PrivateRouteProps {
+  component?: React.ElementType;
+  exact?: boolean;
+  isAuthenticated?: boolean;
+  location?: { [key: string]: any };
+  path?: string;
+}
 
-function App(props) {
+function PrivateRoute(props: PrivateRouteProps) {
+  const {
+    component: Component,
+    exact,
+    isAuthenticated,
+    location,
+    path,
+  } = props;
+
+  return (
+    <Route
+      exact={exact}
+      path={path}
+      render={props =>
+        isAuthenticated ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/sign-in',
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
+  );
+}
+
+export interface AppProps {
+  isAuthenticated?: boolean;
+  didAuthenticationRun?: boolean;
+  onPause?: () => void;
+  onPlay?: () => void;
+  onStop?: () => void;
+  playbackState?: string;
+}
+
+function App(props: AppProps) {
   const {
     didAuthenticationRun,
     isAuthenticated,
@@ -98,14 +120,5 @@ function App(props) {
     </ThemeProvider>
   );
 }
-
-App.propTypes = {
-  isAuthenticated: PropTypes.bool,
-  didAuthenticationRun: PropTypes.bool,
-  onPause: PropTypes.func,
-  onPlay: PropTypes.func,
-  onStop: PropTypes.func,
-  playbackState: PropTypes.string,
-};
 
 export default React.memo(App);
