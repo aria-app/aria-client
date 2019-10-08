@@ -1,7 +1,7 @@
 import Dawww from 'dawww';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles from '@material-ui/styles/withStyles';
-import PropTypes from 'prop-types';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { hideIf, showIf } from 'react-render-helpers';
 import Tone from 'tone';
@@ -10,7 +10,7 @@ import shared from '../../shared';
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 const { IconButton, Toolbar } = shared.components;
 
-const styles = theme =>
+const styles = (theme: Theme) =>
   createStyles({
     root: {
       borderBottom: `2px solid ${theme.palette.divider}`,
@@ -18,7 +18,15 @@ const styles = theme =>
     },
   });
 
-function SongEditorToolbar(props) {
+export interface SongEditorToolbarProps extends WithStyles<typeof styles> {
+  onPause?: () => void;
+  onPlay?: () => void;
+  onSongInfoOpen?: () => void;
+  onStop?: () => void;
+  playbackState?: string;
+}
+
+function SongEditorToolbar(props: SongEditorToolbarProps) {
   const {
     classes,
     onPause,
@@ -51,7 +59,6 @@ function SongEditorToolbar(props) {
           <IconButton icon="cog" onClick={onSongInfoOpen} title="Settings" />
         </React.Fragment>
       }
-      position="top"
       rightItems={
         <React.Fragment>
           {hideIf(playbackState === STARTED)(
@@ -65,19 +72,8 @@ function SongEditorToolbar(props) {
           )}
         </React.Fragment>
       }
-      style={{
-        borderTop: 0,
-      }}
     />
   );
 }
-
-SongEditorToolbar.propTypes = {
-  onPause: PropTypes.func,
-  onPlay: PropTypes.func,
-  onSongInfoOpen: PropTypes.func,
-  onStop: PropTypes.func,
-  playbackState: PropTypes.string,
-};
 
 export default React.memo(withStyles(styles)(SongEditorToolbar));

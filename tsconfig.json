@@ -15,6 +15,6 @@
     "skipLibCheck": true,
     "target": "es5"
   },
-  "include": ["src/features/tracksEditor"],
+  "include": ["src/features/songEditor"],
   "exclude": ["node_modules"]
 }

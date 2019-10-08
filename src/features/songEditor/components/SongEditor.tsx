@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { Route } from 'react-router-dom';
-import withStyles from '@material-ui/styles/withStyles';
 import notesEditor from '../../notesEditor';
 import tracksEditor from '../../tracksEditor';
 import SongEditorToolbar from './SongEditorToolbar';
@@ -10,7 +10,7 @@ import SongInfoModal from './SongInfoModal';
 const { NotesEditorContainer } = notesEditor.components;
 const { TracksEditorContainer } = tracksEditor.components;
 
-const styles = {
+const styles = createStyles({
   root: {
     display: 'flex',
     flex: '1 1 auto',
@@ -18,9 +18,25 @@ const styles = {
     overflow: 'hidden',
     position: 'relative',
   },
-};
+});
 
-function SongEditor(props) {
+interface Song {
+  [key: string]: any;
+}
+
+export interface SongEditorProps extends WithStyles<typeof styles> {
+  bpm?: number;
+  history?: { [key: string]: any };
+  match?: { [key: string]: any };
+  onBPMChange?: (bpm: number) => void;
+  onPause?: () => void;
+  onPlay?: () => void;
+  onStop?: () => void;
+  playbackState?: string;
+  song?: Song;
+}
+
+function SongEditor(props: SongEditorProps) {
   const {
     bpm,
     classes,
@@ -81,18 +97,5 @@ function SongEditor(props) {
     </div>
   );
 }
-
-SongEditor.propTypes = {
-  bpm: PropTypes.number,
-  classes: PropTypes.object,
-  history: PropTypes.object,
-  match: PropTypes.object,
-  onBPMChange: PropTypes.func,
-  onPause: PropTypes.func,
-  onPlay: PropTypes.func,
-  onStop: PropTypes.func,
-  playbackState: PropTypes.string,
-  song: PropTypes.object,
-};
 
 export default React.memo(withStyles(styles)(SongEditor));
