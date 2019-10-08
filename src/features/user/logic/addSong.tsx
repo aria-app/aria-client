@@ -1,11 +1,27 @@
 import Dawww from 'dawww';
-import { createLogic } from 'redux-logic';
+import { createLogic, Logic } from 'redux-logic';
 import shared from '../../shared';
 import * as selectors from '../selectors';
 
 const { db } = shared.constants;
 
-export const addSong = createLogic({
+interface Payload {
+  options?: { [key: string]: any };
+}
+
+interface Action {
+  type?: string;
+  payload?: Payload;
+}
+
+interface Dependencies {
+  action?: Action;
+  [key: string]: any;
+}
+
+type LogicType = Logic<any, Payload, any, Dependencies, any, string>;
+
+export const addSong: LogicType = createLogic({
   type: shared.actions.SONG_ADD_REQUEST_STARTED,
   warnTimeout: 0,
   process({ action, getState }, dispatch, done) {

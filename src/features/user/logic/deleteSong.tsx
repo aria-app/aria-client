@@ -1,9 +1,29 @@
-import { createLogic } from 'redux-logic';
+import { createLogic, Logic } from 'redux-logic';
 import shared from '../../shared';
 
 const { db } = shared.constants;
 
-export const deleteSong = createLogic({
+interface Song {
+  id?: string;
+}
+
+interface Payload {
+  song?: Song;
+}
+
+interface Action {
+  type?: string;
+  payload?: Payload;
+}
+
+interface Dependencies {
+  action?: Action;
+  [key: string]: any;
+}
+
+type LogicType = Logic<any, Payload, any, Dependencies, any, string>;
+
+export const deleteSong: LogicType = createLogic({
   type: shared.actions.SONG_DELETE_REQUEST_STARTED,
   warnTimeout: 0,
   process({ action }, dispatch, done) {

@@ -1,33 +1,41 @@
 import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
-import { createLogic } from 'redux-logic';
+import { createLogic, Logic } from 'redux-logic';
 import shared from '../../shared';
-import * as helpers from '../helpers';
+import { fetchSongById } from '../helpers';
 import * as selectors from '../selectors';
 
-interface Action {
-  payload: {
-    songId: string;
-  };
+interface Payload {
+  songId?: string;
 }
 
-export const fetchSongToEdit = createLogic({
+interface Action {
+  type?: string;
+  payload?: Payload;
+}
+
+interface Dependencies {
+  action?: Action;
+  [key: string]: any;
+}
+
+type LogicType = Logic<any, Payload, any, Dependencies, any, string>;
+
+export const fetchSongToEdit: LogicType = createLogic({
   type: [shared.actions.NOTES_EDITOR_LOADED, shared.actions.SONG_EDITOR_LOADED],
   warnTimeout: 0,
   process({ action, getState }, dispatch, done) {
-    helpers
-      .fetchSongById(((action as unknown) as Action).payload.songId)
-      .then(song => {
-        const prevSong = selectors.getSong(getState());
+    fetchSongById(action.payload.songId).then(song => {
+      const prevSong = selectors.getSong(getState());
 
-        if (isEmpty(song) || isEqual(prevSong, song)) {
-          done();
-          return;
-        }
-
-        dispatch(shared.actions.songLoaded(song));
-
+      if (isEmpty(song) || isEqual(prevSong, song)) {
         done();
-      });
+        return;
+      }
+
+      dispatch(shared.actions.songLoaded(song));
+
+      done();
+    });
   },
 });
