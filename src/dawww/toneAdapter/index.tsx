@@ -3,7 +3,6 @@ import getOr from 'lodash/fp/getOr';
 import invokeArgs from 'lodash/fp/invokeArgs';
 import isFunction from 'lodash/fp/isFunction';
 import range from 'lodash/fp/range';
-// eslint-disable-next-line lodash-fp/use-fp
 import set from 'lodash/set';
 
 export function createToneAdapter(Tone) {
