@@ -20,7 +20,7 @@ const styles = (theme: Theme) =>
       top: 0,
     },
     '@global': {
-      '& *': {
+      '*': {
         margin: 0,
         outline: 'none' as const,
         padding: 0,

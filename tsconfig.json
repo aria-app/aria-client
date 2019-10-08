@@ -13,6 +13,7 @@
     "noUnusedLocals": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
+    "strict": false,
     "target": "es5"
   },
   "include": ["src"],

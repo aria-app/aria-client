@@ -10,6 +10,7 @@
     "clean": "rimraf src/**/*.js",
     "build-storybook": "build-storybook -s public",
     "lint": "eslint src && prettier --write \"src/**/*.js\"",
+    "prestart": "yarn run clean",
     "start": "react-scripts start",
     "storybook": "start-storybook -p 9009 -s public",
     "tsc": "tsc",
