@@ -1,4 +1,4 @@
-import Dawww from 'dawww';
+import Dawww from '../../../dawww';
 import map from 'lodash/fp/map';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';

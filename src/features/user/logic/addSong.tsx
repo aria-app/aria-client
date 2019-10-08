@@ -1,4 +1,4 @@
-import Dawww from 'dawww';
+import Dawww from '../../../dawww';
 import { createLogic, Logic } from 'redux-logic';
 import shared from '../../shared';
 import * as selectors from '../selectors';

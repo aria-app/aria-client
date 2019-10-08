@@ -7,20 +7,20 @@ import { interpretNotesDiff } from './interpretNotesDiff';
 import { interpretSequencesDiff } from './interpretSequencesDiff';
 import { interpretTracksDiff } from './interpretTracksDiff';
 
-export function interpretDiff(diff, ...rest) {
+export function interpretDiff(diff, song) {
   switch (getOr('', 'path[0]', diff)) {
     case 'bpm':
-      return interpretBPMEditedDiff(diff, ...rest);
+      return interpretBPMEditedDiff(diff);
     case 'focusedSequenceId':
-      return interpretFocusedSequenceIdEditedDiff(diff, ...rest);
+      return interpretFocusedSequenceIdEditedDiff(diff);
     case 'measureCount':
-      return interpretMeasureCountEditedDiff(diff, ...rest);
+      return interpretMeasureCountEditedDiff(diff);
     case 'notes':
-      return interpretNotesDiff(diff, ...rest);
+      return interpretNotesDiff(diff);
     case 'sequences':
-      return interpretSequencesDiff(diff, ...rest);
+      return interpretSequencesDiff(diff);
     case 'tracks':
-      return interpretTracksDiff(diff, ...rest);
+      return interpretTracksDiff(diff, song);
     default:
       return actions.unknown();
   }

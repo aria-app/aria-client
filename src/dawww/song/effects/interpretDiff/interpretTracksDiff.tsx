@@ -5,14 +5,14 @@ import { interpretTrackAddedDiff } from './interpretTrackAddedDiff';
 import { interpretTrackDeletedDiff } from './interpretTrackDeletedDiff';
 import { interpretTrackEditedDiff } from './interpretTrackEditedDiff';
 
-export function interpretTracksDiff(diff, ...rest) {
+export function interpretTracksDiff(diff, song) {
   switch (getOr('', 'kind', diff)) {
     case constants.DIFF_KIND_D:
-      return interpretTrackDeletedDiff(diff, ...rest);
+      return interpretTrackDeletedDiff(diff);
     case constants.DIFF_KIND_E:
-      return interpretTrackEditedDiff(diff, ...rest);
+      return interpretTrackEditedDiff(diff);
     case constants.DIFF_KIND_N:
-      return interpretTrackAddedDiff(diff, ...rest);
+      return interpretTrackAddedDiff(diff, song);
     default:
       return actions.unknown();
   }

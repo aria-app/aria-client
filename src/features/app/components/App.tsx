@@ -1,4 +1,4 @@
-import Dawww from 'dawww';
+import Dawww from '../../../dawww';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import { hideIf, showIf } from 'react-render-helpers';

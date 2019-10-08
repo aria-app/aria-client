@@ -1,4 +1,4 @@
-import Dawww from 'dawww';
+import Dawww from '../../../dawww';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';

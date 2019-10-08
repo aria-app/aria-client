@@ -1,4 +1,4 @@
-import Dawww from 'dawww';
+import Dawww from '../../../dawww';
 import omit from 'lodash/fp/omit';
 import reject from 'lodash/fp/reject';
 import { createReducer } from 'redux-create-reducer';

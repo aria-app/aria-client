@@ -1,4 +1,4 @@
-import Dawww from 'dawww';
+import Dawww from '../../../dawww';
 import filter from 'lodash/fp/filter';
 import map from 'lodash/fp/map';
 import omit from 'lodash/fp/omit';

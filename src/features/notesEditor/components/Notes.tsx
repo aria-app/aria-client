@@ -1,4 +1,4 @@
-import Dawww from 'dawww';
+import Dawww from '../../../dawww';
 import find from 'lodash/fp/find';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';

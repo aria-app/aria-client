@@ -1,4 +1,4 @@
-import Dawww from 'dawww';
+import Dawww from '../../../dawww';
 import { createReducer } from 'redux-create-reducer';
 import shared from '../../shared';
 

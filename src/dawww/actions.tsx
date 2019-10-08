@@ -58,7 +58,21 @@ export const noteDeleted = (note, id) => ({
   payload: { id, note },
 });
 
-export const notePlayed = ({ length, pitch, position, time, trackId }) => ({
+interface NotePlayedArgs {
+  length?: string;
+  pitch: string;
+  position?: string;
+  time?: string;
+  trackId: string;
+}
+
+export const notePlayed = ({
+  length,
+  pitch,
+  position,
+  time,
+  trackId,
+}: NotePlayedArgs) => ({
   type: NOTE_PLAYED,
   payload: { length, pitch, position, time, trackId },
 });
