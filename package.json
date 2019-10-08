@@ -7,6 +7,7 @@
   "private": true,
   "scripts": {
     "build": "react-scripts build",
+    "clean": "rimraf src/**/*.js",
     "build-storybook": "build-storybook -s public",
     "lint": "eslint src && prettier --write \"src/**/*.js\"",
     "start": "react-scripts start",

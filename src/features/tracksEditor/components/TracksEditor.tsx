@@ -2,18 +2,18 @@ import Dawww from 'dawww';
 import find from 'lodash/fp/find';
 import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
-import withStyles from '@material-ui/styles/withStyles';
-import PropTypes from 'prop-types';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import shared from '../../shared';
-import TrackList from './TrackList';
 import TrackEditingModal from './TrackEditingModal';
 import TracksEditorToolbar from './TracksEditorToolbar';
+import TrackList from './TrackList';
 
 const { Timeline } = shared.components;
 
-const styles = {
+const styles = createStyles({
   root: {
     display: 'flex',
     flex: '1 1 auto',
@@ -21,9 +21,51 @@ const styles = {
     overflow: 'hidden',
     position: 'relative',
   },
-};
+});
 
-function TracksEditor(props) {
+interface Sequence {
+  [key: string]: any;
+}
+
+interface Song {
+  [key: string]: any;
+}
+
+interface Track {
+  [key: string]: any;
+}
+
+export interface TracksEditorProps extends WithStyles<typeof styles> {
+  history?: { [key: string]: any };
+  isLoading?: boolean;
+  isRedoEnabled?: boolean;
+  isStopped?: boolean;
+  isUndoEnabled?: boolean;
+  match?: { [key: string]: any };
+  onLoad?: (songId: string) => void;
+  onPositionSet?: (position: number) => void;
+  onRedo?: () => void;
+  onSequenceAdd?: (newSequence: Sequence) => void;
+  onSequenceDelete?: (sequenceToDelete: Sequence) => void;
+  onSequenceDuplicate?: (
+    duplicatedSequence: Sequence,
+    originalSequence: Sequence,
+  ) => void;
+  onSequenceEdit?: (sequence: Sequence) => void;
+  onSongMeasureCountChange?: (songMeasureCount: number) => void;
+  onTrackAdd?: (track: Track, sequence: Sequence) => void;
+  onTrackDelete?: (track: Track) => void;
+  onTrackVoiceSet?: (track: Track, voice: string) => void;
+  onTrackVolumeSet?: (track: Track, volume: string) => void;
+  onUndo?: () => void;
+  position?: number;
+  sequences?: Array<Sequence>;
+  song?: Song;
+  songMeasureCount?: number;
+  tracks?: Array<Track>;
+}
+
+function TracksEditor(props: TracksEditorProps) {
   const {
     classes,
     history,
@@ -188,7 +230,6 @@ function TracksEditor(props) {
           isLoading={isLoading}
           onPositionSet={handleTrackListPositionSet}
           onSequenceAdd={handleTrackListSequenceAdd}
-          onSequenceDelete={onSequenceDelete}
           onSequenceEdit={onSequenceEdit}
           onSequenceDeselect={handleTrackListSequenceDeselect}
           onSequenceOpen={handleSequenceOpen}
@@ -222,33 +263,5 @@ function TracksEditor(props) {
     </div>
   );
 }
-
-TracksEditor.propTypes = {
-  classes: PropTypes.object,
-  history: PropTypes.object,
-  isLoading: PropTypes.bool,
-  isRedoEnabled: PropTypes.bool,
-  isStopped: PropTypes.bool,
-  isUndoEnabled: PropTypes.bool,
-  match: PropTypes.object,
-  onLoad: PropTypes.func,
-  onPositionSet: PropTypes.func,
-  onRedo: PropTypes.func,
-  onSequenceAdd: PropTypes.func,
-  onSequenceDelete: PropTypes.func,
-  onSequenceDuplicate: PropTypes.func,
-  onSequenceEdit: PropTypes.func,
-  onSongMeasureCountChange: PropTypes.func,
-  onTrackAdd: PropTypes.func,
-  onTrackDelete: PropTypes.func,
-  onTrackVoiceSet: PropTypes.func,
-  onTrackVolumeSet: PropTypes.func,
-  onUndo: PropTypes.func,
-  position: PropTypes.number,
-  sequences: PropTypes.arrayOf(PropTypes.object),
-  song: PropTypes.object,
-  songMeasureCount: PropTypes.number,
-  tracks: PropTypes.arrayOf(PropTypes.object),
-};
 
 export default React.memo(withStyles(styles)(TracksEditor));

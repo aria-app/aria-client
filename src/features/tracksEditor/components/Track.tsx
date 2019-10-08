@@ -5,8 +5,9 @@ import inRange from 'lodash/fp/inRange';
 import isNil from 'lodash/fp/isNil';
 import range from 'lodash/fp/range';
 import some from 'lodash/fp/some';
-import withStyles from '@material-ui/styles/withStyles';
-import PropTypes from 'prop-types';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import { showIf } from 'react-render-helpers';
@@ -17,28 +18,49 @@ import TrackHeader from './TrackHeader';
 
 const { Boxes } = shared.components;
 
-const styles = theme => ({
-  root: {
-    alignItems: 'stretch',
-    display: 'flex',
-    flex: '0 0 auto',
-    flexDirection: 'column',
-    marginBottom: theme.spacing(3),
-  },
-  sequences: {
-    alignItems: 'stretch',
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid transparent',
-    boxShadow: `0 0 0 2px ${theme.palette.action.hover}`,
-    borderRadius: theme.shape.borderRadius * 2,
-    display: 'flex',
-    flex: '1 0 auto',
-    position: 'relative',
-    transition: 'width 500ms ease',
-  },
-});
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      alignItems: 'stretch',
+      display: 'flex',
+      flex: '0 0 auto',
+      flexDirection: 'column',
+      marginBottom: theme.spacing(3),
+    },
+    sequences: {
+      alignItems: 'stretch',
+      backgroundColor: theme.palette.background.paper,
+      border: '2px solid transparent',
+      boxShadow: `0 0 0 2px ${theme.palette.action.hover}`,
+      borderRadius: theme.shape.borderRadius * 2,
+      display: 'flex',
+      flex: '1 0 auto',
+      position: 'relative',
+      transition: 'width 500ms ease',
+    },
+  });
 
-function Track(props) {
+interface Sequence {
+  [key: string]: any;
+}
+
+interface Track {
+  [key: string]: any;
+}
+
+export interface TrackProps extends WithStyles<typeof styles> {
+  onSequenceAdd?: (track: Track, position: number) => void;
+  onSequenceEdit?: (sequence: Sequence) => void;
+  onSequenceOpen?: (sequence: Sequence) => void;
+  onSequenceSelect?: (sequence: Sequence) => void;
+  onTrackSelect?: (track: Track) => void;
+  selectedSequenceId?: string;
+  songMeasureCount?: number;
+  theme?: Theme;
+  track?: Track;
+}
+
+function Track(props: TrackProps) {
   const {
     classes,
     onSequenceAdd,
@@ -143,7 +165,6 @@ function Track(props) {
       >
         <Boxes
           boxContentComponent={sequenceComponent}
-          className={classes.boxes}
           items={boxesItems}
           length={songMeasureCount}
           onItemsChange={handleBoxesItemsChange}
@@ -169,20 +190,5 @@ function Track(props) {
     </div>
   );
 }
-
-Track.propTypes = {
-  classes: PropTypes.object,
-  onSequenceAdd: PropTypes.func,
-  onSequenceEdit: PropTypes.func,
-  onSequenceOpen: PropTypes.func,
-  onSequenceSelect: PropTypes.func,
-  onTrackIsMutedToggle: PropTypes.func,
-  onTrackIsSoloingToggle: PropTypes.func,
-  onTrackSelect: PropTypes.func,
-  selectedSequenceId: PropTypes.string,
-  songMeasureCount: PropTypes.number,
-  theme: PropTypes.object,
-  track: PropTypes.object,
-};
 
 export default React.memo(withStyles(styles)(Track));

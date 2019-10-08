@@ -13,11 +13,9 @@ export const TrackSequenceBasics = () => (
     }}
   >
     <TrackSequence
-      index={number('index', 0)}
       isSelected={boolean('isSelected', false)}
       onOpen={action('onOpen')}
       onSelect={action('onSelect')}
-      onSequenceAdd={action('onSequenceAdd')}
       sequence={{
         id: '0',
         measureCount: number('sequence.measureCount', 1),

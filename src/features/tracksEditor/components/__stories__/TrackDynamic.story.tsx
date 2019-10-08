@@ -37,22 +37,13 @@ export class TrackDynamic extends React.Component {
 
   render() {
     return (
-      <Shell
-        style={{
-          alignItems: 'flex-start',
-          padding: 16,
-        }}
-      >
+      <Shell style={{ alignItems: 'flex-start', padding: 16 }}>
         <div>
           <Track
-            index={number('index', 0)}
             onSequenceAdd={action('onSequenceAdd')}
             onSequenceEdit={this.handleSequenceEdit}
             onSequenceOpen={action('onSequenceOpen')}
             onSequenceSelect={action('onSequenceSelect')}
-            onSequencesOrderChange={action('onSequencesOrderChange')}
-            onTrackIsMutedToggle={action('onTrackIsMutedToggle')}
-            onTrackIsSoloingToggle={action('onTrackIsSoloingToggle')}
             onTrackSelect={action('onTrackSelect')}
             songMeasureCount={number('songMeasureCount', 4)}
             track={this.state.track}
@@ -63,7 +54,7 @@ export class TrackDynamic extends React.Component {
   }
 
   handleSequenceEdit = editedSequence => {
-    this.setState(state => ({
+    this.setState((state: { [key: string]: any }) => ({
       track: {
         ...state.track,
         sequences: state.track.sequences.map(sequence => {

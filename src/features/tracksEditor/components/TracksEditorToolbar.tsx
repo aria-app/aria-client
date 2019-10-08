@@ -1,19 +1,38 @@
 import isEmpty from 'lodash/fp/isEmpty';
-import withStyles from '@material-ui/styles/withStyles';
-import PropTypes from 'prop-types';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
 import shared from '../../shared';
 
 const { IconButton, Toolbar } = shared.components;
 
-const styles = theme => ({
-  root: {
-    borderTop: `2px solid ${theme.palette.divider}`,
-  },
-});
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      borderTop: `2px solid ${theme.palette.divider}`,
+    },
+  });
 
-function TracksEditorToolbar(props) {
+interface Sequence {
+  [key: string]: any;
+}
+
+export interface TracksEditorToolbarProps extends WithStyles<typeof styles> {
+  isRedoEnabled?: boolean;
+  isUndoEnabled?: boolean;
+  onRedo?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onSequenceDelete?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onSequenceDuplicate?: (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => void;
+  onSequenceOpen?: (sequence: Sequence) => void;
+  onUndo?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  selectedSequence?: Sequence;
+}
+
+function TracksEditorToolbar(props: TracksEditorToolbarProps) {
   const {
     classes,
     isRedoEnabled,
@@ -33,7 +52,6 @@ function TracksEditorToolbar(props) {
   return (
     <Toolbar
       className={classes.root}
-      position="top"
       isAlternate={!isEmpty(selectedSequence)}
       leftItems={
         <React.Fragment>
@@ -81,16 +99,5 @@ function TracksEditorToolbar(props) {
     />
   );
 }
-
-TracksEditorToolbar.propTypes = {
-  isRedoEnabled: PropTypes.bool,
-  isUndoEnabled: PropTypes.bool,
-  onRedo: PropTypes.func,
-  onSequenceDelete: PropTypes.func,
-  onSequenceDuplicate: PropTypes.func,
-  onSequenceOpen: PropTypes.func,
-  onUndo: PropTypes.func,
-  selectedSequence: PropTypes.object,
-};
 
 export default React.memo(withStyles(styles)(TracksEditorToolbar));
