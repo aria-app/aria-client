@@ -44,7 +44,6 @@ const styles = (theme: Theme) =>
       marginTop: theme.spacing(2),
     },
     button: {
-      fontWeight: 600,
       marginBottom: theme.spacing(1),
       paddingTop: theme.spacing(1),
     },
