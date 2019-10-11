@@ -2,11 +2,15 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import { Router } from '@reach/router';
 import React from 'react';
+import { GlobalHotKeys } from 'react-hotkeys';
+import Tone from 'tone';
+import Dawww from '../../../dawww';
 import notesEditor from '../../notesEditor';
 import tracksEditor from '../../tracksEditor';
 import SongEditorToolbar from './SongEditorToolbar';
 import SongInfoModal from './SongInfoModal';
 
+const { STARTED } = Dawww.PLAYBACK_STATES;
 const { NotesEditorContainer } = notesEditor.components;
 const { TracksEditorContainer } = tracksEditor.components;
 
@@ -56,6 +60,25 @@ function SongEditor(props: SongEditorProps) {
   } = props;
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);
 
+  const playPause = React.useCallback(
+    function playPause() {
+      if (Tone.context.state !== 'running') {
+        Tone.context.resume();
+      }
+
+      if (playbackState === STARTED) {
+        onPause();
+      } else {
+        onPlay();
+      }
+    },
+    [onPause, onPlay, playbackState],
+  );
+
+  const handleReturnToDashboard = React.useCallback(() => {
+    navigate('../../');
+  }, [navigate]);
+
   const handleSongInfoModalConfirm = React.useCallback(() => {
     setIsSongInfoModalOpen(false);
   }, []);
@@ -63,10 +86,6 @@ function SongEditor(props: SongEditorProps) {
   const handleSongInfoOpen = React.useCallback(() => {
     setIsSongInfoModalOpen(true);
   }, []);
-
-  const handleReturnToDashboard = React.useCallback(() => {
-    navigate('../../');
-  }, [navigate]);
 
   const handleSignOut = React.useCallback(() => {
     navigate('../../sign-out');
@@ -78,6 +97,11 @@ function SongEditor(props: SongEditorProps) {
 
   return (
     <div className={classes.root}>
+      <GlobalHotKeys
+        allowChanges={true}
+        handlers={{ PLAY_PAUSE: playPause, STOP: onStop }}
+        keyMap={{ PLAY_PAUSE: 'enter', STOP: 'esc' }}
+      />
       <SongEditorToolbar
         onPause={onPause}
         onPlay={onPlay}

@@ -1,12 +1,9 @@
 import { Redirect, Router } from '@reach/router';
 import React from 'react';
-import { GlobalHotKeys } from 'react-hotkeys';
 import { hideIf, showIf } from 'react-render-helpers';
 import createStyles from '@material-ui/styles/createStyles';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
-import Tone from 'tone';
-import Dawww from '../../../dawww';
 import dashboard from '../../dashboard';
 import shared from '../../shared';
 import songEditor from '../../songEditor';
@@ -15,7 +12,6 @@ import SignOutContainer from './SignOutContainer';
 
 const { DashboardContainer } = dashboard.components;
 const { LoadingIndicator, Shell } = shared.components;
-const { STARTED } = Dawww.PLAYBACK_STATES;
 const { SongEditorContainer } = songEditor.components;
 
 interface PrivateRouteProps {
@@ -46,45 +42,13 @@ const styles = createStyles({
 export interface AppProps extends WithStyles<typeof styles> {
   isAuthenticated?: boolean;
   didAuthenticationRun?: boolean;
-  onPause?: () => void;
-  onPlay?: () => void;
-  onStop?: () => void;
-  playbackState?: string;
 }
 
 function App(props: AppProps) {
-  const {
-    classes,
-    didAuthenticationRun,
-    isAuthenticated,
-    onPause,
-    onPlay,
-    onStop,
-    playbackState,
-  } = props;
-
-  const playPause = React.useCallback(
-    function playPause() {
-      if (Tone.context.state !== 'running') {
-        Tone.context.resume();
-      }
-
-      if (playbackState === STARTED) {
-        onPause();
-      } else {
-        onPlay();
-      }
-    },
-    [onPause, onPlay, playbackState],
-  );
+  const { classes, didAuthenticationRun, isAuthenticated } = props;
 
   return (
     <ThemeProvider theme={shared.theme}>
-      <GlobalHotKeys
-        allowChanges={true}
-        handlers={{ PLAY_PAUSE: playPause, STOP: onStop }}
-        keyMap={{ PLAY_PAUSE: 'enter', STOP: 'esc' }}
-      />
       <Shell>
         {hideIf(didAuthenticationRun)(
           <LoadingIndicator>AUTHENTICATING...</LoadingIndicator>,
