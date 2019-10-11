@@ -31,6 +31,7 @@ export const SONG_ADD_REQUEST_SUCCEEDED = 'SONG_ADD_REQUEST_SUCCEEDED';
 export const SONG_DELETE_REQUEST_STARTED = 'SONG_DELETE_REQUEST_STARTED';
 export const SONG_DELETE_REQUEST_SUCCEEDED = 'SONG_DELETE_REQUEST_SUCCEEDED';
 export const SONG_EDITOR_LOADED = 'SONG_EDITOR_LOADED';
+export const SONG_VIEWER_LOADED = 'SONG_VIEWER_LOADED';
 export const SONG_LOADED = 'SONG_LOADED';
 export const TRACK_ADDED = 'TRACK_ADDED';
 export const TRACK_DELETED = 'TRACK_DELETED';
@@ -98,6 +99,7 @@ export const dawwwUpdatingActions = [
   ...serverUpdatingActions,
   NOTES_EDITOR_LOADED,
   SONG_EDITOR_LOADED,
+  SONG_VIEWER_LOADED,
 ];
 
 export const bpmSet = bpm => ({
@@ -301,6 +303,13 @@ export const songLoaded = song => ({
   type: SONG_LOADED,
   payload: {
     song,
+  },
+});
+
+export const songViewerLoaded = songId => ({
+  type: SONG_VIEWER_LOADED,
+  payload: {
+    songId,
   },
 });
 

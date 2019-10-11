@@ -2,19 +2,17 @@ import { connect } from 'react-redux';
 import audio from '../../audio';
 import shared from '../../shared';
 import song from '../../song';
-import user from '../../user';
-import SongEditor from './SongEditor';
+import SongViewer from './SongViewer';
 
 export default connect(
   state => ({
-    playbackState: audio.selectors.getPlaybackState(state),
+    position: audio.selectors.getPosition(state),
     song: song.selectors.getSong(state),
-    user: user.selectors.getUser(state),
   }),
   {
-    onBPMChange: shared.actions.bpmSet,
+    onLoad: shared.actions.songViewerLoaded,
     onPause: shared.actions.playbackPauseRequestStarted,
     onPlay: shared.actions.playbackStartRequestStarted,
     onStop: shared.actions.playbackStopRequestStarted,
   },
-)(SongEditor);
+)(SongViewer);

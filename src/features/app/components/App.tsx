@@ -7,12 +7,14 @@ import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import dashboard from '../../dashboard';
 import shared from '../../shared';
 import songEditor from '../../songEditor';
+import songViewer from '../../songViewer';
 import SignInContainer from './SignInContainer';
 import SignOutContainer from './SignOutContainer';
 
 const { DashboardContainer } = dashboard.components;
 const { LoadingIndicator, Shell } = shared.components;
 const { SongEditorContainer } = songEditor.components;
+const { SongViewerContainer } = songViewer.components;
 
 interface PrivateRouteProps {
   component?: React.ElementType;
@@ -66,6 +68,11 @@ function App(props: AppProps) {
               component={SongEditorContainer}
               isAuthenticated={isAuthenticated}
               path="edit-song/:songId/*"
+            />
+            <PrivateRoute
+              component={SongViewerContainer}
+              isAuthenticated={isAuthenticated}
+              path="view-song/:songId"
             />
           </Router>,
         )}

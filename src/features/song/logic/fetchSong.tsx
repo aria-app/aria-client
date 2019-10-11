@@ -21,8 +21,12 @@ interface Dependencies {
 
 type LogicType = Logic<any, Payload, any, Dependencies, any, string>;
 
-export const fetchSongToEdit: LogicType = createLogic({
-  type: [shared.actions.NOTES_EDITOR_LOADED, shared.actions.SONG_EDITOR_LOADED],
+export const fetchSong: LogicType = createLogic({
+  type: [
+    shared.actions.NOTES_EDITOR_LOADED,
+    shared.actions.SONG_EDITOR_LOADED,
+    shared.actions.SONG_VIEWER_LOADED,
+  ],
   warnTimeout: 0,
   process({ action, getState }, dispatch, done) {
     fetchSongById(action.payload.songId).then(song => {

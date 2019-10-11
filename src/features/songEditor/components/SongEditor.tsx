@@ -35,8 +35,11 @@ interface Song {
   [key: string]: any;
 }
 
+interface User {
+  [key: string]: any;
+}
+
 export interface SongEditorProps extends WithStyles<typeof styles> {
-  bpm?: number;
   navigate?: (path: string) => void;
   onBPMChange?: (bpm: number) => void;
   onPause?: () => void;
@@ -44,11 +47,11 @@ export interface SongEditorProps extends WithStyles<typeof styles> {
   onStop?: () => void;
   playbackState?: string;
   song?: Song;
+  user?: User;
 }
 
 function SongEditor(props: SongEditorProps) {
   const {
-    bpm,
     classes,
     navigate,
     onBPMChange,
@@ -57,6 +60,7 @@ function SongEditor(props: SongEditorProps) {
     onStop,
     playbackState,
     song,
+    user,
   } = props;
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);
 
@@ -93,7 +97,15 @@ function SongEditor(props: SongEditorProps) {
 
   React.useEffect(() => {
     window.document.title = `${song.name} - Aria`;
-  }, [song.name]);
+  }, [song, song.name]);
+
+  if (song.userId && song.userId !== user.uid) {
+    return (
+      <div className={classes.root}>
+        You do not have permissions to edit this song.
+      </div>
+    );
+  }
 
   return (
     <div className={classes.root}>
@@ -114,7 +126,7 @@ function SongEditor(props: SongEditorProps) {
         <NotesEditorContainer path="sequence/:sequenceId" />
       </Router>
       <SongInfoModal
-        bpm={bpm}
+        bpm={song.bpm}
         isOpen={isSongInfoModalOpen}
         onBPMChange={onBPMChange}
         onConfirm={handleSongInfoModalConfirm}
