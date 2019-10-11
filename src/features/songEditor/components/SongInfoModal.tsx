@@ -24,9 +24,10 @@ const styles = (theme: Theme) =>
     root: {},
     shareableLinkAnchor: {
       marginBottom: theme.spacing(3),
+      marginTop: theme.spacing(0.5),
     },
     bpmDropdown: {
-      marginBottom: theme.spacing(2),
+      marginBottom: theme.spacing(3),
     },
     content: {
       alignItems: 'flex-start',
@@ -99,7 +100,7 @@ function SongInfoModal(props: SongInfoModalProps) {
               rel="noopener noreferrer"
               target="_blank"
             >
-              {process.env.PUBLIC_URL}/view-song/{song.id}
+              https://ariaapp.io/view-song/{song.id}
             </a>
             <FormControl className={classes.bpmDropdown}>
               <InputLabel htmlFor="bpm">BPM</InputLabel>
