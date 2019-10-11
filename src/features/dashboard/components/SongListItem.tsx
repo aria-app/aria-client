@@ -7,11 +7,17 @@ import React from 'react';
 const styles = (theme: Theme) =>
   createStyles({
     root: {
+      ...theme.typography.body1,
       alignItems: 'center',
+      backgroundColor: theme.palette.background.paper,
+      border: `2px solid ${theme.palette.action.hover}`,
+      borderRadius: theme.shape.borderRadius * 2,
       cursor: 'pointer',
       display: 'flex',
       flex: '0 0 auto',
-      height: 48,
+      fontWeight: 600,
+      height: 56,
+      marginBottom: theme.spacing(1),
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2),
       position: 'relative',
@@ -59,7 +65,7 @@ function SongListItem(props: SongListItemProps) {
         {song.name}
       </div>
       <div className={classes.deleteButton} onClick={handleDelete}>
-        <CloseIcon fontSize="small" />
+        <CloseIcon />
       </div>
     </div>
   );

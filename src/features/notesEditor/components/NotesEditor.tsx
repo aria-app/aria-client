@@ -412,7 +412,7 @@ function NotesEditor(props: NotesEditorProps) {
         }}
       />
       <Fade in={isLoading} mountOnEnter unmountOnExit>
-        <LoadingIndicator>LOADING SONG...</LoadingIndicator>,
+        <LoadingIndicator>LOADING SONG...</LoadingIndicator>
       </Fade>
       <React.Fragment>
         <div className={classes.content} ref={handleContentRefChange}>

@@ -13,6 +13,8 @@ const styles = (theme: Theme) =>
       flex: '1 1 auto',
       flexDirection: 'column',
       paddingBottom: theme.spacing(1),
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1),
       paddingTop: theme.spacing(1),
     },
   });
