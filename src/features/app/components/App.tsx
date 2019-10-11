@@ -101,7 +101,7 @@ function App(props: AppProps) {
             <PrivateRoute
               component={SongEditorContainer}
               isAuthenticated={isAuthenticated}
-              path="song/:songId/*"
+              path="edit-song/:songId/*"
             />
           </Router>,
         )}

@@ -100,9 +100,12 @@ function Dashboard(props: DashboardProps) {
     [onSongDelete],
   );
 
-  const handleSongOpen = React.useCallback(song => {
-    navigate(`/song/${song.id}`);
-  }, [navigate]);
+  const handleSongOpen = React.useCallback(
+    song => {
+      navigate(`edit-song/${song.id}`);
+    },
+    [navigate],
+  );
 
   React.useEffect(() => {
     onLoad();

@@ -65,11 +65,11 @@ function SongEditor(props: SongEditorProps) {
   }, []);
 
   const handleReturnToDashboard = React.useCallback(() => {
-    navigate('/');
+    navigate('../../');
   }, [navigate]);
 
   const handleSignOut = React.useCallback(() => {
-    navigate('/sign-out');
+    navigate('../../sign-out');
   }, [navigate]);
 
   React.useEffect(() => {
