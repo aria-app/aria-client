@@ -126,12 +126,12 @@ function SongEditor(props: SongEditorProps) {
         <NotesEditorContainer path="sequence/:sequenceId" />
       </Router>
       <SongInfoModal
-        bpm={song.bpm}
         isOpen={isSongInfoModalOpen}
         onBPMChange={onBPMChange}
         onConfirm={handleSongInfoModalConfirm}
         onReturnToDashboard={handleReturnToDashboard}
         onSignOut={handleSignOut}
+        song={song}
       />
     </div>
   );

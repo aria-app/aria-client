@@ -7,7 +7,6 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import Typography from '@material-ui/core/Typography';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
@@ -23,46 +22,55 @@ const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 const styles = (theme: Theme) =>
   createStyles({
     root: {},
+    shareableLinkAnchor: {
+      marginBottom: theme.spacing(3),
+    },
     bpmDropdown: {
       marginBottom: theme.spacing(2),
-      marginLeft: theme.spacing(1),
     },
     content: {
       alignItems: 'flex-start',
       display: 'flex',
       flex: '1 1 auto',
       flexDirection: 'column',
-      marginLeft: theme.spacing(-1),
-      marginRight: theme.spacing(-1),
     },
     title: {
       fontWeight: 800,
       textTransform: 'uppercase',
     },
-    label: {
-      marginLeft: theme.spacing(1),
+    selectLanguageTitle: {
+      marginBottom: theme.spacing(1),
       marginTop: theme.spacing(2),
+    },
+    button: {
+      fontWeight: 600,
+      marginBottom: theme.spacing(1),
+      paddingTop: theme.spacing(1),
     },
   });
 
+interface Song {
+  [key: string]: any;
+}
+
 export interface SongInfoModalProps extends WithStyles<typeof styles> {
-  bpm?: number;
   isOpen?: boolean;
   onBPMChange?: (bpm: number) => void;
   onConfirm?: () => void;
   onReturnToDashboard?: () => void;
   onSignOut?: () => void;
+  song?: Song;
 }
 
 function SongInfoModal(props: SongInfoModalProps) {
   const {
-    bpm,
     classes,
     isOpen,
     onBPMChange,
     onConfirm,
     onReturnToDashboard,
     onSignOut,
+    song,
   } = props;
 
   const handleBPMSelectChange = React.useCallback(
@@ -84,12 +92,21 @@ function SongInfoModal(props: SongInfoModalProps) {
         >
           <DialogTitle className={classes.title}>{t('Song Info')}</DialogTitle>
           <DialogContent className={classes.content}>
+            <InputLabel>Shareable Link</InputLabel>
+            <a
+              className={classes.shareableLinkAnchor}
+              href={`${process.env.PUBLIC_URL}/view-song/${song.id}`}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {process.env.PUBLIC_URL}/view-song/{song.id}
+            </a>
             <FormControl className={classes.bpmDropdown}>
               <InputLabel htmlFor="bpm">BPM</InputLabel>
               <Select
                 inputProps={{ name: 'bpm', id: 'bpm' }}
                 onChange={handleBPMSelectChange}
-                value={bpm}
+                value={song.bpm}
               >
                 {bpmRangeItems.map(bpmRangeItem => (
                   <MenuItem key={bpmRangeItem.id} value={bpmRangeItem.id}>
@@ -98,15 +115,35 @@ function SongInfoModal(props: SongInfoModalProps) {
                 ))}
               </Select>
             </FormControl>
-            <Button onClick={onReturnToDashboard}>
+            <Button
+              className={classes.button}
+              variant="outlined"
+              onClick={onReturnToDashboard}
+            >
               {t('Return to Dashboard')}
             </Button>
-            <Button onClick={onSignOut}>{t('Sign Out')}</Button>
-            <Typography className={classes.label} variant="subtitle1">
+            <Button
+              className={classes.button}
+              variant="outlined"
+              onClick={onSignOut}
+            >
+              {t('Sign Out')}
+            </Button>
+            <InputLabel className={classes.selectLanguageTitle}>
               {t('Select Language')}
-            </Typography>
-            <Button onClick={() => changeLanguage('en')}>{t('English')}</Button>
-            <Button onClick={() => changeLanguage('jp')}>
+            </InputLabel>
+            <Button
+              className={classes.button}
+              variant="outlined"
+              onClick={() => changeLanguage('en')}
+            >
+              {t('English')}
+            </Button>
+            <Button
+              className={classes.button}
+              variant="outlined"
+              onClick={() => changeLanguage('jp')}
+            >
               {t('Japanese')}
             </Button>
           </DialogContent>
