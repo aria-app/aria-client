@@ -1,5 +1,5 @@
-import Dawww from '../../../dawww';
 import { createReducer } from 'redux-create-reducer';
+import Dawww from '../../../dawww';
 import shared from '../../shared';
 
 export default createReducer(Dawww.PLAYBACK_STATES.STOPPED, {

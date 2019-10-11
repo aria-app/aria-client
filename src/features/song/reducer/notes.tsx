@@ -1,9 +1,9 @@
-import Dawww from '../../../dawww';
 import filter from 'lodash/fp/filter';
 import map from 'lodash/fp/map';
 import omit from 'lodash/fp/omit';
 import values from 'lodash/fp/values';
 import { createReducer } from 'redux-create-reducer';
+import Dawww from '../../../dawww';
 import shared from '../../shared';
 
 const initialValue = {};

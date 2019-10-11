@@ -1,10 +1,10 @@
-import Dawww from '../../../dawww';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { hideIf, showIf } from 'react-render-helpers';
 import Tone from 'tone';
+import Dawww from '../../../dawww';
 import shared from '../../shared';
 
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;

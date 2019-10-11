@@ -1,4 +1,3 @@
-import Dawww from '../../../dawww';
 import find from 'lodash/fp/find';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
@@ -9,6 +8,7 @@ import uniqBy from 'lodash/fp/uniqBy';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
+import Dawww from '../../../dawww';
 import * as constants from '../constants';
 import Note from './Note';
 

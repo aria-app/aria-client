@@ -9,7 +9,9 @@
     "build": "react-scripts build",
     "clean": "rimraf src/**/*.js",
     "build-storybook": "build-storybook -s public",
-    "lint": "eslint src/**/*.tsx --fix && prettier --write \"src/**/*.{ts,tsx}\" && tsc --noEmit",
+    "eslint": "eslint \"src/**\" --fix --ignore-pattern \"src/**/*.json\"",
+    "prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "lint": "yarn run eslint && yarn run prettier && yarn run tsc --noEmit",
     "prestart": "yarn run clean",
     "start": "react-scripts start",
     "storybook": "start-storybook -p 9009 -s public",
@@ -63,6 +65,7 @@
     "@typescript-eslint/eslint-plugin": "^2.3.1",
     "@typescript-eslint/parser": "^2.3.1",
     "eslint-config-react-app": "^5.0.2",
+    "husky": "3.0.8",
     "prettier": "^1.18.2",
     "react-scripts": "^3.1.2",
     "redux-devtools-extension": "^2.13.8",
@@ -82,6 +85,11 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nickjohnson-dev/aria.git"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint"
+    }
   },
   "bugs": {
     "url": "https://github.com/nickjohnson-dev/aria/issues"

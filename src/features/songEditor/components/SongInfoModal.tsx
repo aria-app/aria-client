@@ -1,4 +1,3 @@
-import Dawww from '../../../dawww';
 import map from 'lodash/fp/map';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -14,6 +13,7 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { Translation } from 'react-i18next';
+import Dawww from '../../../dawww';
 import shared from '../../shared';
 
 const { changeLanguage } = shared.i18n;
