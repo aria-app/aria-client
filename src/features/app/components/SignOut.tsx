@@ -1,9 +1,9 @@
 import * as firebase from 'firebase/app';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import { Redirect } from '@reach/router';
 import React from 'react';
 import { Translation } from 'react-i18next';
-import { Redirect } from 'react-router-dom';
 
 const styles = createStyles({
   root: {
@@ -32,7 +32,7 @@ function SignOut(props: SignOutProps) {
   }, []);
 
   if (!isAuthenticated) {
-    return <Redirect to={{ pathname: '/sign-in' }} />;
+    return <Redirect noThrow to="sign-in" />;
   }
 
   return (

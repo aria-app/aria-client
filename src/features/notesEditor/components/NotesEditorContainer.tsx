@@ -8,12 +8,8 @@ export default connect(
     isLoading: song.selectors.getIsSongLoading(state),
     isRedoEnabled: song.selectors.getIsRedoEnabled(state),
     isUndoEnabled: song.selectors.getIsUndoEnabled(state),
-    notes: song.selectors.getNotesBySequenceId(state)(
-      ownProps.match.params.sequenceId,
-    ),
-    sequence: song.selectors.getSequenceById(state)(
-      ownProps.match.params.sequenceId,
-    ),
+    notes: song.selectors.getNotesBySequenceId(state)(ownProps.sequenceId),
+    sequence: song.selectors.getSequenceById(state)(ownProps.sequenceId),
   }),
   {
     onDelete: shared.actions.notesDeleted,

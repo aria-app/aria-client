@@ -1,7 +1,7 @@
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import { Router } from '@reach/router';
 import React from 'react';
-import { Route } from 'react-router-dom';
 import notesEditor from '../../notesEditor';
 import tracksEditor from '../../tracksEditor';
 import SongEditorToolbar from './SongEditorToolbar';
@@ -18,6 +18,13 @@ const styles = createStyles({
     overflow: 'hidden',
     position: 'relative',
   },
+  router: {
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    position: 'relative',
+  },
 });
 
 interface Song {
@@ -26,8 +33,7 @@ interface Song {
 
 export interface SongEditorProps extends WithStyles<typeof styles> {
   bpm?: number;
-  history?: { [key: string]: any };
-  match?: { [key: string]: any };
+  navigate?: (path: string) => void;
   onBPMChange?: (bpm: number) => void;
   onPause?: () => void;
   onPlay?: () => void;
@@ -40,8 +46,7 @@ function SongEditor(props: SongEditorProps) {
   const {
     bpm,
     classes,
-    history,
-    match,
+    navigate,
     onBPMChange,
     onPause,
     onPlay,
@@ -60,12 +65,12 @@ function SongEditor(props: SongEditorProps) {
   }, []);
 
   const handleReturnToDashboard = React.useCallback(() => {
-    history.push('/');
-  }, [history]);
+    navigate('/');
+  }, [navigate]);
 
   const handleSignOut = React.useCallback(() => {
-    history.push('/sign-out');
-  }, [history]);
+    navigate('/sign-out');
+  }, [navigate]);
 
   React.useEffect(() => {
     window.document.title = `${song.name} - Aria`;
@@ -80,12 +85,10 @@ function SongEditor(props: SongEditorProps) {
         onStop={onStop}
         playbackState={playbackState}
       />
-      <Route component={TracksEditorContainer} exact={true} path={match.path} />
-      <Route
-        component={NotesEditorContainer}
-        exact={true}
-        path={`${match.path}/sequence/:sequenceId`}
-      />
+      <Router className={classes.router}>
+        <TracksEditorContainer path="/" />
+        <NotesEditorContainer path="sequence/:sequenceId" />
+      </Router>
       <SongInfoModal
         bpm={bpm}
         isOpen={isSongInfoModalOpen}

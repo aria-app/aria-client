@@ -1,11 +1,10 @@
 import * as firebase from 'firebase/app';
-import getOr from 'lodash/fp/getOr';
 import Button from '@material-ui/core/Button';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import { Redirect } from '@reach/router';
 import React from 'react';
 import { Translation } from 'react-i18next';
-import { Redirect } from 'react-router-dom';
 import shared from '../../shared';
 
 const { authProvider } = shared.constants;
@@ -21,22 +20,17 @@ const styles = createStyles({
 
 export interface SignInProps extends WithStyles<typeof styles> {
   isAuthenticated?: boolean;
-  location?: { [key: string]: any };
 }
 
 function SignIn(props: SignInProps) {
-  const { classes, isAuthenticated, location } = props;
-  const redirectFrom = React.useMemo(
-    () => getOr({ pathname: '/' }, 'state.from', location),
-    [location],
-  );
+  const { classes, isAuthenticated } = props;
 
   React.useEffect(() => {
     window.document.title = 'Sign In - Aria';
   }, []);
 
   if (isAuthenticated) {
-    return <Redirect to={redirectFrom} />;
+    return <Redirect noThrow to="/" />;
   }
 
   return (

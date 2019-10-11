@@ -58,8 +58,8 @@ interface User {
 }
 
 export interface DashboardProps extends WithStyles<typeof styles> {
-  history?: { [key: string]: any };
   isLoadingSongs?: boolean;
+  navigate?: (path: string) => void;
   onLoad?: () => void;
   onSongAdd?: (options: NewSongOptions) => void;
   onSongDelete?: (song: Song) => void;
@@ -70,8 +70,8 @@ export interface DashboardProps extends WithStyles<typeof styles> {
 function Dashboard(props: DashboardProps) {
   const {
     classes,
-    history,
     isLoadingSongs,
+    navigate,
     onLoad,
     onSongAdd,
     onSongDelete,
@@ -100,12 +100,9 @@ function Dashboard(props: DashboardProps) {
     [onSongDelete],
   );
 
-  const handleSongOpen = React.useCallback(
-    song => {
-      history.push(`/song/${song.id}`);
-    },
-    [history],
-  );
+  const handleSongOpen = React.useCallback(song => {
+    navigate(`/song/${song.id}`);
+  }, [navigate]);
 
   React.useEffect(() => {
     onLoad();

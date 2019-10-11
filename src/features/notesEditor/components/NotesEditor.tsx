@@ -1,4 +1,3 @@
-import Dawww from '../../../dawww';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -9,6 +8,7 @@ import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import memoizeOne from 'memoize-one';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
+import Dawww from '../../../dawww';
 import audio from '../../audio';
 import shared from '../../shared';
 import { toolTypes } from '../constants';
@@ -61,12 +61,11 @@ interface Sequence {
 }
 
 export interface NotesEditorProps extends WithStyles<typeof styles> {
-  history?: { [key: string]: any };
   isRedoEnabled?: boolean;
   isLoading?: boolean;
   isUndoEnabled?: boolean;
-  match?: { [key: string]: any };
   notes?: Array<Note>;
+  navigate?: (path: string) => void;
   onDelete?: (notes: Array<Note>) => void;
   onDrag?: (notes: Array<Note>) => void;
   onDraw?: (startingPoint: Point) => void;
@@ -80,16 +79,17 @@ export interface NotesEditorProps extends WithStyles<typeof styles> {
   onResize?: (resizedNotes: Array<Note>) => void;
   onUndo?: () => void;
   sequence?: Sequence;
+  sequenceId?: string;
+  songId?: string;
 }
 
 function NotesEditor(props: NotesEditorProps) {
   const {
     classes,
-    history,
     isRedoEnabled,
     isLoading,
     isUndoEnabled,
-    match,
+    navigate,
     notes,
     onDelete,
     onDrag,
@@ -104,6 +104,8 @@ function NotesEditor(props: NotesEditorProps) {
     onResize,
     onUndo,
     sequence,
+    sequenceId,
+    songId,
   } = props;
   const [contentEl, setContentEl] = React.useState();
   const [mousePoint, setMousePoint] = React.useState<Point>({ x: -1, y: 1 });
@@ -119,8 +121,8 @@ function NotesEditor(props: NotesEditorProps) {
   );
 
   const handleClose = React.useCallback(() => {
-    history.push(`/song/${match.params.songId}`);
-  }, [history, match.params.songId]);
+    navigate('../../');
+  }, [navigate]);
 
   const handleContentRefChange = React.useCallback(ref => {
     setContentEl(ref);
@@ -357,12 +359,12 @@ function NotesEditor(props: NotesEditorProps) {
   }, [isUndoEnabled, onUndo]);
 
   React.useEffect(() => {
-    onLoad(match.params.songId, match.params.sequenceId);
+    onLoad(songId, sequenceId);
 
     if (!contentEl) return;
 
     contentEl.scrollTop = shared.helpers.getCenteredScroll(contentEl);
-  }, [contentEl, match.params.sequenceId, match.params.songId, onLoad]);
+  }, [contentEl, sequenceId, songId, onLoad]);
 
   React.useEffect(() => {
     if (!contentEl) return;

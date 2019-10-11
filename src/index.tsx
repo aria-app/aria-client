@@ -5,7 +5,6 @@ import React from 'react';
 import { render } from 'react-dom';
 import { configure } from 'react-hotkeys';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 import Tone from 'tone';
 import app from './features/app';
 import shared from './features/shared';
@@ -25,11 +24,9 @@ store.dispatch(shared.actions.initialized());
 
 render(
   <StylesProvider injectFirst={true}>
-    <BrowserRouter>
-      <Provider store={store}>
-        <AppContainer />
-      </Provider>
-    </BrowserRouter>
+    <Provider store={store}>
+      <AppContainer />
+    </Provider>
   </StylesProvider>,
   document.querySelector('#root'),
 );

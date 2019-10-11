@@ -1,10 +1,12 @@
-import Dawww from '../../../dawww';
+import { Redirect, Router } from '@reach/router';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import { hideIf, showIf } from 'react-render-helpers';
-import { Redirect, Route } from 'react-router-dom';
+import createStyles from '@material-ui/styles/createStyles';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
+import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import Tone from 'tone';
+import Dawww from '../../../dawww';
 import dashboard from '../../dashboard';
 import shared from '../../shared';
 import songEditor from '../../songEditor';
@@ -18,42 +20,30 @@ const { SongEditorContainer } = songEditor.components;
 
 interface PrivateRouteProps {
   component?: React.ElementType;
-  exact?: boolean;
-  isAuthenticated?: boolean;
-  location?: { [key: string]: any };
-  path?: string;
+  [key: string]: any;
 }
 
 function PrivateRoute(props: PrivateRouteProps) {
-  const {
-    component: Component,
-    exact,
-    isAuthenticated,
-    location,
-    path,
-  } = props;
+  const { component: Component, isAuthenticated, ...rest } = props;
 
-  return (
-    <Route
-      exact={exact}
-      path={path}
-      render={props =>
-        isAuthenticated ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/sign-in',
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
-  );
+  if (!isAuthenticated) {
+    return <Redirect from="/foo" noThrow to="sign-in" />;
+  }
+
+  return <Component isAuthenticated={isAuthenticated} {...rest} />;
 }
 
-export interface AppProps {
+const styles = createStyles({
+  router: {
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    position: 'relative',
+  },
+});
+
+export interface AppProps extends WithStyles<typeof styles> {
   isAuthenticated?: boolean;
   didAuthenticationRun?: boolean;
   onPause?: () => void;
@@ -64,6 +54,7 @@ export interface AppProps {
 
 function App(props: AppProps) {
   const {
+    classes,
     didAuthenticationRun,
     isAuthenticated,
     onPause,
@@ -99,26 +90,24 @@ function App(props: AppProps) {
           <LoadingIndicator>AUTHENTICATING...</LoadingIndicator>,
         )}
         {showIf(didAuthenticationRun)(
-          <React.Fragment>
-            <Route component={SignInContainer} exact={true} path="/sign-in" />
-            <Route component={SignOutContainer} exact={true} path="/sign-out" />
+          <Router className={classes.router}>
+            <SignInContainer path="sign-in" />
+            <SignOutContainer path="sign-out" />
             <PrivateRoute
               component={DashboardContainer}
-              exact={true}
               isAuthenticated={isAuthenticated}
               path="/"
             />
             <PrivateRoute
               component={SongEditorContainer}
-              exact={false}
               isAuthenticated={isAuthenticated}
-              path="/song/:songId"
+              path="song/:songId/*"
             />
-          </React.Fragment>,
+          </Router>,
         )}
       </Shell>
     </ThemeProvider>
   );
 }
 
-export default React.memo(App);
+export default React.memo(withStyles(styles)(App));

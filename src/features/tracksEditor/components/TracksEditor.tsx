@@ -1,4 +1,3 @@
-import Dawww from '../../../dawww';
 import find from 'lodash/fp/find';
 import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
@@ -6,6 +5,7 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
+import Dawww from '../../../dawww';
 import shared from '../../shared';
 import TrackEditingModal from './TrackEditingModal';
 import TracksEditorToolbar from './TracksEditorToolbar';
@@ -36,12 +36,11 @@ interface Track {
 }
 
 export interface TracksEditorProps extends WithStyles<typeof styles> {
-  history?: { [key: string]: any };
   isLoading?: boolean;
   isRedoEnabled?: boolean;
   isStopped?: boolean;
   isUndoEnabled?: boolean;
-  match?: { [key: string]: any };
+  navigate?: (path: string) => void;
   onLoad?: (songId: string) => void;
   onPositionSet?: (position: number) => void;
   onRedo?: () => void;
@@ -61,6 +60,7 @@ export interface TracksEditorProps extends WithStyles<typeof styles> {
   position?: number;
   sequences?: Array<Sequence>;
   song?: Song;
+  songId?: string;
   songMeasureCount?: number;
   tracks?: Array<Track>;
 }
@@ -68,12 +68,11 @@ export interface TracksEditorProps extends WithStyles<typeof styles> {
 function TracksEditor(props: TracksEditorProps) {
   const {
     classes,
-    history,
     isLoading,
     isRedoEnabled,
     isStopped,
     isUndoEnabled,
-    match,
+    navigate,
     onLoad,
     onPositionSet,
     onRedo,
@@ -89,6 +88,7 @@ function TracksEditor(props: TracksEditorProps) {
     onUndo,
     position,
     sequences,
+    songId,
     songMeasureCount,
     tracks,
   } = props;
@@ -143,9 +143,9 @@ function TracksEditor(props: TracksEditorProps) {
 
   const handleSequenceOpen = React.useCallback(
     sequence => {
-      history.push(`${match.url}/sequence/${sequence.id}`);
+      navigate(`sequence/${sequence.id}`);
     },
-    [history, match.url],
+    [navigate],
   );
 
   const handleTrackDeselect = React.useCallback(() => {
@@ -205,8 +205,8 @@ function TracksEditor(props: TracksEditorProps) {
   }, [isUndoEnabled, onUndo]);
 
   React.useEffect(() => {
-    onLoad(match.params.songId);
-  }, [match.params.songId, onLoad]);
+    onLoad(songId);
+  }, [songId, onLoad]);
 
   return (
     <div className={classes.root}>
