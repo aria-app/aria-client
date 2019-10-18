@@ -1,4 +1,4 @@
-import { createReducer } from 'redux-create-reducer';
+import { createReducer } from 'redux-starter-kit';
 import shared from '../../shared';
 
 const initialValue = '';

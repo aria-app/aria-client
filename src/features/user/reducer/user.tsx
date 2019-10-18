@@ -1,9 +1,13 @@
-import { createReducer } from 'redux-create-reducer';
+import { createSlice } from 'redux-starter-kit';
 import shared from '../../shared';
 
-export const user = createReducer(null, {
-  [shared.actions.USER_SIGN_IN_SUCCEEDED]: (state, action) =>
-    action.payload.user,
-
-  [shared.actions.USER_SIGN_OUT_SUCCEEDED]: (state, action) => null,
+export default createSlice({
+  name: 'user',
+  initialState: null,
+  extraReducers: {
+    [shared.actions.USER_SIGN_IN_SUCCEEDED]: (state, action) =>
+      action.payload.user,
+    [shared.actions.USER_SIGN_OUT_SUCCEEDED]: () => null,
+  },
+  reducers: {},
 });

@@ -1,5 +1,5 @@
 import values from 'lodash/fp/values';
-import { createSelector } from 'reselect';
+import { createSelector } from 'redux-starter-kit';
 import { getNotes } from './getNotes';
 
 export const getNotesArray = createSelector(

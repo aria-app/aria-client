@@ -1,6 +1,6 @@
 import filter from 'lodash/fp/filter';
 import map from 'lodash/fp/map';
-import { createSelector } from 'reselect';
+import { createSelector } from 'redux-starter-kit';
 import { getDeepSequencesArray } from './getDeepSequencesArray';
 import { getTracksArray } from './getTracksArray';
 

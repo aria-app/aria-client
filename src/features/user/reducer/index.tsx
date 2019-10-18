@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import { didAuthenticationRun } from './didAuthenticationRun';
-import { user } from './user';
-import { userSongLibrary } from './userSongLibrary';
+import didAuthenticationRun from './didAuthenticationRun';
+import user from './user';
+import userSongLibrary from './userSongLibrary';
 
 export default combineReducers({
-  didAuthenticationRun,
-  user,
-  userSongLibrary,
+  didAuthenticationRun: didAuthenticationRun.reducer,
+  user: user.reducer,
+  userSongLibrary: userSongLibrary.reducer,
 });

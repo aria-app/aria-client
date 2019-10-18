@@ -1,6 +1,6 @@
 import omit from 'lodash/fp/omit';
 import reject from 'lodash/fp/reject';
-import { createReducer } from 'redux-create-reducer';
+import { createReducer } from 'redux-starter-kit';
 import Dawww from '../../../dawww';
 import shared from '../../shared';
 
