@@ -7,6 +7,13 @@ import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import Dawww from '../../../dawww';
 import shared from '../../shared';
+import {
+  ISequence,
+  ISequenceWithNotes,
+  ISong,
+  ITrack,
+  ITrackWithSequences,
+} from '../../shared/types';
 import TrackEditingModal from './TrackEditingModal';
 import TracksEditorToolbar from './TracksEditorToolbar';
 import TrackList from './TrackList';
@@ -23,18 +30,6 @@ const styles = createStyles({
   },
 });
 
-interface Sequence {
-  [key: string]: any;
-}
-
-interface Song {
-  [key: string]: any;
-}
-
-interface Track {
-  [key: string]: any;
-}
-
 export interface TracksEditorProps extends WithStyles<typeof styles> {
   isLoading?: boolean;
   isRedoEnabled?: boolean;
@@ -44,25 +39,25 @@ export interface TracksEditorProps extends WithStyles<typeof styles> {
   onLoad?: (songId: string) => void;
   onPositionSet?: (position: number) => void;
   onRedo?: () => void;
-  onSequenceAdd?: (newSequence: Sequence) => void;
-  onSequenceDelete?: (sequenceToDelete: Sequence) => void;
+  onSequenceAdd?: (newSequence: ISequence) => void;
+  onSequenceDelete?: (sequenceToDelete: ISequenceWithNotes) => void;
   onSequenceDuplicate?: (
-    duplicatedSequence: Sequence,
-    originalSequence: Sequence,
+    duplicatedSequence: ISequence,
+    originalSequence: ISequenceWithNotes,
   ) => void;
-  onSequenceEdit?: (sequence: Sequence) => void;
+  onSequenceEdit?: (sequence: ISequenceWithNotes) => void;
   onSongMeasureCountChange?: (songMeasureCount: number) => void;
-  onTrackAdd?: (track: Track, sequence: Sequence) => void;
-  onTrackDelete?: (track: Track) => void;
-  onTrackVoiceSet?: (track: Track, voice: string) => void;
-  onTrackVolumeSet?: (track: Track, volume: string) => void;
+  onTrackAdd?: (track: ITrack, sequence: ISequence) => void;
+  onTrackDelete?: (track: ITrackWithSequences) => void;
+  onTrackVoiceSet?: (track: ITrackWithSequences, voice: string) => void;
+  onTrackVolumeSet?: (track: ITrackWithSequences, volume: string) => void;
   onUndo?: () => void;
   position?: number;
-  sequences?: Array<Sequence>;
-  song?: Song;
+  sequences?: Array<ISequenceWithNotes>;
+  song?: ISong;
   songId?: string;
   songMeasureCount?: number;
-  tracks?: Array<Track>;
+  tracks?: Array<ITrackWithSequences>;
 }
 
 function TracksEditor(props: TracksEditorProps) {

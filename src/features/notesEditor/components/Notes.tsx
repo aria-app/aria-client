@@ -9,6 +9,7 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import Dawww from '../../../dawww';
+import { INote } from '../../shared/types';
 import * as constants from '../constants';
 import Note from './Note';
 
@@ -23,19 +24,15 @@ const styles = createStyles({
   },
 });
 
-interface Note {
-  [key: string]: any;
-}
-
 export interface NotesProps extends WithStyles<typeof styles> {
   measureCount?: number;
-  notes?: Array<Note>;
-  onDrag?: (notes: Array<Note>) => void;
-  onDragPreview?: (notes: Array<Note>) => void;
-  onErase?: (note: Note) => void;
-  onResize?: (resizedNotes: Array<Note>) => void;
-  onSelect?: (note: Note, isAdditive: boolean) => void;
-  selectedNotes?: Array<Note>;
+  notes?: Array<INote>;
+  onDrag?: (notes: Array<INote>) => void;
+  onDragPreview?: (notes: Array<INote>) => void;
+  onErase?: (note: INote) => void;
+  onResize?: (resizedNotes: Array<INote>) => void;
+  onSelect?: (note: INote, isAdditive: boolean) => void;
+  selectedNotes?: Array<INote>;
   toolType?: string;
 }
 

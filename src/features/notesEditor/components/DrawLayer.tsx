@@ -6,6 +6,7 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
+import { IPoint } from '../../shared/types';
 import Note from './Note';
 
 const styles = createStyles({
@@ -22,14 +23,9 @@ const styles = createStyles({
   },
 });
 
-interface Point {
-  x?: number;
-  y?: number;
-}
-
 export interface DrawLayerProps extends WithStyles<typeof styles> {
-  mousePoint?: Point;
-  onDraw?: (startingPoint: Point) => void;
+  mousePoint?: IPoint;
+  onDraw?: (startingPoint: IPoint) => void;
 }
 
 function DrawLayer(props: DrawLayerProps) {
@@ -40,6 +36,7 @@ function DrawLayer(props: DrawLayerProps) {
 
   const ghostNoteNote = React.useMemo(
     () => ({
+      id: '',
       points: [
         {
           x: mousePoint ? mousePoint.x : 0,
@@ -50,6 +47,7 @@ function DrawLayer(props: DrawLayerProps) {
           y: mousePoint ? mousePoint.y : 0,
         },
       ],
+      sequenceId: '',
     }),
     [mousePoint],
   );

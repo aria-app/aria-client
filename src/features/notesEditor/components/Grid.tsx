@@ -3,6 +3,7 @@ import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
 import shared from '../../shared';
+import { INote, IPoint } from '../../shared/types';
 import * as constants from '../constants';
 import DrawLayer from './DrawLayer';
 import Notes from './Notes';
@@ -27,33 +28,24 @@ const styles = createStyles({
   },
 });
 
-interface Note {
-  [key: string]: any;
-}
-
-interface Point {
-  x?: number;
-  y?: number;
-}
-
 export interface GridProps extends WithStyles<typeof styles> {
   measureCount?: number;
-  mousePoint?: Point;
-  notes?: Array<Note>;
+  mousePoint?: IPoint;
+  notes?: Array<INote>;
   notesEditorContentEl?: HTMLElement;
-  onDrag?: (notes: Array<Note>) => void;
-  onDragPreview?: (notes: Array<Note>) => void;
-  onDraw?: (startingPoint: Point) => void;
-  onErase?: (note: Note) => void;
-  onMousePointChange?: (mousePoint: Point) => void;
-  onResize?: (resizedNotes: Array<Note>) => void;
-  onSelect?: (note: Note, isAdditive: boolean) => void;
+  onDrag?: (notes: Array<INote>) => void;
+  onDragPreview?: (notes: Array<INote>) => void;
+  onDraw?: (startingPoint: IPoint) => void;
+  onErase?: (note: INote) => void;
+  onMousePointChange?: (mousePoint: IPoint) => void;
+  onResize?: (resizedNotes: Array<INote>) => void;
+  onSelect?: (note: INote, isAdditive: boolean) => void;
   onSelectInArea?: (
-    startPoint: Point,
-    endPoint: Point,
+    startPoint: IPoint,
+    endPoint: IPoint,
     isAdditive: boolean,
   ) => void;
-  selectedNotes?: Array<Note>;
+  selectedNotes?: Array<INote>;
   toolType?: string;
 }
 

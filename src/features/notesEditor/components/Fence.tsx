@@ -5,6 +5,7 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import { transparentize } from 'polished';
 import React from 'react';
+import { IPoint } from '../../shared/types';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -19,14 +20,9 @@ const styles = (theme: Theme) =>
     },
   });
 
-interface Point {
-  x?: number;
-  y?: number;
-}
-
 export interface FenceProps extends WithStyles<typeof styles> {
-  endPoint?: Point;
-  startPoint?: Point;
+  endPoint?: IPoint;
+  startPoint?: IPoint;
 }
 
 function Fence(props: FenceProps) {

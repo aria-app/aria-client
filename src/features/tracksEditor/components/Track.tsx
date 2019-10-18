@@ -12,6 +12,7 @@ import React from 'react';
 import { Translation } from 'react-i18next';
 import { showIf } from 'react-render-helpers';
 import shared from '../../shared';
+import { ISequenceWithNotes, ITrackWithSequences } from '../../shared/types';
 import AddSequenceButton from './AddSequenceButton';
 import TrackSequence from './TrackSequence';
 import TrackHeader from './TrackHeader';
@@ -40,24 +41,16 @@ const styles = (theme: Theme) =>
     },
   });
 
-interface Sequence {
-  [key: string]: any;
-}
-
-interface Track {
-  [key: string]: any;
-}
-
 export interface TrackProps extends WithStyles<typeof styles> {
-  onSequenceAdd?: (track: Track, position: number) => void;
-  onSequenceEdit?: (sequence: Sequence) => void;
-  onSequenceOpen?: (sequence: Sequence) => void;
-  onSequenceSelect?: (sequence: Sequence) => void;
-  onTrackSelect?: (track: Track) => void;
+  onSequenceAdd?: (track: ITrackWithSequences, position: number) => void;
+  onSequenceEdit?: (sequence: ISequenceWithNotes) => void;
+  onSequenceOpen?: (sequence: ISequenceWithNotes) => void;
+  onSequenceSelect?: (sequence: ISequenceWithNotes) => void;
+  onTrackSelect?: (track: ITrackWithSequences) => void;
   selectedSequenceId?: string;
   songMeasureCount?: number;
   theme?: Theme;
-  track?: Track;
+  track?: ITrackWithSequences;
 }
 
 function Track(props: TrackProps) {

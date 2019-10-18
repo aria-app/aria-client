@@ -5,6 +5,7 @@ import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
 import shared from '../../shared';
+import { ISequenceWithNotes } from '../../shared/types';
 
 const { IconButton, Toolbar } = shared.components;
 
@@ -15,10 +16,6 @@ const styles = (theme: Theme) =>
     },
   });
 
-interface Sequence {
-  [key: string]: any;
-}
-
 export interface TracksEditorToolbarProps extends WithStyles<typeof styles> {
   isRedoEnabled?: boolean;
   isUndoEnabled?: boolean;
@@ -27,9 +24,9 @@ export interface TracksEditorToolbarProps extends WithStyles<typeof styles> {
   onSequenceDuplicate?: (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => void;
-  onSequenceOpen?: (sequence: Sequence) => void;
+  onSequenceOpen?: (sequence: ISequenceWithNotes) => void;
   onUndo?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  selectedSequence?: Sequence;
+  selectedSequence?: ISequenceWithNotes;
 }
 
 function TracksEditorToolbar(props: TracksEditorToolbarProps) {
@@ -42,7 +39,7 @@ function TracksEditorToolbar(props: TracksEditorToolbarProps) {
     onSequenceDuplicate,
     onSequenceOpen,
     onUndo,
-    selectedSequence = {},
+    selectedSequence,
   } = props;
 
   const handleSequenceOpen = React.useCallback(() => {

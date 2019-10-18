@@ -14,6 +14,7 @@ import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import Dawww from '../../../dawww';
+import { ITrackWithSequences } from '../../shared/types';
 
 const minVolume = -20;
 const maxVolume = 0;
@@ -48,16 +49,12 @@ interface IDawww {
   VOICES?: any;
 }
 
-interface Track {
-  [key: string]: any;
-}
-
 export interface TrackEditingModalProps extends WithStyles<typeof styles> {
-  onDelete?: (track: Track) => void;
+  onDelete?: (track: ITrackWithSequences) => void;
   onDismiss?: () => void;
-  onVoiceSet?: (track: Track, voice: string) => void;
-  onVolumeSet?: (track: Track, volume: string) => void;
-  stagedTrack?: Track;
+  onVoiceSet?: (track: ITrackWithSequences, voice: string) => void;
+  onVolumeSet?: (track: ITrackWithSequences, volume: string) => void;
+  stagedTrack?: ITrackWithSequences;
 }
 
 function TrackEditingModal(props: TrackEditingModalProps) {
@@ -67,7 +64,7 @@ function TrackEditingModal(props: TrackEditingModalProps) {
     onDismiss,
     onVoiceSet,
     onVolumeSet,
-    stagedTrack = {},
+    stagedTrack,
   } = props;
 
   const handleContentDeleteButtonClick = React.useCallback(() => {
@@ -105,7 +102,9 @@ function TrackEditingModal(props: TrackEditingModalProps) {
               <Select
                 inputProps={{ name: 'voice', id: 'voice' }}
                 onChange={handleVoiceChange}
-                value={stagedTrack.voice || ''}
+                value={
+                  stagedTrack && stagedTrack.voice ? stagedTrack.voice : ''
+                }
               >
                 {Object.keys((Dawww as IDawww).VOICES).map(voice => (
                   <MenuItem key={voice} value={voice}>
@@ -119,7 +118,9 @@ function TrackEditingModal(props: TrackEditingModalProps) {
               <Select
                 inputProps={{ name: 'volume', id: 'volume' }}
                 onChange={handleVolumeChange}
-                value={stagedTrack.volume || 0}
+                value={
+                  stagedTrack && stagedTrack.volume ? stagedTrack.volume : 0
+                }
               >
                 {range(maxVolume, minVolume - 1).map(volume => (
                   <MenuItem key={volume} value={volume}>

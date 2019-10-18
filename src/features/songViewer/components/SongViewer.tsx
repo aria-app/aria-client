@@ -6,6 +6,7 @@ import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import Dawww from '../../../dawww';
 import shared from '../../shared';
+import { ISong } from '../../shared/types';
 import SongViewerToolbar from './SongViewerToolbar';
 
 const { LoadingIndicator } = shared.components;
@@ -42,10 +43,6 @@ const styles = (theme: Theme) =>
     },
   });
 
-interface Song {
-  [key: string]: any;
-}
-
 export interface SongViewerProps extends WithStyles<typeof styles> {
   isLoading?: boolean;
   onLoad?: (songId: string) => void;
@@ -55,7 +52,7 @@ export interface SongViewerProps extends WithStyles<typeof styles> {
   onStop?: () => void;
   playbackState?: string;
   position?: number;
-  song?: Song;
+  song?: ISong;
   songId?: string;
 }
 

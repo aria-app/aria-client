@@ -3,6 +3,7 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
+import { ISong } from '../../shared/types';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -38,14 +39,10 @@ const styles = (theme: Theme) =>
     },
   });
 
-interface Song {
-  [key: string]: any;
-}
-
 export interface SongListItemProps extends WithStyles<typeof styles> {
-  onDelete?: (song: Song) => void;
-  onOpen?: (song: Song) => void;
-  song?: Song;
+  onDelete?: (song: ISong) => void;
+  onOpen?: (song: ISong) => void;
+  song?: ISong;
 }
 
 function SongListItem(props: SongListItemProps) {

@@ -3,6 +3,7 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
+import { ISequenceWithNotes } from '../../shared/types';
 import TrackSequenceNote from './TrackSequenceNote';
 
 const styles = (theme: Theme) =>
@@ -24,16 +25,12 @@ const styles = (theme: Theme) =>
     },
   });
 
-interface Sequence {
-  [key: string]: any;
-}
-
 export interface TrackSequenceProps extends WithStyles<typeof styles> {
   isDragging?: boolean;
   isSelected?: boolean;
-  onOpen?: (sequence: Sequence) => void;
-  onSelect?: (sequence: Sequence) => void;
-  sequence: Sequence;
+  onOpen?: (sequence: ISequenceWithNotes) => void;
+  onSelect?: (sequence: ISequenceWithNotes) => void;
+  sequence: ISequenceWithNotes;
 }
 
 function TrackSequence(props: TrackSequenceProps) {

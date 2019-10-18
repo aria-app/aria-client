@@ -4,6 +4,7 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
+import { INote } from '../../shared/types';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -19,13 +20,9 @@ const styles = (theme: Theme) =>
     },
   });
 
-interface Note {
-  [key: string]: any;
-}
-
 export interface TrackSequenceNoteProps extends WithStyles<typeof styles> {
   isSequenceSelected?: boolean;
-  note?: Note;
+  note?: INote;
 }
 
 function TrackSequenceNote(props: TrackSequenceNoteProps) {
