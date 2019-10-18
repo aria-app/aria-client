@@ -4,7 +4,7 @@ import playbackState from './playbackState';
 import position from './position';
 
 export default combineReducers({
-  focusedSequenceId,
-  playbackState,
-  position,
+  focusedSequenceId: focusedSequenceId.reducer,
+  playbackState: playbackState.reducer,
+  position: position.reducer,
 });

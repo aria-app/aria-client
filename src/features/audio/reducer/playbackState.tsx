@@ -1,8 +1,13 @@
-import { createReducer } from 'redux-starter-kit';
+import { createSlice } from 'redux-starter-kit';
 import Dawww from '../../../dawww';
 import shared from '../../shared';
 
-export default createReducer(Dawww.PLAYBACK_STATES.STOPPED, {
-  [shared.actions.PLAYBACK_STATE_REQUEST_SUCCEEDED]: (state, action) =>
-    action.payload.playbackState,
+export default createSlice({
+  name: 'playbackState',
+  initialState: Dawww.PLAYBACK_STATES.STOPPED,
+  extraReducers: {
+    [shared.actions.PLAYBACK_STATE_REQUEST_SUCCEEDED]: (state, action) =>
+      action.payload.playbackState,
+  },
+  reducers: {},
 });
