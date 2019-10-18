@@ -12,29 +12,29 @@ export type InstrumentType =
   | 'SQUARE'
   | 'TRIANGLE';
 
-export interface IPoint {
+export interface Point {
   x: number;
   y: number;
 }
 
-export interface INote {
+export interface Note {
   id: string;
-  points: Array<IPoint>;
+  points: Array<Point>;
   sequenceId: string;
 }
 
-export interface ISequence {
+export interface Sequence {
   id: string;
   measureCount: number;
   position: number;
   trackId: string;
 }
 
-export interface ISequenceWithNotes extends ISequence {
-  notes: Array<INote>;
+export interface ISequenceWithNotes extends Sequence {
+  notes: Array<Note>;
 }
 
-export interface ITrack {
+export interface Track {
   id: string;
   isMuted: boolean;
   isSoloing: boolean;
@@ -42,20 +42,20 @@ export interface ITrack {
   volume: number;
 }
 
-export interface ITrackWithSequences extends ITrack {
+export interface ITrackWithSequences extends Track {
   sequences: Array<ISequenceWithNotes>;
 }
 
-export interface ISong {
+export interface Song {
   bpm: number;
   dateModified: Date;
   id: string;
   measureCount: number;
   name: string;
-  notes: { [key: string]: INote };
-  sequences: { [key: string]: ISequence };
-  tracks: { [key: string]: ITrack };
+  notes: { [key: string]: Note };
+  sequences: { [key: string]: Sequence };
+  tracks: { [key: string]: Track };
   userId: string;
 }
 
-export type IUser = firebase.User;
+export type User = firebase.User;

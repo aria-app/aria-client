@@ -9,7 +9,7 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import Dawww from '../../../dawww';
-import { INote } from '../../shared/types';
+import { Note as INote } from '../../shared/types';
 import * as constants from '../constants';
 import Note from './Note';
 

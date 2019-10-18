@@ -3,7 +3,7 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { DraggableCore } from 'react-draggable';
-import { IPoint } from '../../shared/types';
+import { Point } from '../../shared/types';
 import Fence from './Fence';
 
 const styles = createStyles({
@@ -18,11 +18,7 @@ const styles = createStyles({
 
 export interface SelectorProps extends WithStyles<typeof styles> {
   isEnabled?: boolean;
-  onSelect?: (
-    startPoint: IPoint,
-    endPoint: IPoint,
-    isAdditive: boolean,
-  ) => void;
+  onSelect?: (startPoint: Point, endPoint: Point, isAdditive: boolean) => void;
   scrollLeftEl?: HTMLElement;
   scrollTopEl?: HTMLElement;
 }

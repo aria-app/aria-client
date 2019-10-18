@@ -11,7 +11,7 @@ import { GlobalHotKeys } from 'react-hotkeys';
 import Dawww from '../../../dawww';
 import audio from '../../audio';
 import shared from '../../shared';
-import { INote, IPoint, ISequence } from '../../shared/types';
+import { Note, Point, Sequence } from '../../shared/types';
 import { toolTypes } from '../constants';
 import Grid from './Grid';
 import Keys from './Keys';
@@ -52,21 +52,21 @@ export interface NotesEditorProps extends WithStyles<typeof styles> {
   isRedoEnabled?: boolean;
   isLoading?: boolean;
   isUndoEnabled?: boolean;
-  notes?: Array<INote>;
+  notes?: Array<Note>;
   navigate?: (path: string) => void;
-  onDelete?: (notes: Array<INote>) => void;
-  onDrag?: (notes: Array<INote>) => void;
-  onDraw?: (startingPoint: IPoint) => void;
-  onDuplicate?: (notes: Array<INote>) => void;
-  onErase?: (note: INote) => void;
+  onDelete?: (notes: Array<Note>) => void;
+  onDrag?: (notes: Array<Note>) => void;
+  onDraw?: (startingPoint: Point) => void;
+  onDuplicate?: (notes: Array<Note>) => void;
+  onErase?: (note: Note) => void;
   onLoad?: (songId: string, sequenceId: string) => void;
-  onNudge?: (delta: IPoint, notes: Array<INote>) => void;
-  onOctaveDown?: (notes: Array<INote>) => void;
-  onOctaveUp?: (notes: Array<INote>) => void;
+  onNudge?: (delta: Point, notes: Array<Note>) => void;
+  onOctaveDown?: (notes: Array<Note>) => void;
+  onOctaveUp?: (notes: Array<Note>) => void;
   onRedo?: () => void;
-  onResize?: (resizedNotes: Array<INote>) => void;
+  onResize?: (resizedNotes: Array<Note>) => void;
   onUndo?: () => void;
-  sequence?: ISequence;
+  sequence?: Sequence;
   sequenceId?: string;
   songId?: string;
 }
@@ -96,7 +96,7 @@ function NotesEditor(props: NotesEditorProps) {
     songId,
   } = props;
   const [contentEl, setContentEl] = React.useState();
-  const [mousePoint, setMousePoint] = React.useState<IPoint>({ x: -1, y: 1 });
+  const [mousePoint, setMousePoint] = React.useState<Point>({ x: -1, y: 1 });
   const [previousToolType, setPreviousToolType] = React.useState(
     toolTypes.SELECT,
   );

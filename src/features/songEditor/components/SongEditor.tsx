@@ -6,7 +6,7 @@ import { GlobalHotKeys } from 'react-hotkeys';
 import Tone from 'tone';
 import Dawww from '../../../dawww';
 import notesEditor from '../../notesEditor';
-import { ISong, IUser } from '../../shared/types';
+import { Song, User } from '../../shared/types';
 import tracksEditor from '../../tracksEditor';
 import SongEditorToolbar from './SongEditorToolbar';
 import SongInfoModal from './SongInfoModal';
@@ -39,8 +39,8 @@ export interface SongEditorProps extends WithStyles<typeof styles> {
   onPlay?: () => void;
   onStop?: () => void;
   playbackState?: string;
-  song?: ISong;
-  user?: IUser;
+  song?: Song;
+  user?: User;
 }
 
 function SongEditor(props: SongEditorProps) {

@@ -8,10 +8,10 @@ import { GlobalHotKeys } from 'react-hotkeys';
 import Dawww from '../../../dawww';
 import shared from '../../shared';
 import {
-  ISequence,
+  Sequence,
   ISequenceWithNotes,
-  ISong,
-  ITrack,
+  Song,
+  Track,
   ITrackWithSequences,
 } from '../../shared/types';
 import TrackEditingModal from './TrackEditingModal';
@@ -39,22 +39,22 @@ export interface TracksEditorProps extends WithStyles<typeof styles> {
   onLoad?: (songId: string) => void;
   onPositionSet?: (position: number) => void;
   onRedo?: () => void;
-  onSequenceAdd?: (newSequence: ISequence) => void;
+  onSequenceAdd?: (newSequence: Sequence) => void;
   onSequenceDelete?: (sequenceToDelete: ISequenceWithNotes) => void;
   onSequenceDuplicate?: (
-    duplicatedSequence: ISequence,
+    duplicatedSequence: Sequence,
     originalSequence: ISequenceWithNotes,
   ) => void;
   onSequenceEdit?: (sequence: ISequenceWithNotes) => void;
   onSongMeasureCountChange?: (songMeasureCount: number) => void;
-  onTrackAdd?: (track: ITrack, sequence: ISequence) => void;
+  onTrackAdd?: (track: Track, sequence: Sequence) => void;
   onTrackDelete?: (track: ITrackWithSequences) => void;
   onTrackVoiceSet?: (track: ITrackWithSequences, voice: string) => void;
   onTrackVolumeSet?: (track: ITrackWithSequences, volume: string) => void;
   onUndo?: () => void;
   position?: number;
   sequences?: Array<ISequenceWithNotes>;
-  song?: ISong;
+  song?: Song;
   songId?: string;
   songMeasureCount?: number;
   tracks?: Array<ITrackWithSequences>;

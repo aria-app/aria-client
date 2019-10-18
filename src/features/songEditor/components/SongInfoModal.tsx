@@ -14,7 +14,7 @@ import React from 'react';
 import { Translation } from 'react-i18next';
 import Dawww from '../../../dawww';
 import shared from '../../shared';
-import { ISong } from '../../shared/types';
+import { Song } from '../../shared/types';
 
 const { changeLanguage } = shared.i18n;
 const getBPMRangeItem = x => ({ id: x, text: String(x) });
@@ -56,7 +56,7 @@ export interface SongInfoModalProps extends WithStyles<typeof styles> {
   onConfirm?: () => void;
   onReturnToDashboard?: () => void;
   onSignOut?: () => void;
-  song?: ISong;
+  song?: Song;
 }
 
 function SongInfoModal(props: SongInfoModalProps) {

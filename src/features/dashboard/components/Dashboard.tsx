@@ -7,7 +7,7 @@ import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import hideIf from 'react-render-helpers/hideIf';
 import shared from '../../shared';
-import { ISong, IUser } from '../../shared/types';
+import { Song, User } from '../../shared/types';
 import SongList from './SongList';
 
 const { LoadingIndicator, Toolbar } = shared.components;
@@ -55,9 +55,9 @@ export interface DashboardProps extends WithStyles<typeof styles> {
   navigate?: (path: string) => void;
   onLoad?: () => void;
   onSongAdd?: (options: NewSongOptions) => void;
-  onSongDelete?: (song: ISong) => void;
-  songs?: Array<ISong>;
-  user?: IUser;
+  onSongDelete?: (song: Song) => void;
+  songs?: Array<Song>;
+  user?: User;
 }
 
 function Dashboard(props: DashboardProps) {

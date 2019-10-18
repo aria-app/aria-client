@@ -4,7 +4,7 @@ import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import { transparentize } from 'polished';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import { IPoint } from '../../shared/types';
+import { Point } from '../../shared/types';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -31,7 +31,7 @@ const styles = (theme: Theme) =>
   });
 
 export interface PositionIndicatorProps extends WithStyles<typeof styles> {
-  mousePoint?: IPoint;
+  mousePoint?: Point;
 }
 
 function PositionIndicator(props: PositionIndicatorProps) {

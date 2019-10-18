@@ -9,7 +9,7 @@ import Draggable, {
   DraggableBounds,
   DraggableEventHandler,
 } from 'react-draggable';
-import { INote, IPoint } from '../../shared/types';
+import { Note as INote, Point } from '../../shared/types';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -73,13 +73,13 @@ export interface NoteProps extends WithStyles<typeof styles> {
   className?: string;
   isSelected?: boolean;
   note?: INote;
-  onDrag?: (delta: IPoint) => void;
+  onDrag?: (delta: Point) => void;
   onDragStart?: (
     note: INote,
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => void;
   onDragStop?: DraggableEventHandler;
-  onEndPointDrag?: (delta: Partial<IPoint>) => void;
+  onEndPointDrag?: (delta: Partial<Point>) => void;
   onEndPointDragStart?: (
     note: INote,
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,

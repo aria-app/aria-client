@@ -1,11 +1,11 @@
 import { createLogic, Logic } from 'redux-logic';
 import shared from '../../shared';
-import { ISong } from '../../shared/types';
+import { Song } from '../../shared/types';
 import dawww from '../dawww';
 import * as selectors from '../selectors';
 
 interface Payload {
-  song?: ISong;
+  song?: Song;
 }
 
 interface Action {

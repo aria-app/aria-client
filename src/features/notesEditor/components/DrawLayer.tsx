@@ -6,7 +6,7 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import { IPoint } from '../../shared/types';
+import { Point } from '../../shared/types';
 import Note from './Note';
 
 const styles = createStyles({
@@ -24,8 +24,8 @@ const styles = createStyles({
 });
 
 export interface DrawLayerProps extends WithStyles<typeof styles> {
-  mousePoint?: IPoint;
-  onDraw?: (startingPoint: IPoint) => void;
+  mousePoint?: Point;
+  onDraw?: (startingPoint: Point) => void;
 }
 
 function DrawLayer(props: DrawLayerProps) {

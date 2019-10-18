@@ -1,11 +1,11 @@
 import { createLogic, Logic } from 'redux-logic';
 import shared from '../../shared';
-import { ISong } from '../../shared/types';
+import { Song } from '../../shared/types';
 
 const { db } = shared.constants;
 
 interface Payload {
-  song?: ISong;
+  song?: Song;
 }
 
 interface Action {
