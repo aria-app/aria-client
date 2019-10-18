@@ -1,6 +1,5 @@
 export const BPM_SET = 'BPM_SET';
 export const DASHBOARD_LOADED = 'DASHBOARD_LOADED';
-export const INITIALIZED = 'INITIALIZED';
 export const MEASURE_COUNT_SET = 'MEASURE_COUNT_SET';
 export const NOTE_DRAWN = 'NOTE_DRAWN';
 export const NOTE_ERASED = 'NOTE_ERASED';
@@ -111,10 +110,6 @@ export const bpmSet = bpm => ({
 
 export const dashboardLoaded = () => ({
   type: DASHBOARD_LOADED,
-});
-
-export const initialized = () => ({
-  type: INITIALIZED,
 });
 
 export const measureCountSet = measureCount => ({

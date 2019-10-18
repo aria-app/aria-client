@@ -1,16 +1,19 @@
 import 'firebase/auth';
 import 'firebase/firestore';
+import * as firebase from 'firebase/app';
 import StylesProvider from '@material-ui/styles/StylesProvider';
 import React from 'react';
 import { render } from 'react-dom';
-import { configure } from 'react-hotkeys';
+import { configure as configureHotkeys } from 'react-hotkeys';
 import { Provider } from 'react-redux';
 import Tone from 'tone';
+import audio from './features/audio';
+import dawww from './features/audio/dawww';
 import app from './features/app';
 import shared from './features/shared';
 import store from './store';
 
-configure({ ignoreRepeatedEventsWhenKeyHeldDown: false });
+configureHotkeys({ ignoreRepeatedEventsWhenKeyHeldDown: false });
 
 ['keydown', 'mousedown', 'touchdown'].forEach(eventName => {
   document.body.addEventListener(eventName, () => {
@@ -18,9 +21,27 @@ configure({ ignoreRepeatedEventsWhenKeyHeldDown: false });
   });
 });
 
-const { AppContainer } = app.components;
+firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    store.dispatch(shared.actions.userSignInSucceeded(user));
+  } else {
+    store.dispatch(shared.actions.userSignOutSucceeded());
+  }
+});
 
-store.dispatch(shared.actions.initialized());
+dawww.onPositionChange(position => {
+  const prevPosition = audio.selectors.getPosition(store.getState());
+
+  if (position === prevPosition) return;
+
+  store.dispatch(shared.actions.positionRequestSucceeded(position));
+});
+
+dawww.onStateChange(playbackState => {
+  store.dispatch(shared.actions.playbackStateRequestSucceeded(playbackState));
+});
+
+const { AppContainer } = app.components;
 
 render(
   <StylesProvider injectFirst={true}>

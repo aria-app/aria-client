@@ -1,4 +1,4 @@
-import { Redirect, Router } from '@reach/router';
+import { Router } from '@reach/router';
 import React from 'react';
 import { hideIf, showIf } from 'react-render-helpers';
 import createStyles from '@material-ui/styles/createStyles';
@@ -8,6 +8,7 @@ import dashboard from '../../dashboard';
 import shared from '../../shared';
 import songEditor from '../../songEditor';
 import songViewer from '../../songViewer';
+import PrivateRoute from './PrivateRoute';
 import SignInContainer from './SignInContainer';
 import SignOutContainer from './SignOutContainer';
 
@@ -15,21 +16,6 @@ const { DashboardContainer } = dashboard.components;
 const { LoadingIndicator, Shell } = shared.components;
 const { SongEditorContainer } = songEditor.components;
 const { SongViewerContainer } = songViewer.components;
-
-interface PrivateRouteProps {
-  component?: React.ElementType;
-  [key: string]: any;
-}
-
-function PrivateRoute(props: PrivateRouteProps) {
-  const { component: Component, isAuthenticated, ...rest } = props;
-
-  if (!isAuthenticated) {
-    return <Redirect from="/foo" noThrow to="sign-in" />;
-  }
-
-  return <Component isAuthenticated={isAuthenticated} {...rest} />;
-}
 
 const styles = createStyles({
   router: {
