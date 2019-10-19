@@ -3,6 +3,7 @@ import { ofType } from 'redux-observable';
 import { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import shared from '../../shared';
+import * as actions from '../actions';
 
 export default function subscribeToAuthStateEpic(action$) {
   return action$.pipe(
@@ -11,11 +12,11 @@ export default function subscribeToAuthStateEpic(action$) {
       Observable.create(observer =>
         firebase.auth().onAuthStateChanged(user => {
           if (user) {
-            observer.next(shared.actions.userSignInSucceeded(user));
+            observer.next(actions.userSignInSucceeded(user));
             return;
           }
 
-          observer.next(shared.actions.userSignOutSucceeded());
+          observer.next(actions.userSignOutSucceeded());
         }),
       ),
     ),

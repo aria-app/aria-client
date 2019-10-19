@@ -9,7 +9,7 @@ export default createSlice({
   name: 'tracks',
   initialState,
   extraReducers: {
-    [shared.actions.DASHBOARD_LOADED]: () => initialState,
+    [shared.actions.ROUTE_DASHBOARD_LOADED]: () => initialState,
     [shared.actions.SONG_LOADED]: (state, action) => action.payload.song.tracks,
     [shared.actions.TRACK_ADDED]: (state, action) =>
       Dawww.setAtIds([action.payload.track], state),

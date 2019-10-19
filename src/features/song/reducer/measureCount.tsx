@@ -7,7 +7,7 @@ export default createSlice({
   name: 'measureCount',
   initialState,
   extraReducers: {
-    [shared.actions.DASHBOARD_LOADED]: () => initialState,
+    [shared.actions.ROUTE_DASHBOARD_LOADED]: () => initialState,
     [shared.actions.MEASURE_COUNT_SET]: (state, action) =>
       action.payload.measureCount,
     [shared.actions.SONG_LOADED]: (state, action) =>

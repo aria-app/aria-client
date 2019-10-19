@@ -8,7 +8,7 @@ export default createSlice({
   initialState,
   extraReducers: {
     [shared.actions.BPM_SET]: (state, action) => action.payload.bpm,
-    [shared.actions.DASHBOARD_LOADED]: () => initialState,
+    [shared.actions.ROUTE_DASHBOARD_LOADED]: () => initialState,
     [shared.actions.SONG_LOADED]: (state, action) => action.payload.song.bpm,
   },
   reducers: {},

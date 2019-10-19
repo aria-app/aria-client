@@ -10,7 +10,7 @@ export default createSlice({
   name: 'sequences',
   initialState,
   extraReducers: {
-    [shared.actions.DASHBOARD_LOADED]: () => initialState,
+    [shared.actions.ROUTE_DASHBOARD_LOADED]: () => initialState,
     [shared.actions.SONG_LOADED]: (state, action) =>
       action.payload.song.sequences,
     [shared.actions.SEQUENCE_ADDED]: (state, action) =>

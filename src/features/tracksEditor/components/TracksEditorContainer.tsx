@@ -16,7 +16,7 @@ export default connect(
     tracks: song.selectors.getDeepTracksArray(state),
   }),
   {
-    onLoad: shared.actions.songEditorLoaded,
+    onLoad: shared.actions.routeSongEditorLoaded,
     onPositionSet: shared.actions.positionSetRequestStarted,
     onRedo: shared.actions.redoRequested,
     onSequenceAdd: shared.actions.sequenceAdded,

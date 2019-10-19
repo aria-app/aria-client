@@ -17,7 +17,7 @@ export default connect(
     onDrag: shared.actions.notesDragged,
     onDuplicate: shared.actions.notesDuplicated,
     onErase: shared.actions.noteErased,
-    onLoad: shared.actions.notesEditorLoaded,
+    onLoad: shared.actions.routeNotesEditorLoaded,
     onNudge: shared.actions.notesNudged,
     onOctaveDown: shared.actions.notesMovedOctaveDown,
     onOctaveUp: shared.actions.notesMovedOctaveUp,

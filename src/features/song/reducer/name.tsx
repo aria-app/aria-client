@@ -7,7 +7,7 @@ export default createSlice({
   name: 'name',
   initialState,
   extraReducers: {
-    [shared.actions.DASHBOARD_LOADED]: () => initialState,
+    [shared.actions.ROUTE_DASHBOARD_LOADED]: () => initialState,
     [shared.actions.SONG_LOADED]: (state, action) => action.payload.song.name,
   },
   reducers: {},

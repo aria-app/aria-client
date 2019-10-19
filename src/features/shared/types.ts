@@ -48,7 +48,7 @@ export interface ITrackWithSequences extends Track {
 
 export interface Song {
   bpm: number;
-  dateModified: Date;
+  dateModified: number;
   id: string;
   measureCount: number;
   name: string;

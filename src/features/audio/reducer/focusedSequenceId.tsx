@@ -5,9 +5,9 @@ export default createSlice({
   name: 'focusedSequenceId',
   initialState: '',
   extraReducers: {
-    [shared.actions.NOTES_EDITOR_LOADED]: (state, action) =>
+    [shared.actions.ROUTE_NOTES_EDITOR_LOADED]: (state, action) =>
       action.payload.sequenceId,
-    [shared.actions.SONG_EDITOR_LOADED]: () => '',
+    [shared.actions.ROUTE_SONG_EDITOR_LOADED]: () => '',
   },
   reducers: {},
 });

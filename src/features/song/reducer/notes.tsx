@@ -14,7 +14,7 @@ export default createSlice({
   name: 'notes',
   initialState,
   extraReducers: {
-    [shared.actions.DASHBOARD_LOADED]: () => initialState,
+    [shared.actions.ROUTE_DASHBOARD_LOADED]: () => initialState,
     [shared.actions.SONG_LOADED]: (state, action) => action.payload.song.notes,
     [shared.actions.NOTE_DRAWN]: (state, action) => {
       const note = Dawww.createNote(action.payload.sequence.id, [

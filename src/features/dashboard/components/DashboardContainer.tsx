@@ -10,8 +10,8 @@ export default connect(
     user: user.selectors.getUser(state),
   }),
   {
-    onLoad: shared.actions.dashboardLoaded,
-    onSongAdd: shared.actions.songAddRequestStarted,
-    onSongDelete: shared.actions.songDeleteRequestStarted,
+    onLoad: shared.actions.routeDashboardLoaded,
+    onSongAdd: user.actions.songAddRequestStarted,
+    onSongDelete: user.actions.songDeleteRequestStarted,
   },
 )(Dashboard);

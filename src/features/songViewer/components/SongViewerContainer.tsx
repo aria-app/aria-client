@@ -12,7 +12,7 @@ export default connect(
     song: song.selectors.getSong(state),
   }),
   {
-    onLoad: shared.actions.songViewerLoaded,
+    onLoad: shared.actions.routeSongViewerLoaded,
     onPause: shared.actions.playbackPauseRequestStarted,
     onPlay: shared.actions.playbackStartRequestStarted,
     onPositionSet: shared.actions.positionSetRequestStarted,

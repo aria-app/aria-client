@@ -10,9 +10,9 @@ import * as selectors from '../selectors';
 export default function fetchSongEpic(action$, state$) {
   return action$.pipe(
     ofType(
-      shared.actions.NOTES_EDITOR_LOADED,
-      shared.actions.SONG_EDITOR_LOADED,
-      shared.actions.SONG_VIEWER_LOADED,
+      shared.actions.ROUTE_NOTES_EDITOR_LOADED,
+      shared.actions.ROUTE_SONG_EDITOR_LOADED,
+      shared.actions.ROUTE_SONG_VIEWER_LOADED,
     ),
     withLatestFrom(state$),
     mergeMap(([action, state]) => {
