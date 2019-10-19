@@ -34,47 +34,6 @@ export const routeSongViewerLoaded = songId => ({
   },
 });
 
-export const PLAYBACK_PAUSE_REQUEST_STARTED = 'PLAYBACK_PAUSE_REQUEST_STARTED';
-export const PLAYBACK_START_REQUEST_STARTED = 'PLAYBACK_START_REQUEST_STARTED';
-export const PLAYBACK_STATE_REQUEST_SUCCEEDED =
-  'PLAYBACK_STATE_REQUEST_SUCCEEDED';
-export const PLAYBACK_STOP_REQUEST_STARTED = 'PLAYBACK_STOP_REQUEST_STARTED';
-export const POSITION_REQUEST_SUCCEEDED = 'POSITION_REQUEST_SUCCEEDED';
-export const POSITION_SET_REQUEST_STARTED = 'POSITION_SET_REQUEST_STARTED';
-
-export const playbackPauseRequestStarted = () => ({
-  type: PLAYBACK_PAUSE_REQUEST_STARTED,
-});
-
-export const playbackStartRequestStarted = () => ({
-  type: PLAYBACK_START_REQUEST_STARTED,
-});
-
-export const playbackStateRequestSucceeded = playbackState => ({
-  type: PLAYBACK_STATE_REQUEST_SUCCEEDED,
-  payload: {
-    playbackState,
-  },
-});
-
-export const playbackStopRequestStarted = () => ({
-  type: PLAYBACK_STOP_REQUEST_STARTED,
-});
-
-export const positionRequestSucceeded = position => ({
-  type: POSITION_REQUEST_SUCCEEDED,
-  payload: {
-    position,
-  },
-});
-
-export const positionSetRequestStarted = position => ({
-  type: POSITION_SET_REQUEST_STARTED,
-  payload: {
-    position,
-  },
-});
-
 export const BPM_SET = 'BPM_SET';
 export const MEASURE_COUNT_SET = 'MEASURE_COUNT_SET';
 export const NOTE_DRAWN = 'NOTE_DRAWN';
@@ -150,13 +109,6 @@ export const serverUpdatingActions = [
   TRACK_VOICE_SET,
   TRACK_VOLUME_SET,
   UNDO_REQUESTED,
-];
-
-export const dawwwUpdatingActions = [
-  ...serverUpdatingActions,
-  ROUTE_NOTES_EDITOR_LOADED,
-  ROUTE_SONG_EDITOR_LOADED,
-  ROUTE_SONG_VIEWER_LOADED,
 ];
 
 export const bpmSet = bpm => ({

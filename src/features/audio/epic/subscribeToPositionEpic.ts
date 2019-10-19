@@ -2,6 +2,7 @@ import { ofType } from 'redux-observable';
 import { Observable } from 'rxjs';
 import { mergeMap, withLatestFrom } from 'rxjs/operators';
 import shared from '../../shared';
+import * as actions from '../actions';
 import dawww from '../dawww';
 import * as selectors from '../selectors';
 
@@ -16,7 +17,7 @@ export default function subscribeToPositionEpic(action$, state$) {
 
           if (position === prevPosition) return;
 
-          observer.next(shared.actions.positionRequestSucceeded(position));
+          observer.next(actions.positionRequestSucceeded(position));
         }),
       ),
     ),

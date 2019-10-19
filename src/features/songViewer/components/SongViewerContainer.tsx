@@ -13,9 +13,9 @@ export default connect(
   }),
   {
     onLoad: shared.actions.routeSongViewerLoaded,
-    onPause: shared.actions.playbackPauseRequestStarted,
-    onPlay: shared.actions.playbackStartRequestStarted,
-    onPositionSet: shared.actions.positionSetRequestStarted,
-    onStop: shared.actions.playbackStopRequestStarted,
+    onPause: audio.actions.playbackPauseRequestStarted,
+    onPlay: audio.actions.playbackStartRequestStarted,
+    onPositionSet: audio.actions.positionSetRequestStarted,
+    onStop: audio.actions.playbackStopRequestStarted,
   },
 )(SongViewer);

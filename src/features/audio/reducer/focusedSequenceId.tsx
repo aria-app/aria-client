@@ -1,7 +1,7 @@
 import { createSlice } from 'redux-starter-kit';
 import shared from '../../shared';
 
-export default createSlice({
+export default createSlice<string, {}>({
   name: 'focusedSequenceId',
   initialState: '',
   extraReducers: {

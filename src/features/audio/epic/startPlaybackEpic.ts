@@ -1,11 +1,11 @@
 import { ofType } from 'redux-observable';
 import { ignoreElements, tap } from 'rxjs/operators';
-import shared from '../../shared';
+import * as actions from '../actions';
 import dawww from '../dawww';
 
 export default function startPlaybackEpic(action$) {
   return action$.pipe(
-    ofType(shared.actions.PLAYBACK_START_REQUEST_STARTED),
+    ofType(actions.playbackStartRequestStarted.type),
     tap(() => dawww.start()),
     ignoreElements(),
   );

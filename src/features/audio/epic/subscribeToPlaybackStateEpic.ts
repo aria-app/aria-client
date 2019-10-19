@@ -2,6 +2,7 @@ import { ofType } from 'redux-observable';
 import { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import shared from '../../shared';
+import * as actions from '../actions';
 import dawww from '../dawww';
 
 export default function subscribeToPlaybackStateEpic(action$) {
@@ -10,9 +11,7 @@ export default function subscribeToPlaybackStateEpic(action$) {
     mergeMap(() =>
       Observable.create(observer =>
         dawww.onStateChange(playbackState => {
-          observer.next(
-            shared.actions.playbackStateRequestSucceeded(playbackState),
-          );
+          observer.next(actions.playbackStateRequestSucceeded(playbackState));
         }),
       ),
     ),

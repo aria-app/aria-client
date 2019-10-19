@@ -1,7 +1,7 @@
 import { createSlice } from 'redux-starter-kit';
 import * as actions from '../actions';
 
-export default createSlice({
+export default createSlice<boolean, {}>({
   name: 'didAuthenticationRun',
   initialState: false,
   extraReducers: {

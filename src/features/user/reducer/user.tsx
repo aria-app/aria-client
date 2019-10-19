@@ -1,11 +1,13 @@
-import { createSlice } from 'redux-starter-kit';
+import { createSlice, PayloadAction } from 'redux-starter-kit';
+import { User } from '../../shared/types';
 import * as actions from '../actions';
 
-export default createSlice({
+export default createSlice<User | null, {}>({
   name: 'user',
   initialState: null,
   extraReducers: {
-    [actions.userSignInSucceeded.type]: (state, action) => action.payload,
+    [actions.userSignInSucceeded.type]: (state, action: PayloadAction<User>) =>
+      action.payload,
     [actions.userSignOutSucceeded.type]: () => null,
   },
   reducers: {},

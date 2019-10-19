@@ -1,12 +1,14 @@
-import { createSlice } from 'redux-starter-kit';
-import shared from '../../shared';
+import { createSlice, PayloadAction } from 'redux-starter-kit';
+import * as actions from '../actions';
 
-export default createSlice({
+export default createSlice<number, {}>({
   name: 'position',
   initialState: 0,
   extraReducers: {
-    [shared.actions.POSITION_REQUEST_SUCCEEDED]: (state, action) =>
-      action.payload.position,
+    [actions.positionRequestSucceeded.type]: (
+      state,
+      action: PayloadAction<number>,
+    ) => action.payload,
   },
   reducers: {},
 });

@@ -1,14 +1,13 @@
 import { ofType } from 'redux-observable';
+import { PayloadAction } from 'redux-starter-kit';
 import { ignoreElements, tap } from 'rxjs/operators';
-import shared from '../../shared';
+import * as actions from '../actions';
 import dawww from '../dawww';
 
 export default function setPositionEpic(action$) {
   return action$.pipe(
-    ofType(shared.actions.POSITION_SET_REQUEST_STARTED),
-    tap((action: { [key: string]: any }) =>
-      dawww.setPosition(action.payload.position),
-    ),
+    ofType(actions.positionSetRequestStarted.type),
+    tap((action: PayloadAction<number>) => dawww.setPosition(action.payload)),
     ignoreElements(),
   );
 }

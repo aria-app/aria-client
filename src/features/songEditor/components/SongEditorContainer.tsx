@@ -13,8 +13,8 @@ export default connect(
   }),
   {
     onBPMChange: shared.actions.bpmSet,
-    onPause: shared.actions.playbackPauseRequestStarted,
-    onPlay: shared.actions.playbackStartRequestStarted,
-    onStop: shared.actions.playbackStopRequestStarted,
+    onPause: audio.actions.playbackPauseRequestStarted,
+    onPlay: audio.actions.playbackStartRequestStarted,
+    onStop: audio.actions.playbackStopRequestStarted,
   },
 )(SongEditor);
