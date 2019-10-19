@@ -15,7 +15,7 @@ const store = configureStore({
   },
   middleware: [
     epicMiddleware,
-    createLogicMiddleware([...audio.logic, ...song.logic, ...user.logic]),
+    createLogicMiddleware([...audio.logic, ...song.logic]),
   ],
   reducer: combineReducers({
     [audio.constants.NAME]: audio.reducer,
