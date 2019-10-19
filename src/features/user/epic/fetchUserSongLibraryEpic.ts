@@ -10,7 +10,7 @@ export default function fetchUserSongLibraryEpic(action$, state$) {
   return action$.pipe(
     ofType(shared.actions.DASHBOARD_LOADED),
     withLatestFrom(state$),
-    mergeMap(([_, state]) => {
+    mergeMap(([action, state]) => {
       const user = selectors.getUser(state);
 
       return from(

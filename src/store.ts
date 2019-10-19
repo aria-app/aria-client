@@ -13,10 +13,7 @@ const store = configureStore({
   devTools: {
     actionsBlacklist: [shared.actions.POSITION_REQUEST_SUCCEEDED],
   },
-  middleware: [
-    epicMiddleware,
-    createLogicMiddleware([...audio.logic, ...song.logic]),
-  ],
+  middleware: [epicMiddleware, createLogicMiddleware([...song.logic])],
   reducer: combineReducers({
     audio: audio.reducer,
     song: song.reducer,
@@ -24,6 +21,6 @@ const store = configureStore({
   }),
 });
 
-epicMiddleware.run(combineEpics(user.epic));
+epicMiddleware.run(combineEpics(audio.epic, user.epic));
 
 export default store;

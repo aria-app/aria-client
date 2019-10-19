@@ -1,11 +1,11 @@
+import epic from './epic';
 import * as helpers from './helpers';
-import logic from './logic';
 import reducer from './reducer';
 import * as selectors from './selectors';
 
 export default {
+  epic,
   helpers,
-  logic,
   reducer,
   selectors,
 };

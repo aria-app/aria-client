@@ -7,7 +7,7 @@ import * as selectors from '../selectors';
 
 const { db } = shared.constants;
 
-export default function fetchUserSongLibraryEpic(action$, state$) {
+export default function addSongEpic(action$, state$) {
   return action$.pipe(
     ofType(shared.actions.SONG_ADD_REQUEST_STARTED),
     withLatestFrom(state$),
