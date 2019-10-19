@@ -9,8 +9,6 @@ firebase.initializeApp({
   messagingSenderId: '904455678701',
 });
 
-export const NAME = 'shared';
-
 export const authProvider =
   !!firebase.auth && new firebase.auth.GoogleAuthProvider();
 

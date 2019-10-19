@@ -18,9 +18,9 @@ const store = configureStore({
     createLogicMiddleware([...audio.logic, ...song.logic]),
   ],
   reducer: combineReducers({
-    [audio.constants.NAME]: audio.reducer,
-    [song.constants.NAME]: song.reducer,
-    [user.constants.NAME]: user.reducer,
+    audio: audio.reducer,
+    song: song.reducer,
+    user: user.reducer,
   }),
 });
 

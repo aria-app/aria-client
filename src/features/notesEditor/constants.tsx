@@ -1,5 +1,3 @@
-export const NAME = 'notesEditor';
-
 export const toolTypes = {
   DRAW: 'DRAW',
   ERASE: 'ERASE',
