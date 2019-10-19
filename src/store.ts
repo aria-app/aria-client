@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { createLogicMiddleware } from 'redux-logic';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import { configureStore } from 'redux-starter-kit';
 import audio from './features/audio';
@@ -13,7 +12,7 @@ const store = configureStore({
   devTools: {
     actionsBlacklist: [shared.actions.POSITION_REQUEST_SUCCEEDED],
   },
-  middleware: [epicMiddleware, createLogicMiddleware([...song.logic])],
+  middleware: [epicMiddleware],
   reducer: combineReducers({
     audio: audio.reducer,
     song: song.reducer,
@@ -21,6 +20,6 @@ const store = configureStore({
   }),
 });
 
-epicMiddleware.run(combineEpics(audio.epic, user.epic));
+epicMiddleware.run(combineEpics(audio.epic, song.epic, user.epic));
 
 export default store;

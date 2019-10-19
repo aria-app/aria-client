@@ -45,7 +45,6 @@
     "react-render-helpers": "^1.2.0",
     "react-router-dom": "^5.0.1",
     "redux": "4.0.4",
-    "redux-logic": "^2.1.1",
     "redux-observable": "1.2.0",
     "redux-starter-kit": "0.9.1",
     "redux-undo": "^1.0.0-beta9-9-7",
