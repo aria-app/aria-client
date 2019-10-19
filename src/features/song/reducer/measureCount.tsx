@@ -1,14 +1,17 @@
-import { createReducer } from 'redux-starter-kit';
+import { createSlice } from 'redux-starter-kit';
 import shared from '../../shared';
 
-const initialValue = 1;
+const initialState = 1;
 
-export const measureCount = createReducer(initialValue, {
-  [shared.actions.DASHBOARD_LOADED]: (state, action) => initialValue,
-
-  [shared.actions.MEASURE_COUNT_SET]: (state, action) =>
-    action.payload.measureCount,
-
-  [shared.actions.SONG_LOADED]: (state, action) =>
-    action.payload.song.measureCount,
+export default createSlice({
+  name: 'measureCount',
+  initialState,
+  extraReducers: {
+    [shared.actions.DASHBOARD_LOADED]: () => initialState,
+    [shared.actions.MEASURE_COUNT_SET]: (state, action) =>
+      action.payload.measureCount,
+    [shared.actions.SONG_LOADED]: (state, action) =>
+      action.payload.song.measureCount,
+  },
+  reducers: {},
 });

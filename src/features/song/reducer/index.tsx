@@ -1,26 +1,26 @@
 import { combineReducers } from 'redux';
 import undoable, { includeAction } from 'redux-undo';
 import shared from '../../shared';
-import { bpm } from './bpm';
-import { id } from './id';
-import { measureCount } from './measureCount';
-import { name } from './name';
-import { notes } from './notes';
-import { sequences } from './sequences';
-import { syncState } from './syncState';
-import { tracks } from './tracks';
-import { userId } from './userId';
+import bpm from './bpm';
+import id from './id';
+import measureCount from './measureCount';
+import name from './name';
+import notes from './notes';
+import sequences from './sequences';
+import syncState from './syncState';
+import tracks from './tracks';
+import userId from './userId';
 
 const rootReducer = combineReducers({
-  bpm,
-  id,
-  measureCount,
-  name,
-  notes,
-  sequences,
-  syncState,
-  tracks,
-  userId,
+  bpm: bpm.reducer,
+  id: id.reducer,
+  measureCount: measureCount.reducer,
+  name: name.reducer,
+  notes: notes.reducer,
+  sequences: sequences.reducer,
+  syncState: syncState.reducer,
+  tracks: tracks.reducer,
+  userId: userId.reducer,
 });
 
 export default undoable(rootReducer, {

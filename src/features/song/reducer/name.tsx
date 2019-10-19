@@ -1,10 +1,14 @@
-import { createReducer } from 'redux-starter-kit';
+import { createSlice } from 'redux-starter-kit';
 import shared from '../../shared';
 
-const initialValue = '';
+const initialState = '';
 
-export const name = createReducer(initialValue, {
-  [shared.actions.DASHBOARD_LOADED]: (state, action) => initialValue,
-
-  [shared.actions.SONG_LOADED]: (state, action) => action.payload.song.name,
+export default createSlice({
+  name: 'name',
+  initialState,
+  extraReducers: {
+    [shared.actions.DASHBOARD_LOADED]: () => initialState,
+    [shared.actions.SONG_LOADED]: (state, action) => action.payload.song.name,
+  },
+  reducers: {},
 });
