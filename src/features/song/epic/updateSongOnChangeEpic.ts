@@ -2,7 +2,7 @@ import throttle from 'lodash/fp/throttle';
 import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 import { mergeMap, withLatestFrom } from 'rxjs/operators';
-import shared from '../../shared';
+import * as actions from '../actions';
 import * as helpers from '../helpers';
 import * as selectors from '../selectors';
 
@@ -10,7 +10,7 @@ const throttledUpdate = throttle(500, song => helpers.updateSong(song));
 
 export default function updateSongOnChangeEpic(action$, state$) {
   return action$.pipe(
-    ofType(...shared.actions.serverUpdatingActions),
+    ofType(...actions.serverUpdatingActions),
     withLatestFrom(state$),
     mergeMap(([action, state]) => {
       const song = selectors.getSong(state);
@@ -21,7 +21,7 @@ export default function updateSongOnChangeEpic(action$, state$) {
 
       return from(
         throttledUpdate(songWithDateModified).then(() =>
-          shared.actions.syncSucceeded(),
+          actions.syncSucceeded(),
         ),
       );
     }),

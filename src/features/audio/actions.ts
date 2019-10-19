@@ -1,8 +1,9 @@
 import { createAction } from 'redux-starter-kit';
 import shared from '../shared';
+import song from '../song';
 
 export const dawwwUpdatingActions = [
-  ...shared.actions.serverUpdatingActions,
+  ...song.actions.serverUpdatingActions,
   shared.actions.ROUTE_NOTES_EDITOR_LOADED,
   shared.actions.ROUTE_SONG_EDITOR_LOADED,
   shared.actions.ROUTE_SONG_VIEWER_LOADED,

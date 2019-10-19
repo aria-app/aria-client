@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import undoable, { includeAction } from 'redux-undo';
 import shared from '../../shared';
+import * as actions from '../actions';
 import bpm from './bpm';
 import id from './id';
 import measureCount from './measureCount';
@@ -29,8 +30,8 @@ export default undoable(rootReducer, {
     shared.actions.ROUTE_NOTES_EDITOR_LOADED,
     shared.actions.ROUTE_SONG_EDITOR_LOADED,
   ] as unknown) as string,
-  filter: includeAction(shared.actions.undoableActions),
-  redoType: shared.actions.REDO_REQUESTED,
+  filter: includeAction(actions.undoableActions),
+  redoType: actions.REDO_REQUESTED,
   syncFilter: true,
-  undoType: shared.actions.UNDO_REQUESTED,
+  undoType: actions.UNDO_REQUESTED,
 });

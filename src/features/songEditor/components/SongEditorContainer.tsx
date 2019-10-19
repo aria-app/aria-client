@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import audio from '../../audio';
-import shared from '../../shared';
 import song from '../../song';
 import user from '../../user';
 import SongEditor from './SongEditor';
@@ -12,7 +11,7 @@ export default connect(
     user: user.selectors.getUser(state),
   }),
   {
-    onBPMChange: shared.actions.bpmSet,
+    onBPMChange: song.actions.bpmSet,
     onPause: audio.actions.playbackPauseRequestStarted,
     onPlay: audio.actions.playbackStartRequestStarted,
     onStop: audio.actions.playbackStopRequestStarted,
