@@ -2,21 +2,26 @@ import filter from 'lodash/fp/filter';
 import map from 'lodash/fp/map';
 import omit from 'lodash/fp/omit';
 import values from 'lodash/fp/values';
-import { createSlice } from 'redux-starter-kit';
+import { createSlice, PayloadAction } from 'redux-starter-kit';
 import Dawww from '../../../dawww';
 import shared from '../../shared';
+import { Note, Point, Sequence, Song } from '../../shared/types';
 import * as actions from '../actions';
 
 const initialState = {};
 const octaveDownDelta = { x: 0, y: 12 };
 const octaveUpDelta = { x: 0, y: -12 };
 
-export default createSlice({
+export default createSlice<{ [key: string]: Note }, {}>({
   name: 'notes',
   initialState,
   extraReducers: {
-    [actions.SONG_LOADED]: (state, action) => action.payload.song.notes,
-    [actions.NOTE_DRAWN]: (state, action) => {
+    [actions.songLoaded.type]: (state, action: PayloadAction<Song>) =>
+      action.payload.notes,
+    [actions.noteDrawn.type]: (
+      state,
+      action: PayloadAction<{ point: Point; sequence: Sequence }>,
+    ) => {
       const note = Dawww.createNote(action.payload.sequence.id, [
         action.payload.point,
         { x: action.payload.point.x + 1, y: action.payload.point.y },
@@ -27,32 +32,53 @@ export default createSlice({
         [note.id]: note,
       };
     },
-    [actions.NOTE_ERASED]: (state, action) =>
-      omit(action.payload.note.id, state),
-    [actions.NOTES_DELETED]: (state, action) =>
-      omit(map('id', action.payload.notes), state),
-    [actions.NOTES_DRAGGED]: (state, action) =>
-      Dawww.setAtIds(action.payload.notes, state),
-    [actions.NOTES_DUPLICATED]: (state, action) =>
-      Dawww.setAtIds(action.payload.notes, state),
-    [actions.NOTES_MOVED_OCTAVE_DOWN]: (state, action) =>
+    [actions.noteErased.type]: (state, action: PayloadAction<Note>) =>
+      omit(action.payload.id, state),
+    [actions.notesDeleted.type]: (state, action: PayloadAction<Array<Note>>) =>
+      omit(map('id', action.payload), state),
+    [actions.notesDragged.type]: (state, action: PayloadAction<Array<Note>>) =>
+      Dawww.setAtIds(action.payload, state),
+    [actions.notesDuplicated.type]: (
+      state,
+      action: PayloadAction<Array<Note>>,
+    ) => Dawww.setAtIds(action.payload, state),
+    [actions.notesMovedOctaveDown.type]: (
+      state,
+      action: PayloadAction<Array<Note>>,
+    ) =>
       Dawww.setAtIds(
-        map(Dawww.translateNote(octaveDownDelta), action.payload.notes),
+        map(Dawww.translateNote(octaveDownDelta), action.payload),
         state,
       ),
-    [actions.NOTES_MOVED_OCTAVE_UP]: (state, action) =>
+    [actions.notesMovedOctaveUp.type]: (
+      state,
+      action: PayloadAction<Array<Note>>,
+    ) =>
       Dawww.setAtIds(
-        map(Dawww.translateNote(octaveUpDelta), action.payload.notes),
+        map(Dawww.translateNote(octaveUpDelta), action.payload),
         state,
       ),
-    [actions.NOTES_NUDGED]: (state, action) =>
+    [actions.notesNudged.type]: (
+      state,
+      action: PayloadAction<{
+        delta: Point;
+        notes: Array<Note>;
+        sequence: Sequence;
+      }>,
+    ) =>
       Dawww.setAtIds(
         map(Dawww.translateNote(action.payload.delta), action.payload.notes),
         state,
       ),
-    [actions.NOTES_RESIZED]: (state, action) =>
-      Dawww.setAtIds(action.payload.notes, state),
-    [actions.SEQUENCE_DUPLICATED]: (state, action) => {
+    [actions.notesResized.type]: (state, action: PayloadAction<Array<Note>>) =>
+      Dawww.setAtIds(action.payload, state),
+    [actions.sequenceDuplicated.type]: (
+      state,
+      action: PayloadAction<{
+        duplicatedSequence: Sequence;
+        originalSequence: Sequence;
+      }>,
+    ) => {
       const isInSequence = note =>
         note.sequenceId === action.payload.originalSequence.id;
       const notesInSequence = filter(isInSequence, values(state));

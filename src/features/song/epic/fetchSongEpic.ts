@@ -4,6 +4,7 @@ import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 import { mergeMap, withLatestFrom } from 'rxjs/operators';
 import shared from '../../shared';
+import { Song } from '../../shared/types';
 import * as actions from '../actions';
 import { fetchSongById } from '../helpers';
 import * as selectors from '../selectors';
@@ -25,7 +26,7 @@ export default function fetchSongEpic(action$, state$) {
             return;
           }
 
-          return actions.songLoaded(song);
+          return actions.songLoaded(song as Song);
         }),
       );
     }),

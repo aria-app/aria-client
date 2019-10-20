@@ -1,43 +1,56 @@
 import omit from 'lodash/fp/omit';
-import { createSlice } from 'redux-starter-kit';
+import { createSlice, PayloadAction } from 'redux-starter-kit';
 import Dawww from '../../../dawww';
 import shared from '../../shared';
+import { Sequence, Song, Track } from '../../shared/types';
 import * as actions from '../actions';
 
 const initialState = {};
 
-export default createSlice({
+export default createSlice<{ [key: string]: Track }, {}>({
   name: 'tracks',
   initialState,
   extraReducers: {
-    [actions.SONG_LOADED]: (state, action) => action.payload.song.tracks,
-    [actions.TRACK_ADDED]: (state, action) =>
-      Dawww.setAtIds([action.payload.track], state),
-    [actions.TRACK_DELETED]: (state, action) =>
-      omit(action.payload.track.id)(state),
-    [actions.TRACK_IS_MUTED_TOGGLED]: (state, action) =>
+    [actions.songLoaded.type]: (state, action: PayloadAction<Song>) =>
+      action.payload.tracks,
+    [actions.trackAdded.type]: (
+      state,
+      action: PayloadAction<{
+        sequence: Sequence;
+        track: Track;
+      }>,
+    ) => Dawww.setAtIds([action.payload.track], state),
+    [actions.trackDeleted.type]: (state, action: PayloadAction<Track>) =>
+      omit(action.payload.id)(state),
+    [actions.trackIsMutedToggled.type]: (state, action: PayloadAction<Track>) =>
       Dawww.setAtIds(
         [
           {
-            ...action.payload.track,
-            isMuted: !action.payload.track.isMuted,
+            ...action.payload,
+            isMuted: !action.payload.isMuted,
             isSoloing: false,
           },
         ],
         state,
       ),
-    [actions.TRACK_IS_SOLOING_TOGGLED]: (state, action) =>
+    [actions.trackIsSoloingToggled.type]: (
+      state,
+      action: PayloadAction<Track>,
+    ) =>
       Dawww.setAtIds(
         [
           {
-            ...action.payload.track,
-            isSoloing: !action.payload.track.isSoloing,
+            ...action.payload,
+            isSoloing: !action.payload.isSoloing,
             isMuted: false,
           },
         ],
         state,
       ),
-    [actions.TRACK_VOICE_SET]: (state, action) =>
+    [actions.trackVoiceSet.type]: (
+      state,
+      action: PayloadAction<{ track: Track; voice: string }>,
+    ) =>
       Dawww.setAtIds(
         [
           {
@@ -47,7 +60,10 @@ export default createSlice({
         ],
         state,
       ),
-    [actions.TRACK_VOLUME_SET]: (state, action) =>
+    [actions.trackVolumeSet.type]: (
+      state,
+      action: PayloadAction<{ track: Track; volume: string }>,
+    ) =>
       Dawww.setAtIds(
         [
           {

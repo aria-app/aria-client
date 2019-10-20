@@ -5,7 +5,7 @@ import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
 import shared from '../../shared';
-import { ISequenceWithNotes } from '../../shared/types';
+import { SequenceWithNotes } from '../../shared/types';
 
 const { IconButton, Toolbar } = shared.components;
 
@@ -24,9 +24,9 @@ export interface TracksEditorToolbarProps extends WithStyles<typeof styles> {
   onSequenceDuplicate?: (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => void;
-  onSequenceOpen?: (sequence: ISequenceWithNotes) => void;
+  onSequenceOpen?: (sequence: SequenceWithNotes) => void;
   onUndo?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  selectedSequence?: ISequenceWithNotes;
+  selectedSequence?: SequenceWithNotes;
 }
 
 function TracksEditorToolbar(props: TracksEditorToolbarProps) {

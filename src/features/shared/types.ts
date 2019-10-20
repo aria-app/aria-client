@@ -30,7 +30,7 @@ export interface Sequence {
   trackId: string;
 }
 
-export interface ISequenceWithNotes extends Sequence {
+export interface SequenceWithNotes extends Sequence {
   notes: Array<Note>;
 }
 
@@ -42,8 +42,8 @@ export interface Track {
   volume: number;
 }
 
-export interface ITrackWithSequences extends Track {
-  sequences: Array<ISequenceWithNotes>;
+export interface TrackWithSequences extends Track {
+  sequences: Array<SequenceWithNotes>;
 }
 
 export interface Song {

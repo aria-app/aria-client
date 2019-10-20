@@ -29,8 +29,9 @@ export default connect(
     ...ownProps,
     ...stateProps,
     ...dispatchProps,
-    onDraw: point => dispatchProps.onDraw(point, stateProps.sequence),
-    onNudge: (delta, selectedNotes) =>
-      dispatchProps.onNudge(delta, selectedNotes, stateProps.sequence),
+    onDraw: point =>
+      dispatchProps.onDraw({ sequence: stateProps.sequence, point }),
+    onNudge: (delta, notes) =>
+      dispatchProps.onNudge({ sequence: stateProps.sequence, delta, notes }),
   }),
 )(NotesEditor);

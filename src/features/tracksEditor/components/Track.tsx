@@ -12,7 +12,7 @@ import React from 'react';
 import { Translation } from 'react-i18next';
 import { showIf } from 'react-render-helpers';
 import shared from '../../shared';
-import { ISequenceWithNotes, ITrackWithSequences } from '../../shared/types';
+import { SequenceWithNotes, TrackWithSequences } from '../../shared/types';
 import AddSequenceButton from './AddSequenceButton';
 import TrackSequence from './TrackSequence';
 import TrackHeader from './TrackHeader';
@@ -42,15 +42,15 @@ const styles = (theme: Theme) =>
   });
 
 export interface TrackProps extends WithStyles<typeof styles> {
-  onSequenceAdd?: (track: ITrackWithSequences, position: number) => void;
-  onSequenceEdit?: (sequence: ISequenceWithNotes) => void;
-  onSequenceOpen?: (sequence: ISequenceWithNotes) => void;
-  onSequenceSelect?: (sequence: ISequenceWithNotes) => void;
-  onTrackSelect?: (track: ITrackWithSequences) => void;
+  onSequenceAdd?: (track: TrackWithSequences, position: number) => void;
+  onSequenceEdit?: (sequence: SequenceWithNotes) => void;
+  onSequenceOpen?: (sequence: SequenceWithNotes) => void;
+  onSequenceSelect?: (sequence: SequenceWithNotes) => void;
+  onTrackSelect?: (track: TrackWithSequences) => void;
   selectedSequenceId?: string;
   songMeasureCount?: number;
   theme?: Theme;
-  track?: ITrackWithSequences;
+  track?: TrackWithSequences;
 }
 
 function Track(props: TrackProps) {

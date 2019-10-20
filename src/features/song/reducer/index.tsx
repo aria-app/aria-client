@@ -31,7 +31,7 @@ export default undoable(rootReducer, {
     shared.actions.ROUTE_SONG_EDITOR_LOADED,
   ] as unknown) as string,
   filter: includeAction(actions.undoableActions),
-  redoType: actions.REDO_REQUESTED,
+  redoType: actions.redoRequested.type,
   syncFilter: true,
-  undoType: actions.UNDO_REQUESTED,
+  undoType: actions.undoRequested.type,
 });

@@ -1,5 +1,6 @@
-import { createSlice } from 'redux-starter-kit';
+import { createSlice, PayloadAction } from 'redux-starter-kit';
 import shared from '../../shared';
+import { Song } from '../../shared/types';
 import * as actions from '../actions';
 
 const initialState = 1;
@@ -8,8 +9,10 @@ export default createSlice({
   name: 'measureCount',
   initialState,
   extraReducers: {
-    [actions.MEASURE_COUNT_SET]: (state, action) => action.payload.measureCount,
-    [actions.SONG_LOADED]: (state, action) => action.payload.song.measureCount,
+    [actions.measureCountSet.type]: (state, action: PayloadAction<number>) =>
+      action.payload,
+    [actions.songLoaded.type]: (state, action: PayloadAction<Song>) =>
+      action.payload.measureCount,
     [shared.actions.ROUTE_DASHBOARD_LOADED]: () => initialState,
   },
   reducers: {},

@@ -14,7 +14,7 @@ import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import Dawww from '../../../dawww';
-import { ITrackWithSequences } from '../../shared/types';
+import { TrackWithSequences } from '../../shared/types';
 
 const minVolume = -20;
 const maxVolume = 0;
@@ -50,11 +50,14 @@ interface IDawww {
 }
 
 export interface TrackEditingModalProps extends WithStyles<typeof styles> {
-  onDelete?: (track: ITrackWithSequences) => void;
+  onDelete?: (track: TrackWithSequences) => void;
   onDismiss?: () => void;
-  onVoiceSet?: (track: ITrackWithSequences, voice: string) => void;
-  onVolumeSet?: (track: ITrackWithSequences, volume: string) => void;
-  stagedTrack?: ITrackWithSequences;
+  onVoiceSet?: (options: { track: TrackWithSequences; voice: string }) => void;
+  onVolumeSet?: (options: {
+    track: TrackWithSequences;
+    volume: string;
+  }) => void;
+  stagedTrack?: TrackWithSequences;
 }
 
 function TrackEditingModal(props: TrackEditingModalProps) {
@@ -73,14 +76,14 @@ function TrackEditingModal(props: TrackEditingModalProps) {
 
   const handleVoiceChange = React.useCallback(
     e => {
-      onVoiceSet(stagedTrack, e.target.value);
+      onVoiceSet({ track: stagedTrack, voice: e.target.value });
     },
     [onVoiceSet, stagedTrack],
   );
 
   const handleVolumeChange = React.useCallback(
     e => {
-      onVolumeSet(stagedTrack, e.target.value);
+      onVolumeSet({ track: stagedTrack, volume: e.target.value });
     },
     [onVolumeSet, stagedTrack],
   );

@@ -6,7 +6,7 @@ import * as selectors from '../selectors';
 
 export default function loadSongEpic(action$, state$) {
   return action$.pipe(
-    ofType(song.actions.SONG_LOADED),
+    ofType(song.actions.songLoaded.type),
     withLatestFrom(state$),
     tap(([action, state]) => {
       const focusedSequenceId = selectors.getFocusedSequenceId(state);

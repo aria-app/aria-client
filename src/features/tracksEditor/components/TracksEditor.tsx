@@ -9,10 +9,10 @@ import Dawww from '../../../dawww';
 import shared from '../../shared';
 import {
   Sequence,
-  ISequenceWithNotes,
+  SequenceWithNotes,
   Song,
   Track,
-  ITrackWithSequences,
+  TrackWithSequences,
 } from '../../shared/types';
 import TrackEditingModal from './TrackEditingModal';
 import TracksEditorToolbar from './TracksEditorToolbar';
@@ -40,24 +40,30 @@ export interface TracksEditorProps extends WithStyles<typeof styles> {
   onPositionSet?: (position: number) => void;
   onRedo?: () => void;
   onSequenceAdd?: (newSequence: Sequence) => void;
-  onSequenceDelete?: (sequenceToDelete: ISequenceWithNotes) => void;
-  onSequenceDuplicate?: (
-    duplicatedSequence: Sequence,
-    originalSequence: ISequenceWithNotes,
-  ) => void;
-  onSequenceEdit?: (sequence: ISequenceWithNotes) => void;
+  onSequenceDelete?: (sequenceToDelete: SequenceWithNotes) => void;
+  onSequenceDuplicate?: (options: {
+    duplicatedSequence: Sequence;
+    originalSequence: SequenceWithNotes;
+  }) => void;
+  onSequenceEdit?: (sequence: SequenceWithNotes) => void;
   onSongMeasureCountChange?: (songMeasureCount: number) => void;
-  onTrackAdd?: (track: Track, sequence: Sequence) => void;
-  onTrackDelete?: (track: ITrackWithSequences) => void;
-  onTrackVoiceSet?: (track: ITrackWithSequences, voice: string) => void;
-  onTrackVolumeSet?: (track: ITrackWithSequences, volume: string) => void;
+  onTrackAdd?: (options: { sequence: Sequence; track: Track }) => void;
+  onTrackDelete?: (track: TrackWithSequences) => void;
+  onTrackVoiceSet?: (options: {
+    track: TrackWithSequences;
+    voice: string;
+  }) => void;
+  onTrackVolumeSet?: (options: {
+    track: TrackWithSequences;
+    volume: string;
+  }) => void;
   onUndo?: () => void;
   position?: number;
-  sequences?: Array<ISequenceWithNotes>;
+  sequences?: Array<SequenceWithNotes>;
   song?: Song;
   songId?: string;
   songMeasureCount?: number;
-  tracks?: Array<ITrackWithSequences>;
+  tracks?: Array<TrackWithSequences>;
 }
 
 function TracksEditor(props: TracksEditorProps) {
@@ -129,7 +135,10 @@ function TracksEditor(props: TracksEditorProps) {
         selectedSequence.measureCount,
       );
 
-      onSequenceDuplicate(duplicatedSequence, selectedSequence);
+      onSequenceDuplicate({
+        originalSequence: selectedSequence,
+        duplicatedSequence,
+      });
 
       setSelectedSequenceId(duplicatedSequence.id);
     },
@@ -186,7 +195,7 @@ function TracksEditor(props: TracksEditorProps) {
     const track = Dawww.createTrack();
     const sequence = Dawww.createSequence(track.id);
 
-    onTrackAdd(track, sequence);
+    onTrackAdd({ sequence, track });
   }, [onTrackAdd]);
 
   const handleTrackSelect = React.useCallback(track => {
