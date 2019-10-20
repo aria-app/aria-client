@@ -1,12 +1,7 @@
-import { createSlice } from 'redux-starter-kit';
+import { createReducer } from 'redux-starter-kit';
 import * as actions from '../actions';
 
-export default createSlice<boolean, {}>({
-  name: 'didAuthenticationRun',
-  initialState: false,
-  extraReducers: {
-    [actions.userSignInSucceeded.type]: () => true,
-    [actions.userSignOutSucceeded.type]: () => true,
-  },
-  reducers: {},
+export default createReducer<boolean, {}>(false, {
+  [actions.userSignInSucceeded.type]: () => true,
+  [actions.userSignOutSucceeded.type]: () => true,
 });

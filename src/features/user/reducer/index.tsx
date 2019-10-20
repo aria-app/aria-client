@@ -4,7 +4,7 @@ import user from './user';
 import userSongLibrary from './userSongLibrary';
 
 export default combineReducers({
-  didAuthenticationRun: didAuthenticationRun.reducer,
-  user: user.reducer,
-  userSongLibrary: userSongLibrary.reducer,
+  didAuthenticationRun,
+  user,
+  userSongLibrary,
 });

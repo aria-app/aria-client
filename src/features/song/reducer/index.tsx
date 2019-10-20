@@ -13,15 +13,15 @@ import tracks from './tracks';
 import userId from './userId';
 
 const rootReducer = combineReducers({
-  bpm: bpm.reducer,
-  id: id.reducer,
-  measureCount: measureCount.reducer,
-  name: name.reducer,
-  notes: notes.reducer,
-  sequences: sequences.reducer,
-  syncState: syncState.reducer,
-  tracks: tracks.reducer,
-  userId: userId.reducer,
+  bpm,
+  id,
+  measureCount,
+  name,
+  notes,
+  sequences,
+  syncState,
+  tracks,
+  userId,
 });
 
 export default undoable(rootReducer, {
