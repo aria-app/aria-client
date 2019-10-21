@@ -45,7 +45,7 @@ const styles = (theme: Theme) =>
 
 export interface SongViewerProps extends WithStyles<typeof styles> {
   isLoading?: boolean;
-  onLoad?: (songId: string) => void;
+  onLoad?: (payload: { songId: string }) => void;
   onPause?: () => void;
   onPlay?: () => void;
   onPositionSet?: (position: number) => void;
@@ -107,7 +107,7 @@ function SongViewer(props: SongViewerProps) {
   }, [position, song.bpm]);
 
   React.useEffect(() => {
-    onLoad(songId);
+    onLoad({ songId });
   }, [onLoad, songId]);
 
   React.useEffect(() => {

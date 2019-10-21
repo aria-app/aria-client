@@ -59,7 +59,7 @@ export interface NotesEditorProps extends WithStyles<typeof styles> {
   onDraw?: (startingPoint: Point) => void;
   onDuplicate?: (notes: Array<Note>) => void;
   onErase?: (note: Note) => void;
-  onLoad?: (songId: string, sequenceId: string) => void;
+  onLoad?: (payload: { songId: string; sequenceId: string }) => void;
   onNudge?: (delta: Point, notes: Array<Note>) => void;
   onOctaveDown?: (notes: Array<Note>) => void;
   onOctaveUp?: (notes: Array<Note>) => void;
@@ -347,7 +347,7 @@ function NotesEditor(props: NotesEditorProps) {
   }, [isUndoEnabled, onUndo]);
 
   React.useEffect(() => {
-    onLoad(songId, sequenceId);
+    onLoad({ sequenceId, songId });
 
     if (!contentEl) return;
 

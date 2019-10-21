@@ -8,7 +8,6 @@ import * as actions from '../actions';
 export default createReducer<{ [key: string]: Song }, {}>(
   {},
   {
-    [shared.actions.ROUTE_DASHBOARD_LOADED]: () => ({}),
     [actions.songAddRequestSucceeded.type]: (
       state,
       action: PayloadAction<Song>,
@@ -21,5 +20,6 @@ export default createReducer<{ [key: string]: Song }, {}>(
       state,
       action: PayloadAction<Array<Song>>,
     ) => Dawww.setAtIds(action.payload, state),
+    [shared.actions.routeDashboardLoaded.type]: () => ({}),
   },
 );

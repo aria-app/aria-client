@@ -85,5 +85,5 @@ export default createReducer<{ [key: string]: Note }, {}>(initialState, {
 
     return Dawww.setAtIds(notesWithNewSequenceId, state);
   },
-  [shared.actions.ROUTE_DASHBOARD_LOADED]: () => initialState,
+  [shared.actions.routeDashboardLoaded.type]: () => initialState,
 });

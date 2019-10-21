@@ -7,7 +7,7 @@ import dawww from '../dawww';
 
 export default function subscribeToPlaybackStateEpic(action$) {
   return action$.pipe(
-    ofType(shared.actions.INITIALIZED),
+    ofType(shared.actions.initialized.type),
     mergeMap(() =>
       Observable.create(observer =>
         dawww.onStateChange(playbackState => {

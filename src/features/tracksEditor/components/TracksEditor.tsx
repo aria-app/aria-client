@@ -36,7 +36,7 @@ export interface TracksEditorProps extends WithStyles<typeof styles> {
   isStopped?: boolean;
   isUndoEnabled?: boolean;
   navigate?: (path: string) => void;
-  onLoad?: (songId: string) => void;
+  onLoad?: (payload: { songId: string }) => void;
   onPositionSet?: (position: number) => void;
   onRedo?: () => void;
   onSequenceAdd?: (newSequence: Sequence) => void;
@@ -209,7 +209,7 @@ function TracksEditor(props: TracksEditorProps) {
   }, [isUndoEnabled, onUndo]);
 
   React.useEffect(() => {
-    onLoad(songId);
+    onLoad({ songId });
   }, [songId, onLoad]);
 
   return (

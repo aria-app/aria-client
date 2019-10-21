@@ -67,5 +67,5 @@ export default createReducer<{ [key: string]: Track }, {}>(initialState, {
       ],
       state,
     ),
-  [shared.actions.ROUTE_DASHBOARD_LOADED]: () => initialState,
+  [shared.actions.routeDashboardLoaded.type]: () => initialState,
 });

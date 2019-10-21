@@ -10,7 +10,7 @@ const { db } = shared.constants;
 
 export default function fetchUserSongLibraryEpic(action$, state$) {
   return action$.pipe(
-    ofType(shared.actions.ROUTE_DASHBOARD_LOADED),
+    ofType(shared.actions.routeDashboardLoaded.type),
     withLatestFrom(state$),
     mergeMap(([action, state]) => {
       const user = selectors.getUser(state);

@@ -27,8 +27,8 @@ const rootReducer = combineReducers({
 export default undoable(rootReducer, {
   // Casting this as the typings are incorrect
   clearHistoryType: ([
-    shared.actions.ROUTE_NOTES_EDITOR_LOADED,
-    shared.actions.ROUTE_SONG_EDITOR_LOADED,
+    shared.actions.routeNotesEditorLoaded.type,
+    shared.actions.routeSongEditorLoaded.type,
   ] as unknown) as string,
   filter: includeAction(actions.undoableActions),
   redoType: actions.redoRequested.type,

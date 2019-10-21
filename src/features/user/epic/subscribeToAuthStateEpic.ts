@@ -7,7 +7,7 @@ import * as actions from '../actions';
 
 export default function subscribeToAuthStateEpic(action$) {
   return action$.pipe(
-    ofType(shared.actions.INITIALIZED),
+    ofType(shared.actions.initialized.type),
     mergeMap(() =>
       Observable.create(observer =>
         firebase.auth().onAuthStateChanged(user => {

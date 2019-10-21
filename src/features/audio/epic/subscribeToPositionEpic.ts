@@ -8,7 +8,7 @@ import * as selectors from '../selectors';
 
 export default function subscribeToPositionEpic(action$, state$) {
   return action$.pipe(
-    ofType(shared.actions.INITIALIZED),
+    ofType(shared.actions.initialized.type),
     withLatestFrom(state$),
     mergeMap(([action, state]) =>
       Observable.create(observer =>

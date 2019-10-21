@@ -4,9 +4,9 @@ import song from '../song';
 
 export const dawwwUpdatingActions = [
   ...song.actions.serverUpdatingActions,
-  shared.actions.ROUTE_NOTES_EDITOR_LOADED,
-  shared.actions.ROUTE_SONG_EDITOR_LOADED,
-  shared.actions.ROUTE_SONG_VIEWER_LOADED,
+  shared.actions.routeNotesEditorLoaded.type,
+  shared.actions.routeSongEditorLoaded.type,
+  shared.actions.routeSongViewerLoaded.type,
 ];
 
 export const playbackPauseRequestStarted = createAction(

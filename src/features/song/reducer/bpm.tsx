@@ -10,5 +10,5 @@ export default createReducer<number, {}>(initialState, {
     action.payload,
   [actions.songLoaded.type]: (state, action: PayloadAction<Song>) =>
     action.payload.bpm,
-  [shared.actions.ROUTE_DASHBOARD_LOADED]: () => initialState,
+  [shared.actions.routeDashboardLoaded.type]: () => initialState,
 });

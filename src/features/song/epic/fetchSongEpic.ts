@@ -1,6 +1,7 @@
 import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
 import { ofType } from 'redux-observable';
+import { PayloadAction } from 'redux-starter-kit';
 import { from } from 'rxjs';
 import { mergeMap, withLatestFrom } from 'rxjs/operators';
 import shared from '../../shared';
@@ -12,12 +13,12 @@ import * as selectors from '../selectors';
 export default function fetchSongEpic(action$, state$) {
   return action$.pipe(
     ofType(
-      shared.actions.ROUTE_NOTES_EDITOR_LOADED,
-      shared.actions.ROUTE_SONG_EDITOR_LOADED,
-      shared.actions.ROUTE_SONG_VIEWER_LOADED,
+      shared.actions.routeNotesEditorLoaded.type,
+      shared.actions.routeSongEditorLoaded.type,
+      shared.actions.routeSongViewerLoaded.type,
     ),
     withLatestFrom(state$),
-    mergeMap(([action, state]) => {
+    mergeMap(([action, state]: [PayloadAction<{ songId: string }>, any]) => {
       return from(
         fetchSongById(action.payload.songId).then(song => {
           const prevSong = selectors.getSong(state);

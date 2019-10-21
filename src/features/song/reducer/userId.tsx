@@ -8,5 +8,5 @@ const initialState = '';
 export default createReducer<string, {}>(initialState, {
   [actions.songLoaded.type]: (state, action: PayloadAction<Song>) =>
     action.payload.userId,
-  [shared.actions.ROUTE_DASHBOARD_LOADED]: () => initialState,
+  [shared.actions.routeDashboardLoaded.type]: () => initialState,
 });
