@@ -65,7 +65,7 @@ function Selector(props: SelectorProps) {
 
   const handleDragStop = React.useCallback(
     e => {
-      onSelect(startPoint, endPoint, e.ctrlKey || e.metaKey);
+      onSelect(startPoint, endPoint || startPoint, e.ctrlKey || e.metaKey);
 
       setEndPoint(undefined);
       setStartPoint(undefined);
