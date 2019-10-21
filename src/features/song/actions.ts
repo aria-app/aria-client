@@ -10,9 +10,7 @@ import {
 
 export const bpmSet = createAction<number>('bpmSet');
 export const measureCountSet = createAction<number>('measureCountSet');
-export const noteDrawn = createAction<{ point: Point; sequence: Sequence }>(
-  'noteDrawn',
-);
+export const noteDrawn = createAction<Note>('noteDrawn');
 export const noteErased = createAction<Note>('noteErased');
 export const notesDeleted = createAction<Array<Note>>('notesDeleted');
 export const notesDragged = createAction<Array<Note>>('notesDragged');

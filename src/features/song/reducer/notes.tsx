@@ -15,19 +15,8 @@ const octaveUpDelta = { x: 0, y: -12 };
 export default createReducer<{ [key: string]: Note }, {}>(initialState, {
   [actions.songLoaded.type]: (state, action: PayloadAction<Song>) =>
     action.payload.notes,
-  [actions.noteDrawn.type]: (
-    state,
-    action: PayloadAction<{ point: Point; sequence: Sequence }>,
-  ) => {
-    const note = Dawww.createNote(action.payload.sequence.id, [
-      action.payload.point,
-      { x: action.payload.point.x + 1, y: action.payload.point.y },
-    ]);
-
-    return {
-      ...state,
-      [note.id]: note,
-    };
+  [actions.noteDrawn.type]: (state, action: PayloadAction<Note>) => {
+    state[action.payload.id] = action.payload;
   },
   [actions.noteErased.type]: (state, action: PayloadAction<Note>) =>
     omit(action.payload.id, state),

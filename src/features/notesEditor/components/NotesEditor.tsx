@@ -56,7 +56,7 @@ export interface NotesEditorProps extends WithStyles<typeof styles> {
   navigate?: (path: string) => void;
   onDelete?: (notes: Array<Note>) => void;
   onDrag?: (notes: Array<Note>) => void;
-  onDraw?: (startingPoint: Point) => void;
+  onDraw?: (note: Note) => void;
   onDuplicate?: (notes: Array<Note>) => void;
   onErase?: (note: Note) => void;
   onLoad?: (payload: { songId: string; sequenceId: string }) => void;
@@ -178,9 +178,14 @@ function NotesEditor(props: NotesEditorProps) {
     point => {
       handlePreviewPitch(point.y);
 
-      onDraw(point);
+      const note = Dawww.createNote(sequence.id, [
+        point,
+        { x: point.x + 1, y: point.y },
+      ]);
+
+      onDraw(note);
     },
-    [handlePreviewPitch, onDraw],
+    [handlePreviewPitch, onDraw, sequence.id],
   );
 
   const handleGridErase = React.useCallback(

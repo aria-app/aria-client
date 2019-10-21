@@ -29,8 +29,6 @@ export default connect(
     ...ownProps,
     ...stateProps,
     ...dispatchProps,
-    onDraw: point =>
-      dispatchProps.onDraw({ sequence: stateProps.sequence, point }),
     onNudge: (delta, notes) =>
       dispatchProps.onNudge({ sequence: stateProps.sequence, delta, notes }),
   }),
