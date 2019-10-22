@@ -99,7 +99,6 @@ Dawww.getPitchName = helpers.getPitchName;
 Dawww.getPointOffset = helpers.getPointOffset;
 Dawww.measuresToTime = helpers.measuresToTime;
 Dawww.resizeNote = helpers.resizeNote;
-Dawww.setAtIds = helpers.setAtIds;
 Dawww.sizeToTime = helpers.sizeToTime;
 Dawww.someNoteWillMoveOutside = helpers.someNoteWillMoveOutside;
 Dawww.translateNote = helpers.translateNote;

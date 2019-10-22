@@ -1,6 +1,5 @@
 import omit from 'lodash/fp/omit';
 import { createReducer, PayloadAction } from 'redux-starter-kit';
-import Dawww from '../../../dawww';
 import { Sequence, Song, Track } from '../../../types';
 import shared from '../../shared';
 import * as actions from '../actions';
@@ -16,11 +15,11 @@ export default createReducer<{ [key: string]: Track }, {}>(initialState, {
       sequence: Sequence;
       track: Track;
     }>,
-  ) => Dawww.setAtIds([action.payload.track], state),
+  ) => shared.helpers.setAtIds([action.payload.track], state),
   [actions.trackDeleted.type]: (state, action: PayloadAction<Track>) =>
     omit(action.payload.id)(state),
   [actions.trackIsMutedToggled.type]: (state, action: PayloadAction<Track>) =>
-    Dawww.setAtIds(
+    shared.helpers.setAtIds(
       [
         {
           ...action.payload,
@@ -31,7 +30,7 @@ export default createReducer<{ [key: string]: Track }, {}>(initialState, {
       state,
     ),
   [actions.trackIsSoloingToggled.type]: (state, action: PayloadAction<Track>) =>
-    Dawww.setAtIds(
+    shared.helpers.setAtIds(
       [
         {
           ...action.payload,
@@ -45,7 +44,7 @@ export default createReducer<{ [key: string]: Track }, {}>(initialState, {
     state,
     action: PayloadAction<{ track: Track; voice: string }>,
   ) =>
-    Dawww.setAtIds(
+    shared.helpers.setAtIds(
       [
         {
           ...action.payload.track,
@@ -58,7 +57,7 @@ export default createReducer<{ [key: string]: Track }, {}>(initialState, {
     state,
     action: PayloadAction<{ track: Track; volume: string }>,
   ) =>
-    Dawww.setAtIds(
+    shared.helpers.setAtIds(
       [
         {
           ...action.payload.track,
