@@ -15,9 +15,8 @@ const octaveUpDelta = { x: 0, y: -12 };
 export default createReducer<{ [key: string]: Note }, {}>(initialState, {
   [actions.songLoaded.type]: (state, action: PayloadAction<Song>) =>
     action.payload.notes,
-  [actions.noteDrawn.type]: (state, action: PayloadAction<Note>) => {
-    state[action.payload.id] = action.payload;
-  },
+  [actions.noteDrawn.type]: (state, action: PayloadAction<Note>) =>
+    Dawww.setAtIds([action.payload], state),
   [actions.noteErased.type]: (state, action: PayloadAction<Note>) =>
     omit(action.payload.id, state),
   [actions.notesDeleted.type]: (state, action: PayloadAction<Array<Note>>) =>
