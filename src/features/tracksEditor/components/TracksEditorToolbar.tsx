@@ -4,8 +4,8 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
+import { SequenceWithNotes } from '../../../types';
 import shared from '../../shared';
-import { SequenceWithNotes } from '../../shared/types';
 
 const { IconButton, Toolbar } = shared.components;
 

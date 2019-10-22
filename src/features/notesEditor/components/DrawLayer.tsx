@@ -6,7 +6,7 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import { Point } from '../../shared/types';
+import { Point } from '../../../types';
 import Note from './Note';
 
 const styles = createStyles({

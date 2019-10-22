@@ -4,7 +4,7 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
-import { Note } from '../../shared/types';
+import { Note } from '../../../types';
 
 const styles = (theme: Theme) =>
   createStyles({

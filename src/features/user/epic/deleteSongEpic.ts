@@ -2,8 +2,8 @@ import { ofType } from 'redux-observable';
 import { PayloadAction } from 'redux-starter-kit';
 import { from, Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import { Song } from '../../../types';
 import shared from '../../shared';
-import { Song } from '../../shared/types';
 import * as actions from '../actions';
 
 const { db } = shared.constants;

@@ -3,9 +3,10 @@ interface ObjectWithId {
   [key: string]: any;
 }
 
-export function setAtIds(
-  array: Array<ObjectWithId>,
-  obj: { [key: string]: ObjectWithId },
-) {
+interface ObjectWithIdMap {
+  [key: string]: ObjectWithId;
+}
+
+export function setAtIds(array: Array<ObjectWithId>, obj: ObjectWithIdMap) {
   return array.reduce((acc, cur) => ({ ...acc, [cur.id]: cur }), obj);
 }

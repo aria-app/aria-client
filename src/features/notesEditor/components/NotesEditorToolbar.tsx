@@ -4,6 +4,7 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import Dawww from '../../../dawww';
+import { Note } from '../../../types';
 import shared from '../../shared';
 import * as constants from '../constants';
 
@@ -35,7 +36,7 @@ export interface NotesEditorToolbarProps extends WithStyles<typeof styles> {
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => void;
   onUndo?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  selectedNotes?: Array<{ [key: string]: any }>;
+  selectedNotes?: Array<Note>;
   toolType?: string;
 }
 

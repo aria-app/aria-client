@@ -6,14 +6,14 @@ import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import Dawww from '../../../dawww';
-import shared from '../../shared';
 import {
   Sequence,
   SequenceWithNotes,
   Song,
   Track,
   TrackWithSequences,
-} from '../../shared/types';
+} from '../../../types';
+import shared from '../../shared';
 import TrackEditingModal from './TrackEditingModal';
 import TracksEditorToolbar from './TracksEditorToolbar';
 import TrackList from './TrackList';

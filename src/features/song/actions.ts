@@ -6,7 +6,7 @@ import {
   Song,
   Track,
   TrackWithSequences,
-} from '../shared/types';
+} from '../../types';
 
 export const bpmSet = createAction<number>('bpmSet');
 export const measureCountSet = createAction<number>('measureCountSet');

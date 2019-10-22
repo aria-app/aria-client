@@ -9,7 +9,7 @@ import Draggable, {
   DraggableBounds,
   DraggableEventHandler,
 } from 'react-draggable';
-import { Note as INote, Point } from '../../shared/types';
+import { Note as INote, Point } from '../../../types';
 
 const styles = (theme: Theme) =>
   createStyles({

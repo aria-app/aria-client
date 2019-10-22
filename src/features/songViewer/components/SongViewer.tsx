@@ -5,8 +5,8 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import Dawww from '../../../dawww';
+import { Song } from '../../../types';
 import shared from '../../shared';
-import { Song } from '../../shared/types';
 import SongViewerToolbar from './SongViewerToolbar';
 
 const { LoadingIndicator } = shared.components;

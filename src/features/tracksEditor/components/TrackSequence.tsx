@@ -3,7 +3,7 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
-import { SequenceWithNotes } from '../../shared/types';
+import { SequenceWithNotes } from '../../../types';
 import TrackSequenceNote from './TrackSequenceNote';
 
 const styles = (theme: Theme) =>

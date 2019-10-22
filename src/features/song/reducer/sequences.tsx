@@ -2,8 +2,8 @@ import omit from 'lodash/fp/omit';
 import reject from 'lodash/fp/reject';
 import { createReducer, PayloadAction } from 'redux-starter-kit';
 import Dawww from '../../../dawww';
+import { Sequence, Song, Track } from '../../../types';
 import shared from '../../shared';
-import { Sequence, Song, Track } from '../../shared/types';
 import * as actions from '../actions';
 
 const initialState = {};

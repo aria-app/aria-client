@@ -1,5 +1,5 @@
 import shortid from 'shortid';
-import { InstrumentType } from '../../features/shared/types';
+import { InstrumentType } from '../../types';
 import * as constants from '../constants';
 
 export function createTrack(voice: InstrumentType = constants.DEFAULT_VOICE) {

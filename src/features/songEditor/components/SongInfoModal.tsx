@@ -13,8 +13,8 @@ import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import Dawww from '../../../dawww';
+import { Song } from '../../../types';
 import shared from '../../shared';
-import { Song } from '../../shared/types';
 
 const { changeLanguage } = shared.i18n;
 const getBPMRangeItem = x => ({ id: x, text: String(x) });

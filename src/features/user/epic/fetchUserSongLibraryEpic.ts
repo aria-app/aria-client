@@ -1,8 +1,8 @@
 import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 import { mergeMap, withLatestFrom } from 'rxjs/operators';
+import { Song } from '../../../types';
 import shared from '../../shared';
-import { Song } from '../../shared/types';
 import * as actions from '../actions';
 import * as selectors from '../selectors';
 

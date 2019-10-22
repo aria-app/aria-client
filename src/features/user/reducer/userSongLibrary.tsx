@@ -1,8 +1,8 @@
 import omit from 'lodash/fp/omit';
 import { createReducer, PayloadAction } from 'redux-starter-kit';
 import Dawww from '../../../dawww';
+import { Song } from '../../../types';
 import shared from '../../shared';
-import { Song } from '../../shared/types';
 import * as actions from '../actions';
 
 export default createReducer<{ [key: string]: Song }, {}>(

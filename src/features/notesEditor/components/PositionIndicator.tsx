@@ -4,7 +4,7 @@ import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import { transparentize } from 'polished';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import { Point } from '../../shared/types';
+import { Point } from '../../../types';
 
 const styles = (theme: Theme) =>
   createStyles({

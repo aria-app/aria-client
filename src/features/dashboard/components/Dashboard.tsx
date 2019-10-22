@@ -6,8 +6,8 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import hideIf from 'react-render-helpers/hideIf';
+import { Song, User } from '../../../types';
 import shared from '../../shared';
-import { Song, User } from '../../shared/types';
 import SongList from './SongList';
 
 const { LoadingIndicator, Toolbar } = shared.components;

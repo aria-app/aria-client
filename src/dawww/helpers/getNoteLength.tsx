@@ -2,9 +2,10 @@ import compose from 'lodash/fp/compose';
 import first from 'lodash/fp/first';
 import getOr from 'lodash/fp/getOr';
 import last from 'lodash/fp/last';
+import { Note } from '../../types';
 import { sizeToTime } from './sizeToTime';
 
-export function getNoteLength(note, toneAdapter) {
+export function getNoteLength(note: Note, toneAdapter): number {
   const start = compose(
     getOr(0, 'x'),
     first,

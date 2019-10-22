@@ -1,6 +1,6 @@
 import { createReducer, PayloadAction } from 'redux-starter-kit';
+import { Song } from '../../../types';
 import shared from '../../shared';
-import { Song } from '../../shared/types';
 import * as actions from '../actions';
 
 const initialState = 1;

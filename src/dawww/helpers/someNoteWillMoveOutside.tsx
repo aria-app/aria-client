@@ -2,10 +2,13 @@ import compose from 'lodash/fp/compose';
 import get from 'lodash/fp/get';
 import map from 'lodash/fp/map';
 import some from 'lodash/fp/some';
+import { Note, Point } from '../../types';
 import * as constants from '../constants';
 import { addPoints } from './addPoints';
 
-function isOutOfBounds(measureCount) {
+function isOutOfBounds(
+  measureCount: number,
+): (points: Array<Point>) => boolean {
   return some(
     point =>
       point.x < 0 ||
@@ -15,7 +18,11 @@ function isOutOfBounds(measureCount) {
   );
 }
 
-export function someNoteWillMoveOutside(measureCount, delta, notes) {
+export function someNoteWillMoveOutside(
+  measureCount: number,
+  delta: Point,
+  notes: Array<Note>,
+): boolean {
   const hasPointOutside = compose(
     isOutOfBounds(measureCount),
     map(addPoints(delta)),

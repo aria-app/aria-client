@@ -4,8 +4,8 @@ import omit from 'lodash/fp/omit';
 import values from 'lodash/fp/values';
 import { createReducer, PayloadAction } from 'redux-starter-kit';
 import Dawww from '../../../dawww';
+import { Note, Point, Sequence, Song } from '../../../types';
 import shared from '../../shared';
-import { Note, Point, Sequence, Song } from '../../shared/types';
 import * as actions from '../actions';
 
 const initialState = {};

@@ -1,5 +1,5 @@
 import { createReducer, PayloadAction } from 'redux-starter-kit';
-import { User } from '../../shared/types';
+import { User } from '../../../types';
 import * as actions from '../actions';
 
 export default createReducer<User, {}>(null, {

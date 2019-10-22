@@ -4,7 +4,7 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
-import { Song } from '../../shared/types';
+import { Song } from '../../../types';
 import SongListItem from './SongListItem';
 
 const styles = (theme: Theme) =>

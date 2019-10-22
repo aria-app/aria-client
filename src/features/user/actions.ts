@@ -1,5 +1,5 @@
 import { createAction } from 'redux-starter-kit';
-import { Song, User } from '../shared/types';
+import { Song, User } from '../../types';
 
 export const songAddRequestStarted = createAction<Partial<Song>>(
   'songAddRequestStarted',

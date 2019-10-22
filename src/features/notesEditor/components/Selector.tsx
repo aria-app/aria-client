@@ -3,7 +3,7 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { DraggableCore } from 'react-draggable';
-import { Point } from '../../shared/types';
+import { Point } from '../../../types';
 import Fence from './Fence';
 
 const styles = createStyles({

@@ -14,7 +14,7 @@ import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import Dawww from '../../../dawww';
-import { TrackWithSequences } from '../../shared/types';
+import { TrackWithSequences } from '../../../types';
 
 const minVolume = -20;
 const maxVolume = 0;

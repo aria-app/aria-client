@@ -3,8 +3,8 @@ import { PayloadAction } from 'redux-starter-kit';
 import { from } from 'rxjs';
 import { mergeMap, withLatestFrom } from 'rxjs/operators';
 import Dawww from '../../../dawww';
+import { Song } from '../../../types';
 import shared from '../../shared';
-import { Song } from '../../shared/types';
 import * as actions from '../actions';
 import * as selectors from '../selectors';
 
@@ -29,7 +29,7 @@ export default function addSongEpic(action$, state$) {
           .collection('songs')
           .doc(song.id)
           .set(song)
-          .then(() => actions.songAddRequestSucceeded(song)),
+          .then(() => actions.songAddRequestSucceeded(song as Song)),
       );
     }),
   );
