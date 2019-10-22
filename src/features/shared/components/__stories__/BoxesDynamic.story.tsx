@@ -1,5 +1,5 @@
 import React from 'react';
-import { Boxes, Shell } from '../../components';
+import { Boxes, Shell } from '..';
 
 const Content = props => (
   <div
