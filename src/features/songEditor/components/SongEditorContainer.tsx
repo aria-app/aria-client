@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 import audio from '../../audio';
+import '../../audio/reducer';
 import song from '../../song';
+import '../../song/reducer';
 import user from '../../user';
 import SongEditor from './SongEditor';
 

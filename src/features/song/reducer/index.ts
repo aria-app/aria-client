@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import undoable, { includeAction } from 'redux-undo';
+import { reducerManager } from '../../../store';
 import shared from '../../shared';
 import * as actions from '../actions';
 import bpm from './bpm';
@@ -24,7 +25,7 @@ const rootReducer = combineReducers({
   userId,
 });
 
-export default undoable(rootReducer, {
+const songReducer = undoable(rootReducer, {
   // Casting this as the typings are incorrect
   clearHistoryType: ([
     shared.actions.routeNotesEditorLoaded.type,
@@ -35,3 +36,7 @@ export default undoable(rootReducer, {
   syncFilter: true,
   undoType: actions.undoRequested.type,
 });
+
+reducerManager.add('song', songReducer);
+
+export default songReducer;
