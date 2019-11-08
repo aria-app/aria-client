@@ -1,3 +1,5 @@
-import _DashboardContainer from './DashboardContainer';
+import loadable from '@loadable/component';
 
-export const DashboardContainer = _DashboardContainer;
+export const DashboardContainer = loadable(() =>
+  import('./DashboardContainer'),
+);

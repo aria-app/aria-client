@@ -1,3 +1,5 @@
-import _SongViewerContainer from './SongViewerContainer';
+import loadable from '@loadable/component';
 
-export const SongViewerContainer = _SongViewerContainer;
+export const SongViewerContainer = loadable(() =>
+  import('./SongViewerContainer'),
+);

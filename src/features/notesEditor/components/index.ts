@@ -1,3 +1,5 @@
-import _NotesEditorContainer from './NotesEditorContainer';
+import loadable from '@loadable/component';
 
-export const NotesEditorContainer = _NotesEditorContainer;
+export const NotesEditorContainer = loadable(() =>
+  import('./NotesEditorContainer'),
+);
