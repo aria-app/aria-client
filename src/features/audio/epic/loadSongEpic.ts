@@ -11,10 +11,7 @@ export default function loadSongEpic(action$, state$) {
     tap(([action, state]) => {
       const focusedSequenceId = selectors.getFocusedSequenceId(state);
 
-      dawww.updateSong({
-        ...action.payload.song,
-        focusedSequenceId,
-      });
+      dawww.updateSong({ ...action.payload, focusedSequenceId });
     }),
     ignoreElements(),
   );
