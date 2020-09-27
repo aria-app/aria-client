@@ -3,6 +3,7 @@ import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import { hideIf, showIf } from 'react-render-helpers';
 import Tone from 'tone';
+
 import Dawww from '../../../dawww';
 import shared from '../../shared';
 

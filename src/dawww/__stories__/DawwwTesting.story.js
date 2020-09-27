@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import Dawww from '../index';
+
 import sampleSong from '../examples/loadTestingSong.json';
 import sampleSongAlt from '../examples/sampleSongAlt';
+import Dawww from '../index';
 
 const dawww = Dawww({
   song: sampleSong,

@@ -1,4 +1,5 @@
 import shortid from 'shortid';
+
 import * as constants from '../constants';
 
 export function createTrack(voice = constants.DEFAULT_VOICE) {

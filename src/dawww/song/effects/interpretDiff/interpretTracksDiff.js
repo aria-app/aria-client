@@ -1,4 +1,5 @@
 import getOr from 'lodash/fp/getOr';
+
 import * as actions from '../../../actions';
 import * as constants from '../../../constants';
 import { interpretTrackAddedDiff } from './interpretTrackAddedDiff';

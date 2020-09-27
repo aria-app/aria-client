@@ -1,11 +1,12 @@
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import compose from 'lodash/fp/compose';
 import first from 'lodash/fp/first';
 import noop from 'lodash/fp/noop';
 import split from 'lodash/fp/split';
-import createStyles from '@material-ui/styles/createStyles';
-import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
+
 import Note from './Note';
 
 const styles = createStyles({

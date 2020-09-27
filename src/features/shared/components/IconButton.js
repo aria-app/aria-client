@@ -1,8 +1,9 @@
-import classnames from 'classnames';
-import noop from 'lodash/fp/noop';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
+import classnames from 'classnames';
+import noop from 'lodash/fp/noop';
 import React from 'react';
+
 import Icon from './Icon';
 
 const styles = (theme) =>

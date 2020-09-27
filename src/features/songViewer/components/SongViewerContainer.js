@@ -1,9 +1,11 @@
-import { connect } from 'react-redux';
-import audio from '../../audio';
 import '../../audio/reducer';
+import '../../song/reducer';
+
+import { connect } from 'react-redux';
+
+import audio from '../../audio';
 import shared from '../../shared';
 import song from '../../song';
-import '../../song/reducer';
 import SongViewer from './SongViewer';
 
 export default connect(

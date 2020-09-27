@@ -1,7 +1,7 @@
-import * as firebase from 'firebase/app';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import { Redirect } from '@reach/router';
+import * as firebase from 'firebase/app';
 import React from 'react';
 import { Translation } from 'react-i18next';
 

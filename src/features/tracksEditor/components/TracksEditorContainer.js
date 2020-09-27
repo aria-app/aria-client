@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+
 import audio from '../../audio';
 import shared from '../../shared';
 import song from '../../song';

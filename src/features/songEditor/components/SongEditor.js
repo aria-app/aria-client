@@ -4,6 +4,7 @@ import { Router } from '@reach/router';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import Tone from 'tone';
+
 import Dawww from '../../../dawww';
 import notesEditor from '../../notesEditor';
 import tracksEditor from '../../tracksEditor';

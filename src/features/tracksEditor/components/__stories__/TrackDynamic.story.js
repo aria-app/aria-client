@@ -1,6 +1,7 @@
-import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { number } from '@storybook/addon-knobs';
+import React from 'react';
+
 import shared from '../../../shared';
 import Track from '../Track';
 

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Slots from '../Slots';
 
 export class SlotsBasics extends React.Component {

@@ -1,10 +1,12 @@
-import * as firebase from 'firebase/app';
 import Button from '@material-ui/core/Button';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import { Redirect } from '@reach/router';
+import * as firebase from 'firebase/app';
+import { PropTypes } from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
+
 import shared from '../../shared';
 
 const { authProvider } = shared.constants;
@@ -18,9 +20,9 @@ const styles = createStyles({
   },
 });
 
-// export interface SignInProps extends WithStyles<typeof styles> {
-//   isAuthenticated?: boolean;
-// }
+SignIn.propTypes = {
+  isAuthenticated: PropTypes.bool,
+};
 
 function SignIn(props) {
   const { classes, isAuthenticated } = props;

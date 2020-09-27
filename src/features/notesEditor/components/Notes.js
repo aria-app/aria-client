@@ -1,3 +1,5 @@
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import find from 'lodash/fp/find';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
@@ -5,9 +7,8 @@ import isEqual from 'lodash/fp/isEqual';
 import max from 'lodash/fp/max';
 import min from 'lodash/fp/min';
 import uniqBy from 'lodash/fp/uniqBy';
-import createStyles from '@material-ui/styles/createStyles';
-import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
+
 import Dawww from '../../../dawww';
 import * as constants from '../constants';
 import Note from './Note';

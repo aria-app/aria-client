@@ -2,6 +2,7 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
+
 import shared from '../../shared';
 import * as constants from '../constants';
 import DrawLayer from './DrawLayer';

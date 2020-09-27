@@ -1,15 +1,16 @@
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import find from 'lodash/fp/find';
 import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
-import createStyles from '@material-ui/styles/createStyles';
-import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
+
 import Dawww from '../../../dawww';
 import shared from '../../shared';
 import TrackEditingModal from './TrackEditingModal';
-import TracksEditorToolbar from './TracksEditorToolbar';
 import TrackList from './TrackList';
+import TracksEditorToolbar from './TracksEditorToolbar';
 
 const { Timeline } = shared.components;
 

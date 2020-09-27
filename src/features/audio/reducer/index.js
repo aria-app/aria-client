@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+
 import { reducerManager } from '../../../store';
 import focusedSequenceId from './focusedSequenceId';
 import playbackState from './playbackState';

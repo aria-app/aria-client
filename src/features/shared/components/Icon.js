@@ -1,8 +1,9 @@
+import withStyles from '@material-ui/styles/withStyles';
+import withTheme from '@material-ui/styles/withTheme';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import withStyles from '@material-ui/styles/withStyles';
-import withTheme from '@material-ui/styles/withTheme';
+
 import icons from './icons';
 
 const styles = (theme) => ({

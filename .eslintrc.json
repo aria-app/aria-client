@@ -1,6 +1,9 @@
 {
   "extends": "react-app",
+  "plugins": ["simple-import-sort"],
   "rules": {
-    "import/order": 2
+    "simple-import-sort/sort": "error",
+    "sort-imports": "off",
+    "import/order": "off"
   }
 }

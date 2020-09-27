@@ -2,6 +2,7 @@ import compose from 'lodash/fp/compose';
 import first from 'lodash/fp/first';
 import getOr from 'lodash/fp/getOr';
 import last from 'lodash/fp/last';
+
 import { sizeToTime } from './sizeToTime';
 
 export function getNoteLength(note, toneAdapter) {

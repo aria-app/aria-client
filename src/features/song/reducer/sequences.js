@@ -1,6 +1,7 @@
 import omit from 'lodash/fp/omit';
 import reject from 'lodash/fp/reject';
 import { createReducer } from 'redux-starter-kit';
+
 import shared from '../../shared';
 import * as actions from '../actions';
 

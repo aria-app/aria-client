@@ -3,6 +3,7 @@ import Slider from '@material-ui/core/Slider';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
+
 import Dawww from '../../../dawww';
 import shared from '../../shared';
 import SongViewerToolbar from './SongViewerToolbar';

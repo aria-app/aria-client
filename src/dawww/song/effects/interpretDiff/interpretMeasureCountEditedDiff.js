@@ -1,4 +1,5 @@
 import getOr from 'lodash/fp/getOr';
+
 import * as actions from '../../../actions';
 
 export function interpretMeasureCountEditedDiff(diff) {

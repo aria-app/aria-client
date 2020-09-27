@@ -1,7 +1,8 @@
-import range from 'lodash/fp/range';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
+import range from 'lodash/fp/range';
 import React from 'react';
+
 import Dawww from '../../../dawww';
 
 const styles = createStyles({

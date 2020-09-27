@@ -1,7 +1,7 @@
-import classnames from 'classnames';
-import getOr from 'lodash/fp/getOr';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
+import classnames from 'classnames';
+import getOr from 'lodash/fp/getOr';
 import React from 'react';
 
 const styles = (theme) =>

@@ -3,8 +3,8 @@ import { acceptSequenceDeletion } from './acceptSequenceDeletion';
 import { disablePartLooping } from './disablePartLooping';
 import { disposePart } from './disposePart';
 import { reloadSequence } from './reloadSequence';
-import { setPartEventsByNoteId } from './setPartEventsByNoteId';
 import { setPartEvents } from './setPartEvents';
+import { setPartEventsByNoteId } from './setPartEventsByNoteId';
 import { startPart } from './startPart';
 
 export default function effects(getState, action, shared) {

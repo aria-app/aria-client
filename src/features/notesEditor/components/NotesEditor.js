@@ -1,13 +1,14 @@
+import Fade from '@material-ui/core/Fade';
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
 import uniq from 'lodash/fp/uniq';
-import Fade from '@material-ui/core/Fade';
-import createStyles from '@material-ui/styles/createStyles';
-import withStyles from '@material-ui/styles/withStyles';
 import memoizeOne from 'memoize-one';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
+
 import Dawww from '../../../dawww';
 import audio from '../../audio';
 import shared from '../../shared';

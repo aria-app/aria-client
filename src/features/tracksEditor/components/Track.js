@@ -1,3 +1,5 @@
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import { AnimatePresence, motion } from 'framer-motion';
 import each from 'lodash/fp/each';
 import find from 'lodash/fp/find';
@@ -5,15 +7,14 @@ import inRange from 'lodash/fp/inRange';
 import isNil from 'lodash/fp/isNil';
 import range from 'lodash/fp/range';
 import some from 'lodash/fp/some';
-import createStyles from '@material-ui/styles/createStyles';
-import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import { showIf } from 'react-render-helpers';
+
 import shared from '../../shared';
 import AddSequenceButton from './AddSequenceButton';
-import TrackSequence from './TrackSequence';
 import TrackHeader from './TrackHeader';
+import TrackSequence from './TrackSequence';
 
 const { Boxes } = shared.components;
 

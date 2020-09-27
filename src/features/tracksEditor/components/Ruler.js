@@ -1,9 +1,9 @@
-import classnames from 'classnames';
-import { AnimatePresence, motion } from 'framer-motion';
-import round from 'lodash/round';
-import times from 'lodash/fp/times';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
+import classnames from 'classnames';
+import { AnimatePresence, motion } from 'framer-motion';
+import times from 'lodash/fp/times';
+import round from 'lodash/round';
 import { transparentize } from 'polished';
 import React from 'react';
 import Draggable from 'react-draggable';

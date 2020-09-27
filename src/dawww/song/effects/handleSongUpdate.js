@@ -1,4 +1,5 @@
 import deepDiff from 'deep-diff';
+
 import { interpretDiff } from './interpretDiff';
 
 export function handleSongUpdate(getState, action, shared) {

@@ -1,5 +1,6 @@
 import getOr from 'lodash/fp/getOr';
 import last from 'lodash/fp/last';
+
 import * as actions from '../../../actions';
 
 export function interpretSequenceEditedDiff(diff) {

@@ -1,10 +1,11 @@
-import PropTypes from 'prop-types';
-import { Router } from '@reach/router';
-import React from 'react';
-import { hideIf, showIf } from 'react-render-helpers';
 import createStyles from '@material-ui/styles/createStyles';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import withStyles from '@material-ui/styles/withStyles';
+import { Router } from '@reach/router';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { hideIf, showIf } from 'react-render-helpers';
+
 import dashboard from '../../dashboard';
 import shared from '../../shared';
 import songEditor from '../../songEditor';

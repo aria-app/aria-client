@@ -1,6 +1,6 @@
-import classnames from 'classnames';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
+import classnames from 'classnames';
 import React from 'react';
 
 const styles = createStyles({

@@ -1,4 +1,5 @@
 import { createReducer } from 'redux-starter-kit';
+
 import shared from '../../shared';
 import * as actions from '../actions';
 

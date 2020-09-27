@@ -1,7 +1,7 @@
-import isEmpty from 'lodash/fp/isEmpty';
-import isEqual from 'lodash/fp/isEqual';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
+import isEmpty from 'lodash/fp/isEmpty';
+import isEqual from 'lodash/fp/isEqual';
 import { transparentize } from 'polished';
 import React from 'react';
 

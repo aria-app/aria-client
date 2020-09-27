@@ -1,4 +1,5 @@
 import { createStructuredSelector } from 'reselect';
+
 import { getBPM } from './getBPM';
 import { getId } from './getId';
 import { getMeasureCount } from './getMeasureCount';

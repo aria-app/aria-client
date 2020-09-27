@@ -2,6 +2,7 @@ import compose from 'lodash/fp/compose';
 import get from 'lodash/fp/get';
 import map from 'lodash/fp/map';
 import some from 'lodash/fp/some';
+
 import * as constants from '../constants';
 import { addPoints } from './addPoints';
 

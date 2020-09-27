@@ -1,8 +1,8 @@
+import createStyles from '@material-ui/styles/createStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import classnames from 'classnames';
 import first from 'lodash/fp/first';
 import last from 'lodash/fp/last';
-import createStyles from '@material-ui/styles/createStyles';
-import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import Draggable from 'react-draggable';
 

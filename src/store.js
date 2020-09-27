@@ -1,9 +1,10 @@
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import { configureStore } from 'redux-starter-kit';
+
+import createReducerManager from './createReducerManager';
 import audio from './features/audio';
 import song from './features/song';
 import user from './features/user';
-import createReducerManager from './createReducerManager';
 
 const epicMiddleware = createEpicMiddleware();
 

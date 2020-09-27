@@ -1,4 +1,5 @@
 import omit from 'lodash/fp/omit';
+
 import * as actions from '../actions';
 
 export default function reducer(state = {}, action, shared) {

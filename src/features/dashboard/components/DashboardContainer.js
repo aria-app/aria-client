@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+
 import shared from '../../shared';
 import user from '../../user';
 import Dashboard from './Dashboard';

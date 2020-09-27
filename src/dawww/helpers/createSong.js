@@ -1,4 +1,5 @@
 import shortid from 'shortid';
+
 import * as constants from '../constants';
 import { createNote } from './createNote';
 import { createSequence } from './createSequence';

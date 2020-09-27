@@ -1,4 +1,5 @@
 import { combineEpics } from 'redux-observable';
+
 import loadSongEpic from './loadSongEpic';
 import pausePlaybackEpic from './pausePlaybackEpic';
 import setPositionEpic from './setPositionEpic';

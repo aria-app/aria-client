@@ -1,7 +1,7 @@
-import classnames from 'classnames';
-import clamp from 'lodash/fp/clamp';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
+import classnames from 'classnames';
+import clamp from 'lodash/fp/clamp';
 import React from 'react';
 import Draggable from 'react-draggable';
 

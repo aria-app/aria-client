@@ -1,5 +1,6 @@
 import getOr from 'lodash/fp/getOr';
 import noop from 'lodash/fp/noop';
+
 import * as actions from '../../actions';
 import * as constants from '../../constants';
 

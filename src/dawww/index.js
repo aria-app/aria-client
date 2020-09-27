@@ -1,14 +1,15 @@
 import getOr from 'lodash/fp/getOr';
 import Tone from 'tone';
-import { channels, emit, on } from './bus';
+
 import * as actions from './actions';
+import { channels, emit, on } from './bus';
 import * as constants from './constants';
+import effects from './effects';
 import * as helpers from './helpers';
 import * as models from './models';
+import reducer from './reducer';
 import * as selectors from './selectors';
 import { getState, setState } from './state';
-import effects from './effects';
-import reducer from './reducer';
 import { createToneAdapter } from './toneAdapter';
 
 export default function Dawww(options) {

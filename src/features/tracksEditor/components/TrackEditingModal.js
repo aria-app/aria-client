@@ -1,5 +1,3 @@
-import isEmpty from 'lodash/fp/isEmpty';
-import range from 'lodash/fp/range';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -10,8 +8,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
+import isEmpty from 'lodash/fp/isEmpty';
+import range from 'lodash/fp/range';
 import React from 'react';
 import { Translation } from 'react-i18next';
+
 import Dawww from '../../../dawww';
 
 const minVolume = -20;

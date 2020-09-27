@@ -1,10 +1,11 @@
-import { AnimatePresence, motion } from 'framer-motion';
 import Fab from '@material-ui/core/Fab';
 import Fade from '@material-ui/core/Fade';
 import AddIcon from '@material-ui/icons/Add';
 import withStyles from '@material-ui/styles/withStyles';
+import { AnimatePresence, motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import shared from '../../shared';
 import Ruler from './Ruler';
 import Track from './Track';

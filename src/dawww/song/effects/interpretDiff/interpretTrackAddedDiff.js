@@ -1,5 +1,6 @@
 import getOr from 'lodash/fp/getOr';
 import some from 'lodash/fp/some';
+
 import * as actions from '../../../actions';
 
 export function interpretTrackAddedDiff(diff, song) {

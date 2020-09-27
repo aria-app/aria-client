@@ -3,6 +3,7 @@ import isEqual from 'lodash/fp/isEqual';
 import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 import { mergeMap, withLatestFrom } from 'rxjs/operators';
+
 import shared from '../../shared';
 import * as actions from '../actions';
 import { fetchSongById } from '../helpers';

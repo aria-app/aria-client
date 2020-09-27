@@ -1,8 +1,9 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import orderBy from 'lodash/fp/orderBy';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
+import { AnimatePresence, motion } from 'framer-motion';
+import orderBy from 'lodash/fp/orderBy';
 import React from 'react';
+
 import SongListItem from './SongListItem';
 
 const styles = (theme) =>

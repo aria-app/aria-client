@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Boxes, Shell } from '..';
 
 const Content = (props) => (

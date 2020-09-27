@@ -1,7 +1,7 @@
 import * as actions from '../../actions';
 import { disableTransportPartLooping } from './disableTransportPartLooping';
-import { setTransportPartEvents } from './setTransportPartEvents';
 import { setToneLoopPoints } from './setToneLoopPoints';
+import { setTransportPartEvents } from './setTransportPartEvents';
 import { startTransportPart } from './startTransportPart';
 
 export default function effects(getState, action, shared) {

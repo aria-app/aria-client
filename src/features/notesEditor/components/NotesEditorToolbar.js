@@ -1,7 +1,8 @@
-import isEmpty from 'lodash/fp/isEmpty';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
+import isEmpty from 'lodash/fp/isEmpty';
 import React from 'react';
+
 import Dawww from '../../../dawww';
 import shared from '../../shared';
 import * as constants from '../constants';

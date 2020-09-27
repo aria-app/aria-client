@@ -1,7 +1,7 @@
-import classnames from 'classnames';
-import { includes } from 'lodash/fp';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
+import classnames from 'classnames';
+import { includes } from 'lodash/fp';
 import React from 'react';
 
 const styles = (theme) =>

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import undoable, { includeAction } from 'redux-undo';
+
 import { reducerManager } from '../../../store';
 import shared from '../../shared';
 import * as actions from '../actions';

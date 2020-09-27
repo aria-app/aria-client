@@ -1,8 +1,9 @@
-import isEqual from 'lodash/fp/isEqual';
 import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
+import isEqual from 'lodash/fp/isEqual';
 import React from 'react';
 import { DraggableCore } from 'react-draggable';
+
 import Fence from './Fence';
 
 const styles = createStyles({
