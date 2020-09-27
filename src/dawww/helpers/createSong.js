@@ -1,6 +1,5 @@
 import shortid from 'shortid';
 import * as constants from '../constants';
-import { Song } from '../../types';
 import { createNote } from './createNote';
 import { createSequence } from './createSequence';
 import { createTrack } from './createTrack';
@@ -10,10 +9,13 @@ const initialTracks = [createTrack()];
 const initialSequences = [createSequence(initialTracks[0].id)];
 
 const initialNotes = [
-  createNote(initialSequences[0].id, [{ x: 2, y: 40 }, { x: 3, y: 40 }]),
+  createNote(initialSequences[0].id, [
+    { x: 2, y: 40 },
+    { x: 3, y: 40 },
+  ]),
 ];
 
-export function createSong(): Partial<Song> {
+export function createSong() {
   return {
     bpm: constants.DEFAULT_BPM,
     id: shortid.generate(),

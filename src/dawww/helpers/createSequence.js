@@ -1,12 +1,7 @@
 import isNil from 'lodash/fp/isNil';
 import shortid from 'shortid';
-import { Sequence } from '../../types';
 
-export function createSequence(
-  trackId: string,
-  position = 0,
-  measureCount = 1,
-): Sequence {
+export function createSequence(trackId, position = 0, measureCount = 1) {
   if (isNil(trackId)) {
     throw new Error('Please provide a trackId to createSequence');
   }

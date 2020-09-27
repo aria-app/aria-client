@@ -1,12 +1,10 @@
 import classnames from 'classnames';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
-import { SequenceWithNotes } from '../../../types';
 import TrackSequenceNote from './TrackSequenceNote';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       display: 'flex',
@@ -25,15 +23,15 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface TrackSequenceProps extends WithStyles<typeof styles> {
-  isDragging?: boolean;
-  isSelected?: boolean;
-  onOpen?: (sequence: SequenceWithNotes) => void;
-  onSelect?: (sequence: SequenceWithNotes) => void;
-  sequence: SequenceWithNotes;
-}
+// export interface TrackSequenceProps extends WithStyles<typeof styles> {
+//   isDragging?: boolean;
+//   isSelected?: boolean;
+//   onOpen?: (sequence: SequenceWithNotes) => void;
+//   onSelect?: (sequence: SequenceWithNotes) => void;
+//   sequence: SequenceWithNotes;
+// }
 
-function TrackSequence(props: TrackSequenceProps) {
+function TrackSequence(props) {
   const { classes, isSelected, onOpen, onSelect, sequence } = props;
   const handleClick = React.useCallback(() => {
     if (isSelected) return;
@@ -51,7 +49,7 @@ function TrackSequence(props: TrackSequenceProps) {
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
     >
-      {sequence.notes.map(note => (
+      {sequence.notes.map((note) => (
         <TrackSequenceNote
           isSequenceSelected={isSelected}
           key={note.id}

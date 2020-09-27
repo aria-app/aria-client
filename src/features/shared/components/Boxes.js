@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import Box from './Box';
 
@@ -10,23 +10,17 @@ const styles = createStyles({
   },
 });
 
-interface BoxItem {
-  id: any;
-  length: number;
-  x: number;
-}
+// export interface BoxesProps extends WithStyles<typeof styles> {
+//   boxContentComponent?: React.ElementType;
+//   className?: string;
+//   items?: Array<BoxItem>;
+//   length?: number;
+//   onItemsChange?: (items: Array<BoxItem>) => void;
+//   step?: number;
+//   style?: React.CSSProperties;
+// }
 
-export interface BoxesProps extends WithStyles<typeof styles> {
-  boxContentComponent?: React.ElementType;
-  className?: string;
-  items?: Array<BoxItem>;
-  length?: number;
-  onItemsChange?: (items: Array<BoxItem>) => void;
-  step?: number;
-  style?: React.CSSProperties;
-}
-
-function Boxes(props: BoxesProps) {
+function Boxes(props) {
   const {
     boxContentComponent,
     className,

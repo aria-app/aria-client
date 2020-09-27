@@ -1,18 +1,16 @@
 import Fab from '@material-ui/core/Fab';
 import Fade from '@material-ui/core/Fade';
 import AddIcon from '@material-ui/icons/Add';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import hideIf from 'react-render-helpers/hideIf';
-import { Song, User } from '../../../types';
 import shared from '../../shared';
 import SongList from './SongList';
 
 const { LoadingIndicator, Toolbar } = shared.components;
 
-const styles = (theme: Theme) =>
+const styles = theme =>
   createStyles({
     root: {
       display: 'flex',
@@ -46,21 +44,21 @@ const styles = (theme: Theme) =>
     },
   });
 
-interface NewSongOptions {
-  name: string;
-}
+// interface NewSongOptions {
+//   name: string;
+// }
 
-export interface DashboardProps extends WithStyles<typeof styles> {
-  isLoadingSongs?: boolean;
-  navigate?: (path: string) => void;
-  onLoad?: () => void;
-  onSongAdd?: (options: NewSongOptions) => void;
-  onSongDelete?: (song: Song) => void;
-  songs?: Array<Song>;
-  user?: User;
-}
+// export interface DashboardProps extends WithStyles<typeof styles> {
+//   isLoadingSongs?: boolean;
+//   navigate?: (path: string) => void;
+//   onLoad?: () => void;
+//   onSongAdd?: (options: NewSongOptions) => void;
+//   onSongDelete?: (song: Song) => void;
+//   songs?: Array<Song>;
+//   user?: User;
+// }
 
-function Dashboard(props: DashboardProps) {
+function Dashboard(props) {
   const {
     classes,
     isLoadingSongs,

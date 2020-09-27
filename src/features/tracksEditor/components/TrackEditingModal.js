@@ -8,18 +8,16 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import Dawww from '../../../dawww';
-import { TrackWithSequences } from '../../../types';
 
 const minVolume = -20;
 const maxVolume = 0;
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {},
     deleteButton: {
@@ -45,22 +43,18 @@ const styles = (theme: Theme) =>
     },
   });
 
-interface IDawww {
-  VOICES?: any;
-}
+// export interface TrackEditingModalProps extends WithStyles<typeof styles> {
+//   onDelete?: (track: TrackWithSequences) => void;
+//   onDismiss?: () => void;
+//   onVoiceSet?: (options: { track: TrackWithSequences, voice: string }) => void;
+//   onVolumeSet?: (options: {
+//     track: TrackWithSequences,
+//     volume: string,
+//   }) => void;
+//   stagedTrack?: TrackWithSequences;
+// }
 
-export interface TrackEditingModalProps extends WithStyles<typeof styles> {
-  onDelete?: (track: TrackWithSequences) => void;
-  onDismiss?: () => void;
-  onVoiceSet?: (options: { track: TrackWithSequences; voice: string }) => void;
-  onVolumeSet?: (options: {
-    track: TrackWithSequences;
-    volume: string;
-  }) => void;
-  stagedTrack?: TrackWithSequences;
-}
-
-function TrackEditingModal(props: TrackEditingModalProps) {
+function TrackEditingModal(props) {
   const {
     classes,
     onDelete,
@@ -75,14 +69,14 @@ function TrackEditingModal(props: TrackEditingModalProps) {
   }, [onDelete, stagedTrack]);
 
   const handleVoiceChange = React.useCallback(
-    e => {
+    (e) => {
       onVoiceSet({ track: stagedTrack, voice: e.target.value });
     },
     [onVoiceSet, stagedTrack],
   );
 
   const handleVolumeChange = React.useCallback(
-    e => {
+    (e) => {
       onVolumeSet({ track: stagedTrack, volume: e.target.value });
     },
     [onVolumeSet, stagedTrack],
@@ -90,7 +84,7 @@ function TrackEditingModal(props: TrackEditingModalProps) {
 
   return (
     <Translation>
-      {t => (
+      {(t) => (
         <Dialog
           className={classes.root}
           fullWidth={true}
@@ -109,7 +103,7 @@ function TrackEditingModal(props: TrackEditingModalProps) {
                   stagedTrack && stagedTrack.voice ? stagedTrack.voice : ''
                 }
               >
-                {Object.keys((Dawww as IDawww).VOICES).map(voice => (
+                {Object.keys(Dawww.VOICES).map((voice) => (
                   <MenuItem key={voice} value={voice}>
                     {t(voice)}
                   </MenuItem>
@@ -125,7 +119,7 @@ function TrackEditingModal(props: TrackEditingModalProps) {
                   stagedTrack && stagedTrack.volume ? stagedTrack.volume : 0
                 }
               >
-                {range(maxVolume, minVolume - 1).map(volume => (
+                {range(maxVolume, minVolume - 1).map((volume) => (
                   <MenuItem key={volume} value={volume}>
                     {volume}
                   </MenuItem>

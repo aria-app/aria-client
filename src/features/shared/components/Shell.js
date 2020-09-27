@@ -1,10 +1,9 @@
 import classnames from 'classnames';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       backgroundColor: theme.palette.background.default,
@@ -12,7 +11,7 @@ const styles = (theme: Theme) =>
       bottom: 0,
       display: 'flex',
       flex: '1 1 auto',
-      flexDirection: 'column' as const,
+      flexDirection: 'column',
       left: 0,
       overflow: 'hidden',
       position: 'absolute',
@@ -22,17 +21,17 @@ const styles = (theme: Theme) =>
     '@global': {
       '*': {
         margin: 0,
-        outline: 'none' as const,
+        outline: 'none',
         padding: 0,
-        boxSizing: 'border-box' as const,
-        WebkitFocusRingColor: 'transparent' as const,
-        WebkitTapHighlightColor: 'transparent' as const,
-        WebkitTouchCallout: 'none' as const,
-        WebkitUserSelect: 'none' as const,
-        KhtmlUserSelect: 'none' as const,
-        MozUserSelect: 'none' as const,
-        MsUserSelect: 'none' as const,
-        userSelect: 'none' as const,
+        boxSizing: 'border-box',
+        WebkitFocusRingColor: 'transparent',
+        WebkitTapHighlightColor: 'transparent',
+        WebkitTouchCallout: 'none',
+        WebkitUserSelect: 'none',
+        KhtmlUserSelect: 'none',
+        MozUserSelect: 'none',
+        MsUserSelect: 'none',
+        userSelect: 'none',
       },
       'html, body': {
         position: 'absolute',
@@ -53,14 +52,14 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface ShellProps
-  extends WithStyles<typeof styles>,
-    React.HTMLAttributes<HTMLDivElement> {
-  children?: React.ReactNode;
-  className?: string;
-}
+// export interface ShellProps
+//   extends WithStyles<typeof styles>,
+//     React.HTMLAttributes<HTMLDivElement> {
+//   children?: React.ReactNode;
+//   className?: string;
+// }
 
-function Shell(props: ShellProps) {
+function Shell(props) {
   const { className, classes, ...rest } = props;
 
   return <div className={classnames(classes.root, className)} {...rest} />;

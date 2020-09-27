@@ -1,5 +1,5 @@
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 
 const styles = createStyles({
@@ -16,11 +16,11 @@ const styles = createStyles({
   },
 });
 
-export interface LoadingIndicatorProps extends WithStyles<typeof styles> {
-  children?: React.ReactNode;
-}
+// export interface LoadingIndicatorProps extends WithStyles<typeof styles> {
+//   children?: React.ReactNode;
+// }
 
-function LoadingIndicator(props: LoadingIndicatorProps) {
+function LoadingIndicator(props) {
   const { children, classes } = props;
 
   return <div className={classes.root}>{children}</div>;

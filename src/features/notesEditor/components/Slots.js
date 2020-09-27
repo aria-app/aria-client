@@ -1,6 +1,6 @@
 import range from 'lodash/fp/range';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import Dawww from '../../../dawww';
 
@@ -11,17 +11,17 @@ const styles = createStyles({
   },
 });
 
-export interface SlotsProps extends WithStyles<typeof styles> {
-  measureCount?: number;
-}
+// export interface SlotsProps extends WithStyles<typeof styles> {
+//   measureCount?: number;
+// }
 
-function Slots(props: SlotsProps) {
+function Slots(props) {
   const { classes, measureCount } = props;
 
   const slots = React.useMemo(
     () =>
-      range(0, measureCount * 4 * 8).map(columnNumber =>
-        range(0, Dawww.SCALE.length).map(rowNumber =>
+      range(0, measureCount * 4 * 8).map((columnNumber) =>
+        range(0, Dawww.SCALE.length).map((rowNumber) =>
           getSlot(columnNumber, rowNumber),
         ),
       ),
@@ -31,7 +31,7 @@ function Slots(props: SlotsProps) {
   const stripes = React.useMemo(
     () =>
       range(0, measureCount * 2).map(
-        n => `
+        (n) => `
           <rect
             fill="black"
             opacity="0.025"
@@ -68,7 +68,7 @@ function Slots(props: SlotsProps) {
 export default React.memo(withStyles(styles)(Slots));
 
 function getSlot(column, row) {
-  const isEven = x => x % 2 === 0;
+  const isEven = (x) => x % 2 === 0;
   const fill = isEven(Math.floor(column / 8)) ? 'black' : 'black';
   const size = 4;
   return `

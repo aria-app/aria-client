@@ -1,9 +1,7 @@
-import { createReducer, PayloadAction } from 'redux-starter-kit';
-import { User } from '../../../types';
+import { createReducer } from 'redux-starter-kit';
 import * as actions from '../actions';
 
-export default createReducer<User, {}>(null, {
-  [actions.userSignInSucceeded.type]: (state, action: PayloadAction<User>) =>
-    action.payload,
+export default createReducer(null, {
+  [actions.userSignInSucceeded.type]: (state, action) => action.payload,
   [actions.userSignOutSucceeded.type]: () => null,
 });

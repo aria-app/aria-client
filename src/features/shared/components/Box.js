@@ -1,12 +1,11 @@
 import classnames from 'classnames';
 import clamp from 'lodash/fp/clamp';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import Draggable from 'react-draggable';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       display: 'flex',
@@ -23,7 +22,7 @@ const styles = (theme: Theme) =>
       bottom: '0',
       cursor: 'col-resize',
       left: '0',
-      position: 'absolute' as const,
+      position: 'absolute',
       top: '0',
       width: theme.spacing(2),
       zIndex: 2,
@@ -43,22 +42,16 @@ const styles = (theme: Theme) =>
     },
   });
 
-interface BoxItem {
-  id: any;
-  length: number;
-  x: number;
-}
+// export interface BoxProps extends WithStyles<typeof styles> {
+//   contentComponent?: React.ElementType;
+//   item?: BoxItem;
+//   onItemChange?: (item?: BoxItem) => void;
+//   step?: number;
+//   style?: React.CSSProperties;
+//   totalLength?: number;
+// }
 
-export interface BoxProps extends WithStyles<typeof styles> {
-  contentComponent?: React.ElementType;
-  item?: BoxItem;
-  onItemChange?: (item?: BoxItem) => void;
-  step?: number;
-  style?: React.CSSProperties;
-  totalLength?: number;
-}
-
-function Box(props: BoxProps) {
+function Box(props) {
   const {
     classes,
     contentComponent: ContentComponent = () => null,

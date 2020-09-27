@@ -4,12 +4,11 @@ import isEmpty from 'lodash/fp/isEmpty';
 import uniq from 'lodash/fp/uniq';
 import Fade from '@material-ui/core/Fade';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import memoizeOne from 'memoize-one';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import Dawww from '../../../dawww';
-import { Note, Point, Sequence } from '../../../types';
 import audio from '../../audio';
 import shared from '../../shared';
 import { toolTypes } from '../constants';
@@ -22,7 +21,7 @@ const { LoadingIndicator } = shared.components;
 const { toggleInArray } = shared.helpers;
 
 const getNotesByIds = memoizeOne((notes, ids) =>
-  notes.filter(note => includes(note.id, ids)),
+  notes.filter((note) => includes(note.id, ids)),
 );
 
 const styles = createStyles({
@@ -48,30 +47,30 @@ const styles = createStyles({
   },
 });
 
-export interface NotesEditorProps extends WithStyles<typeof styles> {
-  isRedoEnabled?: boolean;
-  isLoading?: boolean;
-  isUndoEnabled?: boolean;
-  notes?: Array<Note>;
-  navigate?: (path: string) => void;
-  onDelete?: (notes: Array<Note>) => void;
-  onDrag?: (notes: Array<Note>) => void;
-  onDraw?: (note: Note) => void;
-  onDuplicate?: (notes: Array<Note>) => void;
-  onErase?: (note: Note) => void;
-  onLoad?: (payload: { songId: string; sequenceId: string }) => void;
-  onNudge?: (delta: Point, notes: Array<Note>) => void;
-  onOctaveDown?: (notes: Array<Note>) => void;
-  onOctaveUp?: (notes: Array<Note>) => void;
-  onRedo?: () => void;
-  onResize?: (resizedNotes: Array<Note>) => void;
-  onUndo?: () => void;
-  sequence?: Sequence;
-  sequenceId?: string;
-  songId?: string;
-}
+// export interface NotesEditorProps extends WithStyles<typeof styles> {
+//   isRedoEnabled?: boolean;
+//   isLoading?: boolean;
+//   isUndoEnabled?: boolean;
+//   notes?: Array<Note>;
+//   navigate?: (path: string) => void;
+//   onDelete?: (notes: Array<Note>) => void;
+//   onDrag?: (notes: Array<Note>) => void;
+//   onDraw?: (note: Note) => void;
+//   onDuplicate?: (notes: Array<Note>) => void;
+//   onErase?: (note: Note) => void;
+//   onLoad?: (payload: { songId: string, sequenceId: string }) => void;
+//   onNudge?: (delta: Point, notes: Array<Note>) => void;
+//   onOctaveDown?: (notes: Array<Note>) => void;
+//   onOctaveUp?: (notes: Array<Note>) => void;
+//   onRedo?: () => void;
+//   onResize?: (resizedNotes: Array<Note>) => void;
+//   onUndo?: () => void;
+//   sequence?: Sequence;
+//   sequenceId?: string;
+//   songId?: string;
+// }
 
-function NotesEditor(props: NotesEditorProps) {
+function NotesEditor(props) {
   const {
     classes,
     isRedoEnabled,
@@ -96,7 +95,7 @@ function NotesEditor(props: NotesEditorProps) {
     songId,
   } = props;
   const [contentEl, setContentEl] = React.useState();
-  const [mousePoint, setMousePoint] = React.useState<Point>({ x: -1, y: 1 });
+  const [mousePoint, setMousePoint] = React.useState({ x: -1, y: 1 });
   const [previousToolType, setPreviousToolType] = React.useState(
     toolTypes.SELECT,
   );
@@ -112,12 +111,12 @@ function NotesEditor(props: NotesEditorProps) {
     navigate('../../');
   }, [navigate]);
 
-  const handleContentRefChange = React.useCallback(ref => {
+  const handleContentRefChange = React.useCallback((ref) => {
     setContentEl(ref);
   }, []);
 
   const handleDelete = React.useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
 
       if (isEmpty(selectedNotes)) return;
@@ -129,7 +128,7 @@ function NotesEditor(props: NotesEditorProps) {
     [onDelete, selectedNotes],
   );
 
-  const handleDeselectAll = React.useCallback(e => {
+  const handleDeselectAll = React.useCallback((e) => {
     e.preventDefault();
 
     setSelectedNoteIds([]);
@@ -140,7 +139,7 @@ function NotesEditor(props: NotesEditorProps) {
   }, []);
 
   const handleDuplicate = React.useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
 
       if (isEmpty(selectedNotes)) return;
@@ -149,7 +148,7 @@ function NotesEditor(props: NotesEditorProps) {
 
       onDuplicate(duplicatedNotes);
 
-      setSelectedNoteIds(duplicatedNotes.map(note => note.id));
+      setSelectedNoteIds(duplicatedNotes.map((note) => note.id));
     },
     [onDuplicate, selectedNotes],
   );
@@ -159,14 +158,14 @@ function NotesEditor(props: NotesEditorProps) {
   }, []);
 
   const handlePreviewPitch = React.useCallback(
-    pitch => {
+    (pitch) => {
       previewPitch(sequence.trackId, pitch);
     },
     [sequence.trackId],
   );
 
   const handleGridDragPreview = React.useCallback(
-    notes => {
+    (notes) => {
       const pitch = getOr(-1, '[0].points[0].y', notes);
 
       handlePreviewPitch(pitch);
@@ -175,7 +174,7 @@ function NotesEditor(props: NotesEditorProps) {
   );
 
   const handleGridDraw = React.useCallback(
-    point => {
+    (point) => {
       handlePreviewPitch(point.y);
 
       const note = Dawww.createNote(sequence.id, [
@@ -189,7 +188,7 @@ function NotesEditor(props: NotesEditorProps) {
   );
 
   const handleGridErase = React.useCallback(
-    note => {
+    (note) => {
       onErase(note);
 
       setSelectedNoteIds([]);
@@ -222,19 +221,22 @@ function NotesEditor(props: NotesEditorProps) {
 
       setSelectedNoteIds(
         isAdditive
-          ? uniq([...selectedNoteIds, ...notesInArea.map(note => note.id)])
-          : notesInArea.map(note => note.id),
+          ? uniq([...selectedNoteIds, ...notesInArea.map((note) => note.id)])
+          : notesInArea.map((note) => note.id),
       );
     },
     [notes, selectedNoteIds],
   );
 
   const handleNudge = React.useCallback(
-    delta => {
+    (delta) => {
       if (isEmpty(selectedNotes)) return;
 
-      const notesToNudge = notes.filter(note =>
-        includes(note.id, selectedNotes.map(selectedNote => selectedNote.id)),
+      const notesToNudge = notes.filter((note) =>
+        includes(
+          note.id,
+          selectedNotes.map((selectedNote) => selectedNote.id),
+        ),
       );
 
       if (
@@ -258,7 +260,7 @@ function NotesEditor(props: NotesEditorProps) {
   );
 
   const handleNudgeDown = React.useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
 
       handleNudge({ x: 0, y: 1 });
@@ -267,7 +269,7 @@ function NotesEditor(props: NotesEditorProps) {
   );
 
   const handleNudgeLeft = React.useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
 
       handleNudge({ x: -1, y: 0 });
@@ -276,7 +278,7 @@ function NotesEditor(props: NotesEditorProps) {
   );
 
   const handleNudgeRight = React.useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
 
       handleNudge({ x: 1, y: 0 });
@@ -285,7 +287,7 @@ function NotesEditor(props: NotesEditorProps) {
   );
 
   const handleNudgeUp = React.useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
 
       handleNudge({ x: 0, y: -1 });
@@ -294,7 +296,7 @@ function NotesEditor(props: NotesEditorProps) {
   );
 
   const handlePanOverrideActivate = React.useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
 
       if (e.repeat) return;
@@ -307,7 +309,7 @@ function NotesEditor(props: NotesEditorProps) {
   );
 
   const handlePanOverrideDeactivate = React.useCallback(
-    e => {
+    (e) => {
       if (e.keyCode !== 32) return;
 
       setToolType(previousToolType);
@@ -328,7 +330,7 @@ function NotesEditor(props: NotesEditorProps) {
   const handleSelectAll = React.useCallback(() => {
     if (notes.length === selectedNotes.length) return;
 
-    setSelectedNoteIds(notes.map(note => note.id));
+    setSelectedNoteIds(notes.map((note) => note.id));
   }, [notes, selectedNotes.length]);
 
   const handleSelectToolActivate = React.useCallback(() => {

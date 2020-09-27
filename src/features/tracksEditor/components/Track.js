@@ -5,13 +5,11 @@ import inRange from 'lodash/fp/inRange';
 import isNil from 'lodash/fp/isNil';
 import range from 'lodash/fp/range';
 import some from 'lodash/fp/some';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import { showIf } from 'react-render-helpers';
-import { SequenceWithNotes, TrackWithSequences } from '../../../types';
 import shared from '../../shared';
 import AddSequenceButton from './AddSequenceButton';
 import TrackSequence from './TrackSequence';
@@ -19,7 +17,7 @@ import TrackHeader from './TrackHeader';
 
 const { Boxes } = shared.components;
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       alignItems: 'stretch',
@@ -41,19 +39,19 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface TrackProps extends WithStyles<typeof styles> {
-  onSequenceAdd?: (track: TrackWithSequences, position: number) => void;
-  onSequenceEdit?: (sequence: SequenceWithNotes) => void;
-  onSequenceOpen?: (sequence: SequenceWithNotes) => void;
-  onSequenceSelect?: (sequence: SequenceWithNotes) => void;
-  onTrackSelect?: (track: TrackWithSequences) => void;
-  selectedSequenceId?: string;
-  songMeasureCount?: number;
-  theme?: Theme;
-  track?: TrackWithSequences;
-}
+// export interface TrackProps extends WithStyles<typeof styles> {
+//   onSequenceAdd?: (track: TrackWithSequences, position: number) => void;
+//   onSequenceEdit?: (sequence: SequenceWithNotes) => void;
+//   onSequenceOpen?: (sequence: SequenceWithNotes) => void;
+//   onSequenceSelect?: (sequence: SequenceWithNotes) => void;
+//   onTrackSelect?: (track: TrackWithSequences) => void;
+//   selectedSequenceId?: string;
+//   songMeasureCount?: number;
+//   theme?;
+//   track?: TrackWithSequences;
+// }
 
-function Track(props: TrackProps) {
+function Track(props) {
   const {
     classes,
     onSequenceAdd,
@@ -67,7 +65,7 @@ function Track(props: TrackProps) {
   } = props;
 
   const boxesItems = React.useMemo(() => {
-    return track.sequences.map(sequence => ({
+    return track.sequences.map((sequence) => ({
       id: sequence.id,
       length: sequence.measureCount,
       x: sequence.position,
@@ -77,20 +75,20 @@ function Track(props: TrackProps) {
 
   const firstEmptyPosition = React.useMemo(() => {
     const allPositions = range(0, songMeasureCount);
-    const sequenceCoversPosition = position => sequence =>
+    const sequenceCoversPosition = (position) => (sequence) =>
       inRange(
         sequence.position,
         sequence.position + sequence.measureCount,
         position,
       );
-    const isEmptyPosition = position =>
+    const isEmptyPosition = (position) =>
       !some(sequenceCoversPosition(position), track.sequences);
 
     return find(isEmptyPosition, allPositions);
   }, [songMeasureCount, track.sequences]);
 
   const getIsSequenceSelected = React.useCallback(
-    sequence => {
+    (sequence) => {
       if (!selectedSequenceId) return false;
 
       return sequence.id === selectedSequenceId;
@@ -99,16 +97,16 @@ function Track(props: TrackProps) {
   );
 
   const handleBoxesItemsChange = React.useCallback(
-    items => {
+    (items) => {
       const editedSequences = items
-        .filter(item => {
+        .filter((item) => {
           if (item.sequence.measureCount !== item.length) return true;
 
           if (item.sequence.position !== item.x) return true;
 
           return false;
         })
-        .map(item => ({
+        .map((item) => ({
           ...item.sequence,
           measureCount: item.length,
           position: item.x,
@@ -124,7 +122,7 @@ function Track(props: TrackProps) {
   }, [onTrackSelect, track]);
 
   const handleSequenceAdd = React.useCallback(
-    position => {
+    (position) => {
       onSequenceAdd(track, position);
     },
     [onSequenceAdd, track],
@@ -146,7 +144,7 @@ function Track(props: TrackProps) {
   return (
     <div className={classes.root}>
       <Translation>
-        {t => (
+        {(t) => (
           <TrackHeader onClick={handleHeaderClick}>
             {t(track.voice)}
           </TrackHeader>

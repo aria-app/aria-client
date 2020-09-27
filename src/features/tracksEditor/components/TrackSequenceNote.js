@@ -1,12 +1,10 @@
 import classnames from 'classnames';
 import getOr from 'lodash/fp/getOr';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
-import { Note } from '../../../types';
 
-const styles = (theme: Theme) =>
+const styles = theme =>
   createStyles({
     root: {
       backgroundColor: theme.palette.primary.dark,
@@ -20,12 +18,12 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface TrackSequenceNoteProps extends WithStyles<typeof styles> {
-  isSequenceSelected?: boolean;
-  note?: Note;
-}
+// export interface TrackSequenceNoteProps extends WithStyles<typeof styles> {
+//   isSequenceSelected?: boolean;
+//   note?: Note;
+// }
 
-function TrackSequenceNote(props: TrackSequenceNoteProps) {
+function TrackSequenceNote(props) {
   const { classes, isSequenceSelected, note } = props;
   const x0 = getOr(0, 'points[0].x', note);
   const x1 = getOr(0, 'points[1].x', note);

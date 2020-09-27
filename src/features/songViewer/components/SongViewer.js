@@ -1,17 +1,15 @@
 import Fade from '@material-ui/core/Fade';
 import Slider from '@material-ui/core/Slider';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import Dawww from '../../../dawww';
-import { Song } from '../../../types';
 import shared from '../../shared';
 import SongViewerToolbar from './SongViewerToolbar';
 
 const { LoadingIndicator } = shared.components;
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       display: 'flex',
@@ -43,20 +41,20 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface SongViewerProps extends WithStyles<typeof styles> {
-  isLoading?: boolean;
-  onLoad?: (payload: { songId: string }) => void;
-  onPause?: () => void;
-  onPlay?: () => void;
-  onPositionSet?: (position: number) => void;
-  onStop?: () => void;
-  playbackState?: string;
-  position?: number;
-  song?: Song;
-  songId?: string;
-}
+// export interface SongViewerProps extends WithStyles<typeof styles> {
+//   isLoading?: boolean;
+//   onLoad?: (payload: { songId: string }) => void;
+//   onPause?: () => void;
+//   onPlay?: () => void;
+//   onPositionSet?: (position: number) => void;
+//   onStop?: () => void;
+//   playbackState?: string;
+//   position?: number;
+//   song?: Song;
+//   songId?: string;
+// }
 
-function SongViewer(props: SongViewerProps) {
+function SongViewer(props) {
   const {
     classes,
     isLoading,

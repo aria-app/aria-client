@@ -1,35 +1,33 @@
 import isEmpty from 'lodash/fp/isEmpty';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import { SequenceWithNotes } from '../../../types';
 import shared from '../../shared';
 
 const { IconButton, Toolbar } = shared.components;
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       borderTop: `2px solid ${theme.palette.divider}`,
     },
   });
 
-export interface TracksEditorToolbarProps extends WithStyles<typeof styles> {
-  isRedoEnabled?: boolean;
-  isUndoEnabled?: boolean;
-  onRedo?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  onSequenceDelete?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  onSequenceDuplicate?: (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  ) => void;
-  onSequenceOpen?: (sequence: SequenceWithNotes) => void;
-  onUndo?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  selectedSequence?: SequenceWithNotes;
-}
+// export interface TracksEditorToolbarProps extends WithStyles<typeof styles> {
+//   isRedoEnabled?: boolean;
+//   isUndoEnabled?: boolean;
+//   onRedo?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+//   onSequenceDelete?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+//   onSequenceDuplicate?: (
+//     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+//   ) => void;
+//   onSequenceOpen?: (sequence: SequenceWithNotes) => void;
+//   onUndo?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+//   selectedSequence?: SequenceWithNotes;
+// }
 
-function TracksEditorToolbar(props: TracksEditorToolbarProps) {
+function TracksEditorToolbar(props) {
   const {
     classes,
     isRedoEnabled,

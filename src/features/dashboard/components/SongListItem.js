@@ -1,11 +1,9 @@
 import CloseIcon from '@material-ui/icons/Close';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
-import { Song } from '../../../types';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       ...theme.typography.body1,
@@ -39,13 +37,13 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface SongListItemProps extends WithStyles<typeof styles> {
-  onDelete?: (song: Song) => void;
-  onOpen?: (song: Song) => void;
-  song?: Song;
-}
+// export interface SongListItemProps extends WithStyles<typeof styles> {
+//   onDelete?: (song: Song) => void;
+//   onOpen?: (song: Song) => void;
+//   song?: Song;
+// }
 
-function SongListItem(props: SongListItemProps) {
+function SongListItem(props) {
   const { classes, onDelete, onOpen, song } = props;
 
   const handleDelete = React.useCallback(() => {

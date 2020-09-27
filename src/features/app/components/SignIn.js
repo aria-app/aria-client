@@ -1,7 +1,7 @@
 import * as firebase from 'firebase/app';
 import Button from '@material-ui/core/Button';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import { Redirect } from '@reach/router';
 import React from 'react';
 import { Translation } from 'react-i18next';
@@ -18,11 +18,11 @@ const styles = createStyles({
   },
 });
 
-export interface SignInProps extends WithStyles<typeof styles> {
-  isAuthenticated?: boolean;
-}
+// export interface SignInProps extends WithStyles<typeof styles> {
+//   isAuthenticated?: boolean;
+// }
 
-function SignIn(props: SignInProps) {
+function SignIn(props) {
   const { classes, isAuthenticated } = props;
 
   React.useEffect(() => {

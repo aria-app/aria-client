@@ -19,12 +19,18 @@ export class TrackDynamic extends React.Component {
           notes: [
             {
               id: '0',
-              points: [{ x: 2, y: 10 }, { x: 3, y: 10 }],
+              points: [
+                { x: 2, y: 10 },
+                { x: 3, y: 10 },
+              ],
               sequenceId: '0',
             },
             {
               id: '1',
-              points: [{ x: 4, y: 14 }, { x: 5, y: 14 }],
+              points: [
+                { x: 4, y: 14 },
+                { x: 5, y: 14 },
+              ],
               sequenceId: '0',
             },
           ],
@@ -32,7 +38,7 @@ export class TrackDynamic extends React.Component {
           trackId: '0',
         },
       ],
-      voice: 'SQUARE' as const,
+      voice: 'SQUARE',
       volume: -5,
     },
   };

@@ -1,11 +1,10 @@
 import classnames from 'classnames';
 import { includes } from 'lodash/fp';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       alignItems: 'center',
@@ -50,15 +49,15 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface KeyProps extends WithStyles<typeof styles> {
-  className?: string;
-  isHoveredRow?: boolean;
-  onMouseDown?: (step: { [key: string]: any }) => void;
-  step?: { [key: string]: any };
-  style?: React.CSSProperties;
-}
+// export interface KeyProps extends WithStyles<typeof styles> {
+//   className?: string;
+//   isHoveredRow?: boolean;
+//   onMouseDown?: (step: { [key: string]: any }) => void;
+//   step?: { [key: string]: any };
+//   style?: React.CSSProperties;
+// }
 
-function Key(props: KeyProps) {
+function Key(props) {
   const { className, classes, isHoveredRow, onMouseDown, step, style } = props;
 
   const handleMouseDown = React.useCallback(() => onMouseDown(step), [

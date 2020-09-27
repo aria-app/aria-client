@@ -1,17 +1,12 @@
 import classnames from 'classnames';
 import first from 'lodash/fp/first';
 import last from 'lodash/fp/last';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
-import Draggable, {
-  DraggableBounds,
-  DraggableEventHandler,
-} from 'react-draggable';
-import { Note as INote, Point } from '../../../types';
+import Draggable from 'react-draggable';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       left: 0,
@@ -69,27 +64,27 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface NoteProps extends WithStyles<typeof styles> {
-  className?: string;
-  isSelected?: boolean;
-  note?: INote;
-  onDrag?: (delta: Point) => void;
-  onDragStart?: (
-    note: INote,
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  ) => void;
-  onDragStop?: DraggableEventHandler;
-  onEndPointDrag?: (delta: Partial<Point>) => void;
-  onEndPointDragStart?: (
-    note: INote,
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  ) => void;
-  onEndPointDragStop?: DraggableEventHandler;
-  positionBounds?: DraggableBounds;
-  sizeBounds?: DraggableBounds;
-}
+// export interface NoteProps extends WithStyles<typeof styles> {
+//   className?: string;
+//   isSelected?: boolean;
+//   note?: INote;
+//   onDrag?: (delta: Point) => void;
+//   onDragStart?: (
+//     note: INote,
+//     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+//   ) => void;
+//   onDragStop?: DraggableEventHandler;
+//   onEndPointDrag?: (delta: Partial<Point>) => void;
+//   onEndPointDragStart?: (
+//     note: INote,
+//     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+//   ) => void;
+//   onEndPointDragStop?: DraggableEventHandler;
+//   positionBounds?: DraggableBounds;
+//   sizeBounds?: DraggableBounds;
+// }
 
-function Note(props: NoteProps) {
+function Note(props) {
   const {
     className,
     classes,
@@ -140,7 +135,7 @@ function Note(props: NoteProps) {
   );
 
   const handleDragStart = React.useCallback(
-    e => {
+    (e) => {
       onDragStart(note, e);
     },
     [note, onDragStart],
@@ -154,7 +149,7 @@ function Note(props: NoteProps) {
   );
 
   const handleEndPointDragStart = React.useCallback(
-    e => {
+    (e) => {
       onEndPointDragStart(note, e);
     },
     [note, onEndPointDragStart],

@@ -1,11 +1,10 @@
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import Dawww from '../../../dawww';
 import Key from './Key';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       border: `2px solid ${theme.palette.action.hover}`,
@@ -30,20 +29,20 @@ const keyStyles = Dawww.SCALE.reduce((acc, currentStep) => {
   };
 }, {});
 
-export interface KeysProps extends WithStyles<typeof styles> {
-  hoveredRow?: number;
-  onKeyPress?: (pitch: number) => void;
-}
+// export interface KeysProps extends WithStyles<typeof styles> {
+//   hoveredRow?: number;
+//   onKeyPress?: (pitch: number) => void;
+// }
 
-function Keys(props: KeysProps) {
+function Keys(props) {
   const { classes, hoveredRow, onKeyPress } = props;
 
-  const getIsHoveredRow = React.useCallback(step => step.y === hoveredRow, [
+  const getIsHoveredRow = React.useCallback((step) => step.y === hoveredRow, [
     hoveredRow,
   ]);
 
   const handleKeyMouseDown = React.useCallback(
-    step => {
+    (step) => {
       onKeyPress(step.y);
     },
     [onKeyPress],
@@ -51,7 +50,7 @@ function Keys(props: KeysProps) {
 
   return (
     <div className={classes.root}>
-      {Dawww.SCALE.map(step => (
+      {Dawww.SCALE.map((step) => (
         <Key
           isHoveredRow={getIsHoveredRow(step)}
           key={step.y}

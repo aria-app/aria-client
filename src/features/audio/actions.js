@@ -15,15 +15,15 @@ export const playbackPauseRequestStarted = createAction(
 export const playbackStartRequestStarted = createAction(
   'playbackStartRequestStarted',
 );
-export const playbackStateRequestSucceeded = createAction<string>(
+export const playbackStateRequestSucceeded = createAction(
   'playbackStateRequestSucceeded',
 );
 export const playbackStopRequestStarted = createAction(
   'playbackStopRequestStarted',
 );
-export const positionRequestSucceeded = createAction<number>(
+export const positionRequestSucceeded = createAction(
   'positionRequestSucceeded',
 );
-export const positionSetRequestStarted = createAction<number>(
+export const positionSetRequestStarted = createAction(
   'positionSetRequestStarted',
 );

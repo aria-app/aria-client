@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types'
 import { Router } from '@reach/router';
 import React from 'react';
 import { hideIf, showIf } from 'react-render-helpers';
 import createStyles from '@material-ui/styles/createStyles';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import dashboard from '../../dashboard';
 import shared from '../../shared';
 import songEditor from '../../songEditor';
@@ -27,12 +28,12 @@ const styles = createStyles({
   },
 });
 
-export interface AppProps extends WithStyles<typeof styles> {
-  isAuthenticated?: boolean;
-  didAuthenticationRun?: boolean;
+App.propTypes = {
+  didAuthenticationRun: PropTypes.bool,
+  isAuthenticated: PropTypes.bool,
 }
 
-function App(props: AppProps) {
+function App(props) {
   const { classes, didAuthenticationRun, isAuthenticated } = props;
 
   return (

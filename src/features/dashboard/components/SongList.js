@@ -1,13 +1,11 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import orderBy from 'lodash/fp/orderBy';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
-import { Song } from '../../../types';
 import SongListItem from './SongListItem';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       display: 'flex',
@@ -20,24 +18,24 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface SongListProps extends WithStyles<typeof styles> {
-  onDelete?: (song: Song) => void;
-  onOpen?: (song: Song) => void;
-  songs?: Array<Song>;
-}
+// export interface SongListProps extends WithStyles<typeof styles> {
+//   onDelete?: (song: Song) => void;
+//   onOpen?: (song: Song) => void;
+//   songs?: Array<Song>;
+// }
 
-function SongList(props: SongListProps) {
+function SongList(props) {
   const { classes, onDelete, onOpen, songs } = props;
 
   const sortedSongs = React.useMemo(
-    () => orderBy(x => x.dateModified, 'desc', Object.values(songs)),
+    () => orderBy((x) => x.dateModified, 'desc', Object.values(songs)),
     [songs],
   );
 
   return (
     <div className={classes.root}>
       <AnimatePresence>
-        {sortedSongs.map(song => (
+        {sortedSongs.map((song) => (
           <motion.div
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

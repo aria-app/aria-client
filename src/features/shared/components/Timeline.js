@@ -1,10 +1,9 @@
 import classnames from 'classnames';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       backgroundColor: theme.palette.text.primary,
@@ -18,14 +17,14 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface TimelineProps extends WithStyles<typeof styles> {
-  className?: string;
-  isVisible?: boolean;
-  offset?: number;
-  style?: React.CSSProperties;
-}
+// export interface TimelineProps extends WithStyles<typeof styles> {
+//   className?: string;
+//   isVisible?: boolean;
+//   offset?: number;
+//   style?: React.CSSProperties;
+// }
 
-function Timeline(props: TimelineProps) {
+function Timeline(props) {
   const { className, classes, isVisible, offset, style = {}, ...rest } = props;
 
   if (!isVisible) return null;

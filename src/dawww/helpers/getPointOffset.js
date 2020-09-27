@@ -1,6 +1,4 @@
-import { Point } from '../../types';
-
-export function getPointOffset(start: Point, end: Point): Point {
+export function getPointOffset(start, end) {
   return {
     x: end.x - start.x,
     y: end.y - start.y,

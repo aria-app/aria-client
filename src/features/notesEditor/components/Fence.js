@@ -1,13 +1,11 @@
 import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import { transparentize } from 'polished';
 import React from 'react';
-import { Point } from '../../../types';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       backgroundColor: transparentize(0.75, theme.palette.primary.main),
@@ -20,12 +18,12 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface FenceProps extends WithStyles<typeof styles> {
-  endPoint?: Point;
-  startPoint?: Point;
-}
+// export interface FenceProps extends WithStyles<typeof styles> {
+//   endPoint?: Point;
+//   startPoint?: Point;
+// }
 
-function Fence(props: FenceProps) {
+function Fence(props) {
   const { classes, endPoint, startPoint } = props;
 
   const display = React.useMemo(

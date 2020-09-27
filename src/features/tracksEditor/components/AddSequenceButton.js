@@ -1,11 +1,10 @@
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       alignItems: 'center',
@@ -37,10 +36,10 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface TrackSequenceProps extends WithStyles<typeof styles> {
-  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  position?: number;
-}
+// export interface TrackSequenceProps extends WithStyles<typeof styles> {
+//   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+//   position?: number;
+// }
 
 function AddSequenceButton(props) {
   const { classes, onClick, position } = props;

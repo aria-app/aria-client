@@ -6,10 +6,9 @@ import max from 'lodash/fp/max';
 import min from 'lodash/fp/min';
 import uniqBy from 'lodash/fp/uniqBy';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import Dawww from '../../../dawww';
-import { Note as INote } from '../../../types';
 import * as constants from '../constants';
 import Note from './Note';
 
@@ -24,19 +23,19 @@ const styles = createStyles({
   },
 });
 
-export interface NotesProps extends WithStyles<typeof styles> {
-  measureCount?: number;
-  notes?: Array<INote>;
-  onDrag?: (notes: Array<INote>) => void;
-  onDragPreview?: (notes: Array<INote>) => void;
-  onErase?: (note: INote) => void;
-  onResize?: (resizedNotes: Array<INote>) => void;
-  onSelect?: (note: INote, isAdditive: boolean) => void;
-  selectedNotes?: Array<INote>;
-  toolType?: string;
-}
+// export interface NotesProps extends WithStyles<typeof styles> {
+//   measureCount?: number;
+//   notes?: Array<INote>;
+//   onDrag?: (notes: Array<INote>) => void;
+//   onDragPreview?: (notes: Array<INote>) => void;
+//   onErase?: (note: INote) => void;
+//   onResize?: (resizedNotes: Array<INote>) => void;
+//   onSelect?: (note: INote, isAdditive: boolean) => void;
+//   selectedNotes?: Array<INote>;
+//   toolType?: string;
+// }
 
-function Notes(props: NotesProps) {
+function Notes(props) {
   const {
     classes,
     measureCount,
@@ -71,12 +70,12 @@ function Notes(props: NotesProps) {
   );
 
   const getIsNoteSelected = React.useCallback(
-    note => !!find(x => x.id === note.id, selectedNotes),
+    (note) => !!find((x) => x.id === note.id, selectedNotes),
     [selectedNotes],
   );
 
   const handleErase = React.useCallback(
-    note => {
+    (note) => {
       if (toolType !== constants.toolTypes.ERASE) return;
 
       onErase(note);
@@ -127,7 +126,7 @@ function Notes(props: NotesProps) {
 
   const handleNoteDragStart = React.useCallback(
     (draggedNote, e) => {
-      const notes = uniqBy(x => x.id, [draggedNote, ...selectedNotes]);
+      const notes = uniqBy((x) => x.id, [draggedNote, ...selectedNotes]);
       const draggedX = getOr(0, 'points[0].x', draggedNote);
       const draggedY = getOr(0, 'points[0].y', draggedNote);
       const maxX = max(notes.map(getOr(0, 'points[1].x')));
@@ -180,7 +179,7 @@ function Notes(props: NotesProps) {
 
   const handleNoteEndPointDragStart = React.useCallback(
     (sizedNote, e) => {
-      const notes = uniqBy(x => x.id, [...selectedNotes, sizedNote]);
+      const notes = uniqBy((x) => x.id, [...selectedNotes, sizedNote]);
       const maxPositionX = max(notes.map(getOr(0, 'points[0].x')));
       const baseRight = measureCount * 8 * 4 - 1;
 
@@ -209,7 +208,7 @@ function Notes(props: NotesProps) {
         width: measureCount * 4 * 8 * 40,
       }}
     >
-      {adjustedNotes.map(note => (
+      {adjustedNotes.map((note) => (
         <Note
           className="notes__note"
           isSelected={getIsNoteSelected(note)}
@@ -232,14 +231,14 @@ function Notes(props: NotesProps) {
 export default React.memo(withStyles(styles)(Notes));
 
 function applyPositionDeltas(notes, deltas) {
-  return notes.map(note => {
+  return notes.map((note) => {
     const noteDelta = deltas[note.id];
 
     if (!noteDelta) return note;
 
     return {
       ...note,
-      points: note.points.map(point => ({
+      points: note.points.map((point) => ({
         x: point.x + noteDelta.x,
         y: point.y + noteDelta.y,
       })),
@@ -248,7 +247,7 @@ function applyPositionDeltas(notes, deltas) {
 }
 
 function applySizeDeltas(notes, deltas) {
-  return notes.map(note => {
+  return notes.map((note) => {
     const noteDelta = deltas[note.id];
 
     if (!noteDelta) return note;

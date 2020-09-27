@@ -1,6 +1,6 @@
 import * as firebase from 'firebase/app';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import { Redirect } from '@reach/router';
 import React from 'react';
 import { Translation } from 'react-i18next';
@@ -15,11 +15,11 @@ const styles = createStyles({
   },
 });
 
-export interface SignOutProps extends WithStyles<typeof styles> {
-  isAuthenticated?: boolean;
-}
+// export interface SignOutProps extends WithStyles<typeof styles> {
+//   isAuthenticated?: boolean;
+// }
 
-function SignOut(props: SignOutProps) {
+function SignOut(props) {
   const { classes, isAuthenticated } = props;
 
   React.useEffect(() => {
@@ -37,7 +37,7 @@ function SignOut(props: SignOutProps) {
 
   return (
     <Translation>
-      {t => <div className={classes.root}>{t('Signing Out')}</div>}
+      {(t) => <div className={classes.root}>{t('Signing Out')}</div>}
     </Translation>
   );
 }

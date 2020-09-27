@@ -1,24 +1,17 @@
 import omit from 'lodash/fp/omit';
-import { createReducer, PayloadAction } from 'redux-starter-kit';
-import { Sequence, Song, Track } from '../../../types';
+import { createReducer } from 'redux-starter-kit';
 import shared from '../../shared';
 import * as actions from '../actions';
 
 const initialState = {};
 
-export default createReducer<{ [key: string]: Track }, {}>(initialState, {
-  [actions.songLoaded.type]: (state, action: PayloadAction<Song>) =>
-    action.payload.tracks,
-  [actions.trackAdded.type]: (
-    state,
-    action: PayloadAction<{
-      sequence: Sequence;
-      track: Track;
-    }>,
-  ) => shared.helpers.setAtIds([action.payload.track], state),
-  [actions.trackDeleted.type]: (state, action: PayloadAction<Track>) =>
+export default createReducer(initialState, {
+  [actions.songLoaded.type]: (state, action) => action.payload.tracks,
+  [actions.trackAdded.type]: (state, action) =>
+    shared.helpers.setAtIds([action.payload.track], state),
+  [actions.trackDeleted.type]: (state, action) =>
     omit(action.payload.id)(state),
-  [actions.trackIsMutedToggled.type]: (state, action: PayloadAction<Track>) =>
+  [actions.trackIsMutedToggled.type]: (state, action) =>
     shared.helpers.setAtIds(
       [
         {
@@ -29,7 +22,7 @@ export default createReducer<{ [key: string]: Track }, {}>(initialState, {
       ],
       state,
     ),
-  [actions.trackIsSoloingToggled.type]: (state, action: PayloadAction<Track>) =>
+  [actions.trackIsSoloingToggled.type]: (state, action) =>
     shared.helpers.setAtIds(
       [
         {
@@ -40,10 +33,7 @@ export default createReducer<{ [key: string]: Track }, {}>(initialState, {
       ],
       state,
     ),
-  [actions.trackVoiceSet.type]: (
-    state,
-    action: PayloadAction<{ track: Track; voice: string }>,
-  ) =>
+  [actions.trackVoiceSet.type]: (state, action) =>
     shared.helpers.setAtIds(
       [
         {
@@ -53,10 +43,7 @@ export default createReducer<{ [key: string]: Track }, {}>(initialState, {
       ],
       state,
     ),
-  [actions.trackVolumeSet.type]: (
-    state,
-    action: PayloadAction<{ track: Track; volume: string }>,
-  ) =>
+  [actions.trackVolumeSet.type]: (state, action) =>
     shared.helpers.setAtIds(
       [
         {

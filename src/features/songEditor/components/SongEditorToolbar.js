@@ -1,6 +1,5 @@
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import { hideIf, showIf } from 'react-render-helpers';
 import Tone from 'tone';
@@ -10,7 +9,7 @@ import shared from '../../shared';
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 const { IconButton, Toolbar } = shared.components;
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       borderBottom: `2px solid ${theme.palette.divider}`,
@@ -18,15 +17,15 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface SongEditorToolbarProps extends WithStyles<typeof styles> {
-  onPause?: () => void;
-  onPlay?: () => void;
-  onSongInfoOpen?: () => void;
-  onStop?: () => void;
-  playbackState?: string;
-}
+// export interface SongEditorToolbarProps extends WithStyles<typeof styles> {
+//   onPause?: () => void;
+//   onPlay?: () => void;
+//   onSongInfoOpen?: () => void;
+//   onStop?: () => void;
+//   playbackState?: string;
+// }
 
-function SongEditorToolbar(props: SongEditorToolbarProps) {
+function SongEditorToolbar(props) {
   const {
     classes,
     onPause,

@@ -2,14 +2,13 @@ import classnames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import round from 'lodash/round';
 import times from 'lodash/fp/times';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import { transparentize } from 'polished';
 import React from 'react';
 import Draggable from 'react-draggable';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       backgroundColor: theme.palette.background.paper,
@@ -81,14 +80,14 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface RulerProps extends WithStyles<typeof styles> {
-  measureCount?: number;
-  measureWidth?: number;
-  onMeasureCountChange?: (measureCount: number) => void;
-  onPositionSet?: (position: number) => void;
-}
+// export interface RulerProps extends WithStyles<typeof styles> {
+//   measureCount?: number;
+//   measureWidth?: number;
+//   onMeasureCountChange?: (measureCount: number) => void;
+//   onPositionSet?: (position: number) => void;
+// }
 
-function Ruler(props: RulerProps) {
+function Ruler(props) {
   const {
     classes,
     measureCount,
@@ -100,7 +99,7 @@ function Ruler(props: RulerProps) {
   const [length, setLength] = React.useState(measureCount);
 
   const handleClick = React.useCallback(
-    e => {
+    (e) => {
       const measures = e.nativeEvent.offsetX / measureWidth;
       const notesPerMeasure = 32;
 
@@ -140,7 +139,7 @@ function Ruler(props: RulerProps) {
     >
       <AnimatePresence>
         {times(
-          i => (
+          (i) => (
             <motion.div
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

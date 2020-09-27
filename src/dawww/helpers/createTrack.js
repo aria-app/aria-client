@@ -1,8 +1,7 @@
 import shortid from 'shortid';
-import { InstrumentType } from '../../types';
 import * as constants from '../constants';
 
-export function createTrack(voice: InstrumentType = constants.DEFAULT_VOICE) {
+export function createTrack(voice = constants.DEFAULT_VOICE) {
   return {
     id: shortid.generate(),
     isMuted: false,

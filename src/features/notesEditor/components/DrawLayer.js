@@ -3,10 +3,9 @@ import first from 'lodash/fp/first';
 import noop from 'lodash/fp/noop';
 import split from 'lodash/fp/split';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import { Point } from '../../../types';
 import Note from './Note';
 
 const styles = createStyles({
@@ -23,13 +22,13 @@ const styles = createStyles({
   },
 });
 
-export interface DrawLayerProps extends WithStyles<typeof styles> {
-  mousePoint?: Point;
-  onDraw?: (startingPoint: Point) => void;
-}
+// export interface DrawLayerProps extends WithStyles<typeof styles> {
+//   mousePoint?: Point;
+//   onDraw?: (startingPoint: Point) => void;
+// }
 
-function DrawLayer(props: DrawLayerProps) {
-  const ref: React.MutableRefObject<HTMLDivElement> = React.useRef();
+function DrawLayer(props) {
+  const ref = React.useRef();
   const { classes, mousePoint, onDraw } = props;
   const [isDrawing, setIsDrawing] = React.useState(false);
   const [isMouseOver, setIsMouseOver] = React.useState(false);
@@ -61,7 +60,7 @@ function DrawLayer(props: DrawLayerProps) {
   }, []);
 
   const handleMouseLeave = React.useCallback(
-    e => {
+    (e) => {
       setIsMouseOver(false);
 
       if (!isDrawing) return;

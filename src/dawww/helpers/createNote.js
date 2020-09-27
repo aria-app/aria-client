@@ -1,8 +1,7 @@
 import isNil from 'lodash/fp/isNil';
 import shortid from 'shortid';
-import { Note, Point } from '../../types';
 
-export function createNote(sequenceId: string, points: Array<Point>): Note {
+export function createNote(sequenceId, points) {
   if (isNil(points)) {
     throw new Error('Please provide points to createNote');
   }

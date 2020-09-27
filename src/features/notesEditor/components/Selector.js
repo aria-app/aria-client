@@ -1,9 +1,8 @@
 import isEqual from 'lodash/fp/isEqual';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import { DraggableCore } from 'react-draggable';
-import { Point } from '../../../types';
 import Fence from './Fence';
 
 const styles = createStyles({
@@ -16,14 +15,14 @@ const styles = createStyles({
   },
 });
 
-export interface SelectorProps extends WithStyles<typeof styles> {
-  isEnabled?: boolean;
-  onSelect?: (startPoint: Point, endPoint: Point, isAdditive: boolean) => void;
-  scrollLeftEl?: HTMLElement;
-  scrollTopEl?: HTMLElement;
-}
+// export interface SelectorProps extends WithStyles<typeof styles> {
+//   isEnabled?: boolean;
+//   onSelect?: (startPoint: Point, endPoint: Point, isAdditive: boolean) => void;
+//   scrollLeftEl?: HTMLElement;
+//   scrollTopEl?: HTMLElement;
+// }
 
-function Selector(props: SelectorProps) {
+function Selector(props) {
   const { classes, isEnabled, onSelect, scrollLeftEl, scrollTopEl } = props;
   const [endPoint, setEndPoint] = React.useState();
   const [startPoint, setStartPoint] = React.useState();
@@ -64,7 +63,7 @@ function Selector(props: SelectorProps) {
   }, []);
 
   const handleDragStop = React.useCallback(
-    e => {
+    (e) => {
       onSelect(startPoint, endPoint || startPoint, e.ctrlKey || e.metaKey);
 
       setEndPoint(undefined);

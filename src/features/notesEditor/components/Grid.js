@@ -1,8 +1,7 @@
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import { Note, Point } from '../../../types';
 import shared from '../../shared';
 import * as constants from '../constants';
 import DrawLayer from './DrawLayer';
@@ -28,35 +27,35 @@ const styles = createStyles({
   },
 });
 
-export interface GridProps extends WithStyles<typeof styles> {
-  measureCount?: number;
-  mousePoint?: Point;
-  notes?: Array<Note>;
-  notesEditorContentEl?: HTMLElement;
-  onDrag?: (notes: Array<Note>) => void;
-  onDragPreview?: (notes: Array<Note>) => void;
-  onDraw?: (startingPoint: Point) => void;
-  onErase?: (note: Note) => void;
-  onMousePointChange?: (mousePoint: Point) => void;
-  onResize?: (resizedNotes: Array<Note>) => void;
-  onSelect?: (note: Note, isAdditive: boolean) => void;
-  onSelectInArea?: (
-    startPoint: Point,
-    endPoint: Point,
-    isAdditive: boolean,
-  ) => void;
-  selectedNotes?: Array<Note>;
-  toolType?: string;
-}
+// export interface GridProps extends WithStyles<typeof styles> {
+//   measureCount?: number;
+//   mousePoint?: Point;
+//   notes?: Array<Note>;
+//   notesEditorContentEl?: HTMLElement;
+//   onDrag?: (notes: Array<Note>) => void;
+//   onDragPreview?: (notes: Array<Note>) => void;
+//   onDraw?: (startingPoint: Point) => void;
+//   onErase?: (note: Note) => void;
+//   onMousePointChange?: (mousePoint: Point) => void;
+//   onResize?: (resizedNotes: Array<Note>) => void;
+//   onSelect?: (note: Note, isAdditive: boolean) => void;
+//   onSelectInArea?: (
+//     startPoint: Point,
+//     endPoint: Point,
+//     isAdditive: boolean,
+//   ) => void;
+//   selectedNotes?: Array<Note>;
+//   toolType?: string;
+// }
 
-function Grid(props: GridProps) {
+function Grid(props) {
   const ref = React.useRef();
   const {
     classes,
     measureCount,
     mousePoint,
     notes,
-    notesEditorContentEl = {} as HTMLElement,
+    notesEditorContentEl = {},
     onDrag,
     onDragPreview,
     onDraw,
@@ -70,14 +69,14 @@ function Grid(props: GridProps) {
   } = props;
 
   const handleMouseLeave = React.useCallback(
-    e => {
+    (e) => {
       onMousePointChange({ x: -1, y: -1 });
     },
     [onMousePointChange],
   );
 
   const handleMouseMove = React.useCallback(
-    e => {
+    (e) => {
       const scrollLeftEl = e.currentTarget;
       const styleOffset = 80;
       const x = e.pageX || 0;

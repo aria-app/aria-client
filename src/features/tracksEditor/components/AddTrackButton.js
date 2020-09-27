@@ -1,10 +1,9 @@
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import { transparentize } from 'polished';
 import React from 'react';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       alignItems: 'center',
@@ -47,10 +46,10 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface TrackSequenceProps extends WithStyles<typeof styles> {
-  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  style?: React.CSSProperties;
-}
+// export interface TrackSequenceProps extends WithStyles<typeof styles> {
+//   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+//   style?: React.CSSProperties;
+// }
 
 function AddTrackButton(props) {
   const { classes, onClick, style } = props;

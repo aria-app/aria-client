@@ -7,20 +7,18 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import Dawww from '../../../dawww';
-import { Song } from '../../../types';
 import shared from '../../shared';
 
 const { changeLanguage } = shared.i18n;
-const getBPMRangeItem = x => ({ id: x, text: String(x) });
+const getBPMRangeItem = (x) => ({ id: x, text: String(x) });
 const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {},
     shareableLinkAnchor: {
@@ -50,16 +48,16 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface SongInfoModalProps extends WithStyles<typeof styles> {
-  isOpen?: boolean;
-  onBPMChange?: (bpm: number) => void;
-  onConfirm?: () => void;
-  onReturnToDashboard?: () => void;
-  onSignOut?: () => void;
-  song?: Song;
-}
+// export interface SongInfoModalProps extends WithStyles<typeof styles> {
+//   isOpen?: boolean;
+//   onBPMChange?: (bpm: number) => void;
+//   onConfirm?: () => void;
+//   onReturnToDashboard?: () => void;
+//   onSignOut?: () => void;
+//   song?: Song;
+// }
 
-function SongInfoModal(props: SongInfoModalProps) {
+function SongInfoModal(props) {
   const {
     classes,
     isOpen,
@@ -71,7 +69,7 @@ function SongInfoModal(props: SongInfoModalProps) {
   } = props;
 
   const handleBPMSelectChange = React.useCallback(
-    e => {
+    (e) => {
       onBPMChange(e.target.value);
     },
     [onBPMChange],
@@ -79,7 +77,7 @@ function SongInfoModal(props: SongInfoModalProps) {
 
   return (
     <Translation>
-      {t => (
+      {(t) => (
         <Dialog
           className={classes.root}
           fullWidth={true}
@@ -105,7 +103,7 @@ function SongInfoModal(props: SongInfoModalProps) {
                 onChange={handleBPMSelectChange}
                 value={song.bpm}
               >
-                {bpmRangeItems.map(bpmRangeItem => (
+                {bpmRangeItems.map((bpmRangeItem) => (
                   <MenuItem key={bpmRangeItem.id} value={bpmRangeItem.id}>
                     {bpmRangeItem.text}
                   </MenuItem>

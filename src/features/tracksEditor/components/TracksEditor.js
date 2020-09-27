@@ -2,17 +2,10 @@ import find from 'lodash/fp/find';
 import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import Dawww from '../../../dawww';
-import {
-  Sequence,
-  SequenceWithNotes,
-  Song,
-  Track,
-  TrackWithSequences,
-} from '../../../types';
 import shared from '../../shared';
 import TrackEditingModal from './TrackEditingModal';
 import TracksEditorToolbar from './TracksEditorToolbar';
@@ -30,43 +23,43 @@ const styles = createStyles({
   },
 });
 
-export interface TracksEditorProps extends WithStyles<typeof styles> {
-  isLoading?: boolean;
-  isRedoEnabled?: boolean;
-  isStopped?: boolean;
-  isUndoEnabled?: boolean;
-  navigate?: (path: string) => void;
-  onLoad?: (payload: { songId: string }) => void;
-  onPositionSet?: (position: number) => void;
-  onRedo?: () => void;
-  onSequenceAdd?: (newSequence: Sequence) => void;
-  onSequenceDelete?: (sequenceToDelete: SequenceWithNotes) => void;
-  onSequenceDuplicate?: (options: {
-    duplicatedSequence: Sequence;
-    originalSequence: SequenceWithNotes;
-  }) => void;
-  onSequenceEdit?: (sequence: SequenceWithNotes) => void;
-  onSongMeasureCountChange?: (songMeasureCount: number) => void;
-  onTrackAdd?: (options: { sequence: Sequence; track: Track }) => void;
-  onTrackDelete?: (track: TrackWithSequences) => void;
-  onTrackVoiceSet?: (options: {
-    track: TrackWithSequences;
-    voice: string;
-  }) => void;
-  onTrackVolumeSet?: (options: {
-    track: TrackWithSequences;
-    volume: string;
-  }) => void;
-  onUndo?: () => void;
-  position?: number;
-  sequences?: Array<SequenceWithNotes>;
-  song?: Song;
-  songId?: string;
-  songMeasureCount?: number;
-  tracks?: Array<TrackWithSequences>;
-}
+// export interface TracksEditorProps extends WithStyles<typeof styles> {
+//   isLoading?: boolean;
+//   isRedoEnabled?: boolean;
+//   isStopped?: boolean;
+//   isUndoEnabled?: boolean;
+//   navigate?: (path: string) => void;
+//   onLoad?: (payload: { songId: string }) => void;
+//   onPositionSet?: (position: number) => void;
+//   onRedo?: () => void;
+//   onSequenceAdd?: (newSequence: Sequence) => void;
+//   onSequenceDelete?: (sequenceToDelete: SequenceWithNotes) => void;
+//   onSequenceDuplicate?: (options: {
+//     duplicatedSequence: Sequence,
+//     originalSequence: SequenceWithNotes,
+//   }) => void;
+//   onSequenceEdit?: (sequence: SequenceWithNotes) => void;
+//   onSongMeasureCountChange?: (songMeasureCount: number) => void;
+//   onTrackAdd?: (options: { sequence: Sequence, track: Track }) => void;
+//   onTrackDelete?: (track: TrackWithSequences) => void;
+//   onTrackVoiceSet?: (options: {
+//     track: TrackWithSequences,
+//     voice: string,
+//   }) => void;
+//   onTrackVolumeSet?: (options: {
+//     track: TrackWithSequences,
+//     volume: string,
+//   }) => void;
+//   onUndo?: () => void;
+//   position?: number;
+//   sequences?: Array<SequenceWithNotes>;
+//   song?: Song;
+//   songId?: string;
+//   songMeasureCount?: number;
+//   tracks?: Array<TrackWithSequences>;
+// }
 
-function TracksEditor(props: TracksEditorProps) {
+function TracksEditor(props) {
   const {
     classes,
     isLoading,
@@ -97,12 +90,12 @@ function TracksEditor(props: TracksEditorProps) {
   const [selectedTrackId, setSelectedTrackId] = React.useState('');
 
   const selectedSequence = React.useMemo(
-    () => find(s => s.id === selectedSequenceId, sequences),
+    () => find((s) => s.id === selectedSequenceId, sequences),
     [selectedSequenceId, sequences],
   );
 
   const selectedTrack = React.useMemo(
-    () => find(t => t.id === selectedTrackId, tracks),
+    () => find((t) => t.id === selectedTrackId, tracks),
     [selectedTrackId, tracks],
   );
 
@@ -113,7 +106,7 @@ function TracksEditor(props: TracksEditorProps) {
   }, [isRedoEnabled, onRedo]);
 
   const handleSequenceDelete = React.useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
 
       if (isNil(selectedSequence)) return;
@@ -124,7 +117,7 @@ function TracksEditor(props: TracksEditorProps) {
   );
 
   const handleSequenceDuplicate = React.useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
 
       if (isEmpty(selectedSequence)) return;
@@ -146,7 +139,7 @@ function TracksEditor(props: TracksEditorProps) {
   );
 
   const handleSequenceOpen = React.useCallback(
-    sequence => {
+    (sequence) => {
       navigate(`sequence/${sequence.id}`);
     },
     [navigate],
@@ -157,7 +150,7 @@ function TracksEditor(props: TracksEditorProps) {
   }, []);
 
   const handleTrackDelete = React.useCallback(
-    track => {
+    (track) => {
       onTrackDelete(track);
 
       handleTrackDeselect();
@@ -166,7 +159,7 @@ function TracksEditor(props: TracksEditorProps) {
   );
 
   const handleTrackListPositionSet = React.useCallback(
-    position => {
+    (position) => {
       if (isStopped) return;
 
       onPositionSet(position);
@@ -187,7 +180,7 @@ function TracksEditor(props: TracksEditorProps) {
     setSelectedSequenceId('');
   }, []);
 
-  const handleTrackListSequenceSelect = React.useCallback(sequence => {
+  const handleTrackListSequenceSelect = React.useCallback((sequence) => {
     setSelectedSequenceId(sequence.id);
   }, []);
 
@@ -198,7 +191,7 @@ function TracksEditor(props: TracksEditorProps) {
     onTrackAdd({ sequence, track });
   }, [onTrackAdd]);
 
-  const handleTrackSelect = React.useCallback(track => {
+  const handleTrackSelect = React.useCallback((track) => {
     setSelectedTrackId(track.id);
   }, []);
 

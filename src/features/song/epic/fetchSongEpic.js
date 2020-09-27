@@ -1,10 +1,8 @@
 import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
 import { ofType } from 'redux-observable';
-import { PayloadAction } from 'redux-starter-kit';
 import { from } from 'rxjs';
 import { mergeMap, withLatestFrom } from 'rxjs/operators';
-import { Song } from '../../../types';
 import shared from '../../shared';
 import * as actions from '../actions';
 import { fetchSongById } from '../helpers';
@@ -18,16 +16,16 @@ export default function fetchSongEpic(action$, state$) {
       shared.actions.routeSongViewerLoaded.type,
     ),
     withLatestFrom(state$),
-    mergeMap(([action, state]: [PayloadAction<{ songId: string }>, any]) => {
+    mergeMap(([action, state]) => {
       return from(
-        fetchSongById(action.payload.songId).then(song => {
+        fetchSongById(action.payload.songId).then((song) => {
           const prevSong = selectors.getSong(state);
 
           if (isEmpty(song) || isEqual(prevSong, song)) {
             return;
           }
 
-          return actions.songLoaded(song as Song);
+          return actions.songLoaded(song);
         }),
       );
     }),

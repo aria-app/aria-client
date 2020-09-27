@@ -1,12 +1,11 @@
 import classnames from 'classnames';
 import noop from 'lodash/fp/noop';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import Icon from './Icon';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       alignItems: 'stretch',
@@ -57,20 +56,20 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface IconButtonProps extends WithStyles<typeof styles> {
-  className?: string;
-  color?: string;
-  icon?: string;
-  iconProps?: object;
-  isActive?: boolean;
-  isDisabled?: boolean;
-  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  size?: 'small' | 'regular' | 'large' | '';
-  style?: object;
-  title?: string;
-}
+// export interface IconButtonProps extends WithStyles<typeof styles> {
+//   className?: string;
+//   color?: string;
+//   icon?: string;
+//   iconProps?: object;
+//   isActive?: boolean;
+//   isDisabled?: boolean;
+//   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+//   size?: 'small' | 'regular' | 'large' | '';
+//   style?: object;
+//   title?: string;
+// }
 
-function IconButton(props: IconButtonProps) {
+function IconButton(props) {
   const {
     className,
     classes,

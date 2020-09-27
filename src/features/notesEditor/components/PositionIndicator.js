@@ -1,12 +1,10 @@
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import { transparentize } from 'polished';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import { Point } from '../../../types';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     column: {
       backgroundColor: transparentize(0.95, theme.palette.primary.main),
@@ -30,11 +28,11 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface PositionIndicatorProps extends WithStyles<typeof styles> {
-  mousePoint?: Point;
-}
+// export interface PositionIndicatorProps extends WithStyles<typeof styles> {
+//   mousePoint?: Point;
+// }
 
-function PositionIndicator(props: PositionIndicatorProps) {
+function PositionIndicator(props) {
   const { classes, mousePoint } = props;
 
   return (

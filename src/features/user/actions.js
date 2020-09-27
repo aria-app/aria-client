@@ -1,20 +1,15 @@
 import { createAction } from 'redux-starter-kit';
-import { Song, User } from '../../types';
 
-export const songAddRequestStarted = createAction<Partial<Song>>(
-  'songAddRequestStarted',
-);
-export const songAddRequestSucceeded = createAction<Song>(
-  'songAddRequestSucceeded',
-);
-export const songDeleteRequestStarted = createAction<Song>(
+export const songAddRequestStarted = createAction('songAddRequestStarted');
+export const songAddRequestSucceeded = createAction('songAddRequestSucceeded');
+export const songDeleteRequestStarted = createAction(
   'songDeleteRequestStarted',
 );
-export const songDeleteRequestSucceeded = createAction<Song>(
+export const songDeleteRequestSucceeded = createAction(
   'songDeleteRequestSucceeded',
 );
-export const userSignInSucceeded = createAction<User>('userSignInSucceeded');
-export const userSignOutSucceeded = createAction<User>('userSignOutSucceeded');
-export const userSongLibraryFetchRequestSucceeded = createAction<Array<Song>>(
+export const userSignInSucceeded = createAction('userSignInSucceeded');
+export const userSignOutSucceeded = createAction('userSignOutSucceeded');
+export const userSongLibraryFetchRequestSucceeded = createAction(
   'userSongLibraryFetchRequestSucceeded',
 );

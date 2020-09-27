@@ -1,11 +1,10 @@
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import { Router } from '@reach/router';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import Tone from 'tone';
 import Dawww from '../../../dawww';
-import { Song, User } from '../../../types';
 import notesEditor from '../../notesEditor';
 import tracksEditor from '../../tracksEditor';
 import SongEditorToolbar from './SongEditorToolbar';
@@ -32,18 +31,18 @@ const styles = createStyles({
   },
 });
 
-export interface SongEditorProps extends WithStyles<typeof styles> {
-  navigate?: (path: string) => void;
-  onBPMChange?: (bpm: number) => void;
-  onPause?: () => void;
-  onPlay?: () => void;
-  onStop?: () => void;
-  playbackState?: string;
-  song?: Song;
-  user?: User;
-}
+// export interface SongEditorProps extends WithStyles<typeof styles> {
+//   navigate?: (path: string) => void;
+//   onBPMChange?: (bpm: number) => void;
+//   onPause?: () => void;
+//   onPlay?: () => void;
+//   onStop?: () => void;
+//   playbackState?: string;
+//   song?: Song;
+//   user?: User;
+// }
 
-function SongEditor(props: SongEditorProps) {
+function SongEditor(props) {
   const {
     classes,
     navigate,

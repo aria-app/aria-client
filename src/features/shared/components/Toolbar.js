@@ -1,10 +1,9 @@
 import classnames from 'classnames';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       alignItems: 'stretch',
@@ -29,16 +28,16 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface ToolbarProps extends WithStyles<typeof styles> {
-  className?: string;
-  isAlternate?: boolean;
-  leftItems?: React.ReactNode;
-  leftItemsAlt?: React.ReactNode;
-  rightItems?: React.ReactNode;
-  rightItemsAlt?: React.ReactNode;
-}
+// export interface ToolbarProps extends WithStyles<typeof styles> {
+//   className?: string;
+//   isAlternate?: boolean;
+//   leftItems?: React.ReactNode;
+//   leftItemsAlt?: React.ReactNode;
+//   rightItems?: React.ReactNode;
+//   rightItemsAlt?: React.ReactNode;
+// }
 
-function Toolbar(props: ToolbarProps) {
+function Toolbar(props) {
   const {
     className,
     classes,

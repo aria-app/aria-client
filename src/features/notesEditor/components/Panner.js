@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 
 const styles = createStyles({
@@ -17,17 +17,17 @@ const styles = createStyles({
   },
 });
 
-export interface PannerProps extends WithStyles<typeof styles> {
-  scrollLeftEl?: HTMLElement;
-  scrollTopEl?: HTMLElement;
-}
+// export interface PannerProps extends WithStyles<typeof styles> {
+//   scrollLeftEl?: HTMLElement;
+//   scrollTopEl?: HTMLElement;
+// }
 
-function Panner(props: PannerProps) {
+function Panner(props) {
   const { classes, scrollLeftEl, scrollTopEl } = props;
   const [startPoint, setStartPoint] = React.useState();
 
   const handleMouseDown = React.useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
       e.stopPropagation();
 
@@ -48,7 +48,7 @@ function Panner(props: PannerProps) {
   }, [startPoint]);
 
   const handleMouseMove = React.useCallback(
-    e => {
+    (e) => {
       if (!startPoint) return;
 
       const dx = e.pageX - startPoint.x;
@@ -59,7 +59,7 @@ function Panner(props: PannerProps) {
       scrollLeftEl.scrollLeft = scrollLeft;
       scrollTopEl.scrollTop = scrollTop;
     },
-    [scrollLeftEl.scrollLeft, scrollTopEl.scrollTop, startPoint],
+    [scrollLeftEl, scrollTopEl, startPoint],
   );
 
   const handleMouseUp = React.useCallback(() => {

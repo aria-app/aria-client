@@ -1,9 +1,8 @@
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/styles/withStyles';
+import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 
-const styles = (theme: Theme) =>
+const styles = (theme) =>
   createStyles({
     root: {
       alignItems: 'center',
@@ -42,12 +41,12 @@ const styles = (theme: Theme) =>
     },
   });
 
-export interface TrackHeaderProps extends WithStyles<typeof styles> {
-  children?: React.ReactNode;
-  onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-}
+// export interface TrackHeaderProps extends WithStyles<typeof styles> {
+//   children?: React.ReactNode;
+//   onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+// }
 
-function TrackHeader(props: TrackHeaderProps) {
+function TrackHeader(props) {
   const { children, classes, onClick } = props;
 
   return (
