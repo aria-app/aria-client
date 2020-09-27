@@ -33,17 +33,17 @@ export const TRACK_VOICE_EDITED = 'TRACK_VOICE_EDITED';
 export const TRACK_VOLUME_EDITED = 'TRACK_VOLUME_EDITED';
 export const UNKNOWN = 'UNKNOWN';
 
-export const bpmEdited = bpm => ({
+export const bpmEdited = (bpm) => ({
   type: BPM_EDITED,
   payload: { bpm },
 });
 
-export const focusedSequenceIdEdited = focusedSequenceId => ({
+export const focusedSequenceIdEdited = (focusedSequenceId) => ({
   type: FOCUSED_SEQUENCE_ID_EDITED,
   payload: { focusedSequenceId },
 });
 
-export const measureCountEdited = measureCount => ({
+export const measureCountEdited = (measureCount) => ({
   type: MEASURE_COUNT_EDITED,
   payload: { measureCount },
 });
@@ -58,13 +58,7 @@ export const noteDeleted = (note, id) => ({
   payload: { id, note },
 });
 
-export const notePlayed = ({
-  length,
-  pitch,
-  position,
-  time,
-  trackId,
-}) => ({
+export const notePlayed = ({ length, pitch, position, time, trackId }) => ({
   type: NOTE_PLAYED,
   payload: { length, pitch, position, time, trackId },
 });
@@ -107,7 +101,7 @@ export const playbackStartRequested = () => ({
   type: PLAYBACK_START_REQUESTED,
 });
 
-export const playbackStateSet = playbackState => ({
+export const playbackStateSet = (playbackState) => ({
   type: PLAYBACK_STATE_SET,
   payload: { playbackState },
 });
@@ -116,12 +110,12 @@ export const playbackStopRequested = () => ({
   type: PLAYBACK_STOP_REQUESTED,
 });
 
-export const positionSet = position => ({
+export const positionSet = (position) => ({
   type: POSITION_SET,
   payload: { position },
 });
 
-export const positionSetRequested = position => ({
+export const positionSetRequested = (position) => ({
   type: POSITION_SET_REQUESTED,
   payload: { position },
 });
@@ -130,17 +124,17 @@ export const releaseAllRequested = () => ({
   type: RELEASE_ALL_REQUESTED,
 });
 
-export const sequenceAdded = sequence => ({
+export const sequenceAdded = (sequence) => ({
   type: SEQUENCE_ADDED,
   payload: { sequence },
 });
 
-export const sequenceDeletionAccepted = sequence => ({
+export const sequenceDeletionAccepted = (sequence) => ({
   type: SEQUENCE_DELETION_ACCEPTED,
   payload: { sequence },
 });
 
-export const sequenceDeletionRequested = sequence => ({
+export const sequenceDeletionRequested = (sequence) => ({
   type: SEQUENCE_DELETION_REQUESTED,
   payload: { sequence },
 });
@@ -170,12 +164,12 @@ export const trackAdded = ({ isAnyTrackSoloing, track }) => ({
   payload: { isAnyTrackSoloing, track },
 });
 
-export const trackDeletionAccepted = track => ({
+export const trackDeletionAccepted = (track) => ({
   type: TRACK_DELETION_ACCEPTED,
   payload: { track },
 });
 
-export const trackDeletionRequested = track => ({
+export const trackDeletionRequested = (track) => ({
   type: TRACK_DELETION_REQUESTED,
   payload: { track },
 });

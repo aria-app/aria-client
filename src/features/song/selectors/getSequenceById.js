@@ -3,7 +3,6 @@ import memoize from 'lodash/fp/memoize';
 import { createSelector } from 'redux-starter-kit';
 import { getSequences } from './getSequences';
 
-export const getSequenceById = createSelector(
-  getSequences,
-  sequences => memoize(sequenceId => getOr({}, sequenceId, sequences)),
+export const getSequenceById = createSelector(getSequences, (sequences) =>
+  memoize((sequenceId) => getOr({}, sequenceId, sequences)),
 );

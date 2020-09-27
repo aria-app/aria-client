@@ -19,11 +19,11 @@ export default function fetchUserSongLibraryEpic(action$, state$) {
           .collection('songs')
           .where('userId', '==', user.uid)
           .get()
-          .then(querySnapshot => {
-            const userSongLibrary = querySnapshot.docs.map(doc => doc.data());
+          .then((querySnapshot) => {
+            const userSongLibrary = querySnapshot.docs.map((doc) => doc.data());
 
             return actions.userSongLibraryFetchRequestSucceeded(
-              userSongLibrary as Array<Song>,
+              userSongLibrary,
             );
           }),
       );

@@ -11,7 +11,7 @@ import Track from './Track';
 
 const { LoadingIndicator } = shared.components;
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     alignItems: 'flex-start',
     display: 'flex',
@@ -114,7 +114,7 @@ function TrackList(props) {
             onPositionSet={onPositionSet}
           />
           <AnimatePresence>
-            {tracks.map(track => (
+            {tracks.map((track) => (
               <motion.div
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}

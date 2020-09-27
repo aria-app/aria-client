@@ -9,8 +9,8 @@ export default function subscribeToAuthStateEpic(action$) {
   return action$.pipe(
     ofType(shared.actions.initialized.type),
     mergeMap(() =>
-      Observable.create(observer =>
-        firebase.auth().onAuthStateChanged(user => {
+      Observable.create((observer) =>
+        firebase.auth().onAuthStateChanged((user) => {
           if (user) {
             observer.next(actions.userSignInSucceeded(user));
             return;

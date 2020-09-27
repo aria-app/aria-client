@@ -9,7 +9,7 @@ export const channels = {
   UPDATE_REQUESTED: 'UPDATE_REQUESTED',
 };
 
-export const emit = channelName => payload => {
+export const emit = (channelName) => (payload) => {
   eventEmitter.emit(channelName, payload);
 };
 

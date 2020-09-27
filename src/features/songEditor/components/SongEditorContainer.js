@@ -7,7 +7,7 @@ import user from '../../user';
 import SongEditor from './SongEditor';
 
 export default connect(
-  state => ({
+  (state) => ({
     playbackState: audio.selectors.getPlaybackState(state),
     song: song.selectors.getSong(state),
     user: user.selectors.getUser(state),

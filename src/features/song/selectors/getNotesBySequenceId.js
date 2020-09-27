@@ -5,8 +5,8 @@ import { getNotesArray } from './getNotesArray';
 
 export const getNotesBySequenceId = createSelector(
   getNotesArray,
-  notesArray =>
-    memoize(sequenceId =>
-      filter(note => note.sequenceId === sequenceId, notesArray),
+  (notesArray) =>
+    memoize((sequenceId) =>
+      filter((note) => note.sequenceId === sequenceId, notesArray),
     ),
 );

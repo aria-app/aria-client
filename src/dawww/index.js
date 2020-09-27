@@ -21,7 +21,7 @@ export default function Dawww(options) {
     selectors,
     toneAdapter,
   };
-  const updateSong = song =>
+  const updateSong = (song) =>
     dispatch(
       actions.songUpdated({
         prevSong: getOr({}, 'song', getState()),
@@ -29,7 +29,7 @@ export default function Dawww(options) {
       }),
     );
 
-  on(channels.ACTION_OCCURRED, action => {
+  on(channels.ACTION_OCCURRED, (action) => {
     setState(reducer(getState(), action, shared));
 
     // console.log('ACTION_OCCURRED', action, getState());
@@ -58,12 +58,12 @@ export default function Dawww(options) {
   );
 
   return {
-    onPositionChange: fn => on(channels.POSITION_SET, fn),
-    onStateChange: fn => on(channels.PLAYBACK_STATE_SET, fn),
+    onPositionChange: (fn) => on(channels.POSITION_SET, fn),
+    onStateChange: (fn) => on(channels.PLAYBACK_STATE_SET, fn),
     pause: () => dispatch(actions.playbackPauseRequested()),
     preview: (trackId, pitch) =>
       dispatch(actions.notePlayed({ pitch, trackId })),
-    setPosition: position => dispatch(actions.positionSetRequested(position)),
+    setPosition: (position) => dispatch(actions.positionSetRequested(position)),
     start: () => dispatch(actions.playbackStartRequested()),
     stop: () => dispatch(actions.playbackStopRequested()),
     updateSong,

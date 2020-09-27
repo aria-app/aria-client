@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { Router } from '@reach/router';
 import React from 'react';
 import { hideIf, showIf } from 'react-render-helpers';
@@ -31,7 +31,7 @@ const styles = createStyles({
 App.propTypes = {
   didAuthenticationRun: PropTypes.bool,
   isAuthenticated: PropTypes.bool,
-}
+};
 
 function App(props) {
   const { classes, didAuthenticationRun, isAuthenticated } = props;

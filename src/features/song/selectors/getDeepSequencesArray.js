@@ -9,9 +9,9 @@ export const getDeepSequencesArray = createSelector(
   getSequencesArray,
   (notesArray, sequencesArray) =>
     map(
-      sequence => ({
+      (sequence) => ({
         ...sequence,
-        notes: filter(note => note.sequenceId === sequence.id, notesArray),
+        notes: filter((note) => note.sequenceId === sequence.id, notesArray),
       }),
       sequencesArray,
     ),

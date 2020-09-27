@@ -12,7 +12,7 @@ export function handleSongUpdate(getState, action, shared) {
   // });
   // console.groupEnd('handleSongUpdate');
 
-  differences.forEach(diff => {
+  differences.forEach((diff) => {
     shared.dispatch(interpretDiff(diff, song));
   });
 }

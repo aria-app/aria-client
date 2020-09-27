@@ -6,7 +6,7 @@ import * as actions from '../actions';
 import * as helpers from '../helpers';
 import * as selectors from '../selectors';
 
-const throttledUpdate = throttle(500, song => helpers.updateSong(song));
+const throttledUpdate = throttle(500, (song) => helpers.updateSong(song));
 
 export default function updateSongOnChangeEpic(action$, state$) {
   return action$.pipe(

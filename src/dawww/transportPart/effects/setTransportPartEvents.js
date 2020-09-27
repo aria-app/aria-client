@@ -9,7 +9,7 @@ export function setTransportPartEvents(getState, action, shared) {
 
   mapEvents(
     (event, index) => ({
-      fn: payload => {
+      fn: (payload) => {
         const focusedSequenceId = getOr(
           '',
           'song.focusedSequenceId',

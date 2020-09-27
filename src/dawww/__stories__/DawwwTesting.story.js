@@ -12,11 +12,11 @@ export function DawwwTesting() {
   const [position, setPosition] = useState(0);
 
   useEffect(() => {
-    dawww.onPositionChange(position => {
+    dawww.onPositionChange((position) => {
       setPosition(position);
     });
 
-    dawww.onStateChange(playbackState => {
+    dawww.onStateChange((playbackState) => {
       setPlaybackState(playbackState);
     });
   }, []);

@@ -11,7 +11,7 @@ export function handlePartStepTriggered(getState, action, shared) {
   const instrument = getOr({}, `instruments[${trackId}]`, getState());
   const noteIds = getOr([], 'payload.noteIds', action);
 
-  noteIds.forEach(noteId => {
+  noteIds.forEach((noteId) => {
     const note = getOr({}, `song.notes[${noteId}]`, getState());
 
     if (isEmpty(note)) return;

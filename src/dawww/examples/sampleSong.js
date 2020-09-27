@@ -6,7 +6,10 @@ export default {
   notes: {
     0: {
       id: '0',
-      points: [{ x: 0, y: 47 }, { x: 3, y: 47 }],
+      points: [
+        { x: 0, y: 47 },
+        { x: 3, y: 47 },
+      ],
       sequenceId: '0',
     },
     // 1: {
@@ -26,7 +29,10 @@ export default {
     // },
     4: {
       id: '4',
-      points: [{ x: 0, y: 11 }, { x: 3, y: 11 }],
+      points: [
+        { x: 0, y: 11 },
+        { x: 3, y: 11 },
+      ],
       sequenceId: '1',
     },
     // 5: {

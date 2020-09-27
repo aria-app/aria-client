@@ -12,7 +12,7 @@ import store from './store';
 
 configureHotkeys({ ignoreRepeatedEventsWhenKeyHeldDown: false });
 
-['keydown', 'mousedown', 'touchdown'].forEach(eventName => {
+['keydown', 'mousedown', 'touchdown'].forEach((eventName) => {
   document.body.addEventListener(eventName, () => {
     Tone.start();
   });

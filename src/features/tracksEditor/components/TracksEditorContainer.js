@@ -5,7 +5,7 @@ import song from '../../song';
 import TracksEditor from './TracksEditor';
 
 export default connect(
-  state => ({
+  (state) => ({
     isLoading: song.selectors.getIsSongLoading(state),
     isRedoEnabled: song.selectors.getIsRedoEnabled(state),
     isUndoEnabled: song.selectors.getIsUndoEnabled(state),

@@ -10,7 +10,7 @@ import SongList from './SongList';
 
 const { LoadingIndicator, Toolbar } = shared.components;
 
-const styles = theme =>
+const styles = (theme) =>
   createStyles({
     root: {
       display: 'flex',
@@ -79,7 +79,7 @@ function Dashboard(props) {
   }, [onSongAdd]);
 
   const handleSongDelete = React.useCallback(
-    song => {
+    (song) => {
       const shouldDelete = window.confirm(
         `Are you sure you want to delete the song "${song.name}"?`,
       );
@@ -92,7 +92,7 @@ function Dashboard(props) {
   );
 
   const handleSongOpen = React.useCallback(
-    song => {
+    (song) => {
       navigate(`edit-song/${song.id}`);
     },
     [navigate],

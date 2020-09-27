@@ -6,12 +6,12 @@ export function mapEvents(iteratee, part) {
   const length = getOr(0, 'length', part);
   const mappedEvents = [];
 
-  times(index => {
+  times((index) => {
     const event = invokeArgs('at', [index], part);
     mappedEvents[index] = iteratee(event, index);
   }, length);
 
-  times(index => {
+  times((index) => {
     const event = getOr({}, index, mappedEvents);
     invokeArgs('at', [index, event], part);
   }, length);

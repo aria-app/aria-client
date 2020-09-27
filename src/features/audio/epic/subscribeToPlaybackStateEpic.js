@@ -9,8 +9,8 @@ export default function subscribeToPlaybackStateEpic(action$) {
   return action$.pipe(
     ofType(shared.actions.initialized.type),
     mergeMap(() =>
-      Observable.create(observer =>
-        dawww.onStateChange(playbackState => {
+      Observable.create((observer) =>
+        dawww.onStateChange((playbackState) => {
           observer.next(actions.playbackStateRequestSucceeded(playbackState));
         }),
       ),

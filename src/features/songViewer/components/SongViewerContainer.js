@@ -7,7 +7,7 @@ import '../../song/reducer';
 import SongViewer from './SongViewer';
 
 export default connect(
-  state => ({
+  (state) => ({
     isLoading: song.selectors.getIsSongLoading(state),
     playbackState: audio.selectors.getPlaybackState(state),
     position: audio.selectors.getPosition(state),

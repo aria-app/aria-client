@@ -32,17 +32,17 @@ function Boxes(props) {
     style = {},
   } = props;
 
-  const boxes = React.useMemo(() => items.filter(i => i.x < length), [
+  const boxes = React.useMemo(() => items.filter((i) => i.x < length), [
     items,
     length,
   ]);
 
   const handleBoxItemChange = React.useCallback(
-    draggedItem => {
+    (draggedItem) => {
       if (!onItemsChange) return;
 
       onItemsChange(
-        items.map(item => {
+        items.map((item) => {
           if (item.id !== draggedItem.id) return item;
 
           return draggedItem;
@@ -57,7 +57,7 @@ function Boxes(props) {
       className={classnames(classes.root, className)}
       style={{ ...style, width: length * step }}
     >
-      {boxes.map(item => (
+      {boxes.map((item) => (
         <Box
           contentComponent={boxContentComponent}
           key={item.id}

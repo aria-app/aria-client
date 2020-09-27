@@ -9,10 +9,10 @@ export const getDeepTracksArray = createSelector(
   getTracksArray,
   (deepSequencesArray, tracksArray) =>
     map(
-      track => ({
+      (track) => ({
         ...track,
         sequences: filter(
-          sequence => sequence.trackId === track.id,
+          (sequence) => sequence.trackId === track.id,
           deepSequencesArray,
         ),
       }),

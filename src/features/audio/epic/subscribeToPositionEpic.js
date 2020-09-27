@@ -11,8 +11,8 @@ export default function subscribeToPositionEpic(action$, state$) {
     ofType(shared.actions.initialized.type),
     withLatestFrom(state$),
     mergeMap(([action, state]) =>
-      Observable.create(observer =>
-        dawww.onPositionChange(position => {
+      Observable.create((observer) =>
+        dawww.onPositionChange((position) => {
           const prevPosition = selectors.getPosition(state);
 
           if (position === prevPosition) return;

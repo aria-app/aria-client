@@ -26,11 +26,10 @@ const rootReducer = combineReducers({
 });
 
 const songReducer = undoable(rootReducer, {
-  // Casting this as the typings are incorrect
-  clearHistoryType: ([
+  clearHistoryType: [
     shared.actions.routeNotesEditorLoaded.type,
     shared.actions.routeSongEditorLoaded.type,
-  ] as unknown) as string,
+  ],
   filter: includeAction(actions.undoableActions),
   redoType: actions.redoRequested.type,
   syncFilter: true,

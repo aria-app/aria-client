@@ -35,7 +35,7 @@ function SignIn(props) {
 
   return (
     <Translation>
-      {t => (
+      {(t) => (
         <div className={classes.root}>
           <Button
             onClick={() => firebase.auth().signInWithRedirect(authProvider)}

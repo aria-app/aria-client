@@ -11,13 +11,13 @@ export function setPartEventsByNoteId(getState, action, shared) {
   const trackId = getOr('', 'trackId', sequence);
   const allNotes = getOr({}, 'song.notes', getState());
   const notesInSequence = filter(
-    n => n.sequenceId === note.sequenceId,
+    (n) => n.sequenceId === note.sequenceId,
     allNotes,
   );
   const part = getOr({ at: noop }, `parts[${note.sequenceId}]`, getState());
 
-  times(i => {
-    const notesAtStep = filter(n => {
+  times((i) => {
+    const notesAtStep = filter((n) => {
       const notePosition = getOr(-1, 'points[0].x', n);
       return notePosition === i;
     }, notesInSequence);

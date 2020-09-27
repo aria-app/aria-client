@@ -43,7 +43,7 @@ export default function createReducerManager(initialReducers = {}) {
     },
 
     // Removes a reducer with the specified key
-    remove: key => {
+    remove: (key) => {
       if (!key || !reducers[key]) {
         return;
       }

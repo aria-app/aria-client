@@ -61,11 +61,11 @@ export class TrackDynamic extends React.Component {
     );
   }
 
-  handleSequenceEdit = editedSequence => {
+  handleSequenceEdit = (editedSequence) => {
     this.setState((state: { [key: string]: any }) => ({
       track: {
         ...state.track,
-        sequences: state.track.sequences.map(sequence => {
+        sequences: state.track.sequences.map((sequence) => {
           if (sequence.id === editedSequence.id) return editedSequence;
 
           return sequence;

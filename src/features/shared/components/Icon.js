@@ -5,7 +5,7 @@ import withStyles from '@material-ui/styles/withStyles';
 import withTheme from '@material-ui/styles/withTheme';
 import icons from './icons';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     alignItems: 'center',
     display: 'flex',

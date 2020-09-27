@@ -4,7 +4,7 @@ import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 
-const styles = theme =>
+const styles = (theme) =>
   createStyles({
     root: {
       backgroundColor: theme.palette.primary.dark,

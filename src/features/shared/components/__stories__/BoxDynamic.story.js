@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Shell } from '..';
 
-const Content = props => (
+const Content = (props) => (
   <div
     className="content"
     style={{
@@ -48,7 +48,7 @@ export class BoxDynamic extends React.Component {
     );
   }
 
-  handleItemChange = item => {
+  handleItemChange = (item) => {
     this.setState({
       item,
     });
