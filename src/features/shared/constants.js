@@ -12,7 +12,46 @@ firebase.initializeApp({
 export const authProvider =
   !!firebase.auth && new firebase.auth.GoogleAuthProvider();
 
+export const borderRadii = ['none', 'small', 'medium', 'full'];
+
+export const colors = [
+  'background',
+  'border',
+  'error',
+  'info',
+  'paper',
+  'primary',
+  'subtle',
+  'success',
+  'text',
+  'warning',
+];
+
 export const db = !!firebase.firestore && firebase.firestore();
+
+export const dividerThicknesses = ['thin', 'regular'];
+
+export const spacingAliases = [
+  'none',
+  'xxsmall',
+  'xsmall',
+  'small',
+  'medium',
+  'gutter',
+  'large',
+  'xlarge',
+  'xxlarge',
+  '-xxsmall',
+  '-xsmall',
+  '-small',
+  '-medium',
+  '-gutter',
+  '-large',
+  '-xlarge',
+  '-xxlarge',
+];
+
+export const stackAlignments = ['center', 'left', 'right', 'stretch'];
 
 export const SYNC_STATES = {
   FAILED: 'FAILED',
