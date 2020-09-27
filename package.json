@@ -7,14 +7,12 @@
   "private": true,
   "scripts": {
     "build": "react-scripts build",
-    "clean": "rimraf src/**/*.js",
     "build-storybook": "build-storybook -s public",
     "lint-eslint": "eslint \"src/**\" --fix --ignore-pattern \"src/**/*.json\"",
-    "lint-prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "lint": "yarn run lint-eslint && yarn run lint-prettier && yarn run tsc --noEmit",
-    "start": "yarn run clean && react-scripts start",
-    "storybook": "start-storybook -p 9009 -s public",
-    "tsc": "tsc"
+    "lint-prettier": "prettier --write \"src/**/*.js\"",
+    "lint": "yarn run lint-eslint && yarn run lint-prettier",
+    "start": "react-scripts start",
+    "storybook": "start-storybook -p 9009 -s public"
   },
   "dependencies": {
     "@loadable/component": "5.10.3",
@@ -59,13 +57,6 @@
     "@storybook/addon-knobs": "^5.0.11",
     "@storybook/addons": "^5.0.11",
     "@storybook/react": "^5.0.11",
-    "@types/classnames": "^2.2.9",
-    "@types/node": "^12.7.11",
-    "@types/react": "^16.9.2",
-    "@types/react-dom": "^16.9.1",
-    "@types/storybook__react": "^4.0.2",
-    "@typescript-eslint/eslint-plugin": "^2.3.1",
-    "@typescript-eslint/parser": "^2.3.1",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "eslint-config-react-app": "^5.0.2",
@@ -76,8 +67,7 @@
     "eslint-plugin-react-hooks": "^4.1.2",
     "husky": "3.0.9",
     "prettier": "^1.18.2",
-    "react-scripts": "^3.1.2",
-    "typescript": "^3.6.3"
+    "react-scripts": "^3.1.2"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,7 +1,5 @@
 {
   "extends": "react-app",
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
   "rules": {
     "import/order": 2
   }
