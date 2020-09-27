@@ -7,6 +7,7 @@ import inRange from 'lodash/fp/inRange';
 import isNil from 'lodash/fp/isNil';
 import range from 'lodash/fp/range';
 import some from 'lodash/fp/some';
+import { PropTypes } from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import { showIf } from 'react-render-helpers';
@@ -16,7 +17,7 @@ import AddSequenceButton from './AddSequenceButton';
 import TrackHeader from './TrackHeader';
 import TrackSequence from './TrackSequence';
 
-const { Boxes } = shared.components;
+const { GridBoxes } = shared.components;
 
 const styles = (theme) =>
   createStyles({
@@ -40,17 +41,16 @@ const styles = (theme) =>
     },
   });
 
-// export interface TrackProps extends WithStyles<typeof styles> {
-//   onSequenceAdd?: (track: TrackWithSequences, position: number) => void;
-//   onSequenceEdit?: (sequence: SequenceWithNotes) => void;
-//   onSequenceOpen?: (sequence: SequenceWithNotes) => void;
-//   onSequenceSelect?: (sequence: SequenceWithNotes) => void;
-//   onTrackSelect?: (track: TrackWithSequences) => void;
-//   selectedSequenceId?: string;
-//   songMeasureCount?: number;
-//   theme?;
-//   track?: TrackWithSequences;
-// }
+Track.propTypes = {
+  onSequenceAdd: PropTypes.func.isRequired,
+  onSequenceEdit: PropTypes.func.isRequired,
+  onSequenceOpen: PropTypes.func.isRequired,
+  onSequenceSelect: PropTypes.func.isRequired,
+  onTrackSelect: PropTypes.func.isRequired,
+  selectedSequenceId: PropTypes.string,
+  songMeasureCount: PropTypes.number.isRequired,
+  track: PropTypes.object.isRequired,
+};
 
 function Track(props) {
   const {
@@ -97,7 +97,7 @@ function Track(props) {
     [selectedSequenceId],
   );
 
-  const handleBoxesItemsChange = React.useCallback(
+  const handleGridBoxesItemsChange = React.useCallback(
     (items) => {
       const editedSequences = items
         .filter((item) => {
@@ -124,7 +124,10 @@ function Track(props) {
 
   const handleSequenceAdd = React.useCallback(
     (position) => {
-      onSequenceAdd(track, position);
+      onSequenceAdd({
+        position,
+        track,
+      });
     },
     [onSequenceAdd, track],
   );
@@ -155,11 +158,11 @@ function Track(props) {
         className={classes.sequences}
         style={{ width: songMeasureCount * 64 + 4 }}
       >
-        <Boxes
+        <GridBoxes
           boxContentComponent={sequenceComponent}
           items={boxesItems}
           length={songMeasureCount}
-          onItemsChange={handleBoxesItemsChange}
+          onItemsChange={handleGridBoxesItemsChange}
           step={64}
           style={{ height: 64 }}
         />

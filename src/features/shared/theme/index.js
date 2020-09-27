@@ -10,7 +10,6 @@ export default createMuiTheme({
       dark: '#2f2a9b',
     },
     secondary: red,
-    // type: 'dark',
   },
   typography: {
     fontFamily: 'Nunito, Helvetica, sans-serif',

@@ -1,46 +1,42 @@
-import createStyles from '@material-ui/styles/createStyles';
-import withStyles from '@material-ui/styles/withStyles';
-import classnames from 'classnames';
+import { PropTypes } from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
-const styles = (theme) =>
-  createStyles({
-    root: {
-      alignItems: 'stretch',
-      backgroundColor: theme.palette.background.paper,
-      display: 'flex',
-      flex: '0 0 auto',
-      height: 56,
-      paddingLeft: theme.spacing(1),
-      paddingRight: theme.spacing(1),
-      position: 'relative',
-    },
-    leftItems: {
-      alignItems: 'center',
-      display: 'flex',
-      flex: '1 1 auto',
-    },
-    rightItems: {
-      alignItems: 'center',
-      display: 'flex',
-      flex: '0 0 auto',
-      marginLeft: 'auto',
-    },
-  });
+const LeftItems = styled.div(() => ({
+  alignItems: 'center',
+  display: 'flex',
+  flex: '1 1 auto',
+}));
 
-// export interface ToolbarProps extends WithStyles<typeof styles> {
-//   className?: string;
-//   isAlternate?: boolean;
-//   leftItems?: React.ReactNode;
-//   leftItemsAlt?: React.ReactNode;
-//   rightItems?: React.ReactNode;
-//   rightItemsAlt?: React.ReactNode;
-// }
+const RightItems = styled.div(() => ({
+  alignItems: 'center',
+  display: 'flex',
+  flex: '0 0 auto',
+  marginLeft: 'auto',
+}));
+
+const Root = styled.div(({ theme }) => ({
+  alignItems: 'stretch',
+  backgroundColor: theme.palette.background.paper,
+  display: 'flex',
+  flex: '0 0 auto',
+  height: 56,
+  paddingLeft: theme.spacing(1),
+  paddingRight: theme.spacing(1),
+  position: 'relative',
+}));
+
+Toolbar.propTypes = {
+  className: PropTypes.string,
+  isAlternate: PropTypes.bool,
+  leftItems: PropTypes.node,
+  leftItemsAlt: PropTypes.node,
+  rightItems: PropTypes.node,
+  rightItemsAlt: PropTypes.node,
+};
 
 function Toolbar(props) {
   const {
-    className,
-    classes,
     isAlternate,
     leftItems,
     leftItemsAlt,
@@ -50,15 +46,11 @@ function Toolbar(props) {
   } = props;
 
   return (
-    <div className={classnames(classes.root, className)} {...rest}>
-      <div className={classes.leftItems}>
-        {isAlternate ? leftItemsAlt : leftItems}
-      </div>
-      <div className={classes.rightItems}>
-        {isAlternate ? rightItemsAlt : rightItems}
-      </div>
-    </div>
+    <Root {...rest}>
+      <LeftItems>{isAlternate ? leftItemsAlt : leftItems}</LeftItems>
+      <RightItems>{isAlternate ? rightItemsAlt : rightItems}</RightItems>
+    </Root>
   );
 }
 
-export default React.memo(withStyles(styles)(Toolbar));
+export default React.memo(Toolbar);

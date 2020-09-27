@@ -169,7 +169,7 @@ function TracksEditor(props) {
   );
 
   const handleTrackListSequenceAdd = React.useCallback(
-    (track, position) => {
+    ({ position, track }) => {
       const sequence = Dawww.createSequence(track.id, position);
 
       onSequenceAdd(sequence);

@@ -11,6 +11,6 @@ i18n.use(detector).use(initReactI18next).init({
   resources,
 });
 
-export default function changeLanguage(lng: string) {
+export default function changeLanguage(lng) {
   i18n.changeLanguage(lng);
 }

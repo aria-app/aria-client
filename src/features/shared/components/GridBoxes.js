@@ -3,7 +3,7 @@ import withStyles from '@material-ui/styles/withStyles';
 import classnames from 'classnames';
 import React from 'react';
 
-import Box from './Box';
+import GridBox from './GridBox';
 
 const styles = createStyles({
   root: {
@@ -11,17 +11,17 @@ const styles = createStyles({
   },
 });
 
-// export interface BoxesProps extends WithStyles<typeof styles> {
+// export interface GridBoxesProps extends WithStyles<typeof styles> {
 //   boxContentComponent?: React.ElementType;
 //   className?: string;
-//   items?: Array<BoxItem>;
+//   items?: Array<GridBoxItem>;
 //   length?: number;
-//   onItemsChange?: (items: Array<BoxItem>) => void;
+//   onItemsChange?: (items: Array<GridBoxItem>) => void;
 //   step?: number;
 //   style?: React.CSSProperties;
 // }
 
-function Boxes(props) {
+function GridBoxes(props) {
   const {
     boxContentComponent,
     className,
@@ -38,7 +38,7 @@ function Boxes(props) {
     length,
   ]);
 
-  const handleBoxItemChange = React.useCallback(
+  const handleGridBoxItemChange = React.useCallback(
     (draggedItem) => {
       if (!onItemsChange) return;
 
@@ -59,10 +59,10 @@ function Boxes(props) {
       style={{ ...style, width: length * step }}
     >
       {boxes.map((item) => (
-        <Box
+        <GridBox
           contentComponent={boxContentComponent}
           key={item.id}
-          onItemChange={handleBoxItemChange}
+          onItemChange={handleGridBoxItemChange}
           item={item}
           step={step}
           totalLength={length}
@@ -72,4 +72,4 @@ function Boxes(props) {
   );
 }
 
-export default React.memo(withStyles(styles)(Boxes));
+export default React.memo(withStyles(styles)(GridBoxes));
