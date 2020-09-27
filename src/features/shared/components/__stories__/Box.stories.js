@@ -61,6 +61,7 @@ export default {
   args: {
     backgroundColor: undefined,
     borderRadius: undefined,
+    component: 'div',
     height: undefined,
     width: undefined,
   },

@@ -37,7 +37,7 @@ const Root = styled.div((props) => ({
   width: toSpacing(props.width),
 }));
 
-const spacingPropType = PropTypes.oneOfType([
+export const spacingPropType = PropTypes.oneOfType([
   PropTypes.number,
   PropTypes.oneOf(spacingAliases),
 ]);
@@ -45,6 +45,7 @@ const spacingPropType = PropTypes.oneOfType([
 Box.propTypes = {
   backgroundColor: PropTypes.string,
   borderRadius: PropTypes.oneOf(borderRadii),
+  component: PropTypes.elementType,
   height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   margin: spacingPropType,
   marginBottom: spacingPropType,
@@ -65,9 +66,13 @@ Box.propTypes = {
 };
 
 function Box(props) {
-  const { children, ...rest } = props;
+  const { children, component = 'div', ...rest } = props;
 
-  return <Root {...rest}>{children}</Root>;
+  return (
+    <Root as={component} {...rest}>
+      {children}
+    </Root>
+  );
 }
 
 export function toSpacing(spacing) {
@@ -79,56 +84,28 @@ export function toSpacing(spacing) {
 
   return {
     '-gutter': `-${pxToRem(24)}rem`,
-    '-large': `-${pxToRem(40)}rem`,
-    '-medium': `-${pxToRem(16)}rem`,
+    '-large': `-${pxToRem(32)}rem`,
+    '-medium': `-${pxToRem(20)}rem`,
     '-small': `-${pxToRem(12)}rem`,
-    '-xlarge': `-${pxToRem(64)}rem`,
+    '-xlarge': `-${pxToRem(48)}rem`,
     '-xsmall': `-${pxToRem(8)}rem`,
-    '-xxlarge': `-${pxToRem(128)}rem`,
+    '-xxlarge': `-${pxToRem(96)}rem`,
     '-xxsmall': `-${pxToRem(4)}rem`,
     gutter: `${pxToRem(24)}rem`,
-    large: `${pxToRem(40)}rem`,
-    medium: `${pxToRem(16)}rem`,
+    large: `${pxToRem(32)}rem`,
+    medium: `${pxToRem(20)}rem`,
     small: `${pxToRem(12)}rem`,
-    xlarge: `${pxToRem(64)}rem`,
+    xlarge: `${pxToRem(48)}rem`,
     xsmall: `${pxToRem(8)}rem`,
-    xxlarge: `${pxToRem(128)}rem`,
+    xxlarge: `${pxToRem(96)}rem`,
     xxsmall: `${pxToRem(4)}rem`,
   }[spacing];
 }
 
 export default withTheme(Box);
 
-/* import includes from 'lodash/includes'
-import isNaN from 'lodash/isNaN'
-import isNil from 'lodash/isNil'
-import isNumber from 'lodash/isNumber'
-import map from 'lodash/map'
-import omitBy from 'lodash/omitBy'
-import without from 'lodash/without'
-
-import borderRadii from '../../constants/borderRadii'
-import colors from '../../constants/colors'
-import spacingAliases from '../../constants/spacingAliases'
-import PropValidation from '../../mixins/PropValidation'
-import { PropTypes } from 'prop-types';
-
-export default {
-  mixins: [
-    PropValidation({
-      backgroundColor: colors,
-      borderRadius: borderRadii,
-    }),
-  ],
+/*
   props: {
-    backgroundColor: {
-      default: 'none',
-      type: String,
-    },
-    borderRadius: {
-      default: 'none',
-      type: String,
-    },
     component: {
       default: 'div',
       type: String,

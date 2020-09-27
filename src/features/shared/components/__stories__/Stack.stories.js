@@ -5,9 +5,16 @@ import {
   spacingAliases,
   stackAlignments,
 } from '../../constants';
+import Box from '../Box';
 import Stack from '../Stack';
 
-export const StackDefault = (args) => <Stack {...args} />;
+export const StackDefault = (args) => (
+  <Stack {...args}>
+    <Box backgroundColor="info">This is an item!!!</Box>
+    <Box backgroundColor="warning">Item 2.</Box>
+    <Box backgroundColor="success">Another Item...</Box>
+  </Stack>
+);
 
 export default {
   title: 'Stack',
@@ -19,13 +26,14 @@ export default {
         options: stackAlignments,
       },
     },
-    dividerThicknesses: {
+    dividerThickness: {
       control: {
         type: 'inline-radio',
         options: dividerThicknesses,
       },
     },
     space: {
+      name: 'space',
       control: {
         type: 'select',
         options: [2.5, ...spacingAliases],
@@ -34,7 +42,8 @@ export default {
   },
   args: {
     align: 'stretch',
+    dividerThickness: 'thin',
     showDividers: false,
-    space: '',
+    space: undefined,
   },
 };
