@@ -1,4 +1,4 @@
-import { createReducer } from 'redux-starter-kit';
+import { createReducer } from '@reduxjs/toolkit';
 
 import shared from '../../shared';
 import user from '../../user';

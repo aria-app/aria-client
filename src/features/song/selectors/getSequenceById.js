@@ -1,6 +1,6 @@
 import getOr from 'lodash/fp/getOr';
 import memoize from 'lodash/fp/memoize';
-import { createSelector } from 'redux-starter-kit';
+import { createSelector } from '@reduxjs/toolkit';
 
 import { getSequences } from './getSequences';
 

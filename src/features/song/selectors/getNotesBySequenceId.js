@@ -1,6 +1,6 @@
 import filter from 'lodash/fp/filter';
 import memoize from 'lodash/fp/memoize';
-import { createSelector } from 'redux-starter-kit';
+import { createSelector } from '@reduxjs/toolkit';
 
 import { getNotesArray } from './getNotesArray';
 

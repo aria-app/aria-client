@@ -1,4 +1,4 @@
-import { createAction } from 'redux-starter-kit';
+import { createAction } from '@reduxjs/toolkit';
 
 export const bpmSet = createAction('bpmSet');
 export const measureCountSet = createAction('measureCountSet');

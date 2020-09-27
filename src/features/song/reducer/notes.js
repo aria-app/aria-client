@@ -2,7 +2,7 @@ import filter from 'lodash/fp/filter';
 import map from 'lodash/fp/map';
 import omit from 'lodash/fp/omit';
 import values from 'lodash/fp/values';
-import { createReducer } from 'redux-starter-kit';
+import { createReducer } from '@reduxjs/toolkit';
 
 import Dawww from '../../../dawww';
 import shared from '../../shared';

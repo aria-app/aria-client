@@ -1,4 +1,4 @@
-import { createAction } from 'redux-starter-kit';
+import { createAction } from '@reduxjs/toolkit';
 
 export const initialized = createAction('initialized');
 export const routeDashboardLoaded = createAction('routeDashboardLoaded');

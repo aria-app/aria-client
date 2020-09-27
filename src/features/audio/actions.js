@@ -1,4 +1,4 @@
-import { createAction } from 'redux-starter-kit';
+import { createAction } from '@reduxjs/toolkit';
 
 import shared from '../shared';
 import song from '../song';
