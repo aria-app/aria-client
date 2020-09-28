@@ -58,3 +58,5 @@ export const SYNC_STATES = {
   SYNCED: 'SYNCED',
   SYNCING: 'SYNCING',
 };
+
+export const textVariants = ['body', 'bodySmall', 'headline', 'label'];
