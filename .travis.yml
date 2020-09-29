@@ -3,7 +3,7 @@ notifications:
   email:
     recipients:
       - nickjohnson.dev@gmail.com
-node_js: 8
+node_js: 10
 cache:
   yarn: true
   directories:
@@ -11,5 +11,3 @@ cache:
 script:
   - yarn run lint
   - yarn run build
-after_success:
-  - npx framer-cli publish aria.framerfx --public --yes
