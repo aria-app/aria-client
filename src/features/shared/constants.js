@@ -18,7 +18,7 @@ export const colors = [
   'background',
   'border',
   'error',
-  'info',
+  'none',
   'paper',
   'primary',
   'subtle',

@@ -10,7 +10,7 @@ import Stack from '../Stack';
 
 export const StackDefault = (args) => (
   <Stack {...args}>
-    <Box backgroundColor="info">This is an item!!!</Box>
+    <Box backgroundColor="primary">This is an item!!!</Box>
     <Box backgroundColor="warning">Item 2.</Box>
     <Box backgroundColor="success">Another Item...</Box>
   </Stack>

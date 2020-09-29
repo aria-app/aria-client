@@ -63,6 +63,7 @@ export default {
     borderRadius: undefined,
     component: 'div',
     height: undefined,
+    isInteractionOverlayVisible: false,
     width: undefined,
   },
 };

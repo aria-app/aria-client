@@ -6,7 +6,6 @@ const Root = styled.span((props) => ({
     background: props.theme.palette.background.default,
     border: props.theme.palette.divider,
     error: props.theme.palette.error.main,
-    info: props.theme.palette.info.main,
     paper: props.theme.palette.background.paper,
     primary: props.theme.palette.primary.main,
     subtle: props.theme.palette.text.secondary,
