@@ -27,6 +27,20 @@ export const colors = [
   'warning',
 ];
 
+export const columnWidths = [
+  'fluid',
+  'content',
+  '1/2',
+  '1/3',
+  '2/3',
+  '1/4',
+  '3/4',
+  '1/5',
+  '2/5',
+  '3/5',
+  '4/5',
+];
+
 export const db = !!firebase.firestore && firebase.firestore();
 
 export const dividerThicknesses = ['thin', 'regular'];
@@ -60,3 +74,5 @@ export const SYNC_STATES = {
 };
 
 export const textVariants = ['body', 'bodySmall', 'headline', 'label'];
+
+export const verticalAlignments = ['bottom', 'center', 'stretch', 'top'];
