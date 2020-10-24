@@ -1,6 +1,5 @@
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import { Redirect } from '@reach/router';
-import * as firebase from 'firebase/app';
 import { PropTypes } from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
@@ -9,7 +8,6 @@ import styled from 'styled-components';
 import shared from '../../shared';
 
 const { Box, Button, Column, Columns, Stack, Text } = shared.components;
-const { authProvider } = shared.constants;
 
 const Root = styled.div({
   alignItems: 'center',
@@ -31,7 +29,7 @@ function SignIn(props) {
   const { isAuthenticated } = props;
 
   const handleSignInClick = React.useCallback(() => {
-    firebase.auth().signInWithRedirect(authProvider);
+    shared.firebase.signIn();
   }, []);
 
   React.useEffect(() => {
@@ -70,8 +68,9 @@ function SignIn(props) {
                   </Column>
                 </Columns>
                 <Text color="subtle" variant="headline">
-                  An easy-to-use music sequencer inspired by Little Big Planet 2
-                  + 3.
+                  {t(
+                    'An easy-to-use music sequencer inspired by Little Big Planet.',
+                  )}
                 </Text>
               </Stack>
               <Button

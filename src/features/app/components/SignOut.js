@@ -1,9 +1,10 @@
 import withStyles from '@material-ui/styles/withStyles';
 import { Redirect } from '@reach/router';
-import * as firebase from 'firebase/app';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
+
+import shared from '../../shared';
 
 const styles = {
   root: {
@@ -26,8 +27,7 @@ function SignOut(props) {
     window.document.title = 'Sign Out - Aria';
 
     setTimeout(() => {
-      // TODO: Convert to auth helper
-      firebase.auth().signOut();
+      shared.firebase.signOut();
     }, 1000);
   }, []);
 

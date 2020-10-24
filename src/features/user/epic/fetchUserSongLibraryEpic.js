@@ -6,8 +6,6 @@ import shared from '../../shared';
 import * as actions from '../actions';
 import * as selectors from '../selectors';
 
-const { db } = shared.constants;
-
 export default function fetchUserSongLibraryEpic(action$, state$) {
   return action$.pipe(
     ofType(shared.actions.routeDashboardLoaded.type),
@@ -16,7 +14,8 @@ export default function fetchUserSongLibraryEpic(action$, state$) {
       const user = selectors.getUser(state);
 
       return from(
-        db
+        shared.firebase
+          .getDB()
           .collection('songs')
           .where('userId', '==', user.uid)
           .get()

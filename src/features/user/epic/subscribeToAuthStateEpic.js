@@ -1,4 +1,3 @@
-import * as firebase from 'firebase/app';
 import { ofType } from 'redux-observable';
 import { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
@@ -11,7 +10,7 @@ export default function subscribeToAuthStateEpic(action$) {
     ofType(shared.actions.initialized.type),
     mergeMap(() =>
       Observable.create((observer) =>
-        firebase.auth().onAuthStateChanged((user) => {
+        shared.firebase.onAuthStateChanged((user) => {
           if (user) {
             observer.next(actions.userSignInSucceeded(user));
             return;

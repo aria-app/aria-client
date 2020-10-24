@@ -5,14 +5,13 @@ import { mergeMap } from 'rxjs/operators';
 import shared from '../../shared';
 import * as actions from '../actions';
 
-const { db } = shared.constants;
-
 export default function deleteSongEpic(action$) {
   return action$.pipe(
     ofType(actions.songDeleteRequestStarted.type),
     mergeMap((action) =>
       from(
-        db
+        shared.firebase
+          .getDB()
           .collection('songs')
           .doc(action.payload.id)
           .delete()

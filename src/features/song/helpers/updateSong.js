@@ -1,8 +1,12 @@
 import shared from '../../shared';
 
-const { db } = shared.constants;
-
-export const updateSong = (song) =>
-  new Promise((resolve) => {
-    db.collection('songs').doc(song.id).update(song).then(resolve);
+export function updateSong(song) {
+  return new Promise((resolve) => {
+    shared.firebase
+      .getDB()
+      .collection('songs')
+      .doc(song.id)
+      .update(song)
+      .then(resolve);
   });
+}

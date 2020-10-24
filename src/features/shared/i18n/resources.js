@@ -1,6 +1,8 @@
 export default {
   en: {
     translation: {
+      'An easy-to-use music sequencer inspired by Little Big Planet.':
+        'An easy-to-use music sequencer inspired by Little Big Planet.',
       Delete: 'Delete',
       'Download Song': 'Download Song',
       'Edit Track': 'Edit Track',
@@ -24,6 +26,8 @@ export default {
   },
   jp: {
     translation: {
+      'An easy-to-use music sequencer inspired by Little Big Planet.':
+        '使いやすくてリッタルリトルビッグプラネットの様なミュウジックシークエンサー。',
       Delete: '削除',
       'Download Song': 'ソングをダウンロード',
       'Edit Track': 'トラックを編集',

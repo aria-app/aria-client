@@ -7,8 +7,6 @@ import shared from '../../shared';
 import * as actions from '../actions';
 import * as selectors from '../selectors';
 
-const { db } = shared.constants;
-
 export default function addSongEpic(action$, state$) {
   return action$.pipe(
     ofType(actions.songAddRequestStarted.type),
@@ -24,7 +22,8 @@ export default function addSongEpic(action$, state$) {
       };
 
       return from(
-        db
+        shared.firebase
+          .getDB()
           .collection('songs')
           .doc(song.id)
           .set(song)
