@@ -1,8 +1,7 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 
-const styles = createStyles({
+const styles = {
   root: {
     alignItems: 'center',
     bottom: 0,
@@ -14,7 +13,7 @@ const styles = createStyles({
     right: 0,
     top: 0,
   },
-});
+};
 
 // export interface LoadingIndicatorProps extends WithStyles<typeof styles> {
 //   children?: React.ReactNode;

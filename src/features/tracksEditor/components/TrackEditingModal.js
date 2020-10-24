@@ -6,7 +6,6 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import isEmpty from 'lodash/fp/isEmpty';
 import range from 'lodash/fp/range';
@@ -18,31 +17,30 @@ import Dawww from '../../../dawww';
 const minVolume = -20;
 const maxVolume = 0;
 
-const styles = (theme) =>
-  createStyles({
-    root: {},
-    deleteButton: {
-      alignSelf: 'stretch',
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-    },
-    dropdown: {
-      marginBottom: theme.spacing(2),
-      marginLeft: theme.spacing(1),
-    },
-    content: {
-      alignItems: 'flex-start',
-      display: 'flex',
-      flex: '1 1 auto',
-      flexDirection: 'column',
-      marginLeft: theme.spacing(-1),
-      marginRight: theme.spacing(-1),
-    },
-    title: {
-      fontWeight: 800,
-      textTransform: 'uppercase',
-    },
-  });
+const styles = (theme) => ({
+  root: {},
+  deleteButton: {
+    alignSelf: 'stretch',
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
+  dropdown: {
+    marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(1),
+  },
+  content: {
+    alignItems: 'flex-start',
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    marginLeft: theme.spacing(-1),
+    marginRight: theme.spacing(-1),
+  },
+  title: {
+    fontWeight: 800,
+    textTransform: 'uppercase',
+  },
+});
 
 // export interface TrackEditingModalProps extends WithStyles<typeof styles> {
 //   onDelete?: (track: TrackWithSequences) => void;

@@ -1,4 +1,3 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 import { hideIf, showIf } from 'react-render-helpers';
@@ -10,13 +9,12 @@ import shared from '../../shared';
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 const { IconButton, Toolbar } = shared.components;
 
-const styles = (theme) =>
-  createStyles({
-    root: {
-      borderBottom: `2px solid ${theme.palette.divider}`,
-      zIndex: 1,
-    },
-  });
+const styles = (theme) => ({
+  root: {
+    borderBottom: `2px solid ${theme.palette.divider}`,
+    zIndex: 1,
+  },
+});
 
 // export interface SongViewerToolbarProps extends WithStyles<typeof styles> {
 //   onPause?: () => void;

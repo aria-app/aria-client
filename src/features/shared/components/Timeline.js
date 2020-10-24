@@ -1,21 +1,19 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import classnames from 'classnames';
 import React from 'react';
 
-const styles = (theme) =>
-  createStyles({
-    root: {
-      backgroundColor: theme.palette.text.primary,
-      bottom: 0,
-      left: 0,
-      opacity: 0.25,
-      pointerEvents: 'none',
-      position: 'absolute',
-      top: 0,
-      width: 2,
-    },
-  });
+const styles = (theme) => ({
+  root: {
+    backgroundColor: theme.palette.text.primary,
+    bottom: 0,
+    left: 0,
+    opacity: 0.25,
+    pointerEvents: 'none',
+    position: 'absolute',
+    top: 0,
+    width: 2,
+  },
+});
 
 // export interface TimelineProps extends WithStyles<typeof styles> {
 //   className?: string;

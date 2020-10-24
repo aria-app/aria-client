@@ -1,4 +1,3 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import classnames from 'classnames';
 import noop from 'lodash/fp/noop';
@@ -6,56 +5,55 @@ import React from 'react';
 
 import Icon from './Icon';
 
-const styles = (theme) =>
-  createStyles({
-    root: {
-      alignItems: 'stretch',
-      cursor: 'pointer',
-      display: 'flex',
-      flex: '0 0 auto',
-      flexDirection: 'column',
-      height: 40,
-      position: 'relative',
-      transform: 'scale(1)',
-      transition: 'transform 200ms ease',
-      width: 40,
-      '&:hover': {
-        transform: 'scale(1.2)',
-      },
-      '&:active': {
-        transform: 'scale(0.9)',
-      },
+const styles = (theme) => ({
+  root: {
+    alignItems: 'stretch',
+    cursor: 'pointer',
+    display: 'flex',
+    flex: '0 0 auto',
+    flexDirection: 'column',
+    height: 40,
+    position: 'relative',
+    transform: 'scale(1)',
+    transition: 'transform 200ms ease',
+    width: 40,
+    '&:hover': {
+      transform: 'scale(1.2)',
     },
-    background: {
-      flex: '1 0 auto',
+    '&:active': {
+      transform: 'scale(0.9)',
     },
-    iconWrapper: {
-      position: 'absolute',
+  },
+  background: {
+    flex: '1 0 auto',
+  },
+  iconWrapper: {
+    position: 'absolute',
+  },
+  active: {
+    '&:hover': {
+      transform: 'none',
     },
-    active: {
-      '&:hover': {
-        transform: 'none',
-      },
-      '&:active': {
-        transform: 'none',
-      },
-      '& $background': {
-        backgroundColor: theme.palette.action.selected,
-      },
+    '&:active': {
+      transform: 'none',
     },
-    disabled: {
-      cursor: 'not-allowed',
-      '&:hover': {
-        transform: 'none',
-      },
-      '&:active': {
-        transform: 'none',
-      },
-      '& $iconWrapper': {
-        opacity: 0.5,
-      },
+    '& $background': {
+      backgroundColor: theme.palette.action.selected,
     },
-  });
+  },
+  disabled: {
+    cursor: 'not-allowed',
+    '&:hover': {
+      transform: 'none',
+    },
+    '&:active': {
+      transform: 'none',
+    },
+    '& $iconWrapper': {
+      opacity: 0.5,
+    },
+  },
+});
 
 // export interface IconButtonProps extends WithStyles<typeof styles> {
 //   className?: string;

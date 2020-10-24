@@ -1,4 +1,3 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import isEqual from 'lodash/fp/isEqual';
 import React from 'react';
@@ -6,7 +5,7 @@ import { DraggableCore } from 'react-draggable';
 
 import Fence from './Fence';
 
-const styles = createStyles({
+const styles = {
   root: {
     bottom: 0,
     left: 0,
@@ -14,7 +13,7 @@ const styles = createStyles({
     right: 0,
     top: 0,
   },
-});
+};
 
 // export interface SelectorProps extends WithStyles<typeof styles> {
 //   isEnabled?: boolean;

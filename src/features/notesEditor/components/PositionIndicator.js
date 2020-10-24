@@ -1,32 +1,30 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import { transparentize } from 'polished';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
 
-const styles = (theme) =>
-  createStyles({
-    column: {
-      backgroundColor: transparentize(0.95, theme.palette.primary.main),
-      borderRadius: theme.shape.borderRadius,
-      bottom: 0,
-      left: 0,
-      pointerEvents: 'none',
-      position: 'absolute',
-      top: 0,
-      width: 40,
-    },
-    row: {
-      backgroundColor: transparentize(0.95, theme.palette.primary.main),
-      borderRadius: theme.shape.borderRadius,
-      left: 0,
-      height: 40,
-      pointerEvents: 'none',
-      position: 'absolute',
-      right: 0,
-      top: 0,
-    },
-  });
+const styles = (theme) => ({
+  column: {
+    backgroundColor: transparentize(0.95, theme.palette.primary.main),
+    borderRadius: theme.shape.borderRadius,
+    bottom: 0,
+    left: 0,
+    pointerEvents: 'none',
+    position: 'absolute',
+    top: 0,
+    width: 40,
+  },
+  row: {
+    backgroundColor: transparentize(0.95, theme.palette.primary.main),
+    borderRadius: theme.shape.borderRadius,
+    left: 0,
+    height: 40,
+    pointerEvents: 'none',
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
+});
 
 // export interface PositionIndicatorProps extends WithStyles<typeof styles> {
 //   mousePoint?: Point;

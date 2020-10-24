@@ -1,4 +1,3 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import classnames from 'classnames';
 import first from 'lodash/fp/first';
@@ -6,63 +5,62 @@ import last from 'lodash/fp/last';
 import React from 'react';
 import Draggable from 'react-draggable';
 
-const styles = (theme) =>
-  createStyles({
-    root: {
-      left: 0,
-      pointerEvents: 'none',
-      position: 'absolute',
-      top: 0,
-      transition: 'transform 0.1s ease',
+const styles = (theme) => ({
+  root: {
+    left: 0,
+    pointerEvents: 'none',
+    position: 'absolute',
+    top: 0,
+    transition: 'transform 0.1s ease',
+  },
+  connector: {
+    backgroundColor: theme.palette.primary.light,
+    height: 10,
+    left: 20,
+    position: 'absolute',
+    top: 15,
+    transformOrigin: 'left center',
+    transition: 'transform 0.1s ease',
+    width: 1,
+    zIndex: 100,
+  },
+  fill: {
+    backgroundColor: theme.palette.primary.light,
+    borderRadius: theme.shape.borderRadius,
+    height: 24,
+    width: 24,
+    '&:hover': {
+      transform: 'scale(1.05)',
     },
-    connector: {
-      backgroundColor: theme.palette.primary.light,
-      height: 10,
-      left: 20,
-      position: 'absolute',
-      top: 15,
-      transformOrigin: 'left center',
-      transition: 'transform 0.1s ease',
-      width: 1,
-      zIndex: 100,
+    '&:active': {
+      transform: 'scale(0.95)',
     },
-    fill: {
-      backgroundColor: theme.palette.primary.light,
-      borderRadius: theme.shape.borderRadius,
-      height: 24,
-      width: 24,
-      '&:hover': {
-        transform: 'scale(1.05)',
-      },
-      '&:active': {
-        transform: 'scale(0.95)',
-      },
+  },
+  point: {
+    alignItems: 'center',
+    display: 'flex',
+    flex: '0 0 auto',
+    height: 40,
+    justifyContent: 'center',
+    left: 0,
+    overflow: 'hidden',
+    pointerEvents: 'all',
+    position: 'absolute',
+    top: 0,
+    transition: 'transform 0.1s ease',
+    width: 40,
+    zIndex: 150,
+  },
+  selected: {
+    zIndex: 300,
+    '& $connector': {
+      backgroundColor: theme.palette.primary.main,
     },
-    point: {
-      alignItems: 'center',
-      display: 'flex',
-      flex: '0 0 auto',
-      height: 40,
-      justifyContent: 'center',
-      left: 0,
-      overflow: 'hidden',
-      pointerEvents: 'all',
-      position: 'absolute',
-      top: 0,
-      transition: 'transform 0.1s ease',
-      width: 40,
-      zIndex: 150,
+    '& $fill': {
+      backgroundColor: theme.palette.primary.main,
     },
-    selected: {
-      zIndex: 300,
-      '& $connector': {
-        backgroundColor: theme.palette.primary.main,
-      },
-      '& $fill': {
-        backgroundColor: theme.palette.primary.main,
-      },
-    },
-  });
+  },
+});
 
 // export interface NoteProps extends WithStyles<typeof styles> {
 //   className?: string;

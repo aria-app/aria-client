@@ -1,46 +1,44 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import classnames from 'classnames';
 import clamp from 'lodash/fp/clamp';
 import React from 'react';
 import Draggable from 'react-draggable';
 
-const styles = (theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100%',
-      left: 0,
-      position: 'absolute',
-      top: 0,
-      transition: 'transform 200ms ease, width 200ms ease',
-      zIndex: 100,
-    },
-    resizer: {
-      backgroundColor: 'transparent',
-      bottom: '0',
-      cursor: 'col-resize',
-      left: '0',
-      position: 'absolute',
-      top: '0',
-      width: theme.spacing(2),
-      zIndex: 2,
-    },
-    dragging: {
+const styles = (theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    left: 0,
+    position: 'absolute',
+    top: 0,
+    transition: 'transform 200ms ease, width 200ms ease',
+    zIndex: 100,
+  },
+  resizer: {
+    backgroundColor: 'transparent',
+    bottom: '0',
+    cursor: 'col-resize',
+    left: '0',
+    position: 'absolute',
+    top: '0',
+    width: theme.spacing(2),
+    zIndex: 2,
+  },
+  dragging: {
+    cursor: 'move',
+    transition: 'none',
+    zIndex: 200,
+    '& $resizer': {
       cursor: 'move',
-      transition: 'none',
-      zIndex: 200,
-      '& $resizer': {
-        cursor: 'move',
-      },
     },
-    resizing: {
-      cursor: 'col-resize',
-      transition: 'none',
-      zIndex: 200,
-    },
-  });
+  },
+  resizing: {
+    cursor: 'col-resize',
+    transition: 'none',
+    zIndex: 200,
+  },
+});
 
 // export interface BoxProps extends WithStyles<typeof styles> {
 //   contentComponent?: React.ElementType;

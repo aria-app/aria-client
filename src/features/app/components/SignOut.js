@@ -1,11 +1,11 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import { Redirect } from '@reach/router';
 import * as firebase from 'firebase/app';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
 
-const styles = createStyles({
+const styles = {
   root: {
     alignItems: 'center',
     display: 'flex',
@@ -13,11 +13,11 @@ const styles = createStyles({
     justifyContent: 'center',
     textTransform: 'uppercase',
   },
-});
+};
 
-// export interface SignOutProps extends WithStyles<typeof styles> {
-//   isAuthenticated?: boolean;
-// }
+SignOut.propTypes = {
+  isAuthenticated: PropTypes.bool,
+};
 
 function SignOut(props) {
   const { classes, isAuthenticated } = props;

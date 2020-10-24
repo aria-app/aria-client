@@ -1,5 +1,4 @@
 import Button from '@material-ui/core/Button';
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import { Redirect } from '@reach/router';
 import * as firebase from 'firebase/app';
@@ -11,14 +10,14 @@ import shared from '../../shared';
 
 const { authProvider } = shared.constants;
 
-const styles = createStyles({
+const styles = {
   root: {
     alignItems: 'center',
     display: 'flex',
     flex: '1 1 auto',
     justifyContent: 'center',
   },
-});
+};
 
 SignIn.propTypes = {
   isAuthenticated: PropTypes.bool,

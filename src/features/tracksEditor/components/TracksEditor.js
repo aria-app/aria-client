@@ -1,4 +1,3 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import find from 'lodash/fp/find';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -14,7 +13,7 @@ import TracksEditorToolbar from './TracksEditorToolbar';
 
 const { Timeline } = shared.components;
 
-const styles = createStyles({
+const styles = {
   root: {
     display: 'flex',
     flex: '1 1 auto',
@@ -22,7 +21,7 @@ const styles = createStyles({
     overflow: 'hidden',
     position: 'relative',
   },
-});
+};
 
 // export interface TracksEditorProps extends WithStyles<typeof styles> {
 //   isLoading?: boolean;

@@ -1,23 +1,21 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 
 import Dawww from '../../../dawww';
 import Key from './Key';
 
-const styles = (theme) =>
-  createStyles({
-    root: {
-      border: `2px solid ${theme.palette.action.hover}`,
-      borderBottomRightRadius: theme.shape.borderRadius,
-      borderTopRightRadius: theme.shape.borderRadius,
-      borderLeft: 0,
-      display: 'flex',
-      flex: '0 0 auto',
-      flexDirection: 'column',
-      width: 40,
-    },
-  });
+const styles = (theme) => ({
+  root: {
+    border: `2px solid ${theme.palette.action.hover}`,
+    borderBottomRightRadius: theme.shape.borderRadius,
+    borderTopRightRadius: theme.shape.borderRadius,
+    borderLeft: 0,
+    display: 'flex',
+    flex: '0 0 auto',
+    flexDirection: 'column',
+    width: 40,
+  },
+});
 
 const keyStyles = Dawww.SCALE.reduce((acc, currentStep) => {
   return {

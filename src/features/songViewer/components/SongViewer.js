@@ -1,6 +1,5 @@
 import Fade from '@material-ui/core/Fade';
 import Slider from '@material-ui/core/Slider';
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
 
@@ -10,37 +9,36 @@ import SongViewerToolbar from './SongViewerToolbar';
 
 const { LoadingIndicator } = shared.components;
 
-const styles = (theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-      flex: '1 1 auto',
-      flexDirection: 'column',
-      overflow: 'hidden',
-      position: 'relative',
-    },
-    content: {
-      display: 'flex',
-      flex: '1 1 auto',
-      flexDirection: 'column',
-      padding: theme.spacing(2),
-    },
-    name: {
-      ...theme.typography.h5,
-      marginBottom: theme.spacing(3),
-    },
-    sliderWrapper: {
-      alignItems: 'center',
-      display: 'flex',
-    },
-    slider: {
-      flex: '1 1 auto',
-      width: 'auto',
-    },
-    time: {
-      paddingLeft: theme.spacing(3),
-    },
-  });
+const styles = (theme) => ({
+  root: {
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  content: {
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    padding: theme.spacing(2),
+  },
+  name: {
+    ...theme.typography.h5,
+    marginBottom: theme.spacing(3),
+  },
+  sliderWrapper: {
+    alignItems: 'center',
+    display: 'flex',
+  },
+  slider: {
+    flex: '1 1 auto',
+    width: 'auto',
+  },
+  time: {
+    paddingLeft: theme.spacing(3),
+  },
+});
 
 // export interface SongViewerProps extends WithStyles<typeof styles> {
 //   isLoading?: boolean;

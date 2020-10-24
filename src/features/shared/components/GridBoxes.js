@@ -1,15 +1,14 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import classnames from 'classnames';
 import React from 'react';
 
 import GridBox from './GridBox';
 
-const styles = createStyles({
+const styles = {
   root: {
     position: 'relative',
   },
-});
+};
 
 // export interface GridBoxesProps extends WithStyles<typeof styles> {
 //   boxContentComponent?: React.ElementType;

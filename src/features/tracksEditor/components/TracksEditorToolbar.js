@@ -1,4 +1,3 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import isEmpty from 'lodash/fp/isEmpty';
 import React from 'react';
@@ -8,12 +7,11 @@ import shared from '../../shared';
 
 const { IconButton, Toolbar } = shared.components;
 
-const styles = (theme) =>
-  createStyles({
-    root: {
-      borderTop: `2px solid ${theme.palette.divider}`,
-    },
-  });
+const styles = (theme) => ({
+  root: {
+    borderTop: `2px solid ${theme.palette.divider}`,
+  },
+});
 
 // export interface TracksEditorToolbarProps extends WithStyles<typeof styles> {
 //   isRedoEnabled?: boolean;

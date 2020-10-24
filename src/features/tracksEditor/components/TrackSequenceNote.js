@@ -1,22 +1,20 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import classnames from 'classnames';
 import getOr from 'lodash/fp/getOr';
 import React from 'react';
 
-const styles = (theme) =>
-  createStyles({
-    root: {
-      backgroundColor: theme.palette.primary.dark,
-      height: 1,
-      left: 2,
-      position: 'absolute',
-      top: 2,
-    },
-    selectedSequence: {
-      backgroundColor: theme.palette.primary.contrastText,
-    },
-  });
+const styles = (theme) => ({
+  root: {
+    backgroundColor: theme.palette.primary.dark,
+    height: 1,
+    left: 2,
+    position: 'absolute',
+    top: 2,
+  },
+  selectedSequence: {
+    backgroundColor: theme.palette.primary.contrastText,
+  },
+});
 
 // export interface TrackSequenceNoteProps extends WithStyles<typeof styles> {
 //   isSequenceSelected?: boolean;

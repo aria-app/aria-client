@@ -115,7 +115,7 @@ export function toSpacing(spacing) {
   return {
     '-gutter': `-${pxToRem(24)}rem`,
     '-large': `-${pxToRem(32)}rem`,
-    '-medium': `-${pxToRem(20)}rem`,
+    '-medium': `-${pxToRem(16)}rem`,
     '-small': `-${pxToRem(12)}rem`,
     '-xlarge': `-${pxToRem(48)}rem`,
     '-xsmall': `-${pxToRem(8)}rem`,
@@ -123,7 +123,7 @@ export function toSpacing(spacing) {
     '-xxsmall': `-${pxToRem(4)}rem`,
     gutter: `${pxToRem(24)}rem`,
     large: `${pxToRem(32)}rem`,
-    medium: `${pxToRem(20)}rem`,
+    medium: `${pxToRem(16)}rem`,
     small: `${pxToRem(12)}rem`,
     xlarge: `${pxToRem(48)}rem`,
     xsmall: `${pxToRem(8)}rem`,

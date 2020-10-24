@@ -6,7 +6,6 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import map from 'lodash/fp/map';
 import React from 'react';
@@ -19,35 +18,34 @@ const { changeLanguage } = shared.i18n;
 const getBPMRangeItem = (x) => ({ id: x, text: String(x) });
 const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
-const styles = (theme) =>
-  createStyles({
-    root: {},
-    shareableLinkAnchor: {
-      marginBottom: theme.spacing(3),
-      marginTop: theme.spacing(0.5),
-    },
-    bpmDropdown: {
-      marginBottom: theme.spacing(3),
-    },
-    content: {
-      alignItems: 'flex-start',
-      display: 'flex',
-      flex: '1 1 auto',
-      flexDirection: 'column',
-    },
-    title: {
-      fontWeight: 800,
-      textTransform: 'uppercase',
-    },
-    selectLanguageTitle: {
-      marginBottom: theme.spacing(1),
-      marginTop: theme.spacing(2),
-    },
-    button: {
-      marginBottom: theme.spacing(1),
-      paddingTop: theme.spacing(1),
-    },
-  });
+const styles = (theme) => ({
+  root: {},
+  shareableLinkAnchor: {
+    marginBottom: theme.spacing(3),
+    marginTop: theme.spacing(0.5),
+  },
+  bpmDropdown: {
+    marginBottom: theme.spacing(3),
+  },
+  content: {
+    alignItems: 'flex-start',
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+  },
+  title: {
+    fontWeight: 800,
+    textTransform: 'uppercase',
+  },
+  selectLanguageTitle: {
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(2),
+  },
+  button: {
+    marginBottom: theme.spacing(1),
+    paddingTop: theme.spacing(1),
+  },
+});
 
 // export interface SongInfoModalProps extends WithStyles<typeof styles> {
 //   isOpen?: boolean;

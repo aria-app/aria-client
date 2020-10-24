@@ -1,5 +1,4 @@
 import Fade from '@material-ui/core/Fade';
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
@@ -25,7 +24,7 @@ const getNotesByIds = memoizeOne((notes, ids) =>
   notes.filter((note) => includes(note.id, ids)),
 );
 
-const styles = createStyles({
+const styles = {
   root: {
     display: 'flex',
     flex: '1 1 auto',
@@ -46,7 +45,7 @@ const styles = createStyles({
     paddingBottom: 64,
     paddingTop: 64,
   },
-});
+};
 
 // export interface NotesEditorProps extends WithStyles<typeof styles> {
 //   isRedoEnabled?: boolean;

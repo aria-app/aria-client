@@ -1,4 +1,3 @@
-import createStyles from '@material-ui/styles/createStyles';
 import MuiThemeProvider from '@material-ui/styles/ThemeProvider';
 import withStyles from '@material-ui/styles/withStyles';
 import { Router } from '@reach/router';
@@ -20,7 +19,7 @@ const { LoadingIndicator, Shell } = shared.components;
 const { SongEditorContainer } = songEditor.components;
 const { SongViewerContainer } = songViewer.components;
 
-const styles = createStyles({
+const styles = {
   router: {
     display: 'flex',
     flex: '1 1 auto',
@@ -28,7 +27,7 @@ const styles = createStyles({
     overflow: 'hidden',
     position: 'relative',
   },
-});
+};
 
 App.propTypes = {
   didAuthenticationRun: PropTypes.bool,

@@ -1,9 +1,8 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import classnames from 'classnames';
 import React from 'react';
 
-const styles = createStyles({
+const styles = {
   root: {
     bottom: 0,
     cursor: 'grab',
@@ -15,7 +14,7 @@ const styles = createStyles({
   panning: {
     cursor: 'grabbing',
   },
-});
+};
 
 // export interface PannerProps extends WithStyles<typeof styles> {
 //   scrollLeftEl?: HTMLElement;

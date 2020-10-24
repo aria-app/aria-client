@@ -1,4 +1,3 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import { AnimatePresence, motion } from 'framer-motion';
 import each from 'lodash/fp/each';
@@ -19,27 +18,26 @@ import TrackSequence from './TrackSequence';
 
 const { GridBoxes } = shared.components;
 
-const styles = (theme) =>
-  createStyles({
-    root: {
-      alignItems: 'stretch',
-      display: 'flex',
-      flex: '0 0 auto',
-      flexDirection: 'column',
-      marginBottom: theme.spacing(3),
-    },
-    sequences: {
-      alignItems: 'stretch',
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid transparent',
-      boxShadow: `0 0 0 2px ${theme.palette.action.hover}`,
-      borderRadius: theme.shape.borderRadius * 2,
-      display: 'flex',
-      flex: '1 0 auto',
-      position: 'relative',
-      transition: 'width 500ms ease',
-    },
-  });
+const styles = (theme) => ({
+  root: {
+    alignItems: 'stretch',
+    display: 'flex',
+    flex: '0 0 auto',
+    flexDirection: 'column',
+    marginBottom: theme.spacing(3),
+  },
+  sequences: {
+    alignItems: 'stretch',
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid transparent',
+    boxShadow: `0 0 0 2px ${theme.palette.action.hover}`,
+    borderRadius: theme.shape.borderRadius * 2,
+    display: 'flex',
+    flex: '1 0 auto',
+    position: 'relative',
+    transition: 'width 500ms ease',
+  },
+});
 
 Track.propTypes = {
   onSequenceAdd: PropTypes.func.isRequired,

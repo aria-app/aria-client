@@ -1,4 +1,3 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import find from 'lodash/fp/find';
 import getOr from 'lodash/fp/getOr';
@@ -13,7 +12,7 @@ import Dawww from '../../../dawww';
 import * as constants from '../constants';
 import Note from './Note';
 
-const styles = createStyles({
+const styles = {
   root: {
     bottom: 0,
     cursor: 'pointer',
@@ -22,7 +21,7 @@ const styles = createStyles({
     position: 'absolute',
     top: 0,
   },
-});
+};
 
 // export interface NotesProps extends WithStyles<typeof styles> {
 //   measureCount?: number;

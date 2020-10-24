@@ -1,4 +1,3 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import classnames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -8,77 +7,76 @@ import { transparentize } from 'polished';
 import React from 'react';
 import Draggable from 'react-draggable';
 
-const styles = (theme) =>
-  createStyles({
-    root: {
-      backgroundColor: theme.palette.background.paper,
-      border: `2px solid ${theme.palette.action.hover}`,
-      borderRadius: theme.shape.borderRadius,
-      cursor: 'pointer',
-      display: 'flex',
-      flex: '0 0 auto',
-      height: 36,
-      marginBottom: theme.spacing(3),
-      position: 'relative',
-      transition: 'width 200ms ease',
+const styles = (theme) => ({
+  root: {
+    backgroundColor: theme.palette.background.paper,
+    border: `2px solid ${theme.palette.action.hover}`,
+    borderRadius: theme.shape.borderRadius,
+    cursor: 'pointer',
+    display: 'flex',
+    flex: '0 0 auto',
+    height: 36,
+    marginBottom: theme.spacing(3),
+    position: 'relative',
+    transition: 'width 200ms ease',
+  },
+  measure: {
+    alignItems: 'flex-end',
+    bottom: 0,
+    display: 'flex',
+    left: 0,
+    paddingBottom: theme.spacing(0.25),
+    paddingLeft: theme.spacing(0.75),
+    position: 'absolute',
+    top: 0,
+    '&:not(:first-child)': {
+      borderLeft: `2px solid ${theme.palette.action.hover}`,
     },
-    measure: {
-      alignItems: 'flex-end',
-      bottom: 0,
-      display: 'flex',
-      left: 0,
-      paddingBottom: theme.spacing(0.25),
-      paddingLeft: theme.spacing(0.75),
+  },
+  measureNumber: {
+    color: transparentize(0.5, theme.palette.text.primary),
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
+  resizer: {
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    border: `2px solid ${theme.palette.divider}`,
+    borderRadius: theme.shape.borderRadius,
+    cursor: 'col-resize',
+    height: 34,
+    left: 0,
+    position: 'absolute',
+    top: -1,
+    transition: 'border-color 200ms ease, transition 200ms ease',
+    width: 24,
+    '&:hover': {
+      borderColor: theme.palette.text.secondary,
+    },
+    '&::after': {
+      borderLeft: `2px dotted ${theme.palette.text.hint}`,
+      borderRight: `2px dotted ${theme.palette.text.hint}`,
+      content: "''",
+      display: 'block',
+      height: 10,
+      left: '50%',
       position: 'absolute',
-      top: 0,
-      '&:not(:first-child)': {
-        borderLeft: `2px solid ${theme.palette.action.hover}`,
-      },
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 4,
     },
-    measureNumber: {
-      color: transparentize(0.5, theme.palette.text.primary),
-      fontSize: 10,
-      fontWeight: 'bold',
-    },
-    resizer: {
-      backgroundColor: 'rgba(0, 0, 0, 0.0)',
-      border: `2px solid ${theme.palette.divider}`,
-      borderRadius: theme.shape.borderRadius,
-      cursor: 'col-resize',
-      height: 34,
-      left: 0,
-      position: 'absolute',
-      top: -1,
-      transition: 'border-color 200ms ease, transition 200ms ease',
-      width: 24,
-      '&:hover': {
-        borderColor: theme.palette.text.secondary,
-      },
-      '&::after': {
-        borderLeft: `2px dotted ${theme.palette.text.hint}`,
-        borderRight: `2px dotted ${theme.palette.text.hint}`,
-        content: "''",
-        display: 'block',
-        height: 10,
-        left: '50%',
-        position: 'absolute',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 4,
-      },
-    },
-    resizerDraggableWrapper: {
-      position: 'absolute',
-    },
-    resizing: {
-      cursor: 'col-resize',
+  },
+  resizerDraggableWrapper: {
+    position: 'absolute',
+  },
+  resizing: {
+    cursor: 'col-resize',
+    transition: 'none',
+    zIndex: 200,
+    '& $resizer': {
       transition: 'none',
-      zIndex: 200,
-      '& $resizer': {
-        transition: 'none',
-      },
     },
-  });
+  },
+});
 
 // export interface RulerProps extends WithStyles<typeof styles> {
 //   measureCount?: number;

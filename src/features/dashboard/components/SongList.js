@@ -1,29 +1,28 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import { AnimatePresence, motion } from 'framer-motion';
 import orderBy from 'lodash/fp/orderBy';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import SongListItem from './SongListItem';
 
-const styles = (theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-      flex: '1 1 auto',
-      flexDirection: 'column',
-      paddingBottom: theme.spacing(1),
-      paddingLeft: theme.spacing(1),
-      paddingRight: theme.spacing(1),
-      paddingTop: theme.spacing(1),
-    },
-  });
+const styles = (theme) => ({
+  root: {
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    paddingBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    paddingTop: theme.spacing(1),
+  },
+});
 
-// export interface SongListProps extends WithStyles<typeof styles> {
-//   onDelete?: (song: Song) => void;
-//   onOpen?: (song: Song) => void;
-//   songs?: Array<Song>;
-// }
+SongList.propTypes = {
+  onDelete: PropTypes.func,
+  onOpen: PropTypes.func,
+  songs: PropTypes.arrayOf(PropTypes.object),
+};
 
 function SongList(props) {
   const { classes, onDelete, onOpen, songs } = props;

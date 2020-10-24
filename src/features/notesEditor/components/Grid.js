@@ -1,5 +1,5 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
 
@@ -14,7 +14,7 @@ import Slots from './Slots';
 
 const { Timeline } = shared.components;
 
-const styles = createStyles({
+const styles = {
   root: {
     overflowX: 'scroll',
     overflowY: 'visible',
@@ -26,28 +26,24 @@ const styles = createStyles({
     overflowX: 'visible',
     position: 'relative',
   },
-});
+};
 
-// export interface GridProps extends WithStyles<typeof styles> {
-//   measureCount?: number;
-//   mousePoint?: Point;
-//   notes?: Array<Note>;
-//   notesEditorContentEl?: HTMLElement;
-//   onDrag?: (notes: Array<Note>) => void;
-//   onDragPreview?: (notes: Array<Note>) => void;
-//   onDraw?: (startingPoint: Point) => void;
-//   onErase?: (note: Note) => void;
-//   onMousePointChange?: (mousePoint: Point) => void;
-//   onResize?: (resizedNotes: Array<Note>) => void;
-//   onSelect?: (note: Note, isAdditive: boolean) => void;
-//   onSelectInArea?: (
-//     startPoint: Point,
-//     endPoint: Point,
-//     isAdditive: boolean,
-//   ) => void;
-//   selectedNotes?: Array<Note>;
-//   toolType?: string;
-// }
+Grid.propTypes = {
+  measureCount: PropTypes.number,
+  mousePoint: PropTypes.object,
+  notes: PropTypes.arrayOf(PropTypes.object),
+  notesEditorContentEl: PropTypes.element,
+  onDrag: PropTypes.func,
+  onDragPreview: PropTypes.func,
+  onDraw: PropTypes.func,
+  onErase: PropTypes.func,
+  onMousePointChange: PropTypes.func,
+  onResize: PropTypes.func,
+  onSelect: PropTypes.func,
+  onSelectInArea: PropTypes.func,
+  selectedNotes: PropTypes.arrayOf(PropTypes.object),
+  toolType: PropTypes.string,
+};
 
 function Grid(props) {
   const ref = React.useRef();

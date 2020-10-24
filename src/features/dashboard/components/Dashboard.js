@@ -1,8 +1,8 @@
 import Fab from '@material-ui/core/Fab';
 import Fade from '@material-ui/core/Fade';
 import AddIcon from '@material-ui/icons/Add';
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
+import PropTypes from 'prop-types';
 import React from 'react';
 import hideIf from 'react-render-helpers/hideIf';
 
@@ -11,53 +11,48 @@ import SongList from './SongList';
 
 const { LoadingIndicator, Toolbar } = shared.components;
 
-const styles = (theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-      flex: '1 1 auto',
-      flexDirection: 'column',
-      position: 'relative',
-    },
-    toolbar: {
-      borderBottom: `2px solid ${theme.palette.divider}`,
-    },
-    centeredContent: {
-      alignSelf: 'center',
-      maxWidth: theme.breakpoints.values.sm,
-      width: '100%',
-    },
-    userInfo: {
-      alignItems: 'center',
-      display: 'flex',
-      flex: '0 0 auto',
-      height: '100%',
-    },
-    userImage: {
-      borderRadius: '50%',
-      height: 40,
-      width: 40,
-    },
-    addSongButton: {
-      bottom: theme.spacing(2),
-      position: 'absolute',
-      right: theme.spacing(2),
-    },
-  });
+const styles = (theme) => ({
+  root: {
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    position: 'relative',
+  },
+  toolbar: {
+    borderBottom: `2px solid ${theme.palette.divider}`,
+  },
+  centeredContent: {
+    alignSelf: 'center',
+    maxWidth: theme.breakpoints.values.sm,
+    width: '100%',
+  },
+  userInfo: {
+    alignItems: 'center',
+    display: 'flex',
+    flex: '0 0 auto',
+    height: '100%',
+  },
+  userImage: {
+    borderRadius: '50%',
+    height: 40,
+    width: 40,
+  },
+  addSongButton: {
+    bottom: theme.spacing(2),
+    position: 'absolute',
+    right: theme.spacing(2),
+  },
+});
 
-// interface NewSongOptions {
-//   name: string;
-// }
-
-// export interface DashboardProps extends WithStyles<typeof styles> {
-//   isLoadingSongs?: boolean;
-//   navigate?: (path: string) => void;
-//   onLoad?: () => void;
-//   onSongAdd?: (options: NewSongOptions) => void;
-//   onSongDelete?: (song: Song) => void;
-//   songs?: Array<Song>;
-//   user?: User;
-// }
+Dashboard.propTypes = {
+  isLoadingSongs: PropTypes.bool,
+  navigate: PropTypes.func,
+  onLoad: PropTypes.func,
+  onSongAdd: PropTypes.func,
+  onSongDelete: PropTypes.func,
+  songs: PropTypes.arrayOf(PropTypes.object),
+  user: PropTypes.object,
+};
 
 function Dashboard(props) {
   const {

@@ -1,27 +1,26 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
 import { transparentize } from 'polished';
+import PropTypes from 'prop-types';
 import React from 'react';
 
-const styles = (theme) =>
-  createStyles({
-    root: {
-      backgroundColor: transparentize(0.75, theme.palette.primary.main),
-      border: `2px solid ${theme.palette.primary.main}`,
-      borderRadius: 2,
-      left: 0,
-      pointerEvents: 'none',
-      position: 'absolute',
-      top: 0,
-    },
-  });
+const styles = (theme) => ({
+  root: {
+    backgroundColor: transparentize(0.75, theme.palette.primary.main),
+    border: `2px solid ${theme.palette.primary.main}`,
+    borderRadius: 2,
+    left: 0,
+    pointerEvents: 'none',
+    position: 'absolute',
+    top: 0,
+  },
+});
 
-// export interface FenceProps extends WithStyles<typeof styles> {
-//   endPoint?: Point;
-//   startPoint?: Point;
-// }
+Fence.propTypes = {
+  endPoint: PropTypes.object,
+  startPoint: PropTypes.object,
+};
 
 function Fence(props) {
   const { classes, endPoint, startPoint } = props;

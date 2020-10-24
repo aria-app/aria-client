@@ -1,16 +1,15 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import range from 'lodash/fp/range';
 import React from 'react';
 
 import Dawww from '../../../dawww';
 
-const styles = createStyles({
+const styles = {
   root: {
     flex: '1 0 auto',
     minHeight: '100%',
   },
-});
+};
 
 // export interface SlotsProps extends WithStyles<typeof styles> {
 //   measureCount?: number;

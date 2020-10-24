@@ -1,4 +1,3 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import { Router } from '@reach/router';
 import React from 'react';
@@ -15,7 +14,7 @@ const { STARTED } = Dawww.PLAYBACK_STATES;
 const { NotesEditorContainer } = notesEditor.components;
 const { TracksEditorContainer } = tracksEditor.components;
 
-const styles = createStyles({
+const styles = {
   root: {
     display: 'flex',
     flex: '1 1 auto',
@@ -30,7 +29,7 @@ const styles = createStyles({
     overflow: 'hidden',
     position: 'relative',
   },
-});
+};
 
 // export interface SongEditorProps extends WithStyles<typeof styles> {
 //   navigate?: (path: string) => void;

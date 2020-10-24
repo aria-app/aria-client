@@ -1,15 +1,15 @@
-import createStyles from '@material-ui/styles/createStyles';
 import withStyles from '@material-ui/styles/withStyles';
 import compose from 'lodash/fp/compose';
 import first from 'lodash/fp/first';
 import noop from 'lodash/fp/noop';
 import split from 'lodash/fp/split';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
 
 import Note from './Note';
 
-const styles = createStyles({
+const styles = {
   root: {
     bottom: 0,
     left: 0,
@@ -21,12 +21,12 @@ const styles = createStyles({
     opacity: 0.4,
     pointerEvents: 'none',
   },
-});
+};
 
-// export interface DrawLayerProps extends WithStyles<typeof styles> {
-//   mousePoint?: Point;
-//   onDraw?: (startingPoint: Point) => void;
-// }
+DrawLayer.propTypes = {
+  mousePoint: PropTypes.object,
+  onDraw: PropTypes.func,
+};
 
 function DrawLayer(props) {
   const ref = React.useRef();
