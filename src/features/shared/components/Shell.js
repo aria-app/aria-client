@@ -2,9 +2,10 @@ import withStyles from '@material-ui/styles/withStyles';
 import classnames from 'classnames';
 import React from 'react';
 
+import Box from './Box';
+
 const styles = (theme) => ({
   root: {
-    backgroundColor: theme.palette.background.default,
     color: theme.palette.text.primary,
     bottom: 0,
     display: 'flex',
@@ -60,7 +61,13 @@ const styles = (theme) => ({
 function Shell(props) {
   const { className, classes, ...rest } = props;
 
-  return <div className={classnames(classes.root, className)} {...rest} />;
+  return (
+    <Box
+      backgroundColor="background"
+      className={classnames(classes.root, className)}
+      {...rest}
+    />
+  );
 }
 
 export default React.memo(withStyles(styles)(Shell));

@@ -32,7 +32,7 @@ function SignOut(props) {
   }, []);
 
   if (!isAuthenticated) {
-    return <Redirect noThrow to="sign-in" />;
+    return <Redirect noThrow to="/sign-in" />;
   }
 
   return (

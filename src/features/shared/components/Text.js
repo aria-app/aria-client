@@ -16,14 +16,23 @@ const Root = styled.span((props) => ({
   fontSize: {
     body: `${16 / 16}rem`,
     bodySmall: `${12 / 16}rem`,
+    display: `${96 / 16}rem`,
     headline: `${24 / 16}rem`,
     label: `${16 / 16}rem`,
   }[props.variant],
   fontWeight: {
     body: 400,
     bodySmall: 400,
+    display: 600,
     headline: 400,
     label: 600,
+  }[props.variant],
+  lineHeight: {
+    body: 1,
+    bodySmall: 1,
+    display: 1,
+    headline: 1,
+    label: 1,
   }[props.variant],
 }));
 
