@@ -21,7 +21,7 @@ const styles = (theme) => ({
 SongList.propTypes = {
   onDelete: PropTypes.func,
   onOpen: PropTypes.func,
-  songs: PropTypes.arrayOf(PropTypes.object),
+  songs: PropTypes.object,
 };
 
 function SongList(props) {

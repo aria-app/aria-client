@@ -1,7 +1,9 @@
 import * as firebase from 'firebase/app';
 
+console.log(process.env);
+
 firebase.initializeApp({
-  apiKey: 'AIzaSyCqOmjU9tOG_qpc5cMuBhKk5pJGL76LYcY',
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: 'zen-sequencer.firebaseapp.com',
   databaseURL: 'https://zen-sequencer.firebaseio.com',
   projectId: 'zen-sequencer',

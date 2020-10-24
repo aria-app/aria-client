@@ -50,7 +50,7 @@ Dashboard.propTypes = {
   onLoad: PropTypes.func,
   onSongAdd: PropTypes.func,
   onSongDelete: PropTypes.func,
-  songs: PropTypes.arrayOf(PropTypes.object),
+  songs: PropTypes.object,
   user: PropTypes.object,
 };
 
