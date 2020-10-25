@@ -1,4 +1,8 @@
-import withStyles from '@material-ui/styles/withStyles';
+import IconButton from '@material-ui/core/IconButton';
+import PauseIcon from '@material-ui/icons/Pause';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import SettingsIcon from '@material-ui/icons/Settings';
+import StopIcon from '@material-ui/icons/Stop';
 import React from 'react';
 import { hideIf, showIf } from 'react-render-helpers';
 import Tone from 'tone';
@@ -7,14 +11,7 @@ import Dawww from '../../../dawww';
 import shared from '../../shared';
 
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
-const { IconButton, Toolbar } = shared.components;
-
-const styles = (theme) => ({
-  root: {
-    borderBottom: `2px solid ${theme.palette.divider}`,
-    zIndex: 1,
-  },
-});
+const { Box, Column, Columns } = shared.components;
 
 // export interface SongEditorToolbarProps extends WithStyles<typeof styles> {
 //   onPause?: () => void;
@@ -25,14 +22,7 @@ const styles = (theme) => ({
 // }
 
 function SongEditorToolbar(props) {
-  const {
-    classes,
-    onPause,
-    onPlay,
-    onSongInfoOpen,
-    onStop,
-    playbackState,
-  } = props;
+  const { onPause, onPlay, onSongInfoOpen, onStop, playbackState } = props;
 
   const playPause = React.useCallback(
     function playPause() {
@@ -50,28 +40,67 @@ function SongEditorToolbar(props) {
   );
 
   return (
-    <Toolbar
-      className={classes.root}
-      leftItems={
-        <React.Fragment>
-          <IconButton icon="cog" onClick={onSongInfoOpen} title="Settings" />
-        </React.Fragment>
-      }
-      rightItems={
-        <React.Fragment>
+    <Box
+      backgroundColor="paper"
+      borderBottomWidth={2}
+      borderColor="border"
+      padding="xsmall"
+    >
+      <Columns alignY="center">
+        <Column width="content">
+          <Box
+            borderRadius="medium"
+            isInteractionOverlayVisible
+            onClick={onSongInfoOpen}
+            padding="xsmall"
+            style={{ alignItems: 'center', display: 'flex' }}
+            title="Settings"
+          >
+            <SettingsIcon color="action" />
+          </Box>
+        </Column>
+        <Column />
+        <Column width="content">
           {hideIf(playbackState === STARTED)(
-            <IconButton icon="play" onClick={playPause} title="Play" />,
+            <Box
+              borderRadius="medium"
+              isInteractionOverlayVisible
+              onClick={playPause}
+              padding="xsmall"
+              style={{ alignItems: 'center', display: 'flex' }}
+              title="Play"
+            >
+              <PlayArrowIcon color="action" />
+            </Box>,
           )}
           {showIf(playbackState === STARTED)(
-            <IconButton icon="pause" onClick={playPause} title="Pause" />,
+            <Box
+              borderRadius="medium"
+              isInteractionOverlayVisible
+              onClick={playPause}
+              padding="xsmall"
+              style={{ alignItems: 'center', display: 'flex' }}
+              title="Pause"
+            >
+              <PauseIcon color="action" />
+            </Box>,
           )}
           {showIf(playbackState !== STOPPED)(
-            <IconButton icon="stop" onClick={onStop} title="Stop" />,
+            <Box
+              borderRadius="medium"
+              isInteractionOverlayVisible
+              onClick={onStop}
+              padding="xsmall"
+              style={{ alignItems: 'center', display: 'flex' }}
+              title="Stop"
+            >
+              <StopIcon color="action" />
+            </Box>,
           )}
-        </React.Fragment>
-      }
-    />
+        </Column>
+      </Columns>
+    </Box>
   );
 }
 
-export default React.memo(withStyles(styles)(SongEditorToolbar));
+export default React.memo(SongEditorToolbar);

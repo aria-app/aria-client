@@ -17,7 +17,7 @@ function SongList(props) {
   const { onDelete, onOpen, songs } = props;
 
   const sortedSongs = React.useMemo(
-    () => orderBy((x) => x.dateModified, 'desc', Object.values(songs)),
+    () => orderBy((song) => song.dateModified, 'desc', Object.values(songs)),
     [songs],
   );
 

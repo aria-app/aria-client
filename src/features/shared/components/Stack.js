@@ -50,7 +50,7 @@ export default function Stack(props) {
 
   return (
     <Root as={component} {...rest}>
-      <Content marginTop={`-${props.space}`}>
+      <Content marginTop={props.space ? `-${props.space}` : undefined}>
         <Wrapper>
           {flatten(
             React.Children.map(children, (child, index) =>
