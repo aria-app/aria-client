@@ -17,7 +17,7 @@ export const ColumnsDefault = ({ firstColumnWidth, ...rest }) => (
       </Box>
     </Column>
     <Column width="fluid">
-      <Box backgroundColor="subtle" padding="gutter" style={{ flexGrow: 1 }}>
+      <Box backgroundColor="subtle" padding="medium" style={{ flexGrow: 1 }}>
         fluid
       </Box>
     </Column>
@@ -52,7 +52,7 @@ export default {
     alignY: 'top',
     firstColumnWidth: 'fluid',
     isReversed: false,
-    space: 'gutter',
+    space: 'medium',
   },
   parameters: { layout: 'padded' },
 };

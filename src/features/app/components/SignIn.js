@@ -47,14 +47,14 @@ function SignIn(props) {
           <Box marginTop="-xxlarge">
             <Stack space="xlarge">
               <Stack space="medium">
-                <Columns alignY="center" space="gutter">
+                <Columns alignY="center" space="medium">
                   <Column width="content">
                     <Box
                       backgroundColor="primary"
                       borderRadius="medium"
-                      paddingX="small"
-                      paddingTop="small"
                       paddingBottom="xsmall"
+                      paddingTop="small"
+                      paddingX="small"
                     >
                       <StyledMusicNoteIcon />
                     </Box>

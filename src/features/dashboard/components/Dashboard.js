@@ -1,48 +1,20 @@
 import Fab from '@material-ui/core/Fab';
 import Fade from '@material-ui/core/Fade';
 import AddIcon from '@material-ui/icons/Add';
-import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
-import hideIf from 'react-render-helpers/hideIf';
 
 import shared from '../../shared';
 import SongList from './SongList';
 
-const { LoadingIndicator, Toolbar } = shared.components;
-
-const styles = (theme) => ({
-  root: {
-    display: 'flex',
-    flex: '1 1 auto',
-    flexDirection: 'column',
-    position: 'relative',
-  },
-  toolbar: {
-    borderBottom: `2px solid ${theme.palette.divider}`,
-  },
-  centeredContent: {
-    alignSelf: 'center',
-    maxWidth: theme.breakpoints.values.sm,
-    width: '100%',
-  },
-  userInfo: {
-    alignItems: 'center',
-    display: 'flex',
-    flex: '0 0 auto',
-    height: '100%',
-  },
-  userImage: {
-    borderRadius: '50%',
-    height: 40,
-    width: 40,
-  },
-  addSongButton: {
-    bottom: theme.spacing(2),
-    position: 'absolute',
-    right: theme.spacing(2),
-  },
-});
+const {
+  Box,
+  Column,
+  Columns,
+  ContentBlock,
+  Stack,
+  LoadingIndicator,
+} = shared.components;
 
 Dashboard.propTypes = {
   isLoadingSongs: PropTypes.bool,
@@ -56,7 +28,6 @@ Dashboard.propTypes = {
 
 function Dashboard(props) {
   const {
-    classes,
     isLoadingSongs,
     navigate,
     onLoad,
@@ -94,6 +65,14 @@ function Dashboard(props) {
     [navigate],
   );
 
+  const handleUserClick = React.useCallback(() => {
+    const shouldSignOut = window.confirm('Do you want to sign out?');
+
+    if (!shouldSignOut) return;
+
+    navigate(`/sign-out`);
+  }, [navigate]);
+
   React.useEffect(() => {
     onLoad();
 
@@ -101,43 +80,53 @@ function Dashboard(props) {
   }, [onLoad]);
 
   return (
-    <div className={classes.root}>
-      <Toolbar
-        className={classes.toolbar}
-        rightItems={
-          <React.Fragment>
-            <div className={classes.userInfo}>
+    <Stack space="medium">
+      <Box
+        backgroundColor="paper"
+        borderBottomWidth={2}
+        borderColor="border"
+        padding="xsmall"
+      >
+        <Columns space="medium">
+          <Column />
+          <Column width="content">
+            <Box
+              borderRadius="full"
+              isInteractionOverlayVisible
+              onClick={handleUserClick}
+              size={5}
+            >
               <img
-                className={classes.userImage}
                 alt="User"
                 src={user.photoURL}
+                style={{ height: '100%', width: '100%' }}
                 title={user.email}
               />
-            </div>
-          </React.Fragment>
-        }
-      />
-      <Fade in={isLoadingSongs} mountOnEnter unmountOnExit>
-        <LoadingIndicator>LOADING SONGS...</LoadingIndicator>
-      </Fade>
-      <div className={classes.centeredContent}>
-        {hideIf(isLoadingSongs)(() => (
-          <SongList
-            onDelete={handleSongDelete}
-            onOpen={handleSongOpen}
-            songs={songs}
-          />
-        ))}
-      </div>
-      <Fab
-        className={classes.addSongButton}
-        color="primary"
-        onClick={handleSongAdd}
-      >
-        <AddIcon />
-      </Fab>
-    </div>
+            </Box>
+          </Column>
+        </Columns>
+      </Box>
+      <Stack>
+        <Fade in={isLoadingSongs} mountOnEnter unmountOnExit>
+          <LoadingIndicator>LOADING SONGS...</LoadingIndicator>
+        </Fade>
+        <Fade in={!isLoadingSongs} mountOnEnter unmountOnExit>
+          <ContentBlock>
+            <SongList
+              onDelete={handleSongDelete}
+              onOpen={handleSongOpen}
+              songs={songs}
+            />
+          </ContentBlock>
+        </Fade>
+        <Box bottom="medium" position="absolute" right="medium">
+          <Fab color="primary" onClick={handleSongAdd}>
+            <AddIcon />
+          </Fab>
+        </Box>
+      </Stack>
+    </Stack>
   );
 }
 
-export default React.memo(withStyles(styles)(Dashboard));
+export default React.memo(Dashboard);

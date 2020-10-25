@@ -30,12 +30,13 @@ export const columnWidths = [
 export const dividerThicknesses = ['thin', 'regular'];
 
 export const spacingAliases = [
+  'auto',
+  'full',
   'none',
   'xxsmall',
   'xsmall',
   'small',
   'medium',
-  'gutter',
   'large',
   'xlarge',
   'xxlarge',
@@ -43,7 +44,6 @@ export const spacingAliases = [
   '-xsmall',
   '-small',
   '-medium',
-  '-gutter',
   '-large',
   '-xlarge',
   '-xxlarge',

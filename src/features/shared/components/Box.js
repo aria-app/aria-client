@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import includes from 'lodash/fp/includes';
 import isNumber from 'lodash/fp/isNumber';
 import PropTypes from 'prop-types';
@@ -9,7 +10,7 @@ import { borderRadii, spacingAliases } from '../constants';
 const isDarkColor = (color) =>
   includes(color, ['error', 'primary', 'subtle', 'success', 'text']);
 
-const Root = styled.div((props) => ({
+const Root = styled(motion.div)((props) => ({
   backgroundColor: {
     background: props.theme.palette.background.default,
     border: props.theme.palette.divider,
@@ -21,25 +22,47 @@ const Root = styled.div((props) => ({
     text: props.theme.palette.text.primary,
     warning: props.theme.palette.warning.main,
   }[props.backgroundColor],
+  borderColor: {
+    background: props.theme.palette.background.default,
+    border: props.theme.palette.divider,
+    error: props.theme.palette.error.main,
+    paper: props.theme.palette.background.paper,
+    primary: props.theme.palette.primary.main,
+    subtle: props.theme.palette.text.secondary,
+    success: props.theme.palette.success.main,
+    text: props.theme.palette.text.primary,
+    warning: props.theme.palette.warning.main,
+  }[props.borderColor],
+  borderWidth: props.borderWidth,
+  borderBottomWidth: props.borderBottomWidth,
+  borderLeftWidth: props.borderLeftWidth,
   borderRadius: {
     small: `${2 / 16}rem`,
     medium: `${6 / 16}rem`,
     full: '9999px',
   }[props.borderRadius],
+  borderRightWidth: props.borderRightWidth,
+  borderStyle: props.borderColor !== 'none' && 'solid',
+  borderTopWidth: props.borderTopWidth,
+  bottom: toSpacing(props.bottom),
   cursor: props.isInteractionOverlayVisible && 'pointer',
-  height: toSpacing(props.height),
+  height: toSpacing(props.size) || toSpacing(props.height),
+  left: toSpacing(props.left),
   margin: toSpacing(props.margin),
   marginBottom: toSpacing(props.marginBottom || props.marginY),
   marginLeft: toSpacing(props.marginLeft || props.marginX),
   marginRight: toSpacing(props.marginRight || props.marginX),
   marginTop: toSpacing(props.marginTop || props.marginY),
+  overflow: props.isInteractionOverlayVisible && 'hidden',
   padding: toSpacing(props.padding),
   paddingBottom: toSpacing(props.paddingBottom || props.paddingY),
   paddingLeft: toSpacing(props.paddingLeft || props.paddingX),
   paddingRight: toSpacing(props.paddingRight || props.paddingX),
   paddingTop: toSpacing(props.paddingTop || props.paddingY),
-  position: props.isInteractionOverlayVisible && 'relative',
-  width: toSpacing(props.width),
+  position: props.position || (props.isInteractionOverlayVisible && 'relative'),
+  right: toSpacing(props.right),
+  top: toSpacing(props.top),
+  width: toSpacing(props.size) || toSpacing(props.width),
   '::after': {
     backgroundColor: isDarkColor(props.backgroundColor) ? 'white' : 'black',
     bottom: 0,
@@ -68,10 +91,18 @@ export const spacingPropType = PropTypes.oneOfType([
 
 Box.propTypes = {
   backgroundColor: PropTypes.string,
+  borderBottomWidth: PropTypes.number,
+  borderColor: PropTypes.string,
+  borderLeftWidth: PropTypes.number,
   borderRadius: PropTypes.oneOf(borderRadii),
+  borderRightWidth: PropTypes.number,
+  borderTopWidth: PropTypes.number,
+  borderWidth: PropTypes.number,
+  bottom: spacingPropType,
   component: PropTypes.elementType,
-  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  height: spacingPropType,
   isInteractionOverlayVisible: PropTypes.bool,
+  left: spacingPropType,
   margin: spacingPropType,
   marginBottom: spacingPropType,
   marginLeft: spacingPropType,
@@ -86,20 +117,32 @@ Box.propTypes = {
   paddingTop: spacingPropType,
   paddingX: spacingPropType,
   paddingY: spacingPropType,
-  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  position: PropTypes.string,
+  right: spacingPropType,
+  size: spacingPropType,
+  top: spacingPropType,
+  width: spacingPropType,
   theme: PropTypes.object,
 };
 
 function Box(props) {
   const {
     backgroundColor = 'none',
+    borderColor = 'none',
+    borderWidth = 0,
     children,
     component = 'div',
     ...rest
   } = props;
 
   return (
-    <Root as={component} backgroundColor={backgroundColor} {...rest}>
+    <Root
+      as={component}
+      backgroundColor={backgroundColor}
+      borderColor={borderColor}
+      borderWidth={borderWidth}
+      {...rest}
+    >
       {children}
     </Root>
   );
@@ -113,7 +156,9 @@ export function toSpacing(spacing) {
   }
 
   return {
-    '-gutter': `-${pxToRem(24)}rem`,
+    auto: 'auto',
+    full: '100%',
+    none: '',
     '-large': `-${pxToRem(32)}rem`,
     '-medium': `-${pxToRem(16)}rem`,
     '-small': `-${pxToRem(12)}rem`,
@@ -121,7 +166,6 @@ export function toSpacing(spacing) {
     '-xsmall': `-${pxToRem(8)}rem`,
     '-xxlarge': `-${pxToRem(96)}rem`,
     '-xxsmall': `-${pxToRem(4)}rem`,
-    gutter: `${pxToRem(24)}rem`,
     large: `${pxToRem(32)}rem`,
     medium: `${pxToRem(16)}rem`,
     small: `${pxToRem(12)}rem`,

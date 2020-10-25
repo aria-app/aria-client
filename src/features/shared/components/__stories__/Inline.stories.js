@@ -11,8 +11,8 @@ export const InlineDefault = (args) => (
       {range(0, 10).map((n) => (
         <Box
           backgroundColor="subtle"
-          padding={n % 2 === 0 ? 'small' : 'gutter'}
           key={n}
+          padding={n % 2 === 0 ? 'small' : 'medium'}
         >
           {n}
         </Box>

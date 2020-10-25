@@ -1,68 +1,58 @@
+import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const styles = (theme) => ({
-  root: {
-    ...theme.typography.body1,
-    alignItems: 'center',
-    backgroundColor: theme.palette.background.paper,
-    border: `2px solid ${theme.palette.action.hover}`,
-    borderRadius: theme.shape.borderRadius * 2,
-    cursor: 'pointer',
-    display: 'flex',
-    flex: '0 0 auto',
-    fontWeight: 600,
-    height: 56,
-    marginBottom: theme.spacing(1),
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    position: 'relative',
-  },
-  text: {
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    display: 'flex',
-    flex: '1 1 auto',
-  },
-  deleteButton: {
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'center',
-    height: 40,
-    marginRight: theme.spacing(-1),
-    width: 40,
-  },
-});
+import shared from '../../shared';
+
+const { Box, Column, Columns, Text } = shared.components;
 
 SongListItem.propTypes = {
+  onClick: PropTypes.func,
   onDelete: PropTypes.func,
-  onOpen: PropTypes.func,
   song: PropTypes.object,
 };
 
 function SongListItem(props) {
-  const { classes, onDelete, onOpen, song } = props;
+  const { onClick, onDelete, song } = props;
 
-  const handleDelete = React.useCallback(() => {
-    onDelete(song);
-  }, [onDelete, song]);
+  const handleDeleteClick = React.useCallback(
+    (e) => {
+      e.stopPropagation();
 
-  const handleOpen = React.useCallback(() => {
-    onOpen(song);
-  }, [onOpen, song]);
+      onDelete(song);
+    },
+    [onDelete, song],
+  );
+
+  const handleClick = React.useCallback(() => {
+    onClick(song);
+  }, [onClick, song]);
 
   return (
-    <div className={classes.root}>
-      <div className={classes.text} onClick={handleOpen}>
-        {song.name}
-      </div>
-      <div className={classes.deleteButton} onClick={handleDelete}>
-        <CloseIcon />
-      </div>
-    </div>
+    <Box
+      backgroundColor="paper"
+      borderColor="border"
+      borderRadius="medium"
+      borderWidth={2}
+      isInteractionOverlayVisible
+      onClick={handleClick}
+      paddingLeft="medium"
+      paddingRight="small"
+      paddingY="small"
+    >
+      <Columns alignY="center" space="medium">
+        <Column>
+          <Text variant="label">{song.name}</Text>
+        </Column>
+        <Column width="content">
+          <IconButton onClick={handleDeleteClick} size="small">
+            <CloseIcon />
+          </IconButton>
+        </Column>
+      </Columns>
+    </Box>
   );
 }
 
-export default React.memo(withStyles(styles)(SongListItem));
+export default React.memo(SongListItem);
