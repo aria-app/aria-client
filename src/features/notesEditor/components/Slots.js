@@ -1,22 +1,21 @@
-import withStyles from '@material-ui/styles/withStyles';
 import range from 'lodash/fp/range';
+import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
 import Dawww from '../../../dawww';
 
-const styles = {
-  root: {
-    flex: '1 0 auto',
-    minHeight: '100%',
-  },
+const Root = styled.div({
+  flex: '1 0 auto',
+  minHeight: '100%',
+});
+
+Slots.propTypes = {
+  measureCount: PropTypes.number,
 };
 
-// export interface SlotsProps extends WithStyles<typeof styles> {
-//   measureCount?: number;
-// }
-
 function Slots(props) {
-  const { classes, measureCount } = props;
+  const { measureCount } = props;
 
   const slots = React.useMemo(
     () =>
@@ -48,8 +47,7 @@ function Slots(props) {
   );
 
   return (
-    <div
-      className={classes.root}
+    <Root
       dangerouslySetInnerHTML={{
         __html: `
         <svg
@@ -65,7 +63,7 @@ function Slots(props) {
   );
 }
 
-export default React.memo(withStyles(styles)(Slots));
+export default React.memo(Slots);
 
 function getSlot(column, row) {
   const isEven = (x) => x % 2 === 0;

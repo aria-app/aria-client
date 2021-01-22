@@ -1,12 +1,13 @@
 import Fade from '@material-ui/core/Fade';
-import withStyles from '@material-ui/styles/withStyles';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
 import uniq from 'lodash/fp/uniq';
 import memoizeOne from 'memoize-one';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
+import styled from 'styled-components';
 
 import Dawww from '../../../dawww';
 import audio from '../../audio';
@@ -24,55 +25,54 @@ const getNotesByIds = memoizeOne((notes, ids) =>
   notes.filter((note) => includes(note.id, ids)),
 );
 
-const styles = {
-  root: {
-    display: 'flex',
-    flex: '1 1 auto',
-    flexDirection: 'column',
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  content: {
-    display: 'flex',
-    flex: '1 1 0',
-    flexDirection: 'column',
-    overflowX: 'hidden',
-    overflowY: 'scroll',
-  },
-  wrapper: {
-    display: 'flex',
-    flex: '1 0 auto',
-    paddingBottom: 64,
-    paddingTop: 64,
-  },
-};
+const Root = styled.div({
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+  overflow: 'hidden',
+  position: 'relative',
+});
 
-// export interface NotesEditorProps extends WithStyles<typeof styles> {
-//   isRedoEnabled?: boolean;
-//   isLoading?: boolean;
-//   isUndoEnabled?: boolean;
-//   notes?: Array<Note>;
-//   navigate?: (path: string) => void;
-//   onDelete?: (notes: Array<Note>) => void;
-//   onDrag?: (notes: Array<Note>) => void;
-//   onDraw?: (note: Note) => void;
-//   onDuplicate?: (notes: Array<Note>) => void;
-//   onErase?: (note: Note) => void;
-//   onLoad?: (payload: { songId: string, sequenceId: string }) => void;
-//   onNudge?: (delta: Point, notes: Array<Note>) => void;
-//   onOctaveDown?: (notes: Array<Note>) => void;
-//   onOctaveUp?: (notes: Array<Note>) => void;
-//   onRedo?: () => void;
-//   onResize?: (resizedNotes: Array<Note>) => void;
-//   onUndo?: () => void;
-//   sequence?: Sequence;
-//   sequenceId?: string;
-//   songId?: string;
-// }
+const Content = styled.div({
+  display: 'flex',
+  flex: '1 1 0',
+  flexDirection: 'column',
+  overflowX: 'hidden',
+  overflowY: 'scroll',
+});
+
+const Wrapper = styled.div({
+  display: 'flex',
+  flex: '1 0 auto',
+  paddingBottom: 64,
+  paddingTop: 64,
+});
+
+NotesEditor.propTypes = {
+  isRedoEnabled: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  isUndoEnabled: PropTypes.bool,
+  notes: PropTypes.arrayOf(PropTypes.object),
+  navigate: PropTypes.func,
+  onDelete: PropTypes.func,
+  onDrag: PropTypes.func,
+  onDraw: PropTypes.func,
+  onDuplicate: PropTypes.func,
+  onErase: PropTypes.func,
+  onLoad: PropTypes.func,
+  onNudge: PropTypes.func,
+  onOctaveDown: PropTypes.func,
+  onOctaveUp: PropTypes.func,
+  onRedo: PropTypes.func,
+  onResize: PropTypes.func,
+  onUndo: PropTypes.func,
+  sequence: PropTypes.object,
+  sequenceId: PropTypes.string,
+  songId: PropTypes.string,
+};
 
 function NotesEditor(props) {
   const {
-    classes,
     isRedoEnabled,
     isLoading,
     isUndoEnabled,
@@ -368,7 +368,7 @@ function NotesEditor(props) {
   }, [contentEl, sequence]);
 
   return (
-    <div className={classes.root}>
+    <Root>
       <GlobalHotKeys
         allowChanges={true}
         handlers={{
@@ -412,9 +412,9 @@ function NotesEditor(props) {
         <LoadingIndicator>LOADING SONG...</LoadingIndicator>
       </Fade>
       <React.Fragment>
-        <div className={classes.content} ref={handleContentRefChange}>
+        <Content ref={handleContentRefChange}>
           <Fade in={!isLoading} mountOnEnter unmountOnExit>
-            <div className={classes.wrapper}>
+            <Wrapper>
               <Keys hoveredRow={mousePoint.y} onKeyPress={handlePreviewPitch} />
               <Grid
                 measureCount={sequence.measureCount}
@@ -432,9 +432,9 @@ function NotesEditor(props) {
                 selectedNotes={selectedNotes}
                 toolType={toolType}
               />
-            </div>
+            </Wrapper>
           </Fade>
-        </div>
+        </Content>
         <NotesEditorToolbar
           isRedoEnabled={isRedoEnabled}
           isUndoEnabled={isUndoEnabled}
@@ -455,8 +455,8 @@ function NotesEditor(props) {
           toolType={toolType}
         />
       </React.Fragment>
-    </div>
+    </Root>
   );
 }
 
-export default React.memo(withStyles(styles)(NotesEditor));
+export default React.memo(NotesEditor);

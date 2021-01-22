@@ -1,57 +1,61 @@
-import withStyles from '@material-ui/styles/withStyles';
-import classnames from 'classnames';
 import clamp from 'lodash/fp/clamp';
+import PropTypes from 'prop-types';
 import React from 'react';
 import Draggable from 'react-draggable';
+import styled from 'styled-components';
 
-const styles = (theme) => ({
-  root: {
+const Resizer = styled.div(({ theme }) => ({
+  backgroundColor: 'transparent',
+  bottom: '0',
+  left: '0',
+  position: 'absolute',
+  top: '0',
+  width: theme.spacing(2),
+  zIndex: 2,
+}));
+
+const Root = styled.div(({ isDragging, isResizing }) => {
+  const getCursor = () => {
+    if (isDragging) {
+      return 'move';
+    }
+
+    if (isResizing) {
+      return 'col-resize';
+    }
+
+    return 'initial';
+  };
+
+  return {
+    cursor: getCursor(),
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
     left: 0,
     position: 'absolute',
     top: 0,
-    transition: 'transform 200ms ease, width 200ms ease',
-    zIndex: 100,
-  },
-  resizer: {
-    backgroundColor: 'transparent',
-    bottom: '0',
-    cursor: 'col-resize',
-    left: '0',
-    position: 'absolute',
-    top: '0',
-    width: theme.spacing(2),
-    zIndex: 2,
-  },
-  dragging: {
-    cursor: 'move',
-    transition: 'none',
-    zIndex: 200,
-    '& $resizer': {
-      cursor: 'move',
+    transition:
+      isDragging || isResizing
+        ? 'none'
+        : 'transform 200ms ease, width 200ms ease',
+    zIndex: isDragging || isResizing ? 200 : 100,
+    [Resizer]: {
+      cursor: isDragging ? 'move' : 'col-resize',
     },
-  },
-  resizing: {
-    cursor: 'col-resize',
-    transition: 'none',
-    zIndex: 200,
-  },
+  };
 });
 
-// export interface BoxProps extends WithStyles<typeof styles> {
-//   contentComponent?: React.ElementType;
-//   item?: BoxItem;
-//   onItemChange?: (item?: BoxItem) => void;
-//   step?: number;
-//   style?: React.CSSProperties;
-//   totalLength?: number;
-// }
+GridBox.propTypes = {
+  contentComponent: PropTypes.elementType,
+  item: PropTypes.object,
+  onItemChange: PropTypes.func,
+  step: PropTypes.number,
+  totalLength: PropTypes.number,
+};
 
-function Box(props) {
+function GridBox(props) {
   const {
-    classes,
     contentComponent: ContentComponent = () => null,
     item,
     onItemChange,
@@ -107,17 +111,15 @@ function Box(props) {
     <Draggable
       axis="x"
       bounds="parent"
-      cancel={`.${classes.resizer}`}
+      cancel={'.resizer'}
       key={item.id}
       onStart={handleDragStart}
       onStop={handleDragStop}
       position={{ x: item.x * step, y: 0 }}
     >
-      <div
-        className={classnames(classes.root, {
-          [classes.dragging]: isDragging,
-          [classes.resizing]: isResizing,
-        })}
+      <Root
+        isDragging={isDragging}
+        isResizing={isResizing}
         style={{ width: length * step, ...style }}
       >
         <ContentComponent isDragging={isDragging} item={item} step={step} />
@@ -134,11 +136,11 @@ function Box(props) {
           onStop={handleResizerDragStop}
           position={{ x: item.length * step - 16, y: 0 }}
         >
-          <div className={classes.resizer} />
+          <Resizer className="resizer" />
         </Draggable>
-      </div>
+      </Root>
     </Draggable>
   );
 }
 
-export default React.memo(withStyles(styles)(Box));
+export default React.memo(GridBox);

@@ -1,28 +1,23 @@
-import withStyles from '@material-ui/styles/withStyles';
-import classnames from 'classnames';
+import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
-const styles = {
-  root: {
-    bottom: 0,
-    cursor: 'grab',
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-  },
-  panning: {
-    cursor: 'grabbing',
-  },
+const Root = styled.div(({ isPanning }) => ({
+  bottom: 0,
+  cursor: isPanning ? 'grabbing' : 'grab',
+  left: 0,
+  position: 'absolute',
+  right: 0,
+  top: 0,
+}));
+
+Panner.propTypes = {
+  scrollLeftEl: PropTypes.element,
+  scrollTopEl: PropTypes.element,
 };
 
-// export interface PannerProps extends WithStyles<typeof styles> {
-//   scrollLeftEl?: HTMLElement;
-//   scrollTopEl?: HTMLElement;
-// }
-
 function Panner(props) {
-  const { classes, scrollLeftEl, scrollTopEl } = props;
+  const { scrollLeftEl, scrollTopEl } = props;
   const [startPoint, setStartPoint] = React.useState();
 
   const handleMouseDown = React.useCallback(
@@ -68,10 +63,8 @@ function Panner(props) {
   }, [startPoint]);
 
   return (
-    <div
-      className={classnames(classes.root, {
-        [classes.panning]: !!startPoint,
-      })}
+    <Root
+      isPanning={!!startPoint}
       onMouseDown={handleMouseDown}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
@@ -80,4 +73,4 @@ function Panner(props) {
   );
 }
 
-export default React.memo(withStyles(styles)(Panner));
+export default React.memo(Panner);

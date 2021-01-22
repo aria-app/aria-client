@@ -1,29 +1,28 @@
-import withStyles from '@material-ui/styles/withStyles';
 import isEqual from 'lodash/fp/isEqual';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { DraggableCore } from 'react-draggable';
+import styled from 'styled-components';
 
 import Fence from './Fence';
 
-const styles = {
-  root: {
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-  },
+const Root = styled.div({
+  bottom: 0,
+  left: 0,
+  position: 'absolute',
+  right: 0,
+  top: 0,
+});
+
+Selector.propTypes = {
+  isEnabled: PropTypes.bool,
+  onSelect: PropTypes.func,
+  scrollLeftEl: PropTypes.element,
+  scrollTopEl: PropTypes.element,
 };
 
-// export interface SelectorProps extends WithStyles<typeof styles> {
-//   isEnabled?: boolean;
-//   onSelect?: (startPoint: Point, endPoint: Point, isAdditive: boolean) => void;
-//   scrollLeftEl?: HTMLElement;
-//   scrollTopEl?: HTMLElement;
-// }
-
 function Selector(props) {
-  const { classes, isEnabled, onSelect, scrollLeftEl, scrollTopEl } = props;
+  const { isEnabled, onSelect, scrollLeftEl, scrollTopEl } = props;
   const [endPoint, setEndPoint] = React.useState();
   const [startPoint, setStartPoint] = React.useState();
 
@@ -79,17 +78,14 @@ function Selector(props) {
       onStart={handleDragStart}
       onStop={handleDragStop}
     >
-      <div
-        className={classes.root}
-        style={{ pointerEvents: isEnabled ? 'all' : 'none' }}
-      >
+      <Root style={{ pointerEvents: isEnabled ? 'all' : 'none' }}>
         <Fence endPoint={endPoint} startPoint={startPoint} />
-      </div>
+      </Root>
     </DraggableCore>
   );
 }
 
-export default React.memo(withStyles(styles)(Selector));
+export default React.memo(Selector);
 
 function dragDataToGridPoint(dragData) {
   return {
