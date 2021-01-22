@@ -34,7 +34,7 @@ const styles = {
   },
   content: {
     display: 'flex',
-    flex: '1 1 auto',
+    flex: '1 1 0',
     flexDirection: 'column',
     overflowX: 'hidden',
     overflowY: 'scroll',
@@ -420,6 +420,7 @@ function NotesEditor(props) {
                 measureCount={sequence.measureCount}
                 mousePoint={mousePoint}
                 notes={notes}
+                notesEditorContentEl={contentEl}
                 onDrag={onDrag}
                 onDragPreview={handleGridDragPreview}
                 onDraw={handleGridDraw}
@@ -429,7 +430,6 @@ function NotesEditor(props) {
                 onSelect={handleGridSelect}
                 onSelectInArea={handleGridSelectInArea}
                 selectedNotes={selectedNotes}
-                notesEditorContentEl={contentEl}
                 toolType={toolType}
               />
             </div>
