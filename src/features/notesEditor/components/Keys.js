@@ -1,22 +1,22 @@
-import withStyles from '@material-ui/styles/withStyles';
+import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
 import Dawww from '../../../dawww';
 import Key from './Key';
 
-const styles = (theme) => ({
-  root: {
-    border: `2px solid ${theme.palette.action.hover}`,
-    borderBottomRightRadius: theme.shape.borderRadius,
-    borderTopRightRadius: theme.shape.borderRadius,
-    borderLeft: 0,
-    display: 'flex',
-    flex: '0 0 auto',
-    flexDirection: 'column',
-    width: 40,
-  },
-});
+const Root = styled.div(({ theme }) => ({
+  border: `2px solid ${theme.palette.action.hover}`,
+  borderBottomRightRadius: theme.shape.borderRadius,
+  borderTopRightRadius: theme.shape.borderRadius,
+  borderLeft: 0,
+  display: 'flex',
+  flex: '0 0 auto',
+  flexDirection: 'column',
+  width: 40,
+}));
 
+// TODO: Try moving this into the Key component.
 const keyStyles = Dawww.SCALE.reduce((acc, currentStep) => {
   return {
     ...acc,
@@ -28,13 +28,13 @@ const keyStyles = Dawww.SCALE.reduce((acc, currentStep) => {
   };
 }, {});
 
-// export interface KeysProps extends WithStyles<typeof styles> {
-//   hoveredRow?: number;
-//   onKeyPress?: (pitch: number) => void;
-// }
+Keys.propTypes = {
+  hoveredRow: PropTypes.number,
+  onKeyPress: PropTypes.func,
+};
 
 function Keys(props) {
-  const { classes, hoveredRow, onKeyPress } = props;
+  const { hoveredRow, onKeyPress } = props;
 
   const getIsHoveredRow = React.useCallback((step) => step.y === hoveredRow, [
     hoveredRow,
@@ -48,7 +48,7 @@ function Keys(props) {
   );
 
   return (
-    <div className={classes.root}>
+    <Root>
       {Dawww.SCALE.map((step) => (
         <Key
           isHoveredRow={getIsHoveredRow(step)}
@@ -58,8 +58,8 @@ function Keys(props) {
           style={keyStyles[step.y]}
         />
       ))}
-    </div>
+    </Root>
   );
 }
 
-export default React.memo(withStyles(styles)(Keys));
+export default React.memo(Keys);

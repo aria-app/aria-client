@@ -1,4 +1,3 @@
-import withStyles from '@material-ui/styles/withStyles';
 import find from 'lodash/fp/find';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
@@ -6,38 +5,37 @@ import isEqual from 'lodash/fp/isEqual';
 import max from 'lodash/fp/max';
 import min from 'lodash/fp/min';
 import uniqBy from 'lodash/fp/uniqBy';
+import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
 import Dawww from '../../../dawww';
 import * as constants from '../constants';
 import Note from './Note';
 
-const styles = {
-  root: {
-    bottom: 0,
-    cursor: 'pointer',
-    left: 0,
-    pointerEvents: 'none',
-    position: 'absolute',
-    top: 0,
-  },
-};
+const Root = styled.div({
+  bottom: 0,
+  cursor: 'pointer',
+  left: 0,
+  pointerEvents: 'none',
+  position: 'absolute',
+  top: 0,
+});
 
-// export interface NotesProps extends WithStyles<typeof styles> {
-//   measureCount?: number;
-//   notes?: Array<INote>;
-//   onDrag?: (notes: Array<INote>) => void;
-//   onDragPreview?: (notes: Array<INote>) => void;
-//   onErase?: (note: INote) => void;
-//   onResize?: (resizedNotes: Array<INote>) => void;
-//   onSelect?: (note: INote, isAdditive: boolean) => void;
-//   selectedNotes?: Array<INote>;
-//   toolType?: string;
-// }
+Notes.propTypes = {
+  measureCount: PropTypes.number,
+  notes: PropTypes.arrayOf(PropTypes.object),
+  onDrag: PropTypes.func,
+  onDragPreview: PropTypes.func,
+  onErase: PropTypes.func,
+  onResize: PropTypes.func,
+  onSelect: PropTypes.func,
+  selectedNotes: PropTypes.arrayOf(PropTypes.object),
+  toolType: PropTypes.string,
+};
 
 function Notes(props) {
   const {
-    classes,
     measureCount,
     notes,
     onDrag,
@@ -202,8 +200,7 @@ function Notes(props) {
   }, [notes, onResize, sizeDeltas]);
 
   return (
-    <div
-      className={classes.root}
+    <Root
       style={{
         width: measureCount * 4 * 8 * 40,
       }}
@@ -213,6 +210,7 @@ function Notes(props) {
           className="notes__note"
           isSelected={getIsNoteSelected(note)}
           key={note.id}
+          note={note}
           onDrag={handleNoteDrag}
           onDragStart={handleNoteDragStart}
           onDragStop={handleNoteDragStop}
@@ -221,14 +219,13 @@ function Notes(props) {
           onEndPointDragStop={handleNoteEndPointDragStop}
           positionBounds={positionBounds}
           sizeBounds={sizeBounds}
-          note={note}
         />
       ))}
-    </div>
+    </Root>
   );
 }
 
-export default React.memo(withStyles(styles)(Notes));
+export default React.memo(Notes);
 
 function applyPositionDeltas(notes, deltas) {
   return notes.map((note) => {

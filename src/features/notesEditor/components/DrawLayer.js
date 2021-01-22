@@ -1,4 +1,3 @@
-import withStyles from '@material-ui/styles/withStyles';
 import compose from 'lodash/fp/compose';
 import first from 'lodash/fp/first';
 import noop from 'lodash/fp/noop';
@@ -6,22 +5,22 @@ import split from 'lodash/fp/split';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
+import styled from 'styled-components';
 
 import Note from './Note';
 
-const styles = {
-  root: {
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-  },
-  ghostNote: {
-    opacity: 0.4,
-    pointerEvents: 'none',
-  },
-};
+const Root = styled.div({
+  bottom: 0,
+  left: 0,
+  position: 'absolute',
+  right: 0,
+  top: 0,
+});
+
+const GhostNote = styled(Note)({
+  opacity: 0.4,
+  pointerEvents: 'none',
+});
 
 DrawLayer.propTypes = {
   mousePoint: PropTypes.object,
@@ -30,7 +29,7 @@ DrawLayer.propTypes = {
 
 function DrawLayer(props) {
   const ref = React.useRef();
-  const { classes, mousePoint, onDraw } = props;
+  const { mousePoint, onDraw } = props;
   const [isDrawing, setIsDrawing] = React.useState(false);
   const [isMouseOver, setIsMouseOver] = React.useState(false);
 
@@ -88,8 +87,7 @@ function DrawLayer(props) {
   }, [isDrawing, mousePoint, onDraw]);
 
   return (
-    <div
-      className={classes.root}
+    <Root
       onMouseDown={handleMouseDown}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -97,8 +95,7 @@ function DrawLayer(props) {
       ref={ref}
     >
       {showIf(isMouseOver)(
-        <Note
-          className={classes.ghostNote}
+        <GhostNote
           note={ghostNoteNote}
           onDrag={noop}
           onDragStart={noop}
@@ -108,8 +105,8 @@ function DrawLayer(props) {
           onEndPointDragStop={noop}
         />,
       )}
-    </div>
+    </Root>
   );
 }
 
-export default React.memo(withStyles(styles)(DrawLayer));
+export default React.memo(DrawLayer);

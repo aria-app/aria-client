@@ -1,7 +1,7 @@
-import withStyles from '@material-ui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
+import styled from 'styled-components';
 
 import shared from '../../shared';
 import * as constants from '../constants';
@@ -14,19 +14,18 @@ import Slots from './Slots';
 
 const { Timeline } = shared.components;
 
-const styles = {
-  root: {
-    overflowX: 'scroll',
-    overflowY: 'visible',
-    paddingLeft: 80,
-    position: 'relative',
-  },
-  wrapper: {
-    height: '100%',
-    overflowX: 'visible',
-    position: 'relative',
-  },
-};
+const Root = styled.div({
+  overflowX: 'scroll',
+  overflowY: 'visible',
+  paddingLeft: 80,
+  position: 'relative',
+});
+
+const Wrapper = styled.div({
+  height: '100%',
+  overflowX: 'visible',
+  position: 'relative',
+});
 
 Grid.propTypes = {
   measureCount: PropTypes.number,
@@ -48,7 +47,6 @@ Grid.propTypes = {
 function Grid(props) {
   const ref = React.useRef();
   const {
-    classes,
     measureCount,
     mousePoint,
     notes,
@@ -94,14 +92,12 @@ function Grid(props) {
   );
 
   return (
-    <div
-      className={classes.root}
+    <Root
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
       ref={ref}
     >
-      <div
-        className={classes.wrapper}
+      <Wrapper
         style={{
           width:
             measureCount !== undefined ? measureCount * 4 * 8 * 40 + 80 : 0,
@@ -136,9 +132,9 @@ function Grid(props) {
         )}
         <PositionIndicator mousePoint={mousePoint} />
         <Timeline isVisible={false} offset={0 * 40} />
-      </div>
-    </div>
+      </Wrapper>
+    </Root>
   );
 }
 
-export default React.memo(withStyles(styles)(Grid));
+export default React.memo(Grid);

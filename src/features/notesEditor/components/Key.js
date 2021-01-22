@@ -1,85 +1,67 @@
-import withStyles from '@material-ui/styles/withStyles';
-import classnames from 'classnames';
-import { includes } from 'lodash/fp';
+import includes from 'lodash/fp/includes';
+import PropTypes from 'prop-types';
 import React from 'react';
+import showIf from 'react-render-helpers/showIf';
+import styled from 'styled-components';
 
-const styles = (theme) => ({
-  root: {
-    alignItems: 'center',
-    backgroundColor: theme.palette.background.paper,
-    cursor: 'pointer',
-    display: 'flex',
-    flex: '0 0 auto',
-    height: 40,
-    justifyContent: 'center',
-    position: 'relative',
-    '&::after': {
-      backgroundColor: theme.palette.primary.main,
-      borderBottomRightRadius: 4,
-      borderTopRightRadius: 4,
-      bottom: 0,
-      content: "''",
-      display: 'block',
-      right: -4,
-      opacity: 0,
-      pointerEvents: 'none',
-      position: 'absolute',
-      top: 0,
-      width: 4,
-    },
+const Root = styled.div(({ isHoveredRow, isSharp, theme }) => ({
+  alignItems: 'center',
+  backgroundColor: isSharp
+    ? theme.palette.text.secondary
+    : theme.palette.background.paper,
+  cursor: 'pointer',
+  display: 'flex',
+  flex: '0 0 auto',
+  height: 40,
+  justifyContent: 'center',
+  position: 'relative',
+  '&::after': {
+    backgroundColor: theme.palette.primary.main,
+    borderBottomRightRadius: 4,
+    borderTopRightRadius: 4,
+    bottom: 0,
+    content: "''",
+    display: 'block',
+    right: -4,
+    opacity: isHoveredRow ? 1 : 0,
+    pointerEvents: 'none',
+    position: 'absolute',
+    top: 0,
+    width: 4,
   },
-  label: {
-    color: theme.palette.text.hint,
-    display: 'none',
-  },
-  c: {
-    '& $label': {
-      display: 'block',
-    },
-  },
-  hoveredRow: {
-    '&::after': {
-      opacity: 1,
-    },
-  },
-  sharp: {
-    backgroundColor: theme.palette.text.secondary,
-  },
-});
+}));
 
-// export interface KeyProps extends WithStyles<typeof styles> {
-//   className?: string;
-//   isHoveredRow?: boolean;
-//   onMouseDown?: (step: { [key: string]: any }) => void;
-//   step?: { [key: string]: any };
-//   style?: React.CSSProperties;
-// }
+const Label = styled.div(({ theme }) => ({
+  color: theme.palette.text.hint,
+}));
+
+Key.propTypes = {
+  isHoveredRow: PropTypes.bool,
+  onMouseDown: PropTypes.func,
+  step: PropTypes.object,
+  style: PropTypes.object,
+};
 
 function Key(props) {
-  const { className, classes, isHoveredRow, onMouseDown, step, style } = props;
+  const { isHoveredRow, onMouseDown, step, style } = props;
 
   const handleMouseDown = React.useCallback(() => onMouseDown(step), [
     onMouseDown,
     step,
   ]);
 
+  const isCKey = includes('C', step.name) && !includes('#', step.name);
+
   return (
-    <div
-      className={classnames(
-        classes.root,
-        {
-          [classes.c]: includes('C', step.name) && !includes('#', step.name),
-          [classes.hoveredRow]: isHoveredRow,
-          [classes.sharp]: includes('#', step.name),
-        },
-        className,
-      )}
+    <Root
+      isHoveredRow={isHoveredRow}
+      isSharp={includes('#', step.name)}
       onMouseDown={handleMouseDown}
       style={style}
     >
-      <div className={classes.label}>{step.name}</div>
-    </div>
+      {showIf(isCKey)(<Label>{step.name}</Label>)}
+    </Root>
   );
 }
 
-export default React.memo(withStyles(styles)(Key));
+export default React.memo(Key);

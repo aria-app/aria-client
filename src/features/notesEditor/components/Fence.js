@@ -1,21 +1,19 @@
-import withStyles from '@material-ui/styles/withStyles';
 import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
 import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
-const styles = (theme) => ({
-  root: {
-    backgroundColor: transparentize(0.75, theme.palette.primary.main),
-    border: `2px solid ${theme.palette.primary.main}`,
-    borderRadius: 2,
-    left: 0,
-    pointerEvents: 'none',
-    position: 'absolute',
-    top: 0,
-  },
-});
+const Root = styled.div(({ theme }) => ({
+  backgroundColor: transparentize(0.75, theme.palette.primary.main),
+  border: `2px solid ${theme.palette.primary.main}`,
+  borderRadius: 2,
+  left: 0,
+  pointerEvents: 'none',
+  position: 'absolute',
+  top: 0,
+}));
 
 Fence.propTypes = {
   endPoint: PropTypes.object,
@@ -23,7 +21,7 @@ Fence.propTypes = {
 };
 
 function Fence(props) {
-  const { classes, endPoint, startPoint } = props;
+  const { endPoint, startPoint } = props;
 
   const display = React.useMemo(
     () =>
@@ -54,12 +52,7 @@ function Fence(props) {
     return (Math.abs(endPoint.x - startPoint.x) + 1) * 40;
   }, [endPoint, startPoint]);
 
-  return (
-    <div
-      className={classes.root}
-      style={{ display, height, transform, width }}
-    />
-  );
+  return <Root style={{ display, height, transform, width }} />;
 }
 
-export default React.memo(withStyles(styles)(Fence));
+export default React.memo(Fence);
