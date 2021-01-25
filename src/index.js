@@ -1,4 +1,4 @@
-import StylesProvider from '@material-ui/styles/StylesProvider';
+import { StylesProvider } from '@material-ui/core/styles';
 import React from 'react';
 import { render } from 'react-dom';
 import { configure as configureHotkeys } from 'react-hotkeys';

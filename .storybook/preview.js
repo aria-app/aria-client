@@ -1,5 +1,5 @@
 import React from 'react';
-import MuiThemeProvider from '@material-ui/styles/ThemeProvider';
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { ThemeProvider } from 'styled-components';
 import shared from '../src/features/shared';
 

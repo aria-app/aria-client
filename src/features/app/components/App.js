@@ -1,4 +1,4 @@
-import MuiThemeProvider from '@material-ui/styles/ThemeProvider';
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { Router } from '@reach/router';
 import PropTypes from 'prop-types';
 import React from 'react';
