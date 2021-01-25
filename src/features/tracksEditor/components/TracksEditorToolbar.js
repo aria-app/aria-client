@@ -1,34 +1,30 @@
-import withStyles from '@material-ui/styles/withStyles';
 import isEmpty from 'lodash/fp/isEmpty';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
+import styled from 'styled-components';
 
 import shared from '../../shared';
 
 const { IconButton, Toolbar } = shared.components;
 
-const styles = (theme) => ({
-  root: {
-    borderTop: `2px solid ${theme.palette.divider}`,
-  },
-});
+const Root = styled(Toolbar)(({ theme }) => ({
+  borderTop: `2px solid ${theme.palette.divider}`,
+}));
 
-// export interface TracksEditorToolbarProps extends WithStyles<typeof styles> {
-//   isRedoEnabled?: boolean;
-//   isUndoEnabled?: boolean;
-//   onRedo?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-//   onSequenceDelete?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-//   onSequenceDuplicate?: (
-//     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-//   ) => void;
-//   onSequenceOpen?: (sequence: SequenceWithNotes) => void;
-//   onUndo?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-//   selectedSequence?: SequenceWithNotes;
-// }
+TracksEditorToolbar.propTypes = {
+  isRedoEnabled: PropTypes.bool,
+  isUndoEnabled: PropTypes.bool,
+  onRedo: PropTypes.func,
+  onSequenceDelete: PropTypes.func,
+  onSequenceDuplicate: PropTypes.func,
+  onSequenceOpen: PropTypes.func,
+  onUndo: PropTypes.func,
+  selectedSequence: PropTypes.object,
+};
 
 function TracksEditorToolbar(props) {
   const {
-    classes,
     isRedoEnabled,
     isUndoEnabled,
     onRedo,
@@ -44,8 +40,7 @@ function TracksEditorToolbar(props) {
   }, [onSequenceOpen, selectedSequence]);
 
   return (
-    <Toolbar
-      className={classes.root}
+    <Root
       isAlternate={!isEmpty(selectedSequence)}
       leftItems={
         <React.Fragment>
@@ -94,4 +89,4 @@ function TracksEditorToolbar(props) {
   );
 }
 
-export default React.memo(withStyles(styles)(TracksEditorToolbar));
+export default React.memo(TracksEditorToolbar);

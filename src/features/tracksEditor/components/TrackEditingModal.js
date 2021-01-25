@@ -6,62 +6,53 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import withStyles from '@material-ui/styles/withStyles';
 import isEmpty from 'lodash/fp/isEmpty';
 import range from 'lodash/fp/range';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
+import styled from 'styled-components';
 
 import Dawww from '../../../dawww';
 
 const minVolume = -20;
 const maxVolume = 0;
 
-const styles = (theme) => ({
-  root: {},
-  deleteButton: {
-    alignSelf: 'stretch',
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-  },
-  dropdown: {
-    marginBottom: theme.spacing(2),
-    marginLeft: theme.spacing(1),
-  },
-  content: {
-    alignItems: 'flex-start',
-    display: 'flex',
-    flex: '1 1 auto',
-    flexDirection: 'column',
-    marginLeft: theme.spacing(-1),
-    marginRight: theme.spacing(-1),
-  },
-  title: {
-    fontWeight: 800,
-    textTransform: 'uppercase',
-  },
+const DeleteButton = styled(Button)(({ theme }) => ({
+  alignSelf: 'stretch',
+  marginLeft: theme.spacing(1),
+  marginRight: theme.spacing(1),
+}));
+
+const Dropdown = styled(FormControl)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+  marginLeft: theme.spacing(1),
+}));
+
+const Content = styled(DialogContent)(({ theme }) => ({
+  alignItems: 'flex-start',
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+  marginLeft: theme.spacing(-1),
+  marginRight: theme.spacing(-1),
+}));
+
+const Title = styled(DialogTitle)({
+  fontWeight: 800,
+  textTransform: 'uppercase',
 });
 
-// export interface TrackEditingModalProps extends WithStyles<typeof styles> {
-//   onDelete?: (track: TrackWithSequences) => void;
-//   onDismiss?: () => void;
-//   onVoiceSet?: (options: { track: TrackWithSequences, voice: string }) => void;
-//   onVolumeSet?: (options: {
-//     track: TrackWithSequences,
-//     volume: string,
-//   }) => void;
-//   stagedTrack?: TrackWithSequences;
-// }
+TrackEditingModal.propTypes = {
+  onDelete: PropTypes.func,
+  onDismiss: PropTypes.func,
+  onVoiceSet: PropTypes.func,
+  onVolumeSet: PropTypes.func,
+  stagedTrack: PropTypes.object,
+};
 
 function TrackEditingModal(props) {
-  const {
-    classes,
-    onDelete,
-    onDismiss,
-    onVoiceSet,
-    onVolumeSet,
-    stagedTrack,
-  } = props;
+  const { onDelete, onDismiss, onVoiceSet, onVolumeSet, stagedTrack } = props;
 
   const handleContentDeleteButtonClick = React.useCallback(() => {
     onDelete(stagedTrack);
@@ -85,15 +76,14 @@ function TrackEditingModal(props) {
     <Translation>
       {(t) => (
         <Dialog
-          className={classes.root}
           fullWidth={true}
           maxWidth="xs"
           onClose={onDismiss}
           open={!isEmpty(stagedTrack)}
         >
-          <DialogTitle className={classes.title}>{t('Edit Track')}</DialogTitle>
-          <DialogContent className={classes.content}>
-            <FormControl className={classes.dropdown}>
+          <Title>{t('Edit Track')}</Title>
+          <Content>
+            <Dropdown>
               <InputLabel htmlFor="voice">Voice</InputLabel>
               <Select
                 inputProps={{ name: 'voice', id: 'voice' }}
@@ -108,8 +98,8 @@ function TrackEditingModal(props) {
                   </MenuItem>
                 ))}
               </Select>
-            </FormControl>
-            <FormControl className={classes.dropdown}>
+            </Dropdown>
+            <Dropdown>
               <InputLabel htmlFor="volume">Volume</InputLabel>
               <Select
                 inputProps={{ name: 'volume', id: 'volume' }}
@@ -124,20 +114,19 @@ function TrackEditingModal(props) {
                   </MenuItem>
                 ))}
               </Select>
-            </FormControl>
-            <Button
-              className={classes.deleteButton}
+            </Dropdown>
+            <DeleteButton
               color="secondary"
               onClick={handleContentDeleteButtonClick}
               variant="contained"
             >
               {t('Delete')}
-            </Button>
-          </DialogContent>
+            </DeleteButton>
+          </Content>
         </Dialog>
       )}
     </Translation>
   );
 }
 
-export default React.memo(withStyles(styles)(TrackEditingModal));
+export default React.memo(TrackEditingModal);

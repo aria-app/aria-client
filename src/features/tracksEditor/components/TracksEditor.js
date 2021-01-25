@@ -1,9 +1,10 @@
-import withStyles from '@material-ui/styles/withStyles';
 import find from 'lodash/fp/find';
 import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
+import styled from 'styled-components';
 
 import Dawww from '../../../dawww';
 import shared from '../../shared';
@@ -13,55 +14,43 @@ import TracksEditorToolbar from './TracksEditorToolbar';
 
 const { Timeline } = shared.components;
 
-const styles = {
-  root: {
-    display: 'flex',
-    flex: '1 1 auto',
-    flexDirection: 'column',
-    overflow: 'hidden',
-    position: 'relative',
-  },
-};
+const Root = styled.div({
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+  overflow: 'hidden',
+  position: 'relative',
+});
 
-// export interface TracksEditorProps extends WithStyles<typeof styles> {
-//   isLoading?: boolean;
-//   isRedoEnabled?: boolean;
-//   isStopped?: boolean;
-//   isUndoEnabled?: boolean;
-//   navigate?: (path: string) => void;
-//   onLoad?: (payload: { songId: string }) => void;
-//   onPositionSet?: (position: number) => void;
-//   onRedo?: () => void;
-//   onSequenceAdd?: (newSequence: Sequence) => void;
-//   onSequenceDelete?: (sequenceToDelete: SequenceWithNotes) => void;
-//   onSequenceDuplicate?: (options: {
-//     duplicatedSequence: Sequence,
-//     originalSequence: SequenceWithNotes,
-//   }) => void;
-//   onSequenceEdit?: (sequence: SequenceWithNotes) => void;
-//   onSongMeasureCountChange?: (songMeasureCount: number) => void;
-//   onTrackAdd?: (options: { sequence: Sequence, track: Track }) => void;
-//   onTrackDelete?: (track: TrackWithSequences) => void;
-//   onTrackVoiceSet?: (options: {
-//     track: TrackWithSequences,
-//     voice: string,
-//   }) => void;
-//   onTrackVolumeSet?: (options: {
-//     track: TrackWithSequences,
-//     volume: string,
-//   }) => void;
-//   onUndo?: () => void;
-//   position?: number;
-//   sequences?: Array<SequenceWithNotes>;
-//   song?: Song;
-//   songId?: string;
-//   songMeasureCount?: number;
-//   tracks?: Array<TrackWithSequences>;
-// }
+TracksEditor.propTypes = {
+  isLoading: PropTypes.bool,
+  isRedoEnabled: PropTypes.bool,
+  isStopped: PropTypes.bool,
+  isUndoEnabled: PropTypes.bool,
+  navigate: PropTypes.func,
+  onLoad: PropTypes.func,
+  onPositionSet: PropTypes.func,
+  onRedo: PropTypes.func,
+  onSequenceAdd: PropTypes.func,
+  onSequenceDelete: PropTypes.func,
+  onSequenceDuplicate: PropTypes.func,
+  onSequenceEdit: PropTypes.func,
+  onSongMeasureCountChange: PropTypes.func,
+  onTrackAdd: PropTypes.func,
+  onTrackDelete: PropTypes.func,
+  onTrackVoiceSet: PropTypes.func,
+  onTrackVolumeSet: PropTypes.func,
+  onUndo: PropTypes.func,
+  position: PropTypes.number,
+  sequences: PropTypes.arrayOf(PropTypes.object),
+  song: PropTypes.object,
+  songId: PropTypes.string,
+  songMeasureCount: PropTypes.number,
+  tracks: PropTypes.arrayOf(PropTypes.object),
+};
 
 function TracksEditor(props) {
   const {
-    classes,
     isLoading,
     isRedoEnabled,
     isStopped,
@@ -206,7 +195,7 @@ function TracksEditor(props) {
   }, [songId, onLoad]);
 
   return (
-    <div className={classes.root}>
+    <Root>
       <GlobalHotKeys
         allowChanges={true}
         handlers={{
@@ -227,8 +216,8 @@ function TracksEditor(props) {
           isLoading={isLoading}
           onPositionSet={handleTrackListPositionSet}
           onSequenceAdd={handleTrackListSequenceAdd}
-          onSequenceEdit={onSequenceEdit}
           onSequenceDeselect={handleTrackListSequenceDeselect}
+          onSequenceEdit={onSequenceEdit}
           onSequenceOpen={handleSequenceOpen}
           onSequenceSelect={handleTrackListSequenceSelect}
           onSongMeasureCountChange={onSongMeasureCountChange}
@@ -257,8 +246,8 @@ function TracksEditor(props) {
           stagedTrack={selectedTrack}
         />
       </React.Fragment>
-    </div>
+    </Root>
   );
 }
 
-export default React.memo(withStyles(styles)(TracksEditor));
+export default React.memo(TracksEditor);

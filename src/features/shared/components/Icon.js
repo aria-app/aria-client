@@ -1,7 +1,6 @@
-import withTheme from '@material-ui/styles/withTheme';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
+import styled, { ThemeContext } from 'styled-components';
 
 import icons from './icons';
 
@@ -27,11 +26,11 @@ Icon.propTypes = {
   color: PropTypes.string,
   icon: PropTypes.oneOf(Object.keys(icons).concat([''])),
   size: PropTypes.oneOf(['small', 'regular', 'large', '']),
-  theme: PropTypes.object,
 };
 
 function Icon(props) {
-  const { color, icon, size, theme, ...rest } = props;
+  const { color, icon, size, ...rest } = props;
+  const theme = React.useContext(ThemeContext);
 
   const IconComponent = icons[icon];
 
@@ -50,4 +49,4 @@ function Icon(props) {
   );
 }
 
-export default React.memo(withTheme(Icon));
+export default React.memo(Icon);

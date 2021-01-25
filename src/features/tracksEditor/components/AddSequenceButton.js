@@ -22,7 +22,7 @@ const Icon = styled(AddIcon)(({ theme }) => ({
 }));
 
 const Button = styled(Fab)(({ theme }) => ({
-  '&.MuiFab-root': {
+  '&&': {
     backgroundColor: 'transparent',
     border: `2px solid ${theme.palette.primary.light}`,
     borderRadius: theme.shape.borderRadius,

@@ -1,37 +1,34 @@
-import withStyles from '@material-ui/styles/withStyles';
-import classnames from 'classnames';
+import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
 import TrackSequenceNote from './TrackSequenceNote';
 
-const styles = (theme) => ({
-  root: {
-    display: 'flex',
-    height: 64,
-    padding: theme.spacing(1),
-    backgroundColor: theme.palette.primary.light,
-    border: `2px solid ${theme.palette.background.paper}`,
-    borderRadius: theme.shape.borderRadius * 2,
-    overflow: 'hidden',
-    position: 'relative',
-    transition:
-      'box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease',
-  },
-  selected: {
-    backgroundColor: theme.palette.primary.main,
-  },
-});
+const Root = styled.div(({ isSelected, theme }) => ({
+  display: 'flex',
+  height: 64,
+  padding: theme.spacing(1),
+  backgroundColor: isSelected
+    ? theme.palette.primary.main
+    : theme.palette.primary.light,
+  border: `2px solid ${theme.palette.background.paper}`,
+  borderRadius: theme.shape.borderRadius * 2,
+  overflow: 'hidden',
+  position: 'relative',
+  transition: 'box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease',
+}));
 
-// export interface TrackSequenceProps extends WithStyles<typeof styles> {
-//   isDragging?: boolean;
-//   isSelected?: boolean;
-//   onOpen?: (sequence: SequenceWithNotes) => void;
-//   onSelect?: (sequence: SequenceWithNotes) => void;
-//   sequence: SequenceWithNotes;
-// }
+TrackSequence.propTypes = {
+  isDragging: PropTypes.bool,
+  isSelected: PropTypes.bool,
+  onOpen: PropTypes.func,
+  onSelect: PropTypes.func,
+  sequence: PropTypes.object,
+};
 
 function TrackSequence(props) {
-  const { classes, isSelected, onOpen, onSelect, sequence } = props;
+  const { isSelected, onOpen, onSelect, sequence } = props;
+
   const handleClick = React.useCallback(() => {
     if (isSelected) return;
 
@@ -43,8 +40,8 @@ function TrackSequence(props) {
   }, [onOpen, sequence]);
 
   return (
-    <div
-      className={classnames(classes.root, { [classes.selected]: isSelected })}
+    <Root
+      isSelected={isSelected}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
     >
@@ -55,8 +52,8 @@ function TrackSequence(props) {
           note={note}
         />
       ))}
-    </div>
+    </Root>
   );
 }
 
-export default React.memo(withStyles(styles)(TrackSequence));
+export default React.memo(TrackSequence);
