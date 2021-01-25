@@ -1,6 +1,7 @@
-import withStyles from '@material-ui/styles/withStyles';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { hideIf, showIf } from 'react-render-helpers';
+import styled from 'styled-components';
 import Tone from 'tone';
 
 import Dawww from '../../../dawww';
@@ -9,22 +10,20 @@ import shared from '../../shared';
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 const { IconButton, Toolbar } = shared.components;
 
-const styles = (theme) => ({
-  root: {
-    borderBottom: `2px solid ${theme.palette.divider}`,
-    zIndex: 1,
-  },
-});
+const Root = styled(Toolbar)(({ theme }) => ({
+  borderBottom: `2px solid ${theme.palette.divider}`,
+  zIndex: 1,
+}));
 
-// export interface SongViewerToolbarProps extends WithStyles<typeof styles> {
-//   onPause?: () => void;
-//   onPlay?: () => void;
-//   onStop?: () => void;
-//   playbackState?: string;
-// }
+SongViewerToolbar.propTypes = {
+  onPause: PropTypes.func,
+  onPlay: PropTypes.func,
+  onStop: PropTypes.func,
+  playbackState: PropTypes.string,
+};
 
 function SongViewerToolbar(props) {
-  const { classes, onPause, onPlay, onStop, playbackState } = props;
+  const { onPause, onPlay, onStop, playbackState } = props;
 
   const playPause = React.useCallback(
     function playPause() {
@@ -42,8 +41,7 @@ function SongViewerToolbar(props) {
   );
 
   return (
-    <Toolbar
-      className={classes.root}
+    <Root
       rightItems={
         <React.Fragment>
           {hideIf(playbackState === STARTED)(
@@ -61,4 +59,4 @@ function SongViewerToolbar(props) {
   );
 }
 
-export default React.memo(withStyles(styles)(SongViewerToolbar));
+export default React.memo(SongViewerToolbar);

@@ -1,77 +1,54 @@
-import withStyles from '@material-ui/styles/withStyles';
-import classnames from 'classnames';
 import noop from 'lodash/fp/noop';
+import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
 import Icon from './Icon';
 
-const styles = (theme) => ({
-  root: {
-    alignItems: 'stretch',
-    cursor: 'pointer',
-    display: 'flex',
-    flex: '0 0 auto',
-    flexDirection: 'column',
-    height: 40,
-    position: 'relative',
-    transform: 'scale(1)',
-    transition: 'transform 200ms ease',
-    width: 40,
-    '&:hover': {
-      transform: 'scale(1.2)',
-    },
-    '&:active': {
-      transform: 'scale(0.9)',
-    },
-  },
-  background: {
-    flex: '1 0 auto',
-  },
-  iconWrapper: {
-    position: 'absolute',
-  },
-  active: {
-    '&:hover': {
-      transform: 'none',
-    },
-    '&:active': {
-      transform: 'none',
-    },
-    '& $background': {
-      backgroundColor: theme.palette.action.selected,
-    },
-  },
-  disabled: {
-    cursor: 'not-allowed',
-    '&:hover': {
-      transform: 'none',
-    },
-    '&:active': {
-      transform: 'none',
-    },
-    '& $iconWrapper': {
-      opacity: 0.5,
-    },
-  },
+const Background = styled.div({
+  flex: '1 0 auto',
 });
 
-// export interface IconButtonProps extends WithStyles<typeof styles> {
-//   className?: string;
-//   color?: string;
-//   icon?: string;
-//   iconProps?: object;
-//   isActive?: boolean;
-//   isDisabled?: boolean;
-//   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-//   size?: 'small' | 'regular' | 'large' | '';
-//   style?: object;
-//   title?: string;
-// }
+const IconWrapper = styled.div({
+  position: 'absolute',
+});
+
+const Root = styled.div(({ isActive, isDisabled, theme }) => ({
+  alignItems: 'stretch',
+  cursor: isDisabled ? 'not-allowed' : 'pointer',
+  display: 'flex',
+  flex: '0 0 auto',
+  flexDirection: 'column',
+  height: 40,
+  position: 'relative',
+  transform: 'scale(1)',
+  transition: 'transform 200ms ease',
+  width: 40,
+  '&:hover': {
+    transform: isActive || isDisabled ? 'none' : 'scale(1.2)',
+  },
+  '&:active': {
+    transform: isActive || isDisabled ? 'none' : 'scale(0.9)',
+  },
+  [Background]: {
+    backgroundColor: isActive ? theme.palette.action.selected : undefined,
+  },
+  [IconWrapper]: {
+    opacity: isDisabled ? 0.5 : 1,
+  },
+}));
+
+IconButton.propTypes = {
+  color: PropTypes.string,
+  icon: PropTypes.string,
+  iconProps: PropTypes.object,
+  isActive: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  size: PropTypes.oneOf(['small', 'regular', 'large']),
+};
 
 function IconButton(props) {
   const {
-    className,
-    classes,
     color,
     icon,
     iconProps = {},
@@ -79,30 +56,22 @@ function IconButton(props) {
     isDisabled,
     onClick,
     size,
-    style,
-    title,
+    ...rest
   } = props;
 
   return (
-    <div
-      className={classnames(
-        classes.root,
-        {
-          [classes.active]: isActive,
-          [classes.disabled]: isDisabled,
-        },
-        className,
-      )}
+    <Root
+      isActive={isActive}
+      isDisabled={isDisabled}
       onClick={isDisabled ? noop : onClick}
-      style={style}
-      title={title}
+      {...rest}
     >
-      <div className={classes.background} />
-      <div className={classes.iconWrapper}>
+      <Background />
+      <IconWrapper>
         <Icon color={color} icon={icon} size={size} {...iconProps} />
-      </div>
-    </div>
+      </IconWrapper>
+    </Root>
   );
 }
 
-export default React.memo(withStyles(styles)(IconButton));
+export default React.memo(IconButton);

@@ -1,81 +1,86 @@
-import withStyles from '@material-ui/styles/withStyles';
-import classnames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import times from 'lodash/fp/times';
 import round from 'lodash/round';
 import { transparentize } from 'polished';
+import PropTypes from 'prop-types';
 import React from 'react';
 import Draggable from 'react-draggable';
+import styled from 'styled-components';
 
-const styles = (theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-    border: `2px solid ${theme.palette.action.hover}`,
-    borderRadius: theme.shape.borderRadius,
-    cursor: 'pointer',
-    display: 'flex',
-    flex: '0 0 auto',
-    height: 36,
-    marginBottom: theme.spacing(3),
-    position: 'relative',
-    transition: 'width 200ms ease',
+const Resizer = styled.div(({ theme }) => ({
+  backgroundColor: 'rgba(0, 0, 0, 0.0)',
+  border: `2px solid ${theme.palette.divider}`,
+  borderRadius: theme.shape.borderRadius,
+  cursor: 'col-resize',
+  height: 34,
+  left: 0,
+  position: 'absolute',
+  top: -1,
+  width: 24,
+  '&:hover': {
+    borderColor: theme.palette.text.secondary,
   },
-  measure: {
-    alignItems: 'flex-end',
-    bottom: 0,
-    display: 'flex',
-    left: 0,
-    paddingBottom: theme.spacing(0.25),
-    paddingLeft: theme.spacing(0.75),
+  '&::after': {
+    borderLeft: `2px dotted ${theme.palette.text.hint}`,
+    borderRight: `2px dotted ${theme.palette.text.hint}`,
+    content: "''",
+    display: 'block',
+    height: 10,
+    left: '50%',
     position: 'absolute',
-    top: 0,
-    '&:not(:first-child)': {
-      borderLeft: `2px solid ${theme.palette.action.hover}`,
-    },
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 4,
   },
-  measureNumber: {
-    color: transparentize(0.5, theme.palette.text.primary),
-    fontSize: 10,
-    fontWeight: 'bold',
+}));
+
+const Root = styled.div(({ isResizing, theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  border: `2px solid ${theme.palette.action.hover}`,
+  borderRadius: theme.shape.borderRadius,
+  cursor: 'pointer',
+  display: 'flex',
+  flex: '0 0 auto',
+  height: 36,
+  marginBottom: theme.spacing(3),
+  position: 'relative',
+  transition: 'width 200ms ease',
+  ...(isResizing
+    ? {
+        cursor: 'col-resize',
+        transition: 'none',
+        zIndex: 200,
+      }
+    : {}),
+  [Resizer]: {
+    transition: isResizing
+      ? 'none'
+      : 'border-color 200ms ease, transition 200ms ease',
   },
-  resizer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.0)',
-    border: `2px solid ${theme.palette.divider}`,
-    borderRadius: theme.shape.borderRadius,
-    cursor: 'col-resize',
-    height: 34,
-    left: 0,
-    position: 'absolute',
-    top: -1,
-    transition: 'border-color 200ms ease, transition 200ms ease',
-    width: 24,
-    '&:hover': {
-      borderColor: theme.palette.text.secondary,
-    },
-    '&::after': {
-      borderLeft: `2px dotted ${theme.palette.text.hint}`,
-      borderRight: `2px dotted ${theme.palette.text.hint}`,
-      content: "''",
-      display: 'block',
-      height: 10,
-      left: '50%',
-      position: 'absolute',
-      top: '50%',
-      transform: 'translate(-50%, -50%)',
-      width: 4,
-    },
+}));
+
+const Measure = styled(motion.div)(({ theme }) => ({
+  alignItems: 'flex-end',
+  bottom: 0,
+  display: 'flex',
+  left: 0,
+  paddingBottom: theme.spacing(0.25),
+  paddingLeft: theme.spacing(0.75),
+  position: 'absolute',
+  top: 0,
+  '&:not(:first-child)': {
+    borderLeft: `2px solid ${theme.palette.action.hover}`,
   },
-  resizerDraggableWrapper: {
-    position: 'absolute',
-  },
-  resizing: {
-    cursor: 'col-resize',
-    transition: 'none',
-    zIndex: 200,
-    '& $resizer': {
-      transition: 'none',
-    },
-  },
+}));
+
+const MeasureNumber = styled.div(({ theme }) => ({
+  color: transparentize(0.5, theme.palette.text.primary),
+  fontSize: 10,
+  fontWeight: 'bold',
+}));
+
+const ResizerDraggableWrapper = styled.div({
+  position: 'absolute',
 });
 
 // export interface RulerProps extends WithStyles<typeof styles> {
@@ -85,9 +90,15 @@ const styles = (theme) => ({
 //   onPositionSet?: (position: number) => void;
 // }
 
+Ruler.propTypes = {
+  measureCount: PropTypes.number,
+  measureWidth: PropTypes.number,
+  onMeasureCountChange: PropTypes.func,
+  onPositionSet: PropTypes.func,
+};
+
 function Ruler(props) {
   const {
-    classes,
     measureCount,
     measureWidth,
     onMeasureCountChange,
@@ -128,27 +139,24 @@ function Ruler(props) {
   }, [length, onMeasureCountChange]);
 
   return (
-    <div
-      className={classnames(classes.root, {
-        [classes.resizing]: isResizing,
-      })}
+    <Root
+      isResizing={isResizing}
       onClick={handleClick}
       style={{ width: measureWidth * length + 4 }}
     >
       <AnimatePresence>
         {times(
           (i) => (
-            <motion.div
+            <Measure
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               initial={{ opacity: 0 }}
-              className={classes.measure}
               key={i}
               style={{ transform: `translateX(${i * 64}px)` }}
               transition={{ duration: 0.1 }}
             >
-              <div className={classes.measureNumber}>{i + 1}</div>
-            </motion.div>
+              <MeasureNumber>{i + 1}</MeasureNumber>
+            </Measure>
           ),
           Math.round(length),
         )}
@@ -166,12 +174,12 @@ function Ruler(props) {
         onStop={handleResizerDragStop}
         position={{ x: length * 64 + 16, y: 0 }}
       >
-        <div className={classes.resizerDraggableWrapper}>
-          <div className={classes.resizer} />
-        </div>
+        <ResizerDraggableWrapper>
+          <Resizer />
+        </ResizerDraggableWrapper>
       </Draggable>
-    </div>
+    </Root>
   );
 }
 
-export default React.memo(withStyles(styles)(Ruler));
+export default React.memo(Ruler);

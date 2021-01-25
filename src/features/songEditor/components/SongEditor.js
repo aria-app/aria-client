@@ -1,7 +1,8 @@
-import withStyles from '@material-ui/styles/withStyles';
 import { Router } from '@reach/router';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
+import styled from 'styled-components';
 import Tone from 'tone';
 
 import Dawww from '../../../dawww';
@@ -14,35 +15,33 @@ const { STARTED } = Dawww.PLAYBACK_STATES;
 const { NotesEditorContainer } = notesEditor.components;
 const { TracksEditorContainer } = tracksEditor.components;
 
-const styles = {
-  root: {
-    display: 'flex',
-    flex: '1 1 auto',
-    flexDirection: 'column',
-  },
-  router: {
-    display: 'flex',
-    flex: '1 1 auto',
-    flexDirection: 'column',
-    overflow: 'hidden',
-    position: 'relative',
-  },
-};
+const Root = styled.div({
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+});
 
-// export interface SongEditorProps extends WithStyles<typeof styles> {
-//   navigate?: (path: string) => void;
-//   onBPMChange?: (bpm: number) => void;
-//   onPause?: () => void;
-//   onPlay?: () => void;
-//   onStop?: () => void;
-//   playbackState?: string;
-//   song?: Song;
-//   user?: User;
-// }
+const StyledRouter = styled(Router)({
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+  overflow: 'hidden',
+  position: 'relative',
+});
+
+SongEditor.propTypes = {
+  navigate: PropTypes.func,
+  onBPMChange: PropTypes.func,
+  onPause: PropTypes.func,
+  onPlay: PropTypes.func,
+  onStop: PropTypes.func,
+  playbackState: PropTypes.string,
+  song: PropTypes.object,
+  user: PropTypes.object,
+};
 
 function SongEditor(props) {
   const {
-    classes,
     navigate,
     onBPMChange,
     onPause,
@@ -90,15 +89,11 @@ function SongEditor(props) {
   }, [song, song.name]);
 
   if (song.userId && song.userId !== user.uid) {
-    return (
-      <div className={classes.root}>
-        You do not have permissions to edit this song.
-      </div>
-    );
+    return <Root>You do not have permissions to edit this song.</Root>;
   }
 
   return (
-    <div className={classes.root}>
+    <Root>
       <GlobalHotKeys
         allowChanges={true}
         handlers={{ PLAY_PAUSE: playPause, STOP: onStop }}
@@ -111,10 +106,10 @@ function SongEditor(props) {
         onStop={onStop}
         playbackState={playbackState}
       />
-      <Router className={classes.router}>
+      <StyledRouter>
         <TracksEditorContainer path="/" />
         <NotesEditorContainer path="sequence/:sequenceId" />
-      </Router>
+      </StyledRouter>
       <SongInfoModal
         isOpen={isSongInfoModalOpen}
         onBPMChange={onBPMChange}
@@ -123,8 +118,8 @@ function SongEditor(props) {
         onSignOut={handleSignOut}
         song={song}
       />
-    </div>
+    </Root>
   );
 }
 
-export default React.memo(withStyles(styles)(SongEditor));
+export default React.memo(SongEditor);

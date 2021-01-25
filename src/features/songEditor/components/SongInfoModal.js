@@ -6,10 +6,11 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import withStyles from '@material-ui/styles/withStyles';
 import map from 'lodash/fp/map';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
+import styled from 'styled-components';
 
 import Dawww from '../../../dawww';
 import shared from '../../shared';
@@ -18,47 +19,48 @@ const { changeLanguage } = shared.i18n;
 const getBPMRangeItem = (x) => ({ id: x, text: String(x) });
 const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
-const styles = (theme) => ({
-  root: {},
-  shareableLinkAnchor: {
-    marginBottom: theme.spacing(3),
-    marginTop: theme.spacing(0.5),
-  },
-  bpmDropdown: {
-    marginBottom: theme.spacing(3),
-  },
-  content: {
-    alignItems: 'flex-start',
-    display: 'flex',
-    flex: '1 1 auto',
-    flexDirection: 'column',
-  },
-  title: {
-    fontWeight: 800,
-    textTransform: 'uppercase',
-  },
-  selectLanguageTitle: {
-    marginBottom: theme.spacing(1),
-    marginTop: theme.spacing(2),
-  },
-  button: {
-    marginBottom: theme.spacing(1),
-    paddingTop: theme.spacing(1),
-  },
+const ShareableLinkAnchor = styled.a(({ theme }) => ({
+  marginBottom: theme.spacing(3),
+  marginTop: theme.spacing(0.5),
+}));
+
+const BpmDropdown = styled(FormControl)(({ theme }) => ({
+  marginBottom: theme.spacing(3),
+}));
+
+const Content = styled(DialogContent)(({ theme }) => ({
+  alignItems: 'flex-start',
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+}));
+
+const Title = styled(DialogTitle)({
+  fontWeight: 800,
+  textTransform: 'uppercase',
 });
 
-// export interface SongInfoModalProps extends WithStyles<typeof styles> {
-//   isOpen?: boolean;
-//   onBPMChange?: (bpm: number) => void;
-//   onConfirm?: () => void;
-//   onReturnToDashboard?: () => void;
-//   onSignOut?: () => void;
-//   song?: Song;
-// }
+const SelectLanguageTitle = styled(InputLabel)(({ theme }) => ({
+  marginBottom: theme.spacing(1),
+  marginTop: theme.spacing(2),
+}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  marginBottom: theme.spacing(1),
+  paddingTop: theme.spacing(1),
+}));
+
+SongInfoModal.propTypes = {
+  isOpen: PropTypes.bool,
+  onBPMChange: PropTypes.func,
+  onConfirm: PropTypes.func,
+  onReturnToDashboard: PropTypes.func,
+  onSignOut: PropTypes.func,
+  song: PropTypes.object,
+};
 
 function SongInfoModal(props) {
   const {
-    classes,
     isOpen,
     onBPMChange,
     onConfirm,
@@ -78,24 +80,22 @@ function SongInfoModal(props) {
     <Translation>
       {(t) => (
         <Dialog
-          className={classes.root}
           fullWidth={true}
           maxWidth="xs"
           onClose={onConfirm}
           open={isOpen}
         >
-          <DialogTitle className={classes.title}>{t('Song Info')}</DialogTitle>
-          <DialogContent className={classes.content}>
+          <Title>{t('Song Info')}</Title>
+          <Content>
             <InputLabel>Shareable Link</InputLabel>
-            <a
-              className={classes.shareableLinkAnchor}
+            <ShareableLinkAnchor
               href={`${process.env.PUBLIC_URL}/view-song/${song.id}`}
               rel="noopener noreferrer"
               target="_blank"
             >
               https://ariaapp.io/view-song/{song.id}
-            </a>
-            <FormControl className={classes.bpmDropdown}>
+            </ShareableLinkAnchor>
+            <BpmDropdown>
               <InputLabel htmlFor="bpm">BPM</InputLabel>
               <Select
                 inputProps={{ name: 'bpm', id: 'bpm' }}
@@ -108,43 +108,31 @@ function SongInfoModal(props) {
                   </MenuItem>
                 ))}
               </Select>
-            </FormControl>
-            <Button
-              className={classes.button}
-              variant="outlined"
-              onClick={onReturnToDashboard}
-            >
+            </BpmDropdown>
+            <StyledButton onClick={onReturnToDashboard} variant="outlined">
               {t('Return to Dashboard')}
-            </Button>
-            <Button
-              className={classes.button}
-              variant="outlined"
-              onClick={onSignOut}
-            >
+            </StyledButton>
+            <StyledButton onClick={onSignOut} variant="outlined">
               {t('Sign Out')}
-            </Button>
-            <InputLabel className={classes.selectLanguageTitle}>
-              {t('Select Language')}
-            </InputLabel>
-            <Button
-              className={classes.button}
-              variant="outlined"
+            </StyledButton>
+            <SelectLanguageTitle>{t('Select Language')}</SelectLanguageTitle>
+            <StyledButton
               onClick={() => changeLanguage('en')}
+              variant="outlined"
             >
               {t('English')}
-            </Button>
-            <Button
-              className={classes.button}
-              variant="outlined"
+            </StyledButton>
+            <StyledButton
               onClick={() => changeLanguage('jp')}
+              variant="outlined"
             >
               {t('Japanese')}
-            </Button>
-          </DialogContent>
+            </StyledButton>
+          </Content>
         </Dialog>
       )}
     </Translation>
   );
 }
 
-export default React.memo(withStyles(styles)(SongInfoModal));
+export default React.memo(SongInfoModal);

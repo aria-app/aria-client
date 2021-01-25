@@ -1,7 +1,8 @@
 import Fade from '@material-ui/core/Fade';
 import Slider from '@material-ui/core/Slider';
-import withStyles from '@material-ui/styles/withStyles';
+import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
 import Dawww from '../../../dawww';
 import shared from '../../shared';
@@ -9,53 +10,56 @@ import SongViewerToolbar from './SongViewerToolbar';
 
 const { LoadingIndicator } = shared.components;
 
-const styles = (theme) => ({
-  root: {
-    display: 'flex',
-    flex: '1 1 auto',
-    flexDirection: 'column',
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  content: {
-    display: 'flex',
-    flex: '1 1 auto',
-    flexDirection: 'column',
-    padding: theme.spacing(2),
-  },
-  name: {
-    ...theme.typography.h5,
-    marginBottom: theme.spacing(3),
-  },
-  sliderWrapper: {
-    alignItems: 'center',
-    display: 'flex',
-  },
-  slider: {
-    flex: '1 1 auto',
-    width: 'auto',
-  },
-  time: {
-    paddingLeft: theme.spacing(3),
-  },
+const Root = styled.div({
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+  overflow: 'hidden',
+  position: 'relative',
 });
 
-// export interface SongViewerProps extends WithStyles<typeof styles> {
-//   isLoading?: boolean;
-//   onLoad?: (payload: { songId: string }) => void;
-//   onPause?: () => void;
-//   onPlay?: () => void;
-//   onPositionSet?: (position: number) => void;
-//   onStop?: () => void;
-//   playbackState?: string;
-//   position?: number;
-//   song?: Song;
-//   songId?: string;
-// }
+const Content = styled.div(({ theme }) => ({
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+  padding: theme.spacing(2),
+}));
+
+const Name = styled.div(({ theme }) => ({
+  ...theme.typography.h5,
+  marginBottom: theme.spacing(3),
+}));
+
+const SliderWrapper = styled.div({
+  alignItems: 'center',
+  display: 'flex',
+});
+
+const StyledSlider = styled(Slider)({
+  flex: '1 1 auto',
+  width: 'auto',
+});
+
+const Time = styled.div(({ theme }) => ({
+  flex: '0 0 auto',
+  paddingLeft: theme.spacing(3),
+}));
+
+SongViewer.propTypes = {
+  isLoading: PropTypes.bool,
+  onLoad: PropTypes.func,
+  onPause: PropTypes.func,
+  onPlay: PropTypes.func,
+  onPositionSet: PropTypes.func,
+  onStop: PropTypes.func,
+  playbackState: PropTypes.string,
+  position: PropTypes.number,
+  song: PropTypes.object,
+  songId: PropTypes.string,
+};
 
 function SongViewer(props) {
   const {
-    classes,
     isLoading,
     onLoad,
     onPause,
@@ -117,33 +121,32 @@ function SongViewer(props) {
         <LoadingIndicator>Loading Song...</LoadingIndicator>
       </Fade>
       <Fade in={!isLoading} mountOnEnter unmountOnExit>
-        <div className={classes.root}>
+        <Root>
           <SongViewerToolbar
             onPause={onPause}
             onPlay={onPlay}
             onStop={onStop}
             playbackState={playbackState}
           />
-          <div className={classes.content}>
-            <div className={classes.name}>{song.name}</div>
-            <div className={classes.sliderWrapper}>
-              <Slider
-                className={classes.slider}
+          <Content>
+            <Name>{song.name}</Name>
+            <SliderWrapper>
+              <StyledSlider
                 max={song.measureCount * 32}
                 onChange={handleChange}
                 onChangeCommitted={handleChangeCommitted}
                 onMouseDown={handleMouseDown}
                 value={positionState}
               />
-              <div className={classes.time}>
+              <Time>
                 {Math.ceil(elapsedSeconds)} / {totalSeconds}
-              </div>
-            </div>
-          </div>
-        </div>
+              </Time>
+            </SliderWrapper>
+          </Content>
+        </Root>
       </Fade>
     </React.Fragment>
   );
 }
 
-export default React.memo(withStyles(styles)(SongViewer));
+export default React.memo(SongViewer);

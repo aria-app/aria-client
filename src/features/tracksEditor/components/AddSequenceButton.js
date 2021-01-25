@@ -1,22 +1,28 @@
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import withStyles from '@material-ui/styles/withStyles';
+import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
-const styles = (theme) => ({
-  root: {
-    alignItems: 'center',
-    cursor: 'pointer',
-    display: 'flex',
-    flex: '0 0 auto',
-    height: 64,
-    justifyContent: 'center',
-    left: 0,
-    position: 'absolute',
-    transition: 'transform 200ms ease',
-    width: 64,
-  },
-  button: {
+const Root = styled.div({
+  alignItems: 'center',
+  cursor: 'pointer',
+  display: 'flex',
+  flex: '0 0 auto',
+  height: 64,
+  justifyContent: 'center',
+  left: 0,
+  position: 'absolute',
+  transition: 'transform 200ms ease',
+  width: 64,
+});
+
+const Icon = styled(AddIcon)(({ theme }) => ({
+  fill: theme.palette.primary.light,
+}));
+
+const Button = styled(Fab)(({ theme }) => ({
+  '&.MuiFab-root': {
     backgroundColor: 'transparent',
     border: `2px solid ${theme.palette.primary.light}`,
     borderRadius: theme.shape.borderRadius,
@@ -24,39 +30,35 @@ const styles = (theme) => ({
     '&:hover': {
       backgroundColor: 'transparent',
       borderColor: theme.palette.primary.main,
+      [Icon]: {
+        fill: theme.palette.primary.main,
+      },
     },
   },
-  icon: {
-    fill: theme.palette.primary.light,
-    '$button:hover &': {
-      fill: theme.palette.primary.main,
-    },
-  },
-});
+}));
 
-// export interface TrackSequenceProps extends WithStyles<typeof styles> {
-//   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-//   position?: number;
-// }
+AddSequenceButton.propTypes = {
+  onClick: PropTypes.func,
+  position: PropTypes.number,
+};
 
 function AddSequenceButton(props) {
-  const { classes, onClick, position } = props;
+  const { onClick, position } = props;
 
   const handleClick = React.useCallback(() => {
     onClick(position);
   }, [onClick, position]);
 
   return (
-    <div
-      className={classes.root}
+    <Root
       onClick={handleClick}
       style={{ transform: `translateX(${position * 64}px)` }}
     >
-      <Fab className={classes.button} size="small">
-        <AddIcon className={classes.icon} />
-      </Fab>
-    </div>
+      <Button size="small">
+        <Icon />
+      </Button>
+    </Root>
   );
 }
 
-export default React.memo(withStyles(styles)(AddSequenceButton));
+export default React.memo(AddSequenceButton);

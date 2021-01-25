@@ -1,28 +1,20 @@
-import withStyles from '@material-ui/styles/withStyles';
 import React from 'react';
+import styled from 'styled-components';
 
-const styles = {
-  root: {
-    alignItems: 'center',
-    bottom: 0,
-    display: 'flex',
-    flex: '1 1 auto',
-    justifyContent: 'center',
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-  },
-};
-
-// export interface LoadingIndicatorProps extends WithStyles<typeof styles> {
-//   children?: React.ReactNode;
-// }
+const Root = styled.div({
+  alignItems: 'center',
+  bottom: 0,
+  display: 'flex',
+  flex: '1 1 auto',
+  justifyContent: 'center',
+  left: 0,
+  position: 'absolute',
+  right: 0,
+  top: 0,
+});
 
 function LoadingIndicator(props) {
-  const { children, classes } = props;
-
-  return <div className={classes.root}>{children}</div>;
+  return <Root {...props} />;
 }
 
-export default React.memo(withStyles(styles)(LoadingIndicator));
+export default React.memo(LoadingIndicator);

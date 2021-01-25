@@ -1,39 +1,34 @@
-import withStyles from '@material-ui/styles/withStyles';
-import classnames from 'classnames';
+import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
-const styles = (theme) => ({
-  root: {
-    backgroundColor: theme.palette.text.primary,
-    bottom: 0,
-    left: 0,
-    opacity: 0.25,
-    pointerEvents: 'none',
-    position: 'absolute',
-    top: 0,
-    width: 2,
-  },
-});
+const Root = styled.div(({ theme }) => ({
+  backgroundColor: theme.palette.text.primary,
+  bottom: 0,
+  left: 0,
+  opacity: 0.25,
+  pointerEvents: 'none',
+  position: 'absolute',
+  top: 0,
+  width: 2,
+}));
 
-// export interface TimelineProps extends WithStyles<typeof styles> {
-//   className?: string;
-//   isVisible?: boolean;
-//   offset?: number;
-//   style?: React.CSSProperties;
-// }
+Timeline.propTypes = {
+  isVisible: PropTypes.bool,
+  offset: PropTypes.number,
+};
 
 function Timeline(props) {
-  const { className, classes, isVisible, offset, style = {}, ...rest } = props;
+  const { isVisible, offset, style = {}, ...rest } = props;
 
   if (!isVisible) return null;
 
   return (
-    <div
-      className={classnames(classes.root, className)}
+    <Root
       style={{ ...style, transform: `translateX(${offset}px)` }}
       {...rest}
     />
   );
 }
 
-export default React.memo(withStyles(styles)(Timeline));
+export default React.memo(Timeline);
