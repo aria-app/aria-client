@@ -1,5 +1,4 @@
-import { IconButton, Stack, Text } from '@chakra-ui/react';
-import CloseIcon from '@material-ui/icons/Close';
+import { CloseButton, Stack, Text } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -45,7 +44,7 @@ function SongListItem(props) {
         <Text flexGrow={1} variant="label">
           {song.name}
         </Text>
-        <IconButton icon={<CloseIcon />} onClick={handleDeleteClick} />
+        <CloseButton onClick={handleDeleteClick} />
       </Stack>
     </Box>
   );

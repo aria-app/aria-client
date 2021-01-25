@@ -35,11 +35,6 @@ const chakraTheme = extendTheme({
   components: {
     Heading: {
       variants: {
-        default: {
-          fontSize: '2xl',
-          fontWeight: 'normal',
-          lineHeight: 'none',
-        },
         display: {
           fontSize: '8xl',
           fontWeight: 'semibold',
@@ -53,6 +48,9 @@ const chakraTheme = extendTheme({
       },
     },
     Text: {
+      defaultProps: {
+        variant: 'body',
+      },
       variants: {
         body: {
           fontSize: 'md',
@@ -61,11 +59,6 @@ const chakraTheme = extendTheme({
         },
         bodySmall: {
           fontSize: 'sm',
-          fontWeight: 'normal',
-          lineHeight: 'none',
-        },
-        default: {
-          fontSize: 'md',
           fontWeight: 'normal',
           lineHeight: 'none',
         },
