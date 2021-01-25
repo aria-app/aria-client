@@ -1,8 +1,8 @@
+import styled from '@emotion/styled';
 import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import styled from 'styled-components';
 
 import shared from '../../shared';
 

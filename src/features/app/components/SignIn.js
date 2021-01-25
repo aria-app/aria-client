@@ -1,9 +1,9 @@
+import styled from '@emotion/styled';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import { Redirect } from '@reach/router';
 import { PropTypes } from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
-import styled from 'styled-components';
 
 import shared from '../../shared';
 

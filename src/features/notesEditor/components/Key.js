@@ -1,8 +1,8 @@
+import styled from '@emotion/styled';
 import includes from 'lodash/fp/includes';
 import PropTypes from 'prop-types';
 import React from 'react';
 import showIf from 'react-render-helpers/showIf';
-import styled from 'styled-components';
 
 const Root = styled.div(({ isHoveredRow, isSharp, theme }) => ({
   alignItems: 'center',

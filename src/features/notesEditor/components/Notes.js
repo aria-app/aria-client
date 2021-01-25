@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import find from 'lodash/fp/find';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
@@ -7,7 +8,6 @@ import min from 'lodash/fp/min';
 import uniqBy from 'lodash/fp/uniqBy';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
 
 import Dawww from '../../../dawww';
 import * as constants from '../constants';

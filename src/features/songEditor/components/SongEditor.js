@@ -1,8 +1,8 @@
+import styled from '@emotion/styled';
 import { Router } from '@reach/router';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
-import styled from 'styled-components';
 import Tone from 'tone';
 
 import Dawww from '../../../dawww';

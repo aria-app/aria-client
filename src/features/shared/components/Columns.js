@@ -1,7 +1,7 @@
+import styled from '@emotion/styled';
 import includes from 'lodash/fp/includes';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
 
 import { spacingAliases, verticalAlignments } from '../constants';
 import Box from './Box';

@@ -1,10 +1,10 @@
+import styled from '@emotion/styled';
 import find from 'lodash/fp/find';
 import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
-import styled from 'styled-components';
 
 import Dawww from '../../../dawww';
 import shared from '../../shared';
