@@ -31,7 +31,7 @@ Grid.propTypes = {
   measureCount: PropTypes.number,
   mousePoint: PropTypes.object,
   notes: PropTypes.arrayOf(PropTypes.object),
-  notesEditorContentEl: PropTypes.element,
+  notesEditorContentEl: PropTypes.object,
   onDrag: PropTypes.func,
   onDragPreview: PropTypes.func,
   onDraw: PropTypes.func,

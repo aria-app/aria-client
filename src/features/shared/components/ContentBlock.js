@@ -1,20 +1,10 @@
-import styled from '@emotion/styled';
+import Box from '@material-ui/core/Box';
 import React from 'react';
 
-import Box from './Box';
-
-const Root = styled(Box)({
-  maxWidth: 640,
-});
-
-function ContentBlock(props) {
-  const { children, ...rest } = props;
-
-  return (
-    <Root marginX="auto" width="full" {...rest}>
-      {children}
-    </Root>
-  );
-}
-
-export default React.memo(ContentBlock);
+export default React.forwardRef((props, ref) => (
+  <Box
+    ref={ref}
+    sx={{ marginX: 'auto', maxWidth: '640px', width: 'full' }}
+    {...props}
+  />
+));

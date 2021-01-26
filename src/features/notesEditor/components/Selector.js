@@ -17,8 +17,8 @@ const Root = styled.div({
 Selector.propTypes = {
   isEnabled: PropTypes.bool,
   onSelect: PropTypes.func,
-  scrollLeftEl: PropTypes.element,
-  scrollTopEl: PropTypes.element,
+  scrollLeftEl: PropTypes.object,
+  scrollTopEl: PropTypes.object,
 };
 
 function Selector(props) {

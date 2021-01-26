@@ -12,8 +12,8 @@ const Root = styled.div(({ isPanning }) => ({
 }));
 
 Panner.propTypes = {
-  scrollLeftEl: PropTypes.element,
-  scrollTopEl: PropTypes.element,
+  scrollLeftEl: PropTypes.object,
+  scrollTopEl: PropTypes.object,
 };
 
 function Panner(props) {
