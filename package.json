@@ -15,7 +15,6 @@
     "storybook": "start-storybook -p 9009 -s public"
   },
   "dependencies": {
-    "@chakra-ui/react": "1.1.6",
     "@emotion/react": "11.1.4",
     "@emotion/styled": "11.0.0",
     "@loadable/component": "5.14.1",
@@ -51,6 +50,7 @@
     "reselect": "^4.0.0",
     "rxjs": "6.6.3",
     "shortid": "^2.2.16",
+    "styled-system": "5.1.5",
     "tone": "^13.4.9"
   },
   "devDependencies": {

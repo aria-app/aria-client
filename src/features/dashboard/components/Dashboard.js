@@ -92,9 +92,9 @@ function Dashboard(props) {
           <Column width="content">
             <Box
               borderRadius="full"
-              boxSize="10"
               isInteractionOverlayVisible
               onClick={handleUserClick}
+              size={5}
             >
               <img
                 alt="User"

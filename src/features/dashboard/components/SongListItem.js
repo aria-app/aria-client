@@ -1,11 +1,11 @@
-import { IconButton, Stack, Text } from '@chakra-ui/react';
+import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import shared from '../../shared';
 
-const { Box } = shared.components;
+const { Box, Column, Columns, Text } = shared.components;
 
 SongListItem.propTypes = {
   onClick: PropTypes.func,
@@ -33,7 +33,7 @@ function SongListItem(props) {
     <Box
       backgroundColor="paper"
       borderColor="border"
-      borderRadius="base"
+      borderRadius="medium"
       borderWidth={2}
       isInteractionOverlayVisible
       onClick={handleClick}
@@ -41,12 +41,16 @@ function SongListItem(props) {
       paddingRight="small"
       paddingY="small"
     >
-      <Stack align="center" direction="row" space={4}>
-        <Text flexGrow={1} variant="label">
-          {song.name}
-        </Text>
-        <IconButton icon={<CloseIcon />} onClick={handleDeleteClick} />
-      </Stack>
+      <Columns alignY="center" space="medium">
+        <Column>
+          <Text variant="label">{song.name}</Text>
+        </Column>
+        <Column width="content">
+          <IconButton onClick={handleDeleteClick} size="small">
+            <CloseIcon />
+          </IconButton>
+        </Column>
+      </Columns>
     </Box>
   );
 }
