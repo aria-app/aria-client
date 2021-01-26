@@ -1,6 +1,4 @@
-import { ThemeProvider } from '@emotion/react';
-import styled from '@emotion/styled';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
 import { Router } from '@reach/router';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -15,17 +13,9 @@ import SignInContainer from './SignInContainer';
 import SignOutContainer from './SignOutContainer';
 
 const { DashboardContainer } = dashboard.components;
-const { LoadingIndicator, Shell } = shared.components;
+const { LoadingIndicator, Shell, ThemeProvider } = shared.components;
 const { SongEditorContainer } = songEditor.components;
 const { SongViewerContainer } = songViewer.components;
-
-const StyledRouter = styled(Router)({
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  overflow: 'hidden',
-  position: 'relative',
-});
 
 App.propTypes = {
   didAuthenticationRun: PropTypes.bool,
@@ -36,36 +26,43 @@ function App(props) {
   const { didAuthenticationRun, isAuthenticated } = props;
 
   return (
-    <MuiThemeProvider theme={shared.theme}>
-      <ThemeProvider theme={shared.theme}>
-        <Shell>
-          {hideIf(didAuthenticationRun)(
-            <LoadingIndicator>AUTHENTICATING...</LoadingIndicator>,
-          )}
-          {showIf(didAuthenticationRun)(
-            <StyledRouter>
-              <SignInContainer path="sign-in" />
-              <SignOutContainer path="sign-out" />
-              <PrivateRoute
-                component={DashboardContainer}
-                isAuthenticated={isAuthenticated}
-                path="/"
-              />
-              <PrivateRoute
-                component={SongEditorContainer}
-                isAuthenticated={isAuthenticated}
-                path="edit-song/:songId/*"
-              />
-              <PrivateRoute
-                component={SongViewerContainer}
-                isAuthenticated={isAuthenticated}
-                path="view-song/:songId"
-              />
-            </StyledRouter>,
-          )}
-        </Shell>
-      </ThemeProvider>
-    </MuiThemeProvider>
+    <ThemeProvider>
+      <Shell>
+        {hideIf(didAuthenticationRun)(
+          <LoadingIndicator>AUTHENTICATING...</LoadingIndicator>,
+        )}
+        {showIf(didAuthenticationRun)(
+          <Box
+            component={Router}
+            sx={{
+              display: 'flex',
+              flex: '1 1 auto',
+              flexDirection: 'column',
+              overflow: 'hidden',
+              position: 'relative',
+            }}
+          >
+            <SignInContainer path="sign-in" />
+            <SignOutContainer path="sign-out" />
+            <PrivateRoute
+              component={DashboardContainer}
+              isAuthenticated={isAuthenticated}
+              path="/"
+            />
+            <PrivateRoute
+              component={SongEditorContainer}
+              isAuthenticated={isAuthenticated}
+              path="edit-song/:songId/*"
+            />
+            <PrivateRoute
+              component={SongViewerContainer}
+              isAuthenticated={isAuthenticated}
+              path="view-song/:songId"
+            />
+          </Box>,
+        )}
+      </Shell>
+    </ThemeProvider>
   );
 }
 

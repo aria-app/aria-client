@@ -11,5 +11,6 @@ export { default as LoadingIndicator } from './LoadingIndicator';
 export { default as Shell } from './Shell';
 export { default as Stack } from './Stack';
 export { default as Text } from './Text';
+export { default as ThemeProvider } from './ThemeProvider';
 export { default as Timeline } from './Timeline';
 export { default as Toolbar } from './Toolbar';

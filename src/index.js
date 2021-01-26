@@ -1,4 +1,3 @@
-import { StylesProvider } from '@material-ui/core/styles';
 import React from 'react';
 import { render } from 'react-dom';
 import { configure as configureHotkeys } from 'react-hotkeys';
@@ -24,10 +23,8 @@ store.dispatch(shared.actions.initialized());
 const { AppContainer } = app.components;
 
 render(
-  <StylesProvider injectFirst={true}>
-    <Provider store={store}>
-      <AppContainer />
-    </Provider>
-  </StylesProvider>,
+  <Provider store={store}>
+    <AppContainer />
+  </Provider>,
   document.querySelector('#root'),
 );

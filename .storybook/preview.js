@@ -1,9 +1,7 @@
 import React from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import { ThemeProvider } from '@emotion/react';
 import shared from '../src/features/shared';
 
-const { Shell } = shared.components;
+const { Shell, ThemeProvider } = shared.components;
 const { changeLanguage } = shared.i18n;
 
 export const globalTypes = {
@@ -38,12 +36,10 @@ export const decorators = [
     }, [context.globals.locale]);
 
     return (
-      <MuiThemeProvider theme={shared.theme}>
-        <ThemeProvider theme={shared.theme}>
-          <Shell style={{ display: 'none' }} />
-          <Story />
-        </ThemeProvider>
-      </MuiThemeProvider>
+      <ThemeProvider>
+        <Shell style={{ display: 'none' }} />
+        <Story />
+      </ThemeProvider>
     );
   },
 ];
