@@ -11,6 +11,7 @@ export default createMuiTheme({
     },
     secondary: red,
   },
+  spacing: 4,
   typography: {
     fontFamily: 'Nunito, Helvetica, sans-serif',
     fontSize: 14,

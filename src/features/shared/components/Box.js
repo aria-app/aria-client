@@ -5,7 +5,7 @@ import isNumber from 'lodash/fp/isNumber';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { borderRadii, spacingAliases } from '../constants';
+import { borderRadii } from '../constants';
 
 const isDarkColor = (color) =>
   includes(color, ['error', 'primary', 'subtle', 'success', 'text']);
@@ -86,7 +86,7 @@ const Root = styled(motion.div)((props) => ({
 
 export const spacingPropType = PropTypes.oneOfType([
   PropTypes.number,
-  PropTypes.oneOf(spacingAliases),
+  PropTypes.string,
 ]);
 
 Box.propTypes = {
@@ -151,7 +151,7 @@ export function toSpacing(spacing) {
   const pxToRem = (px) => px / 16;
 
   if (isNumber(spacing)) {
-    return `${pxToRem(spacing * 8)}rem`;
+    return `${pxToRem(spacing * 4)}rem`;
   }
 
   return {

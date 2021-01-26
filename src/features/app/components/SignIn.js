@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import { Redirect } from '@reach/router';
 import { PropTypes } from 'prop-types';
@@ -7,14 +9,7 @@ import { Translation } from 'react-i18next';
 
 import shared from '../../shared';
 
-const { Box, Button, Column, Columns, Stack, Text } = shared.components;
-
-const Root = styled.div({
-  alignItems: 'center',
-  display: 'flex',
-  flex: '1 1 auto',
-  justifyContent: 'center',
-});
+const { Button, Column, Columns, Stack } = shared.components;
 
 const StyledMusicNoteIcon = styled(MusicNoteIcon)((props) => ({
   fill: props.theme.palette.common.white,
@@ -43,46 +38,54 @@ function SignIn(props) {
   return (
     <Translation>
       {(t) => (
-        <Root>
-          <Box marginTop="-xxlarge">
-            <Stack space="xlarge">
-              <Stack space="medium">
-                <Columns alignY="center" space="medium">
-                  <Column width="content">
-                    <Box
-                      backgroundColor="primary"
-                      borderRadius="medium"
-                      paddingBottom="xsmall"
-                      paddingTop="small"
-                      paddingX="small"
-                    >
-                      <StyledMusicNoteIcon />
-                    </Box>
-                  </Column>
-                  <Column>
-                    <Box paddingTop="xxsmall">
-                      <Text color="primary" variant="display">
-                        Aria
-                      </Text>
-                    </Box>
-                  </Column>
-                </Columns>
-                <Text color="subtle" variant="headline">
-                  {t(
-                    'An easy-to-use music sequencer inspired by Little Big Planet.',
-                  )}
-                </Text>
-              </Stack>
-              <Button
-                color="primary"
-                onClick={handleSignInClick}
-                variant="contained"
-              >
-                {t('Sign in with Google')}
-              </Button>
+        <Box
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            flex: '1 1 auto',
+            justifyContent: 'center',
+            marginTop: -24,
+          }}
+        >
+          <Stack space={12}>
+            <Stack space={4}>
+              <Columns alignY="center" space={6}>
+                <Column width="content">
+                  <Box
+                    sx={{
+                      backgroundColor: 'primary.main',
+                      borderRadius: 2,
+                      paddingBottom: 2,
+                      paddingTop: 3,
+                      paddingX: 3,
+                    }}
+                  >
+                    <StyledMusicNoteIcon />
+                  </Box>
+                </Column>
+                <Column>
+                  <Box sx={{ paddingTop: 1 }}>
+                    <Typography color="primary" variant="h1">
+                      Aria
+                    </Typography>
+                  </Box>
+                </Column>
+              </Columns>
+              <Typography color="textSecondary" variant="h5">
+                {t(
+                  'An easy-to-use music sequencer inspired by Little Big Planet.',
+                )}
+              </Typography>
             </Stack>
-          </Box>
-        </Root>
+            <Button
+              color="primary"
+              onClick={handleSignInClick}
+              variant="contained"
+            >
+              {t('Sign in with Google')}
+            </Button>
+          </Stack>
+        </Box>
       )}
     </Translation>
   );
