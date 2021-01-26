@@ -20,12 +20,12 @@ const getBPMRangeItem = (x) => ({ id: x, text: String(x) });
 const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
 const ShareableLinkAnchor = styled.a(({ theme }) => ({
-  marginBottom: theme.spacing(3),
-  marginTop: theme.spacing(0.5),
+  marginBottom: theme.spacing(6),
+  marginTop: theme.spacing(1),
 }));
 
 const BpmDropdown = styled(FormControl)(({ theme }) => ({
-  marginBottom: theme.spacing(3),
+  marginBottom: theme.spacing(6),
 }));
 
 const Content = styled(DialogContent)(({ theme }) => ({
@@ -33,6 +33,7 @@ const Content = styled(DialogContent)(({ theme }) => ({
   display: 'flex',
   flex: '1 1 auto',
   flexDirection: 'column',
+  paddingBottom: theme.spacing(4),
 }));
 
 const Title = styled(DialogTitle)({
@@ -41,13 +42,13 @@ const Title = styled(DialogTitle)({
 });
 
 const SelectLanguageTitle = styled(InputLabel)(({ theme }) => ({
-  marginBottom: theme.spacing(1),
-  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+  marginTop: theme.spacing(4),
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
-  marginBottom: theme.spacing(1),
-  paddingTop: theme.spacing(1),
+  marginBottom: theme.spacing(2),
+  paddingTop: theme.spacing(2),
 }));
 
 SongInfoModal.propTypes = {

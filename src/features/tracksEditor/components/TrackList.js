@@ -78,7 +78,7 @@ function TrackList(props) {
             onClick={onSequenceDeselect}
             sx={{ ...theme.mixins.absoluteFill }}
           />
-          <Stack space={10}>
+          <Stack space={8}>
             <Ruler
               measureCount={songMeasureCount}
               measureWidth={64}

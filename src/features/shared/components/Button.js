@@ -10,6 +10,7 @@ export default React.forwardRef((props, ref) => {
       ref={ref}
       size="large"
       sx={{
+        fontSize: (theme) => theme.typography.button.fontSize,
         ...(variant === 'outlined'
           ? {
               borderWidth: 2,
