@@ -122,7 +122,7 @@ function Track(props) {
   );
 
   return (
-    <Stack space={3}>
+    <Stack space={2}>
       <Translation>
         {(t) => (
           <TrackHeader onClick={handleHeaderClick}>

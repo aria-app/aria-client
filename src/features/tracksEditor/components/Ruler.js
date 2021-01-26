@@ -8,7 +8,7 @@ import React from 'react';
 import Draggable from 'react-draggable';
 
 const Resizer = styled.div(({ theme }) => ({
-  backgroundColor: 'rgba(0, 0, 0, 0.0)',
+  backgroundColor: theme.palette.background.paper,
   border: `2px solid ${theme.palette.divider}`,
   borderRadius: theme.shape.borderRadius,
   cursor: 'col-resize',

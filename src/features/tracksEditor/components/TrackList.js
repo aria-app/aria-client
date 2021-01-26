@@ -78,39 +78,37 @@ function TrackList(props) {
             onClick={onSequenceDeselect}
             sx={{ ...theme.mixins.absoluteFill }}
           />
-          <Stack space={8}>
+
+          <Stack
+            componentProps={{
+              item: {
+                animate: { opacity: 1 },
+                exit: { opacity: 0 },
+                initial: { opacity: 0 },
+              },
+            }}
+            isAnimated
+            space={6}
+          >
             <Ruler
               measureCount={songMeasureCount}
               measureWidth={64}
               onMeasureCountChange={onSongMeasureCountChange}
               onPositionSet={onPositionSet}
             />
-            <Stack
-              className="stakk"
-              componentProps={{
-                item: {
-                  animate: { opacity: 1 },
-                  exit: { opacity: 0 },
-                  initial: { opacity: 0 },
-                },
-              }}
-              isAnimated
-              space={6}
-            >
-              {tracks.map((track) => (
-                <Track
-                  key={track.id}
-                  onSequenceAdd={onSequenceAdd}
-                  onSequenceEdit={onSequenceEdit}
-                  onSequenceOpen={onSequenceOpen}
-                  onSequenceSelect={onSequenceSelect}
-                  onTrackSelect={onTrackStage}
-                  selectedSequenceId={selectedSequence.id}
-                  songMeasureCount={songMeasureCount}
-                  track={track}
-                />
-              ))}
-            </Stack>
+            {tracks.map((track) => (
+              <Track
+                key={track.id}
+                onSequenceAdd={onSequenceAdd}
+                onSequenceEdit={onSequenceEdit}
+                onSequenceOpen={onSequenceOpen}
+                onSequenceSelect={onSequenceSelect}
+                onTrackSelect={onTrackStage}
+                selectedSequenceId={selectedSequence.id}
+                songMeasureCount={songMeasureCount}
+                track={track}
+              />
+            ))}
             <Button
               onClick={onTrackAdd}
               startIcon={<AddIcon />}

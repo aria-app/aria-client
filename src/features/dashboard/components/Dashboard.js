@@ -1,4 +1,4 @@
-import Fab from '@material-ui/core/Fab';
+import Box from '@material-ui/core/Box';
 import Fade from '@material-ui/core/Fade';
 import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
@@ -8,12 +8,12 @@ import shared from '../../shared';
 import SongList from './SongList';
 
 const {
-  Box,
+  Button,
   Column,
   Columns,
   ContentBlock,
-  Stack,
   LoadingIndicator,
+  Stack,
 } = shared.components;
 
 Dashboard.propTypes = {
@@ -82,19 +82,25 @@ function Dashboard(props) {
   return (
     <Stack space={4}>
       <Box
-        backgroundColor="paper"
-        borderBottomWidth={2}
-        borderColor="border"
-        padding="xsmall"
+        sx={{
+          backgroundColor: 'background.paper',
+          borderBottomStyle: 'solid',
+          borderColor: 'divider',
+          borderWidth: 2,
+          padding: 2,
+        }}
       >
         <Columns space="medium">
           <Column />
           <Column width="content">
             <Box
-              borderRadius="full"
-              isInteractionOverlayVisible
               onClick={handleUserClick}
-              size={5}
+              sx={{
+                borderRadius: 9999,
+                height: 40,
+                overflow: 'hidden',
+                width: 40,
+              }}
             >
               <img
                 alt="User"
@@ -119,10 +125,21 @@ function Dashboard(props) {
             />
           </ContentBlock>
         </Fade>
-        <Box bottom="medium" position="absolute" right="medium">
-          <Fab color="primary" onClick={handleSongAdd}>
-            <AddIcon />
-          </Fab>
+        <Box
+          sx={{
+            bottom: (theme) => theme.spacing(4),
+            position: 'absolute',
+            right: (theme) => theme.spacing(4),
+          }}
+        >
+          <Button
+            color="primary"
+            onClick={handleSongAdd}
+            startIcon={<AddIcon />}
+            variant="contained"
+          >
+            Add Song
+          </Button>
         </Box>
       </Stack>
     </Stack>

@@ -2,9 +2,8 @@ import { Global, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 
-import Box from './Box';
-
-const Root = styled(Box)(({ theme }) => ({
+const Root = styled.div(({ theme }) => ({
+  backgroundColor: theme.palette.background.default,
   color: theme.palette.text.primary,
   bottom: 0,
   display: 'flex',
@@ -22,7 +21,7 @@ function Shell(props) {
   const theme = useTheme();
 
   return (
-    <Root backgroundColor="background" {...rest}>
+    <Root {...rest}>
       <Global
         styles={{
           '*': {
