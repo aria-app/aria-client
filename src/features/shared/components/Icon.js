@@ -9,18 +9,18 @@ const Root = styled.div(({ theme }) => ({
   alignItems: 'center',
   display: 'flex',
   flex: '0 0 auto',
-  height: theme.spacing(5),
+  height: theme.spacing(10),
   justifyContent: 'center',
-  width: theme.spacing(5),
+  width: theme.spacing(10),
 }));
 
 const Content = styled.div(({ theme }) => ({
   alignItems: 'center',
   display: 'flex',
   flex: '0 0 auto',
-  height: theme.spacing(3),
+  height: theme.spacing(6),
   justifyContent: 'center',
-  width: theme.spacing(3),
+  width: theme.spacing(6),
 }));
 
 Icon.propTypes = {
@@ -41,8 +41,8 @@ function Icon(props) {
         <IconComponent
           color={color || (theme && theme.palette.action.active)}
           size={
-            { large: theme.spacing(3), small: theme.spacing(1.5) }[size] ||
-            theme.spacing(2.5)
+            { large: theme.spacing(6), small: theme.spacing(3) }[size] ||
+            theme.spacing(5)
           }
         />
       </Content>

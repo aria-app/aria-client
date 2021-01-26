@@ -33,7 +33,7 @@ export function Animated(args) {
   }, []);
 
   return (
-    <Stack space="medium">
+    <Stack space={4}>
       <Button onClick={handleAdd} variant="contained">
         Add Item
       </Button>

@@ -1,19 +1,8 @@
-import styled from '@emotion/styled';
+import Box from '@material-ui/core/Box';
 import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
-import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
-
-const Root = styled.div(({ theme }) => ({
-  backgroundColor: transparentize(0.75, theme.palette.primary.main),
-  border: `2px solid ${theme.palette.primary.main}`,
-  borderRadius: 2,
-  left: 0,
-  pointerEvents: 'none',
-  position: 'absolute',
-  top: 0,
-}));
 
 Fence.propTypes = {
   endPoint: PropTypes.object,
@@ -52,7 +41,25 @@ function Fence(props) {
     return (Math.abs(endPoint.x - startPoint.x) + 1) * 40;
   }, [endPoint, startPoint]);
 
-  return <Root style={{ display, height, transform, width }} />;
+  return (
+    <Box
+      sx={{
+        backgroundColor: 'primary.main25',
+        borderColor: 'primary.main',
+        borderRadius: 1,
+        borderStyle: 'solid',
+        borderWidth: 2,
+        display,
+        height,
+        left: 0,
+        pointerEvents: 'none',
+        position: 'absolute',
+        top: 0,
+        transform,
+        width,
+      }}
+    />
+  );
 }
 
 export default React.memo(Fence);

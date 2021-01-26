@@ -31,7 +31,7 @@ function SongList(props) {
         },
       }}
       isAnimated
-      space="medium"
+      space={4}
     >
       {sortedSongs.map((song) => (
         <SongListItem

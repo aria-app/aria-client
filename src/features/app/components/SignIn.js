@@ -1,6 +1,4 @@
-import styled from '@emotion/styled';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import { Redirect } from '@reach/router';
 import { PropTypes } from 'prop-types';
@@ -9,12 +7,7 @@ import { Translation } from 'react-i18next';
 
 import shared from '../../shared';
 
-const { Button, Column, Columns, Stack } = shared.components;
-
-const StyledMusicNoteIcon = styled(MusicNoteIcon)((props) => ({
-  fill: props.theme.palette.common.white,
-  fontSize: 56,
-}));
+const { Button, Column, Columns, Stack, Typography } = shared.components;
 
 SignIn.propTypes = {
   isAuthenticated: PropTypes.bool,
@@ -60,7 +53,12 @@ function SignIn(props) {
                       paddingX: 3,
                     }}
                   >
-                    <StyledMusicNoteIcon />
+                    <MusicNoteIcon
+                      sx={{
+                        color: 'common.white',
+                        fontSize: 56,
+                      }}
+                    />
                   </Box>
                 </Column>
                 <Column>

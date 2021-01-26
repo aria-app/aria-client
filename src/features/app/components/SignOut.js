@@ -1,17 +1,10 @@
-import styled from '@emotion/styled';
+import Box from '@material-ui/core/Box';
 import { Redirect } from '@reach/router';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
 
 import shared from '../../shared';
-
-const Root = styled.div({
-  alignItems: 'center',
-  display: 'flex',
-  flex: '1 1 auto',
-  justifyContent: 'center',
-});
 
 SignOut.propTypes = {
   isAuthenticated: PropTypes.bool,
@@ -32,7 +25,22 @@ function SignOut(props) {
     return <Redirect noThrow to="/sign-in" />;
   }
 
-  return <Translation>{(t) => <Root>{t('Signing Out')}</Root>}</Translation>;
+  return (
+    <Translation>
+      {(t) => (
+        <Box
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            flex: '1 1 auto',
+            justifyContent: 'center',
+          }}
+        >
+          {t('Signing Out')}
+        </Box>
+      )}
+    </Translation>
+  );
 }
 
 export default React.memo(SignOut);

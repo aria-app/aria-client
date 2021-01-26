@@ -1,19 +1,26 @@
-import red from '@material-ui/core/colors/red';
 import { createMuiTheme } from '@material-ui/core/styles';
 
-// Default theme reference: https://material-ui.com/customization/default-theme/
+import breakpoints from './breakpoints';
+import mixins from './mixins';
+import palette from './palette';
+import shadows from './shadows';
+import transitions from './transitions';
+import typography from './typography';
+import zIndex from './zIndex';
+
 export default createMuiTheme({
-  palette: {
-    primary: {
-      light: '#9b9bf9',
-      main: '#5944ff',
-      dark: '#2f2a9b',
-    },
-    secondary: red,
+  breakpoints,
+  direction: 'ltr',
+  mixins,
+  components: {},
+  palette,
+  shadows,
+  typography,
+  shape: {
+    borderRadius: 4,
   },
   spacing: 4,
-  typography: {
-    fontFamily: 'Nunito, Helvetica, sans-serif',
-    fontSize: 14,
-  },
+  transitions,
+  zIndex,
+  nprogress: { color: '#000' },
 });

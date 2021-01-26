@@ -80,7 +80,7 @@ function Dashboard(props) {
   }, [onLoad]);
 
   return (
-    <Stack space="medium">
+    <Stack space={4}>
       <Box
         backgroundColor="paper"
         borderBottomWidth={2}

@@ -27,10 +27,10 @@ const Content = styled.div(({ theme }) => ({
   flex: '1 0 auto',
   flexDirection: 'column',
   minWidth: '100%',
-  padding: theme.spacing(2),
-  paddingBottom: theme.spacing(2) + 64,
-  paddingRight: theme.spacing(2) + 128,
-  paddingTop: theme.spacing(2),
+  padding: theme.spacing(4),
+  paddingBottom: theme.spacing(4) + 64,
+  paddingRight: theme.spacing(4) + 128,
+  paddingTop: theme.spacing(4),
   position: 'relative',
 }));
 
@@ -44,7 +44,7 @@ const Underlay = styled.div({
 
 const AddTrackButtonIcon = styled(AddIcon)(({ theme }) => ({
   fill: theme.palette.text.hint,
-  marginRight: theme.spacing(1),
+  marginRight: theme.spacing(2),
 }));
 
 const AddTrackButton = styled(Fab)(({ theme }) => ({
@@ -57,7 +57,7 @@ const AddTrackButton = styled(Fab)(({ theme }) => ({
     fontWeight: 600,
     height: 40,
     lineHeight: 'inherit',
-    paddingLeft: theme.spacing(1),
+    paddingLeft: theme.spacing(2),
     '&:hover': {
       backgroundColor: theme.palette.background.paper,
       borderColor: theme.palette.text.secondary,
