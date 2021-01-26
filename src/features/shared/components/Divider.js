@@ -1,17 +1,24 @@
-import styled from '@emotion/styled';
+import MuiDivider from '@material-ui/core/Divider';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Root = styled.hr((props) => ({
-  backgroundColor: props.theme.palette.divider,
-  border: 0,
-  height: props.thickness === 'thin' ? 1 : 2,
-}));
+const Divider = React.forwardRef((props, ref) => {
+  const { sx = {}, thickness, ...rest } = props;
+
+  return (
+    <MuiDivider
+      ref={ref}
+      sx={{
+        borderBottomWidth: thickness === 'thin' ? 1 : 2,
+        ...sx,
+      }}
+      {...rest}
+    />
+  );
+});
 
 Divider.propTypes = {
   thickness: PropTypes.oneOf(['regular', 'thin']),
 };
 
-export default function Divider(props) {
-  return <Root {...props} />;
-}
+export default Divider;
