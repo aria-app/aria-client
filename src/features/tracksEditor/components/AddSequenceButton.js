@@ -1,48 +1,15 @@
-import styled from '@emotion/styled/macro';
+import Box from '@material-ui/core/Box';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 import React from 'react';
-
-const Root = styled.div({
-  alignItems: 'center',
-  cursor: 'pointer',
-  display: 'flex',
-  flex: '0 0 auto',
-  height: 64,
-  justifyContent: 'center',
-  left: 0,
-  position: 'absolute',
-  transition: 'transform 200ms ease',
-  width: 64,
-});
-
-const Icon = styled(AddIcon)(({ theme }) => ({
-  fill: theme.palette.primary.light,
-}));
-
-const Button = styled(Fab)(({ theme }) => ({
-  '&&': {
-    backgroundColor: 'transparent',
-    border: `2px solid ${theme.palette.primary.light}`,
-    borderRadius: theme.shape.borderRadius,
-    boxShadow: 'none',
-    '&:hover': {
-      backgroundColor: 'transparent',
-      borderColor: theme.palette.primary.main,
-      [Icon]: {
-        fill: theme.palette.primary.main,
-      },
-    },
-  },
-}));
 
 AddSequenceButton.propTypes = {
   onClick: PropTypes.func,
   position: PropTypes.number,
 };
 
-function AddSequenceButton(props) {
+export default function AddSequenceButton(props) {
   const { onClick, position } = props;
 
   const handleClick = React.useCallback(() => {
@@ -50,15 +17,44 @@ function AddSequenceButton(props) {
   }, [onClick, position]);
 
   return (
-    <Root
+    <Box
       onClick={handleClick}
       style={{ transform: `translateX(${position * 64}px)` }}
+      sx={{
+        alignItems: 'center',
+        cursor: 'pointer',
+        display: 'flex',
+        flex: '0 0 auto',
+        height: 64,
+        justifyContent: 'center',
+        left: 0,
+        position: 'absolute',
+        transition: 'transform 200ms ease',
+        width: 64,
+      }}
     >
-      <Button size="small">
-        <Icon />
-      </Button>
-    </Root>
+      <Fab
+        size="small"
+        sx={{
+          '&&': {
+            backgroundColor: 'transparent',
+            borderColor: 'primary.light',
+            borderRadius: 1,
+            borderStyle: 'solid',
+            borderWidth: 2,
+            boxShadow: 'none',
+            '&:hover': {
+              backgroundColor: 'transparent',
+              borderColor: 'primary.main',
+              '.MuiIcon-root': {
+                color: 'primary.main',
+              },
+            },
+          },
+        }}
+      >
+        <AddIcon sx={{ color: 'primary.light' }} />
+      </Fab>
+    </Box>
   );
 }
-
-export default React.memo(AddSequenceButton);

@@ -1,15 +1,15 @@
 import { useTheme } from '@emotion/react';
 import Box from '@material-ui/core/Box';
 import Fade from '@material-ui/core/Fade';
-import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import shared from '../../shared';
+import AddTrackButton from './AddTrackButton';
 import Ruler from './Ruler';
 import Track from './Track';
 
-const { Button, LoadingIndicator, Stack } = shared.components;
+const { LoadingIndicator, Stack } = shared.components;
 
 TrackList.propTypes = {
   isLoading: PropTypes.bool,
@@ -109,13 +109,7 @@ function TrackList(props) {
                 track={track}
               />
             ))}
-            <Button
-              onClick={onTrackAdd}
-              startIcon={<AddIcon />}
-              variant="outlined"
-            >
-              Add Track
-            </Button>
+            <AddTrackButton onClick={onTrackAdd} />
           </Stack>
         </Box>
       </Fade>
