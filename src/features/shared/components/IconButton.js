@@ -1,7 +1,7 @@
+import styled from '@emotion/styled/macro';
 import noop from 'lodash/fp/noop';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
 
 import Icon from './Icon';
 

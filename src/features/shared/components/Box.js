@@ -1,9 +1,9 @@
+import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import includes from 'lodash/fp/includes';
 import isNumber from 'lodash/fp/isNumber';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled, { withTheme } from 'styled-components';
 
 import { borderRadii, spacingAliases } from '../constants';
 
@@ -122,10 +122,9 @@ Box.propTypes = {
   size: spacingPropType,
   top: spacingPropType,
   width: spacingPropType,
-  theme: PropTypes.object,
 };
 
-function Box(props) {
+export default function Box(props) {
   const {
     backgroundColor = 'none',
     borderColor = 'none',
@@ -175,5 +174,3 @@ export function toSpacing(spacing) {
     xxsmall: `${pxToRem(4)}rem`,
   }[spacing];
 }
-
-export default withTheme(Box);

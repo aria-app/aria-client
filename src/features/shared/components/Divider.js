@@ -1,6 +1,6 @@
+import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
 
 const Root = styled.hr((props) => ({
   backgroundColor: props.theme.palette.divider,

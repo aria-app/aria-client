@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import Fade from '@material-ui/core/Fade';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
@@ -7,7 +8,6 @@ import memoizeOne from 'memoize-one';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
-import styled from 'styled-components';
 
 import Dawww from '../../../dawww';
 import audio from '../../audio';

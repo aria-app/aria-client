@@ -1,9 +1,10 @@
+import { ThemeProvider } from '@emotion/react';
+import styled from '@emotion/styled';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { Router } from '@reach/router';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { hideIf, showIf } from 'react-render-helpers';
-import styled, { ThemeProvider } from 'styled-components';
 
 import dashboard from '../../dashboard';
 import shared from '../../shared';

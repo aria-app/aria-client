@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import compose from 'lodash/fp/compose';
 import first from 'lodash/fp/first';
 import noop from 'lodash/fp/noop';
@@ -5,7 +6,6 @@ import split from 'lodash/fp/split';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
-import styled from 'styled-components';
 
 import Note from './Note';
 

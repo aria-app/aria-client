@@ -1,9 +1,9 @@
+import styled from '@emotion/styled/macro';
 import first from 'lodash/fp/first';
 import last from 'lodash/fp/last';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Draggable from 'react-draggable';
-import styled from 'styled-components';
 
 const Connector = styled.div({
   height: 10,

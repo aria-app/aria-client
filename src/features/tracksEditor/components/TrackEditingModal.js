@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -11,7 +12,6 @@ import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
-import styled from 'styled-components';
 
 import Dawww from '../../../dawww';
 

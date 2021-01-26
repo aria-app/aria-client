@@ -1,7 +1,7 @@
+import styled from '@emotion/styled';
 import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
 
 import Dawww from '../../../dawww';
 import shared from '../../shared';

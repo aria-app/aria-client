@@ -1,7 +1,7 @@
+import styled from '@emotion/styled';
 import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
 
 const Root = styled.div(({ isSequenceSelected, theme }) => ({
   backgroundColor: isSequenceSelected
