@@ -1,7 +1,6 @@
-import { useTheme } from '@emotion/react';
-import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled, { ThemeContext } from 'styled-components';
 
 import icons from './icons';
 
@@ -31,7 +30,7 @@ Icon.propTypes = {
 
 function Icon(props) {
   const { color, icon, size, ...rest } = props;
-  const theme = useTheme();
+  const theme = React.useContext(ThemeContext);
 
   const IconComponent = icons[icon];
 

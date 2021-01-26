@@ -1,8 +1,8 @@
-import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
 import flatten from 'lodash/fp/flatten';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
 import { stackAlignments } from '../constants';
 import Box, { spacingPropType } from './Box';

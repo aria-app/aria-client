@@ -1,8 +1,8 @@
-import styled from '@emotion/styled/macro';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
 const Root = styled.div({
   alignItems: 'center',

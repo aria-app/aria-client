@@ -1,9 +1,9 @@
-import styled from '@emotion/styled';
 import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
 import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
 const Root = styled.div(({ theme }) => ({
   backgroundColor: transparentize(0.75, theme.palette.primary.main),

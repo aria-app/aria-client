@@ -1,10 +1,10 @@
-import styled from '@emotion/styled/macro';
 import Fab from '@material-ui/core/Fab';
 import Fade from '@material-ui/core/Fade';
 import AddIcon from '@material-ui/icons/Add';
 import { AnimatePresence, motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
 import shared from '../../shared';
 import Ruler from './Ruler';

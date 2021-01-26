@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import { ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from 'styled-components';
 import shared from '../src/features/shared';
 
 const { Shell } = shared.components;

@@ -1,5 +1,5 @@
-import { configureStore } from '@reduxjs/toolkit';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
+import { configureStore } from '@reduxjs/toolkit';
 
 import createReducerManager from './createReducerManager';
 import audio from './features/audio';

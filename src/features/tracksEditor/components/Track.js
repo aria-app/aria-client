@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
 import each from 'lodash/fp/each';
 import find from 'lodash/fp/find';
@@ -10,6 +9,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import { showIf } from 'react-render-helpers';
+import styled from 'styled-components';
 
 import shared from '../../shared';
 import AddSequenceButton from './AddSequenceButton';

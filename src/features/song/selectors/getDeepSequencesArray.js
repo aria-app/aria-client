@@ -1,6 +1,6 @@
-import { createSelector } from '@reduxjs/toolkit';
 import filter from 'lodash/fp/filter';
 import map from 'lodash/fp/map';
+import { createSelector } from '@reduxjs/toolkit';
 
 import { getNotesArray } from './getNotesArray';
 import { getSequencesArray } from './getSequencesArray';

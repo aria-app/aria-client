@@ -1,5 +1,5 @@
-import { createSelector } from '@reduxjs/toolkit';
 import values from 'lodash/fp/values';
+import { createSelector } from '@reduxjs/toolkit';
 
 import { getSequences } from './getSequences';
 

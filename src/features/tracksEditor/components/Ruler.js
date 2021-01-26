@@ -1,4 +1,3 @@
-import styled from '@emotion/styled/macro';
 import { AnimatePresence, motion } from 'framer-motion';
 import times from 'lodash/fp/times';
 import round from 'lodash/round';
@@ -6,6 +5,7 @@ import { transparentize } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Draggable from 'react-draggable';
+import styled from 'styled-components';
 
 const Resizer = styled.div(({ theme }) => ({
   backgroundColor: 'rgba(0, 0, 0, 0.0)',
@@ -68,7 +68,7 @@ const Measure = styled(motion.div)(({ theme }) => ({
   paddingLeft: theme.spacing(0.75),
   position: 'absolute',
   top: 0,
-  '&:not(:first-of-type)': {
+  '&:not(:first-child)': {
     borderLeft: `2px solid ${theme.palette.action.hover}`,
   },
 }));

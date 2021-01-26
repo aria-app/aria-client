@@ -1,8 +1,8 @@
-import styled from '@emotion/styled/macro';
 import clamp from 'lodash/fp/clamp';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Draggable from 'react-draggable';
+import styled from 'styled-components';
 
 const Resizer = styled.div(({ theme }) => ({
   backgroundColor: 'transparent',

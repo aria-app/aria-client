@@ -1,8 +1,8 @@
-import styled from '@emotion/styled';
 import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { DraggableCore } from 'react-draggable';
+import styled from 'styled-components';
 
 import Fence from './Fence';
 

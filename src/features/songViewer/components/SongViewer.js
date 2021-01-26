@@ -1,8 +1,8 @@
-import styled from '@emotion/styled';
 import Fade from '@material-ui/core/Fade';
 import Slider from '@material-ui/core/Slider';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
 import Dawww from '../../../dawww';
 import shared from '../../shared';
