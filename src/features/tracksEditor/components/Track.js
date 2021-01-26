@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import Box from '@material-ui/core/Box';
 import { AnimatePresence, motion } from 'framer-motion';
 import each from 'lodash/fp/each';
 import find from 'lodash/fp/find';
@@ -16,27 +16,7 @@ import AddSequenceButton from './AddSequenceButton';
 import TrackHeader from './TrackHeader';
 import TrackSequence from './TrackSequence';
 
-const { GridBoxes } = shared.components;
-
-const Root = styled.div(({ theme }) => ({
-  alignItems: 'stretch',
-  display: 'flex',
-  flex: '0 0 auto',
-  flexDirection: 'column',
-  marginBottom: theme.spacing(3),
-}));
-
-const Sequences = styled.div(({ theme }) => ({
-  alignItems: 'stretch',
-  backgroundColor: theme.palette.background.paper,
-  border: '2px solid transparent',
-  boxShadow: `0 0 0 2px ${theme.palette.action.hover}`,
-  borderRadius: theme.shape.borderRadius * 2,
-  display: 'flex',
-  flex: '1 0 auto',
-  position: 'relative',
-  transition: 'width 500ms ease',
-}));
+const { GridBoxes, Stack } = shared.components;
 
 Track.propTypes = {
   onSequenceAdd: PropTypes.func.isRequired,
@@ -142,7 +122,7 @@ function Track(props) {
   );
 
   return (
-    <Root>
+    <Stack space={3}>
       <Translation>
         {(t) => (
           <TrackHeader onClick={handleHeaderClick}>
@@ -150,7 +130,20 @@ function Track(props) {
           </TrackHeader>
         )}
       </Translation>
-      <Sequences style={{ width: songMeasureCount * 64 + 4 }}>
+      <Box
+        style={{ width: songMeasureCount * 64 + 4 }}
+        sx={{
+          alignItems: 'stretch',
+          backgroundColor: 'background.paper',
+          border: '2px solid transparent',
+          boxShadow: (theme) => `0 0 0 2px ${theme.palette.divider}`,
+          borderRadius: 2,
+          display: 'flex',
+          flex: '1 0 auto',
+          position: 'relative',
+          transition: 'width 500ms ease',
+        }}
+      >
         <GridBoxes
           boxContentComponent={sequenceComponent}
           items={boxesItems}
@@ -174,8 +167,8 @@ function Track(props) {
             </motion.div>
           ))}
         </AnimatePresence>
-      </Sequences>
-    </Root>
+      </Box>
+    </Stack>
   );
 }
 

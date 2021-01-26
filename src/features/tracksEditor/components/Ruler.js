@@ -36,13 +36,12 @@ const Resizer = styled.div(({ theme }) => ({
 
 const Root = styled.div(({ isResizing, theme }) => ({
   backgroundColor: theme.palette.background.paper,
-  border: `2px solid ${theme.palette.action.hover}`,
+  border: `2px solid ${theme.palette.divider}`,
   borderRadius: theme.shape.borderRadius,
   cursor: 'pointer',
   display: 'flex',
   flex: '0 0 auto',
   height: 36,
-  marginBottom: theme.spacing(3),
   position: 'relative',
   transition: 'width 200ms ease',
   ...(isResizing
@@ -69,7 +68,7 @@ const Measure = styled(motion.div)(({ theme }) => ({
   position: 'absolute',
   top: 0,
   '&:not(:first-of-type)': {
-    borderLeft: `2px solid ${theme.palette.action.hover}`,
+    borderLeft: `2px solid ${theme.palette.divider}`,
   },
 }));
 

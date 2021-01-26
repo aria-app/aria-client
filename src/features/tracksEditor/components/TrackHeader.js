@@ -5,7 +5,6 @@ const Root = styled.div(({ theme }) => ({
   alignItems: 'center',
   cursor: 'pointer',
   display: 'flex',
-  marginBottom: theme.spacing(1),
   textTransform: 'uppercase',
   transform: 'scale(1)',
   transition: 'transform 0.2s ease',

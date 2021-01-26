@@ -4,7 +4,7 @@ export default {
   fontSize: 14,
   fontWeightLight: 300,
   fontWeightRegular: 400,
-  fontWeightMedium: 500,
+  fontWeightMedium: 600,
   fontWeightBold: 700,
   h1: {
     fontFamily: 'Nunito, Helvetica, sans-serif',
@@ -43,7 +43,7 @@ export default {
   },
   h6: {
     fontFamily: 'Nunito, Helvetica, sans-serif',
-    fontWeight: 500,
+    fontWeight: 600,
     fontSize: '1.25rem',
     lineHeight: 1.6,
     letterSpacing: '0.0075em',
@@ -57,7 +57,7 @@ export default {
   },
   subtitle2: {
     fontFamily: 'Nunito, Helvetica, sans-serif',
-    fontWeight: 500,
+    fontWeight: 600,
     fontSize: '0.875rem',
     lineHeight: 1.57,
     letterSpacing: '0.00714em',
@@ -76,9 +76,16 @@ export default {
     lineHeight: 1.43,
     letterSpacing: '0.01071em',
   },
+  label: {
+    fontFamily: 'Nunito, Helvetica, sans-serif',
+    fontWeight: 600,
+    fontSize: '1rem',
+    lineHeight: 1.5,
+    letterSpacing: '0.00938em',
+  },
   button: {
     fontFamily: 'Nunito, Helvetica, sans-serif',
-    fontWeight: 500,
+    fontWeight: 600,
     fontSize: '0.875rem',
     lineHeight: 1.75,
     letterSpacing: '0.02857em',

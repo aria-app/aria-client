@@ -54,7 +54,7 @@ export default function Stack(props) {
           }[align],
           display: 'flex',
           flexDirection: 'column',
-          marginTop: space ? `-${space}` : undefined,
+          marginTop: space ? -space : undefined,
         }}
       >
         <Wrapper>

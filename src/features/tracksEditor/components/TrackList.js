@@ -1,8 +1,7 @@
-import styled from '@emotion/styled/macro';
-import Fab from '@material-ui/core/Fab';
+import { useTheme } from '@emotion/react';
+import Box from '@material-ui/core/Box';
 import Fade from '@material-ui/core/Fade';
 import AddIcon from '@material-ui/icons/Add';
-import { AnimatePresence, motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -10,64 +9,7 @@ import shared from '../../shared';
 import Ruler from './Ruler';
 import Track from './Track';
 
-const { LoadingIndicator } = shared.components;
-
-const Root = styled.div({
-  alignItems: 'flex-start',
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  overflow: 'auto',
-  position: 'relative',
-});
-
-const Content = styled.div(({ theme }) => ({
-  alignItems: 'flex-start',
-  display: 'flex',
-  flex: '1 0 auto',
-  flexDirection: 'column',
-  minWidth: '100%',
-  padding: theme.spacing(4),
-  paddingBottom: theme.spacing(4) + 64,
-  paddingRight: theme.spacing(4) + 128,
-  paddingTop: theme.spacing(4),
-  position: 'relative',
-}));
-
-const Underlay = styled.div({
-  bottom: 0,
-  left: 0,
-  position: 'absolute',
-  right: 0,
-  top: 0,
-});
-
-const AddTrackButtonIcon = styled(AddIcon)(({ theme }) => ({
-  fill: theme.palette.text.hint,
-  marginRight: theme.spacing(2),
-}));
-
-const AddTrackButton = styled(Fab)(({ theme }) => ({
-  '&&': {
-    backgroundColor: theme.palette.background.paper,
-    border: `2px solid ${theme.palette.divider}`,
-    borderRadius: theme.shape.borderRadius,
-    boxShadow: 'none',
-    color: theme.palette.text.hint,
-    fontWeight: 600,
-    height: 40,
-    lineHeight: 'inherit',
-    paddingLeft: theme.spacing(2),
-    '&:hover': {
-      backgroundColor: theme.palette.background.paper,
-      borderColor: theme.palette.text.secondary,
-      color: theme.palette.text.secondary,
-      [AddTrackButtonIcon]: {
-        fill: theme.palette.text.secondary,
-      },
-    },
-  },
-}));
+const { Button, LoadingIndicator, Stack } = shared.components;
 
 TrackList.propTypes = {
   isLoading: PropTypes.bool,
@@ -101,30 +43,63 @@ function TrackList(props) {
     songMeasureCount,
     tracks,
   } = props;
+  const theme = useTheme();
 
   return (
-    <Root>
+    <Box
+      sx={{
+        alignItems: 'flex-start',
+        display: 'flex',
+        flex: '1 1 auto',
+        flexDirection: 'column',
+        overflow: 'auto',
+        position: 'relative',
+      }}
+    >
       <Fade in={isLoading} mountOnEnter unmountOnExit>
         <LoadingIndicator>LOADING SONG...</LoadingIndicator>
       </Fade>
       <Fade in={!isLoading} mountOnEnter unmountOnExit>
-        <Content>
-          <Underlay onClick={onSequenceDeselect} />
-          <Ruler
-            measureCount={songMeasureCount}
-            measureWidth={64}
-            onMeasureCountChange={onSongMeasureCountChange}
-            onPositionSet={onPositionSet}
+        <Box
+          sx={{
+            alignItems: 'flex-start',
+            display: 'flex',
+            flex: '1 0 auto',
+            flexDirection: 'column',
+            minWidth: '100%',
+            padding: 4,
+            paddingBottom: (theme) => theme.spacing(4) + 64,
+            paddingRight: (theme) => theme.spacing(4) + 128,
+            paddingTop: 4,
+            position: 'relative',
+          }}
+        >
+          <Box
+            onClick={onSequenceDeselect}
+            sx={{ ...theme.mixins.absoluteFill }}
           />
-          <AnimatePresence>
-            {tracks.map((track) => (
-              <motion.div
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                initial={{ opacity: 0 }}
-                key={track.id}
-              >
+          <Stack space={10}>
+            <Ruler
+              measureCount={songMeasureCount}
+              measureWidth={64}
+              onMeasureCountChange={onSongMeasureCountChange}
+              onPositionSet={onPositionSet}
+            />
+            <Stack
+              className="stakk"
+              componentProps={{
+                item: {
+                  animate: { opacity: 1 },
+                  exit: { opacity: 0 },
+                  initial: { opacity: 0 },
+                },
+              }}
+              isAnimated
+              space={6}
+            >
+              {tracks.map((track) => (
                 <Track
+                  key={track.id}
                   onSequenceAdd={onSequenceAdd}
                   onSequenceEdit={onSequenceEdit}
                   onSequenceOpen={onSequenceOpen}
@@ -134,16 +109,19 @@ function TrackList(props) {
                   songMeasureCount={songMeasureCount}
                   track={track}
                 />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-          <AddTrackButton onClick={onTrackAdd} variant="extended">
-            <AddTrackButtonIcon />
-            Add Track
-          </AddTrackButton>
-        </Content>
+              ))}
+            </Stack>
+            <Button
+              onClick={onTrackAdd}
+              startIcon={<AddIcon />}
+              variant="outlined"
+            >
+              Add Track
+            </Button>
+          </Stack>
+        </Box>
       </Fade>
-    </Root>
+    </Box>
   );
 }
 
