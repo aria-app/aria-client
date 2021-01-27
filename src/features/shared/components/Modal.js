@@ -1,3 +1,4 @@
+import Box from '@material-ui/core/Box';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -16,7 +17,9 @@ function Modal(props) {
   return (
     <Dialog fullWidth={true} maxWidth="xs" open={isOpen} {...rest}>
       {!isNil(titleText) && <DialogTitle>{titleText}</DialogTitle>}
-      <DialogContent sx={{ paddingBottom: 24 }}>{children}</DialogContent>
+      <Box component={DialogContent} sx={{ paddingBottom: 6 }}>
+        {children}
+      </Box>
     </Dialog>
   );
 }

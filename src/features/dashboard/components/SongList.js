@@ -22,17 +22,7 @@ function SongList(props) {
   );
 
   return (
-    <Stack
-      componentProps={{
-        item: {
-          animate: { opacity: 1 },
-          exit: { opacity: 0 },
-          initial: { opacity: 0 },
-        },
-      }}
-      isAnimated
-      space={4}
-    >
+    <Stack space={4}>
       {sortedSongs.map((song) => (
         <SongListItem
           key={song.id}

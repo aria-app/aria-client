@@ -55,7 +55,7 @@ function SongEditorToolbar(props) {
             style={{ alignItems: 'center', display: 'flex' }}
             title="Settings"
           >
-            <SettingsIcon color="action" />
+            <SettingsIcon sx={{ color: 'text.secondary' }} />
           </Box>
         </Column>
         <Column />
@@ -69,7 +69,7 @@ function SongEditorToolbar(props) {
               style={{ alignItems: 'center', display: 'flex' }}
               title="Play"
             >
-              <PlayArrowIcon color="action" />
+              <PlayArrowIcon sx={{ color: 'text.secondary' }} />
             </Box>,
           )}
           {showIf(playbackState === STARTED)(
@@ -81,7 +81,7 @@ function SongEditorToolbar(props) {
               style={{ alignItems: 'center', display: 'flex' }}
               title="Pause"
             >
-              <PauseIcon color="action" />
+              <PauseIcon sx={{ color: 'text.secondary' }} />
             </Box>,
           )}
           {showIf(playbackState !== STOPPED)(
@@ -93,7 +93,7 @@ function SongEditorToolbar(props) {
               style={{ alignItems: 'center', display: 'flex' }}
               title="Stop"
             >
-              <StopIcon color="action" />
+              <StopIcon sx={{ color: 'text.secondary' }} />
             </Box>,
           )}
         </Column>

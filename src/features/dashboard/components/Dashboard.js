@@ -133,10 +133,10 @@ function Dashboard(props) {
           }}
         >
           <Button
-            color="primary"
+            color="primary.main"
             onClick={handleSongAdd}
             startIcon={<AddIcon />}
-            variant="contained"
+            variant="outlined"
           >
             Add Song
           </Button>

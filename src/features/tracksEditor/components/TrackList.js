@@ -79,17 +79,7 @@ function TrackList(props) {
             sx={{ ...theme.mixins.absoluteFill }}
           />
 
-          <Stack
-            componentProps={{
-              item: {
-                animate: { opacity: 1 },
-                exit: { opacity: 0 },
-                initial: { opacity: 0 },
-              },
-            }}
-            isAnimated
-            space={6}
-          >
+          <Stack space={6}>
             <Ruler
               measureCount={songMeasureCount}
               measureWidth={64}

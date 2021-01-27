@@ -41,7 +41,7 @@ function SongInfoModal(props) {
     <Translation>
       {(t) => (
         <Modal isOpen={isOpen} onClose={onConfirm} titleText={t('Song Info')}>
-          <Stack space={4}>
+          <Stack space={4} sx={{ alignItems: 'flex-start' }}>
             <FormGroup label={t('Shareable Link')}>
               <a
                 href={`${process.env.PUBLIC_URL}/view-song/${song.id}`}

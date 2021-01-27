@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import Fade from '@material-ui/core/Fade';
-import Slider from '@material-ui/core/Slider';
+import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -8,27 +7,7 @@ import Dawww from '../../../dawww';
 import shared from '../../shared';
 import SongViewerToolbar from './SongViewerToolbar';
 
-const { LoadingIndicator } = shared.components;
-
-const Root = styled.div({
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  overflow: 'hidden',
-  position: 'relative',
-});
-
-const Content = styled.div(({ theme }) => ({
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  padding: theme.spacing(2),
-}));
-
-const Name = styled.div(({ theme }) => ({
-  ...theme.typography.h5,
-  marginBottom: theme.spacing(3),
-}));
+const { Fade, LoadingIndicator, Slider, Stack, Typography } = shared.components;
 
 const SliderWrapper = styled.div({
   alignItems: 'center',
@@ -42,7 +21,7 @@ const StyledSlider = styled(Slider)({
 
 const Time = styled.div(({ theme }) => ({
   flex: '0 0 auto',
-  paddingLeft: theme.spacing(3),
+  paddingLeft: 6,
 }));
 
 SongViewer.propTypes = {
@@ -117,19 +96,34 @@ function SongViewer(props) {
 
   return (
     <React.Fragment>
-      <Fade in={isLoading} mountOnEnter unmountOnExit>
+      <Fade in={isLoading}>
         <LoadingIndicator>Loading Song...</LoadingIndicator>
       </Fade>
-      <Fade in={!isLoading} mountOnEnter unmountOnExit>
-        <Root>
+      <Fade in={!isLoading}>
+        <Box
+          sx={{
+            display: 'flex',
+            flex: '1 1 auto',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            position: 'relative',
+          }}
+        >
           <SongViewerToolbar
             onPause={onPause}
             onPlay={onPlay}
             onStop={onStop}
             playbackState={playbackState}
           />
-          <Content>
-            <Name>{song.name}</Name>
+          <Box
+            sx={{
+              display: 'flex',
+              flex: '1 1 auto',
+              flexDirection: 'column',
+              padding: 4,
+            }}
+          >
+            <Typography variant="h5">{song.name}</Typography>
             <SliderWrapper>
               <StyledSlider
                 max={song.measureCount * 32}
@@ -142,8 +136,8 @@ function SongViewer(props) {
                 {Math.ceil(elapsedSeconds)} / {totalSeconds}
               </Time>
             </SliderWrapper>
-          </Content>
-        </Root>
+          </Box>
+        </Box>
       </Fade>
     </React.Fragment>
   );

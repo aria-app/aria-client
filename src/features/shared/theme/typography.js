@@ -87,7 +87,7 @@ export default {
     fontFamily: 'Nunito, Helvetica, sans-serif',
     fontWeight: 600,
     fontSize: '0.875rem',
-    lineHeight: 1.75,
+    lineHeight: 1,
     letterSpacing: '0.02857em',
     textTransform: 'uppercase',
   },

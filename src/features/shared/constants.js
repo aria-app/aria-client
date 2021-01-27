@@ -49,8 +49,6 @@ export const spacingAliases = [
   '-xxlarge',
 ];
 
-export const stackAlignments = ['center', 'left', 'right', 'stretch'];
-
 export const SYNC_STATES = {
   FAILED: 'FAILED',
   SYNCED: 'SYNCED',

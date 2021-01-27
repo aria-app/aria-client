@@ -39,7 +39,7 @@ function Icon(props) {
     <Root {...rest}>
       <Content>
         <IconComponent
-          color={color || (theme && theme.palette.action.active)}
+          color={color || (theme && theme.palette.text.secondary)}
           size={
             { large: theme.spacing(6), small: theme.spacing(3) }[size] ||
             theme.spacing(5)

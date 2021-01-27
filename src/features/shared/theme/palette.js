@@ -61,7 +61,7 @@ export default {
     disabled: 'rgba(0, 0, 0, 0.38)',
     hint: 'rgba(0, 0, 0, 0.26)',
     primary: 'rgba(0, 0, 0, 0.87)',
-    secondary: 'rgba(0, 0, 0, 0.54)',
+    secondary: 'rgba(0, 0, 0, 0.48)',
   },
   divider: 'rgba(0, 0, 0, 0.12)',
   background: {
@@ -71,7 +71,7 @@ export default {
     level1: '#fff',
   },
   action: {
-    active: 'rgba(0, 0, 0, 0.54)',
+    active: 'rgba(0, 0, 0, 0.12)',
     hover: 'rgba(0, 0, 0, 0.04)',
     hoverOpacity: 0.04,
     selected: 'rgba(0, 0, 0, 0.08)',
