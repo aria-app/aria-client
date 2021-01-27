@@ -16,9 +16,6 @@ const Root = styled.div(({ isSelected, theme }) => ({
   overflow: 'hidden',
   position: 'relative',
   transition: 'box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease',
-  '&:hover': {
-    transform: `translateY(-1px) scale(0.98)`,
-  },
 }));
 
 TrackSequence.propTypes = {

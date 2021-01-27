@@ -5,6 +5,10 @@ import { readableColor } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+function getIsDarkColor(color) {
+  return readableColor(color) === '#fff';
+}
+
 const Box = React.forwardRef((props, ref) => {
   const {
     interactive,
@@ -59,10 +63,10 @@ const Box = React.forwardRef((props, ref) => {
                 transition: 'opacity 100ms ease',
               },
               ':hover::after': {
-                opacity: 0.15,
+                opacity: getIsDarkColor(interactiveColor) ? 0.1 : 0.2,
               },
               ':active::after': {
-                opacity: 0.3,
+                opacity: getIsDarkColor(interactiveColor) ? 0.25 : 0.4,
               },
             }
           : {}),

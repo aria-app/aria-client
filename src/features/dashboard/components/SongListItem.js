@@ -30,6 +30,7 @@ function SongListItem(props) {
 
   return (
     <Box
+      interactive
       onClick={handleClick}
       sx={{
         backgroundColor: 'background.paper',

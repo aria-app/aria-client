@@ -75,7 +75,7 @@ function SignIn(props) {
               </Typography>
             </Stack>
             <Button
-              color="primary"
+              color="primary.main"
               onClick={handleSignInClick}
               variant="contained"
             >
