@@ -1,5 +1,4 @@
-import { useTheme } from '@emotion/react';
-import Box from '@material-ui/core/Box';
+import styled from '@emotion/styled';
 import compose from 'lodash/fp/compose';
 import first from 'lodash/fp/first';
 import noop from 'lodash/fp/noop';
@@ -9,6 +8,15 @@ import React from 'react';
 import { showIf } from 'react-render-helpers';
 
 import Note from './Note';
+
+const Root = styled.div(({ theme }) => ({
+  ...theme.mixins.absoluteFill,
+}));
+
+const StyledNote = styled(Note)({
+  opacity: 0.4,
+  pointerEvents: 'none',
+});
 
 DrawLayer.propTypes = {
   mousePoint: PropTypes.object,
@@ -20,7 +28,6 @@ function DrawLayer(props) {
   const { mousePoint, onDraw } = props;
   const [isDrawing, setIsDrawing] = React.useState(false);
   const [isMouseOver, setIsMouseOver] = React.useState(false);
-  const theme = useTheme();
 
   const ghostNoteNote = React.useMemo(
     () => ({
@@ -76,18 +83,15 @@ function DrawLayer(props) {
   }, [isDrawing, mousePoint, onDraw]);
 
   return (
-    <Box
+    <Root
       onMouseDown={handleMouseDown}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onMouseUp={handleMouseUp}
       ref={ref}
-      sx={{
-        ...theme.mixins.absoluteFill,
-      }}
     >
       {showIf(isMouseOver)(
-        <Box
+        <StyledNote
           component={Note}
           note={ghostNoteNote}
           onDrag={noop}
@@ -96,13 +100,9 @@ function DrawLayer(props) {
           onEndPointDrag={noop}
           onEndPointDragStart={noop}
           onEndPointDragStop={noop}
-          sx={{
-            opacity: 0.4,
-            pointerEvents: 'none',
-          }}
         />,
       )}
-    </Box>
+    </Root>
   );
 }
 

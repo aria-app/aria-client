@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -7,7 +6,7 @@ import Dawww from '../../../dawww';
 import shared from '../../shared';
 import SongViewerToolbar from './SongViewerToolbar';
 
-const { Fade, LoadingIndicator, Slider, Stack, Typography } = shared.components;
+const { Box, Fade, LoadingIndicator, Slider, Typography } = shared.components;
 
 const SliderWrapper = styled.div({
   alignItems: 'center',

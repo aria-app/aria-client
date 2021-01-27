@@ -1,11 +1,10 @@
-import Box from '@material-ui/core/Box';
 import CloseIcon from '@material-ui/icons/Close';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import shared from '../../shared';
 
-const { Column, Columns, Text } = shared.components;
+const { Box, Column, Columns, Text } = shared.components;
 
 SongListItem.propTypes = {
   onClick: PropTypes.func,

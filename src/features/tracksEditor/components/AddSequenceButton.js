@@ -1,11 +1,10 @@
-import Box from '@material-ui/core/Box';
 import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import shared from '../../shared';
 
-const { Button } = shared.components;
+const { Box, Button } = shared.components;
 
 AddSequenceButton.propTypes = {
   onClick: PropTypes.func,

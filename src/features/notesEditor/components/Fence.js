@@ -1,8 +1,11 @@
-import Box from '@material-ui/core/Box';
 import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
 import PropTypes from 'prop-types';
 import React from 'react';
+
+import shared from '../../shared';
+
+const { Box } = shared.components;
 
 Fence.propTypes = {
   endPoint: PropTypes.object,

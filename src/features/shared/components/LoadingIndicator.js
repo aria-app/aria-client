@@ -1,7 +1,8 @@
-import Box from '@material-ui/core/Box';
 import React from 'react';
 
-export default React.forwardRef((props, ref) => (
+import Box from './Box';
+
+const LoadingIndicator = React.forwardRef((props, ref) => (
   <Box
     ref={ref}
     sx={{
@@ -18,3 +19,5 @@ export default React.forwardRef((props, ref) => (
     {...props}
   />
 ));
+
+export default LoadingIndicator;

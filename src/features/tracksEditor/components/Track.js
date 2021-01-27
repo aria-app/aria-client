@@ -1,4 +1,3 @@
-import Box from '@material-ui/core/Box';
 import { AnimatePresence, motion } from 'framer-motion';
 import each from 'lodash/fp/each';
 import find from 'lodash/fp/find';
@@ -16,7 +15,7 @@ import AddSequenceButton from './AddSequenceButton';
 import TrackHeader from './TrackHeader';
 import TrackSequence from './TrackSequence';
 
-const { GridBoxes, Stack } = shared.components;
+const { Box, GridBoxes, Stack } = shared.components;
 
 Track.propTypes = {
   onSequenceAdd: PropTypes.func.isRequired,

@@ -1,5 +1,4 @@
 import { useTheme } from '@emotion/react';
-import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -8,7 +7,7 @@ import AddTrackButton from './AddTrackButton';
 import Ruler from './Ruler';
 import Track from './Track';
 
-const { Fade, LoadingIndicator, Stack } = shared.components;
+const { Box, Fade, LoadingIndicator, Stack } = shared.components;
 
 TrackList.propTypes = {
   isLoading: PropTypes.bool,

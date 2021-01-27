@@ -1,5 +1,6 @@
-import Box from '@material-ui/core/Box';
 import React from 'react';
+
+import Box from './Box';
 
 export default React.forwardRef((props, ref) => (
   <Box

@@ -1,8 +1,8 @@
-import Box from '@material-ui/core/Box';
 import flatten from 'lodash/fp/flatten';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Box from './Box';
 import Divider from './Divider';
 
 Stack.propTypes = {

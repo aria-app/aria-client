@@ -1,10 +1,11 @@
-import Box from '@material-ui/core/Box';
 import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import shared from '../../shared';
 import SongList from './SongList';
+
+const { Box } = shared.components;
 
 const {
   Button,

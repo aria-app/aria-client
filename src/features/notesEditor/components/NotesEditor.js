@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -17,35 +16,12 @@ import Keys from './Keys';
 import NotesEditorToolbar from './NotesEditorToolbar';
 
 const { previewPitch } = audio.helpers;
-const { Fade, LoadingIndicator } = shared.components;
+const { Box, Fade, LoadingIndicator } = shared.components;
 const { toggleInArray } = shared.helpers;
 
 const getNotesByIds = memoizeOne((notes, ids) =>
   notes.filter((note) => includes(note.id, ids)),
 );
-
-const Root = styled.div({
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  overflow: 'hidden',
-  position: 'relative',
-});
-
-const Content = styled.div({
-  display: 'flex',
-  flex: '1 1 0',
-  flexDirection: 'column',
-  overflowX: 'hidden',
-  overflowY: 'scroll',
-});
-
-const Wrapper = styled.div({
-  display: 'flex',
-  flex: '1 0 auto',
-  paddingBottom: 64,
-  paddingTop: 64,
-});
 
 NotesEditor.propTypes = {
   isRedoEnabled: PropTypes.bool,
@@ -367,7 +343,15 @@ function NotesEditor(props) {
   }, [contentEl, sequence]);
 
   return (
-    <Root>
+    <Box
+      sx={{
+        display: 'flex',
+        flex: '1 1 auto',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        position: 'relative',
+      }}
+    >
       <GlobalHotKeys
         allowChanges={true}
         handlers={{
@@ -411,9 +395,25 @@ function NotesEditor(props) {
         <LoadingIndicator>LOADING SONG...</LoadingIndicator>
       </Fade>
       <React.Fragment>
-        <Content ref={handleContentRefChange}>
+        <Box
+          ref={handleContentRefChange}
+          sx={{
+            display: 'flex',
+            flex: '1 1 0',
+            flexDirection: 'column',
+            overflowX: 'hidden',
+            overflowY: 'scroll',
+          }}
+        >
           <Fade in={!isLoading}>
-            <Wrapper>
+            <Box
+              sx={{
+                display: 'flex',
+                flex: '1 0 auto',
+                paddingBottom: 16,
+                paddingTop: 16,
+              }}
+            >
               <Keys hoveredRow={mousePoint.y} onKeyPress={handlePreviewPitch} />
               <Grid
                 measureCount={sequence.measureCount}
@@ -431,9 +431,9 @@ function NotesEditor(props) {
                 selectedNotes={selectedNotes}
                 toolType={toolType}
               />
-            </Wrapper>
+            </Box>
           </Fade>
-        </Content>
+        </Box>
         <NotesEditorToolbar
           isRedoEnabled={isRedoEnabled}
           isUndoEnabled={isUndoEnabled}
@@ -454,7 +454,7 @@ function NotesEditor(props) {
           toolType={toolType}
         />
       </React.Fragment>
-    </Root>
+    </Box>
   );
 }
 

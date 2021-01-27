@@ -1,11 +1,10 @@
-import Box from '@material-ui/core/Box';
 import AddIcon from '@material-ui/icons/Add';
 import React from 'react';
 import { Translation } from 'react-i18next';
 
 import shared from '../../shared';
 
-const { Button } = shared.components;
+const { Box, Button } = shared.components;
 
 export default function AddTrackButton(props) {
   return (

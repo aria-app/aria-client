@@ -1,4 +1,3 @@
-import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
@@ -12,7 +11,7 @@ import PositionIndicator from './PositionIndicator';
 import Selector from './Selector';
 import Slots from './Slots';
 
-const { Timeline } = shared.components;
+const { Box, Timeline } = shared.components;
 
 Grid.propTypes = {
   measureCount: PropTypes.number,

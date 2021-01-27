@@ -1,8 +1,11 @@
-import Box from '@material-ui/core/Box';
 import includes from 'lodash/fp/includes';
 import PropTypes from 'prop-types';
 import React from 'react';
 import showIf from 'react-render-helpers/showIf';
+
+import shared from '../../shared';
+
+const { Box } = shared.components;
 
 Key.propTypes = {
   isHoveredRow: PropTypes.bool,

@@ -1,10 +1,11 @@
-import Box from '@material-ui/core/Box';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
 import React from 'react';
+
+import Box from './Box';
 
 Modal.propTypes = {
   isOpen: PropTypes.bool,

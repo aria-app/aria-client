@@ -1,9 +1,11 @@
-import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import Dawww from '../../../dawww';
+import shared from '../../shared';
 import Key from './Key';
+
+const { Box } = shared.components;
 
 // TODO: Try moving this into the Key component.
 const keyStyles = Dawww.SCALE.reduce((acc, currentStep) => {
