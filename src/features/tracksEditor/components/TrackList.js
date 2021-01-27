@@ -1,6 +1,5 @@
 import { useTheme } from '@emotion/react';
 import Box from '@material-ui/core/Box';
-import Fade from '@material-ui/core/Fade';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -9,7 +8,7 @@ import AddTrackButton from './AddTrackButton';
 import Ruler from './Ruler';
 import Track from './Track';
 
-const { LoadingIndicator, Stack } = shared.components;
+const { Fade, LoadingIndicator, Stack } = shared.components;
 
 TrackList.propTypes = {
   isLoading: PropTypes.bool,
@@ -56,10 +55,10 @@ function TrackList(props) {
         position: 'relative',
       }}
     >
-      <Fade in={isLoading} mountOnEnter unmountOnExit>
+      <Fade in={isLoading}>
         <LoadingIndicator>LOADING SONG...</LoadingIndicator>
       </Fade>
-      <Fade in={!isLoading} mountOnEnter unmountOnExit>
+      <Fade in={!isLoading}>
         <Box
           sx={{
             alignItems: 'flex-start',

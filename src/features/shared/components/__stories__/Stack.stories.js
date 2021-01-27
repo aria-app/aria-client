@@ -1,4 +1,3 @@
-import Button from '@material-ui/core/Button';
 import filter from 'lodash/fp/filter';
 import uniqueId from 'lodash/fp/uniqueId';
 import React from 'react';
@@ -9,6 +8,7 @@ import {
   stackAlignments,
 } from '../../constants';
 import Box from '../Box';
+import Button from '../Button';
 import Stack from '../Stack';
 
 export const Default = (args) => (

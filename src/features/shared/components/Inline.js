@@ -1,42 +1,14 @@
-import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { spacingAliases, verticalAlignments } from '../constants';
+import { verticalAlignments } from '../constants';
 import Box from './Box';
-
-const Root = styled.div({
-  display: 'flex',
-});
-
-const Content = styled(Box)(({ align, alignY }) => ({
-  alignItems: {
-    bottom: 'flex-end',
-    center: 'center',
-    stretch: 'stretch',
-    top: 'flex-start',
-  }[alignY],
-  display: 'flex',
-  justifyContent: {
-    center: 'center',
-    left: 'flex-start',
-    right: 'flex-end',
-  }[align],
-  flexWrap: 'wrap',
-}));
-
-const Item = styled(Box)({
-  display: 'flex',
-});
 
 Inline.propTypes = {
   align: PropTypes.oneOf(['center', 'left', 'right']),
   alignY: PropTypes.oneOf(verticalAlignments),
   isReversed: PropTypes.bool,
-  space: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.oneOf(spacingAliases),
-  ]),
+  space: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 export default function Inline(props) {
@@ -44,24 +16,44 @@ export default function Inline(props) {
     align = 'left',
     alignY = 'top',
     children,
-    space = 'none',
+    space,
+    sx = {},
     ...rest
   } = props;
 
   return (
-    <Root {...rest}>
-      <Content
-        align={align}
-        alignY={alignY}
-        marginLeft={space !== 'none' ? `-${space}` : 'none'}
-        marginTop={space !== 'none' ? `-${space}` : 'none'}
+    <Box sx={{ display: 'flex', ...sx }} {...rest}>
+      <Box
+        sx={{
+          alignItems: {
+            bottom: 'flex-end',
+            center: 'center',
+            stretch: 'stretch',
+            top: 'flex-start',
+          }[alignY],
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: {
+            center: 'center',
+            left: 'flex-start',
+            right: 'flex-end',
+          }[align],
+          marginLeft: space ? `-${space}` : undefined,
+          marginTop: space ? `-${space}` : undefined,
+        }}
       >
         {React.Children.map(children, (child) => (
-          <Item paddingLeft={space} paddingTop={space}>
+          <Box
+            sx={{
+              display: 'flex',
+              paddingLeft: space,
+              paddingRight: space,
+            }}
+          >
             {child}
-          </Item>
+          </Box>
         ))}
-      </Content>
-    </Root>
+      </Box>
+    </Box>
   );
 }

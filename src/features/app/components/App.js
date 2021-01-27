@@ -1,4 +1,3 @@
-import Box from '@material-ui/core/Box';
 import { Router } from '@reach/router';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -13,7 +12,7 @@ import SignInContainer from './SignInContainer';
 import SignOutContainer from './SignOutContainer';
 
 const { DashboardContainer } = dashboard.components;
-const { LoadingIndicator, Shell, ThemeProvider } = shared.components;
+const { Box, LoadingIndicator, Shell, ThemeProvider } = shared.components;
 const { SongEditorContainer } = songEditor.components;
 const { SongViewerContainer } = songViewer.components;
 

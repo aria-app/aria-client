@@ -2,6 +2,7 @@ import PauseIcon from '@material-ui/icons/Pause';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SettingsIcon from '@material-ui/icons/Settings';
 import StopIcon from '@material-ui/icons/Stop';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { hideIf, showIf } from 'react-render-helpers';
 import Tone from 'tone';
@@ -12,19 +13,35 @@ import shared from '../../shared';
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 const { Box, Column, Columns } = shared.components;
 
-// export interface SongEditorToolbarProps extends WithStyles<typeof styles> {
-//   onPause?: () => void;
-//   onPlay?: () => void;
-//   onSongInfoOpen?: () => void;
-//   onStop?: () => void;
-//   playbackState?: string;
-// }
+function TempIconButton(props) {
+  return (
+    <Box
+      interactive
+      sx={{
+        alignItems: 'center',
+        borderRadius: 1,
+        color: 'text.secondary',
+        display: 'flex',
+        padding: 2,
+      }}
+      {...props}
+    />
+  );
+}
+
+SongEditorToolbar.propTypes = {
+  onPause: PropTypes.func,
+  onPlay: PropTypes.func,
+  onSongInfoOpen: PropTypes.func,
+  onStop: PropTypes.func,
+  playbackState: PropTypes.string,
+};
 
 function SongEditorToolbar(props) {
   const { onPause, onPlay, onSongInfoOpen, onStop, playbackState } = props;
 
-  const playPause = React.useCallback(
-    function playPause() {
+  const handlePlayPauseToggle = React.useCallback(
+    function handlePlayPauseToggle() {
       if (Tone.context.state !== 'running') {
         Tone.context.resume();
       }
@@ -40,61 +57,35 @@ function SongEditorToolbar(props) {
 
   return (
     <Box
-      backgroundColor="paper"
-      borderBottomWidth={2}
-      borderColor="border"
-      padding="xsmall"
+      sx={{
+        backgroundColor: 'background.paper',
+        borderBottomStyle: 'solid',
+        borderColor: 'divider',
+        borderWidth: 2,
+        padding: 2,
+      }}
     >
-      <Columns alignY="center">
-        <Column width="content">
-          <Box
-            borderRadius="medium"
-            isInteractionOverlayVisible
-            onClick={onSongInfoOpen}
-            padding="xsmall"
-            style={{ alignItems: 'center', display: 'flex' }}
-            title="Settings"
-          >
-            <SettingsIcon sx={{ color: 'text.secondary' }} />
-          </Box>
+      <Columns alignY="center" space={4}>
+        <Column>
+          <TempIconButton onClick={onSongInfoOpen} title="Settings">
+            <SettingsIcon />
+          </TempIconButton>
         </Column>
-        <Column />
         <Column width="content">
           {hideIf(playbackState === STARTED)(
-            <Box
-              borderRadius="medium"
-              isInteractionOverlayVisible
-              onClick={playPause}
-              padding="xsmall"
-              style={{ alignItems: 'center', display: 'flex' }}
-              title="Play"
-            >
-              <PlayArrowIcon sx={{ color: 'text.secondary' }} />
-            </Box>,
+            <TempIconButton onClick={handlePlayPauseToggle} title="Play">
+              <PlayArrowIcon />
+            </TempIconButton>,
           )}
           {showIf(playbackState === STARTED)(
-            <Box
-              borderRadius="medium"
-              isInteractionOverlayVisible
-              onClick={playPause}
-              padding="xsmall"
-              style={{ alignItems: 'center', display: 'flex' }}
-              title="Pause"
-            >
-              <PauseIcon sx={{ color: 'text.secondary' }} />
-            </Box>,
+            <TempIconButton onClick={handlePlayPauseToggle} title="Pause">
+              <PauseIcon />
+            </TempIconButton>,
           )}
           {showIf(playbackState !== STOPPED)(
-            <Box
-              borderRadius="medium"
-              isInteractionOverlayVisible
-              onClick={onStop}
-              padding="xsmall"
-              style={{ alignItems: 'center', display: 'flex' }}
-              title="Stop"
-            >
-              <StopIcon sx={{ color: 'text.secondary' }} />
-            </Box>,
+            <TempIconButton onClick={onStop} title="Stop">
+              <StopIcon />
+            </TempIconButton>,
           )}
         </Column>
       </Columns>

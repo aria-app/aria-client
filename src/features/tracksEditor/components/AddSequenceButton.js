@@ -1,8 +1,11 @@
 import Box from '@material-ui/core/Box';
-import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 import React from 'react';
+
+import shared from '../../shared';
+
+const { Button } = shared.components;
 
 AddSequenceButton.propTypes = {
   onClick: PropTypes.func,
@@ -33,28 +36,11 @@ export default function AddSequenceButton(props) {
         width: 64,
       }}
     >
-      <Fab
-        size="small"
-        sx={{
-          '&&': {
-            backgroundColor: 'transparent',
-            borderColor: 'primary.light',
-            borderRadius: 1,
-            borderStyle: 'solid',
-            borderWidth: 2,
-            boxShadow: 'none',
-            '&:hover': {
-              backgroundColor: 'transparent',
-              borderColor: 'primary.main',
-              '.MuiIcon-root': {
-                color: 'primary.main',
-              },
-            },
-          },
-        }}
-      >
-        <AddIcon sx={{ color: 'primary.light' }} />
-      </Fab>
+      <Button
+        color="primary.light"
+        startIcon={<AddIcon />}
+        sx={{ minWidth: 0 }}
+      />
     </Box>
   );
 }

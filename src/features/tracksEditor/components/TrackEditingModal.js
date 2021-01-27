@@ -1,47 +1,15 @@
-import styled from '@emotion/styled';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import isEmpty from 'lodash/fp/isEmpty';
 import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
 
 import Dawww from '../../../dawww';
+import shared from '../../shared';
+
+const { Button, FormGroup, Modal, Stack } = shared.components;
 
 const minVolume = -20;
 const maxVolume = 0;
-
-const DeleteButton = styled(Button)(({ theme }) => ({
-  alignSelf: 'stretch',
-  marginLeft: theme.spacing(1),
-  marginRight: theme.spacing(1),
-}));
-
-const Dropdown = styled(FormControl)(({ theme }) => ({
-  marginBottom: theme.spacing(2),
-  marginLeft: theme.spacing(1),
-}));
-
-const Content = styled(DialogContent)(({ theme }) => ({
-  alignItems: 'flex-start',
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  marginLeft: theme.spacing(-1),
-  marginRight: theme.spacing(-1),
-}));
-
-const Title = styled(DialogTitle)({
-  fontWeight: 800,
-  textTransform: 'uppercase',
-});
 
 TrackEditingModal.propTypes = {
   onDelete: PropTypes.func,
@@ -75,58 +43,48 @@ function TrackEditingModal(props) {
   return (
     <Translation>
       {(t) => (
-        <Dialog
-          fullWidth={true}
-          maxWidth="xs"
+        <Modal
+          isOpen={!!stagedTrack}
           onClose={onDismiss}
-          open={!isEmpty(stagedTrack)}
+          titleText={t('Edit Track')}
         >
-          <Title>{t('Edit Track')}</Title>
-          <Content>
-            <Dropdown>
-              <InputLabel htmlFor="voice">Voice</InputLabel>
-              <Select
-                inputProps={{ name: 'voice', id: 'voice' }}
+          <Stack space={4} sx={{ alignItems: 'flex-start' }}>
+            <FormGroup label="Voice">
+              <select
                 onChange={handleVoiceChange}
                 value={
                   stagedTrack && stagedTrack.voice ? stagedTrack.voice : ''
                 }
               >
                 {Object.keys(Dawww.VOICES).map((voice) => (
-                  <MenuItem key={voice} value={voice}>
+                  <option key={voice} value={voice}>
                     {t(voice)}
-                  </MenuItem>
+                  </option>
                 ))}
-              </Select>
-            </Dropdown>
-            <Dropdown>
-              <InputLabel htmlFor="volume">Volume</InputLabel>
-              <Select
-                inputProps={{ name: 'volume', id: 'volume' }}
+              </select>
+            </FormGroup>
+            <FormGroup label="Volume">
+              <select
                 onChange={handleVolumeChange}
                 value={
                   stagedTrack && stagedTrack.volume ? stagedTrack.volume : 0
                 }
               >
                 {range(maxVolume, minVolume - 1).map((volume) => (
-                  <MenuItem key={volume} value={volume}>
+                  <option key={volume} value={volume}>
                     {volume}
-                  </MenuItem>
+                  </option>
                 ))}
-              </Select>
-            </Dropdown>
-            <DeleteButton
-              color="secondary"
-              onClick={handleContentDeleteButtonClick}
-              variant="contained"
-            >
+              </select>
+            </FormGroup>
+            <Button color="error.main" onClick={handleContentDeleteButtonClick}>
               {t('Delete')}
-            </DeleteButton>
-          </Content>
-        </Dialog>
+            </Button>
+          </Stack>
+        </Modal>
       )}
     </Translation>
   );
 }
 
-export default React.memo(TrackEditingModal);
+export default TrackEditingModal;

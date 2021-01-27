@@ -1,4 +1,3 @@
-import Box from '@material-ui/core/Box';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import { Redirect } from '@reach/router';
 import { PropTypes } from 'prop-types';
@@ -7,7 +6,7 @@ import { Translation } from 'react-i18next';
 
 import shared from '../../shared';
 
-const { Button, Column, Columns, Stack, Typography } = shared.components;
+const { Box, Button, Column, Columns, Stack, Typography } = shared.components;
 
 SignIn.propTypes = {
   isAuthenticated: PropTypes.bool,

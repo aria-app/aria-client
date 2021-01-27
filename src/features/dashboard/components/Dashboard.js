@@ -1,5 +1,4 @@
 import Box from '@material-ui/core/Box';
-import Fade from '@material-ui/core/Fade';
 import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -12,6 +11,7 @@ const {
   Column,
   Columns,
   ContentBlock,
+  Fade,
   LoadingIndicator,
   Stack,
 } = shared.components;

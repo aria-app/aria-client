@@ -1,6 +1,7 @@
 import { useTheme } from '@emotion/react';
-import Box from '@material-ui/core/Box';
 import React from 'react';
+
+import Box from './Box';
 
 export default React.forwardRef((props, ref) => {
   const {
@@ -16,6 +17,8 @@ export default React.forwardRef((props, ref) => {
   return (
     <Box
       component="button"
+      interactive
+      interactiveColor={variant === 'outlined' ? color : undefined}
       ref={ref}
       sx={{
         alignItems: 'center',
@@ -28,24 +31,13 @@ export default React.forwardRef((props, ref) => {
         cursor: 'pointer',
         display: 'flex',
         justifyContent: 'center',
-        minWidth: 96,
+        minWidth: children ? 96 : 0,
         overflow: 'hidden',
-        paddingX: 4,
+        paddingX: children ? 4 : 3,
         paddingY: 3,
         position: 'relative',
-        '&:after': {
-          ...theme.mixins.absoluteFill,
-          backgroundColor: 'transparent',
-          content: '""',
-          display: 'block',
-          pointerEvents: 'none',
-          transition: 'background-color 100ms ease-in-out',
-        },
-        '&:hover:after': {
-          backgroundColor: 'action.hover',
-        },
-        '&:active:after': {
-          backgroundColor: 'action.active',
+        '& > * + *': {
+          marginLeft: 3,
         },
         ...sx,
       }}
@@ -56,8 +48,7 @@ export default React.forwardRef((props, ref) => {
           sx={{
             alignItems: 'center',
             display: 'flex',
-            marginRight: 3,
-            marginY: -1.5,
+            margin: -1.5,
           }}
         >
           {startIcon}
