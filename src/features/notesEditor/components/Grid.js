@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { showIf } from 'react-render-helpers';
@@ -13,19 +13,6 @@ import Selector from './Selector';
 import Slots from './Slots';
 
 const { Timeline } = shared.components;
-
-const Root = styled.div({
-  overflowX: 'scroll',
-  overflowY: 'visible',
-  paddingLeft: 80,
-  position: 'relative',
-});
-
-const Wrapper = styled.div({
-  height: '100%',
-  overflowX: 'visible',
-  position: 'relative',
-});
 
 Grid.propTypes = {
   measureCount: PropTypes.number,
@@ -92,15 +79,26 @@ function Grid(props) {
   );
 
   return (
-    <Root
+    <Box
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
       ref={ref}
+      sx={{
+        overflowX: 'scroll',
+        overflowY: 'visible',
+        paddingLeft: 20,
+        position: 'relative',
+      }}
     >
-      <Wrapper
+      <Box
         style={{
           width:
             measureCount !== undefined ? measureCount * 4 * 8 * 40 + 80 : 0,
+        }}
+        sx={{
+          height: '100%',
+          overflowX: 'visible',
+          position: 'relative',
         }}
       >
         <Slots measureCount={measureCount} />
@@ -132,8 +130,8 @@ function Grid(props) {
         )}
         <PositionIndicator mousePoint={mousePoint} />
         <Timeline isVisible={false} offset={0 * 40} />
-      </Wrapper>
-    </Root>
+      </Box>
+    </Box>
   );
 }
 

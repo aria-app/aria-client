@@ -3,6 +3,8 @@ export { default as Button } from './Button';
 export { default as Column } from './Column';
 export { default as Columns } from './Columns';
 export { default as ContentBlock } from './ContentBlock';
+export { default as Fade } from './Fade';
+export { default as FormGroup } from './FormGroup';
 export { default as GridBox } from './GridBox';
 export { default as GridBoxes } from './GridBoxes';
 export { default as Icon } from './Icon';

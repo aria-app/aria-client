@@ -3,6 +3,7 @@ export default {
     translation: {
       'An easy-to-use music sequencer inspired by Little Big Planet.':
         'An easy-to-use music sequencer inspired by Little Big Planet.',
+      BPM: 'BPM',
       Delete: 'Delete',
       'Download Song': 'Download Song',
       'Edit Track': 'Edit Track',
@@ -11,6 +12,7 @@ export default {
       PWM: 'PWM',
       'Return to Dashboard': 'Return to Dashboard',
       SAWTOOTH: 'Sawtooth',
+      'Shareable Link': 'Shareable Link',
       'Select Language': 'Select Language',
       'Sign In': 'Sign In',
       'Sign in with Google': 'Sign in with Google',
@@ -28,6 +30,7 @@ export default {
     translation: {
       'An easy-to-use music sequencer inspired by Little Big Planet.':
         '使いやすくてリッタルリトルビッグプラネットの様なミュウジックシークエンサー。',
+      BPM: 'BPM',
       Delete: '削除',
       'Download Song': 'ソングをダウンロード',
       'Edit Track': 'トラックを編集',
@@ -36,6 +39,7 @@ export default {
       PWM: 'PWM',
       'Return to Dashboard': 'ダッシュボードに戻る',
       SAWTOOTH: 'のこぎり',
+      'Shareable Link': '共有するのリンク',
       'Select Language': '言語を選択する',
       'Sign In': 'ログイン',
       'Sign in with Google': 'Googleでログイン',

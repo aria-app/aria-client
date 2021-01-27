@@ -1,11 +1,11 @@
-import IconButton from '@material-ui/core/IconButton';
+import Box from '@material-ui/core/Box';
 import CloseIcon from '@material-ui/icons/Close';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import shared from '../../shared';
 
-const { Box, Column, Columns, Text } = shared.components;
+const { Column, Columns, Text } = shared.components;
 
 SongListItem.propTypes = {
   onClick: PropTypes.func,
@@ -31,24 +31,35 @@ function SongListItem(props) {
 
   return (
     <Box
-      backgroundColor="paper"
-      borderColor="border"
-      borderRadius="medium"
-      borderWidth={2}
-      isInteractionOverlayVisible
       onClick={handleClick}
-      paddingLeft="medium"
-      paddingRight="small"
-      paddingY="small"
+      sx={{
+        backgroundColor: 'background.paper',
+        borderColor: 'divider',
+        borderStyle: 'solid',
+        borderRadius: 1,
+        borderWidth: 2,
+        cursor: 'pointer',
+        paddingLeft: 4,
+        paddingRight: 2,
+        paddingY: 2,
+      }}
     >
       <Columns alignY="center" space="medium">
         <Column>
           <Text variant="label">{song.name}</Text>
         </Column>
         <Column width="content">
-          <IconButton onClick={handleDeleteClick} size="small">
-            <CloseIcon />
-          </IconButton>
+          <Box
+            onClick={handleDeleteClick}
+            sx={{
+              alignItems: 'center',
+              display: 'flex',
+              height: 32,
+              width: 32,
+            }}
+          >
+            <CloseIcon sx={{ color: 'text.secondary' }} />
+          </Box>
         </Column>
       </Columns>
     </Box>

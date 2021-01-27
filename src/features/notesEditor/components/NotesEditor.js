@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import Fade from '@material-ui/core/Fade';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -18,7 +17,7 @@ import Keys from './Keys';
 import NotesEditorToolbar from './NotesEditorToolbar';
 
 const { previewPitch } = audio.helpers;
-const { LoadingIndicator } = shared.components;
+const { Fade, LoadingIndicator } = shared.components;
 const { toggleInArray } = shared.helpers;
 
 const getNotesByIds = memoizeOne((notes, ids) =>
@@ -408,12 +407,12 @@ function NotesEditor(props) {
           UNDO: ['ctrl+z', 'meta+z'],
         }}
       />
-      <Fade in={isLoading} mountOnEnter unmountOnExit>
+      <Fade in={isLoading}>
         <LoadingIndicator>LOADING SONG...</LoadingIndicator>
       </Fade>
       <React.Fragment>
         <Content ref={handleContentRefChange}>
-          <Fade in={!isLoading} mountOnEnter unmountOnExit>
+          <Fade in={!isLoading}>
             <Wrapper>
               <Keys hoveredRow={mousePoint.y} onKeyPress={handlePreviewPitch} />
               <Grid
