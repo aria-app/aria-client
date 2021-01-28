@@ -52,5 +52,4 @@ export default createReducer(initialState, {
 
     return shared.helpers.setAtIds(notesWithNewSequenceId, state);
   },
-  [shared.actions.routeDashboardLoaded.type]: () => initialState,
 });

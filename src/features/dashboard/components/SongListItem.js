@@ -1,4 +1,5 @@
 import CloseIcon from '@material-ui/icons/Close';
+import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -30,6 +31,10 @@ function SongListItem(props) {
 
   return (
     <Box
+      animate={{ opacity: 1 }}
+      component={motion.div}
+      exit={{ opacity: 0 }}
+      initial={{ opacity: 0 }}
       interactive
       onClick={handleClick}
       sx={{

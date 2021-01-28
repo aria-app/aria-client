@@ -11,7 +11,7 @@ import SignIn from './SignIn';
 import SignOut from './SignOut';
 
 const { useAuth } = auth.hooks;
-const { DashboardContainer } = dashboard.components;
+const { Dashboard } = dashboard.components;
 const { Box, LoadingIndicator, Shell, ThemeProvider } = shared.components;
 const { SongEditorContainer } = songEditor.components;
 const { SongViewerContainer } = songViewer.components;
@@ -37,7 +37,7 @@ function App() {
           >
             <SignIn path="sign-in" />
             <SignOut path="sign-out" />
-            <PrivateRoute component={DashboardContainer} path="/" />
+            <PrivateRoute component={Dashboard} path="/" />
             <PrivateRoute
               component={SongEditorContainer}
               path="edit-song/:songId/*"

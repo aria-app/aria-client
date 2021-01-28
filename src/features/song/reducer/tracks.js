@@ -54,5 +54,4 @@ export default createReducer(initialState, {
       ],
       state,
     ),
-  [shared.actions.routeDashboardLoaded.type]: () => initialState,
 });

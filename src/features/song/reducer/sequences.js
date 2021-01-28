@@ -24,5 +24,4 @@ export default createReducer(initialState, {
       reject((sequence) => sequence.trackId === action.payload.id, state),
       {},
     ),
-  [shared.actions.routeDashboardLoaded.type]: () => initialState,
 });

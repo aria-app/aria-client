@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'framer-motion';
 import flatten from 'lodash/fp/flatten';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -14,12 +15,14 @@ Stack.propTypes = {
     'row-reverse',
   ]),
   dividerThickness: PropTypes.string,
+  isAnimated: PropTypes.bool,
   showDividers: PropTypes.bool,
   space: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 export default function Stack(props) {
   const {
+    animate,
     children,
     component = 'div',
     direction = 'column',
@@ -29,6 +32,8 @@ export default function Stack(props) {
     sx = {},
     ...rest
   } = props;
+
+  const Wrapper = animate ? AnimatePresence : React.Fragment;
 
   return (
     <Box
@@ -48,13 +53,15 @@ export default function Stack(props) {
       }}
       {...rest}
     >
-      {flatten(
-        React.Children.map(children, (child, index) =>
-          showDividers && index
-            ? [<Divider thickness={dividerThickness} />, child]
-            : [child],
-        ),
-      )}
+      <Wrapper {...(animate ? { initial: false } : {})}>
+        {flatten(
+          React.Children.map(children, (child, index) =>
+            showDividers && index
+              ? [<Divider thickness={dividerThickness} />, child]
+              : [child],
+          ),
+        )}
+      </Wrapper>
     </Box>
   );
 }

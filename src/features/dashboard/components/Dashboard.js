@@ -1,4 +1,5 @@
 import AddIcon from '@material-ui/icons/Add';
+import audio from 'features/audio';
 import auth from 'features/auth';
 import shared from 'features/shared';
 import PropTypes from 'prop-types';
@@ -6,6 +7,7 @@ import React from 'react';
 
 import SongList from './SongList';
 
+const { useAudio } = audio.hooks;
 const { useAuth } = auth.hooks;
 const {
   Box,
@@ -19,23 +21,72 @@ const {
 
 Dashboard.propTypes = {
   navigate: PropTypes.func,
-  onLoad: PropTypes.func,
-  onSongAdd: PropTypes.func,
-  onSongDelete: PropTypes.func,
 };
 
 function Dashboard(props) {
-  const { navigate, onLoad, onSongAdd, onSongDelete } = props;
+  const { navigate } = props;
+  const { audioManager } = useAudio();
   const { user } = useAuth();
-  const [songs, setSongs] = React.useState();
+  const [songs, setSongs] = React.useState(null);
+
+  const fetchSongs = React.useCallback(() => {
+    shared.firebase
+      .getDB()
+      .collection('songs')
+      .where('userId', '==', user.uid)
+      .get()
+      .then((querySnapshot) => {
+        setSongs(
+          shared.helpers.setAtIds(
+            querySnapshot.docs.map((doc) => doc.data()),
+            {},
+          ),
+        );
+      });
+  }, [user]);
+
+  const createSong = React.useCallback(
+    (options) => {
+      const song = {
+        ...audioManager.helpers.createSong(),
+        dateModified: Date.now(),
+        userId: user.uid,
+        ...options,
+      };
+
+      shared.firebase
+        .getDB()
+        .collection('songs')
+        .doc(song.id)
+        .set(song)
+        .then(() => {
+          fetchSongs();
+        });
+    },
+    [audioManager, fetchSongs, user],
+  );
+
+  const deleteSong = React.useCallback(
+    (song) => {
+      shared.firebase
+        .getDB()
+        .collection('songs')
+        .doc(song.id)
+        .delete()
+        .then(() => {
+          fetchSongs();
+        });
+    },
+    [fetchSongs],
+  );
 
   const handleSongAdd = React.useCallback(() => {
     const name = window.prompt('Enter a name for the song', 'New Song');
 
     if (!name) return;
 
-    onSongAdd({ name });
-  }, [onSongAdd]);
+    createSong({ name });
+  }, [createSong]);
 
   const handleSongDelete = React.useCallback(
     (song) => {
@@ -45,9 +96,9 @@ function Dashboard(props) {
 
       if (!shouldDelete) return;
 
-      onSongDelete(song);
+      deleteSong(song);
     },
-    [onSongDelete],
+    [deleteSong],
   );
 
   const handleSongOpen = React.useCallback(
@@ -66,27 +117,12 @@ function Dashboard(props) {
   }, [navigate]);
 
   React.useEffect(() => {
-    onLoad();
-
     window.document.title = 'Dashboard - Aria';
-  }, [onLoad]);
+  }, []);
 
   React.useEffect(() => {
-    setSongs(null);
-    shared.firebase
-      .getDB()
-      .collection('songs')
-      .where('userId', '==', user.uid)
-      .get()
-      .then((querySnapshot) => {
-        setSongs(
-          shared.helpers.setAtIds(
-            querySnapshot.docs.map((doc) => doc.data()),
-            {},
-          ),
-        );
-      });
-  }, [setSongs, user]);
+    fetchSongs();
+  }, [fetchSongs]);
 
   return (
     <Stack space={4}>
@@ -110,36 +146,34 @@ function Dashboard(props) {
           </Box>
         </Box>
       </Toolbar>
-      <Stack>
-        <Fade in={!songs} mountOnEnter unmountOnExit>
-          <LoadingIndicator>LOADING SONGS...</LoadingIndicator>
-        </Fade>
-        <Fade in={!!songs} mountOnEnter unmountOnExit>
-          <ContentBlock>
-            <SongList
-              onDelete={handleSongDelete}
-              onOpen={handleSongOpen}
-              songs={songs}
-            />
-          </ContentBlock>
-        </Fade>
-        <Box
-          sx={{
-            bottom: 4,
-            position: 'absolute',
-            right: 4,
-          }}
+      <Fade in={!songs} mountOnEnter unmountOnExit>
+        <LoadingIndicator>LOADING SONGS...</LoadingIndicator>
+      </Fade>
+      <Fade in={!!songs} mountOnEnter unmountOnExit>
+        <ContentBlock>
+          <SongList
+            onDelete={handleSongDelete}
+            onOpen={handleSongOpen}
+            songs={songs || {}}
+          />
+        </ContentBlock>
+      </Fade>
+      <Box
+        sx={{
+          bottom: 4,
+          position: 'absolute',
+          right: 4,
+        }}
+      >
+        <Button
+          color="primary.main"
+          onClick={handleSongAdd}
+          startIcon={<AddIcon />}
+          variant="outlined"
         >
-          <Button
-            color="primary.main"
-            onClick={handleSongAdd}
-            startIcon={<AddIcon />}
-            variant="outlined"
-          >
-            Add Song
-          </Button>
-        </Box>
-      </Stack>
+          Add Song
+        </Button>
+      </Box>
     </Stack>
   );
 }

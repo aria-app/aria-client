@@ -1,8 +1,8 @@
+import shared from 'features/shared';
 import orderBy from 'lodash/fp/orderBy';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import shared from '../../shared';
 import SongListItem from './SongListItem';
 
 const { Stack } = shared.components;
@@ -14,7 +14,7 @@ SongList.propTypes = {
 };
 
 function SongList(props) {
-  const { onDelete, onOpen, songs } = props;
+  const { onDelete, onOpen, songs = {} } = props;
 
   const sortedSongs = React.useMemo(
     () => orderBy((song) => song.dateModified, 'desc', Object.values(songs)),
@@ -22,7 +22,7 @@ function SongList(props) {
   );
 
   return (
-    <Stack space={4}>
+    <Stack animate space={4}>
       {sortedSongs.map((song) => (
         <SongListItem
           key={song.id}
