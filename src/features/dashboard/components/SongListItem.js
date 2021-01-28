@@ -4,7 +4,7 @@ import React from 'react';
 
 import shared from '../../shared';
 
-const { Box, Column, Columns, Typography } = shared.components;
+const { Box, Stack, Typography } = shared.components;
 
 SongListItem.propTypes = {
   onClick: PropTypes.func,
@@ -44,24 +44,22 @@ function SongListItem(props) {
         paddingY: 2,
       }}
     >
-      <Columns alignY="center" space="medium">
-        <Column>
-          <Typography variant="label">{song.name}</Typography>
-        </Column>
-        <Column width="content">
-          <Box
-            onClick={handleDeleteClick}
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-              height: 32,
-              width: 32,
-            }}
-          >
-            <CloseIcon sx={{ color: 'text.secondary' }} />
-          </Box>
-        </Column>
-      </Columns>
+      <Stack direction="row" space={4} sx={{ alignItems: 'center' }}>
+        <Typography sx={{ flexGrow: 1 }} variant="label">
+          {song.name}
+        </Typography>
+        <Box
+          onClick={handleDeleteClick}
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            height: 32,
+            width: 32,
+          }}
+        >
+          <CloseIcon sx={{ color: 'text.secondary' }} />
+        </Box>
+      </Stack>
     </Box>
   );
 }

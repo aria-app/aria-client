@@ -5,16 +5,14 @@ import React from 'react';
 import shared from '../../shared';
 import SongList from './SongList';
 
-const { Box } = shared.components;
-
 const {
+  Box,
   Button,
-  Column,
-  Columns,
   ContentBlock,
   Fade,
   LoadingIndicator,
   Stack,
+  Toolbar,
 } = shared.components;
 
 Dashboard.propTypes = {
@@ -82,37 +80,26 @@ function Dashboard(props) {
 
   return (
     <Stack space={4}>
-      <Box
-        sx={{
-          backgroundColor: 'background.paper',
-          borderBottomStyle: 'solid',
-          borderColor: 'divider',
-          borderWidth: 2,
-          padding: 2,
-        }}
-      >
-        <Columns space="medium">
-          <Column />
-          <Column width="content">
-            <Box
-              onClick={handleUserClick}
-              sx={{
-                borderRadius: 9999,
-                height: 40,
-                overflow: 'hidden',
-                width: 40,
-              }}
-            >
-              <img
-                alt="User"
-                src={user.photoURL}
-                style={{ height: '100%', width: '100%' }}
-                title={user.email}
-              />
-            </Box>
-          </Column>
-        </Columns>
-      </Box>
+      <Toolbar position="top">
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Box
+            onClick={handleUserClick}
+            sx={{
+              borderRadius: 9999,
+              height: 40,
+              overflow: 'hidden',
+              width: 40,
+            }}
+          >
+            <img
+              alt="User"
+              src={user.photoURL}
+              style={{ height: '100%', width: '100%' }}
+              title={user.email}
+            />
+          </Box>
+        </Box>
+      </Toolbar>
       <Stack>
         <Fade in={isLoadingSongs} mountOnEnter unmountOnExit>
           <LoadingIndicator>LOADING SONGS...</LoadingIndicator>
@@ -128,9 +115,9 @@ function Dashboard(props) {
         </Fade>
         <Box
           sx={{
-            bottom: (theme) => theme.spacing(4),
+            bottom: 4,
             position: 'absolute',
-            right: (theme) => theme.spacing(4),
+            right: 4,
           }}
         >
           <Button

@@ -6,7 +6,7 @@ import { Translation } from 'react-i18next';
 
 import shared from '../../shared';
 
-const { Box, Button, Column, Columns, Stack, Typography } = shared.components;
+const { Box, Button, Stack, Typography } = shared.components;
 
 SignIn.propTypes = {
   isAuthenticated: PropTypes.bool,
@@ -41,33 +41,29 @@ function SignIn(props) {
         >
           <Stack space={12} sx={{ alignItems: 'flex-start' }}>
             <Stack space={4}>
-              <Columns alignY="center" space={6}>
-                <Column width="content">
-                  <Box
+              <Stack direction="row" space={6} sx={{ alignItems: 'center' }}>
+                <Box
+                  sx={{
+                    backgroundColor: 'primary.main',
+                    borderRadius: 2,
+                    paddingBottom: 2,
+                    paddingTop: 3,
+                    paddingX: 3,
+                  }}
+                >
+                  <MusicNoteIcon
                     sx={{
-                      backgroundColor: 'primary.main',
-                      borderRadius: 2,
-                      paddingBottom: 2,
-                      paddingTop: 3,
-                      paddingX: 3,
+                      color: 'common.white',
+                      fontSize: 56,
                     }}
-                  >
-                    <MusicNoteIcon
-                      sx={{
-                        color: 'common.white',
-                        fontSize: 56,
-                      }}
-                    />
-                  </Box>
-                </Column>
-                <Column>
-                  <Box sx={{ paddingTop: 1 }}>
-                    <Typography color="primary" variant="h1">
-                      Aria
-                    </Typography>
-                  </Box>
-                </Column>
-              </Columns>
+                  />
+                </Box>
+                <Box sx={{ paddingTop: 1 }}>
+                  <Typography color="primary" variant="h1">
+                    Aria
+                  </Typography>
+                </Box>
+              </Stack>
               <Typography color="textSecondary" variant="h5">
                 {t(
                   'An easy-to-use music sequencer inspired by Little Big Planet.',

@@ -10,7 +10,7 @@ import Dawww from '../../../dawww';
 import shared from '../../shared';
 
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
-const { Box, Button, Column, Columns } = shared.components;
+const { Box, Button, Stack, Toolbar } = shared.components;
 
 SongEditorToolbar.propTypes = {
   onPause: PropTypes.func,
@@ -39,54 +39,42 @@ function SongEditorToolbar(props) {
   );
 
   return (
-    <Box
-      sx={{
-        backgroundColor: 'background.paper',
-        borderBottomStyle: 'solid',
-        borderColor: 'divider',
-        borderWidth: 2,
-        padding: 2,
-      }}
-    >
-      <Columns alignY="center" space={4}>
-        <Column>
+    <Toolbar position="top">
+      <Stack direction="row" space={2}>
+        <Box sx={{ flexGrow: 1 }}>
           <Button
             onClick={onSongInfoOpen}
             startIcon={<SettingsIcon />}
             title="Settings"
             variant="text"
           />
-        </Column>
-        {playbackState && (
-          <Column width="content">
-            {playbackState !== STARTED && (
-              <Button
-                onClick={handlePlayPauseToggle}
-                startIcon={<PlayArrowIcon />}
-                title="Play"
-                variant="text"
-              />
-            )}
-            {playbackState === STARTED && (
-              <Button
-                onClick={handlePlayPauseToggle}
-                startIcon={<PauseIcon />}
-                title="Pause"
-                variant="text"
-              />
-            )}
-            {playbackState !== STOPPED && (
-              <Button
-                onClick={onStop}
-                startIcon={<StopIcon />}
-                title="Stop"
-                variant="text"
-              />
-            )}
-          </Column>
+        </Box>
+        {playbackState && playbackState !== STARTED && (
+          <Button
+            onClick={handlePlayPauseToggle}
+            startIcon={<PlayArrowIcon />}
+            title="Play"
+            variant="text"
+          />
         )}
-      </Columns>
-    </Box>
+        {playbackState && playbackState === STARTED && (
+          <Button
+            onClick={handlePlayPauseToggle}
+            startIcon={<PauseIcon />}
+            title="Pause"
+            variant="text"
+          />
+        )}
+        {playbackState && playbackState !== STOPPED && (
+          <Button
+            onClick={onStop}
+            startIcon={<StopIcon />}
+            title="Stop"
+            variant="text"
+          />
+        )}
+      </Stack>
+    </Toolbar>
   );
 }
 

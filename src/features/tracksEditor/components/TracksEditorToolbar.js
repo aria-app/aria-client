@@ -9,7 +9,7 @@ import React from 'react';
 
 import shared from '../../shared';
 
-const { Button, Column, Columns, Toolbar } = shared.components;
+const { Box, Button, Stack, Toolbar } = shared.components;
 
 TracksEditorToolbar.propTypes = {
   isRedoEnabled: PropTypes.bool,
@@ -42,8 +42,8 @@ function TracksEditorToolbar(props) {
 
   return (
     <Toolbar position="bottom">
-      <Columns alignY="center">
-        <Column>
+      <Stack direction="row" space={2}>
+        <Box sx={{ flexGrow: 1 }}>
           <Button
             disabled={!isUndoEnabled}
             onClick={onUndo}
@@ -59,9 +59,9 @@ function TracksEditorToolbar(props) {
               variant="text"
             />
           )}
-        </Column>
+        </Box>
         {isSomeSequenceSelected && (
-          <Column width="content">
+          <>
             <Button
               onClick={handleSequenceOpen}
               startIcon={<EditIcon />}
@@ -77,9 +77,9 @@ function TracksEditorToolbar(props) {
               startIcon={<DeleteIcon />}
               variant="text"
             />
-          </Column>
+          </>
         )}
-      </Columns>
+      </Stack>
     </Toolbar>
   );
 }

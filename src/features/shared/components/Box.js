@@ -1,6 +1,7 @@
 import { useTheme } from '@emotion/react';
 import MuiBox from '@material-ui/core/Box';
 import getOr from 'lodash/fp/getOr';
+import isNumber from 'lodash/fp/isNumber';
 import { readableColor } from 'polished';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -44,9 +45,6 @@ const Box = React.forwardRef((props, ref) => {
     <MuiBox
       ref={ref}
       sx={{
-        cursor: sx.cursor || (interactive && 'pointer'),
-        overflow: sx.overflow || (interactive && 'hidden'),
-        position: sx.position || (interactive && 'relative'),
         ...(interactive
           ? {
               '&::after': {
@@ -71,6 +69,13 @@ const Box = React.forwardRef((props, ref) => {
             }
           : {}),
         ...sx,
+        bottom: isNumber(sx.bottom) ? theme.spacing(sx.bottom) : sx.bottom,
+        cursor: sx.cursor || (interactive && 'pointer'),
+        left: isNumber(sx.left) ? theme.spacing(sx.left) : sx.left,
+        overflow: sx.overflow || (interactive && 'hidden'),
+        position: sx.position || (interactive && 'relative'),
+        right: isNumber(sx.right) ? theme.spacing(sx.right) : sx.right,
+        top: isNumber(sx.top) ? theme.spacing(sx.top) : sx.top,
       }}
       {...rest}
     />
