@@ -23,7 +23,6 @@ TracksEditor.propTypes = {
   isUndoEnabled: PropTypes.bool,
   navigate: PropTypes.func,
   onLoad: PropTypes.func,
-  onPositionSet: PropTypes.func,
   onRedo: PropTypes.func,
   onSequenceAdd: PropTypes.func,
   onSequenceDelete: PropTypes.func,
@@ -51,7 +50,6 @@ function TracksEditor(props) {
     isUndoEnabled,
     navigate,
     onLoad,
-    onPositionSet,
     onRedo,
     onSequenceAdd,
     onSequenceDelete,
@@ -68,7 +66,7 @@ function TracksEditor(props) {
     songMeasureCount,
     tracks,
   } = props;
-  const { atoms } = useDawww();
+  const { atoms, setDawwwPosition } = useDawww();
   const [position] = useRecoilState(atoms.position);
   const [selectedSequenceId, setSelectedSequenceId] = React.useState('');
   const [selectedTrackId, setSelectedTrackId] = React.useState('');
@@ -144,11 +142,9 @@ function TracksEditor(props) {
 
   const handleTrackListPositionSet = React.useCallback(
     (position) => {
-      if (isStopped) return;
-
-      onPositionSet(position);
+      setDawwwPosition(position);
     },
-    [isStopped, onPositionSet],
+    [setDawwwPosition],
   );
 
   const handleTrackListSequenceAdd = React.useCallback(

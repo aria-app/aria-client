@@ -7,28 +7,35 @@ import DawwwContext from '../contexts/DawwwContext';
 import dawww from '../dawww';
 
 export default function DawwwProvider(props) {
-  const [dawwwInstance, setDawwwInstance] = React.useState(null);
+  const [instance, setInstance] = React.useState(null);
   const [, setPosition] = useRecoilState(atoms.position);
 
-  const initializeDawwwInstance = React.useCallback(() => {
+  const initializeDawww = React.useCallback(() => {
     // const instance = new Dawww({});
-    const instance = dawww;
+    const newInstance = dawww;
 
-    setDawwwInstance(instance);
+    setInstance(newInstance);
 
-    instance.onPositionChange(setPosition);
-  }, [setDawwwInstance, setPosition]);
+    newInstance.onPositionChange(setPosition);
+  }, [setInstance, setPosition]);
+
+  const setDawwwPosition = React.useCallback(
+    (position) => {
+      instance.setPosition(position);
+    },
+    [instance],
+  );
 
   return (
     <DawwwContext.Provider
       value={{
         atoms,
         constants: {},
-        dawwwInstance,
         helpers: {
           addPoints: Dawww.addPoints,
         },
-        initializeDawwwInstance,
+        initializeDawww,
+        setDawwwPosition,
       }}
       {...props}
     />

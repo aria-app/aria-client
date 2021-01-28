@@ -17,7 +17,6 @@ export default connect(
   }),
   {
     onLoad: shared.actions.routeSongEditorLoaded,
-    onPositionSet: audio.actions.positionSetRequestStarted,
     onRedo: song.actions.redoRequested,
     onSequenceAdd: song.actions.sequenceAdded,
     onSequenceDelete: song.actions.sequenceDeleted,

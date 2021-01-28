@@ -42,7 +42,7 @@ function SongEditor(props) {
   } = props;
 
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);
-  const { initializeDawwwInstance } = useDawww();
+  const { initializeDawww } = useDawww();
 
   const playPause = React.useCallback(
     function playPause() {
@@ -76,9 +76,9 @@ function SongEditor(props) {
   }, [navigate]);
 
   React.useEffect(() => {
-    initializeDawwwInstance();
+    initializeDawww();
     window.document.title = `${song.name} - Aria`;
-  }, [initializeDawwwInstance, song, song.name]);
+  }, [initializeDawww, song, song.name]);
 
   if (song.userId && song.userId !== user.uid) {
     return (

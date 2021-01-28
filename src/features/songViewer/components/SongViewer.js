@@ -23,7 +23,6 @@ SongViewer.propTypes = {
   onLoad: PropTypes.func,
   onPause: PropTypes.func,
   onPlay: PropTypes.func,
-  onPositionSet: PropTypes.func,
   onStop: PropTypes.func,
   playbackState: PropTypes.string,
   position: PropTypes.number,
@@ -37,13 +36,12 @@ function SongViewer(props) {
     onLoad,
     onPause,
     onPlay,
-    onPositionSet,
     onStop,
     playbackState,
     song,
     songId,
   } = props;
-  const { atoms, initializeDawwwInstance } = useDawww();
+  const { atoms, initializeDawww, setDawwwPosition } = useDawww();
   const [position] = useRecoilState(atoms.position);
   const [prevPlaybackState, setPrevPlaybackState] = React.useState(
     playbackState,
@@ -55,12 +53,12 @@ function SongViewer(props) {
   }, []);
 
   const handleChangeCommitted = React.useCallback(() => {
-    onPositionSet(positionState);
+    setDawwwPosition(positionState);
 
     if (prevPlaybackState === Dawww.PLAYBACK_STATES.STARTED) {
       onPlay();
     }
-  }, [onPlay, onPositionSet, positionState, prevPlaybackState]);
+  }, [onPlay, positionState, prevPlaybackState, setDawwwPosition]);
 
   const handleMouseDown = React.useCallback(() => {
     setPrevPlaybackState(playbackState);
@@ -86,9 +84,9 @@ function SongViewer(props) {
   }, [onLoad, songId]);
 
   React.useEffect(() => {
-    initializeDawwwInstance();
+    initializeDawww();
     window.document.title = `${song.name} - Aria`;
-  }, [initializeDawwwInstance, song, song.name]);
+  }, [initializeDawww, song, song.name]);
 
   return (
     <React.Fragment>

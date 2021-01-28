@@ -22,6 +22,3 @@ export const playbackStateRequestSucceeded = createAction(
 export const playbackStopRequestStarted = createAction(
   'playbackStopRequestStarted',
 );
-export const positionSetRequestStarted = createAction(
-  'positionSetRequestStarted',
-);
