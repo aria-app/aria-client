@@ -1,7 +1,6 @@
 import { Router } from '@reach/router';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { hideIf, showIf } from 'react-render-helpers';
 import { RecoilRoot } from 'recoil';
 
 import audio from '../../audio';
@@ -32,10 +31,7 @@ function App(props) {
       <AudioProvider>
         <ThemeProvider>
           <Shell>
-            {hideIf(didAuthenticationRun)(
-              <LoadingIndicator>AUTHENTICATING...</LoadingIndicator>,
-            )}
-            {showIf(didAuthenticationRun)(
+            {didAuthenticationRun ? (
               <Box
                 component={Router}
                 sx={{
@@ -63,7 +59,9 @@ function App(props) {
                   isAuthenticated={isAuthenticated}
                   path="view-song/:songId"
                 />
-              </Box>,
+              </Box>
+            ) : (
+              <LoadingIndicator>AUTHENTICATING...</LoadingIndicator>
             )}
           </Shell>
         </ThemeProvider>

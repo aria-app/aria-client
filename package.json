@@ -40,18 +40,14 @@
     "react-hotkeys": "^2.0.0",
     "react-i18next": "^11.8.5",
     "react-icons": "^2.2.5",
-    "react-jss": "^10.4.0",
     "react-redux": "7.2.2",
-    "react-render-helpers": "^1.2.0",
     "react-router-dom": "^5.0.1",
     "recoil": "0.1.2",
     "redux": "4.0.5",
     "redux-observable": "1.2.0",
-    "redux-undo": "^1.0.0-beta9-9-7",
     "reselect": "^4.0.0",
     "rxjs": "6.6.3",
     "shortid": "^2.2.16",
-    "styled-system": "5.1.5",
     "tone": "^13.4.9"
   },
   "devDependencies": {

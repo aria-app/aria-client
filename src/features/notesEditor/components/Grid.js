@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { showIf } from 'react-render-helpers';
 
 import shared from '../../shared';
 import * as constants from '../constants';
@@ -101,8 +100,8 @@ function Grid(props) {
         }}
       >
         <Slots measureCount={measureCount} />
-        {showIf(toolType === constants.toolTypes.DRAW)(
-          <DrawLayer mousePoint={mousePoint} onDraw={onDraw} />,
+        {toolType === constants.toolTypes.DRAW && (
+          <DrawLayer mousePoint={mousePoint} onDraw={onDraw} />
         )}
         <Selector
           isEnabled={toolType === constants.toolTypes.SELECT}
@@ -121,11 +120,11 @@ function Grid(props) {
           selectedNotes={selectedNotes}
           toolType={toolType}
         />
-        {showIf(toolType === constants.toolTypes.PAN)(
+        {toolType === constants.toolTypes.PAN && (
           <Panner
             scrollLeftEl={ref.current}
             scrollTopEl={notesEditorContentEl}
-          />,
+          />
         )}
         <PositionIndicator mousePoint={mousePoint} />
         <Timeline isVisible={false} offset={0 * 40} />

@@ -8,7 +8,6 @@ import some from 'lodash/fp/some';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
-import { showIf } from 'react-render-helpers';
 
 import shared from '../../shared';
 import AddSequenceButton from './AddSequenceButton';
@@ -152,7 +151,7 @@ function Track(props) {
           style={{ height: 64 }}
         />
         <AnimatePresence>
-          {showIf(!isNil(firstEmptyPosition))(() => (
+          {!isNil(firstEmptyPosition) && (
             <motion.div
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -164,7 +163,7 @@ function Track(props) {
                 position={firstEmptyPosition}
               />
             </motion.div>
-          ))}
+          )}
         </AnimatePresence>
       </Box>
     </Stack>

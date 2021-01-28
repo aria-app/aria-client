@@ -1,7 +1,6 @@
 import includes from 'lodash/fp/includes';
 import PropTypes from 'prop-types';
 import React from 'react';
-import showIf from 'react-render-helpers/showIf';
 
 import shared from '../../shared';
 
@@ -53,10 +52,10 @@ function Key(props) {
         },
       }}
     >
-      {showIf(isCKey)(
+      {isCKey && (
         <Box component="label" sx={{ color: 'text.hint' }}>
           {step.name}
-        </Box>,
+        </Box>
       )}
     </Box>
   );

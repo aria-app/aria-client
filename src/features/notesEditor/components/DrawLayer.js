@@ -5,7 +5,6 @@ import noop from 'lodash/fp/noop';
 import split from 'lodash/fp/split';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { showIf } from 'react-render-helpers';
 
 import Note from './Note';
 
@@ -90,7 +89,7 @@ function DrawLayer(props) {
       onMouseUp={handleMouseUp}
       ref={ref}
     >
-      {showIf(isMouseOver)(
+      {isMouseOver && (
         <StyledNote
           component={Note}
           note={ghostNoteNote}
@@ -100,7 +99,7 @@ function DrawLayer(props) {
           onEndPointDrag={noop}
           onEndPointDragStart={noop}
           onEndPointDragStop={noop}
-        />,
+        />
       )}
     </Root>
   );
