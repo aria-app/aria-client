@@ -13,6 +13,7 @@ const Toolbar = React.forwardRef((props, ref) => {
         backgroundColor: 'background.paper',
         borderColor: 'divider',
         borderWidth: 2,
+        height: ['bottom', 'top'].includes(position) ? 58 : 56,
         ...(position === 'top' ? { borderBottomStyle: 'solid' } : {}),
         ...(position === 'bottom' ? { borderTopStyle: 'solid' } : {}),
         padding: 2,

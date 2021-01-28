@@ -7,15 +7,12 @@ import TracksEditor from './TracksEditor';
 export default connect(
   (state) => ({
     isLoading: song.selectors.getIsSongLoading(state),
-    isRedoEnabled: song.selectors.getIsRedoEnabled(state),
-    isUndoEnabled: song.selectors.getIsUndoEnabled(state),
     songMeasureCount: song.selectors.getMeasureCount(state),
     sequences: song.selectors.getSequencesArray(state),
     tracks: song.selectors.getDeepTracksArray(state),
   }),
   {
     onLoad: shared.actions.routeSongEditorLoaded,
-    onRedo: song.actions.redoRequested,
     onSequenceAdd: song.actions.sequenceAdded,
     onSequenceDelete: song.actions.sequenceDeleted,
     onSequenceDuplicate: song.actions.sequenceDuplicated,
@@ -25,6 +22,5 @@ export default connect(
     onTrackDelete: song.actions.trackDeleted,
     onTrackVoiceSet: song.actions.trackVoiceSet,
     onTrackVolumeSet: song.actions.trackVolumeSet,
-    onUndo: song.actions.undoRequested,
   },
 )(TracksEditor);

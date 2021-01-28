@@ -1,9 +1,6 @@
 import { combineReducers } from 'redux';
-import undoable, { includeAction } from 'redux-undo';
 
 import { reducerManager } from '../../../store';
-import shared from '../../shared';
-import * as actions from '../actions';
 import bpm from './bpm';
 import id from './id';
 import measureCount from './measureCount';
@@ -14,7 +11,7 @@ import syncState from './syncState';
 import tracks from './tracks';
 import userId from './userId';
 
-const rootReducer = combineReducers({
+const songReducer = combineReducers({
   bpm,
   id,
   measureCount,
@@ -24,17 +21,6 @@ const rootReducer = combineReducers({
   syncState,
   tracks,
   userId,
-});
-
-const songReducer = undoable(rootReducer, {
-  clearHistoryType: [
-    shared.actions.routeNotesEditorLoaded.type,
-    shared.actions.routeSongEditorLoaded.type,
-  ],
-  filter: includeAction(actions.undoableActions),
-  redoType: actions.redoRequested.type,
-  syncFilter: true,
-  undoType: actions.undoRequested.type,
 });
 
 reducerManager.add('song', songReducer);

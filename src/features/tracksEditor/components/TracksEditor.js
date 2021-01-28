@@ -18,11 +18,8 @@ const { Box, Timeline } = shared.components;
 
 TracksEditor.propTypes = {
   isLoading: PropTypes.bool,
-  isRedoEnabled: PropTypes.bool,
-  isUndoEnabled: PropTypes.bool,
   navigate: PropTypes.func,
   onLoad: PropTypes.func,
-  onRedo: PropTypes.func,
   onSequenceAdd: PropTypes.func,
   onSequenceDelete: PropTypes.func,
   onSequenceDuplicate: PropTypes.func,
@@ -32,7 +29,6 @@ TracksEditor.propTypes = {
   onTrackDelete: PropTypes.func,
   onTrackVoiceSet: PropTypes.func,
   onTrackVolumeSet: PropTypes.func,
-  onUndo: PropTypes.func,
   position: PropTypes.number,
   sequences: PropTypes.arrayOf(PropTypes.object),
   song: PropTypes.object,
@@ -44,11 +40,8 @@ TracksEditor.propTypes = {
 function TracksEditor(props) {
   const {
     isLoading,
-    isRedoEnabled,
-    isUndoEnabled,
     navigate,
     onLoad,
-    onRedo,
     onSequenceAdd,
     onSequenceDelete,
     onSequenceDuplicate,
@@ -58,7 +51,6 @@ function TracksEditor(props) {
     onTrackDelete,
     onTrackVoiceSet,
     onTrackVolumeSet,
-    onUndo,
     sequences,
     songId,
     songMeasureCount,
@@ -79,12 +71,6 @@ function TracksEditor(props) {
     () => find((t) => t.id === selectedTrackId, tracks),
     [selectedTrackId, tracks],
   );
-
-  const handleRedo = React.useCallback(() => {
-    if (!isRedoEnabled) return;
-
-    onRedo();
-  }, [isRedoEnabled, onRedo]);
 
   const handleSequenceDelete = React.useCallback(
     (e) => {
@@ -174,12 +160,6 @@ function TracksEditor(props) {
     setSelectedTrackId(track.id);
   }, []);
 
-  const handleUndo = React.useCallback(() => {
-    if (!isUndoEnabled) return;
-
-    onUndo();
-  }, [isUndoEnabled, onUndo]);
-
   React.useEffect(() => {
     onLoad({ songId });
   }, [songId, onLoad]);
@@ -199,14 +179,10 @@ function TracksEditor(props) {
         handlers={{
           DELETE: handleSequenceDelete,
           DUPLICATE: handleSequenceDuplicate,
-          REDO: handleRedo,
-          UNDO: handleUndo,
         }}
         keyMap={{
           DELETE: ['backspace', 'del'],
           DUPLICATE: ['ctrl+shift+d', 'meta+shift+d'],
-          REDO: ['ctrl+alt+z', 'meta+alt+z'],
-          UNDO: ['ctrl+z', 'meta+z'],
         }}
       />
       <React.Fragment>
@@ -226,13 +202,9 @@ function TracksEditor(props) {
           tracks={tracks}
         />
         <TracksEditorToolbar
-          isRedoEnabled={isRedoEnabled}
-          isUndoEnabled={isUndoEnabled}
-          onRedo={handleRedo}
           onSequenceDelete={handleSequenceDelete}
           onSequenceDuplicate={handleSequenceDuplicate}
           onSequenceOpen={handleSequenceOpen}
-          onUndo={handleUndo}
           selectedSequence={selectedSequence}
         />
         <Timeline

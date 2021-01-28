@@ -1,3 +1,3 @@
 import getOr from 'lodash/fp/getOr';
 
-export const getBPM = getOr(0, `song.present.bpm`);
+export const getBPM = getOr(0, `song.bpm`);

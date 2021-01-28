@@ -7,8 +7,6 @@ import NotesEditor from './NotesEditor';
 export default connect(
   (state, ownProps) => ({
     isLoading: song.selectors.getIsSongLoading(state),
-    isRedoEnabled: song.selectors.getIsRedoEnabled(state),
-    isUndoEnabled: song.selectors.getIsUndoEnabled(state),
     notes: song.selectors.getNotesBySequenceId(state)(ownProps.sequenceId),
     sequence: song.selectors.getSequenceById(state)(ownProps.sequenceId),
   }),
@@ -22,9 +20,7 @@ export default connect(
     onNudge: song.actions.notesNudged,
     onOctaveDown: song.actions.notesMovedOctaveDown,
     onOctaveUp: song.actions.notesMovedOctaveUp,
-    onRedo: song.actions.redoRequested,
     onResize: song.actions.notesResized,
-    onUndo: song.actions.undoRequested,
   },
   (stateProps, dispatchProps, ownProps) => ({
     ...ownProps,

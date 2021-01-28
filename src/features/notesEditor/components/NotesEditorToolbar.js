@@ -7,8 +7,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import NearMeIcon from '@material-ui/icons/NearMe';
 import PanToolIcon from '@material-ui/icons/PanTool';
-import RedoIcon from '@material-ui/icons/Redo';
-import UndoIcon from '@material-ui/icons/Undo';
 import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -34,8 +32,6 @@ function SelectableIconButton(props) {
 }
 
 NotesEditorToolbar.propTypes = {
-  isRedoEnabled: PropTypes.bool,
-  isUndoEnabled: PropTypes.bool,
   measureCount: PropTypes.number,
   onClose: PropTypes.func,
   onDelete: PropTypes.func,
@@ -46,17 +42,13 @@ NotesEditorToolbar.propTypes = {
   onOctaveDown: PropTypes.func,
   onOctaveUp: PropTypes.func,
   onPanToolSelect: PropTypes.func,
-  onRedo: PropTypes.func,
   onSelectToolSelect: PropTypes.func,
-  onUndo: PropTypes.func,
   selectedNotes: PropTypes.arrayOf(PropTypes.object),
   toolType: PropTypes.string,
 };
 
 function NotesEditorToolbar(props) {
   const {
-    isRedoEnabled,
-    isUndoEnabled,
     measureCount,
     onClose,
     onDelete,
@@ -67,9 +59,7 @@ function NotesEditorToolbar(props) {
     onOctaveDown,
     onOctaveUp,
     onPanToolSelect,
-    onRedo,
     onSelectToolSelect,
-    onUndo,
     selectedNotes,
     toolType,
   } = props;
@@ -116,20 +106,6 @@ function NotesEditorToolbar(props) {
             />
           )}
         </Box>
-        <Button
-          disabled={!isUndoEnabled}
-          onClick={onUndo}
-          startIcon={<UndoIcon />}
-          title="Undo"
-          variant="text"
-        />
-        <Button
-          disabled={!isRedoEnabled}
-          onClick={onRedo}
-          startIcon={<RedoIcon />}
-          title="Redo"
-          variant="text"
-        />
         {!areSomeNotesSelected && (
           <>
             <SelectableIconButton

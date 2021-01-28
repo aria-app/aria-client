@@ -24,9 +24,7 @@ const getNotesByIds = memoizeOne((notes, ids) =>
 );
 
 NotesEditor.propTypes = {
-  isRedoEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
-  isUndoEnabled: PropTypes.bool,
   notes: PropTypes.arrayOf(PropTypes.object),
   navigate: PropTypes.func,
   onDelete: PropTypes.func,
@@ -38,9 +36,7 @@ NotesEditor.propTypes = {
   onNudge: PropTypes.func,
   onOctaveDown: PropTypes.func,
   onOctaveUp: PropTypes.func,
-  onRedo: PropTypes.func,
   onResize: PropTypes.func,
-  onUndo: PropTypes.func,
   sequence: PropTypes.object,
   sequenceId: PropTypes.string,
   songId: PropTypes.string,
@@ -48,9 +44,7 @@ NotesEditor.propTypes = {
 
 function NotesEditor(props) {
   const {
-    isRedoEnabled,
     isLoading,
-    isUndoEnabled,
     navigate,
     notes,
     onDelete,
@@ -62,9 +56,7 @@ function NotesEditor(props) {
     onNudge,
     onOctaveDown,
     onOctaveUp,
-    onRedo,
     onResize,
-    onUndo,
     sequence,
     sequenceId,
     songId,
@@ -296,12 +288,6 @@ function NotesEditor(props) {
     setToolType(toolTypes.PAN);
   }, []);
 
-  const handleRedo = React.useCallback(() => {
-    if (!isRedoEnabled) return;
-
-    onRedo();
-  }, [isRedoEnabled, onRedo]);
-
   const handleSelectAll = React.useCallback(() => {
     if (notes.length === selectedNotes.length) return;
 
@@ -321,12 +307,6 @@ function NotesEditor(props) {
     () => onOctaveUp(selectedNotes),
     [onOctaveUp, selectedNotes],
   );
-
-  const handleUndo = React.useCallback(() => {
-    if (!isUndoEnabled) return;
-
-    onUndo();
-  }, [isUndoEnabled, onUndo]);
 
   React.useEffect(() => {
     onLoad({ sequenceId, songId });
@@ -369,8 +349,6 @@ function NotesEditor(props) {
           SELECT_ALL: handleSelectAll,
           DESELECT: handleDeselectAll,
           DUPLICATE: handleDuplicate,
-          REDO: onRedo,
-          UNDO: onUndo,
         }}
         keyMap={{
           DELETE: ['backspace', 'del'],
@@ -387,8 +365,6 @@ function NotesEditor(props) {
           SELECT_ALL: ['ctrl+a', 'meta+a'],
           DESELECT: ['ctrl+d', 'meta+d'],
           DUPLICATE: ['ctrl+shift+d', 'meta+shift+d'],
-          REDO: ['ctrl+alt+z', 'meta+alt+z'],
-          UNDO: ['ctrl+z', 'meta+z'],
         }}
       />
       <Fade in={isLoading}>
@@ -435,8 +411,6 @@ function NotesEditor(props) {
           </Fade>
         </Box>
         <NotesEditorToolbar
-          isRedoEnabled={isRedoEnabled}
-          isUndoEnabled={isUndoEnabled}
           measureCount={sequence.measureCount}
           onClose={handleClose}
           onDelete={handleDelete}
@@ -447,9 +421,7 @@ function NotesEditor(props) {
           onOctaveDown={handleToolbarOctaveDown}
           onOctaveUp={handleToolbarOctaveUp}
           onPanToolSelect={handlePanToolActivate}
-          onRedo={handleRedo}
           onSelectToolSelect={handleSelectToolActivate}
-          onUndo={handleUndo}
           selectedNotes={selectedNotes}
           toolType={toolType}
         />

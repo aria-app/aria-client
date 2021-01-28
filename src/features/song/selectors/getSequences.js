@@ -1,3 +1,3 @@
 import getOr from 'lodash/fp/getOr';
 
-export const getSequences = getOr({}, 'song.present.sequences');
+export const getSequences = getOr({}, 'song.sequences');
