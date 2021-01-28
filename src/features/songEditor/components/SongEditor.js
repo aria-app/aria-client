@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import { Router } from '@reach/router';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -7,27 +6,15 @@ import Tone from 'tone';
 
 import Dawww from '../../../dawww';
 import notesEditor from '../../notesEditor';
+import shared from '../../shared';
 import tracksEditor from '../../tracksEditor';
 import SongEditorToolbar from './SongEditorToolbar';
 import SongInfoModal from './SongInfoModal';
 
 const { STARTED } = Dawww.PLAYBACK_STATES;
 const { NotesEditorContainer } = notesEditor.components;
+const { Box } = shared.components;
 const { TracksEditorContainer } = tracksEditor.components;
-
-const Root = styled.div({
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-});
-
-const StyledRouter = styled(Router)({
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  overflow: 'hidden',
-  position: 'relative',
-});
 
 SongEditor.propTypes = {
   navigate: PropTypes.func,
@@ -89,11 +76,27 @@ function SongEditor(props) {
   }, [song, song.name]);
 
   if (song.userId && song.userId !== user.uid) {
-    return <Root>You do not have permissions to edit this song.</Root>;
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flex: '1 1 auto',
+          flexDirection: 'column',
+        }}
+      >
+        You do not have permissions to edit this song.
+      </Box>
+    );
   }
 
   return (
-    <Root>
+    <Box
+      sx={{
+        display: 'flex',
+        flex: '1 1 auto',
+        flexDirection: 'column',
+      }}
+    >
       <GlobalHotKeys
         allowChanges={true}
         handlers={{ PLAY_PAUSE: playPause, STOP: onStop }}
@@ -106,10 +109,19 @@ function SongEditor(props) {
         onStop={onStop}
         playbackState={playbackState}
       />
-      <StyledRouter>
+      <Box
+        component={Router}
+        sx={{
+          display: 'flex',
+          flex: '1 1 auto',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          position: 'relative',
+        }}
+      >
         <TracksEditorContainer path="/" />
         <NotesEditorContainer path="sequence/:sequenceId" />
-      </StyledRouter>
+      </Box>
       <SongInfoModal
         isOpen={isSongInfoModalOpen}
         onBPMChange={onBPMChange}
@@ -118,7 +130,7 @@ function SongEditor(props) {
         onSignOut={handleSignOut}
         song={song}
       />
-    </Root>
+    </Box>
   );
 }
 

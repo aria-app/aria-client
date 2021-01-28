@@ -4,7 +4,7 @@ import React from 'react';
 
 import shared from '../../shared';
 
-const { Box, Column, Columns, Text } = shared.components;
+const { Box, Column, Columns, Typography } = shared.components;
 
 SongListItem.propTypes = {
   onClick: PropTypes.func,
@@ -46,7 +46,7 @@ function SongListItem(props) {
     >
       <Columns alignY="center" space="medium">
         <Column>
-          <Text variant="label">{song.name}</Text>
+          <Typography variant="label">{song.name}</Typography>
         </Column>
         <Column width="content">
           <Box

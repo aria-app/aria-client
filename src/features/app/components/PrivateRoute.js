@@ -1,10 +1,11 @@
 import { Redirect } from '@reach/router';
+import PropTypes from 'prop-types';
 import React from 'react';
 
-// interface PrivateRouteProps {
-//   component?: React.ElementType;
-//   [key: string]: any;
-// }
+PrivateRoute.propTypes = {
+  component: PropTypes.elementType,
+  isAuthenticated: PropTypes.bool,
+};
 
 export default function PrivateRoute(props) {
   const { component: Component, isAuthenticated, ...rest } = props;

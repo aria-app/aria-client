@@ -7,6 +7,12 @@ import Divider from './Divider';
 
 Stack.propTypes = {
   component: PropTypes.elementType,
+  direction: PropTypes.oneOf([
+    'column',
+    'column-reverse',
+    'row',
+    'row-reverse',
+  ]),
   dividerThickness: PropTypes.string,
   showDividers: PropTypes.bool,
   space: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -16,6 +22,7 @@ export default function Stack(props) {
   const {
     children,
     component = 'div',
+    direction = 'column',
     dividerThickness = 'thin',
     showDividers,
     space,
@@ -28,9 +35,14 @@ export default function Stack(props) {
       as={component}
       sx={{
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: direction,
         '& > * + *': {
-          marginTop: space,
+          [{
+            column: 'marginTop',
+            'column-reverse': 'marginBottom',
+            row: 'marginLeft',
+            'row-reverse': 'marginRight',
+          }[direction]]: space,
         },
         ...sx,
       }}

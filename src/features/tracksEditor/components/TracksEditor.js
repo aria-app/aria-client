@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import find from 'lodash/fp/find';
 import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
@@ -12,15 +11,7 @@ import TrackEditingModal from './TrackEditingModal';
 import TrackList from './TrackList';
 import TracksEditorToolbar from './TracksEditorToolbar';
 
-const { Timeline } = shared.components;
-
-const Root = styled.div({
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  overflow: 'hidden',
-  position: 'relative',
-});
+const { Box, Timeline } = shared.components;
 
 TracksEditor.propTypes = {
   isLoading: PropTypes.bool,
@@ -195,7 +186,15 @@ function TracksEditor(props) {
   }, [songId, onLoad]);
 
   return (
-    <Root>
+    <Box
+      sx={{
+        display: 'flex',
+        flex: '1 1 auto',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        position: 'relative',
+      }}
+    >
       <GlobalHotKeys
         allowChanges={true}
         handlers={{
@@ -246,7 +245,7 @@ function TracksEditor(props) {
           track={selectedTrack}
         />
       </React.Fragment>
-    </Root>
+    </Box>
   );
 }
 

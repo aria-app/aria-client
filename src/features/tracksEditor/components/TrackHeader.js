@@ -1,51 +1,58 @@
-import styled from '@emotion/styled';
 import React from 'react';
 
-const Root = styled.div(({ theme }) => ({
-  alignItems: 'center',
-  cursor: 'pointer',
-  display: 'flex',
-  textTransform: 'uppercase',
-  transform: 'scale(1)',
-  transition: 'transform 0.2s ease',
-}));
+import shared from '../../shared';
 
-const Icon = styled.div(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
-  borderRadius: theme.shape.borderRadius,
-  height: 28,
-  position: 'relative',
-  width: 28,
-  '&::after': {
-    backgroundColor: theme.palette.primary.contrastText,
-    borderRadius: theme.spacing(1),
-    content: '""',
-    display: 'block',
-    height: 12,
-    left: '50%',
-    position: 'absolute',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 12,
-  },
-}));
-
-const Text = styled.div(({ theme }) => ({
-  color: theme.palette.primary.dark,
-  fontWeight: 800,
-  marginBottom: -3,
-  paddingLeft: theme.spacing(1),
-  paddingRight: theme.spacing(1),
-}));
+const { Box } = shared.components;
 
 function TrackHeader(props) {
   const { children, ...rest } = props;
 
   return (
-    <Root {...rest}>
-      <Icon />
-      <Text>{children}</Text>
-    </Root>
+    <Box
+      sx={{
+        alignItems: 'center',
+        cursor: 'pointer',
+        display: 'flex',
+        textTransform: 'uppercase',
+        transform: 'scale(1)',
+        transition: 'transform 0.2s ease',
+      }}
+      {...rest}
+    >
+      <Box
+        sx={{
+          backgroundColor: 'primary.main',
+          borderRadius: 1,
+          height: 28,
+          position: 'relative',
+          width: 28,
+          '&::after': {
+            backgroundColor: 'primary.contrastText',
+            borderRadius: 9999,
+            content: '""',
+            display: 'block',
+            height: 12,
+            left: '50%',
+            position: 'absolute',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 12,
+          },
+        }}
+      />
+      <Box
+        component="div"
+        sx={{
+          color: 'primary.dark',
+          fontWeight: 800,
+          marginBottom: -0.5,
+          paddingLeft: 2,
+          paddingRight: 2,
+        }}
+      >
+        {children}
+      </Box>
+    </Box>
   );
 }
 

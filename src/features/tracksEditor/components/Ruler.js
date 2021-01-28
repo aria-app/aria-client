@@ -82,13 +82,6 @@ const ResizerDraggableWrapper = styled.div({
   position: 'absolute',
 });
 
-// export interface RulerProps extends WithStyles<typeof styles> {
-//   measureCount?: number;
-//   measureWidth?: number;
-//   onMeasureCountChange?: (measureCount: number) => void;
-//   onPositionSet?: (position: number) => void;
-// }
-
 Ruler.propTypes = {
   measureCount: PropTypes.number,
   measureWidth: PropTypes.number,

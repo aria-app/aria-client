@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -6,22 +5,14 @@ import Dawww from '../../../dawww';
 import shared from '../../shared';
 import SongViewerToolbar from './SongViewerToolbar';
 
-const { Box, Fade, LoadingIndicator, Slider, Typography } = shared.components;
-
-const SliderWrapper = styled.div({
-  alignItems: 'center',
-  display: 'flex',
-});
-
-const StyledSlider = styled(Slider)({
-  flex: '1 1 auto',
-  width: 'auto',
-});
-
-const Time = styled.div(({ theme }) => ({
-  flex: '0 0 auto',
-  paddingLeft: 6,
-}));
+const {
+  Box,
+  Fade,
+  LoadingIndicator,
+  Slider,
+  Stack,
+  Typography,
+} = shared.components;
 
 SongViewer.propTypes = {
   isLoading: PropTypes.bool,
@@ -122,19 +113,35 @@ function SongViewer(props) {
               padding: 4,
             }}
           >
-            <Typography variant="h5">{song.name}</Typography>
-            <SliderWrapper>
-              <StyledSlider
-                max={song.measureCount * 32}
-                onChange={handleChange}
-                onChangeCommitted={handleChangeCommitted}
-                onMouseDown={handleMouseDown}
-                value={positionState}
-              />
-              <Time>
-                {Math.ceil(elapsedSeconds)} / {totalSeconds}
-              </Time>
-            </SliderWrapper>
+            <Stack space={4}>
+              <Typography variant="h5">{song.name}</Typography>
+              <Box
+                sx={{
+                  alignItems: 'center',
+                  display: 'flex',
+                }}
+              >
+                <Slider
+                  max={song.measureCount * 32}
+                  onChange={handleChange}
+                  onChangeCommitted={handleChangeCommitted}
+                  onMouseDown={handleMouseDown}
+                  sx={{
+                    flex: '1 1 auto',
+                    width: 'auto',
+                  }}
+                  value={positionState}
+                />
+                <Box
+                  sx={{
+                    flex: '0 0 auto',
+                    paddingLeft: 1.5,
+                  }}
+                >
+                  {Math.ceil(elapsedSeconds)} / {totalSeconds}
+                </Box>
+              </Box>
+            </Stack>
           </Box>
         </Box>
       </Fade>
