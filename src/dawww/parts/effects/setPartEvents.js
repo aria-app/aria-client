@@ -22,8 +22,14 @@ export function setPartEvents(getState, action, shared) {
 
     const fn = (payload, time) => {
       const focusedSequenceId = getOr('', 'song.focusedSequenceId', getState());
+      const playbackState = getOr('STOPPED', 'playbackState', getState());
+      const position = getOr(0, 'position', getState());
+      const shouldSetPosition =
+        i !== position && (playbackState !== 'STOPPED' || i === 0);
+      const isSelectedSequence =
+        focusedSequenceId !== '' && focusedSequenceId === sequenceId;
 
-      if (focusedSequenceId !== '' && focusedSequenceId === sequenceId) {
+      if (shouldSetPosition && isSelectedSequence) {
         shared.dispatch(actions.positionSet(i));
       }
 

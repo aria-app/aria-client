@@ -1,9 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useRecoilState } from 'recoil';
 
 import Dawww from '../../../dawww';
+import audio from '../../audio';
 import shared from '../../shared';
 import SongViewerToolbar from './SongViewerToolbar';
+
+const { useDawww } = audio.hooks;
 
 const {
   Box,
@@ -36,10 +40,11 @@ function SongViewer(props) {
     onPositionSet,
     onStop,
     playbackState,
-    position,
     song,
     songId,
   } = props;
+  const { atoms, initializeDawwwInstance } = useDawww();
+  const [position] = useRecoilState(atoms.position);
   const [prevPlaybackState, setPrevPlaybackState] = React.useState(
     playbackState,
   );
@@ -81,8 +86,9 @@ function SongViewer(props) {
   }, [onLoad, songId]);
 
   React.useEffect(() => {
+    initializeDawwwInstance();
     window.document.title = `${song.name} - Aria`;
-  }, [song, song.name]);
+  }, [initializeDawwwInstance, song, song.name]);
 
   return (
     <React.Fragment>

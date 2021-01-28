@@ -4,13 +4,16 @@ import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
+import { useRecoilState } from 'recoil';
 
 import Dawww from '../../../dawww';
+import audio from '../../audio';
 import shared from '../../shared';
 import TrackEditingModal from './TrackEditingModal';
 import TrackList from './TrackList';
 import TracksEditorToolbar from './TracksEditorToolbar';
 
+const { useDawww } = audio.hooks;
 const { Box, Timeline } = shared.components;
 
 TracksEditor.propTypes = {
@@ -60,12 +63,13 @@ function TracksEditor(props) {
     onTrackVoiceSet,
     onTrackVolumeSet,
     onUndo,
-    position,
     sequences,
     songId,
     songMeasureCount,
     tracks,
   } = props;
+  const { atoms } = useDawww();
+  const [position] = useRecoilState(atoms.position);
   const [selectedSequenceId, setSelectedSequenceId] = React.useState('');
   const [selectedTrackId, setSelectedTrackId] = React.useState('');
 

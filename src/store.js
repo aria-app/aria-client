@@ -13,9 +13,6 @@ export const reducerManager = createReducerManager({
 });
 
 const store = configureStore({
-  devTools: {
-    actionsBlacklist: [audio.actions.positionRequestSucceeded.type],
-  },
   middleware: [epicMiddleware],
   reducer: reducerManager.reduce,
 });

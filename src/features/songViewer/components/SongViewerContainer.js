@@ -12,7 +12,6 @@ export default connect(
   (state) => ({
     isLoading: song.selectors.getIsSongLoading(state),
     playbackState: audio.selectors.getPlaybackState(state),
-    position: audio.selectors.getPosition(state),
     song: song.selectors.getSong(state),
   }),
   {

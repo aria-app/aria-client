@@ -6,7 +6,6 @@ import setPositionEpic from './setPositionEpic';
 import startPlaybackEpic from './startPlaybackEpic';
 import stopPlaybackEpic from './stopPlaybackEpic';
 import subscribeToPlaybackStateEpic from './subscribeToPlaybackStateEpic';
-import subscribeToPositionEpic from './subscribeToPositionEpic';
 import updateSongEpic from './updateSongEpic';
 
 export default combineEpics(
@@ -16,6 +15,5 @@ export default combineEpics(
   startPlaybackEpic,
   stopPlaybackEpic,
   subscribeToPlaybackStateEpic,
-  subscribeToPositionEpic,
   updateSongEpic,
 );

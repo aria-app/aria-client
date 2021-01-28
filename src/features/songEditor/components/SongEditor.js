@@ -5,6 +5,7 @@ import { GlobalHotKeys } from 'react-hotkeys';
 import Tone from 'tone';
 
 import Dawww from '../../../dawww';
+import audio from '../../audio';
 import notesEditor from '../../notesEditor';
 import shared from '../../shared';
 import tracksEditor from '../../tracksEditor';
@@ -12,6 +13,7 @@ import SongEditorToolbar from './SongEditorToolbar';
 import SongInfoModal from './SongInfoModal';
 
 const { STARTED } = Dawww.PLAYBACK_STATES;
+const { useDawww } = audio.hooks;
 const { NotesEditorContainer } = notesEditor.components;
 const { Box } = shared.components;
 const { TracksEditorContainer } = tracksEditor.components;
@@ -38,7 +40,9 @@ function SongEditor(props) {
     song,
     user,
   } = props;
+
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);
+  const { initializeDawwwInstance } = useDawww();
 
   const playPause = React.useCallback(
     function playPause() {
@@ -72,8 +76,9 @@ function SongEditor(props) {
   }, [navigate]);
 
   React.useEffect(() => {
+    initializeDawwwInstance();
     window.document.title = `${song.name} - Aria`;
-  }, [song, song.name]);
+  }, [initializeDawwwInstance, song, song.name]);
 
   if (song.userId && song.userId !== user.uid) {
     return (

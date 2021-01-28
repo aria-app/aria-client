@@ -110,9 +110,10 @@ export const playbackStopRequested = () => ({
   type: PLAYBACK_STOP_REQUESTED,
 });
 
-export const positionSet = (position) => ({
+export const positionSet = (position, caller) => ({
   type: POSITION_SET,
   payload: { position },
+  meta: { caller },
 });
 
 export const positionSetRequested = (position) => ({
