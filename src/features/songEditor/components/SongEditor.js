@@ -2,6 +2,7 @@ import { Router } from '@reach/router';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
+import { useRecoilValue } from 'recoil';
 import Tone from 'tone';
 
 import Dawww from '../../../dawww';
@@ -21,16 +22,16 @@ const { TracksEditorContainer } = tracksEditor.components;
 SongEditor.propTypes = {
   navigate: PropTypes.func,
   onBPMChange: PropTypes.func,
-  playbackState: PropTypes.string,
   song: PropTypes.object,
   user: PropTypes.object,
 };
 
 function SongEditor(props) {
-  const { navigate, onBPMChange, playbackState, song, user } = props;
+  const { navigate, onBPMChange, song, user } = props;
+  const { audioState, audioManager } = useAudio();
+  const playbackState = useRecoilValue(audioState.playbackState);
 
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);
-  const { audioManager } = useAudio();
 
   const playPause = React.useCallback(
     function playPause() {

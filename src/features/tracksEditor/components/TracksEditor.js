@@ -4,7 +4,7 @@ import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import Dawww from '../../../dawww';
 import audio from '../../audio';
@@ -19,7 +19,6 @@ const { Box, Timeline } = shared.components;
 TracksEditor.propTypes = {
   isLoading: PropTypes.bool,
   isRedoEnabled: PropTypes.bool,
-  isStopped: PropTypes.bool,
   isUndoEnabled: PropTypes.bool,
   navigate: PropTypes.func,
   onLoad: PropTypes.func,
@@ -46,7 +45,6 @@ function TracksEditor(props) {
   const {
     isLoading,
     isRedoEnabled,
-    isStopped,
     isUndoEnabled,
     navigate,
     onLoad,
@@ -66,8 +64,9 @@ function TracksEditor(props) {
     songMeasureCount,
     tracks,
   } = props;
-  const { atoms, audioManager } = useAudio();
-  const [position] = useRecoilState(atoms.position);
+  const { audioState, audioManager } = useAudio();
+  const playbackState = useRecoilValue(audioState.playbackState);
+  const position = useRecoilValue(audioState.position);
   const [selectedSequenceId, setSelectedSequenceId] = React.useState('');
   const [selectedTrackId, setSelectedTrackId] = React.useState('');
 
@@ -236,7 +235,12 @@ function TracksEditor(props) {
           onUndo={handleUndo}
           selectedSequence={selectedSequence}
         />
-        <Timeline isVisible={!isStopped} offset={position * 2 + 16} />
+        <Timeline
+          isVisible={
+            playbackState !== audioManager.constants.PLAYBACK_STATES.STOPPED
+          }
+          offset={position * 2 + 16}
+        />
         <TrackEditingModal
           onDelete={handleTrackDelete}
           onDismiss={handleTrackDeselect}

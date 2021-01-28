@@ -17,7 +17,7 @@ export function DawwwTesting() {
       setPosition(position);
     });
 
-    dawww.onStateChange((playbackState) => {
+    dawww.onPlaybackStateChange((playbackState) => {
       setPlaybackState(playbackState);
     });
   }, []);

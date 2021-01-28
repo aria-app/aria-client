@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import Dawww from '../../../dawww';
 import audio from '../../audio';
@@ -21,16 +21,16 @@ const {
 SongViewer.propTypes = {
   isLoading: PropTypes.bool,
   onLoad: PropTypes.func,
-  playbackState: PropTypes.string,
   position: PropTypes.number,
   song: PropTypes.object,
   songId: PropTypes.string,
 };
 
 function SongViewer(props) {
-  const { isLoading, onLoad, playbackState, song, songId } = props;
-  const { atoms, audioManager } = useAudio();
-  const [position] = useRecoilState(atoms.position);
+  const { isLoading, onLoad, song, songId } = props;
+  const { audioState, audioManager } = useAudio();
+  const playbackState = useRecoilValue(audioState.playbackState);
+  const position = useRecoilValue(audioState.position);
   const [prevPlaybackState, setPrevPlaybackState] = React.useState(
     playbackState,
   );

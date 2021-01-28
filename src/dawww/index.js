@@ -58,8 +58,10 @@ export default function Dawww(options) {
   );
 
   return {
+    constants,
+    helpers,
     onPositionChange: (fn) => on(channels.POSITION_SET, fn),
-    onStateChange: (fn) => on(channels.PLAYBACK_STATE_SET, fn),
+    onPlaybackStateChange: (fn) => on(channels.PLAYBACK_STATE_SET, fn),
     pause: () => dispatch(actions.playbackPauseRequested()),
     preview: (trackId, pitch) =>
       dispatch(actions.notePlayed({ pitch, trackId })),

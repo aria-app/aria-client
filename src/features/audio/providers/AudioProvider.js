@@ -1,22 +1,37 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { atom, useRecoilState } from 'recoil';
 
-import * as atoms from '../atoms';
+import Dawww from '../../../dawww';
 import AudioContext from '../contexts/AudioContext';
 import dawww from '../dawww';
 
+const playbackState = atom({
+  default: Dawww.PLAYBACK_STATES.STOPPED,
+  key: 'playbackState',
+});
+
+const position = atom({
+  default: 0,
+  key: 'position',
+});
+
 export default function AudioProvider(props) {
   const audioManager = React.useRef(dawww);
-  const [, setPosition] = useRecoilState(atoms.position);
+  const [, setPlaybackState] = useRecoilState(playbackState);
+  const [, setPosition] = useRecoilState(position);
 
   React.useEffect(() => {
+    audioManager.current.onPlaybackStateChange(setPlaybackState);
     audioManager.current.onPositionChange(setPosition);
-  }, [audioManager, setPosition]);
+  }, [audioManager, setPlaybackState, setPosition]);
 
   return (
     <AudioContext.Provider
       value={{
-        atoms,
+        audioState: {
+          playbackState,
+          position,
+        },
         audioManager: audioManager.current,
       }}
       {...props}

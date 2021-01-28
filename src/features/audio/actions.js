@@ -1,5 +1,3 @@
-import { createAction } from '@reduxjs/toolkit';
-
 import shared from '../shared';
 import song from '../song';
 
@@ -9,7 +7,3 @@ export const dawwwUpdatingActions = [
   shared.actions.routeSongEditorLoaded.type,
   shared.actions.routeSongViewerLoaded.type,
 ];
-
-export const playbackStateRequestSucceeded = createAction(
-  'playbackStateRequestSucceeded',
-);

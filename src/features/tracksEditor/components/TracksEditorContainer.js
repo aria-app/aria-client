@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 
-import audio from '../../audio';
 import shared from '../../shared';
 import song from '../../song';
 import TracksEditor from './TracksEditor';
@@ -10,7 +9,6 @@ export default connect(
     isLoading: song.selectors.getIsSongLoading(state),
     isRedoEnabled: song.selectors.getIsRedoEnabled(state),
     isUndoEnabled: song.selectors.getIsUndoEnabled(state),
-    isStopped: audio.selectors.getIsStopped(state),
     songMeasureCount: song.selectors.getMeasureCount(state),
     sequences: song.selectors.getSequencesArray(state),
     tracks: song.selectors.getDeepTracksArray(state),
