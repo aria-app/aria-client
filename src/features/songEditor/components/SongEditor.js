@@ -21,28 +21,16 @@ const { TracksEditorContainer } = tracksEditor.components;
 SongEditor.propTypes = {
   navigate: PropTypes.func,
   onBPMChange: PropTypes.func,
-  onPause: PropTypes.func,
-  onPlay: PropTypes.func,
-  onStop: PropTypes.func,
   playbackState: PropTypes.string,
   song: PropTypes.object,
   user: PropTypes.object,
 };
 
 function SongEditor(props) {
-  const {
-    navigate,
-    onBPMChange,
-    onPause,
-    onPlay,
-    onStop,
-    playbackState,
-    song,
-    user,
-  } = props;
+  const { navigate, onBPMChange, playbackState, song, user } = props;
 
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);
-  const { initializeAudio } = useAudio();
+  const { audioManager } = useAudio();
 
   const playPause = React.useCallback(
     function playPause() {
@@ -51,12 +39,12 @@ function SongEditor(props) {
       }
 
       if (playbackState === STARTED) {
-        onPause();
+        audioManager.pause();
       } else {
-        onPlay();
+        audioManager.start();
       }
     },
-    [onPause, onPlay, playbackState],
+    [audioManager, playbackState],
   );
 
   const handleReturnToDashboard = React.useCallback(() => {
@@ -76,9 +64,8 @@ function SongEditor(props) {
   }, [navigate]);
 
   React.useEffect(() => {
-    initializeAudio();
     window.document.title = `${song.name} - Aria`;
-  }, [initializeAudio, song, song.name]);
+  }, [song, song.name]);
 
   if (song.userId && song.userId !== user.uid) {
     return (
@@ -104,14 +91,14 @@ function SongEditor(props) {
     >
       <GlobalHotKeys
         allowChanges={true}
-        handlers={{ PLAY_PAUSE: playPause, STOP: onStop }}
+        handlers={{ PLAY_PAUSE: playPause, STOP: audioManager.stop }}
         keyMap={{ PLAY_PAUSE: 'enter', STOP: 'esc' }}
       />
       <SongEditorToolbar
-        onPause={onPause}
-        onPlay={onPlay}
+        onPause={audioManager.pause}
+        onPlay={audioManager.start}
         onSongInfoOpen={handleSongInfoOpen}
-        onStop={onStop}
+        onStop={audioManager.stop}
         playbackState={playbackState}
       />
       <Box

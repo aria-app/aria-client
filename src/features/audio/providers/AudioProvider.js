@@ -1,41 +1,23 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 
-import Dawww from '../../../dawww';
 import * as atoms from '../atoms';
 import AudioContext from '../contexts/AudioContext';
 import dawww from '../dawww';
 
 export default function AudioProvider(props) {
-  const [instance, setInstance] = React.useState(null);
+  const audioManager = React.useRef(dawww);
   const [, setPosition] = useRecoilState(atoms.position);
 
-  const initializeAudio = React.useCallback(() => {
-    // const instance = new Dawww({});
-    const newInstance = dawww;
-
-    setInstance(newInstance);
-
-    newInstance.onPositionChange(setPosition);
-  }, [setInstance, setPosition]);
-
-  const setAudioPosition = React.useCallback(
-    (position) => {
-      instance.setPosition(position);
-    },
-    [instance],
-  );
+  React.useEffect(() => {
+    audioManager.current.onPositionChange(setPosition);
+  }, [audioManager, setPosition]);
 
   return (
     <AudioContext.Provider
       value={{
         atoms,
-        constants: {},
-        helpers: {
-          addPoints: Dawww.addPoints,
-        },
-        initializeAudio,
-        setAudioPosition,
+        audioManager: audioManager.current,
       }}
       {...props}
     />

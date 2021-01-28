@@ -21,9 +21,6 @@ const {
 SongViewer.propTypes = {
   isLoading: PropTypes.bool,
   onLoad: PropTypes.func,
-  onPause: PropTypes.func,
-  onPlay: PropTypes.func,
-  onStop: PropTypes.func,
   playbackState: PropTypes.string,
   position: PropTypes.number,
   song: PropTypes.object,
@@ -31,17 +28,8 @@ SongViewer.propTypes = {
 };
 
 function SongViewer(props) {
-  const {
-    isLoading,
-    onLoad,
-    onPause,
-    onPlay,
-    onStop,
-    playbackState,
-    song,
-    songId,
-  } = props;
-  const { atoms, initializeAudio, setAudioPosition } = useAudio();
+  const { isLoading, onLoad, playbackState, song, songId } = props;
+  const { atoms, audioManager } = useAudio();
   const [position] = useRecoilState(atoms.position);
   const [prevPlaybackState, setPrevPlaybackState] = React.useState(
     playbackState,
@@ -53,17 +41,17 @@ function SongViewer(props) {
   }, []);
 
   const handleChangeCommitted = React.useCallback(() => {
-    setAudioPosition(positionState);
+    audioManager.setPosition(positionState);
 
     if (prevPlaybackState === Dawww.PLAYBACK_STATES.STARTED) {
-      onPlay();
+      audioManager.start();
     }
-  }, [onPlay, positionState, prevPlaybackState, setAudioPosition]);
+  }, [audioManager, positionState, prevPlaybackState]);
 
   const handleMouseDown = React.useCallback(() => {
     setPrevPlaybackState(playbackState);
-    onPause();
-  }, [onPause, playbackState]);
+    audioManager.pause();
+  }, [audioManager, playbackState]);
 
   const elapsedSeconds = React.useMemo(() => (position / (song.bpm * 8)) * 60, [
     position,
@@ -84,9 +72,8 @@ function SongViewer(props) {
   }, [onLoad, songId]);
 
   React.useEffect(() => {
-    initializeAudio();
     window.document.title = `${song.name} - Aria`;
-  }, [initializeAudio, song, song.name]);
+  }, [song, song.name]);
 
   return (
     <React.Fragment>
@@ -104,9 +91,9 @@ function SongViewer(props) {
           }}
         >
           <SongViewerToolbar
-            onPause={onPause}
-            onPlay={onPlay}
-            onStop={onStop}
+            onPause={audioManager.pause}
+            onPlay={audioManager.start}
+            onStop={audioManager.stop}
             playbackState={playbackState}
           />
           <Box

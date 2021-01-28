@@ -10,15 +10,6 @@ export const dawwwUpdatingActions = [
   shared.actions.routeSongViewerLoaded.type,
 ];
 
-export const playbackPauseRequestStarted = createAction(
-  'playbackPauseRequestStarted',
-);
-export const playbackStartRequestStarted = createAction(
-  'playbackStartRequestStarted',
-);
 export const playbackStateRequestSucceeded = createAction(
   'playbackStateRequestSucceeded',
-);
-export const playbackStopRequestStarted = createAction(
-  'playbackStopRequestStarted',
 );

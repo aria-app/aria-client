@@ -66,7 +66,7 @@ function TracksEditor(props) {
     songMeasureCount,
     tracks,
   } = props;
-  const { atoms, setAudioPosition } = useAudio();
+  const { atoms, audioManager } = useAudio();
   const [position] = useRecoilState(atoms.position);
   const [selectedSequenceId, setSelectedSequenceId] = React.useState('');
   const [selectedTrackId, setSelectedTrackId] = React.useState('');
@@ -142,9 +142,9 @@ function TracksEditor(props) {
 
   const handleTrackListPositionSet = React.useCallback(
     (position) => {
-      setAudioPosition(position);
+      audioManager.setPosition(position);
     },
-    [setAudioPosition],
+    [audioManager],
   );
 
   const handleTrackListSequenceAdd = React.useCallback(

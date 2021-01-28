@@ -16,8 +16,5 @@ export default connect(
   }),
   {
     onBPMChange: song.actions.bpmSet,
-    onPause: audio.actions.playbackPauseRequestStarted,
-    onPlay: audio.actions.playbackStartRequestStarted,
-    onStop: audio.actions.playbackStopRequestStarted,
   },
 )(SongEditor);
