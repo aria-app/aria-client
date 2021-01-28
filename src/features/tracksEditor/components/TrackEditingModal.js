@@ -86,4 +86,4 @@ function TrackEditingModal(props) {
   );
 }
 
-export default TrackEditingModal;
+export default React.memo(TrackEditingModal);

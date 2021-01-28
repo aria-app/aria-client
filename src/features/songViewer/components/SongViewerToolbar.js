@@ -1,44 +1,25 @@
 import PauseIcon from '@material-ui/icons/Pause';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SettingsIcon from '@material-ui/icons/Settings';
 import StopIcon from '@material-ui/icons/Stop';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { hideIf, showIf } from 'react-render-helpers';
 import Tone from 'tone';
 
 import Dawww from '../../../dawww';
 import shared from '../../shared';
 
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
-const { Box, Column, Columns } = shared.components;
-
-function TempIconButton(props) {
-  return (
-    <Box
-      interactive
-      sx={{
-        alignItems: 'center',
-        borderRadius: 1,
-        color: 'text.secondary',
-        display: 'flex',
-        padding: 2,
-      }}
-      {...props}
-    />
-  );
-}
+const { Box, Button, Column, Columns } = shared.components;
 
 SongViewerToolbar.propTypes = {
   onPause: PropTypes.func,
   onPlay: PropTypes.func,
-  onSongInfoOpen: PropTypes.func,
   onStop: PropTypes.func,
   playbackState: PropTypes.string,
 };
 
 function SongViewerToolbar(props) {
-  const { onPause, onPlay, onSongInfoOpen, onStop, playbackState } = props;
+  const { onPause, onPlay, onStop, playbackState } = props;
 
   const handlePlayPauseToggle = React.useCallback(
     function handlePlayPauseToggle() {
@@ -66,28 +47,35 @@ function SongViewerToolbar(props) {
       }}
     >
       <Columns alignY="center" space={4}>
-        <Column>
-          <TempIconButton onClick={onSongInfoOpen} title="Settings">
-            <SettingsIcon />
-          </TempIconButton>
-        </Column>
-        <Column width="content">
-          {hideIf(playbackState === STARTED)(
-            <TempIconButton onClick={handlePlayPauseToggle} title="Play">
-              <PlayArrowIcon />
-            </TempIconButton>,
-          )}
-          {showIf(playbackState === STARTED)(
-            <TempIconButton onClick={handlePlayPauseToggle} title="Pause">
-              <PauseIcon />
-            </TempIconButton>,
-          )}
-          {showIf(playbackState !== STOPPED)(
-            <TempIconButton onClick={onStop} title="Stop">
-              <StopIcon />
-            </TempIconButton>,
-          )}
-        </Column>
+        <Column />
+        {playbackState && (
+          <Column width="content">
+            {playbackState !== STARTED && (
+              <Button
+                onClick={handlePlayPauseToggle}
+                startIcon={<PlayArrowIcon />}
+                title="Play"
+                variant="text"
+              />
+            )}
+            {playbackState === STARTED && (
+              <Button
+                onClick={handlePlayPauseToggle}
+                startIcon={<PauseIcon />}
+                title="Pause"
+                variant="text"
+              />
+            )}
+            {playbackState !== STOPPED && (
+              <Button
+                onClick={onStop}
+                startIcon={<StopIcon />}
+                title="Stop"
+                variant="text"
+              />
+            )}
+          </Column>
+        )}
       </Columns>
     </Box>
   );

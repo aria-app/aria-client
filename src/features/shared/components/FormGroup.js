@@ -36,4 +36,4 @@ const FormGroup = React.forwardRef((props, ref) => {
   );
 });
 
-export default FormGroup;
+export default React.memo(FormGroup);

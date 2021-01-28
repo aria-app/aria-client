@@ -20,4 +20,4 @@ const LoadingIndicator = React.forwardRef((props, ref) => (
   />
 ));
 
-export default LoadingIndicator;
+export default React.memo(LoadingIndicator);

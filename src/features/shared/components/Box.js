@@ -81,4 +81,4 @@ Box.propTypes = {
   interactive: PropTypes.bool,
 };
 
-export default Box;
+export default React.memo(Box);

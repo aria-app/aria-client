@@ -27,4 +27,4 @@ Toolbar.propTypes = {
   position: PropTypes.oneOf(['bottom', 'top']),
 };
 
-export default Toolbar;
+export default React.memo(Toolbar);

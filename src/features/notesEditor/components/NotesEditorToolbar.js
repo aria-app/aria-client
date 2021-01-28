@@ -1,13 +1,37 @@
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import CloseIcon from '@material-ui/icons/Close';
+import ContentCopyIcon from '@material-ui/icons/ContentCopy';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import NearMeIcon from '@material-ui/icons/NearMe';
+import PanToolIcon from '@material-ui/icons/PanTool';
+import RedoIcon from '@material-ui/icons/Redo';
+import UndoIcon from '@material-ui/icons/Undo';
 import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
+import EraseIcon from 'react-icons/lib/fa/eraser';
 
 import Dawww from '../../../dawww';
 import shared from '../../shared';
 import * as constants from '../constants';
 
-const { Column, Columns, IconButton, Toolbar } = shared.components;
+const { Button, Column, Columns, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
+
+function SelectableIconButton(props) {
+  const { isSelected, ...rest } = props;
+
+  return (
+    <Button
+      color={isSelected ? 'primary.main' : undefined}
+      variant={isSelected ? 'outlined' : 'text'}
+      {...rest}
+    />
+  );
+}
 
 NotesEditorToolbar.propTypes = {
   isRedoEnabled: PropTypes.bool,
@@ -77,99 +101,127 @@ function NotesEditorToolbar(props) {
       <Columns alignY="center">
         <Column>
           {!areSomeNotesSelected && (
-            <IconButton
-              icon="arrow-left"
+            <Button
               onClick={onClose}
+              startIcon={<ArrowBackIcon />}
               title="Back to tracks"
+              variant="text"
             />
           )}
           {areSomeNotesSelected && (
-            <IconButton
-              icon="close"
+            <Button
               onClick={onDeselectAll}
+              startIcon={<CloseIcon />}
               title="Deselect notes"
+              variant="text"
             />
           )}
         </Column>
         <Column width="content">
-          {!areSomeNotesSelected && (
-            <React.Fragment>
-              <IconButton
-                icon="undo"
-                isDisabled={!isUndoEnabled}
+          <Columns space={2}>
+            <Column width="content">
+              <Button
+                disabled={!isUndoEnabled}
                 onClick={onUndo}
+                startIcon={<UndoIcon />}
                 title="Undo"
+                variant="text"
               />
-              <IconButton
-                icon="redo"
-                isDisabled={!isRedoEnabled}
+            </Column>
+            <Column width="content">
+              <Button
+                disabled={!isRedoEnabled}
                 onClick={onRedo}
+                startIcon={<RedoIcon />}
                 title="Redo"
+                variant="text"
               />
-              <IconButton
-                icon="mouse-pointer"
-                isActive={toolType === SELECT}
-                onClick={onSelectToolSelect}
-                title="Select"
-              />
-              <IconButton
-                icon="pencil"
-                isActive={toolType === DRAW}
-                onClick={onDrawToolSelect}
-                title="Draw"
-              />
-              <IconButton
-                icon="eraser"
-                isActive={toolType === ERASE}
-                onClick={onEraseToolSelect}
-                title="Erase"
-              />
-              <IconButton
-                icon="hand-paper-o"
-                isActive={toolType === PAN}
-                onClick={onPanToolSelect}
-                title="Pan"
-              />
-            </React.Fragment>
-          )}
-          {areSomeNotesSelected && (
-            <React.Fragment>
-              <IconButton
-                icon="undo"
-                isDisabled={!isUndoEnabled}
-                onClick={onUndo}
-                title="Undo"
-              />
-              <IconButton
-                icon="redo"
-                isDisabled={!isRedoEnabled}
-                onClick={onRedo}
-                title="Redo"
-              />
-              <IconButton icon="trash" onClick={onDelete} title="Delete" />
-              <IconButton
-                icon="clone"
-                onClick={onDuplicate}
-                title="Duplicate"
-              />
-              <IconButton
-                icon="arrow-up"
-                isDisabled={isOctaveUpButtonDisabled}
-                onClick={onOctaveUp}
-                title="Octave up"
-              />
-              <IconButton
-                icon="arrow-down"
-                isDisabled={isOctaveDownButtonDisabled}
-                onClick={onOctaveDown}
-                title="Octave down"
-              />
-            </React.Fragment>
-          )}
+            </Column>
+            <Column width="content">
+              {!areSomeNotesSelected && (
+                <React.Fragment>
+                  <Columns space={2}>
+                    <Column width="content">
+                      <SelectableIconButton
+                        isSelected={toolType === SELECT}
+                        onClick={onSelectToolSelect}
+                        startIcon={<NearMeIcon />}
+                        title="Select"
+                      />
+                    </Column>
+                    <Column width="content">
+                      <SelectableIconButton
+                        isSelected={toolType === DRAW}
+                        onClick={onDrawToolSelect}
+                        startIcon={<EditIcon />}
+                        title="Draw"
+                      />
+                    </Column>
+                    <Column width="content">
+                      <SelectableIconButton
+                        isSelected={toolType === ERASE}
+                        onClick={onEraseToolSelect}
+                        startIcon={<EraseIcon size={24} />}
+                        title="Erase"
+                      />
+                    </Column>
+                    <Column width="content">
+                      <SelectableIconButton
+                        isSelected={toolType === PAN}
+                        onClick={onPanToolSelect}
+                        startIcon={<PanToolIcon />}
+                        title="Pan"
+                      />
+                    </Column>
+                  </Columns>
+                </React.Fragment>
+              )}
+              {areSomeNotesSelected && (
+                <React.Fragment>
+                  <Columns space={2}>
+                    <Column width="content">
+                      <Button
+                        onClick={onDelete}
+                        startIcon={<DeleteIcon />}
+                        title="Delete"
+                        variant="text"
+                      />
+                    </Column>
+                    <Column width="content">
+                      <Button
+                        onClick={onDuplicate}
+                        startIcon={<ContentCopyIcon />}
+                        title="Duplicate"
+                        variant="text"
+                      />
+                    </Column>
+                    <Column width="content">
+                      <Button
+                        disabled={isOctaveUpButtonDisabled}
+                        onClick={onOctaveUp}
+                        startIcon={<ArrowUpwardIcon />}
+                        title="Octave up"
+                        variant="text"
+                      />
+                    </Column>
+                    <Column width="content">
+                      <Button
+                        disabled={isOctaveDownButtonDisabled}
+                        onClick={onOctaveDown}
+                        startIcon={<ArrowDownwardIcon />}
+                        title="Octave down"
+                        variant="text"
+                      />
+                    </Column>
+                  </Columns>
+                </React.Fragment>
+              )}
+            </Column>
+          </Columns>
         </Column>
       </Columns>
     </Toolbar>
   );
 }
 
-export default NotesEditorToolbar;
+export default React.memo(NotesEditorToolbar);
