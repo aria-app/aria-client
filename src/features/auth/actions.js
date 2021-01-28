@@ -8,8 +8,3 @@ export const songDeleteRequestStarted = createAction(
 export const songDeleteRequestSucceeded = createAction(
   'songDeleteRequestSucceeded',
 );
-export const userSignInSucceeded = createAction('userSignInSucceeded');
-export const userSignOutSucceeded = createAction('userSignOutSucceeded');
-export const userSongLibraryFetchRequestSucceeded = createAction(
-  'userSongLibraryFetchRequestSucceeded',
-);

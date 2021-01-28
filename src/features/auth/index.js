@@ -1,11 +1,11 @@
 import * as actions from './actions';
+import * as components from './components';
 import epic from './epic';
-import reducer from './reducer';
-import * as selectors from './selectors';
+import * as hooks from './hooks';
 
 export default {
   actions,
+  components,
   epic,
-  reducer,
-  selectors,
+  hooks,
 };

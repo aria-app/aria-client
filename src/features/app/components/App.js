@@ -1,72 +1,55 @@
 import { Router } from '@reach/router';
-import PropTypes from 'prop-types';
+import auth from 'features/auth';
+import dashboard from 'features/dashboard';
+import shared from 'features/shared';
+import songEditor from 'features/songEditor';
+import songViewer from 'features/songViewer';
 import React from 'react';
-import { RecoilRoot } from 'recoil';
 
-import audio from '../../audio';
-import dashboard from '../../dashboard';
-import shared from '../../shared';
-import songEditor from '../../songEditor';
-import songViewer from '../../songViewer';
 import PrivateRoute from './PrivateRoute';
-import SignInContainer from './SignInContainer';
-import SignOutContainer from './SignOutContainer';
+import SignIn from './SignIn';
+import SignOut from './SignOut';
 
-const { AudioProvider } = audio.providers;
+const { useAuth } = auth.hooks;
 const { DashboardContainer } = dashboard.components;
 const { Box, LoadingIndicator, Shell, ThemeProvider } = shared.components;
 const { SongEditorContainer } = songEditor.components;
 const { SongViewerContainer } = songViewer.components;
 
-App.propTypes = {
-  didAuthenticationRun: PropTypes.bool,
-  isAuthenticated: PropTypes.bool,
-};
-
-function App(props) {
-  const { didAuthenticationRun, isAuthenticated } = props;
+function App() {
+  const { loading } = useAuth();
 
   return (
-    <RecoilRoot>
-      <AudioProvider>
-        <ThemeProvider>
-          <Shell>
-            {didAuthenticationRun ? (
-              <Box
-                component={Router}
-                sx={{
-                  display: 'flex',
-                  flex: '1 1 auto',
-                  flexDirection: 'column',
-                  overflow: 'hidden',
-                  position: 'relative',
-                }}
-              >
-                <SignInContainer path="sign-in" />
-                <SignOutContainer path="sign-out" />
-                <PrivateRoute
-                  component={DashboardContainer}
-                  isAuthenticated={isAuthenticated}
-                  path="/"
-                />
-                <PrivateRoute
-                  component={SongEditorContainer}
-                  isAuthenticated={isAuthenticated}
-                  path="edit-song/:songId/*"
-                />
-                <PrivateRoute
-                  component={SongViewerContainer}
-                  isAuthenticated={isAuthenticated}
-                  path="view-song/:songId"
-                />
-              </Box>
-            ) : (
-              <LoadingIndicator>AUTHENTICATING...</LoadingIndicator>
-            )}
-          </Shell>
-        </ThemeProvider>
-      </AudioProvider>
-    </RecoilRoot>
+    <ThemeProvider>
+      <Shell>
+        {loading ? (
+          <LoadingIndicator>AUTHENTICATING...</LoadingIndicator>
+        ) : (
+          <Box
+            component={Router}
+            sx={{
+              display: 'flex',
+              flex: '1 1 auto',
+              flexDirection: 'column',
+              overflow: 'hidden',
+              position: 'relative',
+            }}
+          >
+            <SignIn path="sign-in" />
+            <SignOut path="sign-out" />
+            <PrivateRoute component={DashboardContainer} path="/" />
+            <PrivateRoute
+              component={SongEditorContainer}
+              path="edit-song/:songId/*"
+            />
+            <PrivateRoute
+              component={SongViewerContainer}
+              path="view-song/:songId"
+            />
+          </Box>
+        )}
+      </Shell>
+    </ThemeProvider>
   );
 }
 

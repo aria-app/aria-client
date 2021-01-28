@@ -1,18 +1,14 @@
 import { Redirect } from '@reach/router';
-import PropTypes from 'prop-types';
+import auth from 'features/auth';
+import shared from 'features/shared';
 import React from 'react';
 import { Translation } from 'react-i18next';
 
-import shared from '../../shared';
-
+const { useAuth } = auth.hooks;
 const { Box } = shared.components;
 
-SignOut.propTypes = {
-  isAuthenticated: PropTypes.bool,
-};
-
-function SignOut(props) {
-  const { isAuthenticated } = props;
+function SignOut() {
+  const { isAuthenticated } = useAuth();
 
   React.useEffect(() => {
     window.document.title = 'Sign Out - Aria';

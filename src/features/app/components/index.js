@@ -1,3 +1,1 @@
-import _AppContainer from './AppContainer';
-
-export const AppContainer = _AppContainer;
+export { default as App } from './App';

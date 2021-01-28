@@ -1,19 +1,15 @@
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import { Redirect } from '@reach/router';
-import { PropTypes } from 'prop-types';
+import auth from 'features/auth';
+import shared from 'features/shared';
 import React from 'react';
 import { Translation } from 'react-i18next';
 
-import shared from '../../shared';
-
+const { useAuth } = auth.hooks;
 const { Box, Button, Stack, Typography } = shared.components;
 
-SignIn.propTypes = {
-  isAuthenticated: PropTypes.bool,
-};
-
-function SignIn(props) {
-  const { isAuthenticated } = props;
+function SignIn() {
+  const { isAuthenticated } = useAuth();
 
   const handleSignInClick = React.useCallback(() => {
     shared.firebase.signIn();

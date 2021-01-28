@@ -1,4 +1,9 @@
 import { Router } from '@reach/router';
+import audio from 'features/audio';
+import auth from 'features/auth';
+import notesEditor from 'features/notesEditor';
+import shared from 'features/shared';
+import tracksEditor from 'features/tracksEditor';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
@@ -6,15 +11,12 @@ import { useRecoilValue } from 'recoil';
 import Tone from 'tone';
 
 import Dawww from '../../../dawww';
-import audio from '../../audio';
-import notesEditor from '../../notesEditor';
-import shared from '../../shared';
-import tracksEditor from '../../tracksEditor';
 import SongEditorToolbar from './SongEditorToolbar';
 import SongInfoModal from './SongInfoModal';
 
-const { STARTED } = Dawww.PLAYBACK_STATES;
+const { useAuth } = auth.hooks;
 const { useAudio } = audio.hooks;
+const { STARTED } = Dawww.PLAYBACK_STATES;
 const { NotesEditorContainer } = notesEditor.components;
 const { Box } = shared.components;
 const { TracksEditorContainer } = tracksEditor.components;
@@ -23,12 +25,12 @@ SongEditor.propTypes = {
   navigate: PropTypes.func,
   onBPMChange: PropTypes.func,
   song: PropTypes.object,
-  user: PropTypes.object,
 };
 
 function SongEditor(props) {
-  const { navigate, onBPMChange, song, user } = props;
+  const { navigate, onBPMChange, song } = props;
   const { audioState, audioManager } = useAudio();
+  const { user } = useAuth();
   const playbackState = useRecoilValue(audioState.playbackState);
 
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);

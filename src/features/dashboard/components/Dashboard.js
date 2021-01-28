@@ -1,10 +1,12 @@
 import AddIcon from '@material-ui/icons/Add';
+import auth from 'features/auth';
+import shared from 'features/shared';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import shared from '../../shared';
 import SongList from './SongList';
 
+const { useAuth } = auth.hooks;
 const {
   Box,
   Button,
@@ -16,25 +18,16 @@ const {
 } = shared.components;
 
 Dashboard.propTypes = {
-  isLoadingSongs: PropTypes.bool,
   navigate: PropTypes.func,
   onLoad: PropTypes.func,
   onSongAdd: PropTypes.func,
   onSongDelete: PropTypes.func,
-  songs: PropTypes.object,
-  user: PropTypes.object,
 };
 
 function Dashboard(props) {
-  const {
-    isLoadingSongs,
-    navigate,
-    onLoad,
-    onSongAdd,
-    onSongDelete,
-    songs,
-    user,
-  } = props;
+  const { navigate, onLoad, onSongAdd, onSongDelete } = props;
+  const { user } = useAuth();
+  const [songs, setSongs] = React.useState();
 
   const handleSongAdd = React.useCallback(() => {
     const name = window.prompt('Enter a name for the song', 'New Song');
@@ -78,6 +71,23 @@ function Dashboard(props) {
     window.document.title = 'Dashboard - Aria';
   }, [onLoad]);
 
+  React.useEffect(() => {
+    setSongs(null);
+    shared.firebase
+      .getDB()
+      .collection('songs')
+      .where('userId', '==', user.uid)
+      .get()
+      .then((querySnapshot) => {
+        setSongs(
+          shared.helpers.setAtIds(
+            querySnapshot.docs.map((doc) => doc.data()),
+            {},
+          ),
+        );
+      });
+  }, [setSongs, user]);
+
   return (
     <Stack space={4}>
       <Toolbar position="top">
@@ -101,10 +111,10 @@ function Dashboard(props) {
         </Box>
       </Toolbar>
       <Stack>
-        <Fade in={isLoadingSongs} mountOnEnter unmountOnExit>
+        <Fade in={!songs} mountOnEnter unmountOnExit>
           <LoadingIndicator>LOADING SONGS...</LoadingIndicator>
         </Fade>
-        <Fade in={!isLoadingSongs} mountOnEnter unmountOnExit>
+        <Fade in={!!songs} mountOnEnter unmountOnExit>
           <ContentBlock>
             <SongList
               onDelete={handleSongDelete}
