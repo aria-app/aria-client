@@ -7,7 +7,7 @@ import audio from '../../audio';
 import shared from '../../shared';
 import SongViewerToolbar from './SongViewerToolbar';
 
-const { useDawww } = audio.hooks;
+const { useAudio } = audio.hooks;
 
 const {
   Box,
@@ -41,7 +41,7 @@ function SongViewer(props) {
     song,
     songId,
   } = props;
-  const { atoms, initializeDawww, setDawwwPosition } = useDawww();
+  const { atoms, initializeAudio, setAudioPosition } = useAudio();
   const [position] = useRecoilState(atoms.position);
   const [prevPlaybackState, setPrevPlaybackState] = React.useState(
     playbackState,
@@ -53,12 +53,12 @@ function SongViewer(props) {
   }, []);
 
   const handleChangeCommitted = React.useCallback(() => {
-    setDawwwPosition(positionState);
+    setAudioPosition(positionState);
 
     if (prevPlaybackState === Dawww.PLAYBACK_STATES.STARTED) {
       onPlay();
     }
-  }, [onPlay, positionState, prevPlaybackState, setDawwwPosition]);
+  }, [onPlay, positionState, prevPlaybackState, setAudioPosition]);
 
   const handleMouseDown = React.useCallback(() => {
     setPrevPlaybackState(playbackState);
@@ -84,9 +84,9 @@ function SongViewer(props) {
   }, [onLoad, songId]);
 
   React.useEffect(() => {
-    initializeDawww();
+    initializeAudio();
     window.document.title = `${song.name} - Aria`;
-  }, [initializeDawww, song, song.name]);
+  }, [initializeAudio, song, song.name]);
 
   return (
     <React.Fragment>

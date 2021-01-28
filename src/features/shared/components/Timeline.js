@@ -11,6 +11,7 @@ const Root = styled.div(({ theme }) => ({
   position: 'absolute',
   top: 0,
   width: 2,
+  zIndex: 9999,
 }));
 
 Timeline.propTypes = {

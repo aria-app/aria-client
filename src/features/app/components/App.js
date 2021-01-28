@@ -13,7 +13,7 @@ import PrivateRoute from './PrivateRoute';
 import SignInContainer from './SignInContainer';
 import SignOutContainer from './SignOutContainer';
 
-const { DawwwProvider } = audio.providers;
+const { AudioProvider } = audio.providers;
 const { DashboardContainer } = dashboard.components;
 const { Box, LoadingIndicator, Shell, ThemeProvider } = shared.components;
 const { SongEditorContainer } = songEditor.components;
@@ -29,7 +29,7 @@ function App(props) {
 
   return (
     <RecoilRoot>
-      <DawwwProvider>
+      <AudioProvider>
         <ThemeProvider>
           <Shell>
             {hideIf(didAuthenticationRun)(
@@ -67,7 +67,7 @@ function App(props) {
             )}
           </Shell>
         </ThemeProvider>
-      </DawwwProvider>
+      </AudioProvider>
     </RecoilRoot>
   );
 }

@@ -3,14 +3,14 @@ import { useRecoilState } from 'recoil';
 
 import Dawww from '../../../dawww';
 import * as atoms from '../atoms';
-import DawwwContext from '../contexts/DawwwContext';
+import AudioContext from '../contexts/AudioContext';
 import dawww from '../dawww';
 
-export default function DawwwProvider(props) {
+export default function AudioProvider(props) {
   const [instance, setInstance] = React.useState(null);
   const [, setPosition] = useRecoilState(atoms.position);
 
-  const initializeDawww = React.useCallback(() => {
+  const initializeAudio = React.useCallback(() => {
     // const instance = new Dawww({});
     const newInstance = dawww;
 
@@ -19,7 +19,7 @@ export default function DawwwProvider(props) {
     newInstance.onPositionChange(setPosition);
   }, [setInstance, setPosition]);
 
-  const setDawwwPosition = React.useCallback(
+  const setAudioPosition = React.useCallback(
     (position) => {
       instance.setPosition(position);
     },
@@ -27,15 +27,15 @@ export default function DawwwProvider(props) {
   );
 
   return (
-    <DawwwContext.Provider
+    <AudioContext.Provider
       value={{
         atoms,
         constants: {},
         helpers: {
           addPoints: Dawww.addPoints,
         },
-        initializeDawww,
-        setDawwwPosition,
+        initializeAudio,
+        setAudioPosition,
       }}
       {...props}
     />

@@ -13,7 +13,7 @@ import TrackEditingModal from './TrackEditingModal';
 import TrackList from './TrackList';
 import TracksEditorToolbar from './TracksEditorToolbar';
 
-const { useDawww } = audio.hooks;
+const { useAudio } = audio.hooks;
 const { Box, Timeline } = shared.components;
 
 TracksEditor.propTypes = {
@@ -66,7 +66,7 @@ function TracksEditor(props) {
     songMeasureCount,
     tracks,
   } = props;
-  const { atoms, setDawwwPosition } = useDawww();
+  const { atoms, setAudioPosition } = useAudio();
   const [position] = useRecoilState(atoms.position);
   const [selectedSequenceId, setSelectedSequenceId] = React.useState('');
   const [selectedTrackId, setSelectedTrackId] = React.useState('');
@@ -142,9 +142,9 @@ function TracksEditor(props) {
 
   const handleTrackListPositionSet = React.useCallback(
     (position) => {
-      setDawwwPosition(position);
+      setAudioPosition(position);
     },
-    [setDawwwPosition],
+    [setAudioPosition],
   );
 
   const handleTrackListSequenceAdd = React.useCallback(

@@ -13,7 +13,7 @@ import SongEditorToolbar from './SongEditorToolbar';
 import SongInfoModal from './SongInfoModal';
 
 const { STARTED } = Dawww.PLAYBACK_STATES;
-const { useDawww } = audio.hooks;
+const { useAudio } = audio.hooks;
 const { NotesEditorContainer } = notesEditor.components;
 const { Box } = shared.components;
 const { TracksEditorContainer } = tracksEditor.components;
@@ -42,7 +42,7 @@ function SongEditor(props) {
   } = props;
 
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);
-  const { initializeDawww } = useDawww();
+  const { initializeAudio } = useAudio();
 
   const playPause = React.useCallback(
     function playPause() {
@@ -76,9 +76,9 @@ function SongEditor(props) {
   }, [navigate]);
 
   React.useEffect(() => {
-    initializeDawww();
+    initializeAudio();
     window.document.title = `${song.name} - Aria`;
-  }, [initializeDawww, song, song.name]);
+  }, [initializeAudio, song, song.name]);
 
   if (song.userId && song.userId !== user.uid) {
     return (
