@@ -9,6 +9,7 @@ export { default as GridBox } from './GridBox';
 export { default as GridBoxes } from './GridBoxes';
 export { default as Icon } from './Icon';
 export { default as IconButton } from './IconButton';
+export { default as Inline } from './Inline';
 export { default as LoadingIndicator } from './LoadingIndicator';
 export { default as Modal } from './Modal';
 export { default as Shell } from './Shell';

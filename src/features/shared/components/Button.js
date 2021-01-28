@@ -7,6 +7,7 @@ export default React.forwardRef((props, ref) => {
   const {
     children,
     color = 'text.secondary',
+    disabled,
     startIcon,
     sx = {},
     variant = 'outlined',
@@ -17,12 +18,17 @@ export default React.forwardRef((props, ref) => {
   return (
     <Box
       component="button"
-      interactive
-      interactiveColor={variant === 'outlined' ? color : undefined}
+      disabled={disabled}
+      interactive={!disabled}
+      interactiveColor={
+        ['outlined', 'text'].includes(variant) ? color : undefined
+      }
       ref={ref}
       sx={{
         alignItems: 'center',
-        backgroundColor: variant === 'outlined' ? 'transparent' : color,
+        backgroundColor: ['outlined', 'text'].includes(variant)
+          ? 'transparent'
+          : color,
         borderColor: color,
         borderRadius: 1,
         borderStyle: 'solid',
@@ -36,8 +42,12 @@ export default React.forwardRef((props, ref) => {
         paddingX: children ? 4 : 3,
         paddingY: 3,
         position: 'relative',
+        '&[disabled]': {
+          cursor: 'not-allowed',
+          opacity: 0.5,
+        },
         '& > * + *': {
-          marginLeft: 3,
+          marginLeft: 4,
         },
         ...sx,
       }}
@@ -48,7 +58,7 @@ export default React.forwardRef((props, ref) => {
           sx={{
             alignItems: 'center',
             display: 'flex',
-            margin: -1.5,
+            margin: ['contained', 'outlined'].includes(variant) ? -1.5 : -1,
           }}
         >
           {startIcon}

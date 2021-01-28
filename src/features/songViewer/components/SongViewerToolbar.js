@@ -1,4 +1,7 @@
-import styled from '@emotion/styled';
+import PauseIcon from '@material-ui/icons/Pause';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import SettingsIcon from '@material-ui/icons/Settings';
+import StopIcon from '@material-ui/icons/Stop';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { hideIf, showIf } from 'react-render-helpers';
@@ -8,25 +11,37 @@ import Dawww from '../../../dawww';
 import shared from '../../shared';
 
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
-const { IconButton, Toolbar } = shared.components;
+const { Box, Column, Columns } = shared.components;
 
-const Root = styled(Toolbar)(({ theme }) => ({
-  borderBottom: `2px solid ${theme.palette.divider}`,
-  zIndex: 1,
-}));
+function TempIconButton(props) {
+  return (
+    <Box
+      interactive
+      sx={{
+        alignItems: 'center',
+        borderRadius: 1,
+        color: 'text.secondary',
+        display: 'flex',
+        padding: 2,
+      }}
+      {...props}
+    />
+  );
+}
 
 SongViewerToolbar.propTypes = {
   onPause: PropTypes.func,
   onPlay: PropTypes.func,
+  onSongInfoOpen: PropTypes.func,
   onStop: PropTypes.func,
   playbackState: PropTypes.string,
 };
 
 function SongViewerToolbar(props) {
-  const { onPause, onPlay, onStop, playbackState } = props;
+  const { onPause, onPlay, onSongInfoOpen, onStop, playbackState } = props;
 
-  const playPause = React.useCallback(
-    function playPause() {
+  const handlePlayPauseToggle = React.useCallback(
+    function handlePlayPauseToggle() {
       if (Tone.context.state !== 'running') {
         Tone.context.resume();
       }
@@ -41,21 +56,40 @@ function SongViewerToolbar(props) {
   );
 
   return (
-    <Root
-      rightItems={
-        <React.Fragment>
+    <Box
+      sx={{
+        backgroundColor: 'background.paper',
+        borderBottomStyle: 'solid',
+        borderColor: 'divider',
+        borderWidth: 2,
+        padding: 2,
+      }}
+    >
+      <Columns alignY="center" space={4}>
+        <Column>
+          <TempIconButton onClick={onSongInfoOpen} title="Settings">
+            <SettingsIcon />
+          </TempIconButton>
+        </Column>
+        <Column width="content">
           {hideIf(playbackState === STARTED)(
-            <IconButton icon="play" onClick={playPause} title="Play" />,
+            <TempIconButton onClick={handlePlayPauseToggle} title="Play">
+              <PlayArrowIcon />
+            </TempIconButton>,
           )}
           {showIf(playbackState === STARTED)(
-            <IconButton icon="pause" onClick={playPause} title="Pause" />,
+            <TempIconButton onClick={handlePlayPauseToggle} title="Pause">
+              <PauseIcon />
+            </TempIconButton>,
           )}
           {showIf(playbackState !== STOPPED)(
-            <IconButton icon="stop" onClick={onStop} title="Stop" />,
+            <TempIconButton onClick={onStop} title="Stop">
+              <StopIcon />
+            </TempIconButton>,
           )}
-        </React.Fragment>
-      }
-    />
+        </Column>
+      </Columns>
+    </Box>
   );
 }
 

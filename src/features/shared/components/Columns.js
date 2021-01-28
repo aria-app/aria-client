@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import includes from 'lodash/fp/includes';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -19,16 +18,6 @@ function getStylesFromWidth(width) {
 
   return { width: '100%' };
 }
-
-const Column = styled.div(({ alignY }) => ({
-  alignItems: {
-    bottom: 'flex-end',
-    center: 'center',
-    stretch: 'stretch',
-    top: 'flex-start',
-  }[alignY],
-  display: 'flex',
-}));
 
 Columns.propTypes = {
   alignY: PropTypes.oneOf(verticalAlignments),
@@ -65,7 +54,20 @@ export default function Columns(props) {
       {...rest}
     >
       {React.Children.map(children, (child) => (
-        <Column style={getStylesFromWidth(child.props.width)}>{child}</Column>
+        <Box
+          style={getStylesFromWidth(child && child.props.width)}
+          sx={{
+            alignItems: {
+              bottom: 'flex-end',
+              center: 'center',
+              stretch: 'stretch',
+              top: 'flex-start',
+            }[alignY],
+            display: 'flex',
+          }}
+        >
+          {child}
+        </Box>
       ))}
     </Box>
   );

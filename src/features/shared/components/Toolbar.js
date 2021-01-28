@@ -1,56 +1,30 @@
-import styled from '@emotion/styled';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import React from 'react';
 
-const LeftItems = styled.div(() => ({
-  alignItems: 'center',
-  display: 'flex',
-  flex: '1 1 auto',
-}));
+import Box from './Box';
 
-const RightItems = styled.div(() => ({
-  alignItems: 'center',
-  display: 'flex',
-  flex: '0 0 auto',
-  marginLeft: 'auto',
-}));
-
-const Root = styled.div(({ theme }) => ({
-  alignItems: 'stretch',
-  backgroundColor: theme.palette.background.paper,
-  display: 'flex',
-  flex: '0 0 auto',
-  height: 56,
-  paddingLeft: theme.spacing(1),
-  paddingRight: theme.spacing(1),
-  position: 'relative',
-}));
-
-Toolbar.propTypes = {
-  className: PropTypes.string,
-  isAlternate: PropTypes.bool,
-  leftItems: PropTypes.node,
-  leftItemsAlt: PropTypes.node,
-  rightItems: PropTypes.node,
-  rightItemsAlt: PropTypes.node,
-};
-
-function Toolbar(props) {
-  const {
-    isAlternate,
-    leftItems,
-    leftItemsAlt,
-    rightItems,
-    rightItemsAlt,
-    ...rest
-  } = props;
+const Toolbar = React.forwardRef((props, ref) => {
+  const { position, sx = {}, ...rest } = props;
 
   return (
-    <Root {...rest}>
-      <LeftItems>{isAlternate ? leftItemsAlt : leftItems}</LeftItems>
-      <RightItems>{isAlternate ? rightItemsAlt : rightItems}</RightItems>
-    </Root>
+    <Box
+      ref={ref}
+      sx={{
+        backgroundColor: 'background.paper',
+        borderColor: 'divider',
+        borderWidth: 2,
+        ...(position === 'top' ? { borderBottomStyle: 'solid' } : {}),
+        ...(position === 'bottom' ? { borderTopStyle: 'solid' } : {}),
+        padding: 2,
+        ...sx,
+      }}
+      {...rest}
+    />
   );
-}
+});
 
-export default React.memo(Toolbar);
+Toolbar.propTypes = {
+  position: PropTypes.oneOf(['bottom', 'top']),
+};
+
+export default Toolbar;

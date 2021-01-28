@@ -243,7 +243,7 @@ function TracksEditor(props) {
           onDismiss={handleTrackDeselect}
           onVoiceSet={onTrackVoiceSet}
           onVolumeSet={onTrackVolumeSet}
-          stagedTrack={selectedTrack}
+          track={selectedTrack}
         />
       </React.Fragment>
     </Root>

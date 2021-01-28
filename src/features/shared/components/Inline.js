@@ -38,8 +38,8 @@ export default function Inline(props) {
             left: 'flex-start',
             right: 'flex-end',
           }[align],
-          marginLeft: space ? `-${space}` : undefined,
-          marginTop: space ? `-${space}` : undefined,
+          marginLeft: space ? -space : undefined,
+          marginTop: space ? -space : undefined,
         }}
       >
         {React.Children.map(children, (child) => (

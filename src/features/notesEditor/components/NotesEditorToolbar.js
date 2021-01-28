@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -7,12 +6,8 @@ import Dawww from '../../../dawww';
 import shared from '../../shared';
 import * as constants from '../constants';
 
-const { IconButton, Toolbar } = shared.components;
+const { Column, Columns, IconButton, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
-
-const Root = styled(Toolbar)(({ theme }) => ({
-  borderTop: `2px solid ${theme.palette.divider}`,
-}));
 
 NotesEditorToolbar.propTypes = {
   isRedoEnabled: PropTypes.bool,
@@ -55,6 +50,8 @@ function NotesEditorToolbar(props) {
     toolType,
   } = props;
 
+  const areSomeNotesSelected = !isEmpty(selectedNotes);
+
   const isOctaveDownButtonDisabled = React.useMemo(
     () =>
       Dawww.someNoteWillMoveOutside(
@@ -76,98 +73,103 @@ function NotesEditorToolbar(props) {
   );
 
   return (
-    <Root
-      isAlternate={!isEmpty(selectedNotes)}
-      leftItems={
-        <React.Fragment>
-          <IconButton
-            icon="arrow-left"
-            onClick={onClose}
-            title="Back to tracks"
-          />
-        </React.Fragment>
-      }
-      leftItemsAlt={
-        <React.Fragment>
-          <IconButton
-            icon="close"
-            onClick={onDeselectAll}
-            title="Deselect notes"
-          />
-        </React.Fragment>
-      }
-      rightItems={
-        <React.Fragment>
-          <IconButton
-            icon="undo"
-            isDisabled={!isUndoEnabled}
-            onClick={onUndo}
-            title="Undo"
-          />
-          <IconButton
-            icon="redo"
-            isDisabled={!isRedoEnabled}
-            onClick={onRedo}
-            title="Redo"
-          />
-          <IconButton
-            icon="mouse-pointer"
-            isActive={toolType === SELECT}
-            onClick={onSelectToolSelect}
-            title="Select"
-          />
-          <IconButton
-            icon="pencil"
-            isActive={toolType === DRAW}
-            onClick={onDrawToolSelect}
-            title="Draw"
-          />
-          <IconButton
-            icon="eraser"
-            isActive={toolType === ERASE}
-            onClick={onEraseToolSelect}
-            title="Erase"
-          />
-          <IconButton
-            icon="hand-paper-o"
-            isActive={toolType === PAN}
-            onClick={onPanToolSelect}
-            title="Pan"
-          />
-        </React.Fragment>
-      }
-      rightItemsAlt={
-        <React.Fragment>
-          <IconButton
-            icon="undo"
-            isDisabled={!isUndoEnabled}
-            onClick={onUndo}
-            title="Undo"
-          />
-          <IconButton
-            icon="redo"
-            isDisabled={!isRedoEnabled}
-            onClick={onRedo}
-            title="Redo"
-          />
-          <IconButton icon="trash" onClick={onDelete} title="Delete" />
-          <IconButton icon="clone" onClick={onDuplicate} title="Duplicate" />
-          <IconButton
-            icon="arrow-up"
-            isDisabled={isOctaveUpButtonDisabled}
-            onClick={onOctaveUp}
-            title="Octave up"
-          />
-          <IconButton
-            icon="arrow-down"
-            isDisabled={isOctaveDownButtonDisabled}
-            onClick={onOctaveDown}
-            title="Octave down"
-          />
-        </React.Fragment>
-      }
-    />
+    <Toolbar position="bottom">
+      <Columns alignY="center">
+        <Column>
+          {!areSomeNotesSelected && (
+            <IconButton
+              icon="arrow-left"
+              onClick={onClose}
+              title="Back to tracks"
+            />
+          )}
+          {areSomeNotesSelected && (
+            <IconButton
+              icon="close"
+              onClick={onDeselectAll}
+              title="Deselect notes"
+            />
+          )}
+        </Column>
+        <Column width="content">
+          {!areSomeNotesSelected && (
+            <React.Fragment>
+              <IconButton
+                icon="undo"
+                isDisabled={!isUndoEnabled}
+                onClick={onUndo}
+                title="Undo"
+              />
+              <IconButton
+                icon="redo"
+                isDisabled={!isRedoEnabled}
+                onClick={onRedo}
+                title="Redo"
+              />
+              <IconButton
+                icon="mouse-pointer"
+                isActive={toolType === SELECT}
+                onClick={onSelectToolSelect}
+                title="Select"
+              />
+              <IconButton
+                icon="pencil"
+                isActive={toolType === DRAW}
+                onClick={onDrawToolSelect}
+                title="Draw"
+              />
+              <IconButton
+                icon="eraser"
+                isActive={toolType === ERASE}
+                onClick={onEraseToolSelect}
+                title="Erase"
+              />
+              <IconButton
+                icon="hand-paper-o"
+                isActive={toolType === PAN}
+                onClick={onPanToolSelect}
+                title="Pan"
+              />
+            </React.Fragment>
+          )}
+          {areSomeNotesSelected && (
+            <React.Fragment>
+              <IconButton
+                icon="undo"
+                isDisabled={!isUndoEnabled}
+                onClick={onUndo}
+                title="Undo"
+              />
+              <IconButton
+                icon="redo"
+                isDisabled={!isRedoEnabled}
+                onClick={onRedo}
+                title="Redo"
+              />
+              <IconButton icon="trash" onClick={onDelete} title="Delete" />
+              <IconButton
+                icon="clone"
+                onClick={onDuplicate}
+                title="Duplicate"
+              />
+              <IconButton
+                icon="arrow-up"
+                isDisabled={isOctaveUpButtonDisabled}
+                onClick={onOctaveUp}
+                title="Octave up"
+              />
+              <IconButton
+                icon="arrow-down"
+                isDisabled={isOctaveDownButtonDisabled}
+                onClick={onOctaveDown}
+                title="Octave down"
+              />
+            </React.Fragment>
+          )}
+        </Column>
+      </Columns>
+    </Toolbar>
   );
 }
 
-export default React.memo(NotesEditorToolbar);
+export default NotesEditorToolbar;

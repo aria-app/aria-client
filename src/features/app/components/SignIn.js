@@ -39,7 +39,7 @@ function SignIn(props) {
             marginTop: -24,
           }}
         >
-          <Stack space={12}>
+          <Stack space={12} sx={{ alignItems: 'flex-start' }}>
             <Stack space={4}>
               <Columns alignY="center" space={6}>
                 <Column width="content">
@@ -77,7 +77,7 @@ function SignIn(props) {
             <Button
               color="primary.main"
               onClick={handleSignInClick}
-              variant="contained"
+              variant="outlined"
             >
               {t('Sign in with Google')}
             </Button>

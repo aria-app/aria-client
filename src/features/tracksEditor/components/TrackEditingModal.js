@@ -16,45 +16,46 @@ TrackEditingModal.propTypes = {
   onDismiss: PropTypes.func,
   onVoiceSet: PropTypes.func,
   onVolumeSet: PropTypes.func,
-  stagedTrack: PropTypes.object,
+  track: PropTypes.object,
 };
 
 function TrackEditingModal(props) {
-  const { onDelete, onDismiss, onVoiceSet, onVolumeSet, stagedTrack } = props;
+  const { onDelete, onDismiss, onVoiceSet, onVolumeSet, track } = props;
+  const [trackState, setTrackState] = React.useState();
 
   const handleContentDeleteButtonClick = React.useCallback(() => {
-    onDelete(stagedTrack);
-  }, [onDelete, stagedTrack]);
+    onDelete(trackState);
+  }, [onDelete, trackState]);
 
   const handleVoiceChange = React.useCallback(
     (e) => {
-      onVoiceSet({ track: stagedTrack, voice: e.target.value });
+      onVoiceSet({ track: trackState, voice: e.target.value });
     },
-    [onVoiceSet, stagedTrack],
+    [onVoiceSet, trackState],
   );
 
   const handleVolumeChange = React.useCallback(
     (e) => {
-      onVolumeSet({ track: stagedTrack, volume: e.target.value });
+      onVolumeSet({ track: trackState, volume: e.target.value });
     },
-    [onVolumeSet, stagedTrack],
+    [onVolumeSet, trackState],
   );
+
+  React.useEffect(() => {
+    if (track) {
+      setTrackState(track);
+    }
+  }, [track]);
 
   return (
     <Translation>
       {(t) => (
-        <Modal
-          isOpen={!!stagedTrack}
-          onClose={onDismiss}
-          titleText={t('Edit Track')}
-        >
+        <Modal isOpen={!!track} onClose={onDismiss} titleText={t('Edit Track')}>
           <Stack space={4} sx={{ alignItems: 'flex-start' }}>
             <FormGroup label="Voice">
               <select
                 onChange={handleVoiceChange}
-                value={
-                  stagedTrack && stagedTrack.voice ? stagedTrack.voice : ''
-                }
+                value={trackState && trackState.voice ? trackState.voice : ''}
               >
                 {Object.keys(Dawww.VOICES).map((voice) => (
                   <option key={voice} value={voice}>
@@ -66,9 +67,7 @@ function TrackEditingModal(props) {
             <FormGroup label="Volume">
               <select
                 onChange={handleVolumeChange}
-                value={
-                  stagedTrack && stagedTrack.volume ? stagedTrack.volume : 0
-                }
+                value={trackState && trackState.volume ? trackState.volume : 0}
               >
                 {range(maxVolume, minVolume - 1).map((volume) => (
                   <option key={volume} value={volume}>

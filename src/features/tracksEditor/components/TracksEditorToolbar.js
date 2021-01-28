@@ -1,16 +1,15 @@
-import styled from '@emotion/styled';
+import ContentCopyIcon from '@material-ui/icons/ContentCopy';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import RedoIcon from '@material-ui/icons/Redo';
+import UndoIcon from '@material-ui/icons/Undo';
 import isEmpty from 'lodash/fp/isEmpty';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { showIf } from 'react-render-helpers';
 
 import shared from '../../shared';
 
-const { IconButton, Toolbar } = shared.components;
-
-const Root = styled(Toolbar)(({ theme }) => ({
-  borderTop: `2px solid ${theme.palette.divider}`,
-}));
+const { Button, Column, Columns, Toolbar } = shared.components;
 
 TracksEditorToolbar.propTypes = {
   isRedoEnabled: PropTypes.bool,
@@ -35,57 +34,53 @@ function TracksEditorToolbar(props) {
     selectedSequence,
   } = props;
 
+  const isSomeSequenceSelected = !isEmpty(selectedSequence);
+
   const handleSequenceOpen = React.useCallback(() => {
     onSequenceOpen(selectedSequence);
   }, [onSequenceOpen, selectedSequence]);
 
   return (
-    <Root
-      isAlternate={!isEmpty(selectedSequence)}
-      leftItems={
-        <React.Fragment>
-          <IconButton
-            icon="undo"
-            isDisabled={!isUndoEnabled}
+    <Toolbar position="bottom">
+      <Columns alignY="center">
+        <Column>
+          <Button
+            disabled={!isUndoEnabled}
             onClick={onUndo}
+            startIcon={<UndoIcon />}
             title="Undo"
+            variant="text"
           />
-          {showIf(isRedoEnabled)(
-            <IconButton
-              icon="redo"
-              isDisabled={!isRedoEnabled}
+          {isRedoEnabled && (
+            <Button
               onClick={onRedo}
+              startIcon={<RedoIcon />}
               title="Redo"
-            />,
+              variant="text"
+            />
           )}
-        </React.Fragment>
-      }
-      leftItemsAlt={
-        <React.Fragment>
-          <IconButton
-            icon="undo"
-            isDisabled={!isUndoEnabled}
-            onClick={onUndo}
-            title="Undo"
-          />
-          {showIf(isRedoEnabled)(
-            <IconButton
-              icon="redo"
-              isDisabled={!isRedoEnabled}
-              onClick={onRedo}
-              title="Redo"
-            />,
-          )}
-        </React.Fragment>
-      }
-      rightItemsAlt={
-        <React.Fragment>
-          <IconButton icon="pencil" onClick={handleSequenceOpen} />
-          <IconButton icon="clone" onClick={onSequenceDuplicate} />
-          <IconButton icon="trash" onClick={onSequenceDelete} />
-        </React.Fragment>
-      }
-    />
+        </Column>
+        {isSomeSequenceSelected && (
+          <Column width="content">
+            <Button
+              onClick={handleSequenceOpen}
+              startIcon={<EditIcon />}
+              variant="text"
+            />
+            <Button
+              onClick={onSequenceDuplicate}
+              startIcon={<ContentCopyIcon />}
+              variant="text"
+            />
+            <Button
+              onClick={onSequenceDelete}
+              startIcon={<DeleteIcon />}
+              variant="text"
+            />
+          </Column>
+        )}
+      </Columns>
+    </Toolbar>
   );
 }
 
