@@ -1,7 +1,8 @@
 import { Redirect } from '@reach/router';
-import auth from 'features/auth';
 import PropTypes from 'prop-types';
 import React from 'react';
+
+import auth from '../../auth';
 
 PrivateRoute.propTypes = {
   component: PropTypes.elementType,

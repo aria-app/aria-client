@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useRecoilValue } from 'recoil';
 
 import Dawww from '../../../dawww';
 import audio from '../../audio';
 import shared from '../../shared';
 import SongViewerToolbar from './SongViewerToolbar';
 
-const { useAudio } = audio.hooks;
+const { useAudioManager, usePlaybackState, usePosition } = audio.hooks;
 
 const {
   Box,
@@ -28,9 +27,9 @@ SongViewer.propTypes = {
 
 function SongViewer(props) {
   const { isLoading, onLoad, song, songId } = props;
-  const { audioState, audioManager } = useAudio();
-  const playbackState = useRecoilValue(audioState.playbackState);
-  const position = useRecoilValue(audioState.position);
+  const audioManager = useAudioManager();
+  const playbackState = usePlaybackState();
+  const position = usePosition();
   const [prevPlaybackState, setPrevPlaybackState] = React.useState(
     playbackState,
   );

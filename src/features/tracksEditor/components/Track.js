@@ -17,14 +17,14 @@ import TrackSequence from './TrackSequence';
 const { Box, GridBoxes, Stack } = shared.components;
 
 Track.propTypes = {
-  onSequenceAdd: PropTypes.func.isRequired,
-  onSequenceEdit: PropTypes.func.isRequired,
-  onSequenceOpen: PropTypes.func.isRequired,
-  onSequenceSelect: PropTypes.func.isRequired,
-  onTrackSelect: PropTypes.func.isRequired,
+  onSequenceAdd: PropTypes.func,
+  onSequenceEdit: PropTypes.func,
+  onSequenceOpen: PropTypes.func,
+  onSequenceSelect: PropTypes.func,
+  onTrackSelect: PropTypes.func,
   selectedSequenceId: PropTypes.string,
-  songMeasureCount: PropTypes.number.isRequired,
-  track: PropTypes.object.isRequired,
+  songMeasureCount: PropTypes.number,
+  track: PropTypes.object,
 };
 
 function Track(props) {

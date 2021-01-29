@@ -1,13 +1,13 @@
 import AddIcon from '@material-ui/icons/Add';
-import audio from 'features/audio';
-import auth from 'features/auth';
-import shared from 'features/shared';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import audio from '../../audio';
+import auth from '../../auth';
+import shared from '../../shared';
 import SongList from './SongList';
 
-const { useAudio } = audio.hooks;
+const { useAudioManager } = audio.hooks;
 const { useAuth } = auth.hooks;
 const {
   Box,
@@ -25,7 +25,7 @@ Dashboard.propTypes = {
 
 function Dashboard(props) {
   const { navigate } = props;
-  const { audioManager } = useAudio();
+  const audioManager = useAudioManager();
   const { user } = useAuth();
   const [songs, setSongs] = React.useState(null);
 

@@ -1,5 +1,3 @@
 import loadable from '@loadable/component';
 
-export const TracksEditorContainer = loadable(() =>
-  import('./TracksEditorContainer'),
-);
+export const TracksEditor = loadable(() => import('./TracksEditor'));

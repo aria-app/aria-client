@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 
-import shared from '../../shared';
 import song from '../../song';
 import TracksEditor from './TracksEditor';
 
@@ -12,7 +11,6 @@ export default connect(
     tracks: song.selectors.getDeepTracksArray(state),
   }),
   {
-    onLoad: shared.actions.routeSongEditorLoaded,
     onSequenceAdd: song.actions.sequenceAdded,
     onSequenceDelete: song.actions.sequenceDeleted,
     onSequenceDuplicate: song.actions.sequenceDuplicated,

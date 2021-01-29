@@ -32,14 +32,11 @@ NotesEditor.propTypes = {
   onDraw: PropTypes.func,
   onDuplicate: PropTypes.func,
   onErase: PropTypes.func,
-  onLoad: PropTypes.func,
   onNudge: PropTypes.func,
   onOctaveDown: PropTypes.func,
   onOctaveUp: PropTypes.func,
   onResize: PropTypes.func,
   sequence: PropTypes.object,
-  sequenceId: PropTypes.string,
-  songId: PropTypes.string,
 };
 
 function NotesEditor(props) {
@@ -52,14 +49,11 @@ function NotesEditor(props) {
     onDraw,
     onDuplicate,
     onErase,
-    onLoad,
     onNudge,
     onOctaveDown,
     onOctaveUp,
     onResize,
     sequence,
-    sequenceId,
-    songId,
   } = props;
   const [contentEl, setContentEl] = React.useState();
   const [mousePoint, setMousePoint] = React.useState({ x: -1, y: 1 });
@@ -309,12 +303,8 @@ function NotesEditor(props) {
   );
 
   React.useEffect(() => {
-    onLoad({ sequenceId, songId });
-
-    if (!contentEl) return;
-
-    contentEl.scrollTop = shared.helpers.getCenteredScroll(contentEl);
-  }, [contentEl, sequenceId, songId, onLoad]);
+    console.log('Should update song with focusedSequenceId');
+  }, []);
 
   React.useEffect(() => {
     if (!contentEl) return;

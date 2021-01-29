@@ -4,20 +4,20 @@ import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
-import { useRecoilValue } from 'recoil';
 
 import Dawww from '../../../dawww';
 import audio from '../../audio';
 import shared from '../../shared';
+import songFeature from '../../song';
 import TrackEditingModal from './TrackEditingModal';
 import TrackList from './TrackList';
 import TracksEditorToolbar from './TracksEditorToolbar';
 
-const { useAudio } = audio.hooks;
-const { Box, Timeline } = shared.components;
+const { useAudioManager, usePlaybackState, usePosition } = audio.hooks;
+const { useSong } = songFeature.hooks;
+const { Box, LoadingIndicator, Timeline } = shared.components;
 
 TracksEditor.propTypes = {
-  isLoading: PropTypes.bool,
   navigate: PropTypes.func,
   onLoad: PropTypes.func,
   onSequenceAdd: PropTypes.func,
@@ -31,17 +31,13 @@ TracksEditor.propTypes = {
   onTrackVolumeSet: PropTypes.func,
   position: PropTypes.number,
   sequences: PropTypes.arrayOf(PropTypes.object),
-  song: PropTypes.object,
-  songId: PropTypes.string,
   songMeasureCount: PropTypes.number,
   tracks: PropTypes.arrayOf(PropTypes.object),
 };
 
 function TracksEditor(props) {
   const {
-    isLoading,
     navigate,
-    onLoad,
     onSequenceAdd,
     onSequenceDelete,
     onSequenceDuplicate,
@@ -52,13 +48,12 @@ function TracksEditor(props) {
     onTrackVoiceSet,
     onTrackVolumeSet,
     sequences,
-    songId,
-    songMeasureCount,
     tracks,
   } = props;
-  const { audioState, audioManager } = useAudio();
-  const playbackState = useRecoilValue(audioState.playbackState);
-  const position = useRecoilValue(audioState.position);
+  const audioManager = useAudioManager();
+  const playbackState = usePlaybackState();
+  const position = usePosition();
+  const { deepSong, loading, song } = useSong();
   const [selectedSequenceId, setSelectedSequenceId] = React.useState('');
   const [selectedTrackId, setSelectedTrackId] = React.useState('');
 
@@ -161,8 +156,9 @@ function TracksEditor(props) {
   }, []);
 
   React.useEffect(() => {
-    onLoad({ songId });
-  }, [songId, onLoad]);
+    if (!song) return;
+    audioManager.updateSong({ ...song, focusedSequenceId: '' });
+  }, [audioManager, song]);
 
   return (
     <Box
@@ -185,9 +181,11 @@ function TracksEditor(props) {
           DUPLICATE: ['ctrl+shift+d', 'meta+shift+d'],
         }}
       />
-      <React.Fragment>
+      {loading ? (
+        <LoadingIndicator>LOADING SONG...</LoadingIndicator>
+      ) : (
         <TrackList
-          isLoading={isLoading}
+          isLoading={loading}
           onPositionSet={handleTrackListPositionSet}
           onSequenceAdd={handleTrackListSequenceAdd}
           onSequenceDeselect={handleTrackListSequenceDeselect}
@@ -198,21 +196,23 @@ function TracksEditor(props) {
           onTrackAdd={handleTrackListTrackAdd}
           onTrackStage={handleTrackSelect}
           selectedSequence={selectedSequence}
-          songMeasureCount={songMeasureCount}
-          tracks={tracks}
+          songMeasureCount={deepSong.measureCount}
+          tracks={deepSong.tracks}
         />
-        <TracksEditorToolbar
-          onSequenceDelete={handleSequenceDelete}
-          onSequenceDuplicate={handleSequenceDuplicate}
-          onSequenceOpen={handleSequenceOpen}
-          selectedSequence={selectedSequence}
-        />
-        <Timeline
-          isVisible={
-            playbackState !== audioManager.constants.PLAYBACK_STATES.STOPPED
-          }
-          offset={position * 2 + 16}
-        />
+      )}
+      <TracksEditorToolbar
+        onSequenceDelete={handleSequenceDelete}
+        onSequenceDuplicate={handleSequenceDuplicate}
+        onSequenceOpen={handleSequenceOpen}
+        selectedSequence={selectedSequence}
+      />
+      <Timeline
+        isVisible={
+          playbackState !== audioManager.constants.PLAYBACK_STATES.STOPPED
+        }
+        offset={position * 2 + 16}
+      />
+      {!loading && (
         <TrackEditingModal
           onDelete={handleTrackDelete}
           onDismiss={handleTrackDeselect}
@@ -220,7 +220,7 @@ function TracksEditor(props) {
           onVolumeSet={onTrackVolumeSet}
           track={selectedTrack}
         />
-      </React.Fragment>
+      )}
     </Box>
   );
 }

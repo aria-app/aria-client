@@ -1,8 +1,8 @@
-import shared from 'features/shared';
 import orderBy from 'lodash/fp/orderBy';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import shared from '../../shared';
 import SongListItem from './SongListItem';
 
 const { Stack } = shared.components;

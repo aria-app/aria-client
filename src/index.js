@@ -9,11 +9,13 @@ import app from './features/app';
 import audio from './features/audio';
 import auth from './features/auth';
 import shared from './features/shared';
+import song from './features/song';
 import store from './store';
 
 const { App } = app.components;
 const { AudioProvider } = audio.components;
 const { AuthProvider } = auth.components;
+const { SongProvider } = song.components;
 
 shared.firebase.initialize();
 
@@ -31,9 +33,11 @@ render(
   <RecoilRoot>
     <AuthProvider>
       <AudioProvider>
-        <Provider store={store}>
-          <App />
-        </Provider>
+        <SongProvider>
+          <Provider store={store}>
+            <App />
+          </Provider>
+        </SongProvider>
       </AudioProvider>
     </AuthProvider>
   </RecoilRoot>,

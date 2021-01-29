@@ -1,39 +1,40 @@
 import { Router } from '@reach/router';
-import audio from 'features/audio';
-import auth from 'features/auth';
-import notesEditor from 'features/notesEditor';
-import shared from 'features/shared';
-import tracksEditor from 'features/tracksEditor';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
-import { useRecoilValue } from 'recoil';
 import Tone from 'tone';
 
 import Dawww from '../../../dawww';
+import audio from '../../audio';
+import auth from '../../auth';
+import notesEditor from '../../notesEditor';
+import shared from '../../shared';
+import songFeature from '../../song';
+import tracksEditor from '../../tracksEditor';
 import SongEditorToolbar from './SongEditorToolbar';
 import SongInfoModal from './SongInfoModal';
 
 const { useAuth } = auth.hooks;
-const { useAudio } = audio.hooks;
+const { useAudioManager, usePlaybackState } = audio.hooks;
 const { STARTED } = Dawww.PLAYBACK_STATES;
 const { NotesEditorContainer } = notesEditor.components;
 const { Box } = shared.components;
-const { TracksEditorContainer } = tracksEditor.components;
+const { useSong } = songFeature.hooks;
+const { TracksEditor } = tracksEditor.components;
 
 SongEditor.propTypes = {
   navigate: PropTypes.func,
-  onBPMChange: PropTypes.func,
-  song: PropTypes.object,
+  songId: PropTypes.string,
 };
 
 function SongEditor(props) {
-  const { navigate, onBPMChange, song } = props;
-  const { audioState, audioManager } = useAudio();
+  const { navigate, songId } = props;
+  const audioManager = useAudioManager();
   const { user } = useAuth();
-  const playbackState = useRecoilValue(audioState.playbackState);
-
+  const playbackState = usePlaybackState();
+  const { loading, song, fetchSongById } = useSong();
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);
+  console.log('rerender');
 
   const playPause = React.useCallback(
     function playPause() {
@@ -54,6 +55,10 @@ function SongEditor(props) {
     navigate('../../');
   }, [navigate]);
 
+  const handleSongBPMChange = React.useCallback(() => {
+    console.log('should update song BPM');
+  }, []);
+
   const handleSongInfoModalConfirm = React.useCallback(() => {
     setIsSongInfoModalOpen(false);
   }, []);
@@ -67,10 +72,16 @@ function SongEditor(props) {
   }, [navigate]);
 
   React.useEffect(() => {
-    window.document.title = `${song.name} - Aria`;
-  }, [song, song.name]);
+    if (!song) return;
 
-  if (song.userId && song.userId !== user.uid) {
+    window.document.title = `${song.name} - Aria`;
+  }, [song]);
+
+  React.useEffect(() => {
+    fetchSongById(songId);
+  }, [fetchSongById, songId]);
+
+  if (song && song.userId !== user.uid) {
     return (
       <Box
         sx={{
@@ -114,17 +125,19 @@ function SongEditor(props) {
           position: 'relative',
         }}
       >
-        <TracksEditorContainer path="/" />
+        <TracksEditor path="/" />
         <NotesEditorContainer path="sequence/:sequenceId" />
       </Box>
-      <SongInfoModal
-        isOpen={isSongInfoModalOpen}
-        onBPMChange={onBPMChange}
-        onConfirm={handleSongInfoModalConfirm}
-        onReturnToDashboard={handleReturnToDashboard}
-        onSignOut={handleSignOut}
-        song={song}
-      />
+      {!loading && (
+        <SongInfoModal
+          isOpen={isSongInfoModalOpen}
+          onBPMChange={handleSongBPMChange}
+          onConfirm={handleSongInfoModalConfirm}
+          onReturnToDashboard={handleReturnToDashboard}
+          onSignOut={handleSignOut}
+          song={song}
+        />
+      )}
     </Box>
   );
 }

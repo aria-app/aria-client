@@ -1,11 +1,11 @@
 import { Router } from '@reach/router';
-import auth from 'features/auth';
-import dashboard from 'features/dashboard';
-import shared from 'features/shared';
-import songEditor from 'features/songEditor';
-import songViewer from 'features/songViewer';
 import React from 'react';
 
+import auth from '../../auth';
+import dashboard from '../../dashboard';
+import shared from '../../shared';
+import songEditor from '../../songEditor';
+import songViewer from '../../songViewer';
 import PrivateRoute from './PrivateRoute';
 import SignIn from './SignIn';
 import SignOut from './SignOut';

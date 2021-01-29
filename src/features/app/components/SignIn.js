@@ -1,9 +1,10 @@
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import { Redirect } from '@reach/router';
-import auth from 'features/auth';
-import shared from 'features/shared';
 import React from 'react';
 import { Translation } from 'react-i18next';
+
+import auth from '../../auth';
+import shared from '../../shared';
 
 const { useAuth } = auth.hooks;
 const { Box, Button, Stack, Typography } = shared.components;
