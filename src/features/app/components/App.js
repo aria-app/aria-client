@@ -13,7 +13,7 @@ import SignOut from './SignOut';
 const { useAuth } = auth.hooks;
 const { Dashboard } = dashboard.components;
 const { Box, LoadingIndicator, Shell, ThemeProvider } = shared.components;
-const { SongEditorContainer } = songEditor.components;
+const { SongEditor } = songEditor.components;
 const { SongViewerContainer } = songViewer.components;
 
 function App() {
@@ -38,10 +38,7 @@ function App() {
             <SignIn path="sign-in" />
             <SignOut path="sign-out" />
             <PrivateRoute component={Dashboard} path="/" />
-            <PrivateRoute
-              component={SongEditorContainer}
-              path="edit-song/:songId/*"
-            />
+            <PrivateRoute component={SongEditor} path="edit-song/:songId/*" />
             <PrivateRoute
               component={SongViewerContainer}
               path="view-song/:songId"

@@ -10,22 +10,22 @@ import { GlobalHotKeys } from 'react-hotkeys';
 import Dawww from '../../../dawww';
 import audio from '../../audio';
 import shared from '../../shared';
+import songFeature from '../../song';
 import { toolTypes } from '../constants';
 import Grid from './Grid';
 import Keys from './Keys';
 import NotesEditorToolbar from './NotesEditorToolbar';
 
-const { previewPitch } = audio.helpers;
-const { Box, Fade, LoadingIndicator } = shared.components;
+const { useAudioManager } = audio.hooks;
+const { Box, LoadingIndicator } = shared.components;
 const { toggleInArray } = shared.helpers;
+const { useSong } = songFeature.hooks;
 
 const getNotesByIds = memoizeOne((notes, ids) =>
   notes.filter((note) => includes(note.id, ids)),
 );
 
 NotesEditor.propTypes = {
-  isLoading: PropTypes.bool,
-  notes: PropTypes.arrayOf(PropTypes.object),
   navigate: PropTypes.func,
   onDelete: PropTypes.func,
   onDrag: PropTypes.func,
@@ -36,14 +36,12 @@ NotesEditor.propTypes = {
   onOctaveDown: PropTypes.func,
   onOctaveUp: PropTypes.func,
   onResize: PropTypes.func,
-  sequence: PropTypes.object,
+  sequenceId: PropTypes.string,
 };
 
 function NotesEditor(props) {
   const {
-    isLoading,
     navigate,
-    notes,
     onDelete,
     onDrag,
     onDraw,
@@ -53,8 +51,10 @@ function NotesEditor(props) {
     onOctaveDown,
     onOctaveUp,
     onResize,
-    sequence,
+    sequenceId,
   } = props;
+  const audioManager = useAudioManager();
+  const { loading, song } = useSong();
   const [contentEl, setContentEl] = React.useState();
   const [mousePoint, setMousePoint] = React.useState({ x: -1, y: 1 });
   const [previousToolType, setPreviousToolType] = React.useState(
@@ -62,6 +62,24 @@ function NotesEditor(props) {
   );
   const [selectedNoteIds, setSelectedNoteIds] = React.useState([]);
   const [toolType, setToolType] = React.useState(toolTypes.SELECT);
+
+  const sequence = React.useMemo(() => {
+    if (!song) {
+      return null;
+    }
+
+    return song.sequences[sequenceId];
+  }, [sequenceId, song]);
+
+  const notes = React.useMemo(() => {
+    if (!song) {
+      return [];
+    }
+
+    return Object.values(song.notes).filter(
+      (note) => note.sequenceId === sequenceId,
+    );
+  }, [sequenceId, song]);
 
   const selectedNotes = React.useMemo(
     () => getNotesByIds(notes, selectedNoteIds),
@@ -120,9 +138,9 @@ function NotesEditor(props) {
 
   const handlePreviewPitch = React.useCallback(
     (pitch) => {
-      previewPitch(sequence.trackId, pitch);
+      audioManager.previewPitch(sequence.trackId, pitch);
     },
-    [sequence.trackId],
+    [audioManager, sequence],
   );
 
   const handleGridDragPreview = React.useCallback(
@@ -145,7 +163,7 @@ function NotesEditor(props) {
 
       onDraw(note);
     },
-    [handlePreviewPitch, onDraw, sequence.id],
+    [handlePreviewPitch, onDraw, sequence],
   );
 
   const handleGridErase = React.useCallback(
@@ -217,7 +235,7 @@ function NotesEditor(props) {
 
       onNudge(delta, notesToNudge);
     },
-    [handlePreviewPitch, notes, onNudge, selectedNotes, sequence.measureCount],
+    [handlePreviewPitch, notes, onNudge, selectedNotes, sequence],
   );
 
   const handleNudgeDown = React.useCallback(
@@ -303,8 +321,9 @@ function NotesEditor(props) {
   );
 
   React.useEffect(() => {
-    console.log('Should update song with focusedSequenceId');
-  }, []);
+    if (!song) return;
+    audioManager.updateSong({ ...song, focusedSequenceId: sequenceId });
+  }, [audioManager, sequenceId, song]);
 
   React.useEffect(() => {
     if (!contentEl) return;
@@ -357,21 +376,20 @@ function NotesEditor(props) {
           DUPLICATE: ['ctrl+shift+d', 'meta+shift+d'],
         }}
       />
-      <Fade in={isLoading}>
+      {loading ? (
         <LoadingIndicator>LOADING SONG...</LoadingIndicator>
-      </Fade>
-      <React.Fragment>
-        <Box
-          ref={handleContentRefChange}
-          sx={{
-            display: 'flex',
-            flex: '1 1 0',
-            flexDirection: 'column',
-            overflowX: 'hidden',
-            overflowY: 'scroll',
-          }}
-        >
-          <Fade in={!isLoading}>
+      ) : (
+        <React.Fragment>
+          <Box
+            ref={handleContentRefChange}
+            sx={{
+              display: 'flex',
+              flex: '1 1 0',
+              flexDirection: 'column',
+              overflowX: 'hidden',
+              overflowY: 'scroll',
+            }}
+          >
             <Box
               sx={{
                 display: 'flex',
@@ -398,24 +416,24 @@ function NotesEditor(props) {
                 toolType={toolType}
               />
             </Box>
-          </Fade>
-        </Box>
-        <NotesEditorToolbar
-          measureCount={sequence.measureCount}
-          onClose={handleClose}
-          onDelete={handleDelete}
-          onDeselectAll={handleDeselectAll}
-          onDrawToolSelect={handleDrawToolActivate}
-          onDuplicate={handleDuplicate}
-          onEraseToolSelect={handleEraseToolActivate}
-          onOctaveDown={handleToolbarOctaveDown}
-          onOctaveUp={handleToolbarOctaveUp}
-          onPanToolSelect={handlePanToolActivate}
-          onSelectToolSelect={handleSelectToolActivate}
-          selectedNotes={selectedNotes}
-          toolType={toolType}
-        />
-      </React.Fragment>
+          </Box>
+          <NotesEditorToolbar
+            measureCount={sequence.measureCount}
+            onClose={handleClose}
+            onDelete={handleDelete}
+            onDeselectAll={handleDeselectAll}
+            onDrawToolSelect={handleDrawToolActivate}
+            onDuplicate={handleDuplicate}
+            onEraseToolSelect={handleEraseToolActivate}
+            onOctaveDown={handleToolbarOctaveDown}
+            onOctaveUp={handleToolbarOctaveUp}
+            onPanToolSelect={handlePanToolActivate}
+            onSelectToolSelect={handleSelectToolActivate}
+            selectedNotes={selectedNotes}
+            toolType={toolType}
+          />
+        </React.Fragment>
+      )}
     </Box>
   );
 }

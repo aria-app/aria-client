@@ -17,7 +17,7 @@ import SongInfoModal from './SongInfoModal';
 const { useAuth } = auth.hooks;
 const { useAudioManager, usePlaybackState } = audio.hooks;
 const { STARTED } = Dawww.PLAYBACK_STATES;
-const { NotesEditorContainer } = notesEditor.components;
+const { NotesEditor } = notesEditor.components;
 const { Box } = shared.components;
 const { useSong } = songFeature.hooks;
 const { TracksEditor } = tracksEditor.components;
@@ -34,7 +34,6 @@ function SongEditor(props) {
   const playbackState = usePlaybackState();
   const { loading, song, fetchSongById } = useSong();
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);
-  console.log('rerender');
 
   const playPause = React.useCallback(
     function playPause() {
@@ -126,7 +125,7 @@ function SongEditor(props) {
         }}
       >
         <TracksEditor path="/" />
-        <NotesEditorContainer path="sequence/:sequenceId" />
+        <NotesEditor path="sequence/:sequenceId" />
       </Box>
       {!loading && (
         <SongInfoModal

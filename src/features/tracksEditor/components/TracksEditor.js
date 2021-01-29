@@ -1,4 +1,5 @@
 import find from 'lodash/fp/find';
+import flatten from 'lodash/fp/flatten';
 import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
@@ -30,9 +31,6 @@ TracksEditor.propTypes = {
   onTrackVoiceSet: PropTypes.func,
   onTrackVolumeSet: PropTypes.func,
   position: PropTypes.number,
-  sequences: PropTypes.arrayOf(PropTypes.object),
-  songMeasureCount: PropTypes.number,
-  tracks: PropTypes.arrayOf(PropTypes.object),
 };
 
 function TracksEditor(props) {
@@ -47,15 +45,26 @@ function TracksEditor(props) {
     onTrackDelete,
     onTrackVoiceSet,
     onTrackVolumeSet,
-    sequences,
-    tracks,
   } = props;
   const audioManager = useAudioManager();
   const playbackState = usePlaybackState();
   const position = usePosition();
-  const { deepSong, loading, song } = useSong();
+  const { loading, song } = useSong();
   const [selectedSequenceId, setSelectedSequenceId] = React.useState('');
   const [selectedTrackId, setSelectedTrackId] = React.useState('');
+
+  const tracks = React.useMemo(() => {
+    if (!song) {
+      return [];
+    }
+
+    return Object.values(song.tracks);
+  }, [song]);
+
+  const sequences = React.useMemo(
+    () => flatten(tracks.map((track) => track.sequences)),
+    [tracks],
+  );
 
   const selectedSequence = React.useMemo(
     () => find((s) => s.id === selectedSequenceId, sequences),
@@ -196,8 +205,8 @@ function TracksEditor(props) {
           onTrackAdd={handleTrackListTrackAdd}
           onTrackStage={handleTrackSelect}
           selectedSequence={selectedSequence}
-          songMeasureCount={deepSong.measureCount}
-          tracks={deepSong.tracks}
+          songMeasureCount={song.measureCount}
+          tracks={tracks}
         />
       )}
       <TracksEditorToolbar
