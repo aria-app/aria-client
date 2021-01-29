@@ -1,5 +1,4 @@
 import find from 'lodash/fp/find';
-import flatten from 'lodash/fp/flatten';
 import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
@@ -21,10 +20,6 @@ const { Box, LoadingIndicator, Timeline } = shared.components;
 TracksEditor.propTypes = {
   navigate: PropTypes.func,
   onLoad: PropTypes.func,
-  onSequenceAdd: PropTypes.func,
-  onSequenceDelete: PropTypes.func,
-  onSequenceDuplicate: PropTypes.func,
-  onSequenceEdit: PropTypes.func,
   onSongMeasureCountChange: PropTypes.func,
   onTrackAdd: PropTypes.func,
   onTrackDelete: PropTypes.func,
@@ -36,10 +31,6 @@ TracksEditor.propTypes = {
 function TracksEditor(props) {
   const {
     navigate,
-    onSequenceAdd,
-    onSequenceDelete,
-    onSequenceDuplicate,
-    onSequenceEdit,
     onSongMeasureCountChange,
     onTrackAdd,
     onTrackDelete,
@@ -49,7 +40,14 @@ function TracksEditor(props) {
   const audioManager = useAudioManager();
   const playbackState = usePlaybackState();
   const position = usePosition();
-  const { loading, song } = useSong();
+  const {
+    createSequence,
+    deleteSequence,
+    duplicateSequence,
+    loading,
+    song,
+    updateSequence,
+  } = useSong();
   const [selectedSequenceId, setSelectedSequenceId] = React.useState('');
   const [selectedTrackId, setSelectedTrackId] = React.useState('');
 
@@ -58,13 +56,31 @@ function TracksEditor(props) {
       return [];
     }
 
-    return Object.values(song.tracks);
+    return Object.values(song.tracks).map((track) => ({
+      ...track,
+      sequences: Object.values(song.sequences)
+        .filter((sequence) => sequence.trackId === track.id)
+        .map((sequence) => ({
+          ...sequence,
+          notes: Object.values(song.notes).filter(
+            (note) => note.sequenceId === sequence.id,
+          ),
+        })),
+    }));
   }, [song]);
 
-  const sequences = React.useMemo(
-    () => flatten(tracks.map((track) => track.sequences)),
-    [tracks],
-  );
+  const sequences = React.useMemo(() => {
+    if (!song) {
+      return [];
+    }
+
+    return Object.values(song.sequences).map((sequence) => ({
+      ...sequence,
+      notes: Object.values(song.notes).filter(
+        (note) => note.sequenceId === sequence.id,
+      ),
+    }));
+  }, [song]);
 
   const selectedSequence = React.useMemo(
     () => find((s) => s.id === selectedSequenceId, sequences),
@@ -82,9 +98,9 @@ function TracksEditor(props) {
 
       if (isNil(selectedSequence)) return;
 
-      onSequenceDelete(selectedSequence);
+      deleteSequence(selectedSequence);
     },
-    [onSequenceDelete, selectedSequence],
+    [deleteSequence, selectedSequence],
   );
 
   const handleSequenceDuplicate = React.useCallback(
@@ -93,20 +109,11 @@ function TracksEditor(props) {
 
       if (isEmpty(selectedSequence)) return;
 
-      const duplicatedSequence = Dawww.createSequence(
-        selectedSequence.trackId,
-        selectedSequence.position,
-        selectedSequence.measureCount,
-      );
-
-      onSequenceDuplicate({
-        originalSequence: selectedSequence,
-        duplicatedSequence,
-      });
+      const duplicatedSequence = duplicateSequence(selectedSequence);
 
       setSelectedSequenceId(duplicatedSequence.id);
     },
-    [onSequenceDuplicate, selectedSequence],
+    [duplicateSequence, selectedSequence],
   );
 
   const handleSequenceOpen = React.useCallback(
@@ -134,15 +141,6 @@ function TracksEditor(props) {
       audioManager.setPosition(position);
     },
     [audioManager],
-  );
-
-  const handleTrackListSequenceAdd = React.useCallback(
-    ({ position, track }) => {
-      const sequence = Dawww.createSequence(track.id, position);
-
-      onSequenceAdd(sequence);
-    },
-    [onSequenceAdd],
   );
 
   const handleTrackListSequenceDeselect = React.useCallback(() => {
@@ -196,9 +194,9 @@ function TracksEditor(props) {
         <TrackList
           isLoading={loading}
           onPositionSet={handleTrackListPositionSet}
-          onSequenceAdd={handleTrackListSequenceAdd}
+          onSequenceAdd={createSequence}
           onSequenceDeselect={handleTrackListSequenceDeselect}
-          onSequenceEdit={onSequenceEdit}
+          onSequenceEdit={updateSequence}
           onSequenceOpen={handleSequenceOpen}
           onSequenceSelect={handleTrackListSequenceSelect}
           onSongMeasureCountChange={onSongMeasureCountChange}

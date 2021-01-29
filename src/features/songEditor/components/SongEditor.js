@@ -32,7 +32,7 @@ function SongEditor(props) {
   const audioManager = useAudioManager();
   const { user } = useAuth();
   const playbackState = usePlaybackState();
-  const { loading, song, fetchSongById } = useSong();
+  const { loading, song, getSong } = useSong();
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);
 
   const playPause = React.useCallback(
@@ -77,8 +77,8 @@ function SongEditor(props) {
   }, [song]);
 
   React.useEffect(() => {
-    fetchSongById(songId);
-  }, [fetchSongById, songId]);
+    getSong(songId);
+  }, [getSong, songId]);
 
   if (song && song.userId !== user.uid) {
     return (

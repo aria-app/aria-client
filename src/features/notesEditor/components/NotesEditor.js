@@ -138,7 +138,7 @@ function NotesEditor(props) {
 
   const handlePreviewPitch = React.useCallback(
     (pitch) => {
-      audioManager.previewPitch(sequence.trackId, pitch);
+      audioManager.helpers.previewPitch(sequence.trackId, pitch);
     },
     [audioManager, sequence],
   );
