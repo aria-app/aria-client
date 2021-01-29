@@ -322,6 +322,7 @@ function NotesEditor(props) {
 
   React.useEffect(() => {
     if (!song) return;
+
     audioManager.updateSong({ ...song, focusedSequenceId: sequenceId });
   }, [audioManager, sequenceId, song]);
 

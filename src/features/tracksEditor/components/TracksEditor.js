@@ -150,7 +150,8 @@ function TracksEditor(props) {
 
   React.useEffect(() => {
     if (!song) return;
-    audioManager.updateSong({ ...song, focusedSequenceId: '' });
+
+    audioManager.updateSong(song);
   }, [audioManager, song]);
 
   return (

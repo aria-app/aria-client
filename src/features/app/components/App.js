@@ -14,7 +14,7 @@ const { useAuth } = auth.hooks;
 const { Dashboard } = dashboard.components;
 const { Box, LoadingIndicator, Shell, ThemeProvider } = shared.components;
 const { SongEditor } = songEditor.components;
-const { SongViewerContainer } = songViewer.components;
+const { SongViewer } = songViewer.components;
 
 function App() {
   const { loading } = useAuth();
@@ -39,10 +39,7 @@ function App() {
             <SignOut path="sign-out" />
             <PrivateRoute component={Dashboard} path="/" />
             <PrivateRoute component={SongEditor} path="edit-song/:songId/*" />
-            <PrivateRoute
-              component={SongViewerContainer}
-              path="view-song/:songId"
-            />
+            <PrivateRoute component={SongViewer} path="view-song/:songId" />
           </Box>
         )}
       </Shell>

@@ -4,32 +4,24 @@ import React from 'react';
 import Dawww from '../../../dawww';
 import audio from '../../audio';
 import shared from '../../shared';
+import songFeature from '../../song';
 import SongViewerToolbar from './SongViewerToolbar';
 
 const { useAudioManager, usePlaybackState, usePosition } = audio.hooks;
+const { useSong } = songFeature.hooks;
 
-const {
-  Box,
-  Fade,
-  LoadingIndicator,
-  Slider,
-  Stack,
-  Typography,
-} = shared.components;
+const { Box, LoadingIndicator, Slider, Stack, Typography } = shared.components;
 
 SongViewer.propTypes = {
-  isLoading: PropTypes.bool,
-  onLoad: PropTypes.func,
-  position: PropTypes.number,
-  song: PropTypes.object,
   songId: PropTypes.string,
 };
 
 function SongViewer(props) {
-  const { isLoading, onLoad, song, songId } = props;
+  const { songId } = props;
   const audioManager = useAudioManager();
   const playbackState = usePlaybackState();
   const position = usePosition();
+  const { getSong, loading, song } = useSong();
   const [prevPlaybackState, setPrevPlaybackState] = React.useState(
     playbackState,
   );
@@ -52,34 +44,37 @@ function SongViewer(props) {
     audioManager.pause();
   }, [audioManager, playbackState]);
 
-  const elapsedSeconds = React.useMemo(() => (position / (song.bpm * 8)) * 60, [
-    position,
-    song.bpm,
-  ]);
+  const elapsedSeconds = React.useMemo(
+    () => (song ? (position / (song.bpm * 8)) * 60 : 0),
+    [position, song],
+  );
 
   const totalSeconds = React.useMemo(
-    () => (song.measureCount / (song.bpm / 4)) * 60,
-    [song.bpm, song.measureCount],
+    () => (song ? (song.measureCount / (song.bpm / 4)) * 60 : 0),
+    [song],
   );
 
   React.useEffect(() => {
     setPositionState(position);
-  }, [position, song.bpm]);
+  }, [position, setPositionState]);
 
   React.useEffect(() => {
-    onLoad({ songId });
-  }, [onLoad, songId]);
+    getSong(songId);
+  }, [getSong, songId]);
 
   React.useEffect(() => {
+    if (!song) return;
+
+    audioManager.updateSong(song);
+
     window.document.title = `${song.name} - Aria`;
-  }, [song, song.name]);
+  }, [audioManager, song]);
 
   return (
     <React.Fragment>
-      <Fade in={isLoading}>
+      {loading ? (
         <LoadingIndicator>Loading Song...</LoadingIndicator>
-      </Fade>
-      <Fade in={!isLoading}>
+      ) : (
         <Box
           sx={{
             display: 'flex',
@@ -134,7 +129,7 @@ function SongViewer(props) {
             </Stack>
           </Box>
         </Box>
-      </Fade>
+      )}
     </React.Fragment>
   );
 }
