@@ -14,13 +14,12 @@ const maxVolume = 0;
 TrackEditingModal.propTypes = {
   onDelete: PropTypes.func,
   onDismiss: PropTypes.func,
-  onVoiceSet: PropTypes.func,
-  onVolumeSet: PropTypes.func,
+  onTrackChange: PropTypes.func,
   track: PropTypes.object,
 };
 
 function TrackEditingModal(props) {
-  const { onDelete, onDismiss, onVoiceSet, onVolumeSet, track } = props;
+  const { onDelete, onDismiss, onTrackChange, track } = props;
   const [trackState, setTrackState] = React.useState();
 
   const handleContentDeleteButtonClick = React.useCallback(() => {
@@ -29,16 +28,16 @@ function TrackEditingModal(props) {
 
   const handleVoiceChange = React.useCallback(
     (e) => {
-      onVoiceSet({ track: trackState, voice: e.target.value });
+      onTrackChange({ ...trackState, voice: e.target.value });
     },
-    [onVoiceSet, trackState],
+    [onTrackChange, trackState],
   );
 
   const handleVolumeChange = React.useCallback(
     (e) => {
-      onVolumeSet({ track: trackState, volume: e.target.value });
+      onTrackChange({ ...trackState, volume: e.target.value });
     },
-    [onVolumeSet, trackState],
+    [onTrackChange, trackState],
   );
 
   React.useEffect(() => {

@@ -29,11 +29,44 @@ export default function SongProvider(props) {
     [audioManager, setSong, song],
   );
 
+  const createTrack = React.useCallback(() => {
+    const track = audioManager.helpers.createTrack();
+    const sequence = audioManager.helpers.createSequence(track.id);
+
+    setSong({
+      ...song,
+      sequences: {
+        ...song.sequences,
+        [sequence.id]: sequence,
+      },
+      tracks: {
+        ...song.tracks,
+        [track.id]: track,
+      },
+    });
+  }, [audioManager, setSong, song]);
+
   const deleteSequence = React.useCallback(
     (sequence) => {
       setSong({
         ...song,
         sequences: omit(sequence.id, song.sequences),
+      });
+    },
+    [setSong, song],
+  );
+
+  const deleteTrack = React.useCallback(
+    (track) => {
+      setSong({
+        ...song,
+        sequences: setAtIds(
+          Object.values(song.sequences).filter(
+            (sequence) => sequence.trackId !== track.id,
+          ),
+          {},
+        ),
+        tracks: omit(track.id, song.tracks),
       });
     },
     [setSong, song],
@@ -83,6 +116,16 @@ export default function SongProvider(props) {
     })();
   }, []);
 
+  const updateMeasureCount = React.useCallback(
+    (measureCount) => {
+      setSong({
+        ...song,
+        measureCount,
+      });
+    },
+    [setSong, song],
+  );
+
   const updateSequence = React.useCallback(
     (sequence) => {
       setSong({
@@ -96,16 +139,33 @@ export default function SongProvider(props) {
     [setSong, song],
   );
 
+  const updateTrack = React.useCallback(
+    (track) => {
+      setSong({
+        ...song,
+        tracks: {
+          ...song.tracks,
+          [track.id]: track,
+        },
+      });
+    },
+    [setSong, song],
+  );
+
   return (
     <SongContext.Provider
       value={{
         createSequence,
+        createTrack,
         deleteSequence,
+        deleteTrack,
         duplicateSequence,
         getSong,
         loading,
         song,
+        updateMeasureCount,
         updateSequence,
+        updateTrack,
       }}
       {...props}
     />

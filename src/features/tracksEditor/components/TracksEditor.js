@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 
-import Dawww from '../../../dawww';
 import audio from '../../audio';
 import shared from '../../shared';
 import songFeature from '../../song';
@@ -19,34 +18,24 @@ const { Box, LoadingIndicator, Timeline } = shared.components;
 
 TracksEditor.propTypes = {
   navigate: PropTypes.func,
-  onLoad: PropTypes.func,
-  onSongMeasureCountChange: PropTypes.func,
-  onTrackAdd: PropTypes.func,
-  onTrackDelete: PropTypes.func,
-  onTrackVoiceSet: PropTypes.func,
-  onTrackVolumeSet: PropTypes.func,
-  position: PropTypes.number,
 };
 
 function TracksEditor(props) {
-  const {
-    navigate,
-    onSongMeasureCountChange,
-    onTrackAdd,
-    onTrackDelete,
-    onTrackVoiceSet,
-    onTrackVolumeSet,
-  } = props;
+  const { navigate } = props;
   const audioManager = useAudioManager();
   const playbackState = usePlaybackState();
   const position = usePosition();
   const {
     createSequence,
+    createTrack,
     deleteSequence,
+    deleteTrack,
     duplicateSequence,
     loading,
     song,
+    updateMeasureCount,
     updateSequence,
+    updateTrack,
   } = useSong();
   const [selectedSequenceId, setSelectedSequenceId] = React.useState('');
   const [selectedTrackId, setSelectedTrackId] = React.useState('');
@@ -129,11 +118,11 @@ function TracksEditor(props) {
 
   const handleTrackDelete = React.useCallback(
     (track) => {
-      onTrackDelete(track);
-
       handleTrackDeselect();
+
+      deleteTrack(track);
     },
-    [handleTrackDeselect, onTrackDelete],
+    [deleteTrack, handleTrackDeselect],
   );
 
   const handleTrackListPositionSet = React.useCallback(
@@ -152,11 +141,8 @@ function TracksEditor(props) {
   }, []);
 
   const handleTrackListTrackAdd = React.useCallback(() => {
-    const track = Dawww.createTrack();
-    const sequence = Dawww.createSequence(track.id);
-
-    onTrackAdd({ sequence, track });
-  }, [onTrackAdd]);
+    createTrack();
+  }, [createTrack]);
 
   const handleTrackSelect = React.useCallback((track) => {
     setSelectedTrackId(track.id);
@@ -191,28 +177,30 @@ function TracksEditor(props) {
       {loading ? (
         <LoadingIndicator>LOADING SONG...</LoadingIndicator>
       ) : (
-        <TrackList
-          isLoading={loading}
-          onPositionSet={handleTrackListPositionSet}
-          onSequenceAdd={createSequence}
-          onSequenceDeselect={handleTrackListSequenceDeselect}
-          onSequenceEdit={updateSequence}
-          onSequenceOpen={handleSequenceOpen}
-          onSequenceSelect={handleTrackListSequenceSelect}
-          onSongMeasureCountChange={onSongMeasureCountChange}
-          onTrackAdd={handleTrackListTrackAdd}
-          onTrackStage={handleTrackSelect}
-          selectedSequence={selectedSequence}
-          songMeasureCount={song.measureCount}
-          tracks={tracks}
-        />
+        <>
+          <TrackList
+            isLoading={loading}
+            onPositionSet={handleTrackListPositionSet}
+            onSequenceAdd={createSequence}
+            onSequenceDeselect={handleTrackListSequenceDeselect}
+            onSequenceEdit={updateSequence}
+            onSequenceOpen={handleSequenceOpen}
+            onSequenceSelect={handleTrackListSequenceSelect}
+            onSongMeasureCountChange={updateMeasureCount}
+            onTrackAdd={handleTrackListTrackAdd}
+            onTrackStage={handleTrackSelect}
+            selectedSequence={selectedSequence}
+            songMeasureCount={song.measureCount}
+            tracks={tracks}
+          />
+          <TracksEditorToolbar
+            onSequenceDelete={handleSequenceDelete}
+            onSequenceDuplicate={handleSequenceDuplicate}
+            onSequenceOpen={handleSequenceOpen}
+            selectedSequence={selectedSequence}
+          />
+        </>
       )}
-      <TracksEditorToolbar
-        onSequenceDelete={handleSequenceDelete}
-        onSequenceDuplicate={handleSequenceDuplicate}
-        onSequenceOpen={handleSequenceOpen}
-        selectedSequence={selectedSequence}
-      />
       <Timeline
         isVisible={
           playbackState !== audioManager.constants.PLAYBACK_STATES.STOPPED
@@ -223,8 +211,7 @@ function TracksEditor(props) {
         <TrackEditingModal
           onDelete={handleTrackDelete}
           onDismiss={handleTrackDeselect}
-          onVoiceSet={onTrackVoiceSet}
-          onVolumeSet={onTrackVolumeSet}
+          onTrackChange={updateTrack}
           track={selectedTrack}
         />
       )}
