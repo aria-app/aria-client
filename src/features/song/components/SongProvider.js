@@ -14,6 +14,19 @@ export default function SongProvider(props) {
   const [song, setSong] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
+  const createNote = React.useCallback(
+    (note) => {
+      setSong({
+        ...song,
+        notes: {
+          ...song.notes,
+          [note.id]: note,
+        },
+      });
+    },
+    [setSong, song],
+  );
+
   const createSequence = React.useCallback(
     ({ position, track }) => {
       const sequence = audioManager.helpers.createSequence(track.id, position);
@@ -46,6 +59,19 @@ export default function SongProvider(props) {
     });
   }, [audioManager, setSong, song]);
 
+  const deleteNotes = React.useCallback(
+    (notes) => {
+      setSong({
+        ...song,
+        notes: omit(
+          notes.map((note) => note.id),
+          song.notes,
+        ),
+      });
+    },
+    [setSong, song],
+  );
+
   const deleteSequence = React.useCallback(
     (sequence) => {
       setSong({
@@ -70,6 +96,20 @@ export default function SongProvider(props) {
       });
     },
     [setSong, song],
+  );
+
+  const duplicateNotes = React.useCallback(
+    (notes) => {
+      const duplicatedNotes = audioManager.helpers.duplicateNotes(notes);
+
+      setSong({
+        ...song,
+        notes: setAtIds(duplicatedNotes, song.notes),
+      });
+
+      return duplicatedNotes;
+    },
+    [audioManager, setSong, song],
   );
 
   const duplicateSequence = React.useCallback(
@@ -116,11 +156,31 @@ export default function SongProvider(props) {
     })();
   }, []);
 
+  const updateBPM = React.useCallback(
+    (bpm) => {
+      setSong({
+        ...song,
+        bpm,
+      });
+    },
+    [setSong, song],
+  );
+
   const updateMeasureCount = React.useCallback(
     (measureCount) => {
       setSong({
         ...song,
         measureCount,
+      });
+    },
+    [setSong, song],
+  );
+
+  const updateNotes = React.useCallback(
+    (notes) => {
+      setSong({
+        ...song,
+        notes: setAtIds(notes, song.notes),
       });
     },
     [setSong, song],
@@ -155,15 +215,20 @@ export default function SongProvider(props) {
   return (
     <SongContext.Provider
       value={{
+        createNote,
         createSequence,
         createTrack,
+        deleteNotes,
         deleteSequence,
         deleteTrack,
+        duplicateNotes,
         duplicateSequence,
         getSong,
         loading,
         song,
+        updateBPM,
         updateMeasureCount,
+        updateNotes,
         updateSequence,
         updateTrack,
       }}

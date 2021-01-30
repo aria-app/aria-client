@@ -27,34 +27,20 @@ const getNotesByIds = memoizeOne((notes, ids) =>
 
 NotesEditor.propTypes = {
   navigate: PropTypes.func,
-  onDelete: PropTypes.func,
-  onDrag: PropTypes.func,
-  onDraw: PropTypes.func,
-  onDuplicate: PropTypes.func,
-  onErase: PropTypes.func,
-  onNudge: PropTypes.func,
-  onOctaveDown: PropTypes.func,
-  onOctaveUp: PropTypes.func,
-  onResize: PropTypes.func,
   sequenceId: PropTypes.string,
 };
 
 function NotesEditor(props) {
-  const {
-    navigate,
-    onDelete,
-    onDrag,
-    onDraw,
-    onDuplicate,
-    onErase,
-    onNudge,
-    onOctaveDown,
-    onOctaveUp,
-    onResize,
-    sequenceId,
-  } = props;
+  const { navigate, sequenceId } = props;
   const audioManager = useAudioManager();
-  const { loading, song } = useSong();
+  const {
+    createNote,
+    deleteNotes,
+    duplicateNotes,
+    loading,
+    song,
+    updateNotes,
+  } = useSong();
   const [contentEl, setContentEl] = React.useState();
   const [mousePoint, setMousePoint] = React.useState({ x: -1, y: 1 });
   const [previousToolType, setPreviousToolType] = React.useState(
@@ -100,11 +86,11 @@ function NotesEditor(props) {
 
       if (isEmpty(selectedNotes)) return;
 
-      onDelete(selectedNotes);
+      deleteNotes(selectedNotes);
 
       setSelectedNoteIds([]);
     },
-    [onDelete, selectedNotes],
+    [deleteNotes, selectedNotes],
   );
 
   const handleDeselectAll = React.useCallback((e) => {
@@ -123,13 +109,11 @@ function NotesEditor(props) {
 
       if (isEmpty(selectedNotes)) return;
 
-      const duplicatedNotes = Dawww.duplicateNotes(selectedNotes);
-
-      onDuplicate(duplicatedNotes);
+      const duplicatedNotes = duplicateNotes(selectedNotes);
 
       setSelectedNoteIds(duplicatedNotes.map((note) => note.id));
     },
-    [onDuplicate, selectedNotes],
+    [duplicateNotes, selectedNotes],
   );
 
   const handleEraseToolActivate = React.useCallback(() => {
@@ -138,16 +122,16 @@ function NotesEditor(props) {
 
   const handlePreviewPitch = React.useCallback(
     (pitch) => {
-      audioManager.helpers.previewPitch(sequence.trackId, pitch);
+      audioManager.preview(sequence.trackId, pitch);
     },
     [audioManager, sequence],
   );
 
   const handleGridDragPreview = React.useCallback(
     (notes) => {
-      const pitch = getOr(-1, '[0].points[0].y', notes);
+      if (notes.length !== 1) return;
 
-      handlePreviewPitch(pitch);
+      handlePreviewPitch(notes[0].points[0].y);
     },
     [handlePreviewPitch],
   );
@@ -161,18 +145,18 @@ function NotesEditor(props) {
         { x: point.x + 1, y: point.y },
       ]);
 
-      onDraw(note);
+      createNote(note);
     },
-    [handlePreviewPitch, onDraw, sequence],
+    [handlePreviewPitch, createNote, sequence],
   );
 
   const handleGridErase = React.useCallback(
     (note) => {
-      onErase(note);
-
       setSelectedNoteIds([]);
+
+      deleteNotes([note]);
     },
-    [onErase],
+    [deleteNotes],
   );
 
   const handleGridSelect = React.useCallback(
@@ -211,6 +195,7 @@ function NotesEditor(props) {
     (delta) => {
       if (isEmpty(selectedNotes)) return;
 
+      // TODO: Why does this not just use selectedNotes?
       const notesToNudge = notes.filter((note) =>
         includes(
           note.id,
@@ -219,7 +204,7 @@ function NotesEditor(props) {
       );
 
       if (
-        Dawww.someNoteWillMoveOutside(
+        audioManager.helpers.someNoteWillMoveOutside(
           sequence.measureCount,
           delta,
           notesToNudge,
@@ -227,15 +212,20 @@ function NotesEditor(props) {
       )
         return;
 
-      if (delta.y !== 0) {
-        const pitch = getOr(-1, '[0].points[0].y', notesToNudge);
-
-        handlePreviewPitch(pitch + delta.y);
+      if (delta.y !== 0 && notesToNudge.length === 1) {
+        handlePreviewPitch(notesToNudge[0].points[0].y + delta.y);
       }
 
-      onNudge(delta, notesToNudge);
+      updateNotes(notesToNudge.map(audioManager.helpers.translateNote(delta)));
     },
-    [handlePreviewPitch, notes, onNudge, selectedNotes, sequence],
+    [
+      audioManager,
+      handlePreviewPitch,
+      notes,
+      selectedNotes,
+      sequence,
+      updateNotes,
+    ],
   );
 
   const handleNudgeDown = React.useCallback(
@@ -311,13 +301,19 @@ function NotesEditor(props) {
   }, []);
 
   const handleToolbarOctaveDown = React.useCallback(
-    () => onOctaveDown(selectedNotes),
-    [onOctaveDown, selectedNotes],
+    () =>
+      updateNotes(
+        selectedNotes.map(audioManager.helpers.translateNote({ x: 0, y: 12 })),
+      ),
+    [audioManager, selectedNotes, updateNotes],
   );
 
   const handleToolbarOctaveUp = React.useCallback(
-    () => onOctaveUp(selectedNotes),
-    [onOctaveUp, selectedNotes],
+    () =>
+      updateNotes(
+        selectedNotes.map(audioManager.helpers.translateNote({ x: 0, y: -12 })),
+      ),
+    [audioManager, selectedNotes, updateNotes],
   );
 
   React.useEffect(() => {
@@ -405,12 +401,12 @@ function NotesEditor(props) {
                 mousePoint={mousePoint}
                 notes={notes}
                 notesEditorContentEl={contentEl}
-                onDrag={onDrag}
+                onDrag={updateNotes}
                 onDragPreview={handleGridDragPreview}
                 onDraw={handleGridDraw}
                 onErase={handleGridErase}
                 onMousePointChange={setMousePoint}
-                onResize={onResize}
+                onResize={updateNotes}
                 onSelect={handleGridSelect}
                 onSelectInArea={handleGridSelectInArea}
                 selectedNotes={selectedNotes}

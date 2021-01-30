@@ -32,7 +32,7 @@ function SongEditor(props) {
   const audioManager = useAudioManager();
   const { user } = useAuth();
   const playbackState = usePlaybackState();
-  const { loading, song, getSong } = useSong();
+  const { getSong, loading, song, updateBPM } = useSong();
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);
 
   const playPause = React.useCallback(
@@ -54,9 +54,12 @@ function SongEditor(props) {
     navigate('../../');
   }, [navigate]);
 
-  const handleSongBPMChange = React.useCallback(() => {
-    console.log('should update song BPM');
-  }, []);
+  const handleSongBPMChange = React.useCallback(
+    (bpm) => {
+      updateBPM(bpm);
+    },
+    [updateBPM],
+  );
 
   const handleSongInfoModalConfirm = React.useCallback(() => {
     setIsSongInfoModalOpen(false);
