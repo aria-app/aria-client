@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { configure as configureHotkeys } from 'react-hotkeys';
-import { Provider } from 'react-redux';
 import { RecoilRoot } from 'recoil';
 import Tone from 'tone';
 
@@ -10,7 +9,6 @@ import audio from './features/audio';
 import auth from './features/auth';
 import shared from './features/shared';
 import song from './features/song';
-import store from './store';
 
 const { App } = app.components;
 const { AudioProvider } = audio.components;
@@ -27,16 +25,12 @@ configureHotkeys({ ignoreRepeatedEventsWhenKeyHeldDown: false });
   });
 });
 
-store.dispatch(shared.actions.initialized());
-
 render(
   <RecoilRoot>
     <AuthProvider>
       <AudioProvider>
         <SongProvider>
-          <Provider store={store}>
-            <App />
-          </Provider>
+          <App />
         </SongProvider>
       </AudioProvider>
     </AuthProvider>

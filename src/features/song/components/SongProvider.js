@@ -4,7 +4,7 @@ import React from 'react';
 import audio from '../../audio';
 import shared from '../../shared';
 import SongContext from '../contexts/SongContext';
-import { fetchSongById } from '../helpers';
+import * as helpers from '../helpers';
 
 const { useAudioManager } = audio.hooks;
 const { setAtIds } = shared.helpers;
@@ -14,9 +14,28 @@ export default function SongProvider(props) {
   const [song, setSong] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
+  const handleSongUpdate = React.useCallback(
+    (updatedSong) => {
+      (async () => {
+        const previousSong = { ...song };
+
+        try {
+          setSong(updatedSong);
+
+          await helpers.updateSong(updatedSong);
+        } catch (e) {
+          console.error(e.message);
+
+          setSong(previousSong);
+        }
+      })();
+    },
+    [setSong, song],
+  );
+
   const createNote = React.useCallback(
     (note) => {
-      setSong({
+      handleSongUpdate({
         ...song,
         notes: {
           ...song.notes,
@@ -24,14 +43,14 @@ export default function SongProvider(props) {
         },
       });
     },
-    [setSong, song],
+    [handleSongUpdate, song],
   );
 
   const createSequence = React.useCallback(
     ({ position, track }) => {
       const sequence = audioManager.helpers.createSequence(track.id, position);
 
-      setSong({
+      handleSongUpdate({
         ...song,
         sequences: {
           ...song.sequences,
@@ -39,14 +58,14 @@ export default function SongProvider(props) {
         },
       });
     },
-    [audioManager, setSong, song],
+    [audioManager, handleSongUpdate, song],
   );
 
   const createTrack = React.useCallback(() => {
     const track = audioManager.helpers.createTrack();
     const sequence = audioManager.helpers.createSequence(track.id);
 
-    setSong({
+    handleSongUpdate({
       ...song,
       sequences: {
         ...song.sequences,
@@ -57,11 +76,11 @@ export default function SongProvider(props) {
         [track.id]: track,
       },
     });
-  }, [audioManager, setSong, song]);
+  }, [audioManager, handleSongUpdate, song]);
 
   const deleteNotes = React.useCallback(
     (notes) => {
-      setSong({
+      handleSongUpdate({
         ...song,
         notes: omit(
           notes.map((note) => note.id),
@@ -69,22 +88,22 @@ export default function SongProvider(props) {
         ),
       });
     },
-    [setSong, song],
+    [handleSongUpdate, song],
   );
 
   const deleteSequence = React.useCallback(
     (sequence) => {
-      setSong({
+      handleSongUpdate({
         ...song,
         sequences: omit(sequence.id, song.sequences),
       });
     },
-    [setSong, song],
+    [handleSongUpdate, song],
   );
 
   const deleteTrack = React.useCallback(
     (track) => {
-      setSong({
+      handleSongUpdate({
         ...song,
         sequences: setAtIds(
           Object.values(song.sequences).filter(
@@ -95,21 +114,21 @@ export default function SongProvider(props) {
         tracks: omit(track.id, song.tracks),
       });
     },
-    [setSong, song],
+    [handleSongUpdate, song],
   );
 
   const duplicateNotes = React.useCallback(
     (notes) => {
       const duplicatedNotes = audioManager.helpers.duplicateNotes(notes);
 
-      setSong({
+      handleSongUpdate({
         ...song,
         notes: setAtIds(duplicatedNotes, song.notes),
       });
 
       return duplicatedNotes;
     },
-    [audioManager, setSong, song],
+    [audioManager, handleSongUpdate, song],
   );
 
   const duplicateSequence = React.useCallback(
@@ -131,7 +150,7 @@ export default function SongProvider(props) {
         sequenceId: duplicatedSequence.id,
       }));
 
-      setSong({
+      handleSongUpdate({
         ...song,
         notes: setAtIds(notesWithNewSequenceId, song.notes),
         sequences: {
@@ -142,14 +161,14 @@ export default function SongProvider(props) {
 
       return duplicatedSequence;
     },
-    [audioManager, setSong, song],
+    [audioManager, handleSongUpdate, song],
   );
 
   const getSong = React.useCallback((songId) => {
     (async () => {
       setLoading(true);
 
-      const fetchedSong = await fetchSongById(songId);
+      const fetchedSong = await helpers.fetchSongById(songId);
 
       setSong(fetchedSong);
       setLoading(false);
@@ -158,37 +177,37 @@ export default function SongProvider(props) {
 
   const updateBPM = React.useCallback(
     (bpm) => {
-      setSong({
+      handleSongUpdate({
         ...song,
         bpm,
       });
     },
-    [setSong, song],
+    [handleSongUpdate, song],
   );
 
   const updateMeasureCount = React.useCallback(
     (measureCount) => {
-      setSong({
+      handleSongUpdate({
         ...song,
         measureCount,
       });
     },
-    [setSong, song],
+    [handleSongUpdate, song],
   );
 
   const updateNotes = React.useCallback(
     (notes) => {
-      setSong({
+      handleSongUpdate({
         ...song,
         notes: setAtIds(notes, song.notes),
       });
     },
-    [setSong, song],
+    [handleSongUpdate, song],
   );
 
   const updateSequence = React.useCallback(
     (sequence) => {
-      setSong({
+      handleSongUpdate({
         ...song,
         sequences: {
           ...song.sequences,
@@ -196,12 +215,12 @@ export default function SongProvider(props) {
         },
       });
     },
-    [setSong, song],
+    [handleSongUpdate, song],
   );
 
   const updateTrack = React.useCallback(
     (track) => {
-      setSong({
+      handleSongUpdate({
         ...song,
         tracks: {
           ...song.tracks,
@@ -209,7 +228,7 @@ export default function SongProvider(props) {
         },
       });
     },
-    [setSong, song],
+    [handleSongUpdate, song],
   );
 
   return (

@@ -1,1 +1,0 @@
-export { getFocusedSequenceId } from './getFocusedSequenceId';
