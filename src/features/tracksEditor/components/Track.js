@@ -124,7 +124,7 @@ function Track(props) {
       <Translation>
         {(t) => (
           <TrackHeader onClick={handleHeaderClick}>
-            {t(track.voice)}
+            {t(track.voice.name)}
           </TrackHeader>
         )}
       </Translation>

@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client';
 import find from 'lodash/fp/find';
 import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
@@ -5,6 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 
+import api from '../../api';
 import audio from '../../audio';
 import shared from '../../shared';
 import songFeature from '../../song';
@@ -18,22 +20,25 @@ const { Box, LoadingIndicator, Timeline } = shared.components;
 
 TracksEditor.propTypes = {
   navigate: PropTypes.func,
+  songId: PropTypes.string,
 };
 
 function TracksEditor(props) {
-  const { navigate } = props;
+  const { navigate, songId } = props;
   const audioManager = useAudioManager();
   const playbackState = usePlaybackState();
   const position = usePosition();
+  const { data, error, loading } = useQuery(api.queries.GET_SONG, {
+    variables: {
+      id: songId,
+    },
+  });
   const {
     createSequence,
     createTrack,
     deleteSequence,
     deleteTrack,
     duplicateSequence,
-    error,
-    loading,
-    song,
     updateMeasureCount,
     updateSequence,
     updateTrack,
@@ -42,35 +47,20 @@ function TracksEditor(props) {
   const [selectedTrackId, setSelectedTrackId] = React.useState('');
 
   const tracks = React.useMemo(() => {
-    if (!song) {
+    if (!data) {
       return [];
     }
 
-    return Object.values(song.tracks).map((track) => ({
-      ...track,
-      sequences: Object.values(song.sequences)
-        .filter((sequence) => sequence.trackId === track.id)
-        .map((sequence) => ({
-          ...sequence,
-          notes: Object.values(song.notes).filter(
-            (note) => note.sequenceId === sequence.id,
-          ),
-        })),
-    }));
-  }, [song]);
+    return data.song.tracks;
+  }, [data]);
 
   const sequences = React.useMemo(() => {
-    if (!song) {
+    if (!data) {
       return [];
     }
 
-    return Object.values(song.sequences).map((sequence) => ({
-      ...sequence,
-      notes: Object.values(song.notes).filter(
-        (note) => note.sequenceId === sequence.id,
-      ),
-    }));
-  }, [song]);
+    return tracks.map((track) => track.sequences).flat();
+  }, [data, tracks]);
 
   const selectedSequence = React.useMemo(
     () => find((s) => s.id === selectedSequenceId, sequences),
@@ -150,10 +140,10 @@ function TracksEditor(props) {
   }, []);
 
   React.useEffect(() => {
-    if (!song || true) return;
+    if (!data || true) return;
 
-    audioManager.updateSong(song);
-  }, [audioManager, song]);
+    audioManager.updateSong(data.song);
+  }, [audioManager, data]);
 
   return (
     <Box
@@ -192,7 +182,7 @@ function TracksEditor(props) {
             onTrackAdd={handleTrackListTrackAdd}
             onTrackStage={handleTrackSelect}
             selectedSequence={selectedSequence}
-            songMeasureCount={song && song.measureCount}
+            songMeasureCount={data && data.song.measureCount}
             tracks={tracks}
           />
           <TracksEditorToolbar

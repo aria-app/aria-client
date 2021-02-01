@@ -6,7 +6,7 @@ export function setVoice(instrument, value) {
     [
       {
         oscillator: {
-          type: value.toLowerCase(),
+          type: value,
         },
       },
     ],

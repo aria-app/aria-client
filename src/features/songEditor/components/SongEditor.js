@@ -15,7 +15,6 @@ import tracksEditor from '../../tracksEditor';
 import SongEditorToolbar from './SongEditorToolbar';
 import SongInfoModal from './SongInfoModal';
 
-const { GET_SONG, UPDATE_SONG } = api.documentNodes;
 const { useAuth } = auth.hooks;
 const { useAudioManager, usePlaybackState } = audio.hooks;
 const { STARTED } = Dawww.PLAYBACK_STATES;
@@ -33,8 +32,8 @@ function SongEditor(props) {
   const audioManager = useAudioManager();
   const { user } = useAuth();
   const playbackState = usePlaybackState();
-  const [updateSong] = useMutation(UPDATE_SONG);
-  const { data, error, loading } = useQuery(GET_SONG, {
+  const [updateSong] = useMutation(api.queries.UPDATE_SONG);
+  const { data, error, loading } = useQuery(api.queries.GET_SONG, {
     variables: { id: songId },
   });
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);
@@ -103,7 +102,7 @@ function SongEditor(props) {
     window.document.title = `${data.song.name} - Aria`;
   }, [data]);
 
-  if (data && data.song.user.id !== user.id) {
+  if (data && user && data.song.user.id !== user.id) {
     return <Redirect noThrow to={`/view-song/${data.song.id}`} />;
   }
 

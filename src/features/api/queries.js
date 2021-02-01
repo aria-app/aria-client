@@ -132,7 +132,9 @@ export const GET_SONG = gql`
         }
         voice {
           name
+          toneOscillatorType
         }
+        volume
       }
       user {
         id
@@ -195,6 +197,35 @@ export const GET_TRACK = gql`
         name
       }
       volume
+    }
+  }
+`;
+
+export const LOGIN = gql`
+  mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      expiresAt
+      success
+    }
+  }
+`;
+
+export const LOGOUT = gql`
+  mutation Logout {
+    logout {
+      success
+    }
+  }
+`;
+
+export const ME = gql`
+  query Me {
+    me {
+      email
+      firstName
+      id
+      isAdmin
+      lastName
     }
   }
 `;

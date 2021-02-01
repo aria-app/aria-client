@@ -9,8 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import { Redirect } from '@reach/router';
 import React from 'react';
 
+import api from '../../api';
 import auth from '../../auth';
-import { LOGIN } from '../documentNodes';
 
 const { useAuth } = auth.hooks;
 
@@ -26,7 +26,7 @@ const StyledContainer = styled(Container)((props) => ({
 }));
 
 export default function Login() {
-  const [login, { client, error, loading }] = useMutation(LOGIN);
+  const [login, { client, error, loading }] = useMutation(api.queries.LOGIN);
   const { getIsAuthenticated, handleLogin, user } = useAuth();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');

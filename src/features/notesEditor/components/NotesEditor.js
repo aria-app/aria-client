@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -8,6 +9,7 @@ import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 
 import Dawww from '../../../dawww';
+import api from '../../api';
 import audio from '../../audio';
 import shared from '../../shared';
 import songFeature from '../../song';
@@ -28,19 +30,18 @@ const getNotesByIds = memoizeOne((notes, ids) =>
 NotesEditor.propTypes = {
   navigate: PropTypes.func,
   sequenceId: PropTypes.string,
+  songId: PropTypes.string,
 };
 
 function NotesEditor(props) {
-  const { navigate, sequenceId } = props;
+  const { navigate, sequenceId, songId } = props;
   const audioManager = useAudioManager();
-  const {
-    createNote,
-    deleteNotes,
-    duplicateNotes,
-    loading,
-    song,
-    updateNotes,
-  } = useSong();
+  const { data, loading } = useQuery(api.queries.GET_SONG, {
+    variables: {
+      id: songId,
+    },
+  });
+  const { createNote, deleteNotes, duplicateNotes, updateNotes } = useSong();
   const [contentEl, setContentEl] = React.useState();
   const [mousePoint, setMousePoint] = React.useState({ x: -1, y: 1 });
   const [previousToolType, setPreviousToolType] = React.useState(
@@ -50,22 +51,23 @@ function NotesEditor(props) {
   const [toolType, setToolType] = React.useState(toolTypes.SELECT);
 
   const sequence = React.useMemo(() => {
-    if (!song) {
+    if (!data) {
       return null;
     }
 
-    return song.sequences[sequenceId];
-  }, [sequenceId, song]);
+    return data.song.tracks
+      .map((track) => track.sequences)
+      .flat()
+      .find((sequence) => sequence.id === sequenceId);
+  }, [data, sequenceId]);
 
   const notes = React.useMemo(() => {
-    if (!song) {
+    if (!sequence) {
       return [];
     }
 
-    return Object.values(song.notes).filter(
-      (note) => note.sequenceId === sequenceId,
-    );
-  }, [sequenceId, song]);
+    return sequence.notes;
+  }, [sequence]);
 
   const selectedNotes = React.useMemo(
     () => getNotesByIds(notes, selectedNoteIds),
@@ -317,10 +319,10 @@ function NotesEditor(props) {
   );
 
   React.useEffect(() => {
-    if (!song || true) return;
+    if (!data || true) return;
 
-    audioManager.updateSong({ ...song, focusedSequenceId: sequenceId });
-  }, [audioManager, sequenceId, song]);
+    audioManager.updateSong({ ...data.song, focusedSequenceId: sequenceId });
+  }, [audioManager, data, sequenceId]);
 
   React.useEffect(() => {
     if (!contentEl) return;

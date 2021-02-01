@@ -54,7 +54,7 @@ function TrackEditingModal(props) {
             <FormGroup label="Voice">
               <select
                 onChange={handleVoiceChange}
-                value={trackState && trackState.voice ? trackState.voice : ''}
+                value={trackState ? trackState.voice.toneOscillatorType : ''}
               >
                 {Object.keys(Dawww.VOICES).map((voice) => (
                   <option key={voice} value={voice}>

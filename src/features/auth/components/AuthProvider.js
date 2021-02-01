@@ -1,12 +1,12 @@
 import { useMutation, useQuery } from '@apollo/client';
 import React from 'react';
 
+import api from '../../api';
 import AuthContext from '../contexts/AuthContext';
-import { LOGOUT, ME } from '../documentNodes';
 
 export default function AuthProvider(props) {
-  const { data, error, loading, refetch } = useQuery(ME);
-  const [logout] = useMutation(LOGOUT);
+  const { data, error, loading, refetch } = useQuery(api.queries.ME);
+  const [logout] = useMutation(api.queries.LOGOUT);
   const [expiresAt, setExpiresAt] = React.useState();
 
   const handleLogout = React.useCallback(async () => {

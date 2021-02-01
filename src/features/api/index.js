@@ -1,5 +1,5 @@
-import * as documentNodes from './documentNodes';
+import * as queries from './queries';
 
 export default {
-  documentNodes,
+  queries,
 };

@@ -8,7 +8,6 @@ import auth from '../../auth';
 import shared from '../../shared';
 import SongList from './SongList';
 
-const { CREATE_SONG, DELETE_SONG, GET_SONGS } = api.documentNodes;
 const { useAuth } = auth.hooks;
 const {
   Box,
@@ -28,15 +27,22 @@ Dashboard.propTypes = {
 function Dashboard(props) {
   const { navigate } = props;
   const { logout, user } = useAuth();
-  const [createSong, { loading: createLoading }] = useMutation(CREATE_SONG);
-  const [deleteSong, { loading: deleteLoading }] = useMutation(DELETE_SONG);
-  const { data, loading: getLoading, refetch } = useQuery(GET_SONGS, {
-    notifyOnNetworkStatusChange: true,
-    variables: {
-      sort: 'dateModified',
-      sortDirection: 'desc',
+  const [createSong, { loading: createLoading }] = useMutation(
+    api.queries.CREATE_SONG,
+  );
+  const [deleteSong, { loading: deleteLoading }] = useMutation(
+    api.queries.DELETE_SONG,
+  );
+  const { data, loading: getLoading, refetch } = useQuery(
+    api.queries.GET_SONGS,
+    {
+      notifyOnNetworkStatusChange: true,
+      variables: {
+        sort: 'dateModified',
+        sortDirection: 'desc',
+      },
     },
-  });
+  );
 
   const loading = createLoading || deleteLoading || getLoading;
 
