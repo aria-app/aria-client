@@ -8,7 +8,7 @@ import auth from '../../auth';
 import shared from '../../shared';
 import SongList from './SongList';
 
-const { CREATE_SONG, GET_SONGS } = api.documentNodes;
+const { CREATE_SONG, DELETE_SONG, GET_SONGS } = api.documentNodes;
 const { useAuth } = auth.hooks;
 const {
   Box,
@@ -28,17 +28,17 @@ Dashboard.propTypes = {
 function Dashboard(props) {
   const { navigate } = props;
   const { logout, user } = useAuth();
-  const { data, loading, refetch } = useQuery(GET_SONGS, {
+  const [createSong, { loading: createLoading }] = useMutation(CREATE_SONG);
+  const [deleteSong, { loading: deleteLoading }] = useMutation(DELETE_SONG);
+  const { data, loading: getLoading, refetch } = useQuery(GET_SONGS, {
+    notifyOnNetworkStatusChange: true,
     variables: {
       sort: 'dateModified',
       sortDirection: 'desc',
     },
   });
-  const [createSong] = useMutation(CREATE_SONG);
 
-  const deleteSong = React.useCallback((song) => {
-    console.log('deleted song', song);
-  }, []);
+  const loading = createLoading || deleteLoading || getLoading;
 
   const handleSongAdd = React.useCallback(async () => {
     const name = window.prompt('Enter a name for the song', 'New Song');
@@ -60,16 +60,21 @@ function Dashboard(props) {
   }, [createSong, refetch]);
 
   const handleSongDelete = React.useCallback(
-    (song) => {
+    async (song) => {
       const shouldDelete = window.confirm(
         `Are you sure you want to delete the song "${song.name}"?`,
       );
 
       if (!shouldDelete) return;
 
-      deleteSong(song);
+      await deleteSong({
+        variables: {
+          id: song.id,
+        },
+      });
+      refetch();
     },
-    [deleteSong],
+    [deleteSong, refetch],
   );
 
   const handleSongOpen = React.useCallback(
