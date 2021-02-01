@@ -1,15 +1,14 @@
+import { useMutation, useQuery } from '@apollo/client';
 import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import api from '../../api';
-import audio from '../../audio';
 import auth from '../../auth';
 import shared from '../../shared';
 import SongList from './SongList';
 
-const { useGetSongsQuery } = api.hooks;
-const { useAudioManager } = audio.hooks;
+const { CREATE_SONG, GET_SONGS } = api.documentNodes;
 const { useAuth } = auth.hooks;
 const {
   Box,
@@ -28,39 +27,37 @@ Dashboard.propTypes = {
 
 function Dashboard(props) {
   const { navigate } = props;
-  const audioManager = useAudioManager();
   const { logout, user } = useAuth();
-  const { data, loading } = useGetSongsQuery({
+  const { data, loading, refetch } = useQuery(GET_SONGS, {
     variables: {
       sort: 'dateModified',
+      sortDirection: 'desc',
     },
   });
-
-  const createSong = React.useCallback(
-    (options) => {
-      const song = {
-        ...audioManager.helpers.createSong(),
-        dateModified: Date.now(),
-        userId: user.uid,
-        ...options,
-      };
-
-      console.log('created song', song);
-    },
-    [audioManager, user],
-  );
+  const [createSong] = useMutation(CREATE_SONG);
 
   const deleteSong = React.useCallback((song) => {
     console.log('deleted song', song);
   }, []);
 
-  const handleSongAdd = React.useCallback(() => {
+  const handleSongAdd = React.useCallback(async () => {
     const name = window.prompt('Enter a name for the song', 'New Song');
 
     if (!name) return;
 
-    createSong({ name });
-  }, [createSong]);
+    try {
+      await createSong({
+        variables: {
+          options: {
+            name,
+          },
+        },
+      });
+      refetch();
+    } catch (e) {
+      console.error(e.message);
+    }
+  }, [createSong, refetch]);
 
   const handleSongDelete = React.useCallback(
     (song) => {

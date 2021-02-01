@@ -1,5 +1,5 @@
-import * as hooks from './hooks';
+import * as documentNodes from './documentNodes';
 
 export default {
-  hooks,
+  documentNodes,
 };
