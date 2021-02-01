@@ -4,6 +4,7 @@ import { configure as configureHotkeys } from 'react-hotkeys';
 import { RecoilRoot } from 'recoil';
 import Tone from 'tone';
 
+import ApolloWrapper from './ApolloWrapper';
 import app from './features/app';
 import audio from './features/audio';
 import auth from './features/auth';
@@ -27,13 +28,15 @@ configureHotkeys({ ignoreRepeatedEventsWhenKeyHeldDown: false });
 
 render(
   <RecoilRoot>
-    <AuthProvider>
-      <AudioProvider>
-        <SongProvider>
-          <App />
-        </SongProvider>
-      </AudioProvider>
-    </AuthProvider>
+    <ApolloWrapper>
+      <AuthProvider>
+        <AudioProvider>
+          <SongProvider>
+            <App />
+          </SongProvider>
+        </AudioProvider>
+      </AuthProvider>
+    </ApolloWrapper>
   </RecoilRoot>,
   document.querySelector('#root'),
 );

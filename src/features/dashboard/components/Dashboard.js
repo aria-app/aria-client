@@ -1,12 +1,16 @@
+import { useMutation } from '@apollo/client';
 import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import api from '../../api';
 import audio from '../../audio';
 import auth from '../../auth';
 import shared from '../../shared';
+import { LOGOUT } from '../documentNodes';
 import SongList from './SongList';
 
+const { useGetSongsQuery } = api.hooks;
 const { useAudioManager } = audio.hooks;
 const { useAuth } = auth.hooks;
 const {
@@ -17,6 +21,7 @@ const {
   LoadingIndicator,
   Stack,
   Toolbar,
+  Typography,
 } = shared.components;
 
 Dashboard.propTypes = {
@@ -26,24 +31,13 @@ Dashboard.propTypes = {
 function Dashboard(props) {
   const { navigate } = props;
   const audioManager = useAudioManager();
-  const { user } = useAuth();
-  const [songs, setSongs] = React.useState(null);
-
-  const fetchSongs = React.useCallback(() => {
-    shared.firebase
-      .getDB()
-      .collection('songs')
-      .where('userId', '==', user.uid)
-      .get()
-      .then((querySnapshot) => {
-        setSongs(
-          shared.helpers.setAtIds(
-            querySnapshot.docs.map((doc) => doc.data()),
-            {},
-          ),
-        );
-      });
-  }, [user]);
+  const { handleLogout, user } = useAuth();
+  const [logout, { client }] = useMutation(LOGOUT);
+  const { data, loading } = useGetSongsQuery({
+    variables: {
+      sort: 'dateModified',
+    },
+  });
 
   const createSong = React.useCallback(
     (options) => {
@@ -54,31 +48,14 @@ function Dashboard(props) {
         ...options,
       };
 
-      shared.firebase
-        .getDB()
-        .collection('songs')
-        .doc(song.id)
-        .set(song)
-        .then(() => {
-          fetchSongs();
-        });
+      console.log('created song', song);
     },
-    [audioManager, fetchSongs, user],
+    [audioManager, user],
   );
 
-  const deleteSong = React.useCallback(
-    (song) => {
-      shared.firebase
-        .getDB()
-        .collection('songs')
-        .doc(song.id)
-        .delete()
-        .then(() => {
-          fetchSongs();
-        });
-    },
-    [fetchSongs],
-  );
+  const deleteSong = React.useCallback((song) => {
+    console.log('deleted song', song);
+  }, []);
 
   const handleSongAdd = React.useCallback(() => {
     const name = window.prompt('Enter a name for the song', 'New Song');
@@ -108,53 +85,46 @@ function Dashboard(props) {
     [navigate],
   );
 
-  const handleUserClick = React.useCallback(() => {
+  const handleUserClick = React.useCallback(async () => {
     const shouldSignOut = window.confirm('Do you want to sign out?');
 
     if (!shouldSignOut) return;
-
-    navigate(`/sign-out`);
-  }, [navigate]);
+    await logout();
+    client.resetStore();
+    handleLogout();
+  }, [client, handleLogout, logout]);
 
   React.useEffect(() => {
+    console.log(data && data.songs);
     window.document.title = 'Dashboard - Aria';
-  }, []);
-
-  React.useEffect(() => {
-    fetchSongs();
-  }, [fetchSongs]);
+  }, [data]);
 
   return (
     <Stack space={4}>
-      <Toolbar position="top">
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Box
-            onClick={handleUserClick}
-            sx={{
-              borderRadius: 9999,
-              height: 40,
-              overflow: 'hidden',
-              width: 40,
-            }}
-          >
-            <img
-              alt="User"
-              src={user.photoURL}
-              style={{ height: '100%', width: '100%' }}
-              title={user.email}
-            />
-          </Box>
-        </Box>
+      <Toolbar
+        position="top"
+        sx={{
+          alignItems: 'center',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          paddingX: 4,
+        }}
+      >
+        {user && (
+          <Typography onClick={handleUserClick}>
+            {user.firstName} {user.lastName}
+          </Typography>
+        )}
       </Toolbar>
-      <Fade in={!songs} mountOnEnter unmountOnExit>
+      <Fade in={loading}>
         <LoadingIndicator>LOADING SONGS...</LoadingIndicator>
       </Fade>
-      <Fade in={!!songs} mountOnEnter unmountOnExit>
+      <Fade in={!loading}>
         <ContentBlock>
           <SongList
             onDelete={handleSongDelete}
             onOpen={handleSongOpen}
-            songs={songs || {}}
+            songs={data && data.songs.data}
           />
         </ContentBlock>
       </Fade>

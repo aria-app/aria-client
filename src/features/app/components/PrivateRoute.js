@@ -4,18 +4,23 @@ import React from 'react';
 
 import auth from '../../auth';
 
-PrivateRoute.propTypes = {
-  component: PropTypes.elementType,
-};
 const { useAuth } = auth.hooks;
 
 export default function PrivateRoute(props) {
   const { component: Component, ...rest } = props;
-  const { isAuthenticated } = useAuth();
+  const { getIsAuthenticated, loading } = useAuth();
 
-  if (!isAuthenticated) {
-    return <Redirect from="/foo" noThrow to="sign-in" />;
+  if (loading) {
+    return null;
   }
 
-  return <Component isAuthenticated={isAuthenticated} {...rest} />;
+  if (!getIsAuthenticated()) {
+    return <Redirect noThrow to="/login" />;
+  }
+
+  return <Component {...rest} />;
 }
+
+PrivateRoute.propTypes = {
+  component: PropTypes.elementType,
+};

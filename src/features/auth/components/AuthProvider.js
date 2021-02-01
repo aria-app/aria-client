@@ -1,34 +1,45 @@
-import isNil from 'lodash/fp/isNil';
+import { useQuery } from '@apollo/client';
 import React from 'react';
 
-import shared from '../../shared';
 import AuthContext from '../contexts/AuthContext';
+import { ME } from '../documentNodes';
 
 export default function AuthProvider(props) {
-  const [loading, setLoading] = React.useState(true);
-  const [user, setUser] = React.useState(null);
+  const { data, error, loading, refetch } = useQuery(ME);
+  const [expiresAt, setExpiresAt] = React.useState();
 
-  const isAuthenticated = React.useMemo(() => !isNil(user), [user]);
+  const handleLogout = React.useCallback(() => {
+    setExpiresAt(null);
+    window.localStorage.removeItem('expiresAt');
+  }, [setExpiresAt]);
+
+  const getIsAuthenticated = React.useCallback(
+    () => expiresAt && new Date().getTime() / 1000 < expiresAt,
+    [expiresAt],
+  );
+
+  const handleLogin = React.useCallback(
+    (loginResult) => {
+      setExpiresAt(loginResult.expiresAt);
+      window.localStorage.setItem('expiresAt', loginResult.expiresAt);
+      refetch();
+    },
+    [refetch, setExpiresAt],
+  );
 
   React.useEffect(() => {
-    shared.firebase.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-        setLoading(false);
-        return;
-      }
-
-      setUser(null);
-      setLoading(false);
-    });
-  }, [setLoading]);
+    setExpiresAt(window.localStorage.getItem('expiresAt'));
+  }, [setExpiresAt]);
 
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated,
+        error,
+        getIsAuthenticated,
+        handleLogin,
+        handleLogout,
         loading,
-        user,
+        user: data ? data.me : null,
       }}
       {...props}
     />

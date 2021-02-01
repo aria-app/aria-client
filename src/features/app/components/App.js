@@ -6,9 +6,8 @@ import dashboard from '../../dashboard';
 import shared from '../../shared';
 import songEditor from '../../songEditor';
 import songViewer from '../../songViewer';
+import Login from './Login';
 import PrivateRoute from './PrivateRoute';
-import SignIn from './SignIn';
-import SignOut from './SignOut';
 
 const { useAuth } = auth.hooks;
 const { Dashboard } = dashboard.components;
@@ -35,8 +34,7 @@ function App() {
               position: 'relative',
             }}
           >
-            <SignIn path="sign-in" />
-            <SignOut path="sign-out" />
+            <Login path="login" />
             <PrivateRoute component={Dashboard} path="/" />
             <PrivateRoute component={SongEditor} path="edit-song/:songId/*" />
             <PrivateRoute component={SongViewer} path="view-song/:songId" />
