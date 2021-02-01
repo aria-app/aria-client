@@ -26,7 +26,7 @@ const StyledContainer = styled(Container)((props) => ({
 }));
 
 export default function Login() {
-  const [login, { error, loading }] = useMutation(LOGIN);
+  const [login, { client, error, loading }] = useMutation(LOGIN);
   const { getIsAuthenticated, handleLogin, user } = useAuth();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -55,17 +55,22 @@ export default function Login() {
         });
 
         handleLogin(data.login);
-        // eslint-disable-next-line
-      } catch {}
+      } catch (e) {
+        console.error(e.message);
+      }
     },
     [email, handleLogin, login, password],
   );
 
-  if (getIsAuthenticated()) {
-    return <Redirect noThrow to="/" />;
-  }
+  React.useEffect(() => {
+    if (getIsAuthenticated()) return;
 
-  return (
+    client.resetStore();
+  }, [client, getIsAuthenticated]);
+
+  return getIsAuthenticated() ? (
+    <Redirect noThrow to="/" />
+  ) : (
     <Root>
       <StyledContainer maxWidth="sm">
         <form onSubmit={handleSubmit}>

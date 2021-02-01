@@ -1,17 +1,19 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import React from 'react';
 
 import AuthContext from '../contexts/AuthContext';
-import { ME } from '../documentNodes';
+import { LOGOUT, ME } from '../documentNodes';
 
 export default function AuthProvider(props) {
   const { data, error, loading, refetch } = useQuery(ME);
+  const [logout] = useMutation(LOGOUT);
   const [expiresAt, setExpiresAt] = React.useState();
 
-  const handleLogout = React.useCallback(() => {
+  const handleLogout = React.useCallback(async () => {
+    await logout();
     setExpiresAt(null);
     window.localStorage.removeItem('expiresAt');
-  }, [setExpiresAt]);
+  }, [logout, setExpiresAt]);
 
   const getIsAuthenticated = React.useCallback(
     () => expiresAt && new Date().getTime() / 1000 < expiresAt,
@@ -37,7 +39,7 @@ export default function AuthProvider(props) {
         error,
         getIsAuthenticated,
         handleLogin,
-        handleLogout,
+        logout: handleLogout,
         loading,
         user: data ? data.me : null,
       }}

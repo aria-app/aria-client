@@ -1,4 +1,3 @@
-import { useMutation } from '@apollo/client';
 import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -7,7 +6,6 @@ import api from '../../api';
 import audio from '../../audio';
 import auth from '../../auth';
 import shared from '../../shared';
-import { LOGOUT } from '../documentNodes';
 import SongList from './SongList';
 
 const { useGetSongsQuery } = api.hooks;
@@ -31,8 +29,7 @@ Dashboard.propTypes = {
 function Dashboard(props) {
   const { navigate } = props;
   const audioManager = useAudioManager();
-  const { handleLogout, user } = useAuth();
-  const [logout, { client }] = useMutation(LOGOUT);
+  const { logout, user } = useAuth();
   const { data, loading } = useGetSongsQuery({
     variables: {
       sort: 'dateModified',
@@ -85,19 +82,17 @@ function Dashboard(props) {
     [navigate],
   );
 
-  const handleUserClick = React.useCallback(async () => {
+  const handleUserClick = React.useCallback(() => {
     const shouldSignOut = window.confirm('Do you want to sign out?');
 
     if (!shouldSignOut) return;
-    await logout();
-    client.resetStore();
-    handleLogout();
-  }, [client, handleLogout, logout]);
+
+    logout();
+  }, [logout]);
 
   React.useEffect(() => {
-    console.log(data && data.songs);
     window.document.title = 'Dashboard - Aria';
-  }, [data]);
+  }, []);
 
   return (
     <Stack space={4}>
