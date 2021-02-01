@@ -1,25 +1,26 @@
-import { Router } from '@reach/router';
+import { useMutation, useQuery } from '@apollo/client';
+import { Redirect, Router } from '@reach/router';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import Tone from 'tone';
 
 import Dawww from '../../../dawww';
+import api from '../../api';
 import audio from '../../audio';
 import auth from '../../auth';
 import notesEditor from '../../notesEditor';
 import shared from '../../shared';
-import songFeature from '../../song';
 import tracksEditor from '../../tracksEditor';
 import SongEditorToolbar from './SongEditorToolbar';
 import SongInfoModal from './SongInfoModal';
 
+const { GET_SONG, UPDATE_SONG } = api.documentNodes;
 const { useAuth } = auth.hooks;
 const { useAudioManager, usePlaybackState } = audio.hooks;
 const { STARTED } = Dawww.PLAYBACK_STATES;
 const { NotesEditor } = notesEditor.components;
 const { Box } = shared.components;
-const { useSong } = songFeature.hooks;
 const { TracksEditor } = tracksEditor.components;
 
 SongEditor.propTypes = {
@@ -32,7 +33,10 @@ function SongEditor(props) {
   const audioManager = useAudioManager();
   const { user } = useAuth();
   const playbackState = usePlaybackState();
-  const { getSong, loading, song, updateBPM } = useSong();
+  const [updateSong] = useMutation(UPDATE_SONG);
+  const { data, error, loading } = useQuery(GET_SONG, {
+    variables: { id: songId },
+  });
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);
 
   const playPause = React.useCallback(
@@ -55,10 +59,30 @@ function SongEditor(props) {
   }, [navigate]);
 
   const handleSongBPMChange = React.useCallback(
-    (bpm) => {
-      updateBPM(bpm);
+    async (bpm) => {
+      try {
+        await updateSong({
+          optimisticResponse: {
+            __typename: 'Mutation',
+            updateSong: {
+              song: {
+                ...data.song,
+                bpm,
+              },
+            },
+          },
+          variables: {
+            input: {
+              id: songId,
+              bpm,
+            },
+          },
+        });
+      } catch (e) {
+        console.error(e.message);
+      }
     },
-    [updateBPM],
+    [data, songId, updateSong],
   );
 
   const handleSongInfoModalConfirm = React.useCallback(() => {
@@ -74,27 +98,13 @@ function SongEditor(props) {
   }, [navigate]);
 
   React.useEffect(() => {
-    if (!song) return;
+    if (!data) return;
 
-    window.document.title = `${song.name} - Aria`;
-  }, [song]);
+    window.document.title = `${data.song.name} - Aria`;
+  }, [data]);
 
-  React.useEffect(() => {
-    getSong(songId);
-  }, [getSong, songId]);
-
-  if (song && song.userId !== user.uid) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          flex: '1 1 auto',
-          flexDirection: 'column',
-        }}
-      >
-        You do not have permissions to edit this song.
-      </Box>
-    );
+  if (data && data.song.user.id !== user.id) {
+    return <Redirect noThrow to={`/view-song/${data.song.id}`} />;
   }
 
   return (
@@ -130,14 +140,14 @@ function SongEditor(props) {
         <TracksEditor path="/" />
         <NotesEditor path="sequence/:sequenceId" />
       </Box>
-      {!loading && (
+      {!loading && !error && (
         <SongInfoModal
           isOpen={isSongInfoModalOpen}
           onBPMChange={handleSongBPMChange}
           onConfirm={handleSongInfoModalConfirm}
           onReturnToDashboard={handleReturnToDashboard}
           onSignOut={handleSignOut}
-          song={song}
+          song={data && data.song}
         />
       )}
     </Box>

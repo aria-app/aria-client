@@ -12,6 +12,7 @@ const { setAtIds } = shared.helpers;
 export default function SongProvider(props) {
   const audioManager = useAudioManager();
   const [song, setSong] = React.useState(null);
+  const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
   const handleSongUpdate = React.useCallback(
@@ -22,7 +23,7 @@ export default function SongProvider(props) {
         try {
           setSong(updatedSong);
 
-          await helpers.updateSong(updatedSong);
+          // await helpers.updateSong(updatedSong);
         } catch (e) {
           console.error(e.message);
 
@@ -164,15 +165,18 @@ export default function SongProvider(props) {
     [audioManager, handleSongUpdate, song],
   );
 
-  const getSong = React.useCallback((songId) => {
-    (async () => {
+  const getSong = React.useCallback(async (songId) => {
+    try {
       setLoading(true);
-
       const fetchedSong = await helpers.fetchSongById(songId);
 
+      setError(null);
       setSong(fetchedSong);
+    } catch (e) {
+      setError(e.message);
+    } finally {
       setLoading(false);
-    })();
+    }
   }, []);
 
   const updateBPM = React.useCallback(
@@ -242,6 +246,7 @@ export default function SongProvider(props) {
         deleteTrack,
         duplicateNotes,
         duplicateSequence,
+        error,
         getSong,
         loading,
         song,

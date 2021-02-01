@@ -63,7 +63,7 @@ function SongViewer(props) {
   }, [getSong, songId]);
 
   React.useEffect(() => {
-    if (!song) return;
+    if (!song || true) return;
 
     audioManager.updateSong(song);
 

@@ -6,5 +6,13 @@ export function fetchSongById(songId) {
     .collection('songs')
     .doc(songId)
     .get()
-    .then((doc) => doc.data());
+    .then((doc) => {
+      const song = doc.data();
+
+      if (!song) {
+        throw new Error('Song not found');
+      }
+
+      return song;
+    });
 }

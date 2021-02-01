@@ -32,7 +32,7 @@ function SongInfoModal(props) {
 
   const handleBPMSelectChange = React.useCallback(
     (e) => {
-      onBPMChange(e.target.value);
+      onBPMChange(parseInt(e.target.value));
     },
     [onBPMChange],
   );

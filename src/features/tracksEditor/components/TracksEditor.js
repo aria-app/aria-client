@@ -31,6 +31,7 @@ function TracksEditor(props) {
     deleteSequence,
     deleteTrack,
     duplicateSequence,
+    error,
     loading,
     song,
     updateMeasureCount,
@@ -149,7 +150,7 @@ function TracksEditor(props) {
   }, []);
 
   React.useEffect(() => {
-    if (!song) return;
+    if (!song || true) return;
 
     audioManager.updateSong(song);
   }, [audioManager, song]);
@@ -175,9 +176,9 @@ function TracksEditor(props) {
           DUPLICATE: ['ctrl+shift+d', 'meta+shift+d'],
         }}
       />
-      {loading ? (
-        <LoadingIndicator>LOADING SONG...</LoadingIndicator>
-      ) : (
+      {loading && <LoadingIndicator>LOADING SONG...</LoadingIndicator>}
+      {!loading && error && <div>Failed to load song</div>}
+      {!loading && !error && (
         <>
           <TrackList
             isLoading={loading}
@@ -191,7 +192,7 @@ function TracksEditor(props) {
             onTrackAdd={handleTrackListTrackAdd}
             onTrackStage={handleTrackSelect}
             selectedSequence={selectedSequence}
-            songMeasureCount={song.measureCount}
+            songMeasureCount={song && song.measureCount}
             tracks={tracks}
           />
           <TracksEditorToolbar

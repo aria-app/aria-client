@@ -64,6 +64,43 @@ export const GET_SEQUENCE = gql`
   }
 `;
 
+/*
+  Format that Dawww expects:
+  {
+    bpm
+    dateModified
+    id
+    measureCount
+    name
+    notes: {
+      [noteId]: {
+        id
+        points: [
+          { x, y }
+        ]
+        sequenceId
+      }
+    }
+    sequences: {
+      [sequenceId]: {
+        id
+        measureCount
+        position
+        trackId
+      }
+    }
+    tracks: {
+      [trackId]: {
+        id
+        isMuted
+        isSoloing
+        voice
+        volume
+      }
+    }
+  }
+*/
+
 export const GET_SONG = gql`
   query GetSong($id: ID!) {
     song(id: $id) {
@@ -75,15 +112,30 @@ export const GET_SONG = gql`
       tracks {
         id
         position
+        sequences {
+          id
+          measureCount
+          notes {
+            id
+            points {
+              x
+              y
+            }
+            sequence {
+              id
+            }
+          }
+          position
+          track {
+            id
+          }
+        }
         voice {
           name
         }
       }
       user {
         id
-        email
-        firstName
-        lastName
       }
     }
   }
@@ -175,8 +227,8 @@ export const UPDATE_SEQUENCE = gql`
 `;
 
 export const UPDATE_SONG = gql`
-  mutation UpdateSong($id: ID!, $updates: UpdateSongInput!) {
-    updateSong(id: $id, updates: $updates) {
+  mutation UpdateSong($input: UpdateSongInput!) {
+    updateSong(input: $input) {
       song {
         bpm
         dateModified
