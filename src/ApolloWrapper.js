@@ -12,7 +12,27 @@ const cache = new InMemoryCache({
   typePolicies: {
     Mutation: {
       fields: {
+        createNote: {
+          merge: false,
+        },
         createSequence: {
+          merge: false,
+        },
+        createTrack: {
+          merge: false,
+        },
+      },
+    },
+    Sequence: {
+      fields: {
+        notes: {
+          merge: false,
+        },
+      },
+    },
+    Song: {
+      fields: {
+        tracks: {
           merge: false,
         },
       },

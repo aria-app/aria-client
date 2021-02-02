@@ -27,7 +27,7 @@ function SongInfoModal(props) {
     onConfirm,
     onReturnToDashboard,
     onSignOut,
-    song,
+    song = {},
   } = props;
 
   const handleBPMSelectChange = React.useCallback(

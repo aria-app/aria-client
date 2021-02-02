@@ -37,6 +37,42 @@ export const CREATE_SONG = gql`
   }
 `;
 
+export const CREATE_TRACK = gql`
+  mutation CreateTrack($input: CreateTrackInput!) {
+    createTrack(input: $input) {
+      message
+      success
+      track {
+        id
+        position
+        sequences {
+          id
+          measureCount
+          notes {
+            id
+            points {
+              x
+              y
+            }
+            sequence {
+              id
+            }
+          }
+          position
+          track {
+            id
+          }
+        }
+        voice {
+          name
+          toneOscillatorType
+        }
+        volume
+      }
+    }
+  }
+`;
+
 export const DELETE_SEQUENCE = gql`
   mutation DeleteSequence($id: ID!) {
     deleteSequence(id: $id) {

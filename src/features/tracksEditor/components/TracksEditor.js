@@ -14,7 +14,12 @@ import TrackEditingModal from './TrackEditingModal';
 import TrackList from './TrackList';
 import TracksEditorToolbar from './TracksEditorToolbar';
 
-const { useCreateSequence, useDeleteSequence } = api.hooks;
+const {
+  useCreateSequence,
+  useCreateTrack,
+  useDeleteSequence,
+  useDeleteTrack,
+} = api.hooks;
 const { useAudioManager, usePlaybackState, usePosition } = audio.hooks;
 const { useSong } = songFeature.hooks;
 const { Box, LoadingIndicator, Timeline } = shared.components;
@@ -30,15 +35,15 @@ function TracksEditor(props) {
   const playbackState = usePlaybackState();
   const position = usePosition();
   const [createSequence] = useCreateSequence();
+  const [createTrack] = useCreateTrack();
   const [deleteSequence] = useDeleteSequence();
+  const [deleteTrack] = useDeleteTrack();
   const { data, error, loading } = useQuery(api.queries.GET_SONG, {
     variables: {
       id: songId,
     },
   });
   const {
-    createTrack,
-    deleteTrack,
     duplicateSequence,
     updateMeasureCount,
     updateSequence,
@@ -122,9 +127,9 @@ function TracksEditor(props) {
     (track) => {
       handleTrackDeselect();
 
-      deleteTrack(track);
+      deleteTrack({ songId, track });
     },
-    [deleteTrack, handleTrackDeselect],
+    [deleteTrack, handleTrackDeselect, songId],
   );
 
   const handleTrackListPositionSet = React.useCallback(
@@ -143,8 +148,8 @@ function TracksEditor(props) {
   }, []);
 
   const handleTrackListTrackAdd = React.useCallback(() => {
-    createTrack();
-  }, [createTrack]);
+    createTrack({ songId });
+  }, [createTrack, songId]);
 
   const handleTrackSelect = React.useCallback((track) => {
     setSelectedTrackId(track.id);
