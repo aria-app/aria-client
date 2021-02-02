@@ -1,14 +1,14 @@
+import { useQuery } from '@apollo/client';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import Dawww from '../../../dawww';
+import api from '../../api';
 import audio from '../../audio';
 import shared from '../../shared';
-import songFeature from '../../song';
 import SongViewerToolbar from './SongViewerToolbar';
 
 const { useAudioManager, usePlaybackState, usePosition } = audio.hooks;
-const { useSong } = songFeature.hooks;
 
 const { Box, LoadingIndicator, Slider, Stack, Typography } = shared.components;
 
@@ -21,7 +21,9 @@ function SongViewer(props) {
   const audioManager = useAudioManager();
   const playbackState = usePlaybackState();
   const position = usePosition();
-  const { getSong, loading, song } = useSong();
+  const { data, loading } = useQuery(api.queries.GET_SONG, {
+    variables: { id: songId },
+  });
   const [prevPlaybackState, setPrevPlaybackState] = React.useState(
     playbackState,
   );
@@ -45,13 +47,13 @@ function SongViewer(props) {
   }, [audioManager, playbackState]);
 
   const elapsedSeconds = React.useMemo(
-    () => (song ? (position / (song.bpm * 8)) * 60 : 0),
-    [position, song],
+    () => (data ? (position / (data.song.bpm * 8)) * 60 : 0),
+    [data, position],
   );
 
   const totalSeconds = React.useMemo(
-    () => (song ? (song.measureCount / (song.bpm / 4)) * 60 : 0),
-    [song],
+    () => (data ? (data.song.measureCount / (data.song.bpm / 4)) * 60 : 0),
+    [data],
   );
 
   React.useEffect(() => {
@@ -59,16 +61,12 @@ function SongViewer(props) {
   }, [position, setPositionState]);
 
   React.useEffect(() => {
-    getSong(songId);
-  }, [getSong, songId]);
+    if (!data || true) return;
 
-  React.useEffect(() => {
-    if (!song || true) return;
+    audioManager.updateSong(data.song);
 
-    audioManager.updateSong(song);
-
-    window.document.title = `${song.name} - Aria`;
-  }, [audioManager, song]);
+    window.document.title = `${data.song.name} - Aria`;
+  }, [audioManager, data]);
 
   return (
     <React.Fragment>
@@ -99,7 +97,7 @@ function SongViewer(props) {
             }}
           >
             <Stack space={4}>
-              <Typography variant="h5">{song.name}</Typography>
+              <Typography variant="h5">{data && data.song.name}</Typography>
               <Box
                 sx={{
                   alignItems: 'center',
@@ -107,7 +105,7 @@ function SongViewer(props) {
                 }}
               >
                 <Slider
-                  max={song.measureCount * 32}
+                  max={data && data.song.measureCount * 32}
                   onChange={handleChange}
                   onChangeCommitted={handleChangeCommitted}
                   onMouseDown={handleMouseDown}

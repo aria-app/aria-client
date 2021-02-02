@@ -53,12 +53,6 @@ export const GET_SEQUENCE = gql`
       position
       track {
         id
-        song {
-          name
-          user {
-            id
-          }
-        }
       }
     }
   }

@@ -34,11 +34,11 @@ NotesEditor.propTypes = {
 };
 
 function NotesEditor(props) {
-  const { navigate, sequenceId, songId } = props;
+  const { navigate, sequenceId } = props;
   const audioManager = useAudioManager();
-  const { data, loading } = useQuery(api.queries.GET_SONG, {
+  const { data, loading } = useQuery(api.queries.GET_SEQUENCE, {
     variables: {
-      id: songId,
+      id: sequenceId,
     },
   });
   const { createNote, deleteNotes, duplicateNotes, updateNotes } = useSong();
@@ -50,24 +50,11 @@ function NotesEditor(props) {
   const [selectedNoteIds, setSelectedNoteIds] = React.useState([]);
   const [toolType, setToolType] = React.useState(toolTypes.SELECT);
 
-  const sequence = React.useMemo(() => {
-    if (!data) {
-      return null;
-    }
+  const sequence = React.useMemo(() => (data ? data.sequence : null), [data]);
 
-    return data.song.tracks
-      .map((track) => track.sequences)
-      .flat()
-      .find((sequence) => sequence.id === sequenceId);
-  }, [data, sequenceId]);
-
-  const notes = React.useMemo(() => {
-    if (!sequence) {
-      return [];
-    }
-
-    return sequence.notes;
-  }, [sequence]);
+  const notes = React.useMemo(() => (sequence ? sequence.notes : []), [
+    sequence,
+  ]);
 
   const selectedNotes = React.useMemo(
     () => getNotesByIds(notes, selectedNoteIds),

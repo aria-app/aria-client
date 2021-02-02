@@ -4,7 +4,6 @@ import React from 'react';
 import audio from '../../audio';
 import shared from '../../shared';
 import SongContext from '../contexts/SongContext';
-import * as helpers from '../helpers';
 
 const { useAudioManager } = audio.hooks;
 const { setAtIds } = shared.helpers;
@@ -12,8 +11,6 @@ const { setAtIds } = shared.helpers;
 export default function SongProvider(props) {
   const audioManager = useAudioManager();
   const [song, setSong] = React.useState(null);
-  const [error, setError] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
 
   const handleSongUpdate = React.useCallback(
     (updatedSong) => {
@@ -165,20 +162,6 @@ export default function SongProvider(props) {
     [audioManager, handleSongUpdate, song],
   );
 
-  const getSong = React.useCallback(async (songId) => {
-    try {
-      setLoading(true);
-      const fetchedSong = await helpers.fetchSongById(songId);
-
-      setError(null);
-      setSong(fetchedSong);
-    } catch (e) {
-      setError(e.message);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   const updateBPM = React.useCallback(
     (bpm) => {
       handleSongUpdate({
@@ -246,10 +229,6 @@ export default function SongProvider(props) {
         deleteTrack,
         duplicateNotes,
         duplicateSequence,
-        error,
-        getSong,
-        loading,
-        song,
         updateBPM,
         updateMeasureCount,
         updateNotes,

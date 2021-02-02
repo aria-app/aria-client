@@ -37,9 +37,11 @@ function Dashboard(props) {
     api.queries.GET_SONGS,
     {
       notifyOnNetworkStatusChange: true,
+      skip: !user,
       variables: {
         sort: 'dateModified',
         sortDirection: 'desc',
+        userId: user.id,
       },
     },
   );
