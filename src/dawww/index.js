@@ -1,4 +1,5 @@
 import getOr from 'lodash/fp/getOr';
+import omit from 'lodash/fp/omit';
 import Tone from 'tone';
 
 import * as actions from './actions';
@@ -12,6 +13,9 @@ import * as selectors from './selectors';
 import { getState, setState } from './state';
 import { createToneAdapter } from './toneAdapter';
 
+function setAtIds(array, obj) {
+  return array.reduce((acc, cur) => ({ ...acc, [cur.id]: cur }), obj);
+}
 export default function Dawww(options) {
   const dispatch = emit(channels.ACTION_OCCURRED);
   const toneAdapter = createToneAdapter(Tone);
@@ -22,13 +26,47 @@ export default function Dawww(options) {
     selectors,
     toneAdapter,
   };
-  const updateSong = (song) =>
+  const updateSong = (song) => {
+    const allSequences = song.tracks.map((track) => track.sequences).flat();
+
+    const formattedSong = {
+      ...song,
+      notes: setAtIds(
+        allSequences
+          .map((sequence) =>
+            sequence.notes.map((note) => ({
+              ...note,
+              sequenceId: note.sequence.id,
+            })),
+          )
+          .flat(),
+        {},
+      ),
+      sequences: setAtIds(
+        allSequences.map((sequence) =>
+          omit(['notes'], { ...sequence, trackId: sequence.track.id }),
+        ),
+        {},
+      ),
+      tracks: setAtIds(
+        song.tracks.map((track) =>
+          omit(['sequences'], {
+            ...track,
+            voice: track.voice.toneOscillatorType,
+          }),
+        ),
+        {},
+      ),
+    };
+    console.log('formattedSong', formattedSong);
+
     dispatch(
       actions.songUpdated({
         prevSong: getOr({}, 'song', getState()),
-        song,
+        song: formattedSong,
       }),
     );
+  };
 
   on(channels.ACTION_OCCURRED, (action) => {
     setState(reducer(getState(), action, shared));
@@ -45,17 +83,7 @@ export default function Dawww(options) {
   });
 
   // Load initial song data
-  updateSong(
-    getOr(
-      {
-        notes: {},
-        sequences: {},
-        tracks: {},
-      },
-      'song',
-      options,
-    ),
-  );
+  updateSong(getOr({ tracks: [] }, 'song', options));
 
   return {
     constants,

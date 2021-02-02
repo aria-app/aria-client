@@ -140,7 +140,7 @@ function TracksEditor(props) {
   }, []);
 
   React.useEffect(() => {
-    if (!data || true) return;
+    if (!data) return;
 
     audioManager.updateSong(data.song);
   }, [audioManager, data]);

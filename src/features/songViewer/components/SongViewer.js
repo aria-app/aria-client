@@ -61,7 +61,7 @@ function SongViewer(props) {
   }, [position, setPositionState]);
 
   React.useEffect(() => {
-    if (!data || true) return;
+    if (!data) return;
 
     audioManager.updateSong(data.song);
 
