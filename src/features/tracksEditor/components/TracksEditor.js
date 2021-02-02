@@ -14,6 +14,7 @@ import TrackEditingModal from './TrackEditingModal';
 import TrackList from './TrackList';
 import TracksEditorToolbar from './TracksEditorToolbar';
 
+const { useCreateSequence, useDeleteSequence } = api.hooks;
 const { useAudioManager, usePlaybackState, usePosition } = audio.hooks;
 const { useSong } = songFeature.hooks;
 const { Box, LoadingIndicator, Timeline } = shared.components;
@@ -28,15 +29,15 @@ function TracksEditor(props) {
   const audioManager = useAudioManager();
   const playbackState = usePlaybackState();
   const position = usePosition();
+  const [createSequence] = useCreateSequence();
+  const [deleteSequence] = useDeleteSequence();
   const { data, error, loading } = useQuery(api.queries.GET_SONG, {
     variables: {
       id: songId,
     },
   });
   const {
-    createSequence,
     createTrack,
-    deleteSequence,
     deleteTrack,
     duplicateSequence,
     updateMeasureCount,
@@ -72,15 +73,25 @@ function TracksEditor(props) {
     [selectedTrackId, tracks],
   );
 
+  const handleSequenceAdd = React.useCallback(
+    ({ position, track }) => {
+      createSequence({ position, songId, trackId: track.id });
+    },
+    [createSequence, songId],
+  );
+
   const handleSequenceDelete = React.useCallback(
     (e) => {
       e.preventDefault();
 
       if (isNil(selectedSequence)) return;
 
-      deleteSequence(selectedSequence);
+      deleteSequence({
+        sequence: selectedSequence,
+        songId,
+      });
     },
-    [deleteSequence, selectedSequence],
+    [deleteSequence, selectedSequence, songId],
   );
 
   const handleSequenceDuplicate = React.useCallback(
@@ -173,7 +184,7 @@ function TracksEditor(props) {
           <TrackList
             isLoading={loading}
             onPositionSet={handleTrackListPositionSet}
-            onSequenceAdd={createSequence}
+            onSequenceAdd={handleSequenceAdd}
             onSequenceDeselect={handleTrackListSequenceDeselect}
             onSequenceEdit={updateSequence}
             onSequenceOpen={handleSequenceOpen}

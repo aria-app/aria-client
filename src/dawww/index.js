@@ -58,7 +58,6 @@ export default function Dawww(options) {
         {},
       ),
     };
-    console.log('formattedSong', formattedSong);
 
     dispatch(
       actions.songUpdated({

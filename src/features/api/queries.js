@@ -1,5 +1,28 @@
 import { gql } from '@apollo/client';
 
+export const CREATE_SEQUENCE = gql`
+  mutation CreateSequence($input: CreateSequenceInput!) {
+    createSequence(input: $input) {
+      sequence {
+        id
+        measureCount
+        notes {
+          id
+          points {
+            x
+            y
+          }
+        }
+        position
+        track {
+          id
+        }
+      }
+      success
+    }
+  }
+`;
+
 export const CREATE_SONG = gql`
   mutation CreateSong($options: CreateSongInput!) {
     createSong(options: $options) {

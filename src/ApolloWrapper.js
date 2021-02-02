@@ -10,9 +10,18 @@ import React from 'react';
 
 const cache = new InMemoryCache({
   typePolicies: {
-    Query: {
-      songs: {
-        merge: true,
+    Mutation: {
+      fields: {
+        createSequence: {
+          merge: false,
+        },
+      },
+    },
+    Track: {
+      fields: {
+        sequences: {
+          merge: false,
+        },
       },
     },
   },
