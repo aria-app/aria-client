@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client';
 import find from 'lodash/fp/find';
+import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
@@ -19,6 +20,7 @@ const {
   useCreateTrack,
   useDeleteSequence,
   useDeleteTrack,
+  useDuplicateSequence,
   useUpdateSong,
 } = api.hooks;
 const { useAudioManager, usePlaybackState, usePosition } = audio.hooks;
@@ -39,15 +41,26 @@ function TracksEditor(props) {
   const [createTrack] = useCreateTrack();
   const [deleteSequence] = useDeleteSequence();
   const [deleteTrack] = useDeleteTrack();
+  const [duplicateSequence] = useDuplicateSequence();
   const [updateSong] = useUpdateSong();
   const { data, error, loading } = useQuery(api.queries.GET_SONG, {
     variables: {
       id: songId,
     },
   });
-  const { duplicateSequence, updateSequence, updateTrack } = useSong();
+  const { data: tracksData } = useQuery(api.queries.GET_TRACKS, {
+    variables: {
+      songId,
+    },
+  });
+  const { updateSequence, updateTrack } = useSong();
+  const [loadingTrackIds, setLoadingTrackIds] = React.useState([]);
   const [selectedSequenceId, setSelectedSequenceId] = React.useState('');
   const [selectedTrackId, setSelectedTrackId] = React.useState('');
+
+  React.useEffect(() => {
+    console.log('tracksData', tracksData);
+  }, [tracksData]);
 
   const tracks = React.useMemo(() => {
     if (!data) {
@@ -75,6 +88,11 @@ function TracksEditor(props) {
     [selectedTrackId, tracks],
   );
 
+  const getIsTrackLoading = React.useCallback(
+    (track) => includes(track.id, loadingTrackIds),
+    [loadingTrackIds],
+  );
+
   const handleSequenceAdd = React.useCallback(
     ({ position, track }) => {
       createSequence({ position, songId, trackId: track.id });
@@ -97,16 +115,30 @@ function TracksEditor(props) {
   );
 
   const handleSequenceDuplicate = React.useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
 
       if (isEmpty(selectedSequence)) return;
 
-      const duplicatedSequence = duplicateSequence(selectedSequence);
+      try {
+        // setLoadingTrackIds([selectedSequence.track.id]);
 
-      setSelectedSequenceId(duplicatedSequence.id);
+        const tempId = String(Math.round(Math.random() * -1000000));
+
+        setSelectedSequenceId(tempId);
+
+        const duplicatedSequence = await duplicateSequence({
+          sequence: selectedSequence,
+          songId,
+          tempId,
+        });
+
+        setSelectedSequenceId(duplicatedSequence.id);
+      } finally {
+        setLoadingTrackIds([]);
+      }
     },
-    [duplicateSequence, selectedSequence],
+    [duplicateSequence, selectedSequence, songId],
   );
 
   const handleSequenceOpen = React.useCallback(
@@ -196,7 +228,7 @@ function TracksEditor(props) {
       {!loading && !error && (
         <>
           <TrackList
-            isLoading={loading}
+            getIsTrackLoading={getIsTrackLoading}
             onPositionSet={handleTrackListPositionSet}
             onSequenceAdd={handleSequenceAdd}
             onSequenceDeselect={handleTrackListSequenceDeselect}

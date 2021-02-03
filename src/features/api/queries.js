@@ -97,6 +97,30 @@ export const DELETE_TRACK = gql`
   }
 `;
 
+export const DUPLICATE_SEQUENCE = gql`
+  mutation DuplicateSequence($id: ID!) {
+    duplicateSequence(id: $id) {
+      message
+      sequence {
+        id
+        measureCount
+        notes {
+          id
+          points {
+            x
+            y
+          }
+        }
+        position
+        track {
+          id
+        }
+      }
+      success
+    }
+  }
+`;
+
 export const GET_SEQUENCE = gql`
   query GetSequence($id: ID!) {
     sequence(id: $id) {
@@ -117,42 +141,25 @@ export const GET_SEQUENCE = gql`
   }
 `;
 
-/*
-  Format that Dawww expects:
-  {
-    bpm
-    dateModified
-    id
-    measureCount
-    name
-    notes: {
-      [noteId]: {
+export const GET_SONG_SEQUENCES = gql`
+  query GetSongSequences($songId: ID!) {
+    songSequences(songId: $songId) {
+      id
+      measureCount
+      notes {
         id
-        points: [
-          { x, y }
-        ]
-        sequenceId
+        points {
+          x
+          y
+        }
       }
-    }
-    sequences: {
-      [sequenceId]: {
+      position
+      track {
         id
-        measureCount
-        position
-        trackId
-      }
-    }
-    tracks: {
-      [trackId]: {
-        id
-        isMuted
-        isSoloing
-        voice
-        volume
       }
     }
   }
-*/
+`;
 
 export const GET_SONG = gql`
   query GetSong($id: ID!) {
@@ -248,6 +255,24 @@ export const GET_TRACK = gql`
       voice {
         id
         name
+      }
+      volume
+    }
+  }
+`;
+
+export const GET_TRACKS = gql`
+  query GetTracks($songId: ID!) {
+    tracks(songId: $songId) {
+      id
+      position
+      song {
+        id
+      }
+      voice {
+        id
+        name
+        toneOscillatorType
       }
       volume
     }

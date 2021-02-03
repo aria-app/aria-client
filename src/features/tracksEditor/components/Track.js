@@ -17,6 +17,7 @@ import TrackSequence from './TrackSequence';
 const { Box, GridBoxes, Stack } = shared.components;
 
 Track.propTypes = {
+  isLoading: PropTypes.bool,
   onSequenceAdd: PropTypes.func,
   onSequenceEdit: PropTypes.func,
   onSequenceOpen: PropTypes.func,
@@ -29,6 +30,7 @@ Track.propTypes = {
 
 function Track(props) {
   const {
+    isLoading,
     onSequenceAdd,
     onSequenceEdit,
     onSequenceOpen,
@@ -120,7 +122,13 @@ function Track(props) {
   );
 
   return (
-    <Stack space={2}>
+    <Stack
+      space={2}
+      sx={{
+        cursor: isLoading && 'not-allowed',
+        opacity: isLoading ? 0.5 : 1,
+      }}
+    >
       <Translation>
         {(t) => (
           <TrackHeader onClick={handleHeaderClick}>
