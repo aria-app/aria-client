@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Redirect, Router } from '@reach/router';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -15,6 +15,7 @@ import tracksEditor from '../../tracksEditor';
 import SongEditorToolbar from './SongEditorToolbar';
 import SongInfoModal from './SongInfoModal';
 
+const { useUpdateSong } = api.hooks;
 const { useAuth } = auth.hooks;
 const { useAudioManager, usePlaybackState } = audio.hooks;
 const { STARTED } = Dawww.PLAYBACK_STATES;
@@ -32,7 +33,7 @@ function SongEditor(props) {
   const audioManager = useAudioManager();
   const { user } = useAuth();
   const playbackState = usePlaybackState();
-  const [updateSong] = useMutation(api.queries.UPDATE_SONG);
+  const [updateSong] = useUpdateSong();
   const { data, error, loading } = useQuery(api.queries.GET_SONG, {
     variables: { id: songId },
   });
@@ -58,30 +59,15 @@ function SongEditor(props) {
   }, [navigate]);
 
   const handleSongBPMChange = React.useCallback(
-    async (bpm) => {
-      try {
-        await updateSong({
-          optimisticResponse: {
-            __typename: 'Mutation',
-            updateSong: {
-              song: {
-                ...data.song,
-                bpm,
-              },
-            },
-          },
-          variables: {
-            input: {
-              id: songId,
-              bpm,
-            },
-          },
-        });
-      } catch (e) {
-        console.error(e.message);
-      }
+    (bpm) => {
+      updateSong({
+        input: {
+          id: data.song.id,
+          bpm,
+        },
+      });
     },
-    [data, songId, updateSong],
+    [data, updateSong],
   );
 
   const handleSongInfoModalConfirm = React.useCallback(() => {

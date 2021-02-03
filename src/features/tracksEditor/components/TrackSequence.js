@@ -4,7 +4,7 @@ import React from 'react';
 
 import TrackSequenceNote from './TrackSequenceNote';
 
-const Root = styled.div(({ isSelected, theme }) => ({
+const Root = styled.div(({ isSelected, pending, theme }) => ({
   display: 'flex',
   height: 64,
   padding: theme.spacing(1),
@@ -14,6 +14,7 @@ const Root = styled.div(({ isSelected, theme }) => ({
   border: `2px solid ${theme.palette.background.paper}`,
   borderRadius: theme.shape.borderRadius * 2,
   overflow: 'hidden',
+  pointerEvents: pending && 'none',
   position: 'relative',
   transition: 'box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease',
 }));
@@ -44,6 +45,7 @@ function TrackSequence(props) {
       isSelected={isSelected}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
+      pending={sequence.id < 0}
     >
       {sequence.notes.map((note) => (
         <TrackSequenceNote

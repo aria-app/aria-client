@@ -19,6 +19,7 @@ const {
   useCreateTrack,
   useDeleteSequence,
   useDeleteTrack,
+  useUpdateSong,
 } = api.hooks;
 const { useAudioManager, usePlaybackState, usePosition } = audio.hooks;
 const { useSong } = songFeature.hooks;
@@ -38,17 +39,13 @@ function TracksEditor(props) {
   const [createTrack] = useCreateTrack();
   const [deleteSequence] = useDeleteSequence();
   const [deleteTrack] = useDeleteTrack();
+  const [updateSong] = useUpdateSong();
   const { data, error, loading } = useQuery(api.queries.GET_SONG, {
     variables: {
       id: songId,
     },
   });
-  const {
-    duplicateSequence,
-    updateMeasureCount,
-    updateSequence,
-    updateTrack,
-  } = useSong();
+  const { duplicateSequence, updateSequence, updateTrack } = useSong();
   const [selectedSequenceId, setSelectedSequenceId] = React.useState('');
   const [selectedTrackId, setSelectedTrackId] = React.useState('');
 
@@ -117,6 +114,18 @@ function TracksEditor(props) {
       navigate(`sequence/${sequence.id}`);
     },
     [navigate],
+  );
+
+  const handleSongMeasureCountChange = React.useCallback(
+    (measureCount) => {
+      updateSong({
+        input: {
+          id: data.song.id,
+          measureCount,
+        },
+      });
+    },
+    [data, updateSong],
   );
 
   const handleTrackDeselect = React.useCallback(() => {
@@ -194,7 +203,7 @@ function TracksEditor(props) {
             onSequenceEdit={updateSequence}
             onSequenceOpen={handleSequenceOpen}
             onSequenceSelect={handleTrackListSequenceSelect}
-            onSongMeasureCountChange={updateMeasureCount}
+            onSongMeasureCountChange={handleSongMeasureCountChange}
             onTrackAdd={handleTrackListTrackAdd}
             onTrackStage={handleTrackSelect}
             selectedSequence={selectedSequence}

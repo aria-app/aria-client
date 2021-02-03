@@ -1,6 +1,5 @@
 import { useMutation } from '@apollo/client';
 import React from 'react';
-import shortid from 'shortid';
 
 import * as queries from '../queries';
 
@@ -15,7 +14,7 @@ export default function useCreateSequence(...args) {
             __typename: 'Mutation',
             createSequence: {
               sequence: {
-                id: shortid.generate(),
+                id: Math.round(Math.random() * -1000000),
                 measureCount: 1,
                 notes: [],
                 position,

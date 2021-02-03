@@ -41,7 +41,7 @@ function Dashboard(props) {
       variables: {
         sort: 'dateModified',
         sortDirection: 'desc',
-        userId: user.id,
+        userId: user && user.id,
       },
     },
   );
