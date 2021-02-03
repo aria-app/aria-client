@@ -12,7 +12,8 @@
     "lint-prettier": "prettier --write \"src/**/*.js\"",
     "lint": "yarn run lint-eslint && yarn run lint-prettier",
     "start": "react-scripts start",
-    "storybook": "start-storybook -p 9009 -s public"
+    "storybook": "start-storybook -p 9009 -s public",
+    "test": "react-scripts test"
   },
   "dependencies": {
     "@apollo/client": "3.3.7",
@@ -22,6 +23,8 @@
     "@material-ui/core": "5.0.0-alpha.24",
     "@material-ui/icons": "5.0.0-alpha.24",
     "@reach/router": "1.3.4",
+    "@testing-library/jest-dom": "5.11.9",
+    "@testing-library/react": "11.2.5",
     "deep-diff": "^1.0.2",
     "event-emitter": "^0.3.5",
     "firebase": "^7.21.1",
@@ -77,13 +80,21 @@
   ],
   "author": "",
   "license": "MIT",
+  "jest": {
+    "transform": {
+      "(@material-ui/core).+\\.js$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!@material-ui/core)"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nickjohnson-dev/aria.git"
   },
   "husky": {
     "hooks": {
-      "pre-push": "yarn run lint"
+      "pre-push": "yarn run lint && CI=true yarn test"
     }
   },
   "bugs": {
