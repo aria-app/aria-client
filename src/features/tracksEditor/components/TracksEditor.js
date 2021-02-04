@@ -48,19 +48,10 @@ function TracksEditor(props) {
       id: songId,
     },
   });
-  const { data: tracksData } = useQuery(api.queries.GET_TRACKS, {
-    variables: {
-      songId,
-    },
-  });
   const { updateSequence, updateTrack } = useSong();
   const [loadingTrackIds, setLoadingTrackIds] = React.useState([]);
   const [selectedSequenceId, setSelectedSequenceId] = React.useState('');
   const [selectedTrackId, setSelectedTrackId] = React.useState('');
-
-  React.useEffect(() => {
-    console.log('tracksData', tracksData);
-  }, [tracksData]);
 
   const tracks = React.useMemo(() => {
     if (!data) {

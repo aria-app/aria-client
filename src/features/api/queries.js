@@ -110,6 +110,9 @@ export const DUPLICATE_SEQUENCE = gql`
             x
             y
           }
+          sequence {
+            id
+          }
         }
         position
         track {
