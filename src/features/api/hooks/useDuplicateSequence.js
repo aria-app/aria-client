@@ -21,42 +21,17 @@ export default function useDuplicateSequence(...args) {
                 track: sequence.track,
                 __typename: 'Sequence',
               },
-              // sequence: {
-              //   id: tempId,
-              //   measureCount: sequence.measureCount,
-              //   notes: sequence.notes.map((note) => ({
-              //     id: Math.round(Math.random() * -1000000),
-              //     points: note.points.map((point) => ({
-              //       x: point.x,
-              //       y: point.y,
-              //       __typename: 'Point',
-              //     })),
-              //     sequence: {
-              //       id: tempId,
-              //       __typename: 'Sequence',
-              //     },
-              //     __typename: 'Note',
-              //   })),
-              //   position: sequence.position,
-              //   track: {
-              //     id: sequence.track.id,
-              //     __typename: 'Track',
-              //   },
-              //   __typename: 'Sequence',
-              // },
               success: true,
               __typename: 'DuplicateSequenceResponse',
             },
           },
           update: (cache, result) => {
-            console.log('updateStart', result);
             const newSequence = result.data.duplicateSequence.sequence;
 
             const prevData = cache.readQuery({
               query: queries.GET_SONG,
               variables: { id: songId },
             });
-            console.log('updatePreWrite');
 
             cache.writeQuery({
               query: queries.GET_SONG,
@@ -75,7 +50,6 @@ export default function useDuplicateSequence(...args) {
                 },
               },
             });
-            console.log('updatePostWrite');
           },
           variables: {
             id: sequence.id,

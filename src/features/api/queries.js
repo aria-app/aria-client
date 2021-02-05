@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-
 export const CREATE_SEQUENCE = gql`
   mutation CreateSequence($input: CreateSequenceInput!) {
     createSequence(input: $input) {
@@ -135,6 +134,9 @@ export const GET_SEQUENCE = gql`
           x
           y
         }
+        sequence {
+          id
+        }
       }
       position
       track {
@@ -238,32 +240,6 @@ export const GET_SONGS = gql`
   }
 `;
 
-export const GET_TRACK = gql`
-  query GetTrack($id: ID!) {
-    track(id: $id) {
-      id
-      position
-      sequences {
-        id
-        measureCount
-        position
-      }
-      song {
-        id
-        name
-        user {
-          id
-        }
-      }
-      voice {
-        id
-        name
-      }
-      volume
-    }
-  }
-`;
-
 export const GET_TRACKS = gql`
   query GetTracks($songId: ID!) {
     tracks(songId: $songId) {
@@ -329,9 +305,24 @@ export const UPDATE_NOTES_POINTS = gql`
 export const UPDATE_SEQUENCE = gql`
   mutation UpdateSequence($input: UpdateSequenceInput!) {
     updateSequence(input: $input) {
+      message
       sequence {
         id
         measureCount
+        notes {
+          id
+          points {
+            x
+            y
+          }
+          sequence {
+            id
+          }
+        }
+        position
+        track {
+          id
+        }
       }
       success
     }
