@@ -63,6 +63,7 @@ export const CREATE_TRACK = gql`
           }
         }
         voice {
+          id
           name
           toneOscillatorType
         }
@@ -196,6 +197,7 @@ export const GET_SONG = gql`
           }
         }
         voice {
+          id
           name
           toneOscillatorType
         }
@@ -254,6 +256,16 @@ export const GET_TRACKS = gql`
         toneOscillatorType
       }
       volume
+    }
+  }
+`;
+
+export const GET_VOICES = gql`
+  query GetVoices {
+    voices {
+      id
+      name
+      toneOscillatorType
     }
   }
 `;
@@ -349,6 +361,15 @@ export const UPDATE_TRACK = gql`
     updateTrack(input: $input) {
       track {
         id
+        position
+        song {
+          id
+        }
+        voice {
+          id
+          name
+          toneOscillatorType
+        }
         volume
       }
       success

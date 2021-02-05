@@ -10,7 +10,6 @@ import { GlobalHotKeys } from 'react-hotkeys';
 import api from '../../api';
 import audio from '../../audio';
 import shared from '../../shared';
-import songFeature from '../../song';
 import TrackEditingModal from './TrackEditingModal';
 import TrackList from './TrackList';
 import TracksEditorToolbar from './TracksEditorToolbar';
@@ -23,9 +22,9 @@ const {
   useDuplicateSequence,
   useUpdateSequence,
   useUpdateSong,
+  useUpdateTrack,
 } = api.hooks;
 const { useAudioManager, usePlaybackState, usePosition } = audio.hooks;
-const { useSong } = songFeature.hooks;
 const { Box, LoadingIndicator, Timeline } = shared.components;
 
 TracksEditor.propTypes = {
@@ -45,12 +44,12 @@ function TracksEditor(props) {
   const [duplicateSequence] = useDuplicateSequence();
   const [updateSequence] = useUpdateSequence();
   const [updateSong] = useUpdateSong();
+  const [updateTrack] = useUpdateTrack();
   const { data, error, loading } = useQuery(api.queries.GET_SONG, {
     variables: {
       id: songId,
     },
   });
-  const { updateTrack } = useSong();
   const [loadingTrackIds, setLoadingTrackIds] = React.useState([]);
   const [selectedSequenceId, setSelectedSequenceId] = React.useState('');
   const [selectedTrackId, setSelectedTrackId] = React.useState('');
@@ -179,6 +178,15 @@ function TracksEditor(props) {
     [deleteTrack, handleTrackDeselect, songId],
   );
 
+  const handleTrackEdit = React.useCallback(
+    (updates) => {
+      updateTrack({
+        input: updates,
+      });
+    },
+    [updateTrack],
+  );
+
   const handleTrackListPositionSet = React.useCallback(
     (position) => {
       audioManager.setPosition(position);
@@ -266,7 +274,7 @@ function TracksEditor(props) {
         <TrackEditingModal
           onDelete={handleTrackDelete}
           onDismiss={handleTrackDeselect}
-          onTrackChange={updateTrack}
+          onTrackChange={handleTrackEdit}
           track={selectedTrack}
         />
       )}

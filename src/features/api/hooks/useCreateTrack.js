@@ -1,6 +1,5 @@
 import { useMutation } from '@apollo/client';
 import React from 'react';
-import shortid from 'shortid';
 
 import * as queries from '../queries';
 
@@ -15,12 +14,14 @@ export default function useCreateTrack(...args) {
             __typename: 'Mutation',
             createTrack: {
               track: {
-                id: shortid.generate(),
+                id: Math.round(Math.random() * -1000000),
                 position: 999,
                 sequences: [],
                 voice: {
+                  id: 9,
                   name: 'Square',
                   toneOscillatorType: 'square',
+                  __typename: 'Voice',
                 },
                 volume: -10,
                 __typename: 'Track',

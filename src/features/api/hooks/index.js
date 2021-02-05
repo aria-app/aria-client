@@ -3,5 +3,7 @@ export { default as useCreateTrack } from './useCreateTrack';
 export { default as useDeleteSequence } from './useDeleteSequence';
 export { default as useDeleteTrack } from './useDeleteTrack';
 export { default as useDuplicateSequence } from './useDuplicateSequence';
+export { default as useGetVoices } from './useGetVoices';
 export { default as useUpdateSequence } from './useUpdateSequence';
 export { default as useUpdateSong } from './useUpdateSong';
+export { default as useUpdateTrack } from './useUpdateTrack';
