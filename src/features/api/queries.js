@@ -293,6 +293,25 @@ export const ME = gql`
   }
 `;
 
+export const UPDATE_NOTES = gql`
+  mutation UpdateNotes($input: UpdateNotesInput!) {
+    updateNotes(input: $input) {
+      message
+      notes {
+        id
+        points {
+          x
+          y
+        }
+        sequence {
+          id
+        }
+      }
+      success
+    }
+  }
+`;
+
 export const UPDATE_SEQUENCE = gql`
   mutation UpdateSequence($input: UpdateSequenceInput!) {
     updateSequence(input: $input) {

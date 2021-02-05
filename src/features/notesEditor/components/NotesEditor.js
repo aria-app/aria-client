@@ -17,7 +17,12 @@ import Grid from './Grid';
 import Keys from './Keys';
 import NotesEditorToolbar from './NotesEditorToolbar';
 
-const { useCreateNote, useDeleteNotes, useGetSequence } = api.hooks;
+const {
+  useCreateNote,
+  useDeleteNotes,
+  useGetSequence,
+  useUpdateNotes,
+} = api.hooks;
 const { useAudioManager } = audio.hooks;
 const { Box, LoadingIndicator } = shared.components;
 const { toggleInArray } = shared.helpers;
@@ -38,12 +43,13 @@ function NotesEditor(props) {
   const audioManager = useAudioManager();
   const [createNote] = useCreateNote();
   const [deleteNotes] = useDeleteNotes();
+  const [updateNotes] = useUpdateNotes();
   const { data, loading } = useGetSequence({
     variables: {
       id: sequenceId,
     },
   });
-  const { duplicateNotes, updateNotes } = useSong();
+  const { duplicateNotes } = useSong();
   const [contentEl, setContentEl] = React.useState();
   const [mousePoint, setMousePoint] = React.useState({ x: -1, y: 1 });
   const [previousToolType, setPreviousToolType] = React.useState(
@@ -184,6 +190,15 @@ function NotesEditor(props) {
     [notes, selectedNoteIds],
   );
 
+  const handleNotesUpdate = React.useCallback(
+    (notes) => {
+      updateNotes({
+        notes,
+      });
+    },
+    [updateNotes],
+  );
+
   const handleNudge = React.useCallback(
     (delta) => {
       if (isEmpty(selectedNotes)) return;
@@ -209,7 +224,9 @@ function NotesEditor(props) {
         handlePreviewPitch(notesToNudge[0].points[0].y + delta.y);
       }
 
-      updateNotes(notesToNudge.map(audioManager.helpers.translateNote(delta)));
+      updateNotes({
+        notes: notesToNudge.map(audioManager.helpers.translateNote(delta)),
+      });
     },
     [
       audioManager,
@@ -295,17 +312,21 @@ function NotesEditor(props) {
 
   const handleToolbarOctaveDown = React.useCallback(
     () =>
-      updateNotes(
-        selectedNotes.map(audioManager.helpers.translateNote({ x: 0, y: 12 })),
-      ),
+      updateNotes({
+        notes: selectedNotes.map(
+          audioManager.helpers.translateNote({ x: 0, y: 12 }),
+        ),
+      }),
     [audioManager, selectedNotes, updateNotes],
   );
 
   const handleToolbarOctaveUp = React.useCallback(
     () =>
-      updateNotes(
-        selectedNotes.map(audioManager.helpers.translateNote({ x: 0, y: -12 })),
-      ),
+      updateNotes({
+        notes: selectedNotes.map(
+          audioManager.helpers.translateNote({ x: 0, y: -12 }),
+        ),
+      }),
     [audioManager, selectedNotes, updateNotes],
   );
 
@@ -394,12 +415,12 @@ function NotesEditor(props) {
                 mousePoint={mousePoint}
                 notes={notes}
                 notesEditorContentEl={contentEl}
-                onDrag={updateNotes}
+                onDrag={handleNotesUpdate}
                 onDragPreview={handleGridDragPreview}
                 onDraw={handleGridDraw}
                 onErase={handleGridErase}
                 onMousePointChange={setMousePoint}
-                onResize={updateNotes}
+                onResize={handleNotesUpdate}
                 onSelect={handleGridSelect}
                 onSelectInArea={handleGridSelectInArea}
                 selectedNotes={selectedNotes}
