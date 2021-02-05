@@ -4,25 +4,25 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 const Column = styled.div(({ theme }) => ({
-  backgroundColor: transparentize(0.95, theme.palette.primary.main),
+  backgroundColor: transparentize(0.9, theme.palette.primary.main),
   borderRadius: theme.shape.borderRadius,
   bottom: 0,
-  left: 0,
+  left: 6,
   pointerEvents: 'none',
   position: 'absolute',
   top: 0,
-  width: 40,
+  width: 28,
 }));
 
 const Row = styled.div(({ theme }) => ({
-  backgroundColor: transparentize(0.95, theme.palette.primary.main),
+  backgroundColor: transparentize(0.9, theme.palette.primary.main),
   borderRadius: theme.shape.borderRadius,
   left: 0,
-  height: 40,
+  height: 28,
   pointerEvents: 'none',
   position: 'absolute',
   right: 0,
-  top: 0,
+  top: 6,
 }));
 
 PositionIndicator.propTypes = {

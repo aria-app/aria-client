@@ -96,6 +96,15 @@ export const CREATE_TRACK = gql`
   }
 `;
 
+export const DELETE_NOTES = gql`
+  mutation DeleteNotes($ids: [ID]!) {
+    deleteNotes(ids: $ids) {
+      message
+      success
+    }
+  }
+`;
+
 export const DELETE_SEQUENCE = gql`
   mutation DeleteSequence($id: ID!) {
     deleteSequence(id: $id) {

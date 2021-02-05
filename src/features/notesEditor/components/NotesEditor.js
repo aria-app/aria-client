@@ -17,7 +17,7 @@ import Grid from './Grid';
 import Keys from './Keys';
 import NotesEditorToolbar from './NotesEditorToolbar';
 
-const { useCreateNote, useGetSequence } = api.hooks;
+const { useCreateNote, useDeleteNotes, useGetSequence } = api.hooks;
 const { useAudioManager } = audio.hooks;
 const { Box, LoadingIndicator } = shared.components;
 const { toggleInArray } = shared.helpers;
@@ -37,12 +37,13 @@ function NotesEditor(props) {
   const { navigate, sequenceId } = props;
   const audioManager = useAudioManager();
   const [createNote] = useCreateNote();
+  const [deleteNotes] = useDeleteNotes();
   const { data, loading } = useGetSequence({
     variables: {
       id: sequenceId,
     },
   });
-  const { deleteNotes, duplicateNotes, updateNotes } = useSong();
+  const { duplicateNotes, updateNotes } = useSong();
   const [contentEl, setContentEl] = React.useState();
   const [mousePoint, setMousePoint] = React.useState({ x: -1, y: 1 });
   const [previousToolType, setPreviousToolType] = React.useState(
@@ -76,7 +77,9 @@ function NotesEditor(props) {
 
       if (isEmpty(selectedNotes)) return;
 
-      deleteNotes(selectedNotes);
+      deleteNotes({
+        notes: selectedNotes,
+      });
 
       setSelectedNoteIds([]);
     },
@@ -142,7 +145,9 @@ function NotesEditor(props) {
     (note) => {
       setSelectedNoteIds([]);
 
-      deleteNotes([note]);
+      deleteNotes({
+        notes: [note],
+      });
     },
     [deleteNotes],
   );
@@ -314,7 +319,7 @@ function NotesEditor(props) {
     if (!contentEl) return;
 
     contentEl.scrollTop = shared.helpers.getCenteredScroll(contentEl);
-  }, [contentEl, sequence]);
+  }, [contentEl]);
 
   return (
     <Box
