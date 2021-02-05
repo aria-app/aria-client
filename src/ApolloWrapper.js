@@ -44,6 +44,9 @@ const cache = new InMemoryCache({
         },
       },
     },
+    UpdateSequenceResponse: {
+      keyFields: ['sequence', ['id']],
+    },
   },
 });
 

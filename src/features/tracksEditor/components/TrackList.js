@@ -11,7 +11,6 @@ const { Box, Stack } = shared.components;
 
 const TrackList = React.forwardRef(function TrackList(props, ref) {
   const {
-    getIsTrackLoading,
     onPositionSet,
     onSequenceAdd,
     onSequenceDeselect,
@@ -67,7 +66,6 @@ const TrackList = React.forwardRef(function TrackList(props, ref) {
           />
           {tracks.map((track) => (
             <Track
-              isLoading={getIsTrackLoading(track)}
               key={track.id}
               onSequenceAdd={onSequenceAdd}
               onSequenceEdit={onSequenceEdit}
@@ -87,7 +85,6 @@ const TrackList = React.forwardRef(function TrackList(props, ref) {
 });
 
 TrackList.propTypes = {
-  getIsTrackLoading: PropTypes.func,
   onPositionSet: PropTypes.func,
   onSequenceAdd: PropTypes.func,
   onSequenceDeselect: PropTypes.func,

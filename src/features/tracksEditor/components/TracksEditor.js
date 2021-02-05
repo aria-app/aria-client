@@ -1,6 +1,4 @@
-import { useQuery } from '@apollo/client';
 import find from 'lodash/fp/find';
-import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
@@ -20,6 +18,7 @@ const {
   useDeleteSequence,
   useDeleteTrack,
   useDuplicateSequence,
+  useGetSong,
   useUpdateSequence,
   useUpdateSong,
   useUpdateTrack,
@@ -45,12 +44,11 @@ function TracksEditor(props) {
   const [updateSequence] = useUpdateSequence();
   const [updateSong] = useUpdateSong();
   const [updateTrack] = useUpdateTrack();
-  const { data, error, loading } = useQuery(api.queries.GET_SONG, {
+  const { data, error, loading } = useGetSong({
     variables: {
       id: songId,
     },
   });
-  const [loadingTrackIds, setLoadingTrackIds] = React.useState([]);
   const [selectedSequenceId, setSelectedSequenceId] = React.useState('');
   const [selectedTrackId, setSelectedTrackId] = React.useState('');
 
@@ -80,11 +78,6 @@ function TracksEditor(props) {
     [selectedTrackId, tracks],
   );
 
-  const getIsTrackLoading = React.useCallback(
-    (track) => includes(track.id, loadingTrackIds),
-    [loadingTrackIds],
-  );
-
   const handleSequenceAdd = React.useCallback(
     ({ position, track }) => {
       createSequence({ position, songId, trackId: track.id });
@@ -112,23 +105,17 @@ function TracksEditor(props) {
 
       if (isEmpty(selectedSequence)) return;
 
-      try {
-        // setLoadingTrackIds([selectedSequence.track.id]);
+      const tempId = String(Math.round(Math.random() * -1000000));
 
-        const tempId = String(Math.round(Math.random() * -1000000));
+      setSelectedSequenceId(tempId);
 
-        setSelectedSequenceId(tempId);
+      const duplicatedSequence = await duplicateSequence({
+        sequence: selectedSequence,
+        songId,
+        tempId,
+      });
 
-        const duplicatedSequence = await duplicateSequence({
-          sequence: selectedSequence,
-          songId,
-          tempId,
-        });
-
-        setSelectedSequenceId(duplicatedSequence.id);
-      } finally {
-        setLoadingTrackIds([]);
-      }
+      setSelectedSequenceId(duplicatedSequence.id);
     },
     [duplicateSequence, selectedSequence, songId],
   );
@@ -242,7 +229,6 @@ function TracksEditor(props) {
       {!loading && !error && (
         <>
           <TrackList
-            getIsTrackLoading={getIsTrackLoading}
             onPositionSet={handleTrackListPositionSet}
             onSequenceAdd={handleSequenceAdd}
             onSequenceDeselect={handleTrackListSequenceDeselect}

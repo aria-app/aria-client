@@ -344,6 +344,7 @@ export const UPDATE_SEQUENCE = gql`
 export const UPDATE_SONG = gql`
   mutation UpdateSong($input: UpdateSongInput!) {
     updateSong(input: $input) {
+      message
       song {
         bpm
         dateModified
