@@ -1,4 +1,24 @@
 import { gql } from '@apollo/client';
+
+export const CREATE_NOTE = gql`
+  mutation CreateNote($input: CreateNoteInput!) {
+    createNote(input: $input) {
+      message
+      note {
+        id
+        points {
+          x
+          y
+        }
+        sequence {
+          id
+        }
+      }
+      success
+    }
+  }
+`;
+
 export const CREATE_SEQUENCE = gql`
   mutation CreateSequence($input: CreateSequenceInput!) {
     createSequence(input: $input) {
@@ -10,6 +30,9 @@ export const CREATE_SEQUENCE = gql`
           points {
             x
             y
+          }
+          sequence {
+            id
           }
         }
         position
@@ -147,26 +170,6 @@ export const GET_SEQUENCE = gql`
   }
 `;
 
-export const GET_SONG_SEQUENCES = gql`
-  query GetSongSequences($songId: ID!) {
-    songSequences(songId: $songId) {
-      id
-      measureCount
-      notes {
-        id
-        points {
-          x
-          y
-        }
-      }
-      position
-      track {
-        id
-      }
-    }
-  }
-`;
-
 export const GET_SONG = gql`
   query GetSong($id: ID!) {
     song(id: $id) {
@@ -242,24 +245,6 @@ export const GET_SONGS = gql`
   }
 `;
 
-export const GET_TRACKS = gql`
-  query GetTracks($songId: ID!) {
-    tracks(songId: $songId) {
-      id
-      position
-      song {
-        id
-      }
-      voice {
-        id
-        name
-        toneOscillatorType
-      }
-      volume
-    }
-  }
-`;
-
 export const GET_VOICES = gql`
   query GetVoices {
     voices {
@@ -295,21 +280,6 @@ export const ME = gql`
       id
       isAdmin
       lastName
-    }
-  }
-`;
-
-export const UPDATE_NOTES_POINTS = gql`
-  mutation UpdateNotesPoints($input: UpdateNotesPointsInput!) {
-    updateNotesPoints(input: $input) {
-      notes {
-        id
-        points {
-          x
-          y
-        }
-      }
-      success
     }
   }
 `;

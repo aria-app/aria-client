@@ -26,11 +26,27 @@ export default function Dawww(options) {
     selectors,
     toneAdapter,
   };
+  const updateSequence = (sequence) => {
+    const prevSong = getOr({ sequences: {} }, 'song', getState());
+
+    dispatch(
+      actions.songUpdated({
+        prevSong,
+        song: {
+          ...prevSong,
+          focusedSequenceId: sequence.id,
+          sequences: setAtIds([sequence], prevSong.sequences),
+        },
+      }),
+    );
+  };
+
   const updateSong = (song) => {
     const allSequences = song.tracks.map((track) => track.sequences).flat();
 
     const formattedSong = {
       ...song,
+      focusedSequenceId: '',
       notes: setAtIds(
         allSequences
           .map((sequence) =>
@@ -95,6 +111,7 @@ export default function Dawww(options) {
     setPosition: (position) => dispatch(actions.positionSetRequested(position)),
     start: () => dispatch(actions.playbackStartRequested()),
     stop: () => dispatch(actions.playbackStopRequested()),
+    updateSequence,
     updateSong,
   };
 }

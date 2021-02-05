@@ -1,8 +1,10 @@
+export { default as useCreateNote } from './useCreateNote';
 export { default as useCreateSequence } from './useCreateSequence';
 export { default as useCreateTrack } from './useCreateTrack';
 export { default as useDeleteSequence } from './useDeleteSequence';
 export { default as useDeleteTrack } from './useDeleteTrack';
 export { default as useDuplicateSequence } from './useDuplicateSequence';
+export { default as useGetSequence } from './useGetSequence';
 export { default as useGetSong } from './useGetSong';
 export { default as useGetVoices } from './useGetVoices';
 export { default as useUpdateSequence } from './useUpdateSequence';

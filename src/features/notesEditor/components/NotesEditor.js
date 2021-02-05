@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -18,6 +17,7 @@ import Grid from './Grid';
 import Keys from './Keys';
 import NotesEditorToolbar from './NotesEditorToolbar';
 
+const { useCreateNote, useGetSequence } = api.hooks;
 const { useAudioManager } = audio.hooks;
 const { Box, LoadingIndicator } = shared.components;
 const { toggleInArray } = shared.helpers;
@@ -36,12 +36,13 @@ NotesEditor.propTypes = {
 function NotesEditor(props) {
   const { navigate, sequenceId } = props;
   const audioManager = useAudioManager();
-  const { data, loading } = useQuery(api.queries.GET_SEQUENCE, {
+  const [createNote] = useCreateNote();
+  const { data, loading } = useGetSequence({
     variables: {
       id: sequenceId,
     },
   });
-  const { createNote, deleteNotes, duplicateNotes, updateNotes } = useSong();
+  const { deleteNotes, duplicateNotes, updateNotes } = useSong();
   const [contentEl, setContentEl] = React.useState();
   const [mousePoint, setMousePoint] = React.useState({ x: -1, y: 1 });
   const [previousToolType, setPreviousToolType] = React.useState(
@@ -129,14 +130,12 @@ function NotesEditor(props) {
     (point) => {
       handlePreviewPitch(point.y);
 
-      const note = Dawww.createNote(sequence.id, [
-        point,
-        { x: point.x + 1, y: point.y },
-      ]);
-
-      createNote(note);
+      createNote({
+        points: [point, { x: point.x + 1, y: point.y }],
+        sequenceId: sequence.id,
+      });
     },
-    [handlePreviewPitch, createNote, sequence],
+    [createNote, handlePreviewPitch, sequence],
   );
 
   const handleGridErase = React.useCallback(
@@ -308,7 +307,7 @@ function NotesEditor(props) {
   React.useEffect(() => {
     if (!data) return;
 
-    audioManager.updateSong({ ...data.song, focusedSequenceId: sequenceId });
+    audioManager.updateSequence(data.sequence);
   }, [audioManager, data, sequenceId]);
 
   React.useEffect(() => {
