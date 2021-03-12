@@ -9,12 +9,10 @@ import app from './features/app';
 import audio from './features/audio';
 import auth from './features/auth';
 import shared from './features/shared';
-import song from './features/song';
 
 const { App } = app.components;
 const { AudioProvider } = audio.components;
 const { AuthProvider } = auth.components;
-const { SongProvider } = song.components;
 
 shared.firebase.initialize();
 
@@ -31,9 +29,7 @@ render(
     <ApolloWrapper>
       <AuthProvider>
         <AudioProvider>
-          <SongProvider>
-            <App />
-          </SongProvider>
+          <App />
         </AudioProvider>
       </AuthProvider>
     </ApolloWrapper>

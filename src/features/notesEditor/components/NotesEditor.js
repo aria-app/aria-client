@@ -11,22 +11,22 @@ import Dawww from '../../../dawww';
 import api from '../../api';
 import audio from '../../audio';
 import shared from '../../shared';
-import songFeature from '../../song';
 import { toolTypes } from '../constants';
 import Grid from './Grid';
 import Keys from './Keys';
 import NotesEditorToolbar from './NotesEditorToolbar';
 
+const { getTempId } = api.helpers;
 const {
   useCreateNote,
   useDeleteNotes,
+  useDuplicateNotes,
   useGetSequence,
   useUpdateNotes,
 } = api.hooks;
 const { useAudioManager } = audio.hooks;
 const { Box, LoadingIndicator } = shared.components;
 const { toggleInArray } = shared.helpers;
-const { useSong } = songFeature.hooks;
 
 const getNotesByIds = memoizeOne((notes, ids) =>
   notes.filter((note) => includes(note.id, ids)),
@@ -43,13 +43,13 @@ function NotesEditor(props) {
   const audioManager = useAudioManager();
   const [createNote] = useCreateNote();
   const [deleteNotes] = useDeleteNotes();
+  const [duplicateNotes] = useDuplicateNotes();
   const [updateNotes] = useUpdateNotes();
   const { data, loading } = useGetSequence({
     variables: {
       id: sequenceId,
     },
   });
-  const { duplicateNotes } = useSong();
   const [contentEl, setContentEl] = React.useState();
   const [mousePoint, setMousePoint] = React.useState({ x: -1, y: 1 });
   const [previousToolType, setPreviousToolType] = React.useState(
@@ -103,12 +103,19 @@ function NotesEditor(props) {
   }, []);
 
   const handleDuplicate = React.useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
 
       if (isEmpty(selectedNotes)) return;
 
-      const duplicatedNotes = duplicateNotes(selectedNotes);
+      const tempIds = selectedNotes.map(() => getTempId());
+
+      setSelectedNoteIds(tempIds);
+
+      const duplicatedNotes = await duplicateNotes({
+        notes: selectedNotes,
+        tempIds,
+      });
 
       setSelectedNoteIds(duplicatedNotes.map((note) => note.id));
     },

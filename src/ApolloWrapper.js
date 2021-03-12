@@ -21,6 +21,9 @@ const cache = new InMemoryCache({
         createTrack: {
           merge: false,
         },
+        duplicateNotes: {
+          merge: false,
+        },
         updateNotes: {
           merge: false,
         },

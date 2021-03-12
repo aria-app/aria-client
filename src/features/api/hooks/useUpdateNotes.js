@@ -17,6 +17,7 @@ export default function useUpdateNotes(...args) {
               notes: notes.map((note) => ({
                 id: note.id,
                 points: note.points,
+                sequence: note.sequence,
                 __typename: 'Note',
               })),
               success: true,

@@ -12,6 +12,7 @@ import TrackEditingModal from './TrackEditingModal';
 import TrackList from './TrackList';
 import TracksEditorToolbar from './TracksEditorToolbar';
 
+const { getTempId } = api.helpers;
 const {
   useCreateSequence,
   useCreateTrack,
@@ -105,7 +106,7 @@ function TracksEditor(props) {
 
       if (isEmpty(selectedSequence)) return;
 
-      const tempId = String(Math.round(Math.random() * -1000000));
+      const tempId = getTempId();
 
       setSelectedSequenceId(tempId);
 

@@ -4,6 +4,7 @@ export { default as useCreateTrack } from './useCreateTrack';
 export { default as useDeleteNotes } from './useDeleteNotes';
 export { default as useDeleteSequence } from './useDeleteSequence';
 export { default as useDeleteTrack } from './useDeleteTrack';
+export { default as useDuplicateNotes } from './useDuplicateNotes';
 export { default as useDuplicateSequence } from './useDuplicateSequence';
 export { default as useGetSequence } from './useGetSequence';
 export { default as useGetSong } from './useGetSong';

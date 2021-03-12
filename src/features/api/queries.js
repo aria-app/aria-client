@@ -129,6 +129,25 @@ export const DELETE_TRACK = gql`
   }
 `;
 
+export const DUPLICATE_NOTES = gql`
+  mutation DuplicateNotes($ids: [ID]!) {
+    duplicateNotes(ids: $ids) {
+      message
+      notes {
+        id
+        points {
+          x
+          y
+        }
+        sequence {
+          id
+        }
+      }
+      success
+    }
+  }
+`;
+
 export const DUPLICATE_SEQUENCE = gql`
   mutation DuplicateSequence($id: ID!) {
     duplicateSequence(id: $id) {
