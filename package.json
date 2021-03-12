@@ -27,7 +27,6 @@
     "@testing-library/react": "11.2.5",
     "deep-diff": "^1.0.2",
     "event-emitter": "^0.3.5",
-    "firebase": "^7.21.1",
     "framer-motion": "^2.7.5",
     "graphql": "15.5.0",
     "i18next": "^19.8.4",

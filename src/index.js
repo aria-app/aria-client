@@ -8,13 +8,10 @@ import ApolloWrapper from './ApolloWrapper';
 import app from './features/app';
 import audio from './features/audio';
 import auth from './features/auth';
-import shared from './features/shared';
 
 const { App } = app.components;
 const { AudioProvider } = audio.components;
 const { AuthProvider } = auth.components;
-
-shared.firebase.initialize();
 
 configureHotkeys({ ignoreRepeatedEventsWhenKeyHeldDown: false });
 
