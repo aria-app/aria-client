@@ -1,2 +1,0 @@
-/api  https://aria-app-api.herokuapp.com  200
-/api/*  https://aria-app-api.herokuapp.com/:splat  200
