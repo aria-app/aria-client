@@ -18,9 +18,9 @@ export default function useCreateTrack(...args) {
                 position: 999,
                 sequences: [],
                 voice: {
-                  id: 9,
-                  name: 'Square',
-                  toneOscillatorType: 'square',
+                  id: 1,
+                  name: 'Pulse',
+                  toneOscillatorType: 'pulse',
                   __typename: 'Voice',
                 },
                 volume: -10,

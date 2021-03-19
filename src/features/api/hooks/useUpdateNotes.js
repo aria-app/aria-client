@@ -31,7 +31,6 @@ export default function useUpdateNotes(...args) {
                   x: point.x,
                   y: point.y,
                 })),
-                sequenceId: note.sequence.id,
               })),
             },
           },

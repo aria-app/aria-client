@@ -49,7 +49,7 @@ export const CREATE_SONG = gql`
   mutation CreateSong($options: CreateSongInput!) {
     createSong(options: $options) {
       song {
-        dateModified
+        updatedAt
         id
         name
         trackCount
@@ -202,10 +202,10 @@ export const GET_SONG = gql`
   query GetSong($id: ID!) {
     song(id: $id) {
       bpm
-      dateModified
       id
       measureCount
       name
+      trackCount
       tracks {
         id
         position
@@ -234,6 +234,7 @@ export const GET_SONG = gql`
         }
         volume
       }
+      updatedAt
       user {
         id
       }
@@ -259,10 +260,10 @@ export const GET_SONGS = gql`
       userId: $userId
     ) {
       data {
-        dateModified
         id
         name
         trackCount
+        updatedAt
       }
       meta {
         currentPage
@@ -306,8 +307,8 @@ export const ME = gql`
       email
       firstName
       id
-      isAdmin
       lastName
+      role
     }
   }
 `;
@@ -364,7 +365,7 @@ export const UPDATE_SONG = gql`
       message
       song {
         bpm
-        dateModified
+        updatedAt
         id
         measureCount
         name

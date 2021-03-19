@@ -1,4 +1,6 @@
 import CloseIcon from '@material-ui/icons/Close';
+import formatDistance from 'date-fns/formatDistance';
+import parseISO from 'date-fns/parseISO';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -29,6 +31,16 @@ function SongListItem(props) {
     onClick(song);
   }, [onClick, song]);
 
+  const updatedText = React.useMemo(() => {
+    const distanceInTime = formatDistance(
+      parseISO(song.updatedAt),
+      new Date(),
+      { addSuffix: true },
+    );
+
+    return `Updated ${distanceInTime}`;
+  }, [song]);
+
   return (
     <Box
       animate={{ opacity: 1 }}
@@ -44,15 +56,19 @@ function SongListItem(props) {
         borderRadius: 1,
         borderWidth: 2,
         cursor: 'pointer',
+        paddingBottom: 2,
         paddingLeft: 4,
         paddingRight: 2,
-        paddingY: 2,
+        paddingTop: 2,
       }}
     >
       <Stack direction="row" space={4} sx={{ alignItems: 'center' }}>
-        <Typography sx={{ flexGrow: 1 }} variant="label">
-          {song.name}
-        </Typography>
+        <Stack sx={{ flexGrow: 1 }}>
+          <Typography variant="label">{song.name}</Typography>
+          <Typography color="textSecondary" variant="caption">
+            {updatedText}
+          </Typography>
+        </Stack>
         <Box
           onClick={handleDeleteClick}
           sx={{

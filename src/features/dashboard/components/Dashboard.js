@@ -33,18 +33,16 @@ function Dashboard(props) {
   const [deleteSong, { loading: deleteLoading }] = useMutation(
     api.queries.DELETE_SONG,
   );
-  const { data, loading: getLoading, refetch } = useQuery(
-    api.queries.GET_SONGS,
-    {
-      notifyOnNetworkStatusChange: true,
-      skip: !user,
-      variables: {
-        sort: 'dateModified',
-        sortDirection: 'desc',
-        userId: user && user.id,
-      },
+  const { data, loading: getLoading } = useQuery(api.queries.GET_SONGS, {
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    skip: !user,
+    variables: {
+      sort: 'updatedAt',
+      sortDirection: 'desc',
+      userId: user && user.id,
     },
-  );
+  });
 
   const loading = createLoading || deleteLoading || getLoading;
 
@@ -61,11 +59,11 @@ function Dashboard(props) {
           },
         },
       });
-      refetch();
+      // refetch();
     } catch (e) {
       console.error(e.message);
     }
-  }, [createSong, refetch]);
+  }, [createSong]);
 
   const handleSongDelete = React.useCallback(
     async (song) => {
@@ -80,9 +78,9 @@ function Dashboard(props) {
           id: song.id,
         },
       });
-      refetch();
+      // refetch();
     },
-    [deleteSong, refetch],
+    [deleteSong],
   );
 
   const handleSongOpen = React.useCallback(
