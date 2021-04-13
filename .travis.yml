@@ -3,7 +3,7 @@ notifications:
   email:
     recipients:
       - nickjohnson.dev@gmail.com
-node_js: 10
+node_js: 14
 cache:
   yarn: true
   directories:
