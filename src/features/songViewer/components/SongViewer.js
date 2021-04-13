@@ -17,7 +17,8 @@ SongViewer.propTypes = {
 };
 
 function SongViewer(props) {
-  const { songId } = props;
+  const { songId: songIdProp } = props;
+  const songId = parseInt(songIdProp);
   const audioManager = useAudioManager();
   const playbackState = usePlaybackState();
   const position = usePosition();

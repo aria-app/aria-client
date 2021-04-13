@@ -29,7 +29,8 @@ SongEditor.propTypes = {
 };
 
 function SongEditor(props) {
-  const { navigate, songId } = props;
+  const { navigate, songId: songIdProp } = props;
+  const songId = parseInt(songIdProp);
   const audioManager = useAudioManager();
   const { user } = useAuth();
   const playbackState = usePlaybackState();

@@ -97,7 +97,7 @@ export const CREATE_TRACK = gql`
 `;
 
 export const DELETE_NOTES = gql`
-  mutation DeleteNotes($ids: [ID]!) {
+  mutation DeleteNotes($ids: [Int]!) {
     deleteNotes(ids: $ids) {
       message
       success
@@ -106,7 +106,7 @@ export const DELETE_NOTES = gql`
 `;
 
 export const DELETE_SEQUENCE = gql`
-  mutation DeleteSequence($id: ID!) {
+  mutation DeleteSequence($id: Int!) {
     deleteSequence(id: $id) {
       success
     }
@@ -114,7 +114,7 @@ export const DELETE_SEQUENCE = gql`
 `;
 
 export const DELETE_SONG = gql`
-  mutation DeleteSong($id: ID!) {
+  mutation DeleteSong($id: Int!) {
     deleteSong(id: $id) {
       success
     }
@@ -122,7 +122,7 @@ export const DELETE_SONG = gql`
 `;
 
 export const DELETE_TRACK = gql`
-  mutation DeleteTrack($id: ID!) {
+  mutation DeleteTrack($id: Int!) {
     deleteTrack(id: $id) {
       success
     }
@@ -130,7 +130,7 @@ export const DELETE_TRACK = gql`
 `;
 
 export const DUPLICATE_NOTES = gql`
-  mutation DuplicateNotes($ids: [ID]!) {
+  mutation DuplicateNotes($ids: [Int]!) {
     duplicateNotes(ids: $ids) {
       message
       notes {
@@ -149,7 +149,7 @@ export const DUPLICATE_NOTES = gql`
 `;
 
 export const DUPLICATE_SEQUENCE = gql`
-  mutation DuplicateSequence($id: ID!) {
+  mutation DuplicateSequence($id: Int!) {
     duplicateSequence(id: $id) {
       message
       sequence {
@@ -176,7 +176,7 @@ export const DUPLICATE_SEQUENCE = gql`
 `;
 
 export const GET_SEQUENCE = gql`
-  query GetSequence($id: ID!) {
+  query GetSequence($id: Int!) {
     sequence(id: $id) {
       id
       measureCount
@@ -199,7 +199,7 @@ export const GET_SEQUENCE = gql`
 `;
 
 export const GET_SONG = gql`
-  query GetSong($id: ID!) {
+  query GetSong($id: Int!) {
     song(id: $id) {
       bpm
       id
@@ -249,7 +249,7 @@ export const GET_SONGS = gql`
     $search: String
     $sort: String
     $sortDirection: String
-    $userId: ID
+    $userId: Int
   ) {
     songs(
       limit: $limit
