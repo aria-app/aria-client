@@ -22,7 +22,7 @@ Track.propTypes = {
   onSequenceOpen: PropTypes.func,
   onSequenceSelect: PropTypes.func,
   onTrackSelect: PropTypes.func,
-  selectedSequenceId: PropTypes.string,
+  selectedSequenceId: PropTypes.number,
   songMeasureCount: PropTypes.number,
   track: PropTypes.object,
 };

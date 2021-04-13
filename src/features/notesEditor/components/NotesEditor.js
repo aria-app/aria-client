@@ -35,11 +35,11 @@ const getNotesByIds = memoizeOne((notes, ids) =>
 NotesEditor.propTypes = {
   navigate: PropTypes.func,
   sequenceId: PropTypes.string,
-  songId: PropTypes.string,
 };
 
 function NotesEditor(props) {
-  const { navigate, sequenceId } = props;
+  const { navigate, sequenceId: sequenceIdProp } = props;
+  const sequenceId = parseInt(sequenceIdProp);
   const audioManager = useAudioManager();
   const [createNote] = useCreateNote();
   const [deleteNotes] = useDeleteNotes();
