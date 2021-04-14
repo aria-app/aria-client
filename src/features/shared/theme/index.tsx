@@ -8,7 +8,7 @@ import transitions from './transitions';
 import typography from './typography';
 import zIndex from './zIndex';
 
-export default createMuiTheme({
+const theme = createMuiTheme({
   breakpoints,
   direction: 'ltr',
   mixins,
@@ -22,5 +22,12 @@ export default createMuiTheme({
   spacing: 4,
   transitions,
   zIndex,
-  // nprogress: { color: '#000' },
 });
+
+type ThemeInterface = typeof theme;
+
+declare module '@emotion/react' {
+  export interface Theme extends ThemeInterface {}
+}
+
+export default theme;

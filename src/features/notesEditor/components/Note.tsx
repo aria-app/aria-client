@@ -1,9 +1,10 @@
 import styled from '@emotion/styled/macro';
 import first from 'lodash/fp/first';
 import last from 'lodash/fp/last';
-import PropTypes from 'prop-types';
 import React from 'react';
 import Draggable from 'react-draggable';
+
+import * as types from '../../../types';
 
 const Connector = styled.div({
   height: 10,
@@ -28,19 +29,19 @@ const Fill = styled.div(({ theme }) => ({
   },
 }));
 
-const Root = styled.div(({ isSelected, theme }) => ({
+const Root = styled.div<{ isSelected: boolean }>(({ isSelected, theme }) => ({
   left: 0,
   pointerEvents: 'none',
   position: 'absolute',
   top: 0,
   transition: 'transform 0.1s ease',
   zIndex: isSelected ? 300 : undefined,
-  [Connector]: {
+  [Connector as any]: {
     backgroundColor: isSelected
       ? theme.palette.primary.main
       : theme.palette.primary.light,
   },
-  [Fill]: {
+  [Fill as any]: {
     backgroundColor: isSelected
       ? theme.palette.primary.main
       : theme.palette.primary.light,
@@ -63,20 +64,25 @@ const Point = styled.div({
   zIndex: 150,
 });
 
-Note.propTypes = {
-  isSelected: PropTypes.bool,
-  note: PropTypes.object,
-  onDrag: PropTypes.func,
-  onDragStart: PropTypes.func,
-  onDragStop: PropTypes.func,
-  onEndPointDrag: PropTypes.func,
-  onEndPointDragStart: PropTypes.func,
-  onEndPointDragStop: PropTypes.func,
-  positionBounds: PropTypes.object,
-  sizeBounds: PropTypes.object,
-};
+// Note.propTypes = {
+//   isSelected: PropTypes.bool,
+//   note: PropTypes.object,
+//   onDrag: PropTypes.func,
+//   onDragStart: PropTypes.func,
+//   onDragStop: PropTypes.func,
+//   onEndPointDrag: PropTypes.func,
+//   onEndPointDragStart: PropTypes.func,
+//   onEndPointDragStop: PropTypes.func,
+//   positionBounds: PropTypes.object,
+//   sizeBounds: PropTypes.object,
+// };
 
-function Note(props: any) {
+interface NoteProps {
+  note: types.Note;
+  [key: string]: any;
+}
+
+function Note(props: NoteProps) {
   const {
     className,
     classes,
@@ -96,6 +102,11 @@ function Note(props: any) {
   const connectorStyle = React.useMemo(() => {
     const startPoint = first(note.points);
     const endPoint = last(note.points);
+
+    if (!endPoint || !startPoint) {
+      return {};
+    }
+
     const { asin, abs, PI, sign, sqrt } = Math;
     const x = (endPoint.x - startPoint.x) * 40;
     const y = (endPoint.y - startPoint.y) * 40;
@@ -110,6 +121,11 @@ function Note(props: any) {
   const endPointStyle = React.useMemo(() => {
     const startPoint = first(note.points);
     const endPoint = last(note.points);
+
+    if (!endPoint || !startPoint) {
+      return {};
+    }
+
     const x = (endPoint.x - startPoint.x) * 40;
     const y = (endPoint.y - startPoint.y) * 40;
 
@@ -189,7 +205,14 @@ function Note(props: any) {
 
 export default React.memo(Note);
 
-function is32ndNote(note) {
-  const length = last(note.points).x - first(note.points).x;
+function is32ndNote(note: types.Note): boolean {
+  const startPoint = first(note.points);
+  const endPoint = last(note.points);
+
+  if (!endPoint || !startPoint) {
+    return false;
+  }
+
+  const length = endPoint.x - startPoint.x;
   return length === 0;
 }

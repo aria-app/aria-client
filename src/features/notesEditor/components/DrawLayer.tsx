@@ -23,14 +23,14 @@ DrawLayer.propTypes = {
 };
 
 function DrawLayer(props: any) {
-  const ref = React.useRef();
+  const ref = React.useRef<HTMLDivElement>(null);
   const { mousePoint, onDraw } = props;
   const [isDrawing, setIsDrawing] = React.useState(false);
   const [isMouseOver, setIsMouseOver] = React.useState(false);
 
   const ghostNoteNote = React.useMemo(
     () => ({
-      id: '',
+      id: -1,
       points: [
         {
           x: mousePoint ? mousePoint.x : 0,
@@ -41,7 +41,7 @@ function DrawLayer(props: any) {
           y: mousePoint ? mousePoint.y : 0,
         },
       ],
-      sequenceId: '',
+      sequenceId: -1,
     }),
     [mousePoint],
   );
@@ -64,7 +64,7 @@ function DrawLayer(props: any) {
         first,
         split(' '),
       )(e.target.className)}`;
-      const isDescendant = !!ref.current.querySelector(primaryClassName);
+      const isDescendant = !!ref?.current?.querySelector(primaryClassName);
 
       if (isDescendant) return;
 
@@ -91,7 +91,6 @@ function DrawLayer(props: any) {
     >
       {isMouseOver && (
         <StyledNote
-          component={Note}
           note={ghostNoteNote}
           onDrag={noop}
           onDragStart={noop}
