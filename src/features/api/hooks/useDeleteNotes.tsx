@@ -1,26 +1,37 @@
-import { useMutation } from '@apollo/client';
+import { MutationResult, useMutation } from '@apollo/client';
 import React from 'react';
+import { Note } from '../../../types';
 
 import * as queries from '../queries';
 
-export default function useDeleteNotes(...args) {
-  const [mutation, ...rest] = useMutation(queries.DELETE_NOTES, ...args);
+type DeleteNotesMutation = (variables: { notes: Note[] }) => Promise<void>;
 
-  const wrappedMutation = React.useCallback(
+interface DeleteNotesData {
+  deleteNotes: queries.DeleteNotesResponse;
+}
+
+export default function useDeleteNotes(
+  ...args
+): [DeleteNotesMutation, MutationResult<DeleteNotesData>] {
+  const [mutation, result] = useMutation<
+    DeleteNotesData,
+    queries.DeleteNotesInput
+  >(queries.DELETE_NOTES, ...args);
+
+  const wrappedMutation: DeleteNotesMutation = React.useCallback(
     async ({ notes }) => {
       const idsToDelete = notes.map((note) => note.id);
 
       try {
         await mutation({
           optimisticResponse: {
-            __typename: 'Mutation',
             deleteNotes: {
               message: '',
               success: true,
             },
           },
           update: (cache, result) => {
-            if (!result.data.deleteNotes.success) return;
+            if (!result?.data?.deleteNotes.success) return;
 
             const prevData = cache.readQuery<queries.GetSequenceResponse>({
               query: queries.GET_SEQUENCE,
@@ -53,5 +64,5 @@ export default function useDeleteNotes(...args) {
     [mutation],
   );
 
-  return [wrappedMutation, ...rest];
+  return [wrappedMutation, result];
 }

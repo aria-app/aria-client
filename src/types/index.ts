@@ -1,7 +1,7 @@
 export interface Note {
   id: number;
   points: Point[];
-  sequenceId: number | null;
+  sequence: Sequence;
 }
 
 export type Point = {
