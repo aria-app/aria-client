@@ -46,8 +46,8 @@ export const CREATE_SEQUENCE = gql`
 `;
 
 export const CREATE_SONG = gql`
-  mutation CreateSong($options: CreateSongInput!) {
-    createSong(options: $options) {
+  mutation CreateSong($input: CreateSongInput!) {
+    createSong(input: $input) {
       song {
         updatedAt
         id
@@ -97,7 +97,7 @@ export const CREATE_TRACK = gql`
 `;
 
 export const DELETE_NOTES = gql`
-  mutation DeleteNotes($ids: [Int]!) {
+  mutation DeleteNotes($ids: [Int!]!) {
     deleteNotes(ids: $ids) {
       message
       success
@@ -130,7 +130,7 @@ export const DELETE_TRACK = gql`
 `;
 
 export const DUPLICATE_NOTES = gql`
-  mutation DuplicateNotes($ids: [Int]!) {
+  mutation DuplicateNotes($ids: [Int!]!) {
     duplicateNotes(ids: $ids) {
       message
       notes {

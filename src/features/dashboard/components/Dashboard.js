@@ -54,7 +54,7 @@ function Dashboard(props) {
     try {
       await createSong({
         variables: {
-          options: {
+          input: {
             name,
           },
         },
