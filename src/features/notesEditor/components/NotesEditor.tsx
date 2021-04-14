@@ -37,7 +37,7 @@ NotesEditor.propTypes = {
   sequenceId: PropTypes.string,
 };
 
-function NotesEditor(props) {
+function NotesEditor(props: any) {
   const { navigate, sequenceId: sequenceIdProp } = props;
   const sequenceId = parseInt(sequenceIdProp);
   const audioManager = useAudioManager();

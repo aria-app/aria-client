@@ -1,12 +1,11 @@
 import { Redirect } from '@reach/router';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import auth from '../../auth';
 
 const { useAuth } = auth.hooks;
 
-export default function PrivateRoute(props) {
+export default function PrivateRoute(props: any) {
   const { component: Component, ...rest } = props;
   const { getIsAuthenticated, loading } = useAuth();
 
@@ -20,7 +19,3 @@ export default function PrivateRoute(props) {
 
   return <Component {...rest} />;
 }
-
-PrivateRoute.propTypes = {
-  component: PropTypes.elementType,
-};

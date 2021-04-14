@@ -3,7 +3,7 @@ import React from 'react';
 
 import Box from './Box';
 
-export default React.forwardRef((props, ref) => {
+export default React.forwardRef((props: any, ref) => {
   const {
     children,
     color = 'text.secondary',

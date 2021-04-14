@@ -4,7 +4,7 @@ import React from 'react';
 import Stack from './Stack';
 import Typography from './Typography';
 
-const FormGroup = React.forwardRef((props, ref) => {
+const FormGroup = React.forwardRef((props: any, ref) => {
   const {
     children,
     fieldId,

@@ -21,7 +21,7 @@ Selector.propTypes = {
   scrollTopEl: PropTypes.object,
 };
 
-function Selector(props) {
+function Selector(props: any) {
   const { isEnabled, onSelect, scrollLeftEl, scrollTopEl } = props;
   const [endPoint, setEndPoint] = React.useState();
   const [startPoint, setStartPoint] = React.useState();

@@ -1,3 +1,11 @@
+import { TypographyOptions } from '@material-ui/core/styles/createTypography';
+
+declare module '@material-ui/core/Typography' {
+  interface TypographyPropsVariantOverrides {
+    label: true;
+  }
+}
+
 export default {
   htmlFontSize: 16,
   fontFamily: 'Nunito, Helvetica, sans-serif',
@@ -106,4 +114,4 @@ export default {
     letterSpacing: '0.08333em',
     textTransform: 'uppercase',
   },
-};
+} as TypographyOptions;

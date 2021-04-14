@@ -2,7 +2,7 @@ import MuiDivider from '@material-ui/core/Divider';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Divider = React.forwardRef((props, ref) => {
+const Divider = React.forwardRef((props: any, ref) => {
   const { sx = {}, thickness, ...rest } = props;
 
   return (

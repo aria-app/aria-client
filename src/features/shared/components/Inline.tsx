@@ -11,7 +11,7 @@ Inline.propTypes = {
   space: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
-export default function Inline(props) {
+export default function Inline(props: any) {
   const {
     align = 'left',
     alignY = 'top',

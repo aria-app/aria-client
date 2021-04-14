@@ -16,7 +16,7 @@ Panner.propTypes = {
   scrollTopEl: PropTypes.object,
 };
 
-function Panner(props) {
+function Panner(props: any) {
   const { scrollLeftEl, scrollTopEl } = props;
   const [startPoint, setStartPoint] = React.useState();
 

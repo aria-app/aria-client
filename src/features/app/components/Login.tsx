@@ -20,12 +20,12 @@ const Root = styled.div({
   flexDirection: 'column',
 });
 
-const StyledContainer = styled(Container)((props) => ({
+const StyledContainer = styled(Container)((props: any) => ({
   backgroundColor: props.theme.palette.background.paper,
   flex: 1,
 }));
 
-export default function Login() {
+export default function Login(props: any) {
   const [login, { client, error, loading }] = useMutation(api.queries.LOGIN);
   const { getIsAuthenticated, handleLogin, user } = useAuth();
   const [email, setEmail] = React.useState('');

@@ -3,7 +3,7 @@ import React from 'react';
 
 import Box from './Box';
 
-const Toolbar = React.forwardRef((props, ref) => {
+const Toolbar = React.forwardRef((props: any, ref) => {
   const { position, sx = {}, ...rest } = props;
 
   return (

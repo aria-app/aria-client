@@ -19,7 +19,7 @@ import * as constants from '../constants';
 const { Box, Button, Stack, Toolbar } = shared.components;
 const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
 
-function SelectableIconButton(props) {
+function SelectableIconButton(props: any) {
   const { isSelected, ...rest } = props;
 
   return (
@@ -47,7 +47,7 @@ NotesEditorToolbar.propTypes = {
   toolType: PropTypes.string,
 };
 
-function NotesEditorToolbar(props) {
+function NotesEditorToolbar(props: any) {
   const {
     measureCount,
     onClose,

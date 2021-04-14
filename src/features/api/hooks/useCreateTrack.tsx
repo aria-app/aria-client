@@ -30,10 +30,13 @@ export default function useCreateTrack(...args) {
           },
           update: (cache, result) => {
             const newTrack = result.data.createTrack.track;
-            const prevData = cache.readQuery({
+            const prevData = cache.readQuery<queries.GetSongResponse>({
               query: queries.GET_SONG,
               variables: { id: songId },
             });
+
+            if (!prevData || !prevData.song) return;
+
             const newSong = {
               ...prevData.song,
               tracks: [...prevData.song.tracks, newTrack],

@@ -28,10 +28,12 @@ export default function useDuplicateSequence(...args) {
           update: (cache, result) => {
             const newSequence = result.data.duplicateSequence.sequence;
 
-            const prevData = cache.readQuery({
+            const prevData = cache.readQuery<queries.GetSongResponse>({
               query: queries.GET_SONG,
               variables: { id: songId },
             });
+
+            if (!prevData || !prevData.song) return;
 
             cache.writeQuery({
               query: queries.GET_SONG,

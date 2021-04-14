@@ -24,7 +24,7 @@ Keys.propTypes = {
   onKeyPress: PropTypes.func,
 };
 
-function Keys(props) {
+function Keys(props: any) {
   const { hoveredRow, onKeyPress } = props;
 
   const getIsHoveredRow = React.useCallback((step) => step.y === hoveredRow, [

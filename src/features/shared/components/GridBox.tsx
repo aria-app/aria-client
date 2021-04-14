@@ -54,7 +54,7 @@ GridBox.propTypes = {
   totalLength: PropTypes.number,
 };
 
-function GridBox(props) {
+function GridBox(props: any) {
   const {
     contentComponent: ContentComponent = () => null,
     item,

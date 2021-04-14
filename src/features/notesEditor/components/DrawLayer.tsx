@@ -22,7 +22,7 @@ DrawLayer.propTypes = {
   onDraw: PropTypes.func,
 };
 
-function DrawLayer(props) {
+function DrawLayer(props: any) {
   const ref = React.useRef();
   const { mousePoint, onDraw } = props;
   const [isDrawing, setIsDrawing] = React.useState(false);

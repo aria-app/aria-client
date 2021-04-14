@@ -4,7 +4,7 @@ import shared from '../../shared';
 
 const { Box } = shared.components;
 
-function TrackHeader(props) {
+function TrackHeader(props: any) {
   const { children, ...rest } = props;
 
   return (

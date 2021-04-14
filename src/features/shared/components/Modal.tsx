@@ -12,7 +12,7 @@ Modal.propTypes = {
   titleText: PropTypes.string,
 };
 
-function Modal(props) {
+function Modal(props: any) {
   const { children, isOpen, titleText, ...rest } = props;
 
   return (

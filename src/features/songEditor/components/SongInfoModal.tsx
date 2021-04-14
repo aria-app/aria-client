@@ -20,7 +20,7 @@ SongInfoModal.propTypes = {
   song: PropTypes.object,
 };
 
-function SongInfoModal(props) {
+function SongInfoModal(props: any) {
   const {
     isOpen,
     onBPMChange,

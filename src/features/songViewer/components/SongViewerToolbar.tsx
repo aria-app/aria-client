@@ -18,7 +18,7 @@ SongViewerToolbar.propTypes = {
   playbackState: PropTypes.string,
 };
 
-function SongViewerToolbar(props) {
+function SongViewerToolbar(props: any) {
   const { onPause, onPlay, onStop, playbackState } = props;
 
   const handlePlayPauseToggle = React.useCallback(

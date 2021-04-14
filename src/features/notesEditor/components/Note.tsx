@@ -76,7 +76,7 @@ Note.propTypes = {
   sizeBounds: PropTypes.object,
 };
 
-function Note(props) {
+function Note(props: any) {
   const {
     className,
     classes,

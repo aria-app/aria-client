@@ -9,7 +9,7 @@ import Track from './Track';
 
 const { Box, Stack } = shared.components;
 
-const TrackList = React.forwardRef(function TrackList(props, ref) {
+const TrackList = React.forwardRef(function TrackList(props: any, ref) {
   const {
     onPositionSet,
     onSequenceAdd,

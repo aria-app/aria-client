@@ -26,10 +26,12 @@ export default function useDuplicateNotes(...args) {
           update: (cache, result) => {
             const newNotes = result.data.duplicateNotes.notes;
 
-            const prevData = cache.readQuery({
+            const prevData = cache.readQuery<queries.GetSequenceResponse>({
               query: queries.GET_SEQUENCE,
               variables: { id: notes[0].sequence.id },
             });
+
+            if (!prevData || !prevData.sequence) return;
 
             cache.writeQuery({
               query: queries.GET_SEQUENCE,

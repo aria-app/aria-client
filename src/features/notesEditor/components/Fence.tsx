@@ -12,7 +12,7 @@ Fence.propTypes = {
   startPoint: PropTypes.object,
 };
 
-function Fence(props) {
+function Fence(props: any) {
   const { endPoint, startPoint } = props;
 
   const display = React.useMemo(

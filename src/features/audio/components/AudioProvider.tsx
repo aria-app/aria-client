@@ -5,8 +5,8 @@ import Dawww from '../../../dawww';
 import { playbackState, position } from '../atoms';
 import { AudioManagerContext } from '../contexts';
 
-export default function AudioProvider(props) {
-  const audioManager = React.useRef(new Dawww({}));
+export default function AudioProvider(props: any) {
+  const audioManager = React.useRef(Dawww({}));
   const setPlaybackState = useSetRecoilState(playbackState);
   const setPosition = useSetRecoilState(position);
 

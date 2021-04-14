@@ -27,7 +27,7 @@ Track.propTypes = {
   track: PropTypes.object,
 };
 
-function Track(props) {
+function Track(props: any) {
   const {
     onSequenceAdd,
     onSequenceEdit,

@@ -4,14 +4,14 @@ import React from 'react';
 import api from '../../api';
 import AuthContext from '../contexts/AuthContext';
 
-export default function AuthProvider(props) {
+export default function AuthProvider(props: any) {
   const { data, error, loading, refetch } = useQuery(api.queries.ME);
   const [logout] = useMutation(api.queries.LOGOUT);
-  const [expiresAt, setExpiresAt] = React.useState();
+  const [expiresAt, setExpiresAt] = React.useState<number>();
 
   const handleLogout = React.useCallback(async () => {
     await logout();
-    setExpiresAt(null);
+    setExpiresAt(undefined);
     window.localStorage.removeItem('expiresAt');
   }, [logout, setExpiresAt]);
 
@@ -30,7 +30,8 @@ export default function AuthProvider(props) {
   );
 
   React.useEffect(() => {
-    setExpiresAt(window.localStorage.getItem('expiresAt'));
+    const expiresAtStr = window.localStorage.getItem('expiresAt');
+    setExpiresAt(expiresAtStr ? parseInt(expiresAtStr) : undefined);
   }, [setExpiresAt]);
 
   return (

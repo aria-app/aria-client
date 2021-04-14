@@ -13,7 +13,7 @@ Key.propTypes = {
   style: PropTypes.object,
 };
 
-function Key(props) {
+function Key(props: any) {
   const { isHoveredRow, onMouseDown, step, style } = props;
 
   const handleMouseDown = React.useCallback(() => {

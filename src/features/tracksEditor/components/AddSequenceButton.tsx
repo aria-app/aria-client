@@ -11,7 +11,7 @@ AddSequenceButton.propTypes = {
   position: PropTypes.number,
 };
 
-export default function AddSequenceButton(props) {
+export default function AddSequenceButton(props: any) {
   const { onClick, position } = props;
 
   const handleClick = React.useCallback(() => {

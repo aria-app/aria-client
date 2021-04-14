@@ -29,7 +29,7 @@ Grid.propTypes = {
   toolType: PropTypes.string,
 };
 
-function Grid(props) {
+function Grid(props: any) {
   const ref = React.useRef();
   const {
     measureCount,

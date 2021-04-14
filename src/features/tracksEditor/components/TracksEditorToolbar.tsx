@@ -16,7 +16,7 @@ TracksEditorToolbar.propTypes = {
   selectedSequence: PropTypes.object,
 };
 
-function TracksEditorToolbar(props) {
+function TracksEditorToolbar(props: any) {
   const {
     onSequenceDelete,
     onSequenceDuplicate,

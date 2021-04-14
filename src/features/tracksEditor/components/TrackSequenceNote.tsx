@@ -18,7 +18,7 @@ TrackSequenceNote.propTypes = {
   note: PropTypes.object,
 };
 
-function TrackSequenceNote(props) {
+function TrackSequenceNote(props: any) {
   const { isSequenceSelected, note } = props;
   const x0 = getOr(0, 'points[0].x', note);
   const x1 = getOr(0, 'points[1].x', note);

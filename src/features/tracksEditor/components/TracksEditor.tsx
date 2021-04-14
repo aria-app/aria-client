@@ -32,7 +32,7 @@ TracksEditor.propTypes = {
   songId: PropTypes.string,
 };
 
-function TracksEditor(props) {
+function TracksEditor(props: any) {
   const { navigate, songId: songIdProp } = props;
   const songId = parseInt(songIdProp);
   const audioManager = useAudioManager();

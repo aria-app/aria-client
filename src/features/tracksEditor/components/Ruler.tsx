@@ -89,7 +89,7 @@ Ruler.propTypes = {
   onPositionSet: PropTypes.func,
 };
 
-function Ruler(props) {
+function Ruler(props: any) {
   const {
     measureCount,
     measureWidth,

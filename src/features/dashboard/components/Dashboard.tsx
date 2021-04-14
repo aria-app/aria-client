@@ -24,7 +24,7 @@ Dashboard.propTypes = {
   navigate: PropTypes.func,
 };
 
-function Dashboard(props) {
+function Dashboard(props: any) {
   const { navigate } = props;
   const { logout, user } = useAuth();
   const [createSong, { loading: createLoading }] = useMutation(

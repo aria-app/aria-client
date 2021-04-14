@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { Note, Sequence } from '../../types';
+import { Note, Sequence, Song } from '../../types';
 
 export interface CreateNoteResponse {
   message: string;
@@ -208,6 +208,10 @@ export const GET_SEQUENCE = gql`
     }
   }
 `;
+
+export interface GetSongResponse {
+  song: Song | null;
+}
 
 export const GET_SONG = gql`
   query GetSong($id: Int!) {

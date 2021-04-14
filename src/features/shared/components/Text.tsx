@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-const Root = styled.span((props) => ({
+const Root = styled.span((props: any) => ({
   color: {
     background: props.theme.palette.background.default,
     border: props.theme.palette.divider,
@@ -36,7 +36,7 @@ const Root = styled.span((props) => ({
   }[props.variant],
 }));
 
-export default function Text(props) {
+export default function Text(props: any) {
   const { children, component = 'span', ...rest } = props;
 
   return (

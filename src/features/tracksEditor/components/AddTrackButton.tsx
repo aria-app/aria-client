@@ -6,7 +6,7 @@ import shared from '../../shared';
 
 const { Box, Button } = shared.components;
 
-export default function AddTrackButton(props) {
+export default function AddTrackButton(props: any) {
   return (
     <Translation>
       {(t) => (

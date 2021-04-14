@@ -12,7 +12,7 @@ SongList.propTypes = {
   songs: PropTypes.arrayOf(PropTypes.object),
 };
 
-function SongList(props) {
+function SongList(props: any) {
   const { onDelete, onOpen, songs = [] } = props;
 
   return (

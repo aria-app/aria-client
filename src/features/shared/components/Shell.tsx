@@ -16,7 +16,7 @@ const Root = styled.div(({ theme }) => ({
   top: 0,
 }));
 
-function Shell(props) {
+function Shell(props: any) {
   const { children, ...rest } = props;
   const theme = useTheme();
 

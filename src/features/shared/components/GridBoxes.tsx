@@ -16,7 +16,7 @@ GridBoxes.propTypes = {
   step: PropTypes.number,
 };
 
-function GridBoxes(props) {
+function GridBoxes(props: any) {
   const {
     boxContentComponent,
     items = [],

@@ -34,7 +34,7 @@ Notes.propTypes = {
   toolType: PropTypes.string,
 };
 
-function Notes(props) {
+function Notes(props: any) {
   const {
     measureCount,
     notes,

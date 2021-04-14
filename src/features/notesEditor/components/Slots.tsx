@@ -14,7 +14,7 @@ Slots.propTypes = {
   measureCount: PropTypes.number,
 };
 
-function Slots(props) {
+function Slots(props: any) {
   const { measureCount } = props;
 
   const slots = React.useMemo(

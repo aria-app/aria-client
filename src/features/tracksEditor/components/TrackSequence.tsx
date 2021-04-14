@@ -27,7 +27,7 @@ TrackSequence.propTypes = {
   sequence: PropTypes.object,
 };
 
-function TrackSequence(props) {
+function TrackSequence(props: any) {
   const { isSelected, onOpen, onSelect, sequence } = props;
 
   const handleClick = React.useCallback(() => {

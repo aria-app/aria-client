@@ -20,7 +20,7 @@ TrackEditingModal.propTypes = {
   track: PropTypes.object,
 };
 
-function TrackEditingModal(props) {
+function TrackEditingModal(props: any) {
   const { onDelete, onDismiss, onTrackChange, track } = props;
   const { data: voicesData, loading } = useGetVoices();
   const [trackState, setTrackState] = React.useState();

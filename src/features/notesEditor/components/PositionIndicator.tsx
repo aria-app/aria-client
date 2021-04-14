@@ -29,7 +29,7 @@ PositionIndicator.propTypes = {
   mousePoint: PropTypes.object,
 };
 
-function PositionIndicator(props) {
+function PositionIndicator(props: any) {
   const { mousePoint } = props;
 
   return (

@@ -22,10 +22,12 @@ export default function useDeleteNotes(...args) {
           update: (cache, result) => {
             if (!result.data.deleteNotes.success) return;
 
-            const prevData = cache.readQuery({
+            const prevData = cache.readQuery<queries.GetSequenceResponse>({
               query: queries.GET_SEQUENCE,
               variables: { id: notes[0].sequence.id },
             });
+
+            if (!prevData || !prevData.sequence) return;
 
             cache.writeQuery({
               query: queries.GET_SEQUENCE,

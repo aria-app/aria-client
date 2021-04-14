@@ -19,7 +19,7 @@ Timeline.propTypes = {
   offset: PropTypes.number,
 };
 
-function Timeline(props) {
+function Timeline(props: any) {
   const { isVisible, offset, style = {}, ...rest } = props;
 
   if (!isVisible) return null;

@@ -2,20 +2,19 @@ import CloseIcon from '@material-ui/icons/Close';
 import formatDistance from 'date-fns/formatDistance';
 import parseISO from 'date-fns/parseISO';
 import { motion } from 'framer-motion';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import shared from '../../shared';
 
 const { Box, Stack, Typography } = shared.components;
 
-SongListItem.propTypes = {
-  onClick: PropTypes.func,
-  onDelete: PropTypes.func,
-  song: PropTypes.object,
-};
+// SongListItem.propTypes = {
+//   onClick: PropTypes.func,
+//   onDelete: PropTypes.func,
+//   song: PropTypes.object,
+// };
 
-function SongListItem(props) {
+function SongListItem(props: any) {
   const { onClick, onDelete, song } = props;
 
   const handleDeleteClick = React.useCallback(

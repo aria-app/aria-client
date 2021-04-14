@@ -1,26 +1,25 @@
 import { AnimatePresence } from 'framer-motion';
 import flatten from 'lodash/fp/flatten';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import Box from './Box';
 import Divider from './Divider';
 
-Stack.propTypes = {
-  component: PropTypes.elementType,
-  direction: PropTypes.oneOf([
-    'column',
-    'column-reverse',
-    'row',
-    'row-reverse',
-  ]),
-  dividerThickness: PropTypes.string,
-  isAnimated: PropTypes.bool,
-  showDividers: PropTypes.bool,
-  space: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-};
+// Stack.propTypes = {
+//   component: PropTypes.elementType,
+//   direction: PropTypes.oneOf([
+//     'column',
+//     'column-reverse',
+//     'row',
+//     'row-reverse',
+//   ]),
+//   dividerThickness: PropTypes.string,
+//   isAnimated: PropTypes.bool,
+//   showDividers: PropTypes.bool,
+//   space: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+// };
 
-export default function Stack(props) {
+export default function Stack(props: any) {
   const {
     animate,
     children,

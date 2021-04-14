@@ -22,5 +22,5 @@ export default createMuiTheme({
   spacing: 4,
   transitions,
   zIndex,
-  nprogress: { color: '#000' },
+  // nprogress: { color: '#000' },
 });

@@ -10,7 +10,7 @@ function getIsDarkColor(color) {
   return readableColor(color) === '#fff';
 }
 
-const Box = React.forwardRef((props, ref) => {
+const Box = React.forwardRef((props: any, ref) => {
   const {
     interactive,
     interactiveColor: interactiveColorProp,

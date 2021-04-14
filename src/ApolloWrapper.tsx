@@ -56,7 +56,7 @@ const cache = new InMemoryCache({
   },
 });
 
-function ApolloWrapper(props) {
+function ApolloWrapper(props: any) {
   const client = new ApolloClient({
     cache,
     link: from([

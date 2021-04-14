@@ -19,10 +19,12 @@ export default function useDeleteSequence(...args) {
           update: (cache, result) => {
             if (!result.data.deleteSequence.success) return;
 
-            const prevData = cache.readQuery({
+            const prevData = cache.readQuery<queries.GetSongResponse>({
               query: queries.GET_SONG,
               variables: { id: songId },
             });
+
+            if (!prevData || !prevData.song) return;
 
             cache.writeQuery({
               query: queries.GET_SONG,
