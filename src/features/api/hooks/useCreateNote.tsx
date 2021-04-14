@@ -29,10 +29,12 @@ export default function useCreateNote(...args) {
           update: (cache, result) => {
             const newNote = result.data.createNote.note;
 
-            const prevData = cache.readQuery({
+            const prevData = cache.readQuery<queries.GetSequenceResponse>({
               query: queries.GET_SEQUENCE,
               variables: { id: sequenceId },
             });
+
+            if (!prevData || !prevData.sequence) return;
 
             cache.writeQuery({
               query: queries.GET_SEQUENCE,

@@ -1,4 +1,11 @@
 import { gql } from '@apollo/client';
+import { Note, Sequence } from '../../types';
+
+export interface CreateNoteResponse {
+  message: string;
+  note: Note;
+  success: boolean;
+}
 
 export const CREATE_NOTE = gql`
   mutation CreateNote($input: CreateNoteInput!) {
@@ -174,6 +181,10 @@ export const DUPLICATE_SEQUENCE = gql`
     }
   }
 `;
+
+export interface GetSequenceResponse {
+  sequence: Sequence | null;
+}
 
 export const GET_SEQUENCE = gql`
   query GetSequence($id: Int!) {

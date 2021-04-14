@@ -58,7 +58,21 @@ export const noteDeleted = (note, id) => ({
   payload: { id, note },
 });
 
-export const notePlayed = ({ length, pitch, position, time, trackId }) => ({
+type NotePlayed = (options: {
+  length?: number;
+  pitch: number;
+  position?: number;
+  time?: number;
+  trackId: number;
+}) => any;
+
+export const notePlayed: NotePlayed = ({
+  length,
+  pitch,
+  position,
+  time,
+  trackId,
+}) => ({
   type: NOTE_PLAYED,
   payload: { length, pitch, position, time, trackId },
 });
@@ -110,7 +124,7 @@ export const playbackStopRequested = () => ({
   type: PLAYBACK_STOP_REQUESTED,
 });
 
-export const positionSet = (position, caller) => ({
+export const positionSet = (position, caller?) => ({
   type: POSITION_SET,
   payload: { position },
   meta: { caller },

@@ -1,10 +1,17 @@
 {
-  "extends": "react-app",
-  "plugins": ["simple-import-sort"],
+  "extends": ["react-app", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["@typescript-eslint", "simple-import-sort"],
   "rules": {
     "react/jsx-sort-props": "error",
     "simple-import-sort/sort": "error",
     "sort-imports": "off",
     "import/order": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   }
 }

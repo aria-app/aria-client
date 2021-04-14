@@ -1,7 +1,10 @@
-import first from 'lodash/fp/first';
 import isEqual from 'lodash/fp/isEqual';
 
-const getIsInside = (start, end, target) => {
+import { Note, Point } from '../../types';
+
+type GetIsInside = (start: Point, end: Point, target: Point) => boolean;
+
+const getIsInside: GetIsInside = (start, end, target) => {
   const tx = target.x;
   const ty = target.y;
   const x1 = Math.min(start.x, end.x);
@@ -12,7 +15,9 @@ const getIsInside = (start, end, target) => {
   return x1 <= tx && tx <= x2 && y1 <= ty && ty <= y2;
 };
 
-export function getNotesInArea(start, end, notes) {
+type GetNotesInArea = (start: Point, end: Point, notes: Note[]) => Note[];
+
+export const getNotesInArea: GetNotesInArea = (start, end, notes) => {
   if (isEqual(start, end)) return [];
-  return notes.filter((n) => getIsInside(start, end, first(n.points)));
-}
+  return notes.filter((n) => getIsInside(start, end, n.points[0]));
+};

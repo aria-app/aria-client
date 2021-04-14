@@ -10,8 +10,8 @@ export default function reducer(state, action, shared) {
   return {
     instruments: instrumentsReducer(state.instruments, action, shared),
     parts: partsReducer(state.parts, action, shared),
-    playbackState: playbackStateReducer(state.playbackState, action, shared),
-    position: positionReducer(state.position, action, shared),
+    playbackState: playbackStateReducer(state.playbackState, action),
+    position: positionReducer(state.position, action),
     song: songReducer(state.song, action),
     transportPart: transportPartReducer(state.transportPart, action, shared),
     volumeNodes: volumeNodesReducer(state.volumeNodes, action, shared),

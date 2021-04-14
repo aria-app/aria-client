@@ -1,16 +1,10 @@
 export { addPoints } from './addPoints';
-export { createNote } from './createNote';
-export { createSequence } from './createSequence';
-export { createSong } from './createSong';
-export { createTrack } from './createTrack';
-export { duplicateNotes } from './duplicateNotes';
 export { getLetterFromPitch } from './getLetterFromPitch';
 export { getNoteLength } from './getNoteLength';
 export { getNotesInArea } from './getNotesInArea';
 export { getPitchName } from './getPitchName';
 export { getPointOffset } from './getPointOffset';
 export { measuresToTime } from './measuresToTime';
-export { resizeNote } from './resizeNote';
 export { sizeToTime } from './sizeToTime';
 export { someNoteWillMoveOutside } from './someNoteWillMoveOutside';
 export { translateNote } from './translateNote';
