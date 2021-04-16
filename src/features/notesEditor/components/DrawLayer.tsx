@@ -41,7 +41,9 @@ function DrawLayer(props: any) {
           y: mousePoint ? mousePoint.y : 0,
         },
       ],
-      sequenceId: -1,
+      sequence: {
+        id: -1,
+      },
     }),
     [mousePoint],
   );

@@ -1,7 +1,7 @@
 export interface Note {
   id: number;
   points: Point[];
-  sequence: Sequence;
+  sequence: Partial<Sequence> & { id: number };
 }
 
 export type Point = {
@@ -14,7 +14,7 @@ export interface Sequence {
   measureCount: number;
   notes: Note[];
   position: number;
-  track: Track;
+  track: Partial<Track> & { id: number };
 }
 
 export interface Song {
@@ -25,7 +25,7 @@ export interface Song {
   name: string;
   tracks: Track[];
   updatedAt: Date;
-  user: User;
+  user: Partial<User> & { id: number };
 }
 
 export interface Track {
@@ -34,7 +34,7 @@ export interface Track {
   isSoloing: boolean;
   position: number;
   sequences: Sequence[];
-  song: Song;
+  song: Partial<Song> & { id: number };
   voice: Voice;
   volume: number;
 }
