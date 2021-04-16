@@ -55,7 +55,7 @@ function NotesEditor(props: any) {
   const [previousToolType, setPreviousToolType] = React.useState(
     toolTypes.SELECT,
   );
-  const [selectedNoteIds, setSelectedNoteIds] = React.useState([]);
+  const [selectedNoteIds, setSelectedNoteIds] = React.useState<number[]>([]);
   const [toolType, setToolType] = React.useState(toolTypes.SELECT);
 
   const sequence = React.useMemo(() => (data ? data.sequence : null), [data]);
@@ -108,7 +108,7 @@ function NotesEditor(props: any) {
 
       if (isEmpty(selectedNotes)) return;
 
-      const tempIds = selectedNotes.map(() => getTempId());
+      const tempIds = selectedNotes.map(getTempId);
 
       setSelectedNoteIds(tempIds);
 

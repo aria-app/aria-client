@@ -145,6 +145,16 @@ export const DELETE_TRACK = gql`
   }
 `;
 
+export interface DuplicateNotesInput {
+  ids: number[];
+}
+
+export interface DuplicateNotesResponse {
+  message: string;
+  notes: Note[];
+  success: boolean;
+}
+
 export const DUPLICATE_NOTES = gql`
   mutation DuplicateNotes($ids: [Int!]!) {
     duplicateNotes(ids: $ids) {

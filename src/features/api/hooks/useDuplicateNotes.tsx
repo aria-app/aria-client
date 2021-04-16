@@ -1,9 +1,21 @@
-import { useMutation } from '@apollo/client';
+import { MutationResult, useMutation } from '@apollo/client';
 import React from 'react';
+import { Note } from '../../../types';
 
 import * as queries from '../queries';
 
-export default function useDuplicateNotes(...args) {
+type DuplicateNotesMutation = (variables: {
+  notes: Note[];
+  tempIds: number[];
+}) => Promise<Note[]>;
+
+interface DuplicateNotesData {
+  duplicateNotes: queries.DuplicateNotesResponse;
+}
+
+export default function useDuplicateNotes(
+  ...args
+): [DuplicateNotesMutation, MutationResult<DuplicateNotesData>] {
   const [mutation, ...rest] = useMutation(queries.DUPLICATE_NOTES, ...args);
 
   const wrappedMutation = React.useCallback(
