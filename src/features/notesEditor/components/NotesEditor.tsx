@@ -50,7 +50,7 @@ function NotesEditor(props: any) {
       id: sequenceId,
     },
   });
-  const [contentEl, setContentEl] = React.useState();
+  const [contentEl, setContentEl] = React.useState<HTMLDivElement>();
   const [mousePoint, setMousePoint] = React.useState({ x: -1, y: 1 });
   const [previousToolType, setPreviousToolType] = React.useState(
     toolTypes.SELECT,
@@ -73,7 +73,7 @@ function NotesEditor(props: any) {
     navigate('../../');
   }, [navigate]);
 
-  const handleContentRefChange = React.useCallback((ref) => {
+  const handleContentRefChange = React.useCallback((ref: HTMLDivElement) => {
     setContentEl(ref);
   }, []);
 

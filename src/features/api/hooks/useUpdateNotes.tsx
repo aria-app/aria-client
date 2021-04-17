@@ -1,9 +1,18 @@
-import { useMutation } from '@apollo/client';
+import { MutationResult, useMutation } from '@apollo/client';
 import React from 'react';
+import { Note } from '../../../types';
 
 import * as queries from '../queries';
 
-export default function useUpdateNotes(...args) {
+type UpdateNotesMutation = (variables: { notes: Note[] }) => Promise<void>;
+
+interface UpdateNotesData {
+  updateNotes: queries.UpdateNotesResponse;
+}
+
+export default function useUpdateNotes(
+  ...args
+): [UpdateNotesMutation, MutationResult<UpdateNotesData>] {
   const [mutation, ...rest] = useMutation(queries.UPDATE_NOTES, ...args);
 
   const wrappedMutation = React.useCallback(

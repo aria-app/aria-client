@@ -1,9 +1,21 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, MutationResult } from '@apollo/client';
 import React from 'react';
+import { Track } from '../../../types';
 
 import * as queries from '../queries';
 
-export default function useDeleteTrack(...args) {
+type DeleteTrackMutation = (variables: {
+  songId: number;
+  track: Track;
+}) => Promise<void>;
+
+interface DeleteTrackData {
+  deleteTrack: queries.DeleteTrackResponse;
+}
+
+export default function useDeleteTrack(
+  ...args
+): [DeleteTrackMutation, MutationResult<DeleteTrackData>] {
   const [mutation, ...rest] = useMutation(queries.DELETE_TRACK, ...args);
 
   const wrappedMutation = React.useCallback(

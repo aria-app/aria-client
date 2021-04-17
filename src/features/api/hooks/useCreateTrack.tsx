@@ -1,9 +1,17 @@
-import { useMutation } from '@apollo/client';
+import { MutationResult, useMutation } from '@apollo/client';
 import React from 'react';
 
 import * as queries from '../queries';
 
-export default function useCreateTrack(...args) {
+type CreateTrackMutation = (variables: { songId: number }) => Promise<void>;
+
+interface CreateTrackData {
+  createTrack: queries.CreateTrackResponse;
+}
+
+export default function useCreateTrack(
+  ...args
+): [CreateTrackMutation, MutationResult<CreateTrackData>] {
   const [mutation, ...rest] = useMutation(queries.CREATE_TRACK, ...args);
 
   const wrappedMutation = React.useCallback(

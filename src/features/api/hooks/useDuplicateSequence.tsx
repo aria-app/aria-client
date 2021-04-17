@@ -1,9 +1,22 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, MutationResult } from '@apollo/client';
 import React from 'react';
+import { Sequence } from '../../../types';
 
 import * as queries from '../queries';
 
-export default function useDuplicateSequence(...args) {
+type DuplicateSequenceMutation = (variables: {
+  sequence: Sequence;
+  songId: number;
+  tempId: number;
+}) => Promise<Sequence>;
+
+interface DuplicateSequenceData {
+  duplicateSequence: queries.DuplicateSequenceResponse;
+}
+
+export default function useDuplicateSequence(
+  ...args
+): [DuplicateSequenceMutation, MutationResult<DuplicateSequenceData>] {
   const [mutation, ...rest] = useMutation(queries.DUPLICATE_SEQUENCE, ...args);
 
   const wrappedMutation = React.useCallback(

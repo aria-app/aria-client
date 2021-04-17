@@ -1,9 +1,19 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, MutationResult } from '@apollo/client';
 import React from 'react';
 
 import * as queries from '../queries';
 
-export default function useUpdateSequence(...args) {
+type UpdateSequenceMutation = (variables: {
+  input: queries.UpdateSequenceInput;
+}) => Promise<void>;
+
+interface UpdateSequenceData {
+  updateSequence: queries.UpdateSequenceResponse;
+}
+
+export default function useUpdateSequence(
+  ...args
+): [UpdateSequenceMutation, MutationResult<UpdateSequenceData>] {
   const [mutation, ...rest] = useMutation(queries.UPDATE_SEQUENCE, ...args);
 
   const wrappedMutation = React.useCallback(

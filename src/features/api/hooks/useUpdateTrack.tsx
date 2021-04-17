@@ -1,10 +1,20 @@
-import { useMutation } from '@apollo/client';
+import { MutationResult, useMutation } from '@apollo/client';
 import isNil from 'lodash/fp/isNil';
 import React from 'react';
 
 import * as queries from '../queries';
 
-export default function useUpdateTrack(...args) {
+type UpdateTrackMutation = (variables: {
+  input: queries.UpdateTrackInput;
+}) => Promise<void>;
+
+interface UpdateTrackData {
+  updateTrack: queries.UpdateTrackResponse;
+}
+
+export default function useUpdateTrack(
+  ...args
+): [UpdateTrackMutation, MutationResult<UpdateTrackData>] {
   const [mutation, ...rest] = useMutation(queries.UPDATE_TRACK, ...args);
 
   const wrappedMutation = React.useCallback(

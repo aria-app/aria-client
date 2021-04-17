@@ -1,9 +1,19 @@
-import { useMutation } from '@apollo/client';
+import { MutationResult, useMutation } from '@apollo/client';
 import React from 'react';
 
 import * as queries from '../queries';
 
-export default function useUpdateSong(...args) {
+type UpdateSongMutation = (variables: {
+  input: queries.UpdateSongInput;
+}) => Promise<void>;
+
+interface UpdateSongData {
+  updateSong: queries.UpdateSongResponse;
+}
+
+export default function useUpdateSong(
+  ...args
+): [UpdateSongMutation, MutationResult<UpdateSongData>] {
   const [mutation, ...rest] = useMutation(queries.UPDATE_SONG, ...args);
 
   const wrappedMutation = React.useCallback(

@@ -1,9 +1,21 @@
-import { useMutation } from '@apollo/client';
+import { MutationResult, useMutation } from '@apollo/client';
 import React from 'react';
+import { Point } from '../../../types';
 
 import * as queries from '../queries';
 
-export default function useCreateNote(...args) {
+type CreateNoteMutation = (variables: {
+  points: Point[];
+  sequenceId: number;
+}) => Promise<void>;
+
+interface CreateNoteData {
+  createNote: queries.CreateNoteResponse;
+}
+
+export default function useCreateNote(
+  ...args
+): [CreateNoteMutation, MutationResult<CreateNoteData>] {
   const [mutation, ...rest] = useMutation(queries.CREATE_NOTE, ...args);
 
   const wrappedMutation = React.useCallback(

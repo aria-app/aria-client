@@ -1,9 +1,21 @@
-import { useMutation } from '@apollo/client';
+import { MutationResult, useMutation } from '@apollo/client';
 import React from 'react';
 
 import * as queries from '../queries';
 
-export default function useCreateSequence(...args) {
+type CreateSequenceMutation = (variables: {
+  position: number;
+  songId: number;
+  trackId: number;
+}) => Promise<void>;
+
+interface CreateSequenceData {
+  createSequence: queries.CreateSequenceResponse;
+}
+
+export default function useCreateSequence(
+  ...args
+): [CreateSequenceMutation, MutationResult<CreateSequenceData>] {
   const [mutation, ...rest] = useMutation(queries.CREATE_SEQUENCE, ...args);
 
   const wrappedMutation = React.useCallback(
