@@ -1,9 +1,21 @@
-import { useMutation } from '@apollo/client';
+import { MutationResult, useMutation } from '@apollo/client';
 import React from 'react';
+import { Sequence } from '../../../types';
 
 import * as queries from '../queries';
 
-export default function useDeleteSequence(...args) {
+type DeleteSequenceMutation = (variables: {
+  sequence: Sequence;
+  songId: number;
+}) => Promise<void>;
+
+interface DeleteSequenceData {
+  deleteSequence: queries.DeleteSequenceResponse;
+}
+
+export default function useDeleteSequence(
+  ...args
+): [DeleteSequenceMutation, MutationResult<DeleteSequenceData>] {
   const [mutation, ...rest] = useMutation(queries.DELETE_SEQUENCE, ...args);
 
   const wrappedMutation = React.useCallback(

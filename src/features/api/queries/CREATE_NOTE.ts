@@ -1,5 +1,10 @@
 import { gql } from '@apollo/client';
-import { Note } from '../../../types';
+import { Note, Point } from '../../../types';
+
+export interface CreateNoteInput {
+  points: Point[];
+  sequenceId: number;
+}
 
 export interface CreateNoteResponse {
   message: string;

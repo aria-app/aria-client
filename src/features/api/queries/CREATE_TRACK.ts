@@ -1,4 +1,15 @@
 import { gql } from '@apollo/client';
+import { Track } from '../../../types';
+
+export interface CreateTrackInput {
+  songId: number;
+}
+
+export interface CreateTrackResponse {
+  message: string;
+  success: boolean;
+  track: Track;
+}
 
 export const CREATE_TRACK = gql`
   mutation CreateTrack($input: CreateTrackInput!) {

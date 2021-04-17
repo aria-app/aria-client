@@ -4,6 +4,17 @@ export interface Note {
   sequence: Partial<Sequence> & { id: number };
 }
 
+export default interface PaginatedResponse<T> {
+  data: T[];
+  meta: PaginatedResponseMetadata;
+}
+
+export interface PaginatedResponseMetadata {
+  currentPage: number;
+  itemsPerPage: number;
+  totalItemCount: number;
+}
+
 export type Point = {
   x: number;
   y: number;
