@@ -128,7 +128,9 @@ function NotesEditor(props: any) {
 
   const handlePreviewPitch = React.useCallback(
     (pitch) => {
-      audioManager.preview(sequence.trackId, pitch);
+      if (!sequence) return;
+
+      audioManager.preview(sequence.track.id, pitch);
     },
     [audioManager, sequence],
   );
@@ -144,6 +146,8 @@ function NotesEditor(props: any) {
 
   const handleGridDraw = React.useCallback(
     (point) => {
+      if (!sequence) return;
+
       handlePreviewPitch(point.y);
 
       createNote({
@@ -208,7 +212,7 @@ function NotesEditor(props: any) {
 
   const handleNudge = React.useCallback(
     (delta) => {
-      if (isEmpty(selectedNotes)) return;
+      if (!sequence || isEmpty(selectedNotes)) return;
 
       // TODO: Why does this not just use selectedNotes?
       const notesToNudge = notes.filter((note) =>
@@ -418,7 +422,7 @@ function NotesEditor(props: any) {
             >
               <Keys hoveredRow={mousePoint.y} onKeyPress={handlePreviewPitch} />
               <Grid
-                measureCount={sequence.measureCount}
+                measureCount={sequence?.measureCount}
                 mousePoint={mousePoint}
                 notes={notes}
                 notesEditorContentEl={contentEl}
@@ -436,7 +440,7 @@ function NotesEditor(props: any) {
             </Box>
           </Box>
           <NotesEditorToolbar
-            measureCount={sequence.measureCount}
+            measureCount={sequence?.measureCount}
             onClose={handleClose}
             onDelete={handleDelete}
             onDeselectAll={handleDeselectAll}
