@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import isEqual from 'lodash/fp/isEqual';
-import PropTypes from 'prop-types';
 import React from 'react';
-import { DraggableCore } from 'react-draggable';
+import { DraggableCore, DraggableEventHandler } from 'react-draggable';
+import { Point } from '../../../types';
 
 import Fence from './Fence';
 
@@ -14,25 +14,26 @@ const Root = styled.div({
   top: 0,
 });
 
-Selector.propTypes = {
-  isEnabled: PropTypes.bool,
-  onSelect: PropTypes.func,
-  scrollLeftEl: PropTypes.object,
-  scrollTopEl: PropTypes.object,
-};
+// Selector.propTypes = {
+//   isEnabled: PropTypes.bool,
+//   onSelect: PropTypes.func,
+//   scrollLeftEl: PropTypes.object,
+//   scrollTopEl: PropTypes.object,
+// };
 
 function Selector(props: any) {
   const { isEnabled, onSelect, scrollLeftEl, scrollTopEl } = props;
-  const [endPoint, setEndPoint] = React.useState();
-  const [startPoint, setStartPoint] = React.useState();
+  const [endPoint, setEndPoint] = React.useState<Point | null>();
+  const [startPoint, setStartPoint] = React.useState<Point | null>();
 
-  const handleDrag = (e, dragData) => {
+  const handleDrag: DraggableEventHandler = (e, dragData) => {
+    const { pageX, pageY } = e as MouseEvent;
     const shouldScrollDown =
-      window.innerHeight - e.pageY < 80 + 128 && dragData.deltaY >= 0;
-    const shouldScrollLeft = e.pageX < 80 && dragData.deltaX <= 0;
+      window.innerHeight - pageY < 80 + 128 && dragData.deltaY >= 0;
+    const shouldScrollLeft = pageX < 80 && dragData.deltaX <= 0;
     const shouldScrollRight =
-      window.innerWidth - e.pageX < 80 && dragData.deltaX >= 0;
-    const shouldScrollUp = e.pageY < 80 && dragData.deltaY <= 0;
+      window.innerWidth - pageX < 80 && dragData.deltaX >= 0;
+    const shouldScrollUp = pageY < 80 && dragData.deltaY <= 0;
 
     if (shouldScrollDown) {
       scrollTopEl.scrollTop = scrollTopEl.scrollTop + 20;
@@ -52,7 +53,7 @@ function Selector(props: any) {
 
     const newEndPoint = dragDataToGridPoint(dragData);
 
-    if (isEqual(newEndPoint, endPoint)) return null;
+    if (isEqual(newEndPoint, endPoint)) return;
 
     setEndPoint(newEndPoint);
   };
