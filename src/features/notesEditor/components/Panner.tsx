@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Root = styled.div(({ isPanning }) => ({
+const Root = styled.div(({ isPanning }: { isPanning: boolean }) => ({
   bottom: 0,
   cursor: isPanning ? 'grabbing' : 'grab',
   left: 0,
@@ -11,14 +11,21 @@ const Root = styled.div(({ isPanning }) => ({
   top: 0,
 }));
 
-Panner.propTypes = {
-  scrollLeftEl: PropTypes.object,
-  scrollTopEl: PropTypes.object,
-};
+// Panner.propTypes = {
+//   scrollLeftEl: PropTypes.object,
+//   scrollTopEl: PropTypes.object,
+// };
+
+type PannerStartPoint = {
+  scrollLeft: number;
+  scrollTop: number;
+  x: number;
+  y: number;
+} | null;
 
 function Panner(props: any) {
   const { scrollLeftEl, scrollTopEl } = props;
-  const [startPoint, setStartPoint] = React.useState();
+  const [startPoint, setStartPoint] = React.useState<PannerStartPoint>(null);
 
   const handleMouseDown = React.useCallback(
     (e) => {
