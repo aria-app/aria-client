@@ -27,7 +27,8 @@ const theme = createMuiTheme({
 type ThemeInterface = typeof theme;
 
 declare module '@emotion/react' {
-  export type Theme = ThemeInterface;
+  // eslint-disable-next-line
+  export interface Theme extends ThemeInterface {}
 }
 
 export default theme;
