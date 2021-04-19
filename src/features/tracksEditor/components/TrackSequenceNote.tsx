@@ -3,7 +3,11 @@ import getOr from 'lodash/fp/getOr';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Root = styled.div(({ isSequenceSelected, theme }) => ({
+interface RootProps {
+  isSequenceSelected: boolean;
+}
+
+const Root = styled.div<RootProps>(({ isSequenceSelected, theme }) => ({
   backgroundColor: isSequenceSelected
     ? theme.palette.primary.contrastText
     : theme.palette.primary.dark,

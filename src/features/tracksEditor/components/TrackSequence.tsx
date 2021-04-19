@@ -4,7 +4,12 @@ import React from 'react';
 
 import TrackSequenceNote from './TrackSequenceNote';
 
-const Root = styled.div(({ isSelected, pending, theme }) => ({
+interface RootProps {
+  isPending: boolean;
+  isSelected: boolean;
+}
+
+const Root = styled.div<RootProps>(({ isPending, isSelected, theme }) => ({
   display: 'flex',
   height: 64,
   padding: theme.spacing(1),
@@ -12,9 +17,9 @@ const Root = styled.div(({ isSelected, pending, theme }) => ({
     ? theme.palette.primary.main
     : theme.palette.primary.light,
   border: `2px solid ${theme.palette.background.paper}`,
-  borderRadius: theme.shape.borderRadius * 2,
+  borderRadius: (theme.shape.borderRadius as number) * 2,
   overflow: 'hidden',
-  pointerEvents: pending && 'none',
+  pointerEvents: isPending ? 'none' : 'auto',
   position: 'relative',
   transition: 'box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease',
 }));
@@ -42,10 +47,10 @@ function TrackSequence(props: any) {
 
   return (
     <Root
+      isPending={sequence.id < 0}
       isSelected={isSelected}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
-      pending={sequence.id < 0}
     >
       {sequence.notes.map((note) => (
         <TrackSequenceNote
