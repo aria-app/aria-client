@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import { Note } from '../../../types';
 
 export interface DuplicateNotesInput {

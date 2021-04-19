@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import { Track } from '../../../types';
 
 export interface CreateTrackInput {

@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import { Sequence } from '../../../types';
 
 export interface UpdateSequenceInput {

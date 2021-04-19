@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import PaginatedResponse, { Song } from '../../../types';
 
 export interface GetSongsResponse {

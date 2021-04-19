@@ -1,5 +1,4 @@
 import find from 'lodash/fp/find';
-import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
 import PropTypes from 'prop-types';
 import React from 'react';

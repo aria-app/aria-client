@@ -1,7 +1,7 @@
 import { MutationResult, useMutation } from '@apollo/client';
 import React from 'react';
-import { Point } from '../../../types';
 
+import { Point } from '../../../types';
 import * as queries from '../queries';
 
 type CreateNoteMutation = (variables: {

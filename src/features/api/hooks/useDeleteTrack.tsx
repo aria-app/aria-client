@@ -1,7 +1,7 @@
-import { useMutation, MutationResult } from '@apollo/client';
+import { MutationResult, useMutation } from '@apollo/client';
 import React from 'react';
-import { Track } from '../../../types';
 
+import { Track } from '../../../types';
 import * as queries from '../queries';
 
 type DeleteTrackMutation = (variables: {

@@ -1,12 +1,17 @@
 import { ApolloError } from '@apollo/client';
 import React from 'react';
+
 import { User } from '../../../types';
+
+interface LoginResult {
+  expiresAt: number;
+}
 
 export interface AuthContextValue {
   error?: ApolloError;
   getIsAuthenticated: () => boolean;
-  handleLogin: Function;
-  logout: Function;
+  handleLogin: (loginResult: LoginResult) => void;
+  logout: () => void;
   loading: boolean;
   user?: User;
 }

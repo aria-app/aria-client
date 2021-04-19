@@ -3,8 +3,8 @@ import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
-import { Track } from '../../../types';
 
+import { Track } from '../../../types';
 import api from '../../api';
 import shared from '../../shared';
 

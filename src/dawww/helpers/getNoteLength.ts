@@ -3,7 +3,7 @@ import first from 'lodash/fp/first';
 import getOr from 'lodash/fp/getOr';
 import last from 'lodash/fp/last';
 
-import { Note, Point } from '../../types';
+import { Note } from '../../types';
 import { sizeToTime } from './sizeToTime';
 
 type GetNoteLength = (note: Note, toneAdapter: any) => number;

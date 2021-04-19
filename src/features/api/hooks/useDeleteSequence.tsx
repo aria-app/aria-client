@@ -1,7 +1,7 @@
 import { MutationResult, useMutation } from '@apollo/client';
 import React from 'react';
-import { Sequence } from '../../../types';
 
+import { Sequence } from '../../../types';
 import * as queries from '../queries';
 
 type DeleteSequenceMutation = (variables: {

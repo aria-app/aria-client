@@ -1,4 +1,4 @@
-import { useMutation, MutationResult } from '@apollo/client';
+import { MutationResult, useMutation } from '@apollo/client';
 import React from 'react';
 
 import * as queries from '../queries';

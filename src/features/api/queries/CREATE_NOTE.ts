@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import { Note, Point } from '../../../types';
 
 export interface CreateNoteInput {

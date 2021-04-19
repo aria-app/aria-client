@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
-import { Sequence } from '../../../types';
 
+import { Sequence } from '../../../types';
 import * as queries from '../queries';
 
 export default function useGetSequence(...args) {

@@ -1,7 +1,7 @@
 import { MutationResult, useMutation } from '@apollo/client';
 import React from 'react';
-import { Note } from '../../../types';
 
+import { Note } from '../../../types';
 import * as queries from '../queries';
 
 type DeleteNotesMutation = (variables: { notes: Note[] }) => Promise<void>;

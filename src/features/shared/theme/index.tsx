@@ -27,7 +27,7 @@ const theme = createMuiTheme({
 type ThemeInterface = typeof theme;
 
 declare module '@emotion/react' {
-  export interface Theme extends ThemeInterface {}
+  export type Theme = ThemeInterface;
 }
 
 export default theme;
