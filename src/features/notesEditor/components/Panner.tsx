@@ -2,7 +2,11 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Root = styled.div(({ isPanning }: { isPanning: boolean }) => ({
+interface RootProps {
+  isPanning: boolean;
+}
+
+const Root = styled.div<RootProps>(({ isPanning }) => ({
   bottom: 0,
   cursor: isPanning ? 'grabbing' : 'grab',
   left: 0,

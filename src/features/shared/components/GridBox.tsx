@@ -14,7 +14,12 @@ const Resizer = styled.div(({ theme }) => ({
   zIndex: 2,
 }));
 
-const Root = styled.div(({ isDragging, isResizing }) => {
+interface RootProps {
+  isDragging: boolean;
+  isResizing: boolean;
+}
+
+const Root = styled.div<RootProps>(({ isDragging, isResizing }) => {
   const getCursor = () => {
     if (isDragging) {
       return 'move';
@@ -40,7 +45,7 @@ const Root = styled.div(({ isDragging, isResizing }) => {
         ? 'none'
         : 'transform 200ms ease, width 200ms ease',
     zIndex: isDragging || isResizing ? 200 : 100,
-    [Resizer]: {
+    [Resizer as any]: {
       cursor: isDragging ? 'move' : 'col-resize',
     },
   };

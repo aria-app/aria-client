@@ -2,6 +2,12 @@ import red from '@material-ui/core/colors/red';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 import { transparentize } from 'polished';
 
+declare module '@material-ui/core/styles/createPalette' {
+  interface TypeText {
+    hint: string;
+  }
+}
+
 export default {
   common: {
     black: '#000',

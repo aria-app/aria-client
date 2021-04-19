@@ -51,8 +51,8 @@ function TracksEditor(props: any) {
       id: songId,
     },
   });
-  const [selectedSequenceId, setSelectedSequenceId] = React.useState('');
-  const [selectedTrackId, setSelectedTrackId] = React.useState('');
+  const [selectedSequenceId, setSelectedSequenceId] = React.useState(-1);
+  const [selectedTrackId, setSelectedTrackId] = React.useState(-1);
 
   const tracks = React.useMemo(() => {
     if (!data) {
@@ -105,7 +105,7 @@ function TracksEditor(props: any) {
     async (e) => {
       e.preventDefault();
 
-      if (isEmpty(selectedSequence)) return;
+      if (!selectedSequence) return;
 
       const tempId = getTempId();
 
@@ -144,9 +144,11 @@ function TracksEditor(props: any) {
 
   const handleSongMeasureCountChange = React.useCallback(
     (measureCount) => {
+      if (!data?.song) return;
+
       updateSong({
         input: {
-          id: data.song.id,
+          id: data?.song.id,
           measureCount,
         },
       });
@@ -155,7 +157,7 @@ function TracksEditor(props: any) {
   );
 
   const handleTrackDeselect = React.useCallback(() => {
-    setSelectedTrackId('');
+    setSelectedTrackId(-1);
   }, []);
 
   const handleTrackDelete = React.useCallback(
@@ -184,7 +186,7 @@ function TracksEditor(props: any) {
   );
 
   const handleTrackListSequenceDeselect = React.useCallback(() => {
-    setSelectedSequenceId('');
+    setSelectedSequenceId(-1);
   }, []);
 
   const handleTrackListSequenceSelect = React.useCallback((sequence) => {

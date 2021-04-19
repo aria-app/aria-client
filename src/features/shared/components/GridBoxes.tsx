@@ -14,6 +14,7 @@ GridBoxes.propTypes = {
   length: PropTypes.number,
   onItemsChange: PropTypes.func,
   step: PropTypes.number,
+  style: PropTypes.object,
 };
 
 function GridBoxes(props: any) {

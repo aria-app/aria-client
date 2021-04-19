@@ -1,15 +1,12 @@
 import filter from 'lodash/fp/filter';
-import uniqueId from 'lodash/fp/uniqueId';
 import React from 'react';
 
-import {
-  dividerThicknesses,
-  spacingAliases,
-  stackAlignments,
-} from '../../constants';
+import { dividerThicknesses, spacingAliases } from '../../constants';
 import Box from '../Box';
 import Button from '../Button';
 import Stack from '../Stack';
+
+let id = 0;
 
 export const Default = (args) => (
   <Stack {...args}>
@@ -20,12 +17,11 @@ export const Default = (args) => (
 );
 
 export function Animated(args) {
-  const [items, setItems] = React.useState([]);
+  const [items, setItems] = React.useState<{ id: number; text: string }[]>([]);
 
   const handleAdd = React.useCallback(() => {
-    const id = uniqueId();
-
     setItems((items) => [...items, { id, text: `Item Number ${id}` }]);
+    id += 1;
   }, []);
 
   const handleDelete = React.useCallback(({ id }) => {
@@ -72,12 +68,6 @@ export default {
   title: 'Stack',
   component: Stack,
   argTypes: {
-    align: {
-      control: {
-        type: 'inline-radio',
-        options: stackAlignments,
-      },
-    },
     dividerThickness: {
       control: {
         type: 'inline-radio',

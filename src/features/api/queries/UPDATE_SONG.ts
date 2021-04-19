@@ -2,10 +2,10 @@ import { gql } from '@apollo/client';
 import { Song } from '../../../types';
 
 export interface UpdateSongInput {
-  bpm: number;
+  bpm?: number;
   id: number;
-  measureCount: number;
-  name: string;
+  measureCount?: number;
+  name?: string;
 }
 
 export interface UpdateSongResponse {

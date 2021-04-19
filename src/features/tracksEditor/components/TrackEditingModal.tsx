@@ -3,6 +3,7 @@ import range from 'lodash/fp/range';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Translation } from 'react-i18next';
+import { Track } from '../../../types';
 
 import api from '../../api';
 import shared from '../../shared';
@@ -23,7 +24,7 @@ TrackEditingModal.propTypes = {
 function TrackEditingModal(props: any) {
   const { onDelete, onDismiss, onTrackChange, track } = props;
   const { data: voicesData, loading } = useGetVoices();
-  const [trackState, setTrackState] = React.useState();
+  const [trackState, setTrackState] = React.useState<Track>();
 
   const voices = React.useMemo(() => (voicesData ? voicesData.voices : []), [
     voicesData,
@@ -36,7 +37,7 @@ function TrackEditingModal(props: any) {
   const handleVoiceChange = React.useCallback(
     (e) => {
       onTrackChange({
-        id: trackState.id,
+        id: trackState?.id,
         voice: find((voice) => voice.id === e.target.value, voices),
       });
     },
@@ -45,7 +46,7 @@ function TrackEditingModal(props: any) {
 
   const handleVolumeChange = React.useCallback(
     (e) => {
-      onTrackChange({ id: trackState.id, volume: parseInt(e.target.value) });
+      onTrackChange({ id: trackState?.id, volume: parseInt(e.target.value) });
     },
     [onTrackChange, trackState],
   );

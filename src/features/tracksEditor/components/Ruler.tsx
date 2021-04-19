@@ -34,7 +34,11 @@ const Resizer = styled.div(({ theme }) => ({
   },
 }));
 
-const Root = styled.div(({ isResizing, theme }) => ({
+interface RootProps {
+  isResizing: boolean;
+}
+
+const Root = styled.div<RootProps>(({ isResizing, theme }) => ({
   backgroundColor: theme.palette.background.paper,
   border: `2px solid ${theme.palette.divider}`,
   borderRadius: theme.shape.borderRadius,
@@ -51,7 +55,7 @@ const Root = styled.div(({ isResizing, theme }) => ({
         zIndex: 200,
       }
     : {}),
-  [Resizer]: {
+  [Resizer as any]: {
     transition: isResizing
       ? 'none'
       : 'border-color 200ms ease, transition 200ms ease',
