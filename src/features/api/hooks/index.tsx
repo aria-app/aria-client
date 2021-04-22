@@ -8,7 +8,7 @@ export { default as useDuplicateNotes } from './useDuplicateNotes';
 export { default as useDuplicateSequence } from './useDuplicateSequence';
 export { default as useGetSequence } from './useGetSequence';
 export { default as useGetSong } from './useGetSong';
-export { default as useGetVoices } from './useGetVoices';
+export { useGetVoices } from './useGetVoices';
 export { default as useUpdateNotes } from './useUpdateNotes';
 export { default as useUpdateSequence } from './useUpdateSequence';
 export { default as useUpdateSong } from './useUpdateSong';
