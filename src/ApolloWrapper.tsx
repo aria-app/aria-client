@@ -6,7 +6,6 @@ import {
   InMemoryCache,
 } from '@apollo/client';
 import { RetryLink } from '@apollo/client/link/retry';
-import React from 'react';
 
 const cache = new InMemoryCache({
   typePolicies: {

@@ -1,7 +1,9 @@
 import getOr from 'lodash/fp/getOr';
 import omit from 'lodash/fp/omit';
+import uniqBy from 'lodash/fp/uniqBy';
 import Tone from 'tone';
 
+import { Note, Sequence, Song } from '../types';
 import * as actions from './actions';
 import { channels, emit, on } from './bus';
 import * as constants from './constants';
@@ -26,8 +28,8 @@ export default function Dawww(options) {
     selectors,
     toneAdapter,
   };
-  const updateSequence = (sequence) => {
-    const prevSong = getOr({ sequences: {} }, 'song', getState());
+  const updateSequence = (sequence: Sequence) => {
+    const prevSong = getOr({ notes: {}, sequences: {} }, 'song', getState());
 
     dispatch(
       actions.songUpdated({
@@ -35,13 +37,23 @@ export default function Dawww(options) {
         song: {
           ...prevSong,
           focusedSequenceId: sequence.id,
+          notes: setAtIds(
+            uniqBy<Note>(
+              (note) => note.id,
+              sequence.notes.map((note) => ({
+                ...note,
+                sequenceId: note.sequence.id,
+              })),
+            ),
+            prevSong.notes,
+          ),
           sequences: setAtIds([sequence], prevSong.sequences),
         },
       }),
     );
   };
 
-  const updateSong = (song) => {
+  const updateSong = (song: Song) => {
     const allSequences = song.tracks.map((track) => track.sequences).flat();
 
     const formattedSong = {

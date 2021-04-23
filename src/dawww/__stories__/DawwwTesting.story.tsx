@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import sampleSong from '../examples/loadTestingSong.json';
-import sampleSongAlt from '../examples/sampleSongAlt';
+// import sampleSongAlt from '../examples/sampleSongAlt';
 import Dawww from '../index';
 
 const dawww = Dawww({
@@ -31,11 +31,11 @@ export function DawwwTesting() {
   }, [playbackState]);
 
   const setSampleSong = useCallback(() => {
-    dawww.updateSong(sampleSong);
+    // dawww.updateSong(sampleSong);
   }, []);
 
   const setSampleSongAlt = useCallback(() => {
-    dawww.updateSong(sampleSongAlt);
+    // dawww.updateSong(sampleSongAlt);
   }, []);
 
   const stop = useCallback(() => {
