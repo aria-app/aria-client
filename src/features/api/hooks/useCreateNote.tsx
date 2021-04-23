@@ -1,79 +1,77 @@
-import {
-  FetchResult,
-  MutationOptions,
-  MutationResult,
-  useMutation,
-} from '@apollo/client';
+import { MutationResult, useMutation } from '@apollo/client';
 import React from 'react';
 
 import { Point } from '../../../types';
 import * as queries from '../queries';
 
-// interface CreateNoteData {
-//   createNote: queries.CreateNoteResponse;
-// }
-
 type CreateNoteMutation = (variables: {
   points: Point[];
   sequenceId: number;
-}) => Promise<FetchResult>;
+}) => Promise<void>;
 
-export const useCreateNote = (
-  options?: MutationOptions,
-): [CreateNoteMutation, MutationResult] => {
-  const [mutation, ...rest] = useMutation(queries.CREATE_NOTE, options);
+interface CreateNoteData {
+  createNote: queries.CreateNoteResponse;
+}
+
+export default function useCreateNote(
+  ...args
+): [CreateNoteMutation, MutationResult<CreateNoteData>] {
+  const [mutation, ...rest] = useMutation(queries.CREATE_NOTE, ...args);
 
   const wrappedMutation = React.useCallback(
-    ({ points, sequenceId }) =>
-      mutation({
-        optimisticResponse: {
-          createNote: {
+    async ({ points, sequenceId }) => {
+      try {
+        await mutation({
+          optimisticResponse: {
             __typename: 'Mutation',
-            message: '',
-            note: {
-              __typename: 'Note',
-              id: Math.round(Math.random() * -1000000),
+            createNote: {
+              message: '',
+              note: {
+                id: Math.round(Math.random() * -1000000),
+                points,
+                sequence: {
+                  id: sequenceId,
+                  __typename: 'Sequence',
+                },
+                __typename: 'Note',
+              },
+              success: true,
+            },
+          },
+          update: (cache, result) => {
+            const newNote = result.data.createNote.note;
+
+            const prevData = cache.readQuery<queries.GetSequenceResponse>({
+              query: queries.GET_SEQUENCE,
+              variables: { id: sequenceId },
+            });
+
+            if (!prevData || !prevData.sequence) return;
+
+            cache.writeQuery({
+              query: queries.GET_SEQUENCE,
+              variables: { id: sequenceId },
+              data: {
+                sequence: {
+                  ...prevData.sequence,
+                  notes: [...prevData.sequence.notes, newNote],
+                },
+              },
+            });
+          },
+          variables: {
+            input: {
               points,
-              sequence: {
-                __typename: 'Sequence',
-                id: sequenceId,
-              },
+              sequenceId,
             },
-            success: true,
           },
-        },
-        update: (cache, result) => {
-          if (!result.data) return;
-
-          const newNote = result.data.createNote.note;
-
-          const prevData = cache.readQuery<queries.GetSequenceResponse>({
-            query: queries.GET_SEQUENCE,
-            variables: { id: sequenceId },
-          });
-
-          if (!prevData || !prevData.sequence) return;
-
-          cache.writeQuery({
-            query: queries.GET_SEQUENCE,
-            variables: { id: sequenceId },
-            data: {
-              sequence: {
-                ...prevData.sequence,
-                notes: [...prevData.sequence.notes, newNote],
-              },
-            },
-          });
-        },
-        variables: {
-          input: {
-            points,
-            sequenceId,
-          },
-        },
-      }),
+        });
+      } catch (e) {
+        console.error(e.message);
+      }
+    },
     [mutation],
   );
 
   return [wrappedMutation, ...rest];
-};
+}

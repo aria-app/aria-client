@@ -1,4 +1,4 @@
-export { useCreateNote } from './useCreateNote';
+export { default as useCreateNote } from './useCreateNote';
 export { default as useCreateSequence } from './useCreateSequence';
 export { default as useCreateTrack } from './useCreateTrack';
 export { default as useDeleteNotes } from './useDeleteNotes';
