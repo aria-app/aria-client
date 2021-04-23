@@ -1,33 +1,26 @@
-import filter from 'lodash/fp/filter';
-import getOr from 'lodash/fp/getOr';
-import noop from 'lodash/fp/noop';
 import times from 'lodash/fp/times';
 
+import { Sequence } from '../../../types';
 import * as actions from '../../actions';
+import { ActionEffect } from '../../types';
 
-export function setPartEvents(getState, action, shared) {
-  const sequence = getOr({}, 'payload.sequence', action);
-  const sequenceId = getOr('', 'id', sequence);
-  const trackId = getOr('', 'trackId', sequence);
-  const allNotes = getOr({}, 'song.notes', getState());
-  const notesInSequence = filter((n) => n.sequenceId === sequenceId, allNotes);
-  const part = getOr({ at: noop }, `parts[${sequenceId}]`, getState());
+export const setPartEvents: ActionEffect<any> = (getState, action, shared) => {
+  const { parts } = getState();
+  const sequence: Sequence = action.payload.sequence;
+  const trackId = sequence.track.id;
+  const part = parts[sequence.id];
 
   times((i) => {
-    const notesAtStep = filter((note) => {
-      const notePosition = getOr(-1, 'points[0].x', note);
-      return notePosition === i;
-    }, notesInSequence);
-    const noteIdsAtStep = notesAtStep.map(getOr('', 'id'));
+    const noteIdsAtStep = sequence.notes
+      .filter((note) => note.points[0].x === i)
+      .map((note) => note.id);
 
     const fn = (payload, time) => {
-      const focusedSequenceId = getOr('', 'song.focusedSequenceId', getState());
-      const playbackState = getOr('STOPPED', 'playbackState', getState());
-      const position = getOr(0, 'position', getState());
+      const { playbackState, position, song } = getState();
+      const focusedSequenceId = song.focusedSequenceId;
+      const isSelectedSequence = focusedSequenceId === sequence.id;
       const shouldSetPosition =
         i !== position && (playbackState !== 'STOPPED' || i === 0);
-      const isSelectedSequence =
-        focusedSequenceId !== '' && focusedSequenceId === sequenceId;
 
       if (shouldSetPosition && isSelectedSequence) {
         shared.dispatch(actions.positionSet(i));
@@ -42,11 +35,11 @@ export function setPartEvents(getState, action, shared) {
       );
     };
     const payload = {
-      noteIds: noteIdsAtStep,
       i,
+      noteIds: noteIdsAtStep,
       trackId,
     };
 
     part.at(i, { fn, payload });
   }, part.length);
-}
+};

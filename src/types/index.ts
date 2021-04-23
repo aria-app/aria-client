@@ -1,4 +1,5 @@
 export interface Note {
+  __typename?: string;
   id: number;
   points: Point[];
   sequence: Partial<Sequence> & { id: number };
@@ -16,11 +17,13 @@ export interface PaginatedResponseMetadata {
 }
 
 export type Point = {
+  __typename?: string;
   x: number;
   y: number;
 };
 
 export interface Sequence {
+  __typename?: string;
   id: number;
   measureCount: number;
   notes: Note[];
@@ -29,6 +32,7 @@ export interface Sequence {
 }
 
 export interface Song {
+  __typename?: string;
   bpm: number;
   createdAt: Date;
   id: number;
@@ -40,6 +44,7 @@ export interface Song {
 }
 
 export interface Track {
+  __typename?: string;
   id: number;
   isMuted: boolean;
   isSoloing: boolean;
@@ -51,6 +56,7 @@ export interface Track {
 }
 
 export interface User {
+  __typename?: string;
   createdAt: Date;
   email: string;
   firstName: string;
@@ -61,6 +67,7 @@ export interface User {
 }
 
 export interface Voice {
+  __typename?: string;
   id: number;
   name: string;
   toneOscillatorType: string;

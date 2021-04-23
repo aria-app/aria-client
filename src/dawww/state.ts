@@ -1,7 +1,12 @@
-let state = {
+import { State } from './types';
+
+let state: State = {
   instruments: {},
   parts: {},
+  playbackState: 'STOPPED',
+  position: 0,
   song: {
+    focusedSequenceId: null,
     notes: {},
     sequences: {},
     tracks: {},
@@ -10,10 +15,10 @@ let state = {
   volumeNodes: {},
 };
 
-export function getState() {
+export function getState(): State {
   return { ...state };
 }
 
-export function setState(updates) {
+export function setState(updates: Partial<State>): void {
   state = { ...state, ...updates };
 }
