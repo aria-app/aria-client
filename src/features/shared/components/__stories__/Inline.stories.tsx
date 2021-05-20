@@ -1,11 +1,11 @@
 import range from 'lodash/fp/range';
-import React from 'react';
+import { ReactElement } from 'react';
 
 import { spacingAliases, verticalAlignments } from '../../constants';
-import Box from '../Box';
-import Inline from '../Inline';
+import { Box } from '../Box';
+import { Inline } from '../Inline';
 
-export const InlineDefault = (args) => (
+export const InlineDefault = (args: Record<string, string>): ReactElement => (
   <div style={{ maxWidth: 320 }}>
     <Inline {...args}>
       {range(0, 10).map((n) => (

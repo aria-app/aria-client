@@ -1,25 +1,27 @@
 import { AnimatePresence } from 'framer-motion';
 import flatten from 'lodash/fp/flatten';
-import React from 'react';
+import { Children, ElementType, Fragment, ReactElement } from 'react';
 
-import Box from './Box';
-import Divider from './Divider';
+import { Spacing } from '../types';
+import { Box, BoxProps } from './Box';
+import Divider, { DividerThickness } from './Divider';
 
-// Stack.propTypes = {
-//   component: PropTypes.elementType,
-//   direction: PropTypes.oneOf([
-//     'column',
-//     'column-reverse',
-//     'row',
-//     'row-reverse',
-//   ]),
-//   dividerThickness: PropTypes.string,
-//   isAnimated: PropTypes.bool,
-//   showDividers: PropTypes.bool,
-//   space: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-// };
+export type StackDirection =
+  | 'column'
+  | 'column-reverse'
+  | 'row'
+  | 'row-reverse';
 
-export default function Stack(props: any) {
+export type StackProps = BoxProps & {
+  animate?: boolean;
+  component?: ElementType;
+  direction?: StackDirection;
+  dividerThickness?: DividerThickness;
+  showDividers?: boolean;
+  space?: Spacing;
+};
+
+export default function Stack(props: StackProps): ReactElement {
   const {
     animate,
     children,
@@ -32,7 +34,7 @@ export default function Stack(props: any) {
     ...rest
   } = props;
 
-  const Wrapper = animate ? AnimatePresence : React.Fragment;
+  const Wrapper = animate ? AnimatePresence : Fragment;
 
   return (
     <Box
@@ -54,7 +56,7 @@ export default function Stack(props: any) {
     >
       <Wrapper {...(animate ? { initial: false } : {})}>
         {flatten(
-          React.Children.map(children, (child, index) =>
+          Children.map(children, (child, index) =>
             showDividers && index
               ? [<Divider thickness={dividerThickness} />, child]
               : [child],

@@ -1,9 +1,11 @@
-import React from 'react';
+import { ReactElement } from 'react';
 
 import { borderRadii, colors, spacingAliases } from '../../constants';
-import Box from '../Box';
+import { Box } from '../Box';
 
-export const BoxDefault = (args) => <Box {...args}>Content</Box>;
+export const BoxDefault = (args: Record<string, any>): ReactElement => (
+  <Box {...args}>Content</Box>
+);
 
 const getSpacingArgType = (name) => ({
   control: {

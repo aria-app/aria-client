@@ -1,20 +1,25 @@
 import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
-import React from 'react';
+import { useCallback } from 'react';
+import { ReactElement } from 'react';
 
-import shared from '../../shared';
-
-const { Box, Button } = shared.components;
+import { Box, BoxProps, Button } from '../../shared';
 
 AddSequenceButton.propTypes = {
   onClick: PropTypes.func,
   position: PropTypes.number,
 };
 
-export default function AddSequenceButton(props: any) {
+export type AddSequenceButtonProps = BoxProps & {
+  position: number;
+};
+
+export default function AddSequenceButton(
+  props: AddSequenceButtonProps,
+): ReactElement {
   const { onClick, position } = props;
 
-  const handleClick = React.useCallback(() => {
+  const handleClick = useCallback(() => {
     onClick(position);
   }, [onClick, position]);
 
