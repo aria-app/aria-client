@@ -1,6 +1,8 @@
 import getOr from 'lodash/fp/getOr';
 
-export function updateMuting(getState, action, shared) {
+import { DawwwEffects } from '../../types';
+
+export const updateMuting: DawwwEffects = (getState, action, shared) => {
   const volumeNodes = getOr({}, 'volumeNodes', getState());
   const anySolo = shared.selectors.getIsAnyTrackSoloing(getState());
 
@@ -18,4 +20,4 @@ export function updateMuting(getState, action, shared) {
 
     shared.models.volumeNode.mute(volumeNode);
   });
-}
+};

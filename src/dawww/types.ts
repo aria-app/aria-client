@@ -6,8 +6,25 @@ export interface DawwwAction {
 }
 
 export interface DawwwContext {
+  models: {
+    volumeNode: {
+      mute: (volumeNode: any) => void;
+      unmute: (volumeNode: any) => void;
+    };
+  };
+  selectors: {
+    getIsAnyTrackSoloing: (state: StateRoot) => boolean;
+    getLoopEndPoint: (state: StateRoot) => number;
+    getLoopStartPoint: (state: StateRoot) => number;
+  };
   toneAdapter: ToneAdapter;
 }
+
+export type DawwwEffects = (
+  getState: () => StateRoot,
+  action: DawwwAction,
+  shared: DawwwContext,
+) => void;
 
 export type DawwwReducer<T = StateRoot> = (
   state: T,

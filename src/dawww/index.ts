@@ -7,7 +7,7 @@ import { Note, Sequence, Song } from '../types';
 import * as actions from './actions';
 import { channels, emit, on } from './bus';
 import * as constants from './constants';
-import effects from './effects';
+import { effects } from './effects';
 import * as helpers from './helpers';
 import { setAtIds } from './helpers';
 import * as models from './models';
