@@ -9,16 +9,18 @@ import { channels, emit, on } from './bus';
 import * as constants from './constants';
 import effects from './effects';
 import * as helpers from './helpers';
+import { setAtIds } from './helpers';
 import * as models from './models';
-import reducer from './reducer';
+import { reducer } from './reducer';
 import * as selectors from './selectors';
 import { getState, setState } from './state';
 import { createToneAdapter } from './toneAdapter';
 
-function setAtIds(array, obj) {
-  return array.reduce((acc, cur) => ({ ...acc, [cur.id]: cur }), obj);
+export interface DawwwOptions {
+  song?: Song;
 }
-export default function Dawww(options) {
+
+export default function Dawww(options?: DawwwOptions): any {
   const dispatch = emit(channels.ACTION_OCCURRED);
   const toneAdapter = createToneAdapter(Tone);
   const shared = {
@@ -110,7 +112,24 @@ export default function Dawww(options) {
   });
 
   // Load initial song data
-  updateSong(getOr({ tracks: [] }, 'song', options));
+  updateSong(
+    getOr(
+      {
+        bpm: -1,
+        createdAt: new Date(),
+        id: -1,
+        measureCount: 0,
+        name: '',
+        updatedAt: new Date(),
+        user: {
+          id: -1,
+        },
+        tracks: [],
+      },
+      'song',
+      options,
+    ),
+  );
 
   return {
     constants,
