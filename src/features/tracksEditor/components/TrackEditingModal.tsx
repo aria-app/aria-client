@@ -5,10 +5,9 @@ import React from 'react';
 import { Translation } from 'react-i18next';
 
 import { Track } from '../../../types';
-import api from '../../api';
+import { useGetVoices } from '../../api';
 import shared from '../../shared';
 
-const { useGetVoices } = api.hooks;
 const { Button, FormGroup, Modal, Stack } = shared.components;
 
 const minVolume = -20;

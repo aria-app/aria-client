@@ -1,19 +1,23 @@
-import { MutationResult, useMutation } from '@apollo/client';
+import {
+  MutationHookOptions,
+  MutationResult,
+  useMutation,
+} from '@apollo/client';
 import React from 'react';
 
 import { Note } from '../../../types';
-import * as queries from '../queries';
+import { UPDATE_NOTES, UpdateNotesResponse } from '../queries';
 
 type UpdateNotesMutation = (variables: { notes: Note[] }) => Promise<void>;
 
 interface UpdateNotesData {
-  updateNotes: queries.UpdateNotesResponse;
+  updateNotes: UpdateNotesResponse;
 }
 
-export default function useUpdateNotes(
-  ...args
+export function useUpdateNotes(
+  options?: MutationHookOptions,
 ): [UpdateNotesMutation, MutationResult<UpdateNotesData>] {
-  const [mutation, ...rest] = useMutation(queries.UPDATE_NOTES, ...args);
+  const [mutation, ...rest] = useMutation(UPDATE_NOTES, options);
 
   const wrappedMutation = React.useCallback(
     async ({ notes }) => {

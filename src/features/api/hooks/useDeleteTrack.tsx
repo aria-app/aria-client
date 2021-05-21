@@ -1,8 +1,17 @@
-import { MutationResult, useMutation } from '@apollo/client';
+import {
+  MutationHookOptions,
+  MutationResult,
+  useMutation,
+} from '@apollo/client';
 import React from 'react';
 
 import { Track } from '../../../types';
-import * as queries from '../queries';
+import {
+  DELETE_TRACK,
+  DeleteTrackResponse,
+  GET_SONG,
+  GetSongResponse,
+} from '../queries';
 
 type DeleteTrackMutation = (variables: {
   songId: number;
@@ -10,13 +19,13 @@ type DeleteTrackMutation = (variables: {
 }) => Promise<void>;
 
 interface DeleteTrackData {
-  deleteTrack: queries.DeleteTrackResponse;
+  deleteTrack: DeleteTrackResponse;
 }
 
-export default function useDeleteTrack(
-  ...args
+export function useDeleteTrack(
+  options?: MutationHookOptions,
 ): [DeleteTrackMutation, MutationResult<DeleteTrackData>] {
-  const [mutation, ...rest] = useMutation(queries.DELETE_TRACK, ...args);
+  const [mutation, ...rest] = useMutation(DELETE_TRACK, options);
 
   const wrappedMutation = React.useCallback(
     async ({ songId, track }) => {
@@ -31,15 +40,15 @@ export default function useDeleteTrack(
           update: (cache, result) => {
             if (!result.data.deleteTrack.success) return;
 
-            const prevData = cache.readQuery<queries.GetSongResponse>({
-              query: queries.GET_SONG,
+            const prevData = cache.readQuery<GetSongResponse>({
+              query: GET_SONG,
               variables: { id: songId },
             });
 
             if (!prevData || !prevData.song) return;
 
             cache.writeQuery({
-              query: queries.GET_SONG,
+              query: GET_SONG,
               variables: { id: songId },
               data: {
                 song: {

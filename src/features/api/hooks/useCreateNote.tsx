@@ -1,22 +1,31 @@
-import { MutationResult, useMutation } from '@apollo/client';
+import {
+  MutationHookOptions,
+  MutationResult,
+  useMutation,
+} from '@apollo/client';
 import React from 'react';
 
 import { Point } from '../../../types';
-import * as queries from '../queries';
+import {
+  CREATE_NOTE,
+  CreateNoteResponse,
+  GET_SEQUENCE,
+  GetSequenceResponse,
+} from '../queries';
 
-type CreateNoteMutation = (variables: {
+export type CreateNoteMutation = (variables: {
   points: Point[];
   sequenceId: number;
 }) => Promise<void>;
 
-interface CreateNoteData {
-  createNote: queries.CreateNoteResponse;
+export interface CreateNoteData {
+  createNote: CreateNoteResponse;
 }
 
-export default function useCreateNote(
-  ...args
+export function useCreateNote(
+  options?: MutationHookOptions,
 ): [CreateNoteMutation, MutationResult<CreateNoteData>] {
-  const [mutation, ...rest] = useMutation(queries.CREATE_NOTE, ...args);
+  const [mutation, ...rest] = useMutation(CREATE_NOTE, options);
 
   const wrappedMutation = React.useCallback(
     async ({ points, sequenceId }) => {
@@ -41,15 +50,15 @@ export default function useCreateNote(
           update: (cache, result) => {
             const newNote = result.data.createNote.note;
 
-            const prevData = cache.readQuery<queries.GetSequenceResponse>({
-              query: queries.GET_SEQUENCE,
+            const prevData = cache.readQuery<GetSequenceResponse>({
+              query: GET_SEQUENCE,
               variables: { id: sequenceId },
             });
 
             if (!prevData || !prevData.sequence) return;
 
             cache.writeQuery({
-              query: queries.GET_SEQUENCE,
+              query: GET_SEQUENCE,
               variables: { id: sequenceId },
               data: {
                 sequence: {

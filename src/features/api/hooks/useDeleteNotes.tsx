@@ -1,22 +1,32 @@
-import { MutationResult, useMutation } from '@apollo/client';
+import {
+  MutationHookOptions,
+  MutationResult,
+  useMutation,
+} from '@apollo/client';
 import React from 'react';
 
 import { Note } from '../../../types';
-import * as queries from '../queries';
+import {
+  DELETE_NOTES,
+  DeleteNotesInput,
+  DeleteNotesResponse,
+  GET_SEQUENCE,
+  GetSequenceResponse,
+} from '../queries';
 
 type DeleteNotesMutation = (variables: { notes: Note[] }) => Promise<void>;
 
 interface DeleteNotesData {
-  deleteNotes: queries.DeleteNotesResponse;
+  deleteNotes: DeleteNotesResponse;
 }
 
-export default function useDeleteNotes(
-  ...args
+export function useDeleteNotes(
+  options?: MutationHookOptions<DeleteNotesData, DeleteNotesInput>,
 ): [DeleteNotesMutation, MutationResult<DeleteNotesData>] {
-  const [mutation, result] = useMutation<
-    DeleteNotesData,
-    queries.DeleteNotesInput
-  >(queries.DELETE_NOTES, ...args);
+  const [mutation, result] = useMutation<DeleteNotesData, DeleteNotesInput>(
+    DELETE_NOTES,
+    options,
+  );
 
   const wrappedMutation: DeleteNotesMutation = React.useCallback(
     async ({ notes }) => {
@@ -33,15 +43,15 @@ export default function useDeleteNotes(
           update: (cache, result) => {
             if (!result?.data?.deleteNotes.success) return;
 
-            const prevData = cache.readQuery<queries.GetSequenceResponse>({
-              query: queries.GET_SEQUENCE,
+            const prevData = cache.readQuery<GetSequenceResponse>({
+              query: GET_SEQUENCE,
               variables: { id: notes[0].sequence.id },
             });
 
             if (!prevData || !prevData.sequence) return;
 
             cache.writeQuery({
-              query: queries.GET_SEQUENCE,
+              query: GET_SEQUENCE,
               variables: { id: notes[0].sequence.id },
               data: {
                 sequence: {

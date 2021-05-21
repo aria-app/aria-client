@@ -54,11 +54,7 @@ function TracksEditor(props: any) {
   const [selectedTrackId, setSelectedTrackId] = React.useState(-1);
 
   const tracks = React.useMemo(() => {
-    if (!data) {
-      return [];
-    }
-
-    return data.song.tracks;
+    return data?.song?.tracks ?? [];
   }, [data]);
 
   const sequences = React.useMemo(() => {
@@ -242,7 +238,7 @@ function TracksEditor(props: any) {
             onTrackAdd={handleTrackListTrackAdd}
             onTrackStage={handleTrackSelect}
             selectedSequence={selectedSequence}
-            songMeasureCount={data && data.song.measureCount}
+            songMeasureCount={data?.song?.measureCount ?? 0}
             tracks={tracks}
           />
           <TracksEditorToolbar

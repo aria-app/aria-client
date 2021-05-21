@@ -3,13 +3,15 @@ import { gql } from '@apollo/client';
 import { Track } from '../../../types';
 
 export interface CreateTrackInput {
-  songId: number;
+  input: {
+    songId: number;
+  };
 }
 
 export interface CreateTrackResponse {
   message: string;
   success: boolean;
-  track: Track;
+  track: Omit<Track, 'isMuted' | 'isSoloing' | 'song'>;
 }
 
 export const CREATE_TRACK = gql`

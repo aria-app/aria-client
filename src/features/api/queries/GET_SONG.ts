@@ -2,6 +2,10 @@ import { gql } from '@apollo/client';
 
 import { Song } from '../../../types';
 
+export interface GetSongInput {
+  id: number;
+}
+
 export interface GetSongResponse {
   song: Song | null;
 }
