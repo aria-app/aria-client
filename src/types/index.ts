@@ -18,6 +18,8 @@ export interface PaginatedResponseMetadata {
   totalItemCount: number;
 }
 
+export type PlaybackState = 'PAUSED' | 'STARTED' | 'STOPPED';
+
 export type Point = {
   x: number;
   y: number;

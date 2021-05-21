@@ -1,5 +1,9 @@
-import { MutationResult, useMutation } from '@apollo/client';
-import React from 'react';
+import {
+  MutationHookOptions,
+  MutationResult,
+  useMutation,
+} from '@apollo/client';
+import { useCallback } from 'react';
 
 import * as queries from '../queries';
 
@@ -14,11 +18,11 @@ interface CreateSequenceData {
 }
 
 export default function useCreateSequence(
-  ...args
+  options?: MutationHookOptions,
 ): [CreateSequenceMutation, MutationResult<CreateSequenceData>] {
-  const [mutation, ...rest] = useMutation(queries.CREATE_SEQUENCE, ...args);
+  const [mutation, ...rest] = useMutation(queries.CREATE_SEQUENCE, options);
 
-  const wrappedMutation = React.useCallback(
+  const wrappedMutation = useCallback(
     async ({ position, songId, trackId }) => {
       try {
         await mutation({
