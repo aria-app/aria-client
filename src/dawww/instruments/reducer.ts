@@ -1,8 +1,13 @@
 import omit from 'lodash/fp/omit';
 
 import * as actions from '../actions';
+import { DawwwReducer, State } from '../types';
 
-export default function reducer(state = {}, action, shared) {
+export const instrumentsReducer: DawwwReducer<State['instruments']> = (
+  state,
+  action,
+  shared,
+) => {
   switch (action.type) {
     case actions.TRACK_ADDED:
       return {
@@ -16,4 +21,4 @@ export default function reducer(state = {}, action, shared) {
     default:
       return state;
   }
-}
+};

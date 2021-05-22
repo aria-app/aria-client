@@ -1,4 +1,6 @@
-import { PlaybackState } from '../types';
+import { CurriedFunction2 } from 'lodash/function';
+
+import { Note, PlaybackState, Point, Sequence, Track } from '../types';
 
 export interface DawwwAction {
   payload?: any;
@@ -6,44 +8,109 @@ export interface DawwwAction {
 }
 
 export interface DawwwContext {
+  dispatch: Dispatch;
+  helpers: {
+    addPoints: CurriedFunction2<Point, Point, Point>;
+    getLetterFromPitch: (pitch: number) => PitchLetter;
+    getNoteLength: (note: Note, toneAdapter: ToneAdapter) => number;
+    getNotesInArea: (start: Point, end: Point, notes: Note[]) => Note[];
+    getPitchName: (pitch: number) => PitchName;
+    getPointOffset: (start: Point, end: Point) => Point;
+    measuresToTime: (
+      measureCount: number,
+      toneAdapter: ToneAdapter,
+    ) => ToneTime;
+    setAtIds: SetAtIds;
+    sizeToTime: (size: number, toneAdapter: ToneAdapter) => ToneTime;
+    someNoteWillMoveOutside: (
+      measureCount: number,
+      delta: Point,
+      notes: Note[],
+    ) => boolean;
+    translateNote: CurriedFunction2<Point, Note, Note>;
+  };
   models: {
+    part: {
+      disableLooping: (part: Part) => void;
+      dispose: (part: Part) => void;
+      mapEvents: (
+        iteratee: (event: any, index: number) => any,
+        part: Part,
+      ) => void;
+      startAtOffset: (offsetTime: ToneTime, part: Part) => void;
+      startAtTime: (startTime: ToneTime, part: Part) => void;
+      stop: (part: Part) => void;
+    };
     volumeNode: {
       mute: (volumeNode: any) => void;
+      setVolume: (volumeNode: any, volume: number) => void;
       unmute: (volumeNode: any) => void;
     };
   };
   selectors: {
-    getIsAnyTrackSoloing: (state: StateRoot) => boolean;
-    getLoopEndPoint: (state: StateRoot) => number;
-    getLoopStartPoint: (state: StateRoot) => number;
+    getIsAnyTrackSoloing: (state: State) => boolean;
+    getLoopEndPoint: (state: State) => number;
+    getLoopStartPoint: (state: State) => number;
   };
   toneAdapter: ToneAdapter;
 }
 
 export type DawwwEffects = (
-  getState: () => StateRoot,
+  getState: () => State,
   action: DawwwAction,
   shared: DawwwContext,
 ) => void;
 
-export type DawwwReducer<T = StateRoot> = (
+export type DawwwReducer<T = State> = (
   state: T,
   action: DawwwAction,
   shared: DawwwContext,
 ) => any;
 
-export interface StateRoot {
+export type Dispatch<T = any> = (payload: T) => void;
+
+export type ObjectWithId = {
+  [key in number | string]: any;
+} & {
+  id: number | string;
+};
+
+export type Part = Record<number | string, any>;
+
+export type PitchLetter =
+  | 'B'
+  | 'A#'
+  | 'A'
+  | 'G#'
+  | 'G'
+  | 'F#'
+  | 'F'
+  | 'E'
+  | 'D#'
+  | 'D'
+  | 'C#'
+  | 'C';
+
+export type PitchName = string;
+
+export type SetAtIds<T extends ObjectWithId = ObjectWithId> = (
+  array: T[],
+  obj: Record<number | string, T>,
+) => Record<number | string, T>;
+
+export interface State {
   instruments: any;
   parts: any;
   playbackState: PlaybackState;
   position: number;
   song: {
-    notes: any;
-    sequences: any;
-    tracks: any;
+    focusedSequenceId?: number;
+    notes: Record<number, Note>;
+    sequences: Record<number, Sequence>;
+    tracks: Record<number, Track>;
   };
-  transportPart: any;
-  volumeNodes: StateVolumeNodes;
+  transportPart: Record<string, any>;
+  volumeNodes: Record<string, any>;
 }
 
 export interface Step {
@@ -66,4 +133,4 @@ export interface ToneAdapter {
   Time: (...args: any[]) => void;
 }
 
-export type StateVolumeNodes = Record<string, any>;
+export type ToneTime = number;

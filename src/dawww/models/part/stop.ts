@@ -1,5 +1,5 @@
-import invokeArgs from 'lodash/fp/invokeArgs';
+import { Part } from '../../types';
 
-export function stop(part) {
-  invokeArgs('stop', [0], part);
+export function stop(part: Part): void {
+  part.stop(0);
 }

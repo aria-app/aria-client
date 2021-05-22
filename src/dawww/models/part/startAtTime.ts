@@ -1,5 +1,5 @@
-import invokeArgs from 'lodash/fp/invokeArgs';
+import { Part, ToneTime } from '../../types';
 
-export function startAtTime(startTime, part) {
-  invokeArgs('start', [startTime], part);
+export function startAtTime(startTime: ToneTime, part: Part): void {
+  part.start(startTime);
 }

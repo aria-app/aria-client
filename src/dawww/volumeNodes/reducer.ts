@@ -1,9 +1,9 @@
 import omit from 'lodash/fp/omit';
 
 import * as actions from '../actions';
-import { DawwwReducer, StateVolumeNodes } from '../types';
+import { DawwwReducer, State } from '../types';
 
-export const volumeNodesReducer: DawwwReducer<StateVolumeNodes> = (
+export const volumeNodesReducer: DawwwReducer<State['volumeNodes']> = (
   state,
   action,
   shared,

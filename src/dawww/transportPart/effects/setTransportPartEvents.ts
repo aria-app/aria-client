@@ -1,25 +1,24 @@
-import getOr from 'lodash/fp/getOr';
-
 import * as actions from '../../actions';
+import { DawwwEffects } from '../../types';
 
-export function setTransportPartEvents(getState, action, { dispatch, models }) {
-  const transportPart = getOr({}, 'transportPart', getState());
+export const setTransportPartEvents: DawwwEffects = (
+  getState,
+  action,
+  { dispatch, models },
+) => {
+  const { transportPart } = getState();
 
   models.part.mapEvents(
     (event, index) => ({
       fn: (payload) => {
-        const focusedSequenceId = getOr(
-          '',
-          'song.focusedSequenceId',
-          getState(),
-        );
-        const playbackState = getOr('STOPPED', 'playbackState', getState());
-        const position = getOr(0, 'position', getState());
+        const { playbackState, position, song } = getState();
+        const { focusedSequenceId } = song;
         const shouldSetPosition =
+          !focusedSequenceId &&
           payload !== position &&
           (playbackState !== 'STOPPED' || payload === 0);
 
-        if (!shouldSetPosition || focusedSequenceId) return;
+        if (!shouldSetPosition) return;
 
         dispatch(actions.positionSet(payload));
       },
@@ -27,4 +26,4 @@ export function setTransportPartEvents(getState, action, { dispatch, models }) {
     }),
     transportPart,
   );
-}
+};

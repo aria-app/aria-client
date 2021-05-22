@@ -1,5 +1,5 @@
-import set from 'lodash/set';
+import { Part } from '../../types';
 
-export function disableLooping(part) {
-  set(part, 'loop', false);
+export function disableLooping(part: Part): void {
+  part.loop = false;
 }
