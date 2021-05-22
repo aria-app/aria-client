@@ -1,12 +1,18 @@
-import getOr from 'lodash/fp/getOr';
+import { DiffNew } from 'deep-diff';
 import some from 'lodash/fp/some';
 
+import { Track } from '../../../../types';
 import * as actions from '../../../actions';
+import { DiffInterpreter } from '../../../types';
 
-export function interpretTrackAddedDiff(diff, song) {
-  const track = getOr({}, 'rhs', diff);
-  const tracks = getOr({}, 'tracks', song);
-  const isAnyTrackSoloing = some(getOr(false, 'isSoloing'), tracks);
+export const interpretTrackAddedDiff: DiffInterpreter<DiffNew<Track>> = (
+  { rhs },
+  { tracks },
+) => {
+  const isAnyTrackSoloing = some<Record<number, Track>>(
+    (track) => track.isSoloing,
+    tracks,
+  );
 
-  return actions.trackAdded({ isAnyTrackSoloing, track });
-}
+  return actions.trackAdded({ isAnyTrackSoloing, track: rhs });
+};

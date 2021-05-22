@@ -1,3 +1,4 @@
+import { Diff, DiffDeleted, DiffEdit } from 'deep-diff';
 import { CurriedFunction2 } from 'lodash/function';
 
 import { Note, PlaybackState, Point, Sequence, Track } from '../types';
@@ -61,11 +62,23 @@ export type DawwwEffects = (
   shared: DawwwContext,
 ) => void;
 
-export type DawwwReducer<T = State> = (
-  state: T,
+export type DawwwReducer<TState = State> = (
+  state: TState,
   action: DawwwAction,
   shared: DawwwContext,
 ) => any;
+
+export interface DawwwSong {
+  focusedSequenceId?: number;
+  notes: Record<number, Note>;
+  sequences: Record<number, Sequence>;
+  tracks: Record<number, Track>;
+}
+
+export type DiffInterpreter<TDiff = Diff<any, any>> = (
+  diff: TDiff,
+  song: DawwwSong,
+) => DawwwAction;
 
 export type Dispatch<T = any> = (payload: T) => void;
 
@@ -103,12 +116,7 @@ export interface State {
   parts: any;
   playbackState: PlaybackState;
   position: number;
-  song: {
-    focusedSequenceId?: number;
-    notes: Record<number, Note>;
-    sequences: Record<number, Sequence>;
-    tracks: Record<number, Track>;
-  };
+  song: DawwwSong;
   transportPart: Record<string, any>;
   volumeNodes: Record<string, any>;
 }
