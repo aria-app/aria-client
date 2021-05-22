@@ -1,10 +1,9 @@
 import some from 'lodash/fp/some';
 
-import { Track } from '../../types';
-import { State } from '../types';
+import { DawwwTrack, State } from '../types';
 
 export const getIsAnyTrackSoloing: (state: State) => boolean = (state) => {
   const { tracks } = state.song;
 
-  return some<Record<number, Track>>((track) => track.isSoloing, tracks);
+  return some<Record<number, DawwwTrack>>((track) => track.isSoloing, tracks);
 };

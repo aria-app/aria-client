@@ -8,7 +8,6 @@ export const NOTE_POINT_ADDED = 'NOTE_POINT_ADDED';
 export const NOTE_POINT_DELETED = 'NOTE_POINT_DELETED';
 export const NOTE_POINT_X_EDITED = 'NOTE_POINT_X_EDITED';
 export const NOTE_POINT_Y_EDITED = 'NOTE_POINT_Y_EDITED';
-export const NOTE_SEQUENCE_ID_EDITED = 'NOTE_SEQUENCE_ID_EDITED';
 export const PART_STEP_TRIGGERED = 'PART_STEP_TRIGGERED';
 export const PLAYBACK_PAUSE_REQUESTED = 'PLAYBACK_PAUSE_REQUESTED';
 export const PLAYBACK_START_REQUESTED = 'PLAYBACK_START_REQUESTED';
@@ -95,11 +94,6 @@ export const notePointXEdited = ({ id, index, prevValue, value }) => ({
 export const notePointYEdited = ({ id, index, prevValue, value }) => ({
   type: NOTE_POINT_Y_EDITED,
   payload: { id, index, prevValue, value },
-});
-
-export const noteSequenceIdEdited = ({ id, prevValue, value }) => ({
-  type: NOTE_SEQUENCE_ID_EDITED,
-  payload: { id, prevValue, value },
 });
 
 export const partStepTriggered = ({ noteIds, time, trackId }) => ({

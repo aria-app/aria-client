@@ -1,4 +1,4 @@
-import { Diff, DiffDeleted, DiffEdit } from 'deep-diff';
+import { Diff } from 'deep-diff';
 import { CurriedFunction2 } from 'lodash/function';
 
 import { Note, PlaybackState, Point, Sequence, Track } from '../types';
@@ -31,6 +31,9 @@ export interface DawwwContext {
     translateNote: CurriedFunction2<Point, Note, Note>;
   };
   models: {
+    instrument: {
+      dispose: (instrument: Instrument) => void;
+    };
     part: {
       disableLooping: (part: Part) => void;
       dispose: (part: Part) => void;
@@ -43,9 +46,10 @@ export interface DawwwContext {
       stop: (part: Part) => void;
     };
     volumeNode: {
-      mute: (volumeNode: any) => void;
-      setVolume: (volumeNode: any, volume: number) => void;
-      unmute: (volumeNode: any) => void;
+      dispose: (volumeNode: VolumeNode) => void;
+      mute: (volumeNode: VolumeNode) => void;
+      setVolume: (volumeNode: VolumeNode, volume: number) => void;
+      unmute: (volumeNode: VolumeNode) => void;
     };
   };
   selectors: {
@@ -68,19 +72,34 @@ export type DawwwReducer<TState = State> = (
   shared: DawwwContext,
 ) => any;
 
+export interface DawwwNote extends Note {
+  sequenceId: number;
+}
+
+export interface DawwwSequence extends Omit<Sequence, 'notes'> {
+  trackId: number;
+}
+
+export interface DawwwTrack extends Omit<Track, 'voice'> {
+  voice: string;
+}
+
 export interface DawwwSong {
   focusedSequenceId?: number;
-  notes: Record<number, Note>;
-  sequences: Record<number, Sequence>;
-  tracks: Record<number, Track>;
+  measureCount: number;
+  notes: Record<number, DawwwNote>;
+  sequences: Record<number, DawwwSequence>;
+  tracks: Record<number, DawwwTrack>;
 }
 
 export type DiffInterpreter<TDiff = Diff<any, any>> = (
   diff: TDiff,
-  song: DawwwSong,
+  song?: DawwwSong,
 ) => DawwwAction;
 
 export type Dispatch<T = any> = (payload: T) => void;
+
+export type Instrument = Record<string, any>;
 
 export type ObjectWithId = {
   [key in number | string]: any;
@@ -88,7 +107,7 @@ export type ObjectWithId = {
   id: number | string;
 };
 
-export type Part = Record<number | string, any>;
+export type Part = Record<string, any>;
 
 export type PitchLetter =
   | 'B'
@@ -112,13 +131,13 @@ export type SetAtIds<T extends ObjectWithId = ObjectWithId> = (
 ) => Record<number | string, T>;
 
 export interface State {
-  instruments: any;
-  parts: any;
+  instruments: Record<number, Instrument>;
+  parts: Record<number, Part>;
   playbackState: PlaybackState;
   position: number;
   song: DawwwSong;
-  transportPart: Record<string, any>;
-  volumeNodes: Record<string, any>;
+  transportPart: Record<string, TransportPart>;
+  volumeNodes: Record<string, VolumeNode>;
 }
 
 export interface Step {
@@ -142,3 +161,7 @@ export interface ToneAdapter {
 }
 
 export type ToneTime = number;
+
+export type TransportPart = Record<string, any>;
+
+export type VolumeNode = Record<string, any>;

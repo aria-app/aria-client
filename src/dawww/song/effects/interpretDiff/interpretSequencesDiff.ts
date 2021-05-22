@@ -1,20 +1,18 @@
-import getOr from 'lodash/fp/getOr';
-
 import * as actions from '../../../actions';
-import * as constants from '../../../constants';
+import { DiffInterpreter } from '../../../types';
 import { interpretSequenceAddedDiff } from './interpretSequenceAddedDiff';
 import { interpretSequenceDeletedDiff } from './interpretSequenceDeletedDiff';
 import { interpretSequenceEditedDiff } from './interpretSequenceEditedDiff';
 
-export function interpretSequencesDiff(diff) {
-  switch (getOr('', 'kind', diff)) {
-    case constants.DIFF_KIND_D:
+export const interpretSequencesDiff: DiffInterpreter = (diff) => {
+  switch (diff.kind) {
+    case 'D':
       return interpretSequenceDeletedDiff(diff);
-    case constants.DIFF_KIND_E:
+    case 'E':
       return interpretSequenceEditedDiff(diff);
-    case constants.DIFF_KIND_N:
+    case 'N':
       return interpretSequenceAddedDiff(diff);
     default:
       return actions.unknown();
   }
-}
+};

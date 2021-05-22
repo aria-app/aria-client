@@ -1,11 +1,10 @@
 import { DiffDeleted } from 'deep-diff';
 
-import { Track } from '../../../../types';
 import * as actions from '../../../actions';
-import { DiffInterpreter } from '../../../types';
+import { DawwwTrack, DiffInterpreter } from '../../../types';
 
-export const interpretTrackDeletedDiff: DiffInterpreter<DiffDeleted<Track>> = ({
-  lhs,
-}) => {
+export const interpretTrackDeletedDiff: DiffInterpreter<
+  DiffDeleted<DawwwTrack>
+> = ({ lhs }) => {
   return actions.trackDeletionRequested(lhs);
 };

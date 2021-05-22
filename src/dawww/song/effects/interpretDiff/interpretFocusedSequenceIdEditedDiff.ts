@@ -1,9 +1,9 @@
-import getOr from 'lodash/fp/getOr';
+import { DiffEdit } from 'deep-diff';
 
 import * as actions from '../../../actions';
+import { DiffInterpreter } from '../../../types';
 
-export function interpretFocusedSequenceIdEditedDiff(diff) {
-  const focusedSequenceId = getOr('', 'rhs', diff);
-
-  return actions.focusedSequenceIdEdited(focusedSequenceId);
-}
+export const interpretFocusedSequenceIdEditedDiff: DiffInterpreter = (diff) => {
+  const { rhs } = diff as DiffEdit<number, number>;
+  return actions.focusedSequenceIdEdited(rhs);
+};

@@ -1,15 +1,15 @@
 import { DiffNew } from 'deep-diff';
 import some from 'lodash/fp/some';
 
-import { Track } from '../../../../types';
 import * as actions from '../../../actions';
-import { DiffInterpreter } from '../../../types';
+import { DawwwSong, DawwwTrack, DiffInterpreter } from '../../../types';
 
-export const interpretTrackAddedDiff: DiffInterpreter<DiffNew<Track>> = (
+export const interpretTrackAddedDiff: DiffInterpreter<DiffNew<DawwwTrack>> = (
   { rhs },
-  { tracks },
+  song,
 ) => {
-  const isAnyTrackSoloing = some<Record<number, Track>>(
+  const { tracks } = song as DawwwSong;
+  const isAnyTrackSoloing = some<Record<number, DawwwTrack>>(
     (track) => track.isSoloing,
     tracks,
   );
