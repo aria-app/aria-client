@@ -6,6 +6,7 @@ import {
   InMemoryCache,
 } from '@apollo/client';
 import { RetryLink } from '@apollo/client/link/retry';
+import { ReactElement, ReactNode } from 'react';
 
 const cache = new InMemoryCache({
   typePolicies: {
@@ -55,7 +56,7 @@ const cache = new InMemoryCache({
   },
 });
 
-function ApolloWrapper(props: any) {
+function ApolloWrapper(props: { children: ReactNode }): ReactElement {
   const client = new ApolloClient({
     cache,
     link: from([
