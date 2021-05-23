@@ -1,5 +1,5 @@
-import instrumentsEffects from './instruments/effects';
-import partsEffects from './parts/effects';
+import { instrumentsEffects } from './instruments/effects';
+import { partsEffects } from './parts/effects';
 import { playbackStateEffects } from './playbackState/effects';
 import { positionEffects } from './position/effects';
 import { songEffects } from './song/effects';

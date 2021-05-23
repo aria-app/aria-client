@@ -33,6 +33,13 @@ export interface DawwwContext {
   models: {
     instrument: {
       dispose: (instrument: Instrument) => void;
+      playNote: (
+        instrument: Instrument,
+        name: string,
+        length: ToneTime,
+        time?: ToneTime,
+      ) => void;
+      setVoice: (instrument: Instrument, voice: string) => void;
     };
     part: {
       disableLooping: (part: Part) => void;
@@ -99,7 +106,10 @@ export type DiffInterpreter<TDiff = Diff<any, any>> = (
 
 export type Dispatch<T = any> = (payload: T) => void;
 
-export type Instrument = Record<string, any>;
+export type Instrument = {
+  releaseAll: () => void;
+  [key: string]: any;
+};
 
 export type ObjectWithId = {
   [key in number | string]: any;
@@ -154,13 +164,13 @@ export interface ToneAdapter {
   pause: () => void;
   setBPM: (value: any[]) => void;
   setLoopPoints: (...args: any[]) => void;
-  setTransportPosition: (position: number) => void;
+  setTransportPosition: (position: ToneTime) => void;
   start: (...args: any[]) => void;
   stop: () => void;
   Time: (...args: any[]) => void;
 }
 
-export type ToneTime = number;
+export type ToneTime = number | string;
 
 export type TransportPart = Record<string, any>;
 

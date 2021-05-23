@@ -1,10 +1,11 @@
 import * as actions from '../../actions';
+import { DawwwEffects } from '../../types';
 import { handleNotePlay } from './handleNotePlay';
 import { handlePartStepTriggered } from './handlePartStepTriggered';
 import { handleReleaseAllRequested } from './handleReleaseAllRequested';
 import { handleTrackVoiceEdit } from './handleTrackVoiceEdit';
 
-export default function effects(getState, action, shared) {
+export const instrumentsEffects: DawwwEffects = (getState, action, shared) => {
   switch (action.type) {
     case actions.NOTE_PLAYED:
       handleNotePlay(getState, action, shared);
@@ -20,4 +21,4 @@ export default function effects(getState, action, shared) {
       break;
     default:
   }
-}
+};

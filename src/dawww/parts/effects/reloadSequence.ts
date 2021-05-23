@@ -1,11 +1,14 @@
-import getOr from 'lodash/fp/getOr';
-
 import * as actions from '../../actions';
+import { DawwwEffects } from '../../types';
 
-export function reloadSequence(getState, action, shared) {
-  const id = getOr('', 'payload.id', action);
-  const sequence = getOr({}, `song.sequences[${id}]`, getState());
+export const reloadSequence: DawwwEffects = (
+  getState,
+  action,
+  { dispatch },
+) => {
+  const { id } = action.payload;
+  const { song } = getState();
 
-  shared.dispatch(actions.sequenceDeletionRequested(sequence));
-  shared.dispatch(actions.sequenceAdded(sequence));
-}
+  dispatch(actions.sequenceDeletionRequested(song.sequences[id]));
+  dispatch(actions.sequenceAdded(song.sequences[id]));
+};

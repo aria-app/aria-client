@@ -1,4 +1,5 @@
 import * as actions from '../../actions';
+import { DawwwEffects } from '../../types';
 import { acceptSequenceDeletion } from './acceptSequenceDeletion';
 import { disablePartLooping } from './disablePartLooping';
 import { disposePart } from './disposePart';
@@ -7,7 +8,7 @@ import { setPartEvents } from './setPartEvents';
 import { setPartEventsByNoteId } from './setPartEventsByNoteId';
 import { startPart } from './startPart';
 
-export default function effects(getState, action, shared) {
+export const partsEffects: DawwwEffects = (getState, action, shared) => {
   switch (action.type) {
     case actions.NOTE_ADDED:
     case actions.NOTE_DELETED:
@@ -34,4 +35,4 @@ export default function effects(getState, action, shared) {
       break;
     default:
   }
-}
+};
