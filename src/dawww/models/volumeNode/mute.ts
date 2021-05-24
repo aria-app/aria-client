@@ -1,5 +1,5 @@
-import set from 'lodash/set';
+import { VolumeNode } from '../../types';
 
-export function mute(volumeNode) {
-  set(volumeNode, 'mute', true);
+export function mute(volumeNode: VolumeNode): void {
+  volumeNode.mute = true;
 }

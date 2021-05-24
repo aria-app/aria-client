@@ -3,8 +3,8 @@ import { CurriedFunction2 } from 'lodash/function';
 
 import { Note, PlaybackState, Point, Sequence, Track } from '../types';
 
-export interface DawwwAction {
-  payload?: any;
+export interface DawwwAction<T = any> {
+  payload?: T;
   type: string;
 }
 
@@ -174,4 +174,10 @@ export type ToneTime = number | string;
 
 export type TransportPart = Record<string, any>;
 
-export type VolumeNode = Record<string, any>;
+export type VolumeNode = {
+  mute: boolean;
+  volume: {
+    value: number;
+  };
+  [key: string]: any;
+};

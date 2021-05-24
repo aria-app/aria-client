@@ -1,3 +1,5 @@
+import { DawwwAction } from './types';
+
 export const BPM_EDITED = 'BPM_EDITED';
 export const FOCUSED_SEQUENCE_ID_EDITED = 'FOCUSED_SEQUENCE_ID_EDITED';
 export const MEASURE_COUNT_EDITED = 'MEASURE_COUNT_EDITED';
@@ -32,40 +34,37 @@ export const TRACK_VOICE_EDITED = 'TRACK_VOICE_EDITED';
 export const TRACK_VOLUME_EDITED = 'TRACK_VOLUME_EDITED';
 export const UNKNOWN = 'UNKNOWN';
 
-export const bpmEdited = (bpm) => ({
+// To type these better, take objects instead of loose arguments
+type DawwwActionCreator<T = any> = (...args: any[]) => DawwwAction<T>;
+
+export const bpmEdited: DawwwActionCreator = (bpm) => ({
   type: BPM_EDITED,
   payload: { bpm },
 });
 
-export const focusedSequenceIdEdited = (focusedSequenceId) => ({
+export const focusedSequenceIdEdited: DawwwActionCreator = (
+  focusedSequenceId,
+) => ({
   type: FOCUSED_SEQUENCE_ID_EDITED,
   payload: { focusedSequenceId },
 });
 
-export const measureCountEdited = (measureCount) => ({
+export const measureCountEdited: DawwwActionCreator = (measureCount) => ({
   type: MEASURE_COUNT_EDITED,
   payload: { measureCount },
 });
 
-export const noteAdded = (note, id) => ({
+export const noteAdded: DawwwActionCreator = (note, id) => ({
   type: NOTE_ADDED,
   payload: { id, note },
 });
 
-export const noteDeleted = (note, id) => ({
+export const noteDeleted: DawwwActionCreator = (note, id) => ({
   type: NOTE_DELETED,
   payload: { id, note },
 });
 
-type NotePlayed = (options: {
-  length?: number;
-  pitch: number;
-  position?: number;
-  time?: number;
-  trackId: number;
-}) => any;
-
-export const notePlayed: NotePlayed = ({
+export const notePlayed: DawwwActionCreator = ({
   length,
   pitch,
   position,
@@ -76,133 +75,182 @@ export const notePlayed: NotePlayed = ({
   payload: { length, pitch, position, time, trackId },
 });
 
-export const notePointAdded = ({ id, index, value }) => ({
+export const notePointAdded: DawwwActionCreator = ({ id, index, value }) => ({
   type: NOTE_POINT_ADDED,
   payload: { id, index, value },
 });
 
-export const notePointDeleted = ({ id, index, prevValue }) => ({
+export const notePointDeleted: DawwwActionCreator = ({
+  id,
+  index,
+  prevValue,
+}) => ({
   type: NOTE_POINT_DELETED,
   payload: { id, index, prevValue },
 });
 
-export const notePointXEdited = ({ id, index, prevValue, value }) => ({
+export const notePointXEdited: DawwwActionCreator = ({
+  id,
+  index,
+  prevValue,
+  value,
+}) => ({
   type: NOTE_POINT_X_EDITED,
   payload: { id, index, prevValue, value },
 });
 
-export const notePointYEdited = ({ id, index, prevValue, value }) => ({
+export const notePointYEdited: DawwwActionCreator = ({
+  id,
+  index,
+  prevValue,
+  value,
+}) => ({
   type: NOTE_POINT_Y_EDITED,
   payload: { id, index, prevValue, value },
 });
 
-export const partStepTriggered = ({ noteIds, time, trackId }) => ({
+export const partStepTriggered: DawwwActionCreator = ({
+  noteIds,
+  time,
+  trackId,
+}) => ({
   type: PART_STEP_TRIGGERED,
   payload: { noteIds, time, trackId },
 });
 
-export const playbackPauseRequested = () => ({
+export const playbackPauseRequested: DawwwActionCreator = () => ({
   type: PLAYBACK_PAUSE_REQUESTED,
 });
 
-export const playbackStartRequested = () => ({
+export const playbackStartRequested: DawwwActionCreator = () => ({
   type: PLAYBACK_START_REQUESTED,
 });
 
-export const playbackStateSet = (playbackState) => ({
+export const playbackStateSet: DawwwActionCreator = (playbackState) => ({
   type: PLAYBACK_STATE_SET,
   payload: { playbackState },
 });
 
-export const playbackStopRequested = () => ({
+export const playbackStopRequested: DawwwActionCreator = () => ({
   type: PLAYBACK_STOP_REQUESTED,
 });
 
-export const positionSet = (position, caller?) => ({
+export const positionSet: DawwwActionCreator = (position, caller?) => ({
   type: POSITION_SET,
   payload: { position },
   meta: { caller },
 });
 
-export const positionSetRequested = (position) => ({
+export const positionSetRequested: DawwwActionCreator = (position) => ({
   type: POSITION_SET_REQUESTED,
   payload: { position },
 });
 
-export const releaseAllRequested = () => ({
+export const releaseAllRequested: DawwwActionCreator = () => ({
   type: RELEASE_ALL_REQUESTED,
 });
 
-export const sequenceAdded = (sequence) => ({
+export const sequenceAdded: DawwwActionCreator = (sequence) => ({
   type: SEQUENCE_ADDED,
   payload: { sequence },
 });
 
-export const sequenceDeletionAccepted = (sequence) => ({
+export const sequenceDeletionAccepted: DawwwActionCreator = (sequence) => ({
   type: SEQUENCE_DELETION_ACCEPTED,
   payload: { sequence },
 });
 
-export const sequenceDeletionRequested = (sequence) => ({
+export const sequenceDeletionRequested: DawwwActionCreator = (sequence) => ({
   type: SEQUENCE_DELETION_REQUESTED,
   payload: { sequence },
 });
 
-export const sequenceMeasureCountEdited = ({ id, prevValue, value }) => ({
+export const sequenceMeasureCountEdited: DawwwActionCreator = ({
+  id,
+  prevValue,
+  value,
+}) => ({
   type: SEQUENCE_MEASURE_COUNT_EDITED,
   payload: { id, prevValue, value },
 });
 
-export const sequencePositionEdited = ({ id, prevValue, value }) => ({
+export const sequencePositionEdited: DawwwActionCreator = ({
+  id,
+  prevValue,
+  value,
+}) => ({
   type: SEQUENCE_POSITION_EDITED,
   payload: { id, prevValue, value },
 });
 
-export const sequenceTrackIdEdited = ({ id, prevValue, value }) => ({
+export const sequenceTrackIdEdited: DawwwActionCreator = ({
+  id,
+  prevValue,
+  value,
+}) => ({
   type: SEQUENCE_TRACK_ID_EDITED,
   payload: { id, prevValue, value },
 });
 
-export const songUpdated = ({ prevSong, song }) => ({
+export const songUpdated: DawwwActionCreator = ({ prevSong, song }) => ({
   type: SONG_UPDATED,
   payload: { prevSong, song },
 });
 
-export const trackAdded = ({ isAnyTrackSoloing, track }) => ({
+export const trackAdded: DawwwActionCreator = ({
+  isAnyTrackSoloing,
+  track,
+}) => ({
   type: TRACK_ADDED,
   payload: { isAnyTrackSoloing, track },
 });
 
-export const trackDeletionAccepted = (track) => ({
+export const trackDeletionAccepted: DawwwActionCreator = (track) => ({
   type: TRACK_DELETION_ACCEPTED,
   payload: { track },
 });
 
-export const trackDeletionRequested = (track) => ({
+export const trackDeletionRequested: DawwwActionCreator = (track) => ({
   type: TRACK_DELETION_REQUESTED,
   payload: { track },
 });
 
-export const trackIsMutedEdited = ({ id, prevValue, value }) => ({
+export const trackIsMutedEdited: DawwwActionCreator = ({
+  id,
+  prevValue,
+  value,
+}) => ({
   type: TRACK_IS_MUTED_EDITED,
   payload: { id, prevValue, value },
 });
 
-export const trackIsSoloingEdited = ({ id, prevValue, value }) => ({
+export const trackIsSoloingEdited: DawwwActionCreator = ({
+  id,
+  prevValue,
+  value,
+}) => ({
   type: TRACK_IS_SOLOING_EDITED,
   payload: { id, prevValue, value },
 });
 
-export const trackVoiceEdited = ({ id, prevValue, value }) => ({
+export const trackVoiceEdited: DawwwActionCreator = ({
+  id,
+  prevValue,
+  value,
+}) => ({
   type: TRACK_VOICE_EDITED,
   payload: { id, prevValue, value },
 });
 
-export const trackVolumeEdited = ({ id, prevValue, value }) => ({
+export const trackVolumeEdited: DawwwActionCreator = ({
+  id,
+  prevValue,
+  value,
+}) => ({
   type: TRACK_VOLUME_EDITED,
   payload: { id, prevValue, value },
 });
 
-export const unknown = () => ({
+export const unknown: DawwwActionCreator = () => ({
   type: UNKNOWN,
 });
