@@ -1,21 +1,20 @@
-import getOr from 'lodash/fp/getOr';
-import last from 'lodash/fp/last';
+import { DiffArray } from 'deep-diff';
+import first from 'lodash/fp/first';
 
 import * as actions from '../../../actions';
-import * as constants from '../../../constants';
+import { DawwwNote, DiffInterpreter } from '../../../types';
 
-export function interpretNoteArrayEditedDiff(diff) {
-  const id = getOr([], 'path[1]', diff);
-  const index = getOr(-1, 'index', diff);
-  const prevValue = getOr({}, 'item.lhs', diff);
-  const value = getOr({}, 'item.rhs', diff);
+export const interpretNoteArrayEditedDiff: DiffInterpreter<
+  DiffArray<DawwwNote, DawwwNote>
+> = ({ index, item, path }) => {
+  const id = first(path);
 
-  switch (last(getOr('', 'item.kind', diff))) {
-    case constants.DIFF_KIND_D:
-      return actions.notePointDeleted({ id, index, prevValue });
-    case constants.DIFF_KIND_N:
-      return actions.notePointAdded({ id, index, value });
+  switch (item.kind) {
+    case 'D':
+      return actions.notePointDeleted({ id, index, prevValue: item.lhs });
+    case 'N':
+      return actions.notePointAdded({ id, index, value: item.rhs });
     default:
       return actions.unknown();
   }
-}
+};

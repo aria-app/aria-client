@@ -1,8 +1,17 @@
-import { MutationResult, useMutation } from '@apollo/client';
+import {
+  MutationHookOptions,
+  MutationResult,
+  useMutation,
+} from '@apollo/client';
 import React from 'react';
 
 import { Sequence } from '../../../types';
-import * as queries from '../queries';
+import {
+  DUPLICATE_SEQUENCE,
+  DuplicateSequenceResponse,
+  GET_SONG,
+  GetSongResponse,
+} from '../queries';
 
 type DuplicateSequenceMutation = (variables: {
   sequence: Sequence;
@@ -11,13 +20,13 @@ type DuplicateSequenceMutation = (variables: {
 }) => Promise<Sequence>;
 
 interface DuplicateSequenceData {
-  duplicateSequence: queries.DuplicateSequenceResponse;
+  duplicateSequence: DuplicateSequenceResponse;
 }
 
-export default function useDuplicateSequence(
-  ...args
+export function useDuplicateSequence(
+  options?: MutationHookOptions,
 ): [DuplicateSequenceMutation, MutationResult<DuplicateSequenceData>] {
-  const [mutation, ...rest] = useMutation(queries.DUPLICATE_SEQUENCE, ...args);
+  const [mutation, ...rest] = useMutation(DUPLICATE_SEQUENCE, options);
 
   const wrappedMutation = React.useCallback(
     async ({ sequence, songId, tempId }) => {
@@ -41,15 +50,15 @@ export default function useDuplicateSequence(
           update: (cache, result) => {
             const newSequence = result.data.duplicateSequence.sequence;
 
-            const prevData = cache.readQuery<queries.GetSongResponse>({
-              query: queries.GET_SONG,
+            const prevData = cache.readQuery<GetSongResponse>({
+              query: GET_SONG,
               variables: { id: songId },
             });
 
             if (!prevData || !prevData.song) return;
 
             cache.writeQuery({
-              query: queries.GET_SONG,
+              query: GET_SONG,
               variables: { id: songId },
               data: {
                 song: {

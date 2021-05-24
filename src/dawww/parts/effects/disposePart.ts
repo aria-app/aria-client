@@ -1,10 +1,8 @@
-import getOr from 'lodash/fp/getOr';
-import noop from 'lodash/fp/noop';
+import { DawwwEffects } from '../../types';
 
-export function disposePart(getState, action, shared) {
-  const dispose = getOr(noop, 'models.part.dispose', shared);
-  const sequenceId = getOr('', 'payload.sequence.id', action);
-  const part = getOr({}, `parts[${sequenceId}]`, getState());
+export const disposePart: DawwwEffects = (getState, action, { models }) => {
+  const { sequence } = action.payload;
+  const { parts } = getState();
 
-  dispose(part);
-}
+  models.part.dispose(parts[sequence.id]);
+};

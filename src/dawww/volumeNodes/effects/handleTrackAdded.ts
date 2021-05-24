@@ -1,9 +1,9 @@
-import getOr from 'lodash/fp/getOr';
+import { Track } from '../../../types';
+import { DawwwEffects } from '../../types';
 
-export function handleTrackAdded(getState, action, shared) {
-  const id = getOr('', 'payload.track.id', action);
-  const instrument = getOr({}, `instruments[${id}]`, getState());
-  const volumeNode = getOr({}, `volumeNodes[${id}]`, getState());
+export const handleTrackAdded: DawwwEffects = (getState, action, shared) => {
+  const { id } = action.payload.track as Track;
+  const { instruments, volumeNodes } = getState();
 
-  shared.toneAdapter.chainToMaster(instrument, volumeNode);
-}
+  shared.toneAdapter.chainToMaster(instruments[id], volumeNodes[id]);
+};

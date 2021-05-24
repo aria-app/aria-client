@@ -6,8 +6,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import { Redirect } from '@reach/router';
-import React from 'react';
+import { Redirect, RouteComponentProps } from '@reach/router';
+import { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import api from '../../api';
 import auth from '../../auth';
@@ -25,27 +25,27 @@ const StyledContainer = styled(Container)((props: any) => ({
   flex: 1,
 }));
 
-export default function Login(props: any) {
+export default function Login(props: RouteComponentProps): ReactElement {
   const [login, { client, error, loading }] = useMutation(api.queries.LOGIN);
   const { getIsAuthenticated, handleLogin, user } = useAuth();
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleEmailChange = React.useCallback(
+  const handleEmailChange = useCallback(
     (e) => {
       setEmail(e.target.value);
     },
     [setEmail],
   );
 
-  const handlePasswordChange = React.useCallback(
+  const handlePasswordChange = useCallback(
     (e) => {
       setPassword(e.target.value);
     },
     [setPassword],
   );
 
-  const handleSubmit = React.useCallback(
+  const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
 
@@ -62,7 +62,7 @@ export default function Login(props: any) {
     [email, handleLogin, login, password],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (getIsAuthenticated()) return;
 
     client.resetStore();

@@ -1,9 +1,10 @@
-import getOr from 'lodash/fp/getOr';
+import { DiffDeleted } from 'deep-diff';
 
 import * as actions from '../../../actions';
+import { DawwwTrack, DiffInterpreter } from '../../../types';
 
-export function interpretTrackDeletedDiff(diff) {
-  const track = getOr({}, 'lhs', diff);
-
-  return actions.trackDeletionRequested(track);
-}
+export const interpretTrackDeletedDiff: DiffInterpreter<
+  DiffDeleted<DawwwTrack>
+> = ({ lhs }) => {
+  return actions.trackDeletionRequested(lhs);
+};

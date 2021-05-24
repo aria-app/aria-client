@@ -7,6 +7,7 @@ import Tone from 'tone';
 
 import Dawww from '../../../dawww';
 import api from '../../api';
+import { GetSongResponse } from '../../api/queries/GET_SONG';
 import audio from '../../audio';
 import auth from '../../auth';
 import notesEditor from '../../notesEditor';
@@ -16,6 +17,7 @@ import SongEditorToolbar from './SongEditorToolbar';
 import SongInfoModal from './SongInfoModal';
 
 const { useUpdateSong } = api.hooks;
+const { GET_SONG } = api.queries;
 const { useAuth } = auth.hooks;
 const { useAudioManager, usePlaybackState } = audio.hooks;
 const { STARTED } = Dawww.PLAYBACK_STATES;
@@ -35,7 +37,7 @@ function SongEditor(props: any) {
   const { user } = useAuth();
   const playbackState = usePlaybackState();
   const [updateSong] = useUpdateSong();
-  const { data, error, loading } = useQuery(api.queries.GET_SONG, {
+  const { data, error, loading } = useQuery<GetSongResponse>(GET_SONG, {
     variables: { id: songId },
   });
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);
@@ -61,6 +63,8 @@ function SongEditor(props: any) {
 
   const handleSongBPMChange = React.useCallback(
     (bpm) => {
+      if (!data?.song) return;
+
       updateSong({
         input: {
           id: data.song.id,
@@ -86,11 +90,12 @@ function SongEditor(props: any) {
   React.useEffect(() => {
     if (!data) return;
 
-    window.document.title = `${data.song.name} - Aria`;
-  }, [data]);
+    window.document.title = `${data?.song?.name} - Aria`;
+    audioManager.updateSong(data?.song);
+  }, [audioManager, data]);
 
-  if (data && user && data.song.user.id !== user.id) {
-    return <Redirect noThrow to={`/view-song/${data.song.id}`} />;
+  if (data && user && data.song?.user.id !== user.id) {
+    return <Redirect noThrow to={`/view-song/${data.song?.id}`} />;
   }
 
   return (

@@ -1,22 +1,26 @@
 import getOr from 'lodash/fp/getOr';
 import omit from 'lodash/fp/omit';
+import uniqBy from 'lodash/fp/uniqBy';
 import Tone from 'tone';
 
+import { Note, Sequence, Song } from '../types';
 import * as actions from './actions';
 import { channels, emit, on } from './bus';
 import * as constants from './constants';
-import effects from './effects';
+import { effects } from './effects';
 import * as helpers from './helpers';
+import { setAtIds } from './helpers';
 import * as models from './models';
-import reducer from './reducer';
+import { reducer } from './reducer';
 import * as selectors from './selectors';
 import { getState, setState } from './state';
 import { createToneAdapter } from './toneAdapter';
 
-function setAtIds(array, obj) {
-  return array.reduce((acc, cur) => ({ ...acc, [cur.id]: cur }), obj);
+export interface DawwwOptions {
+  song?: Song;
 }
-export default function Dawww(options) {
+
+export default function Dawww(options?: DawwwOptions): any {
   const dispatch = emit(channels.ACTION_OCCURRED);
   const toneAdapter = createToneAdapter(Tone);
   const shared = {
@@ -26,8 +30,8 @@ export default function Dawww(options) {
     selectors,
     toneAdapter,
   };
-  const updateSequence = (sequence) => {
-    const prevSong = getOr({ sequences: {} }, 'song', getState());
+  const updateSequence = (sequence: Sequence) => {
+    const prevSong = getOr({ notes: {}, sequences: {} }, 'song', getState());
 
     dispatch(
       actions.songUpdated({
@@ -35,13 +39,23 @@ export default function Dawww(options) {
         song: {
           ...prevSong,
           focusedSequenceId: sequence.id,
+          notes: setAtIds(
+            uniqBy<Note>(
+              (note) => note.id,
+              sequence.notes.map((note) => ({
+                ...note,
+                sequenceId: note.sequence.id,
+              })),
+            ),
+            prevSong.notes,
+          ),
           sequences: setAtIds([sequence], prevSong.sequences),
         },
       }),
     );
   };
 
-  const updateSong = (song) => {
+  const updateSong = (song: Song) => {
     const allSequences = song.tracks.map((track) => track.sequences).flat();
 
     const formattedSong = {
@@ -98,7 +112,24 @@ export default function Dawww(options) {
   });
 
   // Load initial song data
-  updateSong(getOr({ tracks: [] }, 'song', options));
+  updateSong(
+    getOr(
+      {
+        bpm: -1,
+        createdAt: new Date(),
+        id: -1,
+        measureCount: 0,
+        name: '',
+        updatedAt: new Date(),
+        user: {
+          id: -1,
+        },
+        tracks: [],
+      },
+      'song',
+      options,
+    ),
+  );
 
   return {
     constants,
@@ -121,10 +152,6 @@ Dawww.DEFAULT_BPM = constants.DEFAULT_BPM;
 Dawww.DEFAULT_MEASURE_COUNT = constants.DEFAULT_MEASURE_COUNT;
 Dawww.DEFAULT_SONG_NAME = constants.DEFAULT_SONG_NAME;
 Dawww.DEFAULT_VOICE = constants.DEFAULT_VOICE;
-Dawww.DIFF_KIND_A = constants.DIFF_KIND_A;
-Dawww.DIFF_KIND_D = constants.DIFF_KIND_D;
-Dawww.DIFF_KIND_E = constants.DIFF_KIND_E;
-Dawww.DIFF_KIND_N = constants.DIFF_KIND_N;
 Dawww.MAX_BPM = constants.MAX_BPM;
 Dawww.MIN_BPM = constants.MIN_BPM;
 Dawww.OCTAVE_RANGE = constants.OCTAVE_RANGE;

@@ -1,6 +1,8 @@
-import getOr from 'lodash/fp/getOr';
+import first from 'lodash/fp/first';
+import tail from 'lodash/fp/tail';
 
 import * as actions from '../../../actions';
+import { DiffInterpreter } from '../../../types';
 import { interpretBPMEditedDiff } from './interpretBPMEditedDiff';
 import { interpretFocusedSequenceIdEditedDiff } from './interpretFocusedSequenceIdEditedDiff';
 import { interpretMeasureCountEditedDiff } from './interpretMeasureCountEditedDiff';
@@ -8,21 +10,24 @@ import { interpretNotesDiff } from './interpretNotesDiff';
 import { interpretSequencesDiff } from './interpretSequencesDiff';
 import { interpretTracksDiff } from './interpretTracksDiff';
 
-export function interpretDiff(diff, song) {
-  switch (getOr('', 'path[0]', diff)) {
+export const interpretDiff: DiffInterpreter = (diff, song) => {
+  const editedProperty = first(diff.path);
+  const childDiff = { ...diff, path: tail(diff.path) };
+
+  switch (editedProperty) {
     case 'bpm':
-      return interpretBPMEditedDiff(diff);
+      return interpretBPMEditedDiff(childDiff);
     case 'focusedSequenceId':
-      return interpretFocusedSequenceIdEditedDiff(diff);
+      return interpretFocusedSequenceIdEditedDiff(childDiff);
     case 'measureCount':
-      return interpretMeasureCountEditedDiff(diff);
+      return interpretMeasureCountEditedDiff(childDiff);
     case 'notes':
-      return interpretNotesDiff(diff);
+      return interpretNotesDiff(childDiff);
     case 'sequences':
-      return interpretSequencesDiff(diff);
+      return interpretSequencesDiff(childDiff);
     case 'tracks':
-      return interpretTracksDiff(diff, song);
+      return interpretTracksDiff(childDiff, song);
     default:
       return actions.unknown();
   }
-}
+};

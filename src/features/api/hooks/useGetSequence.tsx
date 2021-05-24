@@ -1,8 +1,14 @@
-import { useQuery } from '@apollo/client';
+import { QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
 
-import { Sequence } from '../../../types';
-import * as queries from '../queries';
+import {
+  GET_SEQUENCE,
+  GetSequenceInput,
+  GetSequenceResponse,
+} from '../queries';
 
-export default function useGetSequence(...args) {
-  return useQuery<{ sequence: Sequence }>(queries.GET_SEQUENCE, ...args);
-}
+type UseGetSequence = (
+  options?: QueryHookOptions<GetSequenceResponse, GetSequenceInput>,
+) => QueryResult<GetSequenceResponse>;
+
+export const useGetSequence: UseGetSequence = (options) =>
+  useQuery<GetSequenceResponse>(GET_SEQUENCE, options);

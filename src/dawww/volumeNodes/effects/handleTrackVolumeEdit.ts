@@ -1,9 +1,12 @@
-import getOr from 'lodash/fp/getOr';
+import { DawwwEffects } from '../../types';
 
-export function handleTrackVolumeEdit(getState, action, shared) {
-  const id = getOr('', 'payload.id', action);
-  const volumeNode = getOr({}, `volumeNodes[${id}]`, getState());
-  const volume = getOr(0, 'payload.value', action);
+export const handleTrackVolumeEdit: DawwwEffects = (
+  getState,
+  action,
+  shared,
+) => {
+  const { id, value = 0 } = action.payload;
+  const { volumeNodes } = getState();
 
-  shared.models.volumeNode.setVolume(volumeNode, volume);
-}
+  shared.models.volumeNode.setVolume(volumeNodes[id], value);
+};

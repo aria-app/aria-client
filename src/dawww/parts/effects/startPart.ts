@@ -1,13 +1,16 @@
-import getOr from 'lodash/fp/getOr';
-import noop from 'lodash/fp/noop';
+import { DawwwEffects } from '../../types';
 
-export function startPart(getState, action, shared) {
-  const measuresToTime = getOr(noop, 'helpers.measuresToTime', shared);
-  const startAtTime = getOr(noop, 'models.part.startAtTime', shared);
-  const sequence = getOr({}, 'payload.sequence', action);
-  const sequenceId = getOr('', 'id', sequence);
-  const position = getOr(0, 'position', sequence);
-  const part = getOr({}, `parts[${sequenceId}]`, getState());
+export const startPart: DawwwEffects = (
+  getState,
+  action,
+  { helpers, models, toneAdapter },
+) => {
+  const { sequence } = action.payload;
+  const { id, position } = sequence;
+  const { parts } = getState();
 
-  startAtTime(measuresToTime(position, shared.toneAdapter), part);
-}
+  models.part.startAtTime(
+    helpers.measuresToTime(position, toneAdapter),
+    parts[id],
+  );
+};

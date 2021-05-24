@@ -1,17 +1,19 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import { Children, ReactElement } from 'react';
 
-import { verticalAlignments } from '../constants';
-import Box from './Box';
+import { Spacing } from '../types';
+import { Box, BoxProps } from './Box';
 
-Inline.propTypes = {
-  align: PropTypes.oneOf(['center', 'left', 'right']),
-  alignY: PropTypes.oneOf(verticalAlignments),
-  isReversed: PropTypes.bool,
-  space: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+export type InlineAlignX = 'center' | 'left' | 'right';
+export type InlineAlignY = 'bottom' | 'center' | 'stretch' | 'top';
+
+export type InlineProps = BoxProps & {
+  align?: InlineAlignX;
+  alignY?: InlineAlignY;
+  isReversed?: boolean;
+  space?: Spacing;
 };
 
-export default function Inline(props: any) {
+export function Inline(props: InlineProps): ReactElement {
   const {
     align = 'left',
     alignY = 'top',
@@ -42,7 +44,7 @@ export default function Inline(props: any) {
           marginTop: space ? -space : undefined,
         }}
       >
-        {React.Children.map(children, (child) => (
+        {Children.map(children, (child) => (
           <Box
             sx={{
               display: 'flex',

@@ -9,10 +9,17 @@ export const channels = {
   UPDATE_REQUESTED: 'UPDATE_REQUESTED',
 };
 
-export const emit = (channelName) => (payload) => {
+type PartiallyAppliedEmit = (channelName: string) => (payload: any) => void;
+
+export const emit: PartiallyAppliedEmit = (channelName) => (payload) => {
   eventEmitter.emit(channelName, payload);
 };
 
-export const on = (channelName, callback) => {
+type OnFn = (
+  channelName: string,
+  callback: getEventEmitter.EventListener,
+) => void;
+
+export const on: OnFn = (channelName, callback) => {
   eventEmitter.on(channelName, callback);
 };

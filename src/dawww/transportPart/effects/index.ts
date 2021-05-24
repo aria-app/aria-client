@@ -1,10 +1,15 @@
 import * as actions from '../../actions';
+import { DawwwEffects } from '../../types';
 import { disableTransportPartLooping } from './disableTransportPartLooping';
 import { setToneLoopPoints } from './setToneLoopPoints';
 import { setTransportPartEvents } from './setTransportPartEvents';
 import { startTransportPart } from './startTransportPart';
 
-export default function effects(getState, action, shared) {
+export const transportPartEffects: DawwwEffects = (
+  getState,
+  action,
+  shared,
+) => {
   switch (action.type) {
     case actions.MEASURE_COUNT_EDITED:
       setTransportPartEvents(getState, action, shared);
@@ -14,4 +19,4 @@ export default function effects(getState, action, shared) {
       break;
     default:
   }
-}
+};

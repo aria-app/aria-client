@@ -1,15 +1,9 @@
-import invokeArgs from 'lodash/fp/invokeArgs';
+import { Instrument } from '../../types';
 
-export function setVoice(instrument, value) {
-  invokeArgs(
-    'set',
-    [
-      {
-        oscillator: {
-          type: value,
-        },
-      },
-    ],
-    instrument,
-  );
+export function setVoice(instrument: Instrument, value: string): void {
+  instrument.set({
+    oscillator: {
+      type: value,
+    },
+  });
 }

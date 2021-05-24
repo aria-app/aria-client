@@ -1,11 +1,17 @@
-import { Redirect } from '@reach/router';
-import React from 'react';
+import { Redirect, RouteComponentProps } from '@reach/router';
+import { ElementType, ReactElement } from 'react';
 
 import auth from '../../auth';
 
 const { useAuth } = auth.hooks;
 
-export default function PrivateRoute(props: any) {
+export type PrivateRouteProps = RouteComponentProps & {
+  component: ElementType;
+};
+
+export default function PrivateRoute(
+  props: PrivateRouteProps,
+): ReactElement | null {
   const { component: Component, ...rest } = props;
   const { getIsAuthenticated, loading } = useAuth();
 

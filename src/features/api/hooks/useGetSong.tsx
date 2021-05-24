@@ -1,8 +1,10 @@
-import { useQuery } from '@apollo/client';
+import { QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
 
-import { Song } from '../../../types';
-import * as queries from '../queries';
+import { GET_SONG, GetSongInput, GetSongResponse } from '../queries';
 
-export default function useGetSong(...args) {
-  return useQuery<{ song: Song }>(queries.GET_SONG, ...args);
-}
+type UseGetSong = (
+  options?: QueryHookOptions<GetSongResponse, GetSongInput>,
+) => QueryResult<GetSongResponse>;
+
+export const useGetSong: UseGetSong = (options) =>
+  useQuery<GetSongResponse>(GET_SONG, options);

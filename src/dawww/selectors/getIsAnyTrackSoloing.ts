@@ -1,8 +1,9 @@
-import compose from 'lodash/fp/compose';
-import getOr from 'lodash/fp/getOr';
 import some from 'lodash/fp/some';
 
-export const getIsAnyTrackSoloing = compose(
-  some(getOr(false, 'isSoloing')),
-  getOr({}, 'song.tracks'),
-);
+import { DawwwTrack, State } from '../types';
+
+export const getIsAnyTrackSoloing: (state: State) => boolean = (state) => {
+  const { tracks } = state.song;
+
+  return some<Record<number, DawwwTrack>>((track) => track.isSoloing, tracks);
+};

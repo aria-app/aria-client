@@ -1,18 +1,32 @@
-import { MutationResult, useMutation } from '@apollo/client';
+import {
+  MutationHookOptions,
+  MutationResult,
+  useMutation,
+} from '@apollo/client';
 import React from 'react';
 
-import * as queries from '../queries';
+import {
+  CREATE_TRACK,
+  CreateTrackInput,
+  CreateTrackResponse,
+  GET_SONG,
+  GetSongResponse,
+} from '../queries';
 
 type CreateTrackMutation = (variables: { songId: number }) => Promise<void>;
 
 interface CreateTrackData {
-  createTrack: queries.CreateTrackResponse;
+  __typename?: string;
+  createTrack: CreateTrackResponse;
 }
 
-export default function useCreateTrack(
-  ...args
+export function useCreateTrack(
+  options?: MutationHookOptions<CreateTrackData, CreateTrackInput>,
 ): [CreateTrackMutation, MutationResult<CreateTrackData>] {
-  const [mutation, ...rest] = useMutation(queries.CREATE_TRACK, ...args);
+  const [mutation, ...rest] = useMutation<CreateTrackData, CreateTrackInput>(
+    CREATE_TRACK,
+    options,
+  );
 
   const wrappedMutation = React.useCallback(
     async ({ songId }) => {
@@ -21,6 +35,8 @@ export default function useCreateTrack(
           optimisticResponse: {
             __typename: 'Mutation',
             createTrack: {
+              message: '',
+              success: true,
               track: {
                 id: Math.round(Math.random() * -1000000),
                 position: 999,
@@ -37,9 +53,9 @@ export default function useCreateTrack(
             },
           },
           update: (cache, result) => {
-            const newTrack = result.data.createTrack.track;
-            const prevData = cache.readQuery<queries.GetSongResponse>({
-              query: queries.GET_SONG,
+            const newTrack = result?.data?.createTrack?.track;
+            const prevData = cache.readQuery<GetSongResponse>({
+              query: GET_SONG,
               variables: { id: songId },
             });
 
@@ -51,7 +67,7 @@ export default function useCreateTrack(
             };
 
             cache.writeQuery({
-              query: queries.GET_SONG,
+              query: GET_SONG,
               variables: { id: songId },
               data: {
                 song: newSong,

@@ -1,23 +1,33 @@
-import getOr from 'lodash/fp/getOr';
+import { DiffEdit } from 'deep-diff';
+import first from 'lodash/fp/first';
 import last from 'lodash/fp/last';
 
+import { Point } from '../../../../types';
 import * as actions from '../../../actions';
+import { DawwwNote, DiffInterpreter } from '../../../types';
 
-export function interpretNoteEditedDiff(diff) {
-  const id = getOr([], 'path[1]', diff);
-  const index = getOr(-1, 'path[3]', diff);
-  const property = last(getOr([], 'path', diff));
-  const prevValue = getOr('', 'lhs', diff);
-  const value = getOr('', 'rhs', diff);
+export const interpretNoteEditedDiff: DiffInterpreter<DiffEdit<any, any>> = (
+  diff,
+) => {
+  const id = first(diff.path);
+  const editedProperty: keyof DawwwNote | keyof Point = last(diff.path);
+  const index = diff.path?.[2];
 
-  switch (property) {
-    case 'sequenceId':
-      return actions.noteSequenceIdEdited({ id, prevValue, value });
-    case 'x':
-      return actions.notePointXEdited({ id, index, prevValue, value });
-    case 'y':
-      return actions.notePointYEdited({ id, index, prevValue, value });
-    default:
-      return actions.unknown();
+  if (editedProperty === 'x') {
+    const { lhs, rhs } = diff as DiffEdit<
+      DawwwNote['points'][number]['x'],
+      DawwwNote['points'][number]['x']
+    >;
+    return actions.notePointXEdited({ id, index, prevValue: lhs, value: rhs });
   }
-}
+
+  if (editedProperty === 'y') {
+    const { lhs, rhs } = diff as DiffEdit<
+      DawwwNote['points'][number]['y'],
+      DawwwNote['points'][number]['y']
+    >;
+    return actions.notePointYEdited({ id, index, prevValue: lhs, value: rhs });
+  }
+
+  return actions.unknown();
+};

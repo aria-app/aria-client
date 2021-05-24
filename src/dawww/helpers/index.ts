@@ -5,6 +5,7 @@ export { getNotesInArea } from './getNotesInArea';
 export { getPitchName } from './getPitchName';
 export { getPointOffset } from './getPointOffset';
 export { measuresToTime } from './measuresToTime';
+export { setAtIds } from './setAtIds';
 export { sizeToTime } from './sizeToTime';
 export { someNoteWillMoveOutside } from './someNoteWillMoveOutside';
 export { translateNote } from './translateNote';

@@ -1,11 +1,8 @@
-import getOr from 'lodash/fp/getOr';
-import noop from 'lodash/fp/noop';
+import { DawwwEffects } from '../../types';
 
-export function stopPart(getState, action, shared) {
-  const stop = getOr(noop, 'models.part.stop', shared);
-  const sequence = getOr({}, 'payload.sequence', action);
-  const sequenceId = getOr('', 'id', sequence);
-  const part = getOr({}, `parts[${sequenceId}]`, getState());
+export const stopPart: DawwwEffects = (getState, action, { models }) => {
+  const { sequence } = action.payload;
+  const { parts } = getState();
 
-  stop(part);
-}
+  models.part.stop(parts[sequence.id]);
+};

@@ -1,6 +1,8 @@
 import isFunction from 'lodash/fp/isFunction';
 
-export function dispose(volumeNode) {
+import { VolumeNode } from '../../types';
+
+export function dispose(volumeNode: VolumeNode): void {
   if (!isFunction(volumeNode.dispose)) return;
 
   volumeNode.dispose();

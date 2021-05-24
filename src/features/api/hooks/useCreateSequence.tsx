@@ -1,24 +1,33 @@
-import { MutationResult, useMutation } from '@apollo/client';
-import React from 'react';
+import {
+  MutationHookOptions,
+  MutationResult,
+  useMutation,
+} from '@apollo/client';
+import { useCallback } from 'react';
 
-import * as queries from '../queries';
+import {
+  CREATE_SEQUENCE,
+  CreateSequenceResponse,
+  GET_SONG,
+  GetSongResponse,
+} from '../queries';
 
-type CreateSequenceMutation = (variables: {
+export type CreateSequenceMutation = (variables: {
   position: number;
   songId: number;
   trackId: number;
 }) => Promise<void>;
 
-interface CreateSequenceData {
-  createSequence: queries.CreateSequenceResponse;
+export interface CreateSequenceData {
+  createSequence: CreateSequenceResponse;
 }
 
-export default function useCreateSequence(
-  ...args
+export function useCreateSequence(
+  options?: MutationHookOptions,
 ): [CreateSequenceMutation, MutationResult<CreateSequenceData>] {
-  const [mutation, ...rest] = useMutation(queries.CREATE_SEQUENCE, ...args);
+  const [mutation, ...rest] = useMutation(CREATE_SEQUENCE, options);
 
-  const wrappedMutation = React.useCallback(
+  const wrappedMutation = useCallback(
     async ({ position, songId, trackId }) => {
       try {
         await mutation({
@@ -41,15 +50,15 @@ export default function useCreateSequence(
           update: (cache, result) => {
             const newSequence = result.data.createSequence.sequence;
 
-            const prevData = cache.readQuery<queries.GetSongResponse>({
-              query: queries.GET_SONG,
+            const prevData = cache.readQuery<GetSongResponse>({
+              query: GET_SONG,
               variables: { id: songId },
             });
 
             if (!prevData || !prevData.song) return;
 
             cache.writeQuery({
-              query: queries.GET_SONG,
+              query: GET_SONG,
               variables: { id: songId },
               data: {
                 song: {

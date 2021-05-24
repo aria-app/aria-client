@@ -1,11 +1,12 @@
-import getOr from 'lodash/fp/getOr';
-import noop from 'lodash/fp/noop';
-
 import * as actions from '../../actions';
+import { DawwwEffects } from '../../types';
 
-export function acceptSequenceDeletion(getState, action, shared) {
-  const dispatch = getOr(noop, 'dispatch', shared);
-  const sequence = getOr({}, 'payload.sequence', action);
+export const acceptSequenceDeletion: DawwwEffects = (
+  getState,
+  action,
+  { dispatch },
+) => {
+  const { sequence } = action.payload;
 
   dispatch(actions.sequenceDeletionAccepted(sequence));
-}
+};

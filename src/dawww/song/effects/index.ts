@@ -1,10 +1,11 @@
 import * as actions from '../../actions';
+import { DawwwEffects } from '../../types';
 import { handleBPMEdit } from './handleBPMEdit';
 import { handleFocusedSequenceIdEdit } from './handleFocusedSequenceIdEdit';
 import { handleSongUpdate } from './handleSongUpdate';
 import { handleTrackDeletionRequest } from './handleTrackDeletionRequest';
 
-export default function effects(getState, action, shared) {
+export const songEffects: DawwwEffects = (getState, action, shared) => {
   switch (action.type) {
     case actions.BPM_EDITED:
       handleBPMEdit(getState, action, shared);
@@ -20,4 +21,4 @@ export default function effects(getState, action, shared) {
       break;
     default:
   }
-}
+};

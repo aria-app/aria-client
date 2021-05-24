@@ -1,10 +1,11 @@
-import getOr from 'lodash/fp/getOr';
-import invoke from 'lodash/fp/invoke';
+import forEach from 'lodash/fp/forEach';
 
-export function handleReleaseAllRequested(getState, action, shared) {
-  const instruments = getOr({}, `instruments`, getState());
+import { DawwwEffects } from '../../types';
 
-  Object.values(instruments).forEach((instrument) => {
-    invoke('releaseAll', instrument);
-  });
-}
+export const handleReleaseAllRequested: DawwwEffects = (getState) => {
+  const { instruments } = getState();
+
+  forEach(({ releaseAll }) => {
+    releaseAll();
+  }, instruments);
+};

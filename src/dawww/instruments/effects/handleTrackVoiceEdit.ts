@@ -1,11 +1,12 @@
-import getOr from 'lodash/fp/getOr';
-import noop from 'lodash/fp/noop';
+import { DawwwEffects } from '../../types';
 
-export function handleTrackVoiceEdit(getState, action, shared) {
-  const setVoice = getOr(noop, 'models.instrument.setVoice', shared);
-  const id = getOr('', 'payload.id', action);
-  const instrument = getOr({}, `instruments[${id}]`, getState());
-  const voice = getOr(0, 'payload.value', action);
+export const handleTrackVoiceEdit: DawwwEffects = (
+  getState,
+  action,
+  { models },
+) => {
+  const { id, value } = action.payload;
+  const { instruments } = getState();
 
-  setVoice(instrument, voice);
-}
+  models.instrument.setVoice(instruments[id], value);
+};

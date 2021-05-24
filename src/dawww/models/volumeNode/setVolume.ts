@@ -1,5 +1,5 @@
-import set from 'lodash/set';
+import { VolumeNode } from '../../types';
 
-export function setVolume(volumeNode, value) {
-  set(volumeNode, 'volume.value', value);
+export function setVolume(volumeNode: VolumeNode, value: number): void {
+  volumeNode.volume.value = value;
 }

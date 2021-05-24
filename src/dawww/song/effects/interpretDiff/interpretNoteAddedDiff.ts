@@ -1,9 +1,10 @@
-import getOr from 'lodash/fp/getOr';
+import { DiffNew } from 'deep-diff';
 
 import * as actions from '../../../actions';
+import { DawwwNote, DiffInterpreter } from '../../../types';
 
-export function interpretNoteAddedDiff(diff) {
-  const note = getOr({}, 'rhs', diff);
-
-  return actions.noteAdded(note, note.id);
-}
+export const interpretNoteAddedDiff: DiffInterpreter<DiffNew<DawwwNote>> = ({
+  rhs,
+}) => {
+  return actions.noteAdded(rhs, rhs.id);
+};

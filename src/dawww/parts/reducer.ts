@@ -1,8 +1,13 @@
 import omit from 'lodash/fp/omit';
 
 import * as actions from '../actions';
+import { DawwwReducer, State } from '../types';
 
-export default function reducer(state = {}, action, shared) {
+export const partsReducer: DawwwReducer<State['parts']> = (
+  state,
+  action,
+  shared,
+) => {
   switch (action.type) {
     case actions.SEQUENCE_ADDED:
       return {
@@ -17,4 +22,4 @@ export default function reducer(state = {}, action, shared) {
     default:
       return state;
   }
-}
+};

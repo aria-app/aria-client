@@ -1,13 +1,13 @@
-import getOr from 'lodash/fp/getOr';
-import noop from 'lodash/fp/noop';
+import { DawwwEffects } from '../../types';
 
-export function startTransportPart(getState, action, shared) {
-  const measuresToTime = getOr(noop, 'helpers.measuresToTime', shared);
-  const startAtOffset = getOr(noop, 'models.part.startAtOffset', shared);
-  const getLoopStartPoint = getOr(noop, 'selectors.getLoopStartPoint', shared);
-  const loopStartPoint = getLoopStartPoint(getState());
-  const loopStartTime = measuresToTime(loopStartPoint, shared.toneAdapter);
-  const transportPart = getOr({}, 'transportPart', getState());
+export const startTransportPart: DawwwEffects = (
+  getState,
+  action,
+  { helpers, models, selectors, toneAdapter },
+) => {
+  const loopStartPoint = selectors.getLoopStartPoint(getState());
+  const loopStartTime = helpers.measuresToTime(loopStartPoint, toneAdapter);
+  const { transportPart } = getState();
 
-  startAtOffset(loopStartTime, transportPart);
-}
+  models.part.startAtOffset(loopStartTime, transportPart);
+};

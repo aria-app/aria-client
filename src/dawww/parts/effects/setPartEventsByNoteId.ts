@@ -1,37 +1,36 @@
 import filter from 'lodash/fp/filter';
-import getOr from 'lodash/fp/getOr';
-import noop from 'lodash/fp/noop';
 import times from 'lodash/fp/times';
 
 import * as actions from '../../actions';
+import { DawwwEffects } from '../../types';
 
-export function setPartEventsByNoteId(getState, action, shared) {
-  const noteId = getOr('', 'payload.id', action);
-  const note = getOr({}, `song.notes[${noteId}]`, getState());
-  const sequence = getOr({}, `song.sequences[${note.sequenceId}]`, getState());
-  const trackId = getOr('', 'trackId', sequence);
-  const allNotes = getOr({}, 'song.notes', getState());
-  const notesInSequence = filter(
-    (n) => n.sequenceId === note.sequenceId,
-    allNotes,
-  );
-  const part = getOr({ at: noop }, `parts[${note.sequenceId}]`, getState());
+export const setPartEventsByNoteId: DawwwEffects = (
+  getState,
+  action,
+  { dispatch },
+) => {
+  const { id } = action.payload;
+  const { parts, song } = getState();
+  const { notes, sequences } = song;
+  const { sequenceId } = notes[id];
+  const { trackId } = sequences[sequenceId];
+  const notesInSequence = filter((n) => n.sequenceId === sequenceId, notes);
 
-  times((i) => {
+  times((stepIndex) => {
     const notesAtStep = filter((n) => {
-      const notePosition = getOr(-1, 'points[0].x', n);
-      return notePosition === i;
+      const notePosition = n.points?.[0].x;
+      return notePosition === stepIndex;
     }, notesInSequence);
-    const noteIdsAtStep = notesAtStep.map(getOr('', 'id'));
+    const noteIdsAtStep = notesAtStep.map((n) => n.id);
 
     const fn = (payload, time) => {
-      const focusedSequenceId = getOr('', 'song.focusedSequenceId', getState());
+      const { song } = getState();
 
-      if (focusedSequenceId !== '' && focusedSequenceId === note.sequenceId) {
-        shared.dispatch(actions.positionSet(i));
+      if (song.focusedSequenceId === sequenceId) {
+        dispatch(actions.positionSet(stepIndex));
       }
 
-      shared.dispatch(
+      dispatch(
         actions.partStepTriggered({
           noteIds: payload.noteIds,
           trackId: payload.trackId,
@@ -41,10 +40,10 @@ export function setPartEventsByNoteId(getState, action, shared) {
     };
     const payload = {
       noteIds: noteIdsAtStep,
-      i,
+      i: stepIndex,
       trackId,
     };
 
-    part.at(i, { fn, payload });
-  }, part.length);
-}
+    parts[sequenceId].at(stepIndex, { fn, payload });
+  }, parts[sequenceId].length);
+};

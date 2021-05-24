@@ -63,6 +63,8 @@
     "@storybook/addon-viewport": "^6.2.8",
     "@storybook/addons": "^6.2.8",
     "@storybook/react": "^6.2.8",
+    "@types/deep-diff": "1.0.0",
+    "@types/event-emitter": "0.3.3",
     "babel-eslint": "^10.1.0",
     "eslint-config-react-app": "^5.0.2",
     "eslint-plugin-flowtype": "^5.2.0",

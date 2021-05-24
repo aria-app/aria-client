@@ -1,6 +1,11 @@
 import * as actions from '../actions';
+import { DawwwReducer, State } from '../types';
 
-export default function reducer(state = {}, action, shared) {
+export const transportPartReducer: DawwwReducer<State['transportPart']> = (
+  state,
+  action,
+  shared,
+) => {
   switch (action.type) {
     case actions.MEASURE_COUNT_EDITED:
       return shared.toneAdapter.createSequence({
@@ -9,4 +14,4 @@ export default function reducer(state = {}, action, shared) {
     default:
       return state;
   }
-}
+};

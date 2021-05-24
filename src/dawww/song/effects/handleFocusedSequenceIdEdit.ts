@@ -1,13 +1,18 @@
 import * as actions from '../../actions';
+import { DawwwEffects } from '../../types';
 
-export function handleFocusedSequenceIdEdit(getState, action, shared) {
-  const loopStartPoint = shared.selectors.getLoopStartPoint(getState());
-  const loopEndPoint = shared.selectors.getLoopEndPoint(getState());
+export const handleFocusedSequenceIdEdit: DawwwEffects = (
+  getState,
+  action,
+  { dispatch, helpers, selectors, toneAdapter },
+) => {
+  const loopStartPoint = selectors.getLoopStartPoint(getState());
+  const loopEndPoint = selectors.getLoopEndPoint(getState());
 
-  shared.toneAdapter.setLoopPoints(
-    shared.helpers.measuresToTime(loopStartPoint, shared.toneAdapter),
-    shared.helpers.measuresToTime(loopEndPoint, shared.toneAdapter),
+  toneAdapter.setLoopPoints(
+    helpers.measuresToTime(loopStartPoint, toneAdapter),
+    helpers.measuresToTime(loopEndPoint, toneAdapter),
   );
 
-  shared.dispatch(actions.positionSetRequested(0));
-}
+  dispatch(actions.positionSetRequested(0));
+};

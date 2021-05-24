@@ -1,23 +1,24 @@
-import getOr from 'lodash/fp/getOr';
-import invokeArgs from 'lodash/fp/invokeArgs';
 import times from 'lodash/fp/times';
+
+import { Part } from '../../types';
 
 type MapEvents = (
   iteratee: (event: any, index: number) => any,
-  part: any,
+  part: Part,
 ) => void;
 
 export const mapEvents: MapEvents = (iteratee, part) => {
-  const length = getOr(0, 'length', part);
+  const length = part.length || 0;
   const mappedEvents: any = [];
 
   times((index) => {
-    const event = invokeArgs('at', [index], part);
+    const event = part.at(index);
+
     mappedEvents[index] = iteratee(event, index);
   }, length);
 
   times((index) => {
-    const event = getOr({}, index, mappedEvents);
-    invokeArgs('at', [index, event], part);
+    const event = mappedEvents?.[index];
+    part.at(index, event);
   }, length);
 };

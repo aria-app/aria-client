@@ -1,21 +1,20 @@
-import getOr from 'lodash/fp/getOr';
+import { DawwwEffects } from '../../types';
 
-export function updateMuting(getState, action, shared) {
-  const volumeNodes = getOr({}, 'volumeNodes', getState());
+export const updateMuting: DawwwEffects = (getState, action, shared) => {
+  const { volumeNodes } = getState();
   const anySolo = shared.selectors.getIsAnyTrackSoloing(getState());
 
   Object.keys(volumeNodes).forEach((key) => {
-    const volumeNode = volumeNodes[key];
-    const isMuted = getOr(false, `song.tracks[${key}].isMuted`, getState());
-    const isSoloing = getOr(false, `song.tracks[${key}].isSoloing`, getState());
+    const { song } = getState();
+    const { isMuted = false, isSoloing = false } = song.tracks[key];
     const isOneOfSomeSoloingTracks = anySolo && !isMuted && isSoloing;
     const noMutingOrSoloing = !anySolo && !isMuted && !isSoloing;
 
     if (isOneOfSomeSoloingTracks || noMutingOrSoloing) {
-      shared.models.volumeNode.unmute(volumeNode);
+      shared.models.volumeNode.unmute(volumeNodes[key]);
       return;
     }
 
-    shared.models.volumeNode.mute(volumeNode);
+    shared.models.volumeNode.mute(volumeNodes[key]);
   });
-}
+};

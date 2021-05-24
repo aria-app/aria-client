@@ -1,12 +1,13 @@
-import getOr from 'lodash/fp/getOr';
-import noop from 'lodash/fp/noop';
+import { DawwwEffects } from '../../types';
 
-export function handleNotePlay(getState, action, shared) {
+export const handleNotePlay: DawwwEffects = (
+  getState,
+  action,
+  { helpers, models },
+) => {
   const { trackId, pitch, length, time } = action.payload;
-  const getPitchName = getOr(noop, 'helpers.getPitchName', shared);
-  const playNote = getOr(noop, 'models.instrument.playNote', shared);
-  const instrument = getOr({}, `instruments[${trackId}]`, getState());
-  const name = getPitchName(pitch);
+  const { instruments } = getState();
+  const name = helpers.getPitchName(pitch);
 
-  playNote(instrument, name, length, time);
-}
+  models.instrument.playNote(instruments[trackId], name, length, time);
+};

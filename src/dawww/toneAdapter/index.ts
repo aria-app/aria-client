@@ -4,8 +4,11 @@ import invokeArgs from 'lodash/fp/invokeArgs';
 import isFunction from 'lodash/fp/isFunction';
 import range from 'lodash/fp/range';
 import set from 'lodash/set';
+import ToneJS from 'tone';
 
-export function createToneAdapter(Tone) {
+import { ToneAdapter } from '../types';
+
+export function createToneAdapter(Tone: typeof ToneJS): ToneAdapter {
   return {
     chainToMaster(source, ...rest) {
       invokeArgs('chain', [...rest, Tone.Master], source);

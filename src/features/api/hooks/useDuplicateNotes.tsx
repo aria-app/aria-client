@@ -1,8 +1,17 @@
-import { MutationResult, useMutation } from '@apollo/client';
+import {
+  MutationHookOptions,
+  MutationResult,
+  useMutation,
+} from '@apollo/client';
 import React from 'react';
 
 import { Note } from '../../../types';
-import * as queries from '../queries';
+import {
+  DUPLICATE_NOTES,
+  DuplicateNotesResponse,
+  GET_SEQUENCE,
+  GetSequenceResponse,
+} from '../queries';
 
 type DuplicateNotesMutation = (variables: {
   notes: Note[];
@@ -10,13 +19,13 @@ type DuplicateNotesMutation = (variables: {
 }) => Promise<Note[]>;
 
 interface DuplicateNotesData {
-  duplicateNotes: queries.DuplicateNotesResponse;
+  duplicateNotes: DuplicateNotesResponse;
 }
 
-export default function useDuplicateNotes(
-  ...args
+export function useDuplicateNotes(
+  options?: MutationHookOptions,
 ): [DuplicateNotesMutation, MutationResult<DuplicateNotesData>] {
-  const [mutation, ...rest] = useMutation(queries.DUPLICATE_NOTES, ...args);
+  const [mutation, ...rest] = useMutation(DUPLICATE_NOTES, options);
 
   const wrappedMutation = React.useCallback(
     async ({ notes, tempIds }) => {
@@ -38,15 +47,15 @@ export default function useDuplicateNotes(
           update: (cache, result) => {
             const newNotes = result.data.duplicateNotes.notes;
 
-            const prevData = cache.readQuery<queries.GetSequenceResponse>({
-              query: queries.GET_SEQUENCE,
+            const prevData = cache.readQuery<GetSequenceResponse>({
+              query: GET_SEQUENCE,
               variables: { id: notes[0].sequence.id },
             });
 
             if (!prevData || !prevData.sequence) return;
 
             cache.writeQuery({
-              query: queries.GET_SEQUENCE,
+              query: GET_SEQUENCE,
               variables: { id: notes[0].sequence.id },
               data: {
                 sequence: {

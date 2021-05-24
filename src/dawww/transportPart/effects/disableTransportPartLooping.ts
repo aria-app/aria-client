@@ -1,9 +1,11 @@
-import getOr from 'lodash/fp/getOr';
-import noop from 'lodash/fp/noop';
+import { DawwwEffects } from '../../types';
 
-export function disableTransportPartLooping(getState, action, shared) {
-  const disableLooping = getOr(noop, 'models.part.disableLooping', shared);
-  const transportPart = getOr({}, 'transportPart', getState());
+export const disableTransportPartLooping: DawwwEffects = (
+  getState,
+  action,
+  { models },
+) => {
+  const { transportPart } = getState();
 
-  disableLooping(transportPart);
-}
+  models.part.disableLooping(transportPart);
+};

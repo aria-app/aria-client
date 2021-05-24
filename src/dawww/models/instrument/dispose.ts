@@ -1,5 +1,7 @@
 import invoke from 'lodash/fp/invoke';
 
-export function dispose(instrument) {
+import { Instrument } from '../../types';
+
+export function dispose(instrument: Instrument): void {
   invoke('dispose', instrument);
 }

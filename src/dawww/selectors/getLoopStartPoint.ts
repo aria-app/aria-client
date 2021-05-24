@@ -1,17 +1,10 @@
-import getOr from 'lodash/fp/getOr';
-import isEmpty from 'lodash/fp/isEmpty';
+import { State } from '../types';
 
-export const getLoopStartPoint = (state) => {
-  const focusedSequenceId = getOr('', 'song.focusedSequenceId', state);
-  const focusedSequence = getOr(
-    {},
-    `song.sequences[${focusedSequenceId}]`,
-    state,
-  );
+type GetLoopStartPoint = (state: State) => number;
 
-  if (isEmpty(focusedSequence)) {
-    return 0;
-  }
+export const getLoopStartPoint: GetLoopStartPoint = ({ song }) => {
+  const { focusedSequenceId = -1, sequences } = song;
+  const focusedSequence = sequences[focusedSequenceId];
 
-  return getOr(0, 'position', focusedSequence);
+  return focusedSequence?.position || 0;
 };

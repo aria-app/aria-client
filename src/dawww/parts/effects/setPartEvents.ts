@@ -1,39 +1,34 @@
 import filter from 'lodash/fp/filter';
-import getOr from 'lodash/fp/getOr';
-import noop from 'lodash/fp/noop';
 import times from 'lodash/fp/times';
 
 import * as actions from '../../actions';
+import { DawwwEffects } from '../../types';
 
-export function setPartEvents(getState, action, shared) {
-  const sequence = getOr({}, 'payload.sequence', action);
-  const sequenceId = getOr('', 'id', sequence);
-  const trackId = getOr('', 'trackId', sequence);
-  const allNotes = getOr({}, 'song.notes', getState());
-  const notesInSequence = filter((n) => n.sequenceId === sequenceId, allNotes);
-  const part = getOr({ at: noop }, `parts[${sequenceId}]`, getState());
+export const setPartEvents: DawwwEffects = (getState, action, { dispatch }) => {
+  const { sequence } = action.payload;
+  const { parts, song } = getState();
+  const { id, trackId } = sequence;
+  const notesInSequence = filter((n) => n.sequenceId === id, song.notes);
 
-  times((i) => {
-    const notesAtStep = filter((note) => {
-      const notePosition = getOr(-1, 'points[0].x', note);
-      return notePosition === i;
+  times((stepIndex) => {
+    const notesAtStep = filter((n) => {
+      const notePosition = n.points?.[0].x;
+      return notePosition === stepIndex;
     }, notesInSequence);
-    const noteIdsAtStep = notesAtStep.map(getOr('', 'id'));
+    const noteIdsAtStep = notesAtStep.map((n) => n.id);
 
     const fn = (payload, time) => {
-      const focusedSequenceId = getOr('', 'song.focusedSequenceId', getState());
-      const playbackState = getOr('STOPPED', 'playbackState', getState());
-      const position = getOr(0, 'position', getState());
+      const { playbackState, position, song } = getState();
       const shouldSetPosition =
-        i !== position && (playbackState !== 'STOPPED' || i === 0);
-      const isSelectedSequence =
-        focusedSequenceId !== '' && focusedSequenceId === sequenceId;
+        stepIndex !== position &&
+        (playbackState !== 'STOPPED' || stepIndex === 0) &&
+        song.focusedSequenceId === id;
 
-      if (shouldSetPosition && isSelectedSequence) {
-        shared.dispatch(actions.positionSet(i));
+      if (shouldSetPosition) {
+        dispatch(actions.positionSet(stepIndex));
       }
 
-      shared.dispatch(
+      dispatch(
         actions.partStepTriggered({
           noteIds: payload.noteIds,
           trackId: payload.trackId,
@@ -43,10 +38,10 @@ export function setPartEvents(getState, action, shared) {
     };
     const payload = {
       noteIds: noteIdsAtStep,
-      i,
+      i: stepIndex,
       trackId,
     };
 
-    part.at(i, { fn, payload });
-  }, part.length);
-}
+    parts[id].at(stepIndex, { fn, payload });
+  }, parts[id].length);
+};

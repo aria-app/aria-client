@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Box from './Box';
+import { Box } from './Box';
 
 const Toolbar = React.forwardRef((props: any, ref) => {
   const { position, sx = {}, ...rest } = props;

@@ -1,7 +1,7 @@
-import getOr from 'lodash/fp/getOr';
+import { DawwwEffects } from '../../types';
 
-export function handleBPMEdit(getState, action, shared) {
-  const bpm = getOr(0, 'payload.bpm', action);
+export const handleBPMEdit: DawwwEffects = (getState, action, shared) => {
+  const { bpm } = action.payload;
 
   shared.toneAdapter.setBPM(bpm);
-}
+};

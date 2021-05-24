@@ -1,20 +1,18 @@
-import getOr from 'lodash/fp/getOr';
-
 import * as actions from '../../../actions';
-import * as constants from '../../../constants';
+import { DiffInterpreter } from '../../../types';
 import { interpretTrackAddedDiff } from './interpretTrackAddedDiff';
 import { interpretTrackDeletedDiff } from './interpretTrackDeletedDiff';
 import { interpretTrackEditedDiff } from './interpretTrackEditedDiff';
 
-export function interpretTracksDiff(diff, song) {
-  switch (getOr('', 'kind', diff)) {
-    case constants.DIFF_KIND_D:
+export const interpretTracksDiff: DiffInterpreter = (diff, song) => {
+  switch (diff.kind) {
+    case 'D':
       return interpretTrackDeletedDiff(diff);
-    case constants.DIFF_KIND_E:
+    case 'E':
       return interpretTrackEditedDiff(diff);
-    case constants.DIFF_KIND_N:
+    case 'N':
       return interpretTrackAddedDiff(diff, song);
     default:
       return actions.unknown();
   }
-}
+};

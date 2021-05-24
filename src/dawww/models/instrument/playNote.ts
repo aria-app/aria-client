@@ -1,5 +1,12 @@
-import invokeArgs from 'lodash/fp/invokeArgs';
+import { Instrument, ToneTime } from '../../types';
 
-export function playNote(instrument, name, length = '16n', time?: string) {
-  invokeArgs('triggerAttackRelease', [name, length, time], instrument);
-}
+type PlayNote = (
+  instrument: Instrument,
+  name: string,
+  length?: ToneTime,
+  time?: ToneTime,
+) => void;
+
+export const playNote: PlayNote = (instrument, name, length = '16n', time) => {
+  instrument.triggerAttackRelease(name, length, time);
+};

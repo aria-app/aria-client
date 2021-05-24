@@ -1,9 +1,10 @@
 import * as actions from '../../actions';
+import { DawwwEffects } from '../../types';
 import { handleTrackAdded } from './handleTrackAdded';
 import { handleTrackVolumeEdit } from './handleTrackVolumeEdit';
 import { updateMuting } from './updateMuting';
 
-export default function effects(getState, action, shared) {
+export const volumeNodesEffects: DawwwEffects = (getState, action, shared) => {
   switch (action.type) {
     case actions.TRACK_ADDED:
       handleTrackAdded(getState, action, shared);
@@ -23,4 +24,4 @@ export default function effects(getState, action, shared) {
       break;
     default:
   }
-}
+};

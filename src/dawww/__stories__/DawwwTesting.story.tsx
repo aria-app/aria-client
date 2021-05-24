@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { ReactElement, useCallback, useEffect, useState } from 'react';
 
-import sampleSong from '../examples/loadTestingSong.json';
-import sampleSongAlt from '../examples/sampleSongAlt';
+// import sampleSong from '../examples/loadTestingSong.json';
+// import sampleSongAlt from '../examples/sampleSongAlt';
 import Dawww from '../index';
 
 const dawww = Dawww({
-  song: sampleSong,
+  // song: sampleSong,
 });
 
-export function DawwwTesting() {
+export function DawwwTesting(): ReactElement {
   const [playbackState, setPlaybackState] = useState('STOPPED');
   const [position, setPosition] = useState(0);
 
@@ -31,11 +31,11 @@ export function DawwwTesting() {
   }, [playbackState]);
 
   const setSampleSong = useCallback(() => {
-    dawww.updateSong(sampleSong);
+    // dawww.updateSong(sampleSong);
   }, []);
 
   const setSampleSongAlt = useCallback(() => {
-    dawww.updateSong(sampleSongAlt);
+    // dawww.updateSong(sampleSongAlt);
   }, []);
 
   const stop = useCallback(() => {
@@ -50,7 +50,8 @@ export function DawwwTesting() {
           backgroundColor: 'rgba(255, 255, 255, 0.25)',
           height: '20px',
           position: 'relative',
-          width: `${sampleSong.measureCount * 64}px`,
+          width: `${0 * 64}px`,
+          // width: `${sampleSong.measureCount * 64}px`,
         }}
       >
         <div
