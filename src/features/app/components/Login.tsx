@@ -20,8 +20,8 @@ const Root = styled.div({
   flexDirection: 'column',
 });
 
-const StyledContainer = styled(Container)((props: any) => ({
-  backgroundColor: props.theme.palette.background.paper,
+const StyledContainer = styled(Container)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
   flex: 1,
 }));
 

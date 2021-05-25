@@ -1,6 +1,6 @@
 import { AnimatePresence } from 'framer-motion';
 import flatten from 'lodash/fp/flatten';
-import { Children, ElementType, Fragment, ReactElement } from 'react';
+import { Children, ElementType, forwardRef, Fragment } from 'react';
 
 import { Spacing } from '../types';
 import { Box, BoxProps } from './Box';
@@ -21,7 +21,7 @@ export type StackProps = BoxProps & {
   space?: Spacing;
 };
 
-export default function Stack(props: StackProps): ReactElement {
+const Stack = forwardRef<HTMLElement, StackProps>((props, ref) => {
   const {
     animate,
     children,
@@ -39,6 +39,7 @@ export default function Stack(props: StackProps): ReactElement {
   return (
     <Box
       as={component}
+      ref={ref}
       sx={{
         display: 'flex',
         flexDirection: direction,
@@ -65,4 +66,6 @@ export default function Stack(props: StackProps): ReactElement {
       </Wrapper>
     </Box>
   );
-}
+});
+
+export default Stack;

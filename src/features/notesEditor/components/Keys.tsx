@@ -1,37 +1,40 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import * as CSS from 'csstype';
+import { memo, useCallback } from 'react';
 
 import Dawww from '../../../dawww';
+import { ScaleStep } from '../../../types';
 import shared from '../../shared';
 import Key from './Key';
 
 const { Box } = shared.components;
 
 // TODO: Try moving this into the Key component.
-const keyStyles = Dawww.SCALE.reduce((acc, currentStep) => {
+const keyStyles = Dawww.SCALE.reduce<
+  Record<number, CSS.Properties<number | string>>
+>((acc, currentStep) => {
   return {
     ...acc,
     [currentStep.y]: {
       borderBottomRightRadius:
-        currentStep.y === Dawww.SCALE.length - 1 ? 4 : '',
-      borderTopRightRadius: currentStep.y === 0 ? 4 : '',
+        currentStep.y === Dawww.SCALE.length - 1 ? 4 : undefined,
+      borderTopRightRadius: currentStep.y === 0 ? 4 : undefined,
     },
   };
 }, {});
 
-Keys.propTypes = {
-  hoveredRow: PropTypes.number,
-  onKeyPress: PropTypes.func,
-};
+export interface KeysProps {
+  hoveredRow?: number;
+  onKeyPress: (step: ScaleStep) => void;
+}
 
-function Keys(props: any) {
+function Keys(props: KeysProps) {
   const { hoveredRow, onKeyPress } = props;
 
-  const getIsHoveredRow = React.useCallback((step) => step.y === hoveredRow, [
+  const getIsHoveredRow = useCallback((step) => step.y === hoveredRow, [
     hoveredRow,
   ]);
 
-  const handleKeyMouseDown = React.useCallback(
+  const handleKeyPress = useCallback(
     (step) => {
       onKeyPress(step.y);
     },
@@ -57,7 +60,7 @@ function Keys(props: any) {
         <Key
           isHoveredRow={getIsHoveredRow(step)}
           key={step.y}
-          onMouseDown={handleKeyMouseDown}
+          onPress={handleKeyPress}
           step={step}
           style={keyStyles[step.y]}
         />
@@ -66,4 +69,4 @@ function Keys(props: any) {
   );
 }
 
-export default React.memo(Keys);
+export default memo(Keys);

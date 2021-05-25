@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import isEqual from 'lodash/fp/isEqual';
-import React from 'react';
+import { memo, useCallback, useState } from 'react';
 import { DraggableCore, DraggableEventHandler } from 'react-draggable';
 
 import { Point } from '../../../types';
@@ -14,17 +14,21 @@ const Root = styled.div({
   top: 0,
 });
 
-// Selector.propTypes = {
-//   isEnabled: PropTypes.bool,
-//   onSelect: PropTypes.func,
-//   scrollLeftEl: PropTypes.object,
-//   scrollTopEl: PropTypes.object,
-// };
+export interface SelectorProps {
+  isEnabled: boolean;
+  onSelectInArea: (
+    startPoint: Point,
+    endPoint: Point,
+    isAdditive: boolean,
+  ) => void;
+  scrollLeftEl?: HTMLElement;
+  scrollTopEl?: HTMLElement;
+}
 
-function Selector(props: any) {
-  const { isEnabled, onSelect, scrollLeftEl, scrollTopEl } = props;
-  const [endPoint, setEndPoint] = React.useState<Point | null>();
-  const [startPoint, setStartPoint] = React.useState<Point | null>();
+function Selector(props: SelectorProps) {
+  const { isEnabled, onSelectInArea, scrollLeftEl, scrollTopEl } = props;
+  const [endPoint, setEndPoint] = useState<Point>();
+  const [startPoint, setStartPoint] = useState<Point>();
 
   const handleDrag: DraggableEventHandler = (e, dragData) => {
     const { pageX, pageY } = e as MouseEvent;
@@ -35,19 +39,19 @@ function Selector(props: any) {
       window.innerWidth - pageX < 80 && dragData.deltaX >= 0;
     const shouldScrollUp = pageY < 80 && dragData.deltaY <= 0;
 
-    if (shouldScrollDown) {
+    if (shouldScrollDown && scrollTopEl) {
       scrollTopEl.scrollTop = scrollTopEl.scrollTop + 20;
     }
 
-    if (shouldScrollLeft) {
+    if (shouldScrollLeft && scrollLeftEl) {
       scrollLeftEl.scrollLeft = scrollLeftEl.scrollLeft - 20;
     }
 
-    if (shouldScrollRight) {
+    if (shouldScrollRight && scrollLeftEl) {
       scrollLeftEl.scrollLeft = scrollLeftEl.scrollLeft + 20;
     }
 
-    if (shouldScrollUp) {
+    if (shouldScrollUp && scrollTopEl) {
       scrollTopEl.scrollTop = scrollTopEl.scrollTop - 20;
     }
 
@@ -58,18 +62,24 @@ function Selector(props: any) {
     setEndPoint(newEndPoint);
   };
 
-  const handleDragStart = React.useCallback((e, dragData) => {
+  const handleDragStart = useCallback((e, dragData) => {
     setStartPoint(dragDataToGridPoint(dragData));
   }, []);
 
-  const handleDragStop = React.useCallback(
+  const handleDragStop = useCallback(
     (e) => {
-      onSelect(startPoint, endPoint || startPoint, e.ctrlKey || e.metaKey);
+      if (!startPoint) return;
+
+      onSelectInArea(
+        startPoint,
+        endPoint || startPoint,
+        e.ctrlKey || e.metaKey,
+      );
 
       setEndPoint(undefined);
       setStartPoint(undefined);
     },
-    [endPoint, onSelect, startPoint],
+    [endPoint, onSelectInArea, startPoint],
   );
 
   return (
@@ -86,7 +96,7 @@ function Selector(props: any) {
   );
 }
 
-export default React.memo(Selector);
+export default memo(Selector);
 
 function dragDataToGridPoint(dragData) {
   return {

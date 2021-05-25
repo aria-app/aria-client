@@ -70,7 +70,7 @@ function SongViewer(props: any) {
   }, [audioManager, data]);
 
   return (
-    <React.Fragment>
+    <>
       {loading ? (
         <LoadingIndicator>Loading Song...</LoadingIndicator>
       ) : (
@@ -129,7 +129,7 @@ function SongViewer(props: any) {
           </Box>
         </Box>
       )}
-    </React.Fragment>
+    </>
   );
 }
 

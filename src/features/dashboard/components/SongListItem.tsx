@@ -2,22 +2,23 @@ import CloseIcon from '@material-ui/icons/Close';
 import formatDistance from 'date-fns/formatDistance';
 import parseISO from 'date-fns/parseISO';
 import { motion } from 'framer-motion';
-import React from 'react';
+import { memo, useCallback, useMemo } from 'react';
 
+import { Song } from '../../../types';
 import shared from '../../shared';
 
 const { Box, Stack, Typography } = shared.components;
 
-// SongListItem.propTypes = {
-//   onClick: PropTypes.func,
-//   onDelete: PropTypes.func,
-//   song: PropTypes.object,
-// };
+export interface SongListItemProps {
+  onDelete: (song: Song) => void;
+  onOpen: (song: Song) => void;
+  song: Song;
+}
 
-function SongListItem(props: any) {
-  const { onClick, onDelete, song } = props;
+function SongListItem(props: SongListItemProps) {
+  const { onDelete, onOpen, song } = props;
 
-  const handleDeleteClick = React.useCallback(
+  const handleDeleteClick = useCallback(
     (e) => {
       e.stopPropagation();
 
@@ -26,11 +27,11 @@ function SongListItem(props: any) {
     [onDelete, song],
   );
 
-  const handleClick = React.useCallback(() => {
-    onClick(song);
-  }, [onClick, song]);
+  const handleClick = useCallback(() => {
+    onOpen(song);
+  }, [onOpen, song]);
 
-  const updatedText = React.useMemo(() => {
+  const updatedText = useMemo(() => {
     const distanceInTime = formatDistance(
       parseISO(song.updatedAt),
       new Date(),
@@ -84,4 +85,4 @@ function SongListItem(props: any) {
   );
 }
 
-export default React.memo(SongListItem);
+export default memo(SongListItem);

@@ -8,18 +8,17 @@ import EditIcon from '@material-ui/icons/Edit';
 import NearMeIcon from '@material-ui/icons/NearMe';
 import PanToolIcon from '@material-ui/icons/PanTool';
 import isEmpty from 'lodash/fp/isEmpty';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo, useMemo } from 'react';
 import EraseIcon from 'react-icons/lib/fa/eraser';
 
 import Dawww from '../../../dawww';
-import shared from '../../shared';
+import { Note } from '../../../types';
+import { Box, Button, ButtonProps, Stack, Toolbar } from '../../shared';
 import * as constants from '../constants';
-
-const { Box, Button, Stack, Toolbar } = shared.components;
+import { ToolType } from '../types';
 const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
 
-function SelectableIconButton(props: any) {
+function SelectableIconButton(props: ButtonProps & { isSelected: boolean }) {
   const { isSelected, ...rest } = props;
 
   return (
@@ -31,25 +30,25 @@ function SelectableIconButton(props: any) {
   );
 }
 
-NotesEditorToolbar.propTypes = {
-  measureCount: PropTypes.number,
-  onClose: PropTypes.func,
-  onDelete: PropTypes.func,
-  onDeselectAll: PropTypes.func,
-  onDrawToolSelect: PropTypes.func,
-  onDuplicate: PropTypes.func,
-  onEraseToolSelect: PropTypes.func,
-  onOctaveDown: PropTypes.func,
-  onOctaveUp: PropTypes.func,
-  onPanToolSelect: PropTypes.func,
-  onSelectToolSelect: PropTypes.func,
-  selectedNotes: PropTypes.arrayOf(PropTypes.object),
-  toolType: PropTypes.string,
-};
+export interface NotesEditorToolbarProps {
+  measureCount?: number;
+  onClose: (e: MouseEvent) => void;
+  onDelete: (e: MouseEvent) => void;
+  onDeselectAll: (e: MouseEvent) => void;
+  onDrawToolSelect: (e: MouseEvent) => void;
+  onDuplicate: (e: MouseEvent) => void;
+  onEraseToolSelect: (e: MouseEvent) => void;
+  onOctaveDown: (e: MouseEvent) => void;
+  onOctaveUp: (e: MouseEvent) => void;
+  onPanToolSelect: (e: MouseEvent) => void;
+  onSelectToolSelect: (e: MouseEvent) => void;
+  selectedNotes: Note[];
+  toolType: ToolType;
+}
 
-function NotesEditorToolbar(props: any) {
+function NotesEditorToolbar(props: NotesEditorToolbarProps) {
   const {
-    measureCount,
+    measureCount = 0,
     onClose,
     onDelete,
     onDeselectAll,
@@ -66,7 +65,7 @@ function NotesEditorToolbar(props: any) {
 
   const areSomeNotesSelected = !isEmpty(selectedNotes);
 
-  const isOctaveDownButtonDisabled = React.useMemo(
+  const isOctaveDownButtonDisabled = useMemo(
     () =>
       Dawww.someNoteWillMoveOutside(
         measureCount,
@@ -76,7 +75,7 @@ function NotesEditorToolbar(props: any) {
     [measureCount, selectedNotes],
   );
 
-  const isOctaveUpButtonDisabled = React.useMemo(
+  const isOctaveUpButtonDisabled = useMemo(
     () =>
       Dawww.someNoteWillMoveOutside(
         measureCount,
@@ -169,4 +168,4 @@ function NotesEditorToolbar(props: any) {
   );
 }
 
-export default React.memo(NotesEditorToolbar);
+export default memo(NotesEditorToolbar);

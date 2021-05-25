@@ -3,7 +3,7 @@ import { ReactElement, useCallback, useState } from 'react';
 
 import { dividerThicknesses, spacingAliases } from '../../constants';
 import { Box } from '../Box';
-import Button from '../Button';
+import { Button } from '../Button';
 import Stack from '../Stack';
 
 let id = 0;

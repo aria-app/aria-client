@@ -116,11 +116,11 @@ export default function Dawww(options?: DawwwOptions): any {
     getOr(
       {
         bpm: -1,
-        createdAt: new Date(),
+        createdAt: '2000-01-01',
         id: -1,
         measureCount: 0,
         name: '',
-        updatedAt: new Date(),
+        updatedAt: '2000-01-01',
         user: {
           id: -1,
         },

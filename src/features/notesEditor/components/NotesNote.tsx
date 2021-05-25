@@ -4,7 +4,7 @@ import last from 'lodash/fp/last';
 import React from 'react';
 import Draggable from 'react-draggable';
 
-import * as types from '../../../types';
+import { Note } from '../../../types';
 
 const Connector = styled.div({
   height: 10,
@@ -78,11 +78,11 @@ const Point = styled.div({
 // };
 
 interface NoteProps {
-  note: types.Note;
+  note: Note;
   [key: string]: any;
 }
 
-function Note(props: NoteProps) {
+function NotesNote(props: NoteProps) {
   const {
     className,
     classes,
@@ -203,9 +203,9 @@ function Note(props: NoteProps) {
   );
 }
 
-export default React.memo(Note);
+export default React.memo(NotesNote);
 
-function is32ndNote(note: types.Note): boolean {
+function is32ndNote(note: Note): boolean {
   const startPoint = first(note.points);
   const endPoint = last(note.points);
 

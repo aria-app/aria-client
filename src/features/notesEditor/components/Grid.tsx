@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo, useCallback, useRef } from 'react';
 
+import { Note, Point } from '../../../types';
 import shared from '../../shared';
 import * as constants from '../constants';
+import { ToolType } from '../types';
 import DrawLayer from './DrawLayer';
 import Notes from './Notes';
 import Panner from './Panner';
@@ -12,30 +13,34 @@ import Slots from './Slots';
 
 const { Box, Timeline } = shared.components;
 
-Grid.propTypes = {
-  measureCount: PropTypes.number,
-  mousePoint: PropTypes.object,
-  notes: PropTypes.arrayOf(PropTypes.object),
-  notesEditorContentEl: PropTypes.object,
-  onDrag: PropTypes.func,
-  onDragPreview: PropTypes.func,
-  onDraw: PropTypes.func,
-  onErase: PropTypes.func,
-  onMousePointChange: PropTypes.func,
-  onResize: PropTypes.func,
-  onSelect: PropTypes.func,
-  onSelectInArea: PropTypes.func,
-  selectedNotes: PropTypes.arrayOf(PropTypes.object),
-  toolType: PropTypes.string,
-};
+export interface GridProps {
+  measureCount?: number;
+  mousePoint: Point;
+  notes: Note[];
+  notesEditorContentEl?: HTMLElement;
+  onDrag: (draggedNotes: Note[]) => void;
+  onDragPreview: (draggedNotes: Note[]) => void;
+  onDraw: (mousePoint: Point) => void;
+  onErase: (noteToErase: Note) => void;
+  onMousePointChange: (mousePoint: Point) => void;
+  onResize: (resizedNotes: Note[]) => void;
+  onSelect: (noteToSelect: Note, isAdditive: boolean) => void;
+  onSelectInArea: (
+    startPoint: Point,
+    endPoint: Point,
+    isAdditive: boolean,
+  ) => void;
+  selectedNotes: Note[];
+  toolType: ToolType;
+}
 
-function Grid(props: any) {
-  const ref = React.useRef();
+function Grid(props: GridProps) {
+  const ref = useRef<HTMLElement>();
   const {
-    measureCount,
+    measureCount = 0,
     mousePoint,
     notes,
-    notesEditorContentEl = {},
+    notesEditorContentEl,
     onDrag,
     onDragPreview,
     onDraw,
@@ -48,14 +53,14 @@ function Grid(props: any) {
     toolType,
   } = props;
 
-  const handleMouseLeave = React.useCallback(
+  const handleMouseLeave = useCallback(
     (e) => {
       onMousePointChange({ x: -1, y: -1 });
     },
     [onMousePointChange],
   );
 
-  const handleMouseMove = React.useCallback(
+  const handleMouseMove = useCallback(
     (e) => {
       const scrollLeftEl = e.currentTarget;
       const styleOffset = 80;
@@ -64,7 +69,7 @@ function Grid(props: any) {
       const offsetLeft = scrollLeftEl.offsetLeft || 0;
       const offsetTop = scrollLeftEl.offsetTop || 0;
       const scrollLeft = scrollLeftEl.scrollLeft || 0;
-      const scrollTop = notesEditorContentEl.scrollTop || 0;
+      const scrollTop = notesEditorContentEl?.scrollTop || 0;
 
       const nextGridMousePoint = {
         x: Math.floor((x - offsetLeft + scrollLeft - styleOffset) / 40),
@@ -73,7 +78,7 @@ function Grid(props: any) {
 
       onMousePointChange(nextGridMousePoint);
     },
-    [onMousePointChange, notesEditorContentEl.scrollTop],
+    [onMousePointChange, notesEditorContentEl],
   );
 
   return (
@@ -90,8 +95,7 @@ function Grid(props: any) {
     >
       <Box
         style={{
-          width:
-            measureCount !== undefined ? measureCount * 4 * 8 * 40 + 80 : 0,
+          width: measureCount * 4 * 8 * 40 + 80,
         }}
         sx={{
           height: '100%',
@@ -105,7 +109,7 @@ function Grid(props: any) {
         )}
         <Selector
           isEnabled={toolType === constants.toolTypes.SELECT}
-          onSelect={onSelectInArea}
+          onSelectInArea={onSelectInArea}
           scrollLeftEl={ref.current}
           scrollTopEl={notesEditorContentEl}
         />
@@ -133,4 +137,4 @@ function Grid(props: any) {
   );
 }
 
-export default React.memo(Grid);
+export default memo(Grid);

@@ -3,7 +3,11 @@ import React from 'react';
 
 import { Box } from './Box';
 
-export default React.forwardRef((props: any, ref) => {
+export interface ButtonProps {
+  [key: string]: any;
+}
+
+export const Button = React.forwardRef((props: ButtonProps, ref) => {
   const {
     children,
     color = 'text.secondary',

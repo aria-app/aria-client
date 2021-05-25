@@ -1,6 +1,6 @@
 import { rangeStep } from 'lodash/fp';
 
-import { PlaybackState } from '../types';
+import { PlaybackState, ScaleStep } from '../types';
 
 export const BPM_RANGE = rangeStep(10, 60, 401);
 export const DEFAULT_BPM = 120;
@@ -15,7 +15,7 @@ export const PLAYBACK_STATES: Record<PlaybackState, PlaybackState> = {
   STARTED: 'STARTED',
   STOPPED: 'STOPPED',
 };
-export const SCALE = [
+export const SCALE: ScaleStep[] = [
   { name: 'B6', y: 0 },
   { name: 'A#6', y: 1 },
   { name: 'A6', y: 2 },

@@ -1,10 +1,15 @@
-import MuiDivider from '@material-ui/core/Divider';
-import PropTypes from 'prop-types';
-import React from 'react';
+import MuiDivider, {
+  DividerProps as MuiDividerProps,
+} from '@material-ui/core/Divider';
+import { forwardRef } from 'react';
 
 export type DividerThickness = 'regular' | 'thin';
 
-const Divider = React.forwardRef((props: any, ref) => {
+export interface DividerProps extends MuiDividerProps {
+  thickness?: DividerThickness;
+}
+
+const Divider = forwardRef<HTMLHRElement, DividerProps>((props, ref) => {
   const { sx = {}, thickness, ...rest } = props;
 
   return (
@@ -18,9 +23,5 @@ const Divider = React.forwardRef((props: any, ref) => {
     />
   );
 });
-
-Divider.propTypes = {
-  thickness: PropTypes.oneOf(['regular', 'thin']),
-};
 
 export default Divider;

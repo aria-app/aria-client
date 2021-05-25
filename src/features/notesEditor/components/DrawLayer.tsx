@@ -3,32 +3,32 @@ import compose from 'lodash/fp/compose';
 import first from 'lodash/fp/first';
 import noop from 'lodash/fp/noop';
 import split from 'lodash/fp/split';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo, useCallback, useMemo, useRef, useState } from 'react';
 
-import Note from './Note';
+import { Point } from '../../../types';
+import NotesNote from './NotesNote';
 
 const Root = styled.div(({ theme }) => ({
   ...theme.mixins.absoluteFill,
 }));
 
-const StyledNote = styled(Note)({
+const GhostStyledNotesNote = styled(NotesNote)({
   opacity: 0.4,
   pointerEvents: 'none',
 });
 
-DrawLayer.propTypes = {
-  mousePoint: PropTypes.object,
-  onDraw: PropTypes.func,
-};
+export interface DrawLayerProps {
+  mousePoint: Point;
+  onDraw: (mousePoint: Point) => void;
+}
 
-function DrawLayer(props: any) {
-  const ref = React.useRef<HTMLDivElement>(null);
+function DrawLayer(props: DrawLayerProps) {
+  const ref = useRef<HTMLDivElement>(null);
   const { mousePoint, onDraw } = props;
-  const [isDrawing, setIsDrawing] = React.useState(false);
-  const [isMouseOver, setIsMouseOver] = React.useState(false);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [isMouseOver, setIsMouseOver] = useState(false);
 
-  const ghostNoteNote = React.useMemo(
+  const ghostNote = useMemo(
     () => ({
       id: -1,
       points: [
@@ -48,15 +48,15 @@ function DrawLayer(props: any) {
     [mousePoint],
   );
 
-  const handleMouseDown = React.useCallback(() => {
+  const handleMouseDown = useCallback(() => {
     setIsDrawing(true);
   }, []);
 
-  const handleMouseEnter = React.useCallback(() => {
+  const handleMouseEnter = useCallback(() => {
     setIsMouseOver(true);
   }, []);
 
-  const handleMouseLeave = React.useCallback(
+  const handleMouseLeave = useCallback(
     (e) => {
       setIsMouseOver(false);
 
@@ -75,7 +75,7 @@ function DrawLayer(props: any) {
     [isDrawing],
   );
 
-  const handleMouseUp = React.useCallback(() => {
+  const handleMouseUp = useCallback(() => {
     if (!isDrawing) return;
 
     onDraw(mousePoint);
@@ -92,8 +92,8 @@ function DrawLayer(props: any) {
       ref={ref}
     >
       {isMouseOver && (
-        <StyledNote
-          note={ghostNoteNote}
+        <GhostStyledNotesNote
+          note={ghostNote}
           onDrag={noop}
           onDragStart={noop}
           onDragStop={noop}
@@ -106,4 +106,4 @@ function DrawLayer(props: any) {
   );
 }
 
-export default React.memo(DrawLayer);
+export default memo(DrawLayer);

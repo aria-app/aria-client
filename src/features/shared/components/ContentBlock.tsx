@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Box } from './Box';
+import { Box, BoxProps } from './Box';
 
-export default React.forwardRef((props: any, ref) => (
+export default React.forwardRef((props: BoxProps, ref) => (
   <Box
     ref={ref}
     sx={{ marginX: 'auto', maxWidth: '640px', width: '100%' }}

@@ -1,8 +1,11 @@
 import styled from '@emotion/styled/macro';
+import * as CSS from 'csstype';
 import clamp from 'lodash/fp/clamp';
 import PropTypes from 'prop-types';
-import React from 'react';
+import { ElementType, memo, useCallback, useState } from 'react';
 import Draggable from 'react-draggable';
+
+import { GridBoxItem } from '../types';
 
 const Resizer = styled.div(({ theme }) => ({
   backgroundColor: 'transparent',
@@ -59,7 +62,16 @@ GridBox.propTypes = {
   totalLength: PropTypes.number,
 };
 
-function GridBox(props: any) {
+export interface GridBoxProps {
+  contentComponent?: ElementType;
+  item: GridBoxItem;
+  onItemChange: (changedItem: GridBoxItem) => void;
+  step?: number;
+  style?: CSS.Properties;
+  totalLength: number;
+}
+
+function GridBox(props: GridBoxProps) {
   const {
     contentComponent: ContentComponent = () => null,
     item,
@@ -68,15 +80,15 @@ function GridBox(props: any) {
     style = {},
     totalLength,
   } = props;
-  const [isDragging, setIsDragging] = React.useState(false);
-  const [isResizing, setIsResizing] = React.useState(false);
-  const [length, setLength] = React.useState(item.length);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
+  const [length, setLength] = useState(item.length);
 
-  const handleDragStart = React.useCallback(() => {
+  const handleDragStart = useCallback(() => {
     setIsDragging(true);
   }, []);
 
-  const handleDragStop = React.useCallback(
+  const handleDragStop = useCallback(
     (e, dragData) => {
       setIsDragging(false);
 
@@ -88,18 +100,18 @@ function GridBox(props: any) {
     [item, onItemChange],
   );
 
-  const handleResizerDrag = React.useCallback(
+  const handleResizerDrag = useCallback(
     (e, dragData) => {
       setLength(clamp(1, totalLength - item.x, dragData.lastX / step));
     },
     [item.x, step, totalLength],
   );
 
-  const handleResizerDragStart = React.useCallback(() => {
+  const handleResizerDragStart = useCallback(() => {
     setIsResizing(true);
   }, []);
 
-  const handleResizerDragStop = React.useCallback(() => {
+  const handleResizerDragStop = useCallback(() => {
     const roundedLength = Math.max(1, Math.round(length));
 
     setIsResizing(false);
@@ -148,4 +160,4 @@ function GridBox(props: any) {
   );
 }
 
-export default React.memo(GridBox);
+export default memo(GridBox);
