@@ -3,18 +3,19 @@ import MuiBox from '@material-ui/core/Box';
 import getOr from 'lodash/fp/getOr';
 import isNumber from 'lodash/fp/isNumber';
 import { readableColor } from 'polished';
-import { forwardRef, memo, ReactNode, useMemo } from 'react';
+import { ElementType, forwardRef, HTMLAttributes, memo, useMemo } from 'react';
 
 function getIsDarkColor(color) {
   return readableColor(color) === '#fff';
 }
 
-export type BoxProps = {
-  children?: ReactNode;
+export interface BoxProps extends HTMLAttributes<HTMLDivElement> {
+  component?: ElementType;
   interactive?: boolean;
+  interactiveColor?: string;
   sx?: any;
   [key: string]: any;
-};
+}
 
 export const Box = memo(
   forwardRef((props: BoxProps, ref) => {

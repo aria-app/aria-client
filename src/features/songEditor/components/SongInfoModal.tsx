@@ -40,7 +40,7 @@ function SongInfoModal(props: any) {
   return (
     <Translation>
       {(t) => (
-        <Modal isOpen={isOpen} onClose={onConfirm} titleText={t('Song Info')}>
+        <Modal onClose={onConfirm} open={isOpen} titleText={t('Song Info')}>
           <Stack space={4} sx={{ alignItems: 'flex-start' }}>
             <FormGroup label={t('Shareable Link')}>
               <a

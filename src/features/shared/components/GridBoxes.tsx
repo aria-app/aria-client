@@ -1,38 +1,39 @@
 import styled from '@emotion/styled';
-import PropTypes from 'prop-types';
-import React from 'react';
+import * as CSS from 'csstype';
+import { ElementType, memo, useCallback, useMemo } from 'react';
 
+import { GridBoxItem } from '../types';
 import GridBox from './GridBox';
 
 const Root = styled.div({
   position: 'relative',
 });
 
-GridBoxes.propTypes = {
-  boxContentComponent: PropTypes.elementType,
-  items: PropTypes.arrayOf(PropTypes.object),
-  length: PropTypes.number,
-  onItemsChange: PropTypes.func,
-  step: PropTypes.number,
-  style: PropTypes.object,
-};
+export interface GridBoxesProps {
+  boxContentComponent: ElementType;
+  items: GridBoxItem[];
+  length: number;
+  onItemsChange: (changedItems: GridBoxItem[]) => void;
+  step?: number;
+  style: CSS.Properties<number | string>;
+}
 
-function GridBoxes(props: any) {
+function GridBoxes(props: GridBoxesProps) {
   const {
     boxContentComponent,
-    items = [],
-    length = 0,
+    items,
+    length,
     onItemsChange,
     step = 100,
     style = {},
   } = props;
 
-  const boxes = React.useMemo(() => items.filter((i) => i.x < length), [
+  const boxes = useMemo(() => items.filter((i) => i.x < length), [
     items,
     length,
   ]);
 
-  const handleGridBoxItemChange = React.useCallback(
+  const handleGridBoxItemChange = useCallback(
     (draggedItem) => {
       if (!onItemsChange) return;
 
@@ -63,4 +64,4 @@ function GridBoxes(props: any) {
   );
 }
 
-export default React.memo(GridBoxes);
+export default memo(GridBoxes);

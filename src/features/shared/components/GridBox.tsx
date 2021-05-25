@@ -1,8 +1,13 @@
 import styled from '@emotion/styled/macro';
-import * as CSS from 'csstype';
 import clamp from 'lodash/fp/clamp';
 import PropTypes from 'prop-types';
-import { ElementType, memo, useCallback, useState } from 'react';
+import {
+  ElementType,
+  HTMLAttributes,
+  memo,
+  useCallback,
+  useState,
+} from 'react';
 import Draggable from 'react-draggable';
 
 import { GridBoxItem } from '../types';
@@ -62,12 +67,11 @@ GridBox.propTypes = {
   totalLength: PropTypes.number,
 };
 
-export interface GridBoxProps {
+export interface GridBoxProps extends HTMLAttributes<HTMLDivElement> {
   contentComponent?: ElementType;
   item: GridBoxItem;
   onItemChange: (changedItem: GridBoxItem) => void;
   step?: number;
-  style?: CSS.Properties;
   totalLength: number;
 }
 

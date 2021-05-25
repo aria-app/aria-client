@@ -1,9 +1,14 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import { forwardRef, memo } from 'react';
 
-import { Box } from './Box';
+import { Box, BoxProps } from './Box';
 
-const Toolbar = React.forwardRef((props: any, ref) => {
+export type ToolbarPosition = 'bottom' | 'top';
+
+export interface ToolbarProps extends BoxProps {
+  position: ToolbarPosition;
+}
+
+const Toolbar = forwardRef((props: ToolbarProps, ref) => {
   const { position, sx = {}, ...rest } = props;
 
   return (
@@ -24,8 +29,4 @@ const Toolbar = React.forwardRef((props: any, ref) => {
   );
 });
 
-Toolbar.propTypes = {
-  position: PropTypes.oneOf(['bottom', 'top']),
-};
-
-export default React.memo(Toolbar);
+export default memo(Toolbar);

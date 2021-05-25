@@ -1,13 +1,13 @@
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
-import Track from '../Track';
+import TrackListTrack from '../TrackListTrack';
 
-export const TrackDefault = (args) => <Track {...args} />;
+export const TrackDefault = (args) => <TrackListTrack {...args} />;
 
 export default {
-  title: 'Track',
-  component: Track,
+  title: 'TrackListTrack',
+  component: TrackListTrack,
   args: {
     onSequenceAdd: action('onSequenceAdd'),
     onSequenceEdit: action('onSequenceEdit'),

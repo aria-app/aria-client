@@ -5,7 +5,7 @@ import React from 'react';
 import shared from '../../shared';
 import AddTrackButton from './AddTrackButton';
 import Ruler from './Ruler';
-import Track from './Track';
+import TrackListTrack from './TrackListTrack';
 
 const { Box, Stack } = shared.components;
 
@@ -65,7 +65,7 @@ const TrackList = React.forwardRef(function TrackList(props: any, ref) {
             onPositionSet={onPositionSet}
           />
           {tracks.map((track) => (
-            <Track
+            <TrackListTrack
               key={track.id}
               onSequenceAdd={onSequenceAdd}
               onSequenceEdit={onSequenceEdit}

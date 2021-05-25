@@ -3,11 +3,9 @@ import includes from 'lodash/fp/includes';
 import { memo, useCallback } from 'react';
 
 import { ScaleStep } from '../../../types';
-import shared from '../../shared';
+import { Box, BoxProps } from '../../shared';
 
-const { Box } = shared.components;
-
-export interface KeyProps {
+export interface KeyProps extends BoxProps {
   isHoveredRow: boolean;
   onPress: (step: ScaleStep) => void;
   step: ScaleStep;

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 
 const Root = styled.div(({ theme }) => ({
   backgroundColor: theme.palette.text.primary,
@@ -19,7 +19,12 @@ Timeline.propTypes = {
   offset: PropTypes.number,
 };
 
-function Timeline(props: any) {
+export interface TimelineProps extends HTMLAttributes<HTMLDivElement> {
+  isVisible: boolean;
+  offset: number;
+}
+
+function Timeline(props: TimelineProps) {
   const { isVisible, offset, style = {}, ...rest } = props;
 
   if (!isVisible) return null;

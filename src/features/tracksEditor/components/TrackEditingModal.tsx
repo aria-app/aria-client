@@ -59,7 +59,7 @@ function TrackEditingModal(props: any) {
   return (
     <Translation>
       {(t) => (
-        <Modal isOpen={!!track} onClose={onDismiss} titleText={t('Edit Track')}>
+        <Modal onClose={onDismiss} open={!!track} titleText={t('Edit Track')}>
           <Stack space={4} sx={{ alignItems: 'flex-start' }}>
             <FormGroup label="Voice">
               <select

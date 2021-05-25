@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Box } from './Box';
+import { Box, BoxProps } from './Box';
 
-const LoadingIndicator = React.forwardRef((props: any, ref) => (
+const LoadingIndicator = React.forwardRef((props: BoxProps, ref) => (
   <Box
     ref={ref}
     sx={{

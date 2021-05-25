@@ -1,7 +1,6 @@
 import { useQuery } from '@apollo/client';
-import { Redirect, Router } from '@reach/router';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { Redirect, RouteComponentProps, Router } from '@reach/router';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import Tone from 'tone';
 
@@ -25,14 +24,9 @@ const { NotesEditor } = notesEditor.components;
 const { Box } = shared.components;
 const { TracksEditor } = tracksEditor.components;
 
-SongEditor.propTypes = {
-  navigate: PropTypes.func,
-  songId: PropTypes.string,
-};
-
-function SongEditor(props: any) {
+function SongEditor(props: RouteComponentProps<{ songId: string }>) {
   const { navigate, songId: songIdProp } = props;
-  const songId = parseInt(songIdProp);
+  const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
   const { user } = useAuth();
   const playbackState = usePlaybackState();
@@ -40,9 +34,9 @@ function SongEditor(props: any) {
   const { data, error, loading } = useQuery<GetSongResponse>(GET_SONG, {
     variables: { id: songId },
   });
-  const [isSongInfoModalOpen, setIsSongInfoModalOpen] = React.useState(false);
+  const [isSongInfoModalOpen, setIsSongInfoModalOpen] = useState(false);
 
-  const playPause = React.useCallback(
+  const playPause = useCallback(
     function playPause() {
       if (Tone.context.state !== 'running') {
         Tone.context.resume();
@@ -57,11 +51,11 @@ function SongEditor(props: any) {
     [audioManager, playbackState],
   );
 
-  const handleReturnToDashboard = React.useCallback(() => {
-    navigate('../../');
+  const handleReturnToDashboard = useCallback(() => {
+    navigate?.('../../');
   }, [navigate]);
 
-  const handleSongBPMChange = React.useCallback(
+  const handleSongBPMChange = useCallback(
     (bpm) => {
       if (!data?.song) return;
 
@@ -75,19 +69,19 @@ function SongEditor(props: any) {
     [data, updateSong],
   );
 
-  const handleSongInfoModalConfirm = React.useCallback(() => {
+  const handleSongInfoModalConfirm = useCallback(() => {
     setIsSongInfoModalOpen(false);
   }, []);
 
-  const handleSongInfoOpen = React.useCallback(() => {
+  const handleSongInfoOpen = useCallback(() => {
     setIsSongInfoModalOpen(true);
   }, []);
 
-  const handleSignOut = React.useCallback(() => {
-    navigate('../../sign-out');
+  const handleSignOut = useCallback(() => {
+    navigate?.('../../sign-out');
   }, [navigate]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!data) return;
 
     window.document.title = `${data?.song?.name} - Aria`;
@@ -145,4 +139,4 @@ function SongEditor(props: any) {
   );
 }
 
-export default React.memo(SongEditor);
+export default memo(SongEditor);

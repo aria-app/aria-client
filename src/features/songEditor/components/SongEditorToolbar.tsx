@@ -2,28 +2,28 @@ import PauseIcon from '@material-ui/icons/Pause';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SettingsIcon from '@material-ui/icons/Settings';
 import StopIcon from '@material-ui/icons/Stop';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo, useCallback } from 'react';
 import Tone from 'tone';
 
 import Dawww from '../../../dawww';
+import { PlaybackState } from '../../../types';
 import shared from '../../shared';
 
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 const { Box, Button, Stack, Toolbar } = shared.components;
 
-SongEditorToolbar.propTypes = {
-  onPause: PropTypes.func,
-  onPlay: PropTypes.func,
-  onSongInfoOpen: PropTypes.func,
-  onStop: PropTypes.func,
-  playbackState: PropTypes.string,
-};
+export interface SongEditorToolbarProps {
+  onPause: () => void;
+  onPlay: () => void;
+  onSongInfoOpen: () => void;
+  onStop: () => void;
+  playbackState: PlaybackState;
+}
 
-function SongEditorToolbar(props: any) {
+function SongEditorToolbar(props: SongEditorToolbarProps) {
   const { onPause, onPlay, onSongInfoOpen, onStop, playbackState } = props;
 
-  const handlePlayPauseToggle = React.useCallback(
+  const handlePlayPauseToggle = useCallback(
     function handlePlayPauseToggle() {
       if (Tone.context.state !== 'running') {
         Tone.context.resume();
@@ -78,4 +78,4 @@ function SongEditorToolbar(props: any) {
   );
 }
 
-export default React.memo(SongEditorToolbar);
+export default memo(SongEditorToolbar);
