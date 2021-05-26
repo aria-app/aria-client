@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import getOr from 'lodash/fp/getOr';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo } from 'react';
+
+import { Note } from '../../../types';
 
 interface RootProps {
   isSequenceSelected: boolean;
@@ -17,12 +18,12 @@ const Root = styled.div<RootProps>(({ isSequenceSelected, theme }) => ({
   top: 2,
 }));
 
-TrackSequenceNote.propTypes = {
-  isSequenceSelected: PropTypes.bool,
-  note: PropTypes.object,
-};
+export interface TrackSequenceNoteProps {
+  isSequenceSelected: boolean;
+  note: Note;
+}
 
-function TrackSequenceNote(props: any) {
+function TrackSequenceNote(props: TrackSequenceNoteProps) {
   const { isSequenceSelected, note } = props;
   const x0 = getOr(0, 'points[0].x', note);
   const x1 = getOr(0, 'points[1].x', note);
@@ -39,4 +40,4 @@ function TrackSequenceNote(props: any) {
   );
 }
 
-export default React.memo(TrackSequenceNote);
+export default memo(TrackSequenceNote);

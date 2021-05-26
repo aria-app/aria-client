@@ -1,15 +1,28 @@
 import { useTheme } from '@emotion/react';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { forwardRef, memo } from 'react';
 
-import shared from '../../shared';
+import { Sequence, Track } from '../../../types';
+import { Box, Stack } from '../../shared';
 import AddTrackButton from './AddTrackButton';
 import Ruler from './Ruler';
 import TrackListTrack from './TrackListTrack';
 
-const { Box, Stack } = shared.components;
+export interface TrackListProps {
+  onPositionSet: (changedPosition: number) => void;
+  onSequenceAdd: (options: { position: number; track: Track }) => void;
+  onSequenceDeselect: (sequenceToDeselect: Sequence) => void;
+  onSequenceEdit: (editedSequence: Sequence) => void;
+  onSequenceOpen: (sequenceToOpen: Sequence) => void;
+  onSequenceSelect: (sequenceToSelect: Sequence) => void;
+  onSongMeasureCountChange: (changedMeasureCount: number) => void;
+  onTrackAdd: () => void;
+  onTrackStage: (trackToStage: Track) => void;
+  selectedSequence?: Sequence;
+  songMeasureCount: number;
+  tracks: Track[];
+}
 
-const TrackList = React.forwardRef(function TrackList(props: any, ref) {
+const TrackList = forwardRef<HTMLDivElement, TrackListProps>((props, ref) => {
   const {
     onPositionSet,
     onSequenceAdd,
@@ -20,7 +33,7 @@ const TrackList = React.forwardRef(function TrackList(props: any, ref) {
     onSongMeasureCountChange,
     onTrackAdd,
     onTrackStage,
-    selectedSequence = {},
+    selectedSequence,
     songMeasureCount,
     tracks,
   } = props;
@@ -72,7 +85,7 @@ const TrackList = React.forwardRef(function TrackList(props: any, ref) {
               onSequenceOpen={onSequenceOpen}
               onSequenceSelect={onSequenceSelect}
               onTrackSelect={onTrackStage}
-              selectedSequenceId={selectedSequence.id}
+              selectedSequenceId={selectedSequence?.id}
               songMeasureCount={songMeasureCount}
               track={track}
             />
@@ -84,19 +97,4 @@ const TrackList = React.forwardRef(function TrackList(props: any, ref) {
   );
 });
 
-TrackList.propTypes = {
-  onPositionSet: PropTypes.func,
-  onSequenceAdd: PropTypes.func,
-  onSequenceDeselect: PropTypes.func,
-  onSequenceEdit: PropTypes.func,
-  onSequenceOpen: PropTypes.func,
-  onSequenceSelect: PropTypes.func,
-  onSongMeasureCountChange: PropTypes.func,
-  onTrackAdd: PropTypes.func,
-  onTrackStage: PropTypes.func,
-  selectedSequence: PropTypes.object,
-  songMeasureCount: PropTypes.number,
-  tracks: PropTypes.arrayOf(PropTypes.object),
-};
-
-export default React.memo(TrackList);
+export default memo(TrackList);

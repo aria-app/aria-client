@@ -56,7 +56,11 @@ const cache = new InMemoryCache({
   },
 });
 
-function ApolloWrapper(props: { children: ReactNode }): ReactElement {
+export interface ApolloWrapperProps {
+  children: ReactNode;
+}
+
+function ApolloWrapper(props: ApolloWrapperProps): ReactElement {
   const client = new ApolloClient({
     cache,
     link: from([

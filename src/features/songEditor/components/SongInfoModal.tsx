@@ -1,36 +1,33 @@
-import map from 'lodash/fp/map';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo, useCallback } from 'react';
 import { Translation } from 'react-i18next';
 
 import Dawww from '../../../dawww';
+import { Song } from '../../../types';
 import shared from '../../shared';
 
 const { Button, FormGroup, Modal, Stack } = shared.components;
 const { changeLanguage } = shared.i18n;
-const getBPMRangeItem = (x) => ({ id: x, text: String(x) });
-const bpmRangeItems = map(getBPMRangeItem, Dawww.BPM_RANGE);
 
-SongInfoModal.propTypes = {
-  isOpen: PropTypes.bool,
-  onBPMChange: PropTypes.func,
-  onConfirm: PropTypes.func,
-  onReturnToDashboard: PropTypes.func,
-  onSignOut: PropTypes.func,
-  song: PropTypes.object,
-};
+export interface SongInfoModalProps {
+  isOpen: boolean;
+  onBPMChange: (changedBPM: number) => void;
+  onConfirm: () => void;
+  onReturnToDashboard: () => void;
+  onSignOut: () => void;
+  song?: Song;
+}
 
-function SongInfoModal(props: any) {
+function SongInfoModal(props: SongInfoModalProps) {
   const {
     isOpen,
     onBPMChange,
     onConfirm,
     onReturnToDashboard,
     onSignOut,
-    song = {},
+    song,
   } = props;
 
-  const handleBPMSelectChange = React.useCallback(
+  const handleBPMSelectChange = useCallback(
     (e) => {
       onBPMChange(parseInt(e.target.value));
     },
@@ -44,18 +41,18 @@ function SongInfoModal(props: any) {
           <Stack space={4} sx={{ alignItems: 'flex-start' }}>
             <FormGroup label={t('Shareable Link')}>
               <a
-                href={`${process.env.PUBLIC_URL}/view-song/${song.id}`}
+                href={`${process.env.PUBLIC_URL}/view-song/${song?.id}`}
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                https://ariaapp.io/view-song/{song.id}
+                https://ariaapp.io/view-song/{song?.id}
               </a>
             </FormGroup>
             <FormGroup label={t('BPM')}>
-              <select onChange={handleBPMSelectChange} value={song.bpm}>
-                {bpmRangeItems.map((bpmRangeItem) => (
-                  <option key={bpmRangeItem.id} value={bpmRangeItem.id}>
-                    {bpmRangeItem.text}
+              <select onChange={handleBPMSelectChange} value={song?.bpm}>
+                {Dawww.BPM_RANGE.map((bpmRangeValue) => (
+                  <option key={bpmRangeValue} value={bpmRangeValue}>
+                    {bpmRangeValue}
                   </option>
                 ))}
               </select>
@@ -81,4 +78,4 @@ function SongInfoModal(props: any) {
   );
 }
 
-export default React.memo(SongInfoModal);
+export default memo(SongInfoModal);

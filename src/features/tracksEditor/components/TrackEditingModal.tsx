@@ -1,10 +1,9 @@
 import find from 'lodash/fp/find';
 import range from 'lodash/fp/range';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { Translation } from 'react-i18next';
 
-import { Track } from '../../../types';
+import { Track, Voice } from '../../../types';
 import { useGetVoices } from '../../api';
 import shared from '../../shared';
 
@@ -13,44 +12,54 @@ const { Button, FormGroup, Modal, Stack } = shared.components;
 const minVolume = -20;
 const maxVolume = 0;
 
-TrackEditingModal.propTypes = {
-  onDelete: PropTypes.func,
-  onDismiss: PropTypes.func,
-  onTrackChange: PropTypes.func,
-  track: PropTypes.object,
-};
+export interface TrackEditingModalProps {
+  onDelete: (trackToDelete: Track) => void;
+  onDismiss: () => void;
+  onTrackChange: (options: {
+    id: number;
+    voice?: Voice;
+    volume?: number;
+  }) => void;
+  track?: Track;
+}
 
-function TrackEditingModal(props: any) {
+function TrackEditingModal(props: TrackEditingModalProps) {
   const { onDelete, onDismiss, onTrackChange, track } = props;
   const { data: voicesData, loading } = useGetVoices();
-  const [trackState, setTrackState] = React.useState<Track>();
+  const [trackState, setTrackState] = useState<Track>();
 
-  const voices = React.useMemo(() => (voicesData ? voicesData.voices : []), [
+  const voices = useMemo(() => (voicesData ? voicesData.voices : []), [
     voicesData,
   ]);
 
-  const handleContentDeleteButtonClick = React.useCallback(() => {
+  const handleContentDeleteButtonClick = useCallback(() => {
+    if (!trackState) return;
+
     onDelete(trackState);
   }, [onDelete, trackState]);
 
-  const handleVoiceChange = React.useCallback(
+  const handleVoiceChange = useCallback(
     (e) => {
+      if (!trackState) return;
+
       onTrackChange({
-        id: trackState?.id,
+        id: trackState.id,
         voice: find((voice) => voice.id === e.target.value, voices),
       });
     },
     [onTrackChange, trackState, voices],
   );
 
-  const handleVolumeChange = React.useCallback(
+  const handleVolumeChange = useCallback(
     (e) => {
-      onTrackChange({ id: trackState?.id, volume: parseInt(e.target.value) });
+      if (!trackState) return;
+
+      onTrackChange({ id: trackState.id, volume: parseInt(e.target.value) });
     },
     [onTrackChange, trackState],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (track) {
       setTrackState(track);
     }
@@ -99,4 +108,4 @@ function TrackEditingModal(props: any) {
   );
 }
 
-export default React.memo(TrackEditingModal);
+export default memo(TrackEditingModal);

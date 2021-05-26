@@ -132,7 +132,7 @@ function SongEditor(props: RouteComponentProps<{ songId: string }>) {
           onConfirm={handleSongInfoModalConfirm}
           onReturnToDashboard={handleReturnToDashboard}
           onSignOut={handleSignOut}
-          song={data && data.song}
+          song={data?.song || undefined}
         />
       )}
     </Box>

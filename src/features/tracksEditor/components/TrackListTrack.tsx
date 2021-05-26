@@ -22,7 +22,7 @@ export interface TrackListTrackProps {
   onSequenceOpen: (sequenceToOpen: Sequence) => void;
   onSequenceSelect: (sequenceToSelect: Sequence) => void;
   onTrackSelect: (trackToSelect: Track) => void;
-  selectedSequenceId: number;
+  selectedSequenceId?: number;
   songMeasureCount: number;
   track: Track;
 }

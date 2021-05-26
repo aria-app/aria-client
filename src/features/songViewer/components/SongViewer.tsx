@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { RouteComponentProps } from '@reach/router';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 import Dawww from '../../../dawww';
 import api from '../../api';
@@ -12,29 +12,23 @@ const { useAudioManager, usePlaybackState, usePosition } = audio.hooks;
 
 const { Box, LoadingIndicator, Slider, Stack, Typography } = shared.components;
 
-SongViewer.propTypes = {
-  songId: PropTypes.string,
-};
-
-function SongViewer(props: any) {
+function SongViewer(props: RouteComponentProps<{ songId: string }>) {
   const { songId: songIdProp } = props;
-  const songId = parseInt(songIdProp);
+  const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
   const playbackState = usePlaybackState();
   const position = usePosition();
   const { data, loading } = useQuery(api.queries.GET_SONG, {
     variables: { id: songId },
   });
-  const [prevPlaybackState, setPrevPlaybackState] = React.useState(
-    playbackState,
-  );
-  const [positionState, setPositionState] = React.useState(position);
+  const [prevPlaybackState, setPrevPlaybackState] = useState(playbackState);
+  const [positionState, setPositionState] = useState(position);
 
-  const handleChange = React.useCallback((e, value) => {
+  const handleChange = useCallback((e, value) => {
     setPositionState(value);
   }, []);
 
-  const handleChangeCommitted = React.useCallback(() => {
+  const handleChangeCommitted = useCallback(() => {
     audioManager.setPosition(positionState);
 
     if (prevPlaybackState === Dawww.PLAYBACK_STATES.STARTED) {
@@ -42,26 +36,26 @@ function SongViewer(props: any) {
     }
   }, [audioManager, positionState, prevPlaybackState]);
 
-  const handleMouseDown = React.useCallback(() => {
+  const handleMouseDown = useCallback(() => {
     setPrevPlaybackState(playbackState);
     audioManager.pause();
   }, [audioManager, playbackState]);
 
-  const elapsedSeconds = React.useMemo(
+  const elapsedSeconds = useMemo(
     () => (data ? (position / (data.song.bpm * 8)) * 60 : 0),
     [data, position],
   );
 
-  const totalSeconds = React.useMemo(
+  const totalSeconds = useMemo(
     () => (data ? (data.song.measureCount / (data.song.bpm / 4)) * 60 : 0),
     [data],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     setPositionState(position);
   }, [position, setPositionState]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!data) return;
 
     audioManager.updateSong(data.song);
@@ -133,4 +127,4 @@ function SongViewer(props: any) {
   );
 }
 
-export default React.memo(SongViewer);
+export default memo(SongViewer);

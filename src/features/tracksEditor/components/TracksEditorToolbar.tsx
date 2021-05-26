@@ -2,21 +2,19 @@ import ContentCopyIcon from '@material-ui/icons/ContentCopy';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import isEmpty from 'lodash/fp/isEmpty';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo } from 'react';
 
-import shared from '../../shared';
+import { Sequence } from '../../../types';
+import { Button, Stack, Toolbar } from '../../shared';
 
-const { Button, Stack, Toolbar } = shared.components;
+export interface TracksEditorToolbarProps {
+  onSequenceDelete: () => void;
+  onSequenceDuplicate: () => void;
+  onSequenceOpen: () => void;
+  selectedSequence?: Sequence;
+}
 
-TracksEditorToolbar.propTypes = {
-  onSequenceDelete: PropTypes.func,
-  onSequenceDuplicate: PropTypes.func,
-  onSequenceOpen: PropTypes.func,
-  selectedSequence: PropTypes.object,
-};
-
-function TracksEditorToolbar(props: any) {
+function TracksEditorToolbar(props: TracksEditorToolbarProps) {
   const {
     onSequenceDelete,
     onSequenceDuplicate,
@@ -26,17 +24,13 @@ function TracksEditorToolbar(props: any) {
 
   const isSomeSequenceSelected = !isEmpty(selectedSequence);
 
-  const handleSequenceOpen = React.useCallback(() => {
-    onSequenceOpen(selectedSequence);
-  }, [onSequenceOpen, selectedSequence]);
-
   return (
     <Toolbar position="bottom">
       <Stack direction="row" space={2} sx={{ justifyContent: 'flex-end' }}>
         {isSomeSequenceSelected && (
           <>
             <Button
-              onClick={handleSequenceOpen}
+              onClick={onSequenceOpen}
               startIcon={<EditIcon />}
               variant="text"
             />
@@ -57,4 +51,4 @@ function TracksEditorToolbar(props: any) {
   );
 }
 
-export default React.memo(TracksEditorToolbar);
+export default memo(TracksEditorToolbar);
