@@ -8,8 +8,8 @@ import { Sequence } from '../../../types';
 import { Button, Stack, Toolbar } from '../../shared';
 
 export interface TracksEditorToolbarProps {
-  onSequenceDelete: () => void;
-  onSequenceDuplicate: () => void;
+  onSequenceDelete: (e: MouseEvent) => void;
+  onSequenceDuplicate: (e: MouseEvent) => void;
   onSequenceOpen: () => void;
   selectedSequence?: Sequence;
 }
