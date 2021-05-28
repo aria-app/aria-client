@@ -1,6 +1,6 @@
 import { Global, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import React from 'react';
+import { HTMLAttributes, memo } from 'react';
 
 const Root = styled.div(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
@@ -16,7 +16,7 @@ const Root = styled.div(({ theme }) => ({
   top: 0,
 }));
 
-function Shell(props: any) {
+function Shell(props: HTMLAttributes<HTMLDivElement>) {
   const { children, ...rest } = props;
   const theme = useTheme();
 
@@ -61,4 +61,4 @@ function Shell(props: any) {
   );
 }
 
-export default React.memo(Shell);
+export default memo(Shell);

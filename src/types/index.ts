@@ -25,6 +25,11 @@ export type Point = {
   y: number;
 };
 
+export interface ScaleStep {
+  name: string;
+  y: number;
+}
+
 export interface Sequence {
   __typename?: string;
   id: number;
@@ -37,12 +42,12 @@ export interface Sequence {
 export interface Song {
   __typename?: string;
   bpm: number;
-  createdAt: Date;
+  createdAt: string;
   id: number;
   measureCount: number;
   name: string;
   tracks: Track[];
-  updatedAt: Date;
+  updatedAt: string;
   user: Partial<User> & { id: number };
 }
 
@@ -60,7 +65,7 @@ export interface Track {
 
 export interface User {
   __typename?: string;
-  createdAt: Date;
+  createdAt: string;
   email: string;
   firstName: string;
   id: number;

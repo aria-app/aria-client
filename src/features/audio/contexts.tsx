@@ -1,3 +1,3 @@
-import React from 'react';
+import { createContext } from 'react';
 
-export const AudioManagerContext = React.createContext<any>(null);
+export const AudioManagerContext = createContext<any>(null);

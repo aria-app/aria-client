@@ -1,18 +1,18 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo } from 'react';
 
+import { Song } from '../../../types';
 import shared from '../../shared';
 import SongListItem from './SongListItem';
 
 const { Stack } = shared.components;
 
-SongList.propTypes = {
-  onDelete: PropTypes.func,
-  onOpen: PropTypes.func,
-  songs: PropTypes.arrayOf(PropTypes.object),
-};
+export interface SongListProps {
+  onDelete: (song: Song) => void;
+  onOpen: (song: Song) => void;
+  songs: Song[];
+}
 
-function SongList(props: any) {
+function SongList(props: SongListProps) {
   const { onDelete, onOpen, songs = [] } = props;
 
   return (
@@ -20,8 +20,8 @@ function SongList(props: any) {
       {songs.map((song) => (
         <SongListItem
           key={song.id}
-          onClick={onOpen}
           onDelete={onDelete}
+          onOpen={onOpen}
           song={song}
         />
       ))}
@@ -29,4 +29,4 @@ function SongList(props: any) {
   );
 }
 
-export default React.memo(SongList);
+export default memo(SongList);

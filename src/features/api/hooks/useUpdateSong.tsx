@@ -3,7 +3,7 @@ import {
   MutationResult,
   useMutation,
 } from '@apollo/client';
-import React from 'react';
+import { useCallback } from 'react';
 
 import { UPDATE_SONG, UpdateSongInput, UpdateSongResponse } from '../queries';
 
@@ -20,7 +20,7 @@ export function useUpdateSong(
 ): [UpdateSongMutation, MutationResult<UpdateSongData>] {
   const [mutation, ...rest] = useMutation(UPDATE_SONG, options);
 
-  const wrappedMutation = React.useCallback(
+  const wrappedMutation = useCallback(
     async ({ input }) => {
       const { id, ...rest } = input;
       try {

@@ -1,24 +1,23 @@
+import * as CSS from 'csstype';
 import includes from 'lodash/fp/includes';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo, useCallback } from 'react';
 
-import shared from '../../shared';
+import { ScaleStep } from '../../../types';
+import { Box, BoxProps } from '../../shared';
 
-const { Box } = shared.components;
+export interface KeyProps extends BoxProps {
+  isHoveredRow: boolean;
+  onPress: (step: ScaleStep) => void;
+  step: ScaleStep;
+  style: CSS.Properties<number | string>;
+}
 
-Key.propTypes = {
-  isHoveredRow: PropTypes.bool,
-  onMouseDown: PropTypes.func,
-  step: PropTypes.object,
-  style: PropTypes.object,
-};
+function Key(props: KeyProps) {
+  const { isHoveredRow, onPress, step, style } = props;
 
-function Key(props: any) {
-  const { isHoveredRow, onMouseDown, step, style } = props;
-
-  const handleMouseDown = React.useCallback(() => {
-    onMouseDown(step);
-  }, [onMouseDown, step]);
+  const handleMouseDown = useCallback(() => {
+    onPress(step);
+  }, [onPress, step]);
 
   const isCKey = includes('C', step.name) && !includes('#', step.name);
   const isSharp = includes('#', step.name);
@@ -61,4 +60,4 @@ function Key(props: any) {
   );
 }
 
-export default React.memo(Key);
+export default memo(Key);

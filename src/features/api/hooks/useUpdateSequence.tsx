@@ -3,7 +3,7 @@ import {
   MutationResult,
   useMutation,
 } from '@apollo/client';
-import React from 'react';
+import { useCallback } from 'react';
 
 import {
   UPDATE_SEQUENCE,
@@ -24,7 +24,7 @@ export function useUpdateSequence(
 ): [UpdateSequenceMutation, MutationResult<UpdateSequenceData>] {
   const [mutation, ...rest] = useMutation(UPDATE_SEQUENCE, options);
 
-  const wrappedMutation = React.useCallback(
+  const wrappedMutation = useCallback(
     async ({ input }) => {
       try {
         await mutation({

@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import AddIcon from '@material-ui/icons/Add';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { RouteComponentProps } from '@reach/router';
+import { memo, ReactElement, useCallback, useEffect } from 'react';
 
 import api from '../../api';
 import auth from '../../auth';
@@ -20,11 +20,7 @@ const {
   Typography,
 } = shared.components;
 
-Dashboard.propTypes = {
-  navigate: PropTypes.func,
-};
-
-function Dashboard(props: any) {
+function Dashboard(props: RouteComponentProps): ReactElement {
   const { navigate } = props;
   const { logout, user } = useAuth();
   const [createSong, { loading: createLoading }] = useMutation(
@@ -46,7 +42,7 @@ function Dashboard(props: any) {
 
   const loading = createLoading || deleteLoading || getLoading;
 
-  const handleSongAdd = React.useCallback(async () => {
+  const handleSongAdd = useCallback(async () => {
     const name = window.prompt('Enter a name for the song', 'New Song');
 
     if (!name) return;
@@ -65,7 +61,7 @@ function Dashboard(props: any) {
     }
   }, [createSong]);
 
-  const handleSongDelete = React.useCallback(
+  const handleSongDelete = useCallback(
     async (song) => {
       const shouldDelete = window.confirm(
         `Are you sure you want to delete the song "${song.name}"?`,
@@ -83,14 +79,14 @@ function Dashboard(props: any) {
     [deleteSong],
   );
 
-  const handleSongOpen = React.useCallback(
+  const handleSongOpen = useCallback(
     (song) => {
-      navigate(`edit-song/${song.id}`);
+      navigate?.(`edit-song/${song.id}`);
     },
     [navigate],
   );
 
-  const handleUserClick = React.useCallback(() => {
+  const handleUserClick = useCallback(() => {
     const shouldSignOut = window.confirm('Do you want to sign out?');
 
     if (!shouldSignOut) return;
@@ -98,7 +94,7 @@ function Dashboard(props: any) {
     logout();
   }, [logout]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     window.document.title = 'Dashboard - Aria';
   }, []);
 
@@ -151,4 +147,4 @@ function Dashboard(props: any) {
   );
 }
 
-export default React.memo(Dashboard);
+export default memo(Dashboard);

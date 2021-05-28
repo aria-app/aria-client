@@ -1,16 +1,10 @@
 import AddIcon from '@material-ui/icons/Add';
-import PropTypes from 'prop-types';
-import { useCallback } from 'react';
-import { ReactElement } from 'react';
+import { ReactElement, useCallback } from 'react';
 
 import { Box, BoxProps, Button } from '../../shared';
 
-AddSequenceButton.propTypes = {
-  onClick: PropTypes.func,
-  position: PropTypes.number,
-};
-
 export type AddSequenceButtonProps = BoxProps & {
+  onClick: (position: number) => void;
   position: number;
 };
 
@@ -20,7 +14,7 @@ export default function AddSequenceButton(
   const { onClick, position } = props;
 
   const handleClick = useCallback(() => {
-    onClick(position);
+    onClick?.(position);
   }, [onClick, position]);
 
   return (

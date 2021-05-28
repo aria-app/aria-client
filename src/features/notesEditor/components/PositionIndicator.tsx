@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import { transparentize } from 'polished';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo } from 'react';
+
+import { Point } from '../../../types';
 
 const Column = styled.div(({ theme }) => ({
   backgroundColor: transparentize(0.9, theme.palette.primary.main),
@@ -25,31 +26,20 @@ const Row = styled.div(({ theme }) => ({
   top: 6,
 }));
 
-PositionIndicator.propTypes = {
-  mousePoint: PropTypes.object,
-};
+export interface PositionIndicatorProps {
+  mousePoint: Point;
+}
 
-function PositionIndicator(props: any) {
+function PositionIndicator(props: PositionIndicatorProps) {
   const { mousePoint } = props;
+  const { x, y } = mousePoint;
 
   return (
-    <React.Fragment>
-      {mousePoint.x >= 0 && (
-        <Column
-          style={{
-            transform: `translateX(${mousePoint.x * 40}px)`,
-          }}
-        />
-      )}
-      {mousePoint.y >= 0 && (
-        <Row
-          style={{
-            transform: `translateY(${mousePoint.y * 40}px)`,
-          }}
-        />
-      )}
-    </React.Fragment>
+    <>
+      {x >= 0 ?? <Column style={{ transform: `translateX(${x * 40}px)` }} />}
+      {y >= 0 ?? <Row style={{ transform: `translateY(${y * 40}px)` }} />}
+    </>
   );
 }
 
-export default React.memo(PositionIndicator);
+export default memo(PositionIndicator);

@@ -3,6 +3,7 @@
   "plugins": ["simple-import-sort"],
   "rules": {
     "import/order": "off",
+    "react/jsx-fragments": "error",
     "react/jsx-sort-props": "error",
     "react/react-in-jsx-scope": "off",
     "simple-import-sort/exports": "error",

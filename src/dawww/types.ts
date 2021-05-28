@@ -108,7 +108,16 @@ export type Dispatch<T = any> = (payload: T) => void;
 
 export type Instrument = {
   releaseAll: () => void;
-  [key: string]: any;
+  set: (options: {
+    oscillator?: {
+      type?: string;
+    };
+  }) => void;
+  triggerAttackRelease: (
+    name: string,
+    length: ToneTime,
+    time?: ToneTime,
+  ) => void;
 };
 
 export type ObjectWithId = {
@@ -175,9 +184,9 @@ export type ToneTime = number | string;
 export type TransportPart = Record<string, any>;
 
 export type VolumeNode = {
+  dispose: () => void;
   mute: boolean;
   volume: {
     value: number;
   };
-  [key: string]: any;
 };

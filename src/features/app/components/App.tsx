@@ -1,5 +1,5 @@
 import { Router } from '@reach/router';
-import React from 'react';
+import { memo } from 'react';
 
 import auth from '../../auth';
 import dashboard from '../../dashboard';
@@ -45,4 +45,4 @@ function App() {
   );
 }
 
-export default React.memo(App);
+export default memo(App);

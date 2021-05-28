@@ -1,24 +1,25 @@
 import { useTheme } from '@emotion/react';
-import MuiBox from '@material-ui/core/Box';
+import MuiBox, { BoxProps as MuiBoxProps } from '@material-ui/core/Box';
 import getOr from 'lodash/fp/getOr';
 import isNumber from 'lodash/fp/isNumber';
 import { readableColor } from 'polished';
-import { forwardRef, memo, ReactNode, useMemo } from 'react';
+import { forwardRef, memo, useMemo } from 'react';
 
 function getIsDarkColor(color) {
   return readableColor(color) === '#fff';
 }
 
-export type BoxProps = {
-  children?: ReactNode;
+export interface BoxProps extends Omit<MuiBoxProps, 'ref'> {
   interactive?: boolean;
-  sx?: any;
-  [key: string]: any;
-};
+  interactiveColor?: string;
+  sx?: MuiBoxProps['sx'] & Record<string, any>;
+  [key: string]: unknown;
+}
 
 export const Box = memo(
-  forwardRef((props: BoxProps, ref) => {
+  forwardRef<HTMLElement, BoxProps>((props, ref) => {
     const {
+      component,
       interactive,
       interactiveColor: interactiveColorProp,
       sx = {},
@@ -50,6 +51,7 @@ export const Box = memo(
 
     return (
       <MuiBox
+        component={component}
         ref={ref}
         sx={{
           ...(interactive

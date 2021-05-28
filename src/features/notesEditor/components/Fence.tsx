@@ -1,34 +1,32 @@
-import isEmpty from 'lodash/fp/isEmpty';
 import isEqual from 'lodash/fp/isEqual';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo, useMemo } from 'react';
 
+import { Point } from '../../../types';
 import shared from '../../shared';
 
 const { Box } = shared.components;
 
-Fence.propTypes = {
-  endPoint: PropTypes.object,
-  startPoint: PropTypes.object,
-};
+export interface FenceProps {
+  endPoint?: Point;
+  startPoint?: Point;
+}
 
-function Fence(props: any) {
+function Fence(props: FenceProps) {
   const { endPoint, startPoint } = props;
 
-  const display = React.useMemo(
-    () =>
-      !isEmpty(startPoint) && !isEqual(startPoint, endPoint) ? 'block' : 'none',
+  const display = useMemo(
+    () => (startPoint && !isEqual(startPoint, endPoint) ? 'block' : 'none'),
     [endPoint, startPoint],
   );
 
-  const height = React.useMemo(() => {
-    if (isEmpty(startPoint) || isEmpty(endPoint)) return 0;
+  const height = useMemo(() => {
+    if (!startPoint || !endPoint) return 0;
 
     return (Math.abs(endPoint.y - startPoint.y) + 1) * 40;
   }, [endPoint, startPoint]);
 
-  const transform = React.useMemo(() => {
-    if (isEmpty(startPoint) || isEmpty(endPoint)) {
+  const transform = useMemo(() => {
+    if (!startPoint || !endPoint) {
       return 'translate(0px, 0px)';
     }
 
@@ -38,31 +36,28 @@ function Fence(props: any) {
     return `translate(${x}px, ${y}px)`;
   }, [endPoint, startPoint]);
 
-  const width = React.useMemo(() => {
-    if (isEmpty(startPoint) || isEmpty(endPoint)) return 0;
+  const width = useMemo(() => {
+    if (!startPoint || !endPoint) return 0;
 
     return (Math.abs(endPoint.x - startPoint.x) + 1) * 40;
   }, [endPoint, startPoint]);
 
   return (
     <Box
+      style={{ display, height, transform, width }}
       sx={{
         backgroundColor: 'primary.main25',
         borderColor: 'primary.main',
         borderRadius: 1,
         borderStyle: 'solid',
         borderWidth: 2,
-        display,
-        height,
         left: 0,
         pointerEvents: 'none',
         position: 'absolute',
         top: 0,
-        transform,
-        width,
       }}
     />
   );
 }
 
-export default React.memo(Fence);
+export default memo(Fence);

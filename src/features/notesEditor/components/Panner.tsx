@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import { memo, useCallback, useState } from 'react';
 
 interface RootProps {
   isPanning: boolean;
@@ -14,11 +14,6 @@ const Root = styled.div<RootProps>(({ isPanning }) => ({
   top: 0,
 }));
 
-// Panner.propTypes = {
-//   scrollLeftEl: PropTypes.object,
-//   scrollTopEl: PropTypes.object,
-// };
-
 type PannerStartPoint = {
   scrollLeft: number;
   scrollTop: number;
@@ -26,14 +21,22 @@ type PannerStartPoint = {
   y: number;
 } | null;
 
-function Panner(props: any) {
-  const { scrollLeftEl, scrollTopEl } = props;
-  const [startPoint, setStartPoint] = React.useState<PannerStartPoint>(null);
+export interface PannerProps {
+  scrollLeftEl: HTMLElement | null;
+  scrollTopEl: HTMLElement | null;
+}
 
-  const handleMouseDown = React.useCallback(
+function Panner(props: PannerProps) {
+  const { scrollLeftEl, scrollTopEl } = props;
+
+  const [startPoint, setStartPoint] = useState<PannerStartPoint>(null);
+
+  const handleMouseDown = useCallback(
     (e) => {
       e.preventDefault();
       e.stopPropagation();
+
+      if (!scrollLeftEl || !scrollTopEl) return;
 
       setStartPoint({
         scrollLeft: scrollLeftEl.scrollLeft,
@@ -42,18 +45,18 @@ function Panner(props: any) {
         y: e.pageY,
       });
     },
-    [scrollLeftEl.scrollLeft, scrollTopEl.scrollTop],
+    [scrollLeftEl, scrollTopEl],
   );
 
-  const handleMouseLeave = React.useCallback(() => {
+  const handleMouseLeave = useCallback(() => {
     if (!startPoint) return;
 
     setStartPoint(null);
   }, [startPoint]);
 
-  const handleMouseMove = React.useCallback(
+  const handleMouseMove = useCallback(
     (e) => {
-      if (!startPoint) return;
+      if (!startPoint || !scrollLeftEl || !scrollTopEl) return;
 
       const dx = e.pageX - startPoint.x;
       const dy = e.pageY - startPoint.y;
@@ -66,7 +69,7 @@ function Panner(props: any) {
     [scrollLeftEl, scrollTopEl, startPoint],
   );
 
-  const handleMouseUp = React.useCallback(() => {
+  const handleMouseUp = useCallback(() => {
     if (!startPoint) return;
 
     setStartPoint(null);
@@ -83,4 +86,4 @@ function Panner(props: any) {
   );
 }
 
-export default React.memo(Panner);
+export default memo(Panner);

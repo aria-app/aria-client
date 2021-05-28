@@ -3,7 +3,7 @@ import {
   MutationResult,
   useMutation,
 } from '@apollo/client';
-import React from 'react';
+import { useCallback } from 'react';
 
 import { Track } from '../../../types';
 import {
@@ -27,7 +27,7 @@ export function useDeleteTrack(
 ): [DeleteTrackMutation, MutationResult<DeleteTrackData>] {
   const [mutation, ...rest] = useMutation(DELETE_TRACK, options);
 
-  const wrappedMutation = React.useCallback(
+  const wrappedMutation = useCallback(
     async ({ songId, track }) => {
       try {
         await mutation({

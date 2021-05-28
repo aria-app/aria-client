@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo, useCallback } from 'react';
 
+import { Sequence } from '../../../types';
 import TrackSequenceNote from './TrackSequenceNote';
 
 interface RootProps {
@@ -24,24 +24,24 @@ const Root = styled.div<RootProps>(({ isPending, isSelected, theme }) => ({
   transition: 'box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease',
 }));
 
-TrackSequence.propTypes = {
-  isDragging: PropTypes.bool,
-  isSelected: PropTypes.bool,
-  onOpen: PropTypes.func,
-  onSelect: PropTypes.func,
-  sequence: PropTypes.object,
-};
+export interface TrackListSequenceProps {
+  isDragging: boolean;
+  isSelected: boolean;
+  onOpen: (sequenceToOpen: Sequence) => void;
+  onSelect: (sequenceToSelect: Sequence) => void;
+  sequence: Sequence;
+}
 
-function TrackSequence(props: any) {
+function TrackListSequence(props: TrackListSequenceProps) {
   const { isSelected, onOpen, onSelect, sequence } = props;
 
-  const handleClick = React.useCallback(() => {
+  const handleClick = useCallback(() => {
     if (isSelected) return;
 
     onSelect(sequence);
   }, [isSelected, onSelect, sequence]);
 
-  const handleDoubleClick = React.useCallback(() => {
+  const handleDoubleClick = useCallback(() => {
     onOpen(sequence);
   }, [onOpen, sequence]);
 
@@ -63,4 +63,4 @@ function TrackSequence(props: any) {
   );
 }
 
-export default React.memo(TrackSequence);
+export default memo(TrackListSequence);

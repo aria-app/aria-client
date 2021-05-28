@@ -3,7 +3,7 @@ import {
   MutationResult,
   useMutation,
 } from '@apollo/client';
-import React from 'react';
+import { useCallback } from 'react';
 
 import { Note } from '../../../types';
 import { UPDATE_NOTES, UpdateNotesResponse } from '../queries';
@@ -19,7 +19,7 @@ export function useUpdateNotes(
 ): [UpdateNotesMutation, MutationResult<UpdateNotesData>] {
   const [mutation, ...rest] = useMutation(UPDATE_NOTES, options);
 
-  const wrappedMutation = React.useCallback(
+  const wrappedMutation = useCallback(
     async ({ notes }) => {
       try {
         await mutation({

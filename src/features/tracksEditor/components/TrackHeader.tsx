@@ -1,10 +1,8 @@
-import React from 'react';
+import { memo } from 'react';
 
-import shared from '../../shared';
+import { Box, BoxProps } from '../../shared';
 
-const { Box } = shared.components;
-
-function TrackHeader(props: any) {
+function TrackHeader(props: BoxProps) {
   const { children, ...rest } = props;
 
   return (
@@ -56,4 +54,4 @@ function TrackHeader(props: any) {
   );
 }
 
-export default React.memo(TrackHeader);
+export default memo(TrackHeader);

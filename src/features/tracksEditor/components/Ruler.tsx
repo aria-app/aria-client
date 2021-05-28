@@ -3,8 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import times from 'lodash/fp/times';
 import round from 'lodash/round';
 import { transparentize } from 'polished';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo, useCallback, useState } from 'react';
 import Draggable from 'react-draggable';
 
 const Resizer = styled.div(({ theme }) => ({
@@ -86,24 +85,24 @@ const ResizerDraggableWrapper = styled.div({
   position: 'absolute',
 });
 
-Ruler.propTypes = {
-  measureCount: PropTypes.number,
-  measureWidth: PropTypes.number,
-  onMeasureCountChange: PropTypes.func,
-  onPositionSet: PropTypes.func,
-};
+export interface RulerProps {
+  measureCount: number;
+  measureWidth: number;
+  onMeasureCountChange: (changedMeasureCount: number) => void;
+  onPositionSet: (changedPosition: number) => void;
+}
 
-function Ruler(props: any) {
+function Ruler(props: RulerProps) {
   const {
     measureCount,
     measureWidth,
     onMeasureCountChange,
     onPositionSet,
   } = props;
-  const [isResizing, setIsResizing] = React.useState(false);
-  const [length, setLength] = React.useState(measureCount);
+  const [isResizing, setIsResizing] = useState(false);
+  const [length, setLength] = useState(measureCount);
 
-  const handleClick = React.useCallback(
+  const handleClick = useCallback(
     (e) => {
       const measures = e.nativeEvent.offsetX / measureWidth;
       const notesPerMeasure = 32;
@@ -113,18 +112,18 @@ function Ruler(props: any) {
     [measureWidth, onPositionSet],
   );
 
-  const handleResizerDragStart = React.useCallback(() => {
+  const handleResizerDragStart = useCallback(() => {
     setIsResizing(true);
   }, []);
 
-  const handleResizerDrag = React.useCallback(
+  const handleResizerDrag = useCallback(
     (e, dragData) => {
       setLength(Math.max(1, (dragData.lastX - 16) / measureWidth));
     },
     [measureWidth],
   );
 
-  const handleResizerDragStop = React.useCallback(() => {
+  const handleResizerDragStop = useCallback(() => {
     const roundedLength = Math.max(1, Math.round(length));
 
     setIsResizing(false);
@@ -178,4 +177,4 @@ function Ruler(props: any) {
   );
 }
 
-export default React.memo(Ruler);
+export default memo(Ruler);

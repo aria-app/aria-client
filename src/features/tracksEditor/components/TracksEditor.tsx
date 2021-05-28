@@ -1,18 +1,10 @@
+import { RouteComponentProps } from '@reach/router';
 import find from 'lodash/fp/find';
-import isNil from 'lodash/fp/isNil';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 
-import api from '../../api';
-import audio from '../../audio';
-import shared from '../../shared';
-import TrackEditingModal from './TrackEditingModal';
-import TrackList from './TrackList';
-import TracksEditorToolbar from './TracksEditorToolbar';
-
-const { getTempId } = api.helpers;
-const {
+import {
+  getTempId,
   useCreateSequence,
   useCreateTrack,
   useDeleteSequence,
@@ -22,18 +14,20 @@ const {
   useUpdateSequence,
   useUpdateSong,
   useUpdateTrack,
-} = api.hooks;
-const { useAudioManager, usePlaybackState, usePosition } = audio.hooks;
-const { Box, LoadingIndicator, Timeline } = shared.components;
+} from '../../api';
+import { useAudioManager, usePlaybackState, usePosition } from '../../audio';
+import { Box, LoadingIndicator, Timeline } from '../../shared';
+import TrackEditingModal from './TrackEditingModal';
+import TrackList from './TrackList';
+import TracksEditorToolbar from './TracksEditorToolbar';
 
-TracksEditor.propTypes = {
-  navigate: PropTypes.func,
-  songId: PropTypes.string,
-};
-
-function TracksEditor(props: any) {
+function TracksEditor(
+  props: RouteComponentProps<{
+    songId: string;
+  }>,
+) {
   const { navigate, songId: songIdProp } = props;
-  const songId = parseInt(songIdProp);
+  const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
   const playbackState = usePlaybackState();
   const position = usePosition();
@@ -50,14 +44,14 @@ function TracksEditor(props: any) {
       id: songId,
     },
   });
-  const [selectedSequenceId, setSelectedSequenceId] = React.useState(-1);
-  const [selectedTrackId, setSelectedTrackId] = React.useState(-1);
+  const [selectedSequenceId, setSelectedSequenceId] = useState(-1);
+  const [selectedTrackId, setSelectedTrackId] = useState(-1);
 
-  const tracks = React.useMemo(() => {
+  const tracks = useMemo(() => {
     return data?.song?.tracks ?? [];
   }, [data]);
 
-  const sequences = React.useMemo(() => {
+  const sequences = useMemo(() => {
     if (!data) {
       return [];
     }
@@ -65,28 +59,28 @@ function TracksEditor(props: any) {
     return tracks.map((track) => track.sequences).flat();
   }, [data, tracks]);
 
-  const selectedSequence = React.useMemo(
+  const selectedSequence = useMemo(
     () => find((s) => s.id === selectedSequenceId, sequences),
     [selectedSequenceId, sequences],
   );
 
-  const selectedTrack = React.useMemo(
+  const selectedTrack = useMemo(
     () => find((t) => t.id === selectedTrackId, tracks),
     [selectedTrackId, tracks],
   );
 
-  const handleSequenceAdd = React.useCallback(
+  const handleSequenceAdd = useCallback(
     ({ position, track }) => {
       createSequence({ position, songId, trackId: track.id });
     },
     [createSequence, songId],
   );
 
-  const handleSequenceDelete = React.useCallback(
+  const handleSequenceDelete = useCallback(
     (e) => {
       e.preventDefault();
 
-      if (isNil(selectedSequence)) return;
+      if (!selectedSequence) return;
 
       deleteSequence({
         sequence: selectedSequence,
@@ -96,7 +90,7 @@ function TracksEditor(props: any) {
     [deleteSequence, selectedSequence, songId],
   );
 
-  const handleSequenceDuplicate = React.useCallback(
+  const handleSequenceDuplicate = useCallback(
     async (e) => {
       e.preventDefault();
 
@@ -117,7 +111,7 @@ function TracksEditor(props: any) {
     [duplicateSequence, selectedSequence, songId],
   );
 
-  const handleSequenceEdit = React.useCallback(
+  const handleSequenceEdit = useCallback(
     (sequence) => {
       updateSequence({
         input: {
@@ -130,14 +124,14 @@ function TracksEditor(props: any) {
     [updateSequence],
   );
 
-  const handleSequenceOpen = React.useCallback(
+  const handleSequenceOpen = useCallback(
     (sequence) => {
-      navigate(`sequence/${sequence.id}`);
+      navigate?.(`sequence/${sequence.id}`);
     },
     [navigate],
   );
 
-  const handleSongMeasureCountChange = React.useCallback(
+  const handleSongMeasureCountChange = useCallback(
     (measureCount) => {
       if (!data?.song) return;
 
@@ -151,11 +145,15 @@ function TracksEditor(props: any) {
     [data, updateSong],
   );
 
-  const handleTrackDeselect = React.useCallback(() => {
+  const handleToolbarSequenceOpen = useCallback(() => {
+    navigate?.(`sequence/${selectedSequence?.id}`);
+  }, [navigate, selectedSequence]);
+
+  const handleTrackDeselect = useCallback(() => {
     setSelectedTrackId(-1);
   }, []);
 
-  const handleTrackDelete = React.useCallback(
+  const handleTrackDelete = useCallback(
     (track) => {
       handleTrackDeselect();
 
@@ -164,7 +162,7 @@ function TracksEditor(props: any) {
     [deleteTrack, handleTrackDeselect, songId],
   );
 
-  const handleTrackEdit = React.useCallback(
+  const handleTrackEdit = useCallback(
     (updates) => {
       updateTrack({
         input: updates,
@@ -173,30 +171,30 @@ function TracksEditor(props: any) {
     [updateTrack],
   );
 
-  const handleTrackListPositionSet = React.useCallback(
+  const handleTrackListPositionSet = useCallback(
     (position) => {
       audioManager.setPosition(position);
     },
     [audioManager],
   );
 
-  const handleTrackListSequenceDeselect = React.useCallback(() => {
+  const handleTrackListSequenceDeselect = useCallback(() => {
     setSelectedSequenceId(-1);
   }, []);
 
-  const handleTrackListSequenceSelect = React.useCallback((sequence) => {
+  const handleTrackListSequenceSelect = useCallback((sequence) => {
     setSelectedSequenceId(sequence.id);
   }, []);
 
-  const handleTrackListTrackAdd = React.useCallback(() => {
+  const handleTrackListTrackAdd = useCallback(() => {
     createTrack({ songId });
   }, [createTrack, songId]);
 
-  const handleTrackSelect = React.useCallback((track) => {
+  const handleTrackSelect = useCallback((track) => {
     setSelectedTrackId(track.id);
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!data) return;
 
     audioManager.updateSong(data.song);
@@ -244,7 +242,7 @@ function TracksEditor(props: any) {
           <TracksEditorToolbar
             onSequenceDelete={handleSequenceDelete}
             onSequenceDuplicate={handleSequenceDuplicate}
-            onSequenceOpen={handleSequenceOpen}
+            onSequenceOpen={handleToolbarSequenceOpen}
             selectedSequence={selectedSequence}
           />
         </>
@@ -267,4 +265,4 @@ function TracksEditor(props: any) {
   );
 }
 
-export default React.memo(TracksEditor);
+export default memo(TracksEditor);

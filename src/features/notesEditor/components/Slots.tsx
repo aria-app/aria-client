@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import range from 'lodash/fp/range';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo, useMemo } from 'react';
 
 import Dawww from '../../../dawww';
 
@@ -10,14 +9,14 @@ const Root = styled.div({
   minHeight: '100%',
 });
 
-Slots.propTypes = {
-  measureCount: PropTypes.number,
-};
+export interface SlotsProps {
+  measureCount: number;
+}
 
-function Slots(props: any) {
+function Slots(props: SlotsProps) {
   const { measureCount } = props;
 
-  const slots = React.useMemo(
+  const slots = useMemo(
     () =>
       range(0, measureCount * 4 * 8).map((columnNumber) =>
         range(0, Dawww.SCALE.length).map((rowNumber) =>
@@ -27,7 +26,7 @@ function Slots(props: any) {
     [measureCount],
   );
 
-  const stripes = React.useMemo(
+  const stripes = useMemo(
     () =>
       range(0, measureCount * 2).map(
         (n) => `
@@ -63,7 +62,7 @@ function Slots(props: any) {
   );
 }
 
-export default React.memo(Slots);
+export default memo(Slots);
 
 function getSlot(column, row) {
   const isEven = (x) => x % 2 === 0;

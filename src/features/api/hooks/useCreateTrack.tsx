@@ -3,7 +3,7 @@ import {
   MutationResult,
   useMutation,
 } from '@apollo/client';
-import React from 'react';
+import { useCallback } from 'react';
 
 import {
   CREATE_TRACK,
@@ -28,7 +28,7 @@ export function useCreateTrack(
     options,
   );
 
-  const wrappedMutation = React.useCallback(
+  const wrappedMutation = useCallback(
     async ({ songId }) => {
       try {
         await mutation({

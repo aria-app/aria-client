@@ -3,7 +3,7 @@ import {
   MutationResult,
   useMutation,
 } from '@apollo/client';
-import React from 'react';
+import { useCallback } from 'react';
 
 import { Sequence } from '../../../types';
 import {
@@ -27,7 +27,7 @@ export function useDeleteSequence(
 ): [DeleteSequenceMutation, MutationResult<DeleteSequenceData>] {
   const [mutation, ...rest] = useMutation(DELETE_SEQUENCE, options);
 
-  const wrappedMutation = React.useCallback(
+  const wrappedMutation = useCallback(
     async ({ sequence, songId }) => {
       try {
         await mutation({

@@ -5,29 +5,29 @@ import inRange from 'lodash/fp/inRange';
 import isNil from 'lodash/fp/isNil';
 import range from 'lodash/fp/range';
 import some from 'lodash/fp/some';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { Translation } from 'react-i18next';
 
+import { Sequence, Track } from '../../../types';
 import shared from '../../shared';
 import AddSequenceButton from './AddSequenceButton';
 import TrackHeader from './TrackHeader';
-import TrackSequence from './TrackSequence';
+import TrackListSequence from './TrackListSequence';
 
 const { Box, GridBoxes, Stack } = shared.components;
 
-Track.propTypes = {
-  onSequenceAdd: PropTypes.func,
-  onSequenceEdit: PropTypes.func,
-  onSequenceOpen: PropTypes.func,
-  onSequenceSelect: PropTypes.func,
-  onTrackSelect: PropTypes.func,
-  selectedSequenceId: PropTypes.number,
-  songMeasureCount: PropTypes.number,
-  track: PropTypes.object,
-};
+export interface TrackListTrackProps {
+  onSequenceAdd: (options: { position: number; track: Track }) => void;
+  onSequenceEdit: (editedSequence: Sequence) => void;
+  onSequenceOpen: (sequenceToOpen: Sequence) => void;
+  onSequenceSelect: (sequenceToSelect: Sequence) => void;
+  onTrackSelect: (trackToSelect: Track) => void;
+  selectedSequenceId?: number;
+  songMeasureCount: number;
+  track: Track;
+}
 
-function Track(props: any) {
+function TrackListTrack(props: TrackListTrackProps) {
   const {
     onSequenceAdd,
     onSequenceEdit,
@@ -39,7 +39,7 @@ function Track(props: any) {
     track,
   } = props;
 
-  const boxesItems = React.useMemo(() => {
+  const boxesItems = useMemo(() => {
     return track.sequences.map((sequence) => ({
       id: sequence.id,
       length: sequence.measureCount,
@@ -48,7 +48,7 @@ function Track(props: any) {
     }));
   }, [track.sequences]);
 
-  const firstEmptyPosition = React.useMemo(() => {
+  const firstEmptyPosition = useMemo(() => {
     const allPositions = range(0, songMeasureCount);
     const sequenceCoversPosition = (position) => (sequence) =>
       inRange(
@@ -62,7 +62,7 @@ function Track(props: any) {
     return find(isEmptyPosition, allPositions);
   }, [songMeasureCount, track.sequences]);
 
-  const getIsSequenceSelected = React.useCallback(
+  const getIsSequenceSelected = useCallback(
     (sequence) => {
       if (!selectedSequenceId) return false;
 
@@ -71,7 +71,7 @@ function Track(props: any) {
     [selectedSequenceId],
   );
 
-  const handleGridBoxesItemsChange = React.useCallback(
+  const handleGridBoxesItemsChange = useCallback(
     (items) => {
       const editedSequences = items
         .filter((item) => {
@@ -92,11 +92,11 @@ function Track(props: any) {
     [onSequenceEdit],
   );
 
-  const handleHeaderClick = React.useCallback(() => {
+  const handleHeaderClick = useCallback(() => {
     onTrackSelect(track);
   }, [onTrackSelect, track]);
 
-  const handleSequenceAdd = React.useCallback(
+  const handleSequenceAdd = useCallback(
     (position) => {
       onSequenceAdd({
         position,
@@ -106,9 +106,9 @@ function Track(props: any) {
     [onSequenceAdd, track],
   );
 
-  const sequenceComponent = React.useCallback(
+  const sequenceComponent = useCallback(
     ({ isDragging, item }) => (
-      <TrackSequence
+      <TrackListSequence
         isDragging={isDragging}
         isSelected={getIsSequenceSelected(item.sequence)}
         onOpen={onSequenceOpen}
@@ -170,4 +170,4 @@ function Track(props: any) {
   );
 }
 
-export default React.memo(Track);
+export default memo(TrackListTrack);
