@@ -1,13 +1,16 @@
 import { useTheme } from '@emotion/react';
-import React from 'react';
+import { ButtonProps as MuiButtonProps } from '@material-ui/core/Button';
+import { forwardRef } from 'react';
 
 import { Box } from './Box';
 
-export interface ButtonProps {
-  [key: string]: any;
+export type ButtonVariant = 'contained' | 'outlined' | 'text';
+
+export interface ButtonProps extends Omit<MuiButtonProps, 'color'> {
+  color?: string;
 }
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (props, ref) => {
     const {
       children,
@@ -20,20 +23,21 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     } = props;
     const theme = useTheme();
 
+    const isContainedOrOutline =
+      variant === 'contained' || variant === 'outlined';
+
+    const isOutlinedOrText = variant === 'outlined' || variant === 'text';
+
     return (
       <Box
         component="button"
         disabled={disabled}
         interactive={!disabled}
-        interactiveColor={
-          ['outlined', 'text'].includes(variant) ? color : undefined
-        }
+        interactiveColor={isOutlinedOrText ? color : undefined}
         ref={ref}
         sx={{
           alignItems: 'center',
-          backgroundColor: ['outlined', 'text'].includes(variant)
-            ? 'transparent'
-            : color,
+          backgroundColor: isOutlinedOrText ? 'transparent' : color,
           borderColor: color,
           borderRadius: 1,
           borderStyle: 'solid',
@@ -63,7 +67,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             sx={{
               alignItems: 'center',
               display: 'flex',
-              margin: ['contained', 'outlined'].includes(variant) ? -1.5 : -1,
+              margin: isContainedOrOutline ? -1.5 : -1,
             }}
           >
             {startIcon}

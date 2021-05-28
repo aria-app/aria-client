@@ -2,15 +2,15 @@ import ContentCopyIcon from '@material-ui/icons/ContentCopy';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import isEmpty from 'lodash/fp/isEmpty';
-import { memo } from 'react';
+import { memo, MouseEventHandler } from 'react';
 
 import { Sequence } from '../../../types';
 import { Button, Stack, Toolbar } from '../../shared';
 
 export interface TracksEditorToolbarProps {
-  onSequenceDelete: (e: MouseEvent) => void;
-  onSequenceDuplicate: (e: MouseEvent) => void;
-  onSequenceOpen: () => void;
+  onSequenceDelete: MouseEventHandler<HTMLButtonElement>;
+  onSequenceDuplicate: MouseEventHandler<HTMLButtonElement>;
+  onSequenceOpen: MouseEventHandler<HTMLButtonElement>;
   selectedSequence?: Sequence;
 }
 

@@ -17,7 +17,7 @@ export interface GridProps {
   measureCount?: number;
   mousePoint: Point;
   notes: Note[];
-  notesEditorContentEl?: HTMLElement;
+  notesEditorContentEl: HTMLElement | null;
   onDrag: (draggedNotes: Note[]) => void;
   onDragPreview: (draggedNotes: Note[]) => void;
   onDraw: (mousePoint: Point) => void;
@@ -35,7 +35,7 @@ export interface GridProps {
 }
 
 function Grid(props: GridProps) {
-  const ref = useRef<HTMLElement>();
+  const ref = useRef<HTMLElement>(null);
   const {
     measureCount = 0,
     mousePoint,

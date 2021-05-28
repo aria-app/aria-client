@@ -8,7 +8,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import NearMeIcon from '@material-ui/icons/NearMe';
 import PanToolIcon from '@material-ui/icons/PanTool';
 import isEmpty from 'lodash/fp/isEmpty';
-import { memo, useMemo } from 'react';
+import { memo, MouseEventHandler, useMemo } from 'react';
 import EraseIcon from 'react-icons/lib/fa/eraser';
 
 import Dawww from '../../../dawww';
@@ -32,16 +32,16 @@ function SelectableIconButton(props: ButtonProps & { isSelected: boolean }) {
 
 export interface NotesEditorToolbarProps {
   measureCount?: number;
-  onClose: (e: MouseEvent) => void;
-  onDelete: (e: MouseEvent) => void;
-  onDeselectAll: (e: MouseEvent) => void;
-  onDrawToolSelect: (e: MouseEvent) => void;
-  onDuplicate: (e: MouseEvent) => void;
-  onEraseToolSelect: (e: MouseEvent) => void;
-  onOctaveDown: (e: MouseEvent) => void;
-  onOctaveUp: (e: MouseEvent) => void;
-  onPanToolSelect: (e: MouseEvent) => void;
-  onSelectToolSelect: (e: MouseEvent) => void;
+  onClose: MouseEventHandler<HTMLButtonElement>;
+  onDelete: MouseEventHandler<HTMLButtonElement>;
+  onDeselectAll: MouseEventHandler<HTMLButtonElement>;
+  onDrawToolSelect: MouseEventHandler<HTMLButtonElement>;
+  onDuplicate: MouseEventHandler<HTMLButtonElement>;
+  onEraseToolSelect: MouseEventHandler<HTMLButtonElement>;
+  onOctaveDown: MouseEventHandler<HTMLButtonElement>;
+  onOctaveUp: MouseEventHandler<HTMLButtonElement>;
+  onPanToolSelect: MouseEventHandler<HTMLButtonElement>;
+  onSelectToolSelect: MouseEventHandler<HTMLButtonElement>;
   selectedNotes: Note[];
   toolType: ToolType;
 }

@@ -11,7 +11,6 @@ export { default as Modal } from './Modal';
 export { default as Shell } from './Shell';
 export { default as Slider } from './Slider';
 export { default as Stack } from './Stack';
-export * from './Text';
 export { default as ThemeProvider } from './ThemeProvider';
 export { default as Timeline } from './Timeline';
 export { default as Toolbar } from './Toolbar';

@@ -1,8 +1,8 @@
-import React from 'react';
+import { forwardRef, memo } from 'react';
 
 import { Box, BoxProps } from './Box';
 
-const LoadingIndicator = React.forwardRef((props: BoxProps, ref) => (
+const LoadingIndicator = forwardRef<HTMLDivElement, BoxProps>((props, ref) => (
   <Box
     ref={ref}
     sx={{
@@ -20,4 +20,4 @@ const LoadingIndicator = React.forwardRef((props: BoxProps, ref) => (
   />
 ));
 
-export default React.memo(LoadingIndicator);
+export default memo(LoadingIndicator);

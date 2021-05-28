@@ -56,7 +56,7 @@ function NotesEditor(
       id: sequenceId,
     },
   });
-  const [contentEl, setContentEl] = useState<HTMLDivElement>();
+  const [contentEl, setContentEl] = useState<HTMLDivElement | null>(null);
   const [mousePoint, setMousePoint] = useState({ x: -1, y: 1 });
   const [previousToolType, setPreviousToolType] = useState(toolTypes.SELECT);
   const [selectedNoteIds, setSelectedNoteIds] = useState<number[]>([]);

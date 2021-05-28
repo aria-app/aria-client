@@ -8,7 +8,7 @@ export interface ToolbarProps extends BoxProps {
   position: ToolbarPosition;
 }
 
-const Toolbar = forwardRef((props: ToolbarProps, ref) => {
+const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>((props, ref) => {
   const { position, sx = {}, ...rest } = props;
 
   return (

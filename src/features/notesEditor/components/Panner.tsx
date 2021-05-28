@@ -22,8 +22,8 @@ type PannerStartPoint = {
 } | null;
 
 export interface PannerProps {
-  scrollLeftEl?: HTMLElement;
-  scrollTopEl?: HTMLElement;
+  scrollLeftEl: HTMLElement | null;
+  scrollTopEl: HTMLElement | null;
 }
 
 function Panner(props: PannerProps) {

@@ -21,8 +21,8 @@ export interface SelectorProps {
     endPoint: Point,
     isAdditive: boolean,
   ) => void;
-  scrollLeftEl?: HTMLElement;
-  scrollTopEl?: HTMLElement;
+  scrollLeftEl: HTMLElement | null;
+  scrollTopEl: HTMLElement | null;
 }
 
 function Selector(props: SelectorProps) {

@@ -1,10 +1,11 @@
 import styled from '@emotion/styled/macro';
 import first from 'lodash/fp/first';
 import last from 'lodash/fp/last';
-import React from 'react';
+import React, { HTMLAttributes, MouseEvent } from 'react';
 import Draggable from 'react-draggable';
 
-import { Note } from '../../../types';
+import { Note, Point } from '../../../types';
+import { PositionBounds, SizeBounds } from '../types';
 
 const Connector = styled.div({
   height: 10,
@@ -29,7 +30,7 @@ const Fill = styled.div(({ theme }) => ({
   },
 }));
 
-const Root = styled.div<{ isSelected: boolean }>(({ isSelected, theme }) => ({
+const Root = styled.div<{ isSelected?: boolean }>(({ isSelected, theme }) => ({
   left: 0,
   pointerEvents: 'none',
   position: 'absolute',
@@ -48,7 +49,7 @@ const Root = styled.div<{ isSelected: boolean }>(({ isSelected, theme }) => ({
   },
 }));
 
-const Point = styled.div({
+const NotesNotePoint = styled.div({
   alignItems: 'center',
   display: 'flex',
   flex: '0 0 auto',
@@ -77,12 +78,25 @@ const Point = styled.div({
 //   sizeBounds: PropTypes.object,
 // };
 
-interface NoteProps {
+export interface NotesNoteProps
+  extends Omit<
+    HTMLAttributes<HTMLDivElement>,
+    'onDrag' | 'onDragStart' | 'onDragStop'
+  > {
+  classes?: Record<string, string>;
+  isSelected?: boolean;
   note: Note;
-  [key: string]: any;
+  onDrag: (dragDelta: Partial<Point>) => void;
+  onDragStart: (note: Note, e: MouseEvent<HTMLDivElement>) => void;
+  onDragStop: () => void;
+  onEndPointDrag: (dragDelta: Partial<Point>) => void;
+  onEndPointDragStart: (note: Note, e: MouseEvent<HTMLDivElement>) => void;
+  onEndPointDragStop: () => void;
+  positionBounds?: PositionBounds;
+  sizeBounds?: SizeBounds;
 }
 
-function NotesNote(props: NoteProps) {
+function NotesNote(props: NotesNoteProps) {
   const {
     className,
     classes,
@@ -178,9 +192,9 @@ function NotesNote(props: NoteProps) {
       }}
     >
       <Root isSelected={isSelected} {...rest}>
-        <Point className="start-point">
+        <NotesNotePoint className="start-point">
           <Fill />
-        </Point>
+        </NotesNotePoint>
         <Connector style={connectorStyle} />
         <Draggable
           axis="x"
@@ -194,9 +208,9 @@ function NotesNote(props: NoteProps) {
             y: (note.points[1].y - note.points[0].y) * 40,
           }}
         >
-          <Point style={endPointStyle}>
+          <NotesNotePoint style={endPointStyle}>
             <Fill />
-          </Point>
+          </NotesNotePoint>
         </Draggable>
       </Root>
     </Draggable>
