@@ -4,7 +4,7 @@ import {
   useMutation,
 } from '@apollo/client';
 import isNil from 'lodash/fp/isNil';
-import React from 'react';
+import { useCallback } from 'react';
 
 import {
   UPDATE_TRACK,
@@ -25,7 +25,7 @@ export function useUpdateTrack(
 ): [UpdateTrackMutation, MutationResult<UpdateTrackData>] {
   const [mutation, ...rest] = useMutation(UPDATE_TRACK, options);
 
-  const wrappedMutation = React.useCallback(
+  const wrappedMutation = useCallback(
     async ({ input }) => {
       try {
         await mutation({

@@ -3,7 +3,7 @@ import {
   MutationResult,
   useMutation,
 } from '@apollo/client';
-import React from 'react';
+import { useCallback } from 'react';
 
 import { Sequence } from '../../../types';
 import {
@@ -28,7 +28,7 @@ export function useDuplicateSequence(
 ): [DuplicateSequenceMutation, MutationResult<DuplicateSequenceData>] {
   const [mutation, ...rest] = useMutation(DUPLICATE_SEQUENCE, options);
 
-  const wrappedMutation = React.useCallback(
+  const wrappedMutation = useCallback(
     async ({ sequence, songId, tempId }) => {
       try {
         const { data } = await mutation({

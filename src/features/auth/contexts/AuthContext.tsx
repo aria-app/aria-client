@@ -1,5 +1,5 @@
 import { ApolloError } from '@apollo/client';
-import React from 'react';
+import { createContext } from 'react';
 
 import { User } from '../../../types';
 
@@ -16,7 +16,7 @@ export interface AuthContextValue {
   user?: User;
 }
 
-export default React.createContext<AuthContextValue>({
+export default createContext<AuthContextValue>({
   getIsAuthenticated: () => false,
   handleLogin: () => {},
   loading: false,

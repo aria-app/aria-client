@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import shared from '../src/features/shared';
 
 const { Shell, ThemeProvider } = shared.components;
@@ -31,7 +31,7 @@ export const parameters = {
 
 export const decorators = [
   (Story, context) => {
-    React.useEffect(() => {
+    useEffect(() => {
       changeLanguage(context.globals.locale);
     }, [context.globals.locale]);
 

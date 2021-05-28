@@ -3,7 +3,7 @@ import {
   MutationResult,
   useMutation,
 } from '@apollo/client';
-import React from 'react';
+import { useCallback } from 'react';
 
 import { Note } from '../../../types';
 import {
@@ -27,7 +27,7 @@ export function useDuplicateNotes(
 ): [DuplicateNotesMutation, MutationResult<DuplicateNotesData>] {
   const [mutation, ...rest] = useMutation(DUPLICATE_NOTES, options);
 
-  const wrappedMutation = React.useCallback(
+  const wrappedMutation = useCallback(
     async ({ notes, tempIds }) => {
       try {
         const { data } = await mutation({

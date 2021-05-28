@@ -3,7 +3,7 @@ import {
   MutationResult,
   useMutation,
 } from '@apollo/client';
-import React from 'react';
+import { useCallback } from 'react';
 
 import { Point } from '../../../types';
 import {
@@ -27,7 +27,7 @@ export function useCreateNote(
 ): [CreateNoteMutation, MutationResult<CreateNoteData>] {
   const [mutation, ...rest] = useMutation(CREATE_NOTE, options);
 
-  const wrappedMutation = React.useCallback(
+  const wrappedMutation = useCallback(
     async ({ points, sequenceId }) => {
       try {
         await mutation({

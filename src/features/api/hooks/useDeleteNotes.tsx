@@ -3,7 +3,7 @@ import {
   MutationResult,
   useMutation,
 } from '@apollo/client';
-import React from 'react';
+import { useCallback } from 'react';
 
 import { Note } from '../../../types';
 import {
@@ -28,7 +28,7 @@ export function useDeleteNotes(
     options,
   );
 
-  const wrappedMutation: DeleteNotesMutation = React.useCallback(
+  const wrappedMutation: DeleteNotesMutation = useCallback(
     async ({ notes }) => {
       const idsToDelete = notes.map((note) => note.id);
 

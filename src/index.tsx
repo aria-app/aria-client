@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from 'react-dom';
 import { configure as configureHotkeys } from 'react-hotkeys';
 import { RecoilRoot } from 'recoil';
