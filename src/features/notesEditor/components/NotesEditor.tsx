@@ -66,10 +66,10 @@ function NotesEditor(
 
   const notes = useMemo(() => (sequence ? sequence.notes : []), [sequence]);
 
-  const selectedNotes = useMemo(() => getNotesByIds(notes, selectedNoteIds), [
-    notes,
-    selectedNoteIds,
-  ]);
+  const selectedNotes = useMemo(
+    () => getNotesByIds(notes, selectedNoteIds),
+    [notes, selectedNoteIds],
+  );
 
   const handleClose = useCallback(() => {
     navigate?.('../../');

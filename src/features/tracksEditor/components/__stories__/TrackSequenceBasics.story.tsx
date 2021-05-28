@@ -7,7 +7,7 @@ import TrackListSequence from '../TrackListSequence';
 
 const { Shell } = shared.components;
 
-export const TrackSequenceBasics: Story<never> = () => (
+export const TrackSequenceBasics: Story<Record<string, never>> = () => (
   <Shell
     style={{
       padding: 16,

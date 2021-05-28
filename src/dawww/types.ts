@@ -107,6 +107,7 @@ export type DiffInterpreter<TDiff = Diff<any, any>> = (
 export type Dispatch<T = any> = (payload: T) => void;
 
 export type Instrument = {
+  dispose: () => void;
   releaseAll: () => void;
   set: (options: {
     oscillator?: {

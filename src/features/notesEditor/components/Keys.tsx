@@ -30,9 +30,10 @@ export interface KeysProps {
 function Keys(props: KeysProps) {
   const { hoveredRow, onKeyPress } = props;
 
-  const getIsHoveredRow = useCallback((step) => step.y === hoveredRow, [
-    hoveredRow,
-  ]);
+  const getIsHoveredRow = useCallback(
+    (step) => step.y === hoveredRow,
+    [hoveredRow],
+  );
 
   const handleKeyPress = useCallback(
     (step) => {

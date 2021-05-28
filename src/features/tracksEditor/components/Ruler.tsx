@@ -93,12 +93,8 @@ export interface RulerProps {
 }
 
 function Ruler(props: RulerProps) {
-  const {
-    measureCount,
-    measureWidth,
-    onMeasureCountChange,
-    onPositionSet,
-  } = props;
+  const { measureCount, measureWidth, onMeasureCountChange, onPositionSet } =
+    props;
   const [isResizing, setIsResizing] = useState(false);
   const [length, setLength] = useState(measureCount);
 

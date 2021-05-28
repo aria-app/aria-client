@@ -28,9 +28,10 @@ function TrackEditingModal(props: TrackEditingModalProps) {
   const { data: voicesData, loading } = useGetVoices();
   const [trackState, setTrackState] = useState<Track>();
 
-  const voices = useMemo(() => (voicesData ? voicesData.voices : []), [
-    voicesData,
-  ]);
+  const voices = useMemo(
+    () => (voicesData ? voicesData.voices : []),
+    [voicesData],
+  );
 
   const handleContentDeleteButtonClick = useCallback(() => {
     if (!trackState) return;
