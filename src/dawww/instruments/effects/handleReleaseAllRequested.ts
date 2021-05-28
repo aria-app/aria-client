@@ -5,7 +5,7 @@ import { DawwwEffects } from '../../types';
 export const handleReleaseAllRequested: DawwwEffects = (getState) => {
   const { instruments } = getState();
 
-  forEach(({ releaseAll }) => {
-    releaseAll();
+  forEach((instrument) => {
+    instrument.releaseAll();
   }, instruments);
 };

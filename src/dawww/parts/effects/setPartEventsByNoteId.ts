@@ -45,5 +45,5 @@ export const setPartEventsByNoteId: DawwwEffects = (
     };
 
     parts[sequenceId].at(stepIndex, { fn, payload });
-  }, parts[sequenceId].length);
+  }, parts[sequenceId]?.length || 0);
 };
