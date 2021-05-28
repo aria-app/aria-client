@@ -1,12 +1,13 @@
 import { action } from '@storybook/addon-actions';
 import { boolean, number } from '@storybook/addon-knobs';
+import { Story } from '@storybook/react';
 
 import shared from '../../../shared';
 import TrackListSequence from '../TrackListSequence';
 
 const { Shell } = shared.components;
 
-export const TrackSequenceBasics = () => (
+export const TrackSequenceBasics: Story<never> = () => (
   <Shell
     style={{
       padding: 16,

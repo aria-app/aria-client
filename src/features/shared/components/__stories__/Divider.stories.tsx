@@ -1,13 +1,14 @@
 import styled from '@emotion/styled';
+import { Story } from '@storybook/react';
 
-import Divider from '../Divider';
+import Divider, { DividerProps } from '../Divider';
 
 const Root = styled.div({
   maxWidth: 320,
   width: '100vw',
 });
 
-export const DividerDefault = (args) => (
+export const DividerDefault: Story<DividerProps> = (args) => (
   <Root>
     <Divider {...args} />
   </Root>

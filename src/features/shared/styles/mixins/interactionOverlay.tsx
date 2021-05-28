@@ -1,4 +1,6 @@
-export const interactionOverlay = (baseBgColor) => `
+export type InteractionOverlay = (baseBgColor: string) => string;
+
+export const interactionOverlay: InteractionOverlay = (baseBgColor) => `
 	&::after {
 		background-color: ${baseBgColor};
 		bottom: 0;
