@@ -6,6 +6,8 @@ let state: State = {
   playbackState: 'STOPPED',
   position: 0,
   song: {
+    bpm: 0,
+    id: 0,
     measureCount: 0,
     notes: {},
     sequences: {},

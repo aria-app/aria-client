@@ -1,7 +1,10 @@
-import { DawwwAction } from './types';
+import { Note } from '../types';
+import { DawwwAction, DawwwSong } from './types';
 
 export const BPM_EDITED = 'BPM_EDITED';
+export const CREATED_AT_EDITED = 'CREATED_AT_EDITED';
 export const FOCUSED_SEQUENCE_ID_EDITED = 'FOCUSED_SEQUENCE_ID_EDITED';
+export const ID_EDITED = 'ID_EDITED';
 export const MEASURE_COUNT_EDITED = 'MEASURE_COUNT_EDITED';
 export const NOTE_ADDED = 'NOTE_ADDED';
 export const NOTE_DELETED = 'NOTE_DELETED';
@@ -33,13 +36,22 @@ export const TRACK_IS_SOLOING_EDITED = 'TRACK_IS_SOLOING_EDITED';
 export const TRACK_VOICE_EDITED = 'TRACK_VOICE_EDITED';
 export const TRACK_VOLUME_EDITED = 'TRACK_VOLUME_EDITED';
 export const UNKNOWN = 'UNKNOWN';
+export const UPDATED_AT_EDITED = 'UPDATED_AT_EDITED';
 
 // To type these better, take objects instead of loose arguments
-type DawwwActionCreator<T = any> = (...args: any[]) => DawwwAction<T>;
+type DawwwActionCreator<TArgs = any, TPayload = any> = (
+  args: TArgs,
+) => DawwwAction<TPayload>;
+type DawwwNoArgActionCreator = () => DawwwAction<any>;
 
 export const bpmEdited: DawwwActionCreator = (bpm) => ({
   type: BPM_EDITED,
   payload: { bpm },
+});
+
+export const createdAtEdited: DawwwActionCreator = (createdAt) => ({
+  type: CREATED_AT_EDITED,
+  payload: { createdAt },
 });
 
 export const focusedSequenceIdEdited: DawwwActionCreator = (
@@ -49,19 +61,24 @@ export const focusedSequenceIdEdited: DawwwActionCreator = (
   payload: { focusedSequenceId },
 });
 
+export const idEdited: DawwwActionCreator = (id) => ({
+  type: ID_EDITED,
+  payload: { id },
+});
+
 export const measureCountEdited: DawwwActionCreator = (measureCount) => ({
   type: MEASURE_COUNT_EDITED,
   payload: { measureCount },
 });
 
-export const noteAdded: DawwwActionCreator = (note, id) => ({
+export const noteAdded: DawwwActionCreator<Note> = (note) => ({
   type: NOTE_ADDED,
-  payload: { id, note },
+  payload: { id: note?.id, note },
 });
 
-export const noteDeleted: DawwwActionCreator = (note, id) => ({
+export const noteDeleted: DawwwActionCreator<Note> = (note) => ({
   type: NOTE_DELETED,
-  payload: { id, note },
+  payload: { id: note?.id, note },
 });
 
 export const notePlayed: DawwwActionCreator = ({
@@ -118,11 +135,11 @@ export const partStepTriggered: DawwwActionCreator = ({
   payload: { noteIds, time, trackId },
 });
 
-export const playbackPauseRequested: DawwwActionCreator = () => ({
+export const playbackPauseRequested: DawwwNoArgActionCreator = () => ({
   type: PLAYBACK_PAUSE_REQUESTED,
 });
 
-export const playbackStartRequested: DawwwActionCreator = () => ({
+export const playbackStartRequested: DawwwNoArgActionCreator = () => ({
   type: PLAYBACK_START_REQUESTED,
 });
 
@@ -131,7 +148,7 @@ export const playbackStateSet: DawwwActionCreator = (playbackState) => ({
   payload: { playbackState },
 });
 
-export const playbackStopRequested: DawwwActionCreator = () => ({
+export const playbackStopRequested: DawwwNoArgActionCreator = () => ({
   type: PLAYBACK_STOP_REQUESTED,
 });
 
@@ -146,7 +163,7 @@ export const positionSetRequested: DawwwActionCreator = (position) => ({
   payload: { position },
 });
 
-export const releaseAllRequested: DawwwActionCreator = () => ({
+export const releaseAllRequested: DawwwNoArgActionCreator = () => ({
   type: RELEASE_ALL_REQUESTED,
 });
 
@@ -192,7 +209,10 @@ export const sequenceTrackIdEdited: DawwwActionCreator = ({
   payload: { id, prevValue, value },
 });
 
-export const songUpdated: DawwwActionCreator = ({ prevSong, song }) => ({
+export const songUpdated: DawwwActionCreator<{
+  prevSong: DawwwSong;
+  song: DawwwSong;
+}> = ({ prevSong, song }) => ({
   type: SONG_UPDATED,
   payload: { prevSong, song },
 });
@@ -251,6 +271,11 @@ export const trackVolumeEdited: DawwwActionCreator = ({
   payload: { id, prevValue, value },
 });
 
-export const unknown: DawwwActionCreator = () => ({
+export const updatedAtEdited: DawwwActionCreator = (updatedAt) => ({
+  type: UPDATED_AT_EDITED,
+  payload: { updatedAt },
+});
+
+export const unknown: DawwwNoArgActionCreator = () => ({
   type: UNKNOWN,
 });

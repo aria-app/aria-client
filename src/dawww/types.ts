@@ -79,20 +79,23 @@ export type DawwwReducer<TState = State> = (
   shared: DawwwContext,
 ) => any;
 
-export interface DawwwNote extends Note {
+export interface DawwwNote extends Omit<Note, 'sequence'> {
   sequenceId: number;
 }
 
-export interface DawwwSequence extends Omit<Sequence, 'notes'> {
+export interface DawwwSequence extends Omit<Sequence, 'notes' | 'track'> {
   trackId: number;
 }
 
-export interface DawwwTrack extends Omit<Track, 'voice'> {
+export interface DawwwTrack
+  extends Omit<Track, 'position' | 'sequences' | 'song' | 'voice'> {
   voice: string;
 }
 
 export interface DawwwSong {
-  focusedSequenceId?: number;
+  bpm: number;
+  focusedSequenceId: number | null;
+  id: number;
   measureCount: number;
   notes: Record<number, DawwwNote>;
   sequences: Record<number, DawwwSequence>;
@@ -121,11 +124,10 @@ export type Instrument = {
   ) => void;
 };
 
-export type ObjectWithId = {
-  [key in number | string]: any;
-} & {
-  id: number | string;
-};
+export interface ObjectWithId {
+  id: number;
+  [key: string]: any;
+}
 
 export type Part = Record<string, any>;
 
@@ -147,8 +149,8 @@ export type PitchName = string;
 
 export type SetAtIds<T extends ObjectWithId = ObjectWithId> = (
   array: T[],
-  obj: Record<number | string, T>,
-) => Record<number | string, T>;
+  obj: Record<number, T>,
+) => Record<number, T>;
 
 export interface State {
   instruments: Record<number, Instrument>;
