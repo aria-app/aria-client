@@ -3,7 +3,9 @@ import * as hooks from './hooks';
 
 export * from './hooks';
 
-export default {
+const audio = {
   components,
   hooks,
 };
+
+export default audio;

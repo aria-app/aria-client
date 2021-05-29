@@ -6,10 +6,12 @@ import theme from './theme';
 
 export * from './components';
 
-export default {
+const shared = {
   components,
   constants,
   helpers,
   i18n,
   theme,
 };
+
+export default shared;

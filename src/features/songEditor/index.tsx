@@ -1,5 +1,7 @@
 import * as components from './components';
 
-export default {
+const songEditor = {
   components,
 };
+
+export default songEditor;

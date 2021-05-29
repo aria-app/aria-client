@@ -1,4 +1,4 @@
-export default {
+const resources = {
   en: {
     translation: {
       'An easy-to-use music sequencer inspired by Little Big Planet.':
@@ -54,3 +54,5 @@ export default {
     },
   },
 };
+
+export default resources;
