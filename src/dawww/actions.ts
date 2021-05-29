@@ -1,5 +1,4 @@
-import { Note } from '../types';
-import { DawwwAction, DawwwSong } from './types';
+import { DawwwAction, DawwwNote, DawwwSong } from './types';
 
 export const BPM_EDITED = 'BPM_EDITED';
 export const CREATED_AT_EDITED = 'CREATED_AT_EDITED';
@@ -71,12 +70,12 @@ export const measureCountEdited: DawwwActionCreator = (measureCount) => ({
   payload: { measureCount },
 });
 
-export const noteAdded: DawwwActionCreator<Note> = (note) => ({
+export const noteAdded: DawwwActionCreator<DawwwNote> = (note) => ({
   type: NOTE_ADDED,
   payload: { id: note?.id, note },
 });
 
-export const noteDeleted: DawwwActionCreator<Note> = (note) => ({
+export const noteDeleted: DawwwActionCreator<DawwwNote> = (note) => ({
   type: NOTE_DELETED,
   payload: { id: note?.id, note },
 });

@@ -13,7 +13,7 @@ export interface DawwwContext {
   helpers: {
     addPoints: CurriedFunction2<Point, Point, Point>;
     getLetterFromPitch: (pitch: number) => PitchLetter;
-    getNoteLength: (note: Note, toneAdapter: ToneAdapter) => number;
+    getNoteLength: (note: DawwwNote, toneAdapter: ToneAdapter) => number;
     getNotesInArea: (start: Point, end: Point, notes: Note[]) => Note[];
     getPitchName: (pitch: number) => PitchName;
     getPointOffset: (start: Point, end: Point) => Point;

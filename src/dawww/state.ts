@@ -7,6 +7,7 @@ let state: State = {
   position: 0,
   song: {
     bpm: 0,
+    focusedSequenceId: null,
     id: 0,
     measureCount: 0,
     notes: {},
