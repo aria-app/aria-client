@@ -28,7 +28,6 @@ export default function Dawww(options?: DawwwOptions): any {
     toneAdapter,
   };
   const updateSequence = (sequence: Sequence) => {
-    console.log('update sequence', sequence);
     const prevSong = getState().song;
 
     dispatch(
@@ -40,8 +39,6 @@ export default function Dawww(options?: DawwwOptions): any {
   };
 
   const updateSong = (updatedSong: Song) => {
-    console.log('update song', updatedSong);
-
     dispatch(
       actions.songUpdated({
         prevSong: getState().song,

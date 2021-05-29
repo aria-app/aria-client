@@ -85,7 +85,7 @@ function SongEditor(props: RouteComponentProps<{ songId: string }>) {
     if (!data) return;
 
     window.document.title = `${data?.song?.name} - Aria`;
-    // audioManager.updateSong(data?.song);
+    audioManager.updateSong(data?.song);
   }, [audioManager, data]);
 
   if (data && user && data.song?.user.id !== user.id) {

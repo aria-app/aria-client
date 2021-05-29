@@ -12,9 +12,6 @@ export const setPartEventsByNoteId: DawwwEffects = (
   const { id } = action.payload;
   const { parts, song } = getState();
   const { notes, sequences } = song;
-  console.log('notes', notes);
-  console.log('id', id);
-  console.log('notes[id]', notes[id]);
   const { sequenceId } = notes[id];
   const { trackId } = sequences[sequenceId];
   const notesInSequence = filter((n) => n.sequenceId === sequenceId, notes);

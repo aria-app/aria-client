@@ -79,8 +79,14 @@ export type DawwwReducer<TState = State> = (
   shared: DawwwContext,
 ) => any;
 
-export interface DawwwNote extends Omit<Note, 'sequence'> {
+export interface DawwwNote extends Omit<Note, 'points' | 'sequence'> {
+  points: DawwwPoint[];
   sequenceId: number;
+}
+
+export interface DawwwPoint {
+  x: number;
+  y: number;
 }
 
 export interface DawwwSequence extends Omit<Sequence, 'notes' | 'track'> {
