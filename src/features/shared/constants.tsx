@@ -1,12 +1,12 @@
 export const borderRadii = ['none', 'small', 'medium', 'full'];
 
 export const colors = [
-  'background',
+  'background.default',
   'border',
   'error',
   'none',
-  'paper',
-  'primary',
+  'background.paper',
+  'primary.main',
   'subtle',
   'success',
   'text',
@@ -28,26 +28,6 @@ export const columnWidths = [
 ];
 
 export const dividerThicknesses = ['thin', 'regular'];
-
-export const spacingAliases = [
-  'auto',
-  'full',
-  'none',
-  'xxsmall',
-  'xsmall',
-  'small',
-  'medium',
-  'large',
-  'xlarge',
-  'xxlarge',
-  '-xxsmall',
-  '-xsmall',
-  '-small',
-  '-medium',
-  '-large',
-  '-xlarge',
-  '-xxlarge',
-];
 
 export const SYNC_STATES = {
   FAILED: 'FAILED',

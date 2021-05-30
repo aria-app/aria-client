@@ -21,8 +21,8 @@ export default {
     thickness: {
       control: {
         type: 'inline-radio',
-        options: ['thin', 'regular'],
       },
+      options: ['thin', 'regular'],
     },
   },
   args: {

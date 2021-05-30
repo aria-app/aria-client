@@ -60,7 +60,7 @@ export interface ApolloWrapperProps {
   children: ReactNode;
 }
 
-function ApolloWrapper(props: ApolloWrapperProps): ReactElement {
+export function ApolloWrapper(props: ApolloWrapperProps): ReactElement {
   const client = new ApolloClient({
     cache,
     link: from([
@@ -71,5 +71,3 @@ function ApolloWrapper(props: ApolloWrapperProps): ReactElement {
 
   return <ApolloProvider client={client} {...props} />;
 }
-
-export default ApolloWrapper;

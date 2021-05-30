@@ -1,54 +1,43 @@
 /* eslint-disable no-param-reassign */
-import getOr from 'lodash/fp/getOr';
-import invokeArgs from 'lodash/fp/invokeArgs';
 import isFunction from 'lodash/fp/isFunction';
 import range from 'lodash/fp/range';
-import set from 'lodash/set';
-import ToneJS from 'tone';
+import * as Tone from 'tone';
 
 import { ToneAdapter } from '../types';
 
-export function createToneAdapter(Tone: typeof ToneJS): ToneAdapter {
+export function createToneAdapter(providedTone: typeof Tone): ToneAdapter {
   return {
     chainToMaster(source, ...rest) {
-      invokeArgs('chain', [...rest, Tone.Master], source);
+      source.chain(...rest, providedTone.Destination);
     },
 
-    createInstrument(options) {
-      const voice = getOr('sine', 'track.voice', options);
-      const instrument = new Tone.PolySynth(5);
+    createInstrument({ track }) {
+      const instrument = new providedTone.PolySynth();
 
-      invokeArgs(
-        'set',
-        [
-          {
-            oscillator: {
-              type: voice.toLowerCase(),
-            },
-          },
-        ],
-        instrument,
-      );
+      instrument.set({
+        oscillator: {
+          type: track.voice.toLowerCase(),
+        },
+      });
 
       return instrument;
     },
 
-    createSequence(options) {
-      const length = getOr(0, 'length', options);
-      const Sequence = getOr(Object, 'Sequence', Tone);
-
-      return new Sequence(
+    createSequence({ length = 0 }) {
+      const part = new providedTone.Part(
         this.onSequenceStep,
-        range(0, length),
-        Tone.Time('32n'),
+        range(0, length).map((n) => ({ fn: () => {}, payload: {} })),
       );
+
+      part.set({
+        playbackRate: 32,
+      });
+
+      return part;
     },
 
-    createVolume(options) {
-      const volume = getOr(0, 'track.volume', options);
-      const Volume = getOr(Object, 'Volume', Tone);
-
-      return new Volume(volume);
+    createVolume({ track }) {
+      return new providedTone.Volume(track.volume);
     },
 
     onSequenceStep(time, step) {
@@ -57,32 +46,32 @@ export function createToneAdapter(Tone: typeof ToneJS): ToneAdapter {
     },
 
     pause() {
-      invokeArgs('Transport.pause', [], Tone);
+      providedTone.Transport.pause();
     },
 
     setBPM(value) {
-      set(Tone, 'Transport.bpm.value', value);
+      providedTone.Transport.bpm.value = value;
     },
 
-    setLoopPoints(...args) {
-      invokeArgs('Transport.setLoopPoints', args, Tone);
-      set(Tone, 'Transport.loop', true);
+    setLoopPoints(startPosition, endPosition) {
+      providedTone.Transport.setLoopPoints(startPosition, endPosition);
+      providedTone.Transport.loop = true;
     },
 
     setTransportPosition(position) {
-      set(Tone, 'Transport.position', position);
+      providedTone.Transport.position = position;
     },
 
-    start(...args) {
-      invokeArgs('Transport.start', args, Tone);
+    start(time, offset) {
+      providedTone.Transport.start(time, offset);
     },
 
     stop() {
-      invokeArgs('Transport.pause', [], Tone);
+      providedTone.Transport.pause();
     },
 
-    Time(...args) {
-      return invokeArgs('Time', args, Tone);
+    Time(value, units) {
+      return providedTone.Time(value, units);
     },
   };
 }

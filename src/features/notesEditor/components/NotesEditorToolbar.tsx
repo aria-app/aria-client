@@ -9,7 +9,7 @@ import NearMeIcon from '@material-ui/icons/NearMe';
 import PanToolIcon from '@material-ui/icons/PanTool';
 import isEmpty from 'lodash/fp/isEmpty';
 import { memo, MouseEventHandler, useMemo } from 'react';
-import EraseIcon from 'react-icons/lib/fa/eraser';
+import { FaEraser } from 'react-icons/fa';
 
 import Dawww from '../../../dawww';
 import { Note } from '../../../types';
@@ -122,7 +122,7 @@ function NotesEditorToolbar(props: NotesEditorToolbarProps) {
             <SelectableIconButton
               isSelected={toolType === ERASE}
               onClick={onEraseToolSelect}
-              startIcon={<EraseIcon size={24} />}
+              startIcon={<FaEraser size={24} />}
               title="Erase"
             />
             <SelectableIconButton

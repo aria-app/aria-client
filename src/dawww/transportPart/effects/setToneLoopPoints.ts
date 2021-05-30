@@ -9,6 +9,5 @@ export const setToneLoopPoints: DawwwEffects = (
   const loopEndTime = helpers.measuresToTime(loopEndPoint, toneAdapter);
   const loopStartPoint = selectors.getLoopStartPoint(getState());
   const loopStartTime = helpers.measuresToTime(loopStartPoint, toneAdapter);
-
   toneAdapter.setLoopPoints(loopStartTime, loopEndTime);
 };

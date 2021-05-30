@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import shared from '../src/features/shared';
-
-const { Shell, ThemeProvider } = shared.components;
-const { changeLanguage } = shared.i18n;
+import { useTranslation } from 'react-i18next';
+import { Shell, theme, ThemeProvider } from '../src/features/shared';
+import { I18NWrapper } from '../src/i18n';
 
 export const globalTypes = {
   locale: {
@@ -22,24 +21,30 @@ export const globalTypes = {
 export const parameters = {
   backgrounds: {
     values: [
-      { name: 'Default', value: shared.theme.palette.background.default },
-      { name: 'Paper', value: shared.theme.palette.background.paper },
+      { name: 'Default', value: theme.palette.background.default },
+      { name: 'Paper', value: theme.palette.background.paper },
     ],
   },
   layout: 'centered',
 };
 
 export const decorators = [
+  (Story) => {
+    return (
+      <I18NWrapper>
+        <ThemeProvider>
+          <Shell style={{ display: 'none' }} />
+          <Story />
+        </ThemeProvider>
+      </I18NWrapper>
+    );
+  },
   (Story, context) => {
+    const { i18n } = useTranslation();
     useEffect(() => {
-      changeLanguage(context.globals.locale);
+      i18n.changeLanguage(context.globals.locale);
     }, [context.globals.locale]);
 
-    return (
-      <ThemeProvider>
-        <Shell style={{ display: 'none' }} />
-        <Story />
-      </ThemeProvider>
-    );
+    return <Story />;
   },
 ];

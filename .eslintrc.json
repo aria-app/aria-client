@@ -2,6 +2,12 @@
   "extends": ["react-app", "plugin:@typescript-eslint/recommended"],
   "plugins": ["simple-import-sort"],
   "rules": {
+    "import/no-anonymous-default-export": [
+      "error",
+      {
+        "allowObject": true
+      }
+    ],
     "import/order": "off",
     "react/jsx-fragments": "error",
     "react/jsx-sort-props": "error",

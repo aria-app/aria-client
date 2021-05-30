@@ -10,9 +10,12 @@ export const handleSongUpdate: DawwwEffects = (getState, action, shared) => {
   // console.group('handleSongUpdate');
   // differences.forEach((d, i) => {
   //   console.log(`Difference ${i + 1}: `, d);
-  //   console.log(`Interpretation ${i + 1}: `, interpretDiff(differences[i], song));
+  //   console.log(
+  //     `Interpretation ${i + 1}: `,
+  //     interpretDiff(differences[i], song),
+  //   );
   // });
-  // console.groupEnd('handleSongUpdate');
+  // console.groupEnd();
 
   differences.forEach((diff) => {
     shared.dispatch(interpretDiff(diff, song));

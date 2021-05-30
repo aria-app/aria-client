@@ -1,15 +1,12 @@
-import getOr from 'lodash/fp/getOr';
-import omit from 'lodash/fp/omit';
-import uniqBy from 'lodash/fp/uniqBy';
-import Tone from 'tone';
+import * as Tone from 'tone';
 
-import { Note, Sequence, Song } from '../types';
+import { Sequence, Song } from '../types';
 import * as actions from './actions';
 import { channels, emit, on } from './bus';
 import * as constants from './constants';
 import { effects } from './effects';
 import * as helpers from './helpers';
-import { setAtIds } from './helpers';
+import { songToDawwwSong, updateDawwwSongSequence } from './helpers';
 import * as models from './models';
 import { reducer } from './reducer';
 import * as selectors from './selectors';
@@ -31,68 +28,21 @@ export default function Dawww(options?: DawwwOptions): any {
     toneAdapter,
   };
   const updateSequence = (sequence: Sequence) => {
-    const prevSong = getOr({ notes: {}, sequences: {} }, 'song', getState());
+    const prevSong = getState().song;
 
     dispatch(
       actions.songUpdated({
         prevSong,
-        song: {
-          ...prevSong,
-          focusedSequenceId: sequence.id,
-          notes: setAtIds(
-            uniqBy<Note>(
-              (note) => note.id,
-              sequence.notes.map((note) => ({
-                ...note,
-                sequenceId: note.sequence.id,
-              })),
-            ),
-            prevSong.notes,
-          ),
-          sequences: setAtIds([sequence], prevSong.sequences),
-        },
+        song: updateDawwwSongSequence(prevSong, sequence),
       }),
     );
   };
 
-  const updateSong = (song: Song) => {
-    const allSequences = song.tracks.map((track) => track.sequences).flat();
-
-    const formattedSong = {
-      ...song,
-      focusedSequenceId: '',
-      notes: setAtIds(
-        allSequences
-          .map((sequence) =>
-            sequence.notes.map((note) => ({
-              ...note,
-              sequenceId: note.sequence.id,
-            })),
-          )
-          .flat(),
-        {},
-      ),
-      sequences: setAtIds(
-        allSequences.map((sequence) =>
-          omit(['notes'], { ...sequence, trackId: sequence.track.id }),
-        ),
-        {},
-      ),
-      tracks: setAtIds(
-        song.tracks.map((track) =>
-          omit(['sequences'], {
-            ...track,
-            voice: track.voice.toneOscillatorType,
-          }),
-        ),
-        {},
-      ),
-    };
-
+  const updateSong = (updatedSong: Song) => {
     dispatch(
       actions.songUpdated({
-        prevSong: getOr({}, 'song', getState()),
-        song: formattedSong,
+        prevSong: getState().song,
+        song: songToDawwwSong(updatedSong),
       }),
     );
   };
@@ -113,22 +63,18 @@ export default function Dawww(options?: DawwwOptions): any {
 
   // Load initial song data
   updateSong(
-    getOr(
-      {
-        bpm: -1,
-        createdAt: '2000-01-01',
+    options?.song || {
+      bpm: 0,
+      createdAt: '2000-01-01',
+      id: -1,
+      measureCount: 0,
+      name: '',
+      updatedAt: '2000-01-01',
+      user: {
         id: -1,
-        measureCount: 0,
-        name: '',
-        updatedAt: '2000-01-01',
-        user: {
-          id: -1,
-        },
-        tracks: [],
       },
-      'song',
-      options,
-    ),
+      tracks: [],
+    },
   );
 
   return {

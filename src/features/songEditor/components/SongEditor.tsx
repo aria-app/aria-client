@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { Redirect, RouteComponentProps, Router } from '@reach/router';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
-import Tone from 'tone';
+import * as Tone from 'tone';
 
 import Dawww from '../../../dawww';
 import api from '../../api';

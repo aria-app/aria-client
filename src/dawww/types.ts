@@ -1,5 +1,8 @@
 import { Diff } from 'deep-diff';
 import { CurriedFunction2 } from 'lodash/function';
+import { TimeClass } from 'tone';
+import { TimeBaseUnit, TimeValue } from 'tone/build/esm/core/type/TimeBase';
+import { Time, TransportTime } from 'tone/build/esm/core/type/Units';
 
 import { Note, PlaybackState, Point, Sequence, Track } from '../types';
 
@@ -13,7 +16,7 @@ export interface DawwwContext {
   helpers: {
     addPoints: CurriedFunction2<Point, Point, Point>;
     getLetterFromPitch: (pitch: number) => PitchLetter;
-    getNoteLength: (note: Note, toneAdapter: ToneAdapter) => number;
+    getNoteLength: (note: DawwwNote, toneAdapter: ToneAdapter) => number;
     getNotesInArea: (start: Point, end: Point, notes: Note[]) => Note[];
     getPitchName: (pitch: number) => PitchName;
     getPointOffset: (start: Point, end: Point) => Point;
@@ -79,20 +82,29 @@ export type DawwwReducer<TState = State> = (
   shared: DawwwContext,
 ) => any;
 
-export interface DawwwNote extends Note {
+export interface DawwwNote extends Omit<Note, 'points' | 'sequence'> {
+  points: DawwwPoint[];
   sequenceId: number;
 }
 
-export interface DawwwSequence extends Omit<Sequence, 'notes'> {
+export interface DawwwPoint {
+  x: number;
+  y: number;
+}
+
+export interface DawwwSequence extends Omit<Sequence, 'notes' | 'track'> {
   trackId: number;
 }
 
-export interface DawwwTrack extends Omit<Track, 'voice'> {
+export interface DawwwTrack
+  extends Omit<Track, 'position' | 'sequences' | 'song' | 'voice'> {
   voice: string;
 }
 
 export interface DawwwSong {
-  focusedSequenceId?: number;
+  bpm: number;
+  focusedSequenceId: number | null;
+  id: number;
   measureCount: number;
   notes: Record<number, DawwwNote>;
   sequences: Record<number, DawwwSequence>;
@@ -107,6 +119,7 @@ export type DiffInterpreter<TDiff = Diff<any, any>> = (
 export type Dispatch<T = any> = (payload: T) => void;
 
 export type Instrument = {
+  dispose: () => void;
   releaseAll: () => void;
   set: (options: {
     oscillator?: {
@@ -120,11 +133,10 @@ export type Instrument = {
   ) => void;
 };
 
-export type ObjectWithId = {
-  [key in number | string]: any;
-} & {
-  id: number | string;
-};
+export interface ObjectWithId {
+  id: number;
+  [key: string]: any;
+}
 
 export type Part = Record<string, any>;
 
@@ -146,8 +158,8 @@ export type PitchName = string;
 
 export type SetAtIds<T extends ObjectWithId = ObjectWithId> = (
   array: T[],
-  obj: Record<number | string, T>,
-) => Record<number | string, T>;
+  obj: Record<number, T>,
+) => Record<number, T>;
 
 export interface State {
   instruments: Record<number, Instrument>;
@@ -169,14 +181,17 @@ export interface ToneAdapter {
   createInstrument: (options: any) => any;
   createSequence: (options: any) => any;
   createVolume: (options: any) => any;
-  onSequenceStep: (time: string, step: Step) => any;
+  onSequenceStep: (time: number, step: Step) => any;
   pause: () => void;
-  setBPM: (value: any[]) => void;
-  setLoopPoints: (...args: any[]) => void;
+  setBPM: (value: number) => void;
+  setLoopPoints: (startPosition: Time, endPosition: Time) => void;
   setTransportPosition: (position: ToneTime) => void;
-  start: (...args: any[]) => void;
+  start: (time?: Time, offset?: TransportTime) => void;
   stop: () => void;
-  Time: (...args: any[]) => void;
+  Time: (
+    value?: TimeValue,
+    units?: TimeBaseUnit,
+  ) => TimeClass<number, TimeBaseUnit>;
 }
 
 export type ToneTime = number | string;

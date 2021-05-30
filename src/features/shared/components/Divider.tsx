@@ -7,6 +7,7 @@ export type DividerThickness = 'regular' | 'thin';
 
 export interface DividerProps extends MuiDividerProps {
   thickness?: DividerThickness;
+  sx?: any;
 }
 
 const Divider = forwardRef<HTMLHRElement, DividerProps>((props, ref) => {
@@ -17,6 +18,7 @@ const Divider = forwardRef<HTMLHRElement, DividerProps>((props, ref) => {
       ref={ref}
       sx={{
         borderBottomWidth: thickness === 'thin' ? 1 : 2,
+        margin: 'initial',
         ...sx,
       }}
       {...rest}

@@ -28,10 +28,10 @@ function GridBoxes(props: GridBoxesProps) {
     style = {},
   } = props;
 
-  const boxes = useMemo(() => items.filter((i) => i.x < length), [
-    items,
-    length,
-  ]);
+  const boxes = useMemo(
+    () => items.filter((i) => i.x < length),
+    [items, length],
+  );
 
   const handleGridBoxItemChange = useCallback(
     (draggedItem) => {

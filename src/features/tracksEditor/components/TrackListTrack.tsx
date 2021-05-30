@@ -6,7 +6,7 @@ import isNil from 'lodash/fp/isNil';
 import range from 'lodash/fp/range';
 import some from 'lodash/fp/some';
 import { memo, useCallback, useMemo } from 'react';
-import { Translation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 import { Sequence, Track } from '../../../types';
 import shared from '../../shared';
@@ -38,6 +38,7 @@ function TrackListTrack(props: TrackListTrackProps) {
     songMeasureCount,
     track,
   } = props;
+  const { t } = useTranslation();
 
   const boxesItems = useMemo(() => {
     return track.sequences.map((sequence) => ({
@@ -121,13 +122,9 @@ function TrackListTrack(props: TrackListTrackProps) {
 
   return (
     <Stack space={2}>
-      <Translation>
-        {(t) => (
-          <TrackHeader onClick={handleHeaderClick}>
-            {t(track.voice.name)}
-          </TrackHeader>
-        )}
-      </Translation>
+      <TrackHeader onClick={handleHeaderClick}>
+        {t(track.voice.name)}
+      </TrackHeader>
       <Box
         style={{ width: songMeasureCount * 64 + 4 }}
         sx={{

@@ -1,7 +1,7 @@
 import filter from 'lodash/fp/filter';
 import { ReactElement, useCallback, useState } from 'react';
 
-import { dividerThicknesses, spacingAliases } from '../../constants';
+import { dividerThicknesses } from '../../constants';
 import { Box } from '../Box';
 import { Button } from '../Button';
 import Stack from '../Stack';
@@ -33,14 +33,15 @@ export function Animated(args: Record<string, any>): ReactElement {
       <Button onClick={handleAdd} variant="contained">
         Add Item
       </Button>
-      <Stack {...args}>
+      <Stack space={4} {...args}>
         {items.map((item) => (
           <Box
-            borderColor="primary"
-            borderWidth={2}
             key={item.id}
             onClick={() => handleDelete(item)}
-            padding="medium"
+            sx={{
+              border: (theme) => `${theme.palette.primary.main} 2px solid`,
+              padding: 2,
+            }}
           >
             {item.text}
           </Box>
@@ -51,13 +52,8 @@ export function Animated(args: Record<string, any>): ReactElement {
 }
 
 Animated.args = {
-  isAnimated: true,
-  itemProps: {
-    animate: { opacity: 1 },
-    exit: { opacity: 0 },
-    initial: { opacity: 0 },
-  },
-  space: 'medium',
+  animate: true,
+  space: 4,
 };
 
 Animated.parameters = {
@@ -71,21 +67,20 @@ export default {
     dividerThickness: {
       control: {
         type: 'inline-radio',
-        options: dividerThicknesses,
       },
+      options: dividerThicknesses,
     },
     space: {
       name: 'space',
       control: {
         type: 'select',
-        options: [2.5, ...spacingAliases],
       },
+      options: [2, 4, 6, 8, 10, 12],
     },
   },
   args: {
-    align: 'stretch',
     dividerThickness: 'thin',
-    isAnimated: false,
+    animate: false,
     showDividers: false,
     space: undefined,
   },

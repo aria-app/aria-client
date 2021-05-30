@@ -8,4 +8,6 @@ export { measuresToTime } from './measuresToTime';
 export { setAtIds } from './setAtIds';
 export { sizeToTime } from './sizeToTime';
 export { someNoteWillMoveOutside } from './someNoteWillMoveOutside';
+export { songToDawwwSong } from './songToDawwwSong';
 export { translateNote } from './translateNote';
+export { updateDawwwSongSequence } from './updateDawwwSongSequence';

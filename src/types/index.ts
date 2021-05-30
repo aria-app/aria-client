@@ -21,6 +21,7 @@ export interface PaginatedResponseMetadata {
 export type PlaybackState = 'PAUSED' | 'STARTED' | 'STOPPED';
 
 export type Point = {
+  __typename?: string;
   x: number;
   y: number;
 };

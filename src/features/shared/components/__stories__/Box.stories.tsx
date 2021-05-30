@@ -1,18 +1,24 @@
 import { ReactElement } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { borderRadii, colors, spacingAliases } from '../../constants';
+import { borderRadii, colors } from '../../constants';
 import { Box } from '../Box';
 
-export const BoxDefault = (args: Record<string, any>): ReactElement => (
-  <Box {...args}>Content</Box>
-);
+export const BoxDefault = (args: Record<string, any>): ReactElement => {
+  const { t } = useTranslation();
+  return (
+    <Box {...args}>
+      {t('An easy-to-use music sequencer inspired by Little Big Planet.')}
+    </Box>
+  );
+};
 
 const getSpacingArgType = (name) => ({
   control: {
-    options: [2.5, ...spacingAliases],
     type: 'select',
   },
   name,
+  options: [2, 4, 6, 8, 10, 12],
 });
 
 export default {
@@ -20,18 +26,18 @@ export default {
   component: Box,
   argTypes: {
     backgroundColor: {
-      name: 'backgroundColor',
       control: {
         type: 'select',
-        options: colors,
       },
+      name: 'backgroundColor',
+      options: colors,
     },
     borderRadius: {
-      name: 'borderRadius',
       control: {
         type: 'select',
-        options: borderRadii,
       },
+      name: 'borderRadius',
+      options: borderRadii,
     },
     height: {
       name: 'height',
@@ -65,7 +71,7 @@ export default {
     borderRadius: undefined,
     component: 'div',
     height: undefined,
-    isInteractionOverlayVisible: false,
+    interactive: false,
     width: undefined,
   },
 };

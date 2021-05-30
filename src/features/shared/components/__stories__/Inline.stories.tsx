@@ -1,7 +1,7 @@
 import range from 'lodash/fp/range';
 import { ReactElement } from 'react';
 
-import { spacingAliases, verticalAlignments } from '../../constants';
+import { verticalAlignments } from '../../constants';
 import { Box } from '../Box';
 import { Inline } from '../Inline';
 
@@ -28,20 +28,20 @@ export default {
     align: {
       control: {
         type: 'inline-radio',
-        options: ['center', 'left', 'right'],
       },
+      options: ['center', 'left', 'right'],
     },
     alignY: {
       control: {
         type: 'inline-radio',
-        options: verticalAlignments,
       },
+      options: verticalAlignments,
     },
     space: {
       control: {
         type: 'select',
-        options: [2.5, ...spacingAliases],
       },
+      options: [2, 4, 6, 8, 10, 12],
     },
   },
   args: {

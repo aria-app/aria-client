@@ -1,12 +1,13 @@
 import { render } from 'react-dom';
 import { configure as configureHotkeys } from 'react-hotkeys';
 import { RecoilRoot } from 'recoil';
-import Tone from 'tone';
+import * as Tone from 'tone';
 
-import ApolloWrapper from './ApolloWrapper';
+import { ApolloWrapper } from './ApolloWrapper';
 import app from './features/app';
 import audio from './features/audio';
 import auth from './features/auth';
+import { I18NWrapper } from './i18n';
 
 const { App } = app.components;
 const { AudioProvider } = audio.components;
@@ -25,7 +26,9 @@ render(
     <ApolloWrapper>
       <AuthProvider>
         <AudioProvider>
-          <App />
+          <I18NWrapper>
+            <App />
+          </I18NWrapper>
         </AudioProvider>
       </AuthProvider>
     </ApolloWrapper>

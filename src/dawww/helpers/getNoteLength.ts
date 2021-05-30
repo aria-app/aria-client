@@ -3,10 +3,10 @@ import first from 'lodash/fp/first';
 import getOr from 'lodash/fp/getOr';
 import last from 'lodash/fp/last';
 
-import { Note } from '../../types';
+import { DawwwNote } from '../types';
 import { sizeToTime } from './sizeToTime';
 
-type GetNoteLength = (note: Note, toneAdapter: any) => number;
+type GetNoteLength = (note: DawwwNote, toneAdapter: any) => number;
 
 export const getNoteLength: GetNoteLength = (note, toneAdapter) => {
   const start: number = compose(

@@ -1,4 +1,4 @@
-export default {
+const transitions = {
   duration: {
     shortest: 150,
     shorter: 200,
@@ -15,3 +15,5 @@ export default {
     sharp: 'cubic-bezier(0.4, 0, 0.6, 1)',
   },
 };
+
+export default transitions;
