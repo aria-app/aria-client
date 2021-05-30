@@ -1,9 +1,13 @@
 {
   "extends": ["react-app", "plugin:@typescript-eslint/recommended"],
-  "plugins": ["simple-import-sort", "testing-library"],
+  "plugins": ["jest", "simple-import-sort", "testing-library"],
   "overrides": [
     {
-      "extends": ["plugin:testing-library/react"],
+      "extends": [
+        "plugin:jest/recommended",
+        "plugin:jest/style",
+        "plugin:testing-library/react"
+      ],
       "files": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"]
     }
   ],
