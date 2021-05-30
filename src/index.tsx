@@ -1,7 +1,7 @@
 import { render } from 'react-dom';
 import { configure as configureHotkeys } from 'react-hotkeys';
 import { RecoilRoot } from 'recoil';
-import Tone from 'tone';
+import * as Tone from 'tone';
 
 import { ApolloWrapper } from './ApolloWrapper';
 import app from './features/app';

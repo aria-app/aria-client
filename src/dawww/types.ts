@@ -1,5 +1,8 @@
 import { Diff } from 'deep-diff';
 import { CurriedFunction2 } from 'lodash/function';
+import { TimeClass } from 'tone';
+import { TimeBaseUnit, TimeValue } from 'tone/build/esm/core/type/TimeBase';
+import { Time, TransportTime } from 'tone/build/esm/core/type/Units';
 
 import { Note, PlaybackState, Point, Sequence, Track } from '../types';
 
@@ -178,14 +181,17 @@ export interface ToneAdapter {
   createInstrument: (options: any) => any;
   createSequence: (options: any) => any;
   createVolume: (options: any) => any;
-  onSequenceStep: (time: string, step: Step) => any;
+  onSequenceStep: (time: number, step: Step) => any;
   pause: () => void;
-  setBPM: (value: any[]) => void;
-  setLoopPoints: (...args: any[]) => void;
+  setBPM: (value: number) => void;
+  setLoopPoints: (startPosition: Time, endPosition: Time) => void;
   setTransportPosition: (position: ToneTime) => void;
-  start: (...args: any[]) => void;
+  start: (time?: Time, offset?: TransportTime) => void;
   stop: () => void;
-  Time: (...args: any[]) => void;
+  Time: (
+    value?: TimeValue,
+    units?: TimeBaseUnit,
+  ) => TimeClass<number, TimeBaseUnit>;
 }
 
 export type ToneTime = number | string;

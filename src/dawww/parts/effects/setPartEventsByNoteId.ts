@@ -9,10 +9,11 @@ export const setPartEventsByNoteId: DawwwEffects = (
   action,
   { dispatch },
 ) => {
-  const { id } = action.payload;
+  const { id, note } = action.payload;
   const { parts, song } = getState();
   const { notes, sequences } = song;
-  const { sequenceId } = notes[id];
+
+  const { sequenceId } = notes[id] || note;
   const { trackId } = sequences[sequenceId];
   const notesInSequence = filter((n) => n.sequenceId === sequenceId, notes);
 

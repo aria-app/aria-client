@@ -2,7 +2,7 @@ import PauseIcon from '@material-ui/icons/Pause';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
 import { memo, useCallback } from 'react';
-import Tone from 'tone';
+import * as Tone from 'tone';
 
 import Dawww from '../../../dawww';
 import { PlaybackState } from '../../../types';

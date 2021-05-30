@@ -3,7 +3,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SettingsIcon from '@material-ui/icons/Settings';
 import StopIcon from '@material-ui/icons/Stop';
 import { memo, useCallback } from 'react';
-import Tone from 'tone';
+import * as Tone from 'tone';
 
 import Dawww from '../../../dawww';
 import { PlaybackState } from '../../../types';

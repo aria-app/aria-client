@@ -1,4 +1,4 @@
-import Tone from 'tone';
+import * as Tone from 'tone';
 
 import { Sequence, Song } from '../types';
 import * as actions from './actions';
@@ -64,7 +64,7 @@ export default function Dawww(options?: DawwwOptions): any {
   // Load initial song data
   updateSong(
     options?.song || {
-      bpm: -1,
+      bpm: 0,
       createdAt: '2000-01-01',
       id: -1,
       measureCount: 0,
