@@ -1,6 +1,12 @@
 {
   "extends": ["react-app", "plugin:@typescript-eslint/recommended"],
-  "plugins": ["simple-import-sort"],
+  "plugins": ["simple-import-sort", "testing-library"],
+  "overrides": [
+    {
+      "extends": ["plugin:testing-library/react"],
+      "files": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"]
+    }
+  ],
   "rules": {
     "import/no-anonymous-default-export": [
       "error",
@@ -15,6 +21,7 @@
     "simple-import-sort/exports": "error",
     "simple-import-sort/imports": "error",
     "sort-imports": "off",
+    "@typescript-eslint/array-type": ["error", { "default": "array" }],
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-explicit-any": "off"
   }
