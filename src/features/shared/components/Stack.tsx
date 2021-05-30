@@ -36,6 +36,15 @@ const Stack = forwardRef<HTMLElement, StackProps>((props, ref) => {
 
   const Wrapper = animate ? AnimatePresence : Fragment;
 
+  const spacingStyles = {
+    [{
+      column: 'marginTop',
+      'column-reverse': 'marginBottom',
+      row: 'marginLeft',
+      'row-reverse': 'marginRight',
+    }[direction]]: space,
+  };
+
   return (
     <Box
       as={component}
@@ -43,14 +52,7 @@ const Stack = forwardRef<HTMLElement, StackProps>((props, ref) => {
       sx={{
         display: 'flex',
         flexDirection: direction,
-        '& > * + *': {
-          [{
-            column: 'marginTop',
-            'column-reverse': 'marginBottom',
-            row: 'marginLeft',
-            'row-reverse': 'marginRight',
-          }[direction]]: space,
-        },
+        '& > * + *': spacingStyles,
         ...sx,
       }}
       {...rest}
@@ -59,7 +61,10 @@ const Stack = forwardRef<HTMLElement, StackProps>((props, ref) => {
         {flatten(
           Children.map(children, (child, index) =>
             showDividers && index
-              ? [<Divider thickness={dividerThickness} />, child]
+              ? [
+                  <Divider sx={spacingStyles} thickness={dividerThickness} />,
+                  child,
+                ]
               : [child],
           ),
         )}

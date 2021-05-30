@@ -1,7 +1,7 @@
 import find from 'lodash/fp/find';
 import range from 'lodash/fp/range';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { Translation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 import { Track, Voice } from '../../../types';
 import { useGetVoices } from '../../api';
@@ -27,6 +27,7 @@ function TrackEditingModal(props: TrackEditingModalProps) {
   const { onDelete, onDismiss, onTrackChange, track } = props;
   const { data: voicesData, loading } = useGetVoices();
   const [trackState, setTrackState] = useState<Track>();
+  const { t } = useTranslation();
 
   const voices = useMemo(
     () => (voicesData ? voicesData.voices : []),
@@ -67,45 +68,41 @@ function TrackEditingModal(props: TrackEditingModalProps) {
   }, [track]);
 
   return (
-    <Translation>
-      {(t) => (
-        <Modal onClose={onDismiss} open={!!track} titleText={t('Edit Track')}>
-          <Stack space={4} sx={{ alignItems: 'flex-start' }}>
-            <FormGroup label="Voice">
-              <select
-                onChange={handleVoiceChange}
-                value={trackState ? trackState.voice.id : ''}
-              >
-                {loading ? (
-                  <option value={undefined}>Loading...</option>
-                ) : (
-                  voices.map((voice) => (
-                    <option key={voice.id} value={voice.id}>
-                      {t(voice.name)}
-                    </option>
-                  ))
-                )}
-              </select>
-            </FormGroup>
-            <FormGroup label="Volume">
-              <select
-                onChange={handleVolumeChange}
-                value={trackState && trackState.volume ? trackState.volume : 0}
-              >
-                {range(maxVolume, minVolume - 1).map((volume) => (
-                  <option key={volume} value={volume}>
-                    {volume}
-                  </option>
-                ))}
-              </select>
-            </FormGroup>
-            <Button color="error.main" onClick={handleContentDeleteButtonClick}>
-              {t('Delete')}
-            </Button>
-          </Stack>
-        </Modal>
-      )}
-    </Translation>
+    <Modal onClose={onDismiss} open={!!track} titleText={t('Edit Track')}>
+      <Stack space={4} sx={{ alignItems: 'flex-start' }}>
+        <FormGroup label="Voice">
+          <select
+            onChange={handleVoiceChange}
+            value={trackState ? trackState.voice.id : ''}
+          >
+            {loading ? (
+              <option value={undefined}>Loading...</option>
+            ) : (
+              voices.map((voice) => (
+                <option key={voice.id} value={voice.id}>
+                  {t(voice.name)}
+                </option>
+              ))
+            )}
+          </select>
+        </FormGroup>
+        <FormGroup label="Volume">
+          <select
+            onChange={handleVolumeChange}
+            value={trackState && trackState.volume ? trackState.volume : 0}
+          >
+            {range(maxVolume, minVolume - 1).map((volume) => (
+              <option key={volume} value={volume}>
+                {volume}
+              </option>
+            ))}
+          </select>
+        </FormGroup>
+        <Button color="error.main" onClick={handleContentDeleteButtonClick}>
+          {t('Delete')}
+        </Button>
+      </Stack>
+    </Modal>
   );
 }
 
