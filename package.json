@@ -98,10 +98,10 @@
   "license": "MIT",
   "jest": {
     "transform": {
-      "(@material-ui/core).+\\.js$": "babel-jest"
+      "(@babel/runtime|@material-ui).+\\.js$": "babel-jest"
     },
     "transformIgnorePatterns": [
-      "/node_modules/(?!@material-ui/core)"
+      "/node_modules/(?!@babel/runtime|@material-ui)"
     ]
   },
   "repository": {
