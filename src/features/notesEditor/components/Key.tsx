@@ -1,11 +1,11 @@
+import { Box, Text, useThemeWithDefault } from 'aria-ui';
 import * as CSS from 'csstype';
 import includes from 'lodash/fp/includes';
 import { memo, useCallback } from 'react';
 
 import { ScaleStep } from '../../../types';
-import { Box, BoxProps } from '../../shared';
 
-export interface KeyProps extends BoxProps {
+export interface KeyProps {
   isHoveredRow: boolean;
   onPress: (step: ScaleStep) => void;
   step: ScaleStep;
@@ -14,6 +14,7 @@ export interface KeyProps extends BoxProps {
 
 function Key(props: KeyProps) {
   const { isHoveredRow, onPress, step, style } = props;
+  const theme = useThemeWithDefault();
 
   const handleMouseDown = useCallback(() => {
     onPress(step);
@@ -24,11 +25,11 @@ function Key(props: KeyProps) {
 
   return (
     <Box
+      backgroundColor={isSharp ? 'textSecondary' : 'backgroundContrast'}
       onMouseDown={handleMouseDown}
       style={style}
       sx={{
         alignItems: 'center',
-        backgroundColor: isSharp ? 'text.secondary' : 'background.paper',
         cursor: 'pointer',
         display: 'flex',
         flex: '0 0 auto',
@@ -36,7 +37,7 @@ function Key(props: KeyProps) {
         justifyContent: 'center',
         position: 'relative',
         '&::after': {
-          backgroundColor: 'primary.main',
+          backgroundColor: theme.colors.brandPrimary,
           borderBottomRightRadius: 4,
           borderTopRightRadius: 4,
           bottom: 0,
@@ -51,11 +52,7 @@ function Key(props: KeyProps) {
         },
       }}
     >
-      {isCKey && (
-        <Box component="label" sx={{ color: 'text.hint' }}>
-          {step.name}
-        </Box>
-      )}
+      {isCKey && <Text color="textSecondary">{step.name}</Text>}
     </Box>
   );
 }

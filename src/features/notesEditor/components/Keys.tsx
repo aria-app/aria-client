@@ -1,12 +1,10 @@
+import { Box } from 'aria-ui';
 import * as CSS from 'csstype';
 import { memo, useCallback } from 'react';
 
 import Dawww from '../../../dawww';
 import { ScaleStep } from '../../../types';
-import shared from '../../shared';
 import Key from './Key';
-
-const { Box } = shared.components;
 
 // TODO: Try moving this into the Key component.
 const keyStyles = Dawww.SCALE.reduce<
@@ -44,18 +42,15 @@ function Keys(props: KeysProps) {
 
   return (
     <Box
+      borderColor="border"
+      borderWidth={2}
       sx={{
-        borderColor: 'action.hover',
-        borderStyle: 'solid',
-        borderWidth: 2,
         borderBottomRightRadius: 1,
         borderTopRightRadius: 1,
         borderLeft: 0,
-        display: 'flex',
-        flex: '0 0 auto',
-        flexDirection: 'column',
-        width: 40,
+        flexShrink: 0,
       }}
+      width={10}
     >
       {Dawww.SCALE.map((step) => (
         <Key

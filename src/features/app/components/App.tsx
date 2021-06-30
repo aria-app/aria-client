@@ -1,4 +1,5 @@
 import { Router } from '@reach/router';
+import { GlobalStyles } from 'aria-ui';
 import { memo } from 'react';
 
 import auth from '../../auth';
@@ -20,6 +21,7 @@ function App() {
 
   return (
     <ThemeProvider>
+      <GlobalStyles />
       <Shell>
         {loading ? (
           <LoadingIndicator>AUTHENTICATING...</LoadingIndicator>

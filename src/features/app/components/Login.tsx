@@ -1,51 +1,42 @@
 import { useMutation } from '@apollo/client';
-import styled from '@emotion/styled';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import { Redirect, RouteComponentProps } from '@reach/router';
-import { ReactElement, useCallback, useEffect, useState } from 'react';
+import { Box, Button, Stack, Text, TextField } from 'aria-ui';
+import {
+  MouseEventHandler,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import { useTranslation } from 'react-i18next';
 
 import api from '../../api';
 import auth from '../../auth';
 
 const { useAuth } = auth.hooks;
 
-const Root = styled.div({
-  display: 'flex',
-  flex: 1,
-  flexDirection: 'column',
-});
-
-const StyledContainer = styled(Container)(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-  flex: 1,
-}));
-
 export default function Login(props: RouteComponentProps): ReactElement {
   const [login, { client, error, loading }] = useMutation(api.queries.LOGIN);
-  const { getIsAuthenticated, handleLogin, user } = useAuth();
+  const { getIsAuthenticated, handleLogin } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { t } = useTranslation();
 
-  const handleEmailChange = useCallback(
-    (e) => {
-      setEmail(e.target.value);
+  const handleEmailChange = useCallback<(value: string) => void>(
+    (value) => {
+      setEmail(value);
     },
     [setEmail],
   );
 
-  const handlePasswordChange = useCallback(
-    (e) => {
-      setPassword(e.target.value);
+  const handlePasswordChange = useCallback<(value: string) => void>(
+    (value) => {
+      setPassword(value);
     },
     [setPassword],
   );
 
-  const handleSubmit = useCallback(
+  const handleSubmit = useCallback<MouseEventHandler<HTMLButtonElement>>(
     async (e) => {
       e.preventDefault();
 
@@ -71,51 +62,46 @@ export default function Login(props: RouteComponentProps): ReactElement {
   return getIsAuthenticated() ? (
     <Redirect noThrow to="/" />
   ) : (
-    <Root>
-      <StyledContainer maxWidth="sm">
-        <form onSubmit={handleSubmit}>
-          <Box paddingY={3}>
-            <div>Log in to view and manage songs and data.</div>
-            {user && (
-              <div style={{ color: 'blue' }}>
-                {user.firstName} {user.lastName}
-              </div>
-            )}
-            <Box paddingTop={3}>
-              <TextField
-                fullWidth
-                label="Email"
-                onChange={handleEmailChange}
-                type="email"
-                value={email}
-              />
-            </Box>
-            <Box paddingTop={3}>
-              <TextField
-                fullWidth
-                label="Password"
-                onChange={handlePasswordChange}
-                type="password"
-                value={password}
-              />
-            </Box>
-            {error && (
-              <Box paddingTop={3}>
-                <Typography color="error">{error.message}</Typography>
-              </Box>
-            )}
-            <Box display="flex" justifyContent="flex-end" paddingTop={3}>
-              <Button color="primary" type="submit" variant="contained">
-                {loading ? (
-                  <CircularProgress color="inherit" size={24} />
-                ) : (
-                  'Log In'
-                )}
-              </Button>
-            </Box>
-          </Box>
-        </form>
-      </StyledContainer>
-    </Root>
+    <Box
+      backgroundColor="backgroundDefault"
+      sx={{
+        alignItems: 'center',
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+      }}
+    >
+      <Box backgroundColor="backgroundContrast" borderRadius="md" padding={6}>
+        <Stack element="form" onSubmit={handleSubmit} space={8}>
+          <Text variant="header">
+            Log in to view and manage songs and data.
+          </Text>
+          <Stack space={4}>
+            <TextField
+              label="Email"
+              onValueChange={handleEmailChange}
+              type="email"
+              value={email}
+            />
+            <TextField
+              error={error?.message}
+              label="Password"
+              onValueChange={handlePasswordChange}
+              type="password"
+              value={password}
+            />
+          </Stack>
+          <Button
+            color="brandPrimary"
+            isLoading={loading}
+            sx={{ alignSelf: 'flex-end' }}
+            text={t('Log in')}
+            type="submit"
+            variant="contained"
+          />
+        </Stack>
+      </Box>
+    </Box>
   );
 }
