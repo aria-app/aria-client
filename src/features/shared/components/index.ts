@@ -8,6 +8,7 @@ export { default as GridBoxes } from './GridBoxes';
 export * from './Inline';
 export { default as LoadingIndicator } from './LoadingIndicator';
 export { default as Modal } from './Modal';
+export * from './SelectableIconButton';
 export { default as Shell } from './Shell';
 export { default as Slider } from './Slider';
 export { default as Stack } from './Stack';

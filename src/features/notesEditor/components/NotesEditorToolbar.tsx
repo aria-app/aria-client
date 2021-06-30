@@ -7,28 +7,17 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import NearMeIcon from '@material-ui/icons/NearMe';
 import PanToolIcon from '@material-ui/icons/PanTool';
+import { Box, IconButton, Stack, Toolbar, Tooltip } from 'aria-ui';
 import isEmpty from 'lodash/fp/isEmpty';
 import { memo, MouseEventHandler, useMemo } from 'react';
 import { FaEraser } from 'react-icons/fa';
 
 import Dawww from '../../../dawww';
 import { Note } from '../../../types';
-import { Box, Button, ButtonProps, Stack, Toolbar } from '../../shared';
+import { SelectableIconButton } from '../../shared';
 import * as constants from '../constants';
 import { ToolType } from '../types';
 const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
-
-function SelectableIconButton(props: ButtonProps & { isSelected: boolean }) {
-  const { isSelected, ...rest } = props;
-
-  return (
-    <Button
-      color={isSelected ? 'primary.main' : undefined}
-      variant={isSelected ? 'outlined' : 'text'}
-      {...rest}
-    />
-  );
-}
 
 export interface NotesEditorToolbarProps {
   measureCount?: number;
@@ -86,80 +75,78 @@ function NotesEditorToolbar(props: NotesEditorToolbarProps) {
   );
 
   return (
-    <Toolbar position="bottom">
-      <Stack direction="row" space={2}>
+    <Toolbar padding={2}>
+      <Stack direction="row" space={2} sx={{ flexGrow: 1 }}>
         <Box sx={{ display: 'flex', flexGrow: 1 }}>
           {areSomeNotesSelected ? (
-            <Button
+            <IconButton
+              icon={<CloseIcon />}
               onClick={onDeselectAll}
-              startIcon={<CloseIcon />}
               title="Deselect notes"
-              variant="text"
             />
           ) : (
-            <Button
+            <IconButton
+              icon={<ArrowBackIcon />}
               onClick={onClose}
-              startIcon={<ArrowBackIcon />}
               title="Back to tracks"
-              variant="text"
             />
           )}
         </Box>
         {!areSomeNotesSelected && (
           <>
-            <SelectableIconButton
-              isSelected={toolType === SELECT}
-              onClick={onSelectToolSelect}
-              startIcon={<NearMeIcon />}
-              title="Select"
-            />
-            <SelectableIconButton
-              isSelected={toolType === DRAW}
-              onClick={onDrawToolSelect}
-              startIcon={<EditIcon />}
-              title="Draw"
-            />
-            <SelectableIconButton
-              isSelected={toolType === ERASE}
-              onClick={onEraseToolSelect}
-              startIcon={<FaEraser size={24} />}
-              title="Erase"
-            />
-            <SelectableIconButton
-              isSelected={toolType === PAN}
-              onClick={onPanToolSelect}
-              startIcon={<PanToolIcon />}
-              title="Pan"
-            />
+            <Tooltip text="Select">
+              <SelectableIconButton
+                icon={<NearMeIcon />}
+                isSelected={toolType === SELECT}
+                onClick={onSelectToolSelect}
+              />
+            </Tooltip>
+            <Tooltip text="Draw">
+              <SelectableIconButton
+                icon={<EditIcon />}
+                isSelected={toolType === DRAW}
+                onClick={onDrawToolSelect}
+              />
+            </Tooltip>
+            <Tooltip text="Erase">
+              <SelectableIconButton
+                icon={<FaEraser size={24} />}
+                isSelected={toolType === ERASE}
+                onClick={onEraseToolSelect}
+              />
+            </Tooltip>
+            <Tooltip text="Pan">
+              <SelectableIconButton
+                icon={<PanToolIcon />}
+                isSelected={toolType === PAN}
+                onClick={onPanToolSelect}
+              />
+            </Tooltip>
           </>
         )}
         {areSomeNotesSelected && (
           <>
-            <Button
+            <IconButton
+              icon={<DeleteIcon />}
               onClick={onDelete}
-              startIcon={<DeleteIcon />}
               title="Delete"
-              variant="text"
             />
-            <Button
+            <IconButton
+              icon={<ContentCopyIcon />}
               onClick={onDuplicate}
-              startIcon={<ContentCopyIcon />}
               title="Duplicate"
-              variant="text"
             />
-            <Button
+            <IconButton
               disabled={isOctaveUpButtonDisabled}
+              icon={<ArrowUpwardIcon />}
               onClick={onOctaveUp}
-              startIcon={<ArrowUpwardIcon />}
               title="Octave up"
-              variant="text"
             />
-            <Button
+            <IconButton
               disabled={isOctaveDownButtonDisabled}
+              icon={<ArrowDownwardIcon />}
               onClick={onOctaveDown}
-              startIcon={<ArrowDownwardIcon />}
               title="Octave down"
-              variant="text"
             />
           </>
         )}
