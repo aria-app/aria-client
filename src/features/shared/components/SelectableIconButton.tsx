@@ -17,9 +17,7 @@ export const SelectableIconButton = forwardRef<
   const { isSelected, sx, ...rest } = props;
   const theme = useThemeWithDefault();
 
-  const borderColor = isSelected
-    ? theme.getColor('brandPrimary')
-    : 'transparent';
+  const borderColor = isSelected ? theme.colors.brandPrimary : 'transparent';
 
   return (
     <IconButton

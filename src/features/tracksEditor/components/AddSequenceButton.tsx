@@ -1,17 +1,17 @@
 import AddIcon from '@material-ui/icons/Add';
+import { Box, IconButton, useThemeWithDefault } from 'aria-ui';
 import { ReactElement, useCallback } from 'react';
 
-import { Box, BoxProps, Button } from '../../shared';
-
-export type AddSequenceButtonProps = BoxProps & {
+export interface AddSequenceButtonProps {
   onClick: (position: number) => void;
   position: number;
-};
+}
 
 export default function AddSequenceButton(
   props: AddSequenceButtonProps,
 ): ReactElement {
   const { onClick, position } = props;
+  const theme = useThemeWithDefault();
 
   const handleClick = useCallback(() => {
     onClick?.(position);
@@ -34,10 +34,10 @@ export default function AddSequenceButton(
         width: 64,
       }}
     >
-      <Button
-        color="primary.light"
-        startIcon={<AddIcon />}
-        sx={{ minWidth: 0 }}
+      <IconButton
+        color="brandSubtle"
+        icon={<AddIcon />}
+        sx={{ border: `2px solid ${theme.colors.brandSubtle}` }}
       />
     </Box>
   );

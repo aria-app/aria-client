@@ -1,10 +1,9 @@
 import AddIcon from '@material-ui/icons/Add';
+import { Box, BoxProps, Button } from 'aria-ui';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Box, BoxProps, Button } from '../../shared';
-
-export type AddTrackButtonProps = BoxProps;
+export type AddTrackButtonProps = BoxProps<'div'>;
 
 export default function AddTrackButton(
   props: AddTrackButtonProps,
@@ -20,9 +19,11 @@ export default function AddTrackButton(
       }}
       {...props}
     >
-      <Button color="text.hint" startIcon={<AddIcon />} sx={{ minWidth: 0 }}>
-        {t('Add Track')}
-      </Button>
+      <Button
+        color="textSecondary"
+        startIcon={<AddIcon />}
+        text={t('Add Track')}
+      />
     </Box>
   );
 }

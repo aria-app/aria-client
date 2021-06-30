@@ -1,8 +1,8 @@
-import { useTheme } from '@emotion/react';
+import { Box, Stack, useThemeWithDefault } from 'aria-ui';
+import { MouseEventHandler } from 'react';
 import { forwardRef, memo } from 'react';
 
 import { Sequence, Track } from '../../../types';
-import { Box, Stack } from '../../shared';
 import AddTrackButton from './AddTrackButton';
 import Ruler from './Ruler';
 import TrackListTrack from './TrackListTrack';
@@ -10,7 +10,7 @@ import TrackListTrack from './TrackListTrack';
 export interface TrackListProps {
   onPositionSet: (changedPosition: number) => void;
   onSequenceAdd: (options: { position: number; track: Track }) => void;
-  onSequenceDeselect: (sequenceToDeselect: Sequence) => void;
+  onSequenceDeselect: MouseEventHandler<HTMLElement>;
   onSequenceEdit: (editedSequence: Sequence) => void;
   onSequenceOpen: (sequenceToOpen: Sequence) => void;
   onSequenceSelect: (sequenceToSelect: Sequence) => void;
@@ -37,7 +37,7 @@ const TrackList = forwardRef<HTMLDivElement, TrackListProps>((props, ref) => {
     songMeasureCount,
     tracks,
   } = props;
-  const theme = useTheme();
+  const theme = useThemeWithDefault();
 
   return (
     <Box
@@ -58,16 +58,15 @@ const TrackList = forwardRef<HTMLDivElement, TrackListProps>((props, ref) => {
           flex: '1 0 auto',
           flexDirection: 'column',
           minWidth: '100%',
-          padding: 4,
-          paddingBottom: (theme) => theme.spacing(4) + 64,
-          paddingRight: (theme) => theme.spacing(4) + 128,
-          paddingTop: 4,
+          padding: theme.space(4),
+          paddingBottom: (theme.space(4) as number) + 64,
+          paddingRight: (theme.space(4) as number) + 128,
           position: 'relative',
         }}
       >
         <Box
           onClick={onSequenceDeselect}
-          sx={{ ...theme.mixins.absoluteFill }}
+          sx={{ bottom: 0, left: 0, position: 'absolute', right: 0, top: 0 }}
         />
 
         <Stack space={6}>
