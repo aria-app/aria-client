@@ -1,14 +1,14 @@
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import CloseIcon from '@material-ui/icons/Close';
-import ContentCopyIcon from '@material-ui/icons/ContentCopy';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import NearMeIcon from '@material-ui/icons/NearMe';
-import PanToolIcon from '@material-ui/icons/PanTool';
 import { Box, IconButton, Stack, Toolbar, Tooltip } from 'aria-ui';
 import isEmpty from 'lodash/fp/isEmpty';
+import ArrowBackIcon from 'mdi-react/ArrowBackIcon';
+import ArrowDownwardIcon from 'mdi-react/ArrowDownwardIcon';
+import ArrowUpwardIcon from 'mdi-react/ArrowUpwardIcon';
+import CloseIcon from 'mdi-react/CloseIcon';
+import ContentCopyIcon from 'mdi-react/ContentCopyIcon';
+import DeleteIcon from 'mdi-react/DeleteIcon';
+import EditIcon from 'mdi-react/EditIcon';
+import HandRightIcon from 'mdi-react/HandRightIcon';
+import NearMeIcon from 'mdi-react/NearMeIcon';
 import { memo, MouseEventHandler, useMemo } from 'react';
 import { FaEraser } from 'react-icons/fa';
 
@@ -117,7 +117,7 @@ function NotesEditorToolbar(props: NotesEditorToolbarProps) {
             </Tooltip>
             <Tooltip text="Pan">
               <SelectableIconButton
-                icon={<PanToolIcon />}
+                icon={<HandRightIcon />}
                 isSelected={toolType === PAN}
                 onClick={onPanToolSelect}
               />

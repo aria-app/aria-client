@@ -1,8 +1,8 @@
-import ContentCopyIcon from '@material-ui/icons/ContentCopy';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 import { IconButton, Stack, Toolbar } from 'aria-ui';
 import isEmpty from 'lodash/fp/isEmpty';
+import ContentCopyIcon from 'mdi-react/ContentCopyIcon';
+import DeleteIcon from 'mdi-react/DeleteIcon';
+import EditIcon from 'mdi-react/EditIcon';
 import { memo, MouseEventHandler } from 'react';
 
 import { Sequence } from '../../../types';

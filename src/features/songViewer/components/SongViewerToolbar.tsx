@@ -1,7 +1,7 @@
-import PauseIcon from '@material-ui/icons/Pause';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import StopIcon from '@material-ui/icons/Stop';
 import { IconButton, Stack, Toolbar } from 'aria-ui';
+import PauseIcon from 'mdi-react/PauseIcon';
+import PlayArrowIcon from 'mdi-react/PlayArrowIcon';
+import StopIcon from 'mdi-react/StopIcon';
 import { memo, useCallback } from 'react';
 import * as Tone from 'tone';
 

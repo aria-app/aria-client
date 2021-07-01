@@ -1,5 +1,5 @@
-import AddIcon from '@material-ui/icons/Add';
 import { Box, BoxProps, Button } from 'aria-ui';
+import AddIcon from 'mdi-react/AddIcon';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 

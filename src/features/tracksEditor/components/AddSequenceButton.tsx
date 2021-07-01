@@ -1,5 +1,5 @@
-import AddIcon from '@material-ui/icons/Add';
 import { Box, IconButton, useThemeWithDefault } from 'aria-ui';
+import AddIcon from 'mdi-react/AddIcon';
 import { ReactElement, useCallback } from 'react';
 
 export interface AddSequenceButtonProps {

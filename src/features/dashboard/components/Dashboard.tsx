@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
-import AddIcon from '@material-ui/icons/Add';
 import { RouteComponentProps } from '@reach/router';
 import { Box, Button, Stack, Toolbar } from 'aria-ui';
+import AddIcon from 'mdi-react/AddIcon';
 import { memo, ReactElement, useCallback, useEffect } from 'react';
 
 import api from '../../api';
@@ -125,10 +125,10 @@ function Dashboard(props: RouteComponentProps): ReactElement {
         </Box>
       </Fade>
       <Box
+        bottom={4}
+        right={4}
         sx={{
-          bottom: 4,
           position: 'absolute',
-          right: 4,
         }}
       >
         <Button

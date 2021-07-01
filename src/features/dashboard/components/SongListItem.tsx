@@ -1,7 +1,7 @@
-import CloseIcon from '@material-ui/icons/Close';
-import { Box, Stack, Text } from 'aria-ui';
+import { Box, IconButton, Stack, Text } from 'aria-ui';
 import formatDistance from 'date-fns/formatDistance';
 import parseISO from 'date-fns/parseISO';
+import CloseIcon from 'mdi-react/CloseIcon';
 import { memo, useCallback, useMemo } from 'react';
 
 import { Song } from '../../../types';
@@ -42,10 +42,22 @@ function SongListItem(props: SongListItemProps) {
     <Box
       backgroundColor="backgroundContrast"
       borderRadius="md"
-      isInteractive
-      onClick={handleClick}
       padding={4}
+      sx={{ position: 'relative' }}
     >
+      <Box
+        borderRadius="md"
+        isInteractive
+        onClick={handleClick}
+        sx={{
+          bottom: 0,
+          left: 0,
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          zIndex: 1,
+        }}
+      />
       <Stack direction="row" space={4} sx={{ alignItems: 'center' }}>
         <Stack space={2} sx={{ flexGrow: 1 }}>
           <Text variant="label">{song.name}</Text>
@@ -53,17 +65,16 @@ function SongListItem(props: SongListItemProps) {
             {updatedText}
           </Text>
         </Stack>
-        <Box
+        <IconButton
+          icon={<CloseIcon />}
           onClick={handleDeleteClick}
           sx={{
             alignItems: 'center',
             display: 'flex',
-            height: 32,
-            width: 32,
+            position: 'relative',
+            zIndex: 2,
           }}
-        >
-          <CloseIcon sx={{ color: 'text.secondary' }} />
-        </Box>
+        />
       </Stack>
     </Box>
   );
