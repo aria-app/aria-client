@@ -7,10 +7,10 @@ import CloseIcon from 'mdi-react/CloseIcon';
 import ContentCopyIcon from 'mdi-react/ContentCopyIcon';
 import DeleteIcon from 'mdi-react/DeleteIcon';
 import EditIcon from 'mdi-react/EditIcon';
+import EraserIcon from 'mdi-react/EraserIcon';
 import HandRightIcon from 'mdi-react/HandRightIcon';
 import NearMeIcon from 'mdi-react/NearMeIcon';
 import { memo, MouseEventHandler, useMemo } from 'react';
-import { FaEraser } from 'react-icons/fa';
 
 import Dawww from '../../../dawww';
 import { Note } from '../../../types';
@@ -85,11 +85,13 @@ function NotesEditorToolbar(props: NotesEditorToolbarProps) {
               title="Deselect notes"
             />
           ) : (
-            <IconButton
-              icon={<ArrowBackIcon />}
-              onClick={onClose}
-              title="Back to tracks"
-            />
+            <Tooltip text="Back to tracks">
+              <IconButton
+                icon={<ArrowBackIcon />}
+                onClick={onClose}
+                title="Back to tracks"
+              />
+            </Tooltip>
           )}
         </Box>
         {!areSomeNotesSelected && (
@@ -110,7 +112,7 @@ function NotesEditorToolbar(props: NotesEditorToolbarProps) {
             </Tooltip>
             <Tooltip text="Erase">
               <SelectableIconButton
-                icon={<FaEraser size={24} />}
+                icon={<EraserIcon />}
                 isSelected={toolType === ERASE}
                 onClick={onEraseToolSelect}
               />
