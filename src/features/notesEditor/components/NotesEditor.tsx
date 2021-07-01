@@ -11,7 +11,7 @@ import { GlobalHotKeys } from 'react-hotkeys';
 import Dawww from '../../../dawww';
 import api from '../../api';
 import audio from '../../audio';
-import shared from '../../shared';
+import { LoadingIndicator } from '../../shared';
 import { toolTypes } from '../constants';
 import Grid from './Grid';
 import Keys from './Keys';
@@ -26,7 +26,6 @@ const {
   useUpdateNotes,
 } = api.hooks;
 const { useAudioManager } = audio.hooks;
-const { LoadingIndicator } = shared.components;
 const { toggleInArray } = shared.helpers;
 
 const getNotesByIds = memoizeOne((notes, ids) =>

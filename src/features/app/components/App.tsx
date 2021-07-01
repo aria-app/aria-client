@@ -4,7 +4,7 @@ import { memo } from 'react';
 
 import auth from '../../auth';
 import dashboard from '../../dashboard';
-import shared from '../../shared';
+import { LoadingIndicator, Shell, ThemeProvider } from '../../shared';
 import songEditor from '../../songEditor';
 import songViewer from '../../songViewer';
 import Login from './Login';
@@ -12,7 +12,6 @@ import PrivateRoute from './PrivateRoute';
 
 const { useAuth } = auth.hooks;
 const { Dashboard } = dashboard.components;
-const { LoadingIndicator, Shell, ThemeProvider } = shared.components;
 const { SongEditor } = songEditor.components;
 const { SongViewer } = songViewer.components;
 

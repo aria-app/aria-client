@@ -6,11 +6,10 @@ import { memo, ReactElement, useCallback, useEffect } from 'react';
 
 import api from '../../api';
 import auth from '../../auth';
-import shared from '../../shared';
+import { Fade, LoadingIndicator } from '../../shared';
 import SongList from './SongList';
 
 const { useAuth } = auth.hooks;
-const { Fade, LoadingIndicator } = shared.components;
 
 function Dashboard(props: RouteComponentProps): ReactElement {
   const { navigate } = props;

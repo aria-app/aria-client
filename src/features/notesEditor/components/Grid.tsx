@@ -2,7 +2,7 @@ import { Box } from 'aria-ui';
 import { memo, useCallback, useRef } from 'react';
 
 import { Note, Point } from '../../../types';
-import shared from '../../shared';
+import { Timeline } from '../../shared';
 import * as constants from '../constants';
 import { ToolType } from '../types';
 import DrawLayer from './DrawLayer';
@@ -11,8 +11,6 @@ import Panner from './Panner';
 import PositionIndicator from './PositionIndicator';
 import Selector from './Selector';
 import Slots from './Slots';
-
-const { Timeline } = shared.components;
 
 export interface GridProps {
   measureCount?: number;
