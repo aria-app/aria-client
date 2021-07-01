@@ -11,7 +11,11 @@ import { GlobalHotKeys } from 'react-hotkeys';
 import Dawww from '../../../dawww';
 import api from '../../api';
 import audio from '../../audio';
-import { LoadingIndicator } from '../../shared';
+import {
+  getCenteredScroll,
+  LoadingIndicator,
+  toggleInArray,
+} from '../../shared';
 import { toolTypes } from '../constants';
 import Grid from './Grid';
 import Keys from './Keys';
@@ -26,7 +30,6 @@ const {
   useUpdateNotes,
 } = api.hooks;
 const { useAudioManager } = audio.hooks;
-const { toggleInArray } = shared.helpers;
 
 const getNotesByIds = memoizeOne((notes, ids) =>
   notes.filter((note) => includes(note.id, ids)),
@@ -345,7 +348,7 @@ function NotesEditor(
   useEffect(() => {
     if (!contentEl) return;
 
-    contentEl.scrollTop = shared.helpers.getCenteredScroll(contentEl);
+    contentEl.scrollTop = getCenteredScroll(contentEl);
   }, [contentEl]);
 
   return (
