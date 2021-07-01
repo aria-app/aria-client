@@ -1,7 +1,7 @@
 export * from './Box';
 export * from './Button';
 export { default as ContentBlock } from './ContentBlock';
-export { default as Fade } from './Fade';
+export * from './Fade';
 export { default as FormGroup } from './FormGroup';
 export { default as GridBox } from './GridBox';
 export { default as GridBoxes } from './GridBoxes';

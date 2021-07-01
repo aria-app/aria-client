@@ -1,6 +1,12 @@
-import MuiFade, { FadeProps } from '@material-ui/core/Fade';
-import { ReactElement } from 'react';
+import { HTMLAttributes } from 'react';
+import { FC } from 'react';
 
-export default function Fade(props: FadeProps): ReactElement {
-  return <MuiFade mountOnEnter unmountOnExit {...props} />;
+export interface FadeProps extends HTMLAttributes<HTMLElement> {
+  in?: boolean;
 }
+
+export const Fade: FC<FadeProps> = (props) => {
+  const { children, in: inProp } = props;
+
+  return inProp ? <>{children}</> : null;
+};
