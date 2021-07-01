@@ -20,9 +20,10 @@ export default function AddTrackButton(
       {...props}
     >
       <Button
-        color="textSecondary"
+        color="backgroundContrast"
         startIcon={<AddIcon />}
         text={t('Add Track')}
+        variant="contained"
       />
     </Box>
   );

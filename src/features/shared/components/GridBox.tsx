@@ -18,7 +18,7 @@ const Resizer = styled.div(({ theme }) => ({
   left: '0',
   position: 'absolute',
   top: '0',
-  width: theme.spacing(2),
+  width: theme.space(2),
   zIndex: 2,
 }));
 

@@ -9,6 +9,18 @@ import { ReactElement, ReactNode } from 'react';
 
 import theme from '../theme';
 
+const tempTheme = {
+  mixins: {
+    absoluteFill: {
+      bottom: 0,
+      left: 0,
+      position: 'absolute',
+      right: 0,
+      top: 0,
+    },
+  },
+};
+
 export interface ThemeProviderProps {
   children: ReactNode;
 }
@@ -19,7 +31,7 @@ export default function ThemeProvider({
   return (
     <StylesProvider injectFirst={true}>
       <MuiThemeProvider theme={theme}>
-        <EmotionThemeProvider theme={merge(theme, lightTheme)}>
+        <EmotionThemeProvider theme={merge(theme, lightTheme, tempTheme)}>
           {children}
         </EmotionThemeProvider>
       </MuiThemeProvider>

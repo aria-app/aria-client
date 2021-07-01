@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { HTMLAttributes } from 'react';
 
 const Root = styled.div(({ theme }) => ({
-  backgroundColor: theme.palette.text.primary,
+  backgroundColor: theme.colors.textPrimary,
   bottom: 0,
   left: 0,
   opacity: 0.25,

@@ -12,12 +12,12 @@ interface RootProps {
 const Root = styled.div<RootProps>(({ isPending, isSelected, theme }) => ({
   display: 'flex',
   height: 64,
-  padding: theme.spacing(1),
+  padding: theme.space(1),
   backgroundColor: isSelected
-    ? theme.palette.primary.main
-    : theme.palette.primary.light,
-  border: `2px solid ${theme.palette.background.paper}`,
-  borderRadius: (theme.shape.borderRadius as number) * 2,
+    ? theme.colors.brandPrimary
+    : theme.colors.brandSubtle,
+  border: `2px solid ${theme.colors.backgroundContrast}`,
+  borderRadius: theme.borderRadii.md,
   overflow: 'hidden',
   pointerEvents: isPending ? 'none' : 'auto',
   position: 'relative',

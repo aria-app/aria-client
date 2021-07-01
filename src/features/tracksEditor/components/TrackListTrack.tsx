@@ -1,4 +1,4 @@
-import { Box, Stack, useThemeWithDefault } from 'aria-ui';
+import { Box, Stack } from 'aria-ui';
 import { AnimatePresence, motion } from 'framer-motion';
 import each from 'lodash/fp/each';
 import find from 'lodash/fp/find';
@@ -37,7 +37,6 @@ function TrackListTrack(props: TrackListTrackProps) {
     songMeasureCount,
     track,
   } = props;
-  const theme = useThemeWithDefault();
   const { t } = useTranslation();
 
   const boxesItems = useMemo(() => {
@@ -126,13 +125,12 @@ function TrackListTrack(props: TrackListTrackProps) {
         {t(track.voice.name)}
       </TrackHeader>
       <Box
+        backgroundColor="backgroundContrast"
         borderRadius="md"
+        padding={0.5}
         style={{ width: songMeasureCount * 64 + 4 }}
         sx={{
           alignItems: 'stretch',
-          backgroundColor: 'background.paper',
-          border: '2px solid transparent',
-          boxShadow: `0 0 0 2px ${theme.colors.border}`,
           display: 'flex',
           flex: '1 0 auto',
           position: 'relative',
