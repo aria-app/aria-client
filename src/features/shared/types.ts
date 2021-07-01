@@ -3,5 +3,3 @@ export interface GridBoxItem {
   length: number;
   x: number;
 }
-
-export type Spacing = number | string;

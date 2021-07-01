@@ -6,10 +6,11 @@ import split from 'lodash/fp/split';
 import { memo, useCallback, useMemo, useRef, useState } from 'react';
 
 import { Point } from '../../../types';
+import { absoluteFill } from '../../shared';
 import NotesNote from './NotesNote';
 
 const Root = styled.div(({ theme }) => ({
-  ...theme.mixins.absoluteFill,
+  ...absoluteFill,
 }));
 
 const GhostStyledNotesNote = styled(NotesNote)({
