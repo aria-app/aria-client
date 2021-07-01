@@ -19,7 +19,7 @@ const Connector = styled.div({
 });
 
 const Fill = styled.div(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: theme.borderRadii.md,
   height: 24,
   width: 24,
   '&:hover': {
@@ -39,13 +39,13 @@ const Root = styled.div<{ isSelected?: boolean }>(({ isSelected, theme }) => ({
   zIndex: isSelected ? 300 : undefined,
   [Connector as any]: {
     backgroundColor: isSelected
-      ? theme.palette.primary.main
-      : theme.palette.primary.light,
+      ? theme.colors.brandPrimary
+      : theme.colors.brandSubtle,
   },
   [Fill as any]: {
     backgroundColor: isSelected
-      ? theme.palette.primary.main
-      : theme.palette.primary.light,
+      ? theme.colors.brandPrimary
+      : theme.colors.brandSubtle,
   },
 }));
 

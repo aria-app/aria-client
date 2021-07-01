@@ -1,13 +1,10 @@
-import CloseIcon from '@material-ui/icons/Close';
+import { Box, IconButton, Stack, Text } from 'aria-ui';
 import formatDistance from 'date-fns/formatDistance';
 import parseISO from 'date-fns/parseISO';
-import { motion } from 'framer-motion';
+import CloseIcon from 'mdi-react/CloseIcon';
 import { memo, useCallback, useMemo } from 'react';
 
 import { Song } from '../../../types';
-import shared from '../../shared';
-
-const { Box, Stack, Typography } = shared.components;
 
 export interface SongListItemProps {
   onDelete: (song: Song) => void;
@@ -43,43 +40,41 @@ function SongListItem(props: SongListItemProps) {
 
   return (
     <Box
-      animate={{ opacity: 1 }}
-      component={motion.div}
-      exit={{ opacity: 0 }}
-      initial={{ opacity: 0 }}
-      interactive
-      onClick={handleClick}
-      sx={{
-        backgroundColor: 'background.paper',
-        borderColor: 'divider',
-        borderStyle: 'solid',
-        borderRadius: 1,
-        borderWidth: 2,
-        cursor: 'pointer',
-        paddingBottom: 2,
-        paddingLeft: 4,
-        paddingRight: 2,
-        paddingTop: 2,
-      }}
+      backgroundColor="backgroundContrast"
+      borderRadius="md"
+      padding={4}
+      sx={{ position: 'relative' }}
     >
+      <Box
+        borderRadius="md"
+        isInteractive
+        onClick={handleClick}
+        sx={{
+          bottom: 0,
+          left: 0,
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          zIndex: 1,
+        }}
+      />
       <Stack direction="row" space={4} sx={{ alignItems: 'center' }}>
-        <Stack sx={{ flexGrow: 1 }}>
-          <Typography variant="label">{song.name}</Typography>
-          <Typography color="textSecondary" variant="caption">
+        <Stack space={2} sx={{ flexGrow: 1 }}>
+          <Text variant="label">{song.name}</Text>
+          <Text color="textSecondary" variant="helper">
             {updatedText}
-          </Typography>
+          </Text>
         </Stack>
-        <Box
+        <IconButton
+          icon={<CloseIcon />}
           onClick={handleDeleteClick}
           sx={{
             alignItems: 'center',
             display: 'flex',
-            height: 32,
-            width: 32,
+            position: 'relative',
+            zIndex: 2,
           }}
-        >
-          <CloseIcon sx={{ color: 'text.secondary' }} />
-        </Box>
+        />
       </Stack>
     </Box>
   );

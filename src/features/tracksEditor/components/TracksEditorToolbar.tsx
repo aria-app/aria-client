@@ -1,11 +1,11 @@
-import ContentCopyIcon from '@material-ui/icons/ContentCopy';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import { IconButton, Stack, Toolbar } from 'aria-ui';
 import isEmpty from 'lodash/fp/isEmpty';
+import ContentCopyIcon from 'mdi-react/ContentCopyIcon';
+import DeleteIcon from 'mdi-react/DeleteIcon';
+import EditIcon from 'mdi-react/EditIcon';
 import { memo, MouseEventHandler } from 'react';
 
 import { Sequence } from '../../../types';
-import { Button, Stack, Toolbar } from '../../shared';
 
 export interface TracksEditorToolbarProps {
   onSequenceDelete: MouseEventHandler<HTMLButtonElement>;
@@ -25,25 +25,16 @@ function TracksEditorToolbar(props: TracksEditorToolbarProps) {
   const isSomeSequenceSelected = !isEmpty(selectedSequence);
 
   return (
-    <Toolbar position="bottom">
+    <Toolbar padding={2}>
       <Stack direction="row" space={2} sx={{ justifyContent: 'flex-end' }}>
         {isSomeSequenceSelected && (
           <>
-            <Button
-              onClick={onSequenceOpen}
-              startIcon={<EditIcon />}
-              variant="text"
-            />
-            <Button
+            <IconButton icon={<EditIcon />} onClick={onSequenceOpen} />
+            <IconButton
+              icon={<ContentCopyIcon />}
               onClick={onSequenceDuplicate}
-              startIcon={<ContentCopyIcon />}
-              variant="text"
             />
-            <Button
-              onClick={onSequenceDelete}
-              startIcon={<DeleteIcon />}
-              variant="text"
-            />
+            <IconButton icon={<DeleteIcon />} onClick={onSequenceDelete} />
           </>
         )}
       </Stack>

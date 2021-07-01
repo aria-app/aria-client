@@ -7,21 +7,21 @@ import { memo, useCallback, useState } from 'react';
 import Draggable from 'react-draggable';
 
 const Resizer = styled.div(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-  border: `2px solid ${theme.palette.divider}`,
-  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.colors.backgroundContrast,
+  borderRadius: theme.borderRadii.md,
   cursor: 'col-resize',
   height: 34,
   left: 0,
+  padding: theme.space(0.5),
   position: 'absolute',
   top: -1,
   width: 24,
   '&:hover': {
-    borderColor: theme.palette.text.secondary,
+    borderColor: theme.colors.textSecondary,
   },
   '&::after': {
-    borderLeft: `2px dotted ${theme.palette.text.hint}`,
-    borderRight: `2px dotted ${theme.palette.text.hint}`,
+    borderLeft: `2px dotted ${theme.colors.textSecondary}`,
+    borderRight: `2px dotted ${theme.colors.textSecondary}`,
     content: "''",
     display: 'block',
     height: 10,
@@ -38,13 +38,13 @@ interface RootProps {
 }
 
 const Root = styled.div<RootProps>(({ isResizing, theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-  border: `2px solid ${theme.palette.divider}`,
-  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.colors.backgroundContrast,
+  borderRadius: theme.borderRadii.md,
   cursor: 'pointer',
   display: 'flex',
   flex: '0 0 auto',
   height: 36,
+  padding: theme.space(0.5),
   position: 'relative',
   transition: 'width 200ms ease',
   ...(isResizing
@@ -63,20 +63,20 @@ const Root = styled.div<RootProps>(({ isResizing, theme }) => ({
 
 const Measure = styled(motion.div)(({ theme }) => ({
   alignItems: 'flex-end',
-  bottom: 0,
+  bottom: 2,
   display: 'flex',
-  left: 0,
-  paddingBottom: theme.spacing(0.25),
-  paddingLeft: theme.spacing(0.75),
+  left: 2,
+  paddingBottom: theme.space(0.25),
+  paddingLeft: theme.space(0.75),
   position: 'absolute',
-  top: 0,
+  top: 2,
   '&:not(:first-of-type)': {
-    borderLeft: `2px solid ${theme.palette.divider}`,
+    borderLeft: `2px solid ${theme.colors.border}`,
   },
 }));
 
 const MeasureNumber = styled.div(({ theme }) => ({
-  color: transparentize(0.5, theme.palette.text.primary),
+  color: transparentize(0.5, theme.colors.textPrimary as string),
   fontSize: 10,
   fontWeight: 'bold',
 }));

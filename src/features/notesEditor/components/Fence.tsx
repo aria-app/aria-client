@@ -1,10 +1,9 @@
+import { Box, useThemeWithDefault } from 'aria-ui';
 import isEqual from 'lodash/fp/isEqual';
+import { transparentize } from 'polished';
 import { memo, useMemo } from 'react';
 
 import { Point } from '../../../types';
-import shared from '../../shared';
-
-const { Box } = shared.components;
 
 export interface FenceProps {
   endPoint?: Point;
@@ -13,6 +12,7 @@ export interface FenceProps {
 
 function Fence(props: FenceProps) {
   const { endPoint, startPoint } = props;
+  const theme = useThemeWithDefault();
 
   const display = useMemo(
     () => (startPoint && !isEqual(startPoint, endPoint) ? 'block' : 'none'),
@@ -44,13 +44,15 @@ function Fence(props: FenceProps) {
 
   return (
     <Box
+      borderColor="brandPrimary"
+      borderRadius="md"
+      borderWidth={2}
       style={{ display, height, transform, width }}
       sx={{
-        backgroundColor: 'primary.main25',
-        borderColor: 'primary.main',
-        borderRadius: 1,
-        borderStyle: 'solid',
-        borderWidth: 2,
+        backgroundColor: transparentize(
+          0.75,
+          theme.colors.brandPrimary as string,
+        ),
         left: 0,
         pointerEvents: 'none',
         position: 'absolute',

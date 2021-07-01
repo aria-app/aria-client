@@ -1,16 +1,13 @@
 import * as components from './components';
-import * as constants from './constants';
 import * as helpers from './helpers';
-import theme from './theme';
 
 export * from './components';
-export { default as theme } from './theme';
+export * from './helpers';
+export * from './mixins';
 
 const shared = {
   components,
-  constants,
   helpers,
-  theme,
 };
 
 export default shared;

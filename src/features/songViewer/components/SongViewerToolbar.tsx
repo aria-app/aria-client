@@ -1,12 +1,12 @@
-import PauseIcon from '@material-ui/icons/Pause';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import StopIcon from '@material-ui/icons/Stop';
+import { IconButton, Stack, Toolbar } from 'aria-ui';
+import PauseIcon from 'mdi-react/PauseIcon';
+import PlayArrowIcon from 'mdi-react/PlayArrowIcon';
+import StopIcon from 'mdi-react/StopIcon';
 import { memo, useCallback } from 'react';
 import * as Tone from 'tone';
 
 import Dawww from '../../../dawww';
 import { PlaybackState } from '../../../types';
-import { Button, Stack, Toolbar } from '../../shared';
 
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
 
@@ -36,31 +36,24 @@ function SongViewerToolbar(props: SongViewerToolbarProps) {
   );
 
   return (
-    <Toolbar position="top">
+    <Toolbar padding={2}>
       <Stack direction="row" space={2} sx={{ justifyContent: 'flex-end' }}>
         {playbackState && playbackState !== STARTED && (
-          <Button
+          <IconButton
+            icon={<PlayArrowIcon />}
             onClick={handlePlayPauseToggle}
-            startIcon={<PlayArrowIcon />}
             title="Play"
-            variant="text"
           />
         )}
         {playbackState && playbackState === STARTED && (
-          <Button
+          <IconButton
+            icon={<PauseIcon />}
             onClick={handlePlayPauseToggle}
-            startIcon={<PauseIcon />}
             title="Pause"
-            variant="text"
           />
         )}
         {playbackState && playbackState !== STOPPED && (
-          <Button
-            onClick={onStop}
-            startIcon={<StopIcon />}
-            title="Stop"
-            variant="text"
-          />
+          <IconButton icon={<StopIcon />} onClick={onStop} title="Stop" />
         )}
       </Stack>
     </Toolbar>

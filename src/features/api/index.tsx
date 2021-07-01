@@ -4,6 +4,7 @@ import * as queries from './queries';
 
 export * from './helpers';
 export * from './hooks';
+export * from './queries';
 
 const api = {
   helpers,

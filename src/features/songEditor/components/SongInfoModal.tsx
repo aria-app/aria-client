@@ -1,14 +1,11 @@
-import { memo, useCallback } from 'react';
+import { Button, Dialog, DialogProps, FormGroup, Select, Stack } from 'aria-ui';
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Dawww from '../../../dawww';
 import { Song } from '../../../types';
-import shared from '../../shared';
 
-const { Button, FormGroup, Modal, Stack } = shared.components;
-
-export interface SongInfoModalProps {
-  isOpen: boolean;
+export interface SongInfoModalProps extends DialogProps {
   onBPMChange: (changedBPM: number) => void;
   onConfirm: () => void;
   onReturnToDashboard: () => void;
@@ -18,24 +15,17 @@ export interface SongInfoModalProps {
 
 function SongInfoModal(props: SongInfoModalProps) {
   const {
-    isOpen,
     onBPMChange,
     onConfirm,
     onReturnToDashboard,
     onSignOut,
     song,
+    ...rest
   } = props;
   const { i18n, t } = useTranslation();
 
-  const handleBPMSelectChange = useCallback(
-    (e) => {
-      onBPMChange(parseInt(e.target.value));
-    },
-    [onBPMChange],
-  );
-
   return (
-    <Modal onClose={onConfirm} open={isOpen} titleText={t('Song Info')}>
+    <Dialog onOverlayClick={onConfirm} title={t('Song Info')} {...rest}>
       <Stack space={4} sx={{ alignItems: 'flex-start' }}>
         <FormGroup label={t('Shareable Link')}>
           <a
@@ -46,31 +36,30 @@ function SongInfoModal(props: SongInfoModalProps) {
             https://ariaapp.io/view-song/{song?.id}
           </a>
         </FormGroup>
-        <FormGroup label={t('BPM')}>
-          <select onChange={handleBPMSelectChange} value={song?.bpm}>
-            {Dawww.BPM_RANGE.map((bpmRangeValue) => (
-              <option key={bpmRangeValue} value={bpmRangeValue}>
-                {bpmRangeValue}
-              </option>
-            ))}
-          </select>
-        </FormGroup>
-        <Button onClick={onReturnToDashboard} variant="outlined">
-          {t('Return to Dashboard')}
-        </Button>
-        <Button onClick={onSignOut} variant="outlined">
-          {t('Sign Out')}
-        </Button>
-        <FormGroup label={t('Select Language')} space={4}>
-          <Button onClick={() => i18n.changeLanguage('en')} variant="outlined">
-            {t('English')}
-          </Button>
-          <Button onClick={() => i18n.changeLanguage('jp')} variant="outlined">
-            {t('Japanese')}
-          </Button>
-        </FormGroup>
+        <Select
+          label={t('BPM')}
+          onValueChange={onBPMChange}
+          options={Dawww.BPM_RANGE.map((bpmRangeValue) => ({
+            label: String(bpmRangeValue),
+            value: bpmRangeValue,
+          }))}
+          sx={{ width: 'auto' }}
+          value={song?.bpm}
+        />
+        <Button onClick={onReturnToDashboard} text={t('Return to Dashboard')} />
+        <Button onClick={onSignOut} text={t('Sign Out')} />
+        <Select
+          label={t('Select Language')}
+          onValueChange={(language) => i18n.changeLanguage(language)}
+          options={[
+            { label: t('English'), value: 'en' },
+            { label: t('Japanese'), value: 'jp' },
+          ]}
+          sx={{ width: 'auto' }}
+          value={i18n.language}
+        />
       </Stack>
-    </Modal>
+    </Dialog>
   );
 }
 

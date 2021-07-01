@@ -5,8 +5,8 @@ import { memo } from 'react';
 import { Point } from '../../../types';
 
 const Column = styled.div(({ theme }) => ({
-  backgroundColor: transparentize(0.9, theme.palette.primary.main),
-  borderRadius: theme.shape.borderRadius,
+  backgroundColor: transparentize(0.9, theme.colors.brandPrimary as string),
+  borderRadius: theme.borderRadii.md,
   bottom: 0,
   left: 6,
   pointerEvents: 'none',
@@ -16,8 +16,8 @@ const Column = styled.div(({ theme }) => ({
 }));
 
 const Row = styled.div(({ theme }) => ({
-  backgroundColor: transparentize(0.9, theme.palette.primary.main),
-  borderRadius: theme.shape.borderRadius,
+  backgroundColor: transparentize(0.9, theme.colors.brandPrimary as string),
+  borderRadius: theme.borderRadii.md,
   left: 0,
   height: 28,
   pointerEvents: 'none',

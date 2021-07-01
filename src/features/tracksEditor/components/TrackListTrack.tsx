@@ -1,3 +1,4 @@
+import { Box, Stack } from 'aria-ui';
 import { AnimatePresence, motion } from 'framer-motion';
 import each from 'lodash/fp/each';
 import find from 'lodash/fp/find';
@@ -9,12 +10,10 @@ import { memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Sequence, Track } from '../../../types';
-import shared from '../../shared';
+import { GridBoxes } from '../../shared';
 import AddSequenceButton from './AddSequenceButton';
 import TrackHeader from './TrackHeader';
 import TrackListSequence from './TrackListSequence';
-
-const { Box, GridBoxes, Stack } = shared.components;
 
 export interface TrackListTrackProps {
   onSequenceAdd: (options: { position: number; track: Track }) => void;
@@ -126,13 +125,12 @@ function TrackListTrack(props: TrackListTrackProps) {
         {t(track.voice.name)}
       </TrackHeader>
       <Box
+        backgroundColor="backgroundContrast"
+        borderRadius="md"
+        padding={0.5}
         style={{ width: songMeasureCount * 64 + 4 }}
         sx={{
           alignItems: 'stretch',
-          backgroundColor: 'background.paper',
-          border: '2px solid transparent',
-          boxShadow: (theme) => `0 0 0 2px ${theme.palette.divider}`,
-          borderRadius: 2,
           display: 'flex',
           flex: '1 0 auto',
           position: 'relative',

@@ -10,8 +10,8 @@ interface RootProps {
 
 const Root = styled.div<RootProps>(({ isSequenceSelected, theme }) => ({
   backgroundColor: isSequenceSelected
-    ? theme.palette.primary.contrastText
-    : theme.palette.primary.dark,
+    ? theme.getForegroundColor('brandPrimary')
+    : theme.colors.brandContrast,
   height: 1,
   left: 2,
   position: 'absolute',

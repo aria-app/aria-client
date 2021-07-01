@@ -1,10 +1,8 @@
+import { Stack } from 'aria-ui';
 import { memo } from 'react';
 
 import { Song } from '../../../types';
-import shared from '../../shared';
 import SongListItem from './SongListItem';
-
-const { Stack } = shared.components;
 
 export interface SongListProps {
   onDelete: (song: Song) => void;
@@ -16,7 +14,7 @@ function SongList(props: SongListProps) {
   const { onDelete, onOpen, songs = [] } = props;
 
   return (
-    <Stack animate space={4}>
+    <Stack space={4}>
       {songs.map((song) => (
         <SongListItem
           key={song.id}

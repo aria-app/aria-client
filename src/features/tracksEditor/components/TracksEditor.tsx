@@ -1,4 +1,5 @@
 import { RouteComponentProps } from '@reach/router';
+import { Box } from 'aria-ui';
 import find from 'lodash/fp/find';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
@@ -16,7 +17,7 @@ import {
   useUpdateTrack,
 } from '../../api';
 import { useAudioManager, usePlaybackState, usePosition } from '../../audio';
-import { Box, LoadingIndicator, Timeline } from '../../shared';
+import { LoadingIndicator, Timeline } from '../../shared';
 import TrackEditingModal from './TrackEditingModal';
 import TrackList from './TrackList';
 import TracksEditorToolbar from './TracksEditorToolbar';
