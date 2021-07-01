@@ -2,15 +2,14 @@ import PauseIcon from '@material-ui/icons/Pause';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SettingsIcon from '@material-ui/icons/Settings';
 import StopIcon from '@material-ui/icons/Stop';
+import { Box, IconButton, Stack, Toolbar } from 'aria-ui';
 import { memo, useCallback } from 'react';
 import * as Tone from 'tone';
 
 import Dawww from '../../../dawww';
 import { PlaybackState } from '../../../types';
-import shared from '../../shared';
 
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;
-const { Box, Button, Stack, Toolbar } = shared.components;
 
 export interface SongEditorToolbarProps {
   onPause: () => void;
@@ -39,39 +38,31 @@ function SongEditorToolbar(props: SongEditorToolbarProps) {
   );
 
   return (
-    <Toolbar position="top">
-      <Stack direction="row" space={2}>
+    <Toolbar padding={2}>
+      <Stack direction="row" space={2} sx={{ flexGrow: 1 }}>
         <Box sx={{ flexGrow: 1 }}>
-          <Button
+          <IconButton
+            icon={<SettingsIcon />}
             onClick={onSongInfoOpen}
-            startIcon={<SettingsIcon />}
             title="Settings"
-            variant="text"
           />
         </Box>
         {playbackState && playbackState !== STARTED && (
-          <Button
+          <IconButton
+            icon={<PlayArrowIcon />}
             onClick={handlePlayPauseToggle}
-            startIcon={<PlayArrowIcon />}
             title="Play"
-            variant="text"
           />
         )}
         {playbackState && playbackState === STARTED && (
-          <Button
+          <IconButton
+            icon={<PauseIcon />}
             onClick={handlePlayPauseToggle}
-            startIcon={<PauseIcon />}
             title="Pause"
-            variant="text"
           />
         )}
         {playbackState && playbackState !== STOPPED && (
-          <Button
-            onClick={onStop}
-            startIcon={<StopIcon />}
-            title="Stop"
-            variant="text"
-          />
+          <IconButton icon={<StopIcon />} onClick={onStop} title="Stop" />
         )}
       </Stack>
     </Toolbar>

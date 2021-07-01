@@ -1,13 +1,10 @@
 import CloseIcon from '@material-ui/icons/Close';
+import { Box, Stack, Text } from 'aria-ui';
 import formatDistance from 'date-fns/formatDistance';
 import parseISO from 'date-fns/parseISO';
-import { motion } from 'framer-motion';
 import { memo, useCallback, useMemo } from 'react';
 
 import { Song } from '../../../types';
-import shared from '../../shared';
-
-const { Box, Stack, Typography } = shared.components;
 
 export interface SongListItemProps {
   onDelete: (song: Song) => void;
@@ -43,31 +40,18 @@ function SongListItem(props: SongListItemProps) {
 
   return (
     <Box
-      animate={{ opacity: 1 }}
-      component={motion.div}
-      exit={{ opacity: 0 }}
-      initial={{ opacity: 0 }}
-      interactive
+      backgroundColor="backgroundContrast"
+      borderRadius="md"
+      isInteractive
       onClick={handleClick}
-      sx={{
-        backgroundColor: 'background.paper',
-        borderColor: 'divider',
-        borderStyle: 'solid',
-        borderRadius: 1,
-        borderWidth: 2,
-        cursor: 'pointer',
-        paddingBottom: 2,
-        paddingLeft: 4,
-        paddingRight: 2,
-        paddingTop: 2,
-      }}
+      padding={4}
     >
       <Stack direction="row" space={4} sx={{ alignItems: 'center' }}>
-        <Stack sx={{ flexGrow: 1 }}>
-          <Typography variant="label">{song.name}</Typography>
-          <Typography color="textSecondary" variant="caption">
+        <Stack space={2} sx={{ flexGrow: 1 }}>
+          <Text variant="label">{song.name}</Text>
+          <Text color="textSecondary" variant="helper">
             {updatedText}
-          </Typography>
+          </Text>
         </Stack>
         <Box
           onClick={handleDeleteClick}

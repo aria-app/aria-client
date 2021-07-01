@@ -1,3 +1,4 @@
+import { Box } from 'aria-ui';
 import { memo, useCallback, useRef } from 'react';
 
 import { Note, Point } from '../../../types';
@@ -11,7 +12,7 @@ import PositionIndicator from './PositionIndicator';
 import Selector from './Selector';
 import Slots from './Slots';
 
-const { Box, Timeline } = shared.components;
+const { Timeline } = shared.components;
 
 export interface GridProps {
   measureCount?: number;
@@ -35,7 +36,7 @@ export interface GridProps {
 }
 
 function Grid(props: GridProps) {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const {
     measureCount = 0,
     mousePoint,
@@ -85,11 +86,11 @@ function Grid(props: GridProps) {
     <Box
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
+      paddingLeft={20}
       ref={ref}
       sx={{
         overflowX: 'scroll',
         overflowY: 'visible',
-        paddingLeft: 20,
         position: 'relative',
       }}
     >

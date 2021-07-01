@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import AddIcon from '@material-ui/icons/Add';
 import { RouteComponentProps } from '@reach/router';
+import { Box, Button, Stack, Toolbar } from 'aria-ui';
 import { memo, ReactElement, useCallback, useEffect } from 'react';
 
 import api from '../../api';
@@ -9,16 +10,7 @@ import shared from '../../shared';
 import SongList from './SongList';
 
 const { useAuth } = auth.hooks;
-const {
-  Box,
-  Button,
-  ContentBlock,
-  Fade,
-  LoadingIndicator,
-  Stack,
-  Toolbar,
-  Typography,
-} = shared.components;
+const { Fade, LoadingIndicator } = shared.components;
 
 function Dashboard(props: RouteComponentProps): ReactElement {
   const { navigate } = props;
@@ -55,7 +47,6 @@ function Dashboard(props: RouteComponentProps): ReactElement {
           },
         },
       });
-      // refetch();
     } catch (e) {
       console.error(e.message);
     }
@@ -74,7 +65,6 @@ function Dashboard(props: RouteComponentProps): ReactElement {
           id: song.id,
         },
       });
-      // refetch();
     },
     [deleteSong],
   );
@@ -101,31 +91,39 @@ function Dashboard(props: RouteComponentProps): ReactElement {
   return (
     <Stack space={4}>
       <Toolbar
-        position="top"
+        padding={2}
         sx={{
           alignItems: 'center',
           display: 'flex',
           justifyContent: 'flex-end',
-          paddingX: 4,
         }}
       >
         {user && (
-          <Typography onClick={handleUserClick}>
-            {user.firstName} {user.lastName}
-          </Typography>
+          <Button
+            onClick={handleUserClick}
+            text={`${user.firstName} ${user.lastName}`}
+            variant="minimal"
+          />
         )}
       </Toolbar>
       <Fade in={loading}>
         <LoadingIndicator>LOADING SONGS...</LoadingIndicator>
       </Fade>
       <Fade in={!loading}>
-        <ContentBlock>
+        <Box
+          sx={{
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            maxWidth: 768,
+            width: '100vw',
+          }}
+        >
           <SongList
             onDelete={handleSongDelete}
             onOpen={handleSongOpen}
             songs={data && data.songs.data}
           />
-        </ContentBlock>
+        </Box>
       </Fade>
       <Box
         sx={{
@@ -135,13 +133,12 @@ function Dashboard(props: RouteComponentProps): ReactElement {
         }}
       >
         <Button
-          color="primary.main"
+          color="brandPrimary"
           onClick={handleSongAdd}
           startIcon={<AddIcon />}
+          text="Add Song"
           variant="outlined"
-        >
-          Add Song
-        </Button>
+        />
       </Box>
     </Stack>
   );

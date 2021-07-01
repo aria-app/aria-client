@@ -1,17 +1,11 @@
 import { RouteComponentProps } from '@reach/router';
+import { Box } from 'aria-ui';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
 import uniq from 'lodash/fp/uniq';
 import memoizeOne from 'memoize-one';
-import React, {
-  Fragment,
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 
 import Dawww from '../../../dawww';
@@ -32,7 +26,7 @@ const {
   useUpdateNotes,
 } = api.hooks;
 const { useAudioManager } = audio.hooks;
-const { Box, LoadingIndicator } = shared.components;
+const { LoadingIndicator } = shared.components;
 const { toggleInArray } = shared.helpers;
 
 const getNotesByIds = memoizeOne((notes, ids) =>
@@ -415,11 +409,10 @@ function NotesEditor(
             }}
           >
             <Box
+              paddingY={16}
               sx={{
                 display: 'flex',
                 flex: '1 0 auto',
-                paddingBottom: 16,
-                paddingTop: 16,
               }}
             >
               <Keys hoveredRow={mousePoint.y} onKeyPress={handlePreviewPitch} />

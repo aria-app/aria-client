@@ -1,5 +1,7 @@
 import { useQuery } from '@apollo/client';
+import styled from '@emotion/styled';
 import { Redirect, RouteComponentProps, Router } from '@reach/router';
+import { Box } from 'aria-ui';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import * as Tone from 'tone';
@@ -10,7 +12,6 @@ import { GetSongResponse } from '../../api/queries/GET_SONG';
 import audio from '../../audio';
 import auth from '../../auth';
 import notesEditor from '../../notesEditor';
-import shared from '../../shared';
 import tracksEditor from '../../tracksEditor';
 import SongEditorToolbar from './SongEditorToolbar';
 import SongInfoModal from './SongInfoModal';
@@ -21,8 +22,15 @@ const { useAuth } = auth.hooks;
 const { useAudioManager, usePlaybackState } = audio.hooks;
 const { STARTED } = Dawww.PLAYBACK_STATES;
 const { NotesEditor } = notesEditor.components;
-const { Box } = shared.components;
 const { TracksEditor } = tracksEditor.components;
+
+const StyledRouter = styled(Router)({
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+  overflow: 'hidden',
+  position: 'relative',
+});
 
 function SongEditor(props: RouteComponentProps<{ songId: string }>) {
   const { navigate, songId: songIdProp } = props;
@@ -112,19 +120,10 @@ function SongEditor(props: RouteComponentProps<{ songId: string }>) {
         onStop={audioManager.stop}
         playbackState={playbackState}
       />
-      <Box
-        component={Router}
-        sx={{
-          display: 'flex',
-          flex: '1 1 auto',
-          flexDirection: 'column',
-          overflow: 'hidden',
-          position: 'relative',
-        }}
-      >
+      <StyledRouter>
         <TracksEditor path="/" />
         <NotesEditor path="sequence/:sequenceId" />
-      </Box>
+      </StyledRouter>
       {!loading && !error && (
         <SongInfoModal
           isOpen={isSongInfoModalOpen}
