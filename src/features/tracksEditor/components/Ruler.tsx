@@ -51,7 +51,6 @@ const Root = styled.div<RootProps>(({ isResizing, theme }) => ({
     ? {
         cursor: 'col-resize',
         transition: 'none',
-        zIndex: 200,
       }
     : {}),
   [Resizer as any]: {

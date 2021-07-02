@@ -52,7 +52,7 @@ const Root = styled.div<RootProps>(({ isDragging, isResizing }) => {
       isDragging || isResizing
         ? 'none'
         : 'transform 200ms ease, width 200ms ease',
-    zIndex: isDragging || isResizing ? 200 : 100,
+    zIndex: isDragging || isResizing ? 2 : 1,
     [Resizer as any]: {
       cursor: isDragging ? 'move' : 'col-resize',
     },

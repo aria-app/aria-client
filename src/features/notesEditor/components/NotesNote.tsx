@@ -22,7 +22,7 @@ const Connector = styled.div({
   transformOrigin: 'left center',
   transition: 'transform 0.1s ease',
   width: 1,
-  zIndex: 100,
+  zIndex: 1,
 });
 
 const Fill = styled.div(({ theme }) => ({
@@ -43,7 +43,7 @@ const Root = styled.div<{ isSelected?: boolean }>(({ isSelected, theme }) => ({
   position: 'absolute',
   top: 0,
   transition: 'transform 0.1s ease',
-  zIndex: isSelected ? 300 : undefined,
+  zIndex: isSelected ? 2 : 1,
   [Connector as any]: {
     backgroundColor: isSelected
       ? theme.colors.brandPrimary
@@ -69,7 +69,7 @@ const NotesNotePoint = styled.div({
   top: 0,
   transition: 'transform 0.1s ease',
   width: 40,
-  zIndex: 150,
+  zIndex: 2,
 });
 
 export interface NotesNoteProps
