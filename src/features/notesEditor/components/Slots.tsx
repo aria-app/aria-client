@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import range from 'lodash/fp/range';
-import { memo, useMemo } from 'react';
+import { FC, memo, useMemo } from 'react';
 
-import Dawww from '../../../dawww';
+import { Dawww } from '../../../dawww';
 
 const Root = styled.div({
   flex: '1 0 auto',
@@ -13,7 +13,7 @@ export interface SlotsProps {
   measureCount: number;
 }
 
-function Slots(props: SlotsProps) {
+export const Slots: FC<SlotsProps> = memo((props) => {
   const { measureCount } = props;
 
   const slots = useMemo(
@@ -60,9 +60,7 @@ function Slots(props: SlotsProps) {
       }}
     />
   );
-}
-
-export default memo(Slots);
+});
 
 function getSlot(column, row) {
   const isEven = (x) => x % 2 === 0;

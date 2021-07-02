@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { transparentize } from 'polished';
-import { memo } from 'react';
+import { FC } from 'react';
 
 import { Point } from '../../../types';
 
@@ -30,7 +30,7 @@ export interface PositionIndicatorProps {
   mousePoint: Point;
 }
 
-function PositionIndicator(props: PositionIndicatorProps) {
+export const PositionIndicator: FC<PositionIndicatorProps> = (props) => {
   const { mousePoint } = props;
   const { x, y } = mousePoint;
 
@@ -40,6 +40,4 @@ function PositionIndicator(props: PositionIndicatorProps) {
       {y >= 0 ?? <Row style={{ transform: `translateY(${y * 40}px)` }} />}
     </>
   );
-}
-
-export default memo(PositionIndicator);
+};

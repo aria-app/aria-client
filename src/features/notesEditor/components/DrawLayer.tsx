@@ -3,15 +3,15 @@ import compose from 'lodash/fp/compose';
 import first from 'lodash/fp/first';
 import noop from 'lodash/fp/noop';
 import split from 'lodash/fp/split';
-import { memo, useCallback, useMemo, useRef, useState } from 'react';
+import { FC, memo, useCallback, useMemo, useRef, useState } from 'react';
 
 import { Point } from '../../../types';
 import { absoluteFill } from '../../shared';
-import NotesNote from './NotesNote';
+import { NotesNote } from './NotesNote';
 
-const Root = styled.div(({ theme }) => ({
+const Root = styled.div({
   ...absoluteFill,
-}));
+});
 
 const GhostStyledNotesNote = styled(NotesNote)({
   opacity: 0.4,
@@ -23,7 +23,7 @@ export interface DrawLayerProps {
   onDraw: (mousePoint: Point) => void;
 }
 
-function DrawLayer(props: DrawLayerProps) {
+export const DrawLayer: FC<DrawLayerProps> = memo((props) => {
   const ref = useRef<HTMLDivElement>(null);
   const { mousePoint, onDraw } = props;
   const [isDrawing, setIsDrawing] = useState(false);
@@ -105,6 +105,4 @@ function DrawLayer(props: DrawLayerProps) {
       )}
     </Root>
   );
-}
-
-export default memo(DrawLayer);
+});

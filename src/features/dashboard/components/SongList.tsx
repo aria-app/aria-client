@@ -1,8 +1,8 @@
 import { Stack } from 'aria-ui';
-import { memo } from 'react';
+import { FC, memo } from 'react';
 
 import { Song } from '../../../types';
-import SongListItem from './SongListItem';
+import { SongListItem } from './SongListItem';
 
 export interface SongListProps {
   onDelete: (song: Song) => void;
@@ -10,7 +10,7 @@ export interface SongListProps {
   songs: Song[];
 }
 
-function SongList(props: SongListProps) {
+export const SongList: FC<SongListProps> = memo((props) => {
   const { onDelete, onOpen, songs = [] } = props;
 
   return (
@@ -25,6 +25,4 @@ function SongList(props: SongListProps) {
       ))}
     </Stack>
   );
-}
-
-export default memo(SongList);
+});

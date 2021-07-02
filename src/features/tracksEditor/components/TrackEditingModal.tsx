@@ -1,7 +1,7 @@
 import { Button, Dialog, Select, Stack } from 'aria-ui';
 import find from 'lodash/fp/find';
 import range from 'lodash/fp/range';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Track, Voice } from '../../../types';
@@ -21,7 +21,7 @@ export interface TrackEditingModalProps {
   track?: Track;
 }
 
-function TrackEditingModal(props: TrackEditingModalProps) {
+export const TrackEditingModal: FC<TrackEditingModalProps> = (props) => {
   const { onDelete, onDismiss, onTrackChange, track } = props;
   const { data: voicesData, loading } = useGetVoices();
   const [trackState, setTrackState] = useState<Track>();
@@ -99,6 +99,4 @@ function TrackEditingModal(props: TrackEditingModalProps) {
       </Stack>
     </Dialog>
   );
-}
-
-export default memo(TrackEditingModal);
+};

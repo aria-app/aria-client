@@ -1,3 +1,3 @@
-export { instrument } from './instrument';
-export { part } from './part';
-export { volumeNode } from './volumeNode';
+export * from './instrument';
+export * from './part';
+export * from './volumeNode';

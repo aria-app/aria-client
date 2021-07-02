@@ -1,22 +1,14 @@
 import { useMutation } from '@apollo/client';
 import { Redirect, RouteComponentProps } from '@reach/router';
 import { Box, Button, Stack, Text, TextField } from 'aria-ui';
-import {
-  MouseEventHandler,
-  ReactElement,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { FC, MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import api from '../../api';
-import auth from '../../auth';
+import { LOGIN } from '../../api';
+import { useAuth } from '../../auth';
 
-const { useAuth } = auth.hooks;
-
-export default function Login(props: RouteComponentProps): ReactElement {
-  const [login, { client, error, loading }] = useMutation(api.queries.LOGIN);
+export const Login: FC<RouteComponentProps> = (props) => {
+  const [login, { client, error, loading }] = useMutation(LOGIN);
   const { getIsAuthenticated, handleLogin } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -104,4 +96,4 @@ export default function Login(props: RouteComponentProps): ReactElement {
       </Box>
     </Box>
   );
-}
+};

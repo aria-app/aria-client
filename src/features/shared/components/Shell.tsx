@@ -1,9 +1,9 @@
 import { Global } from '@emotion/react';
 import styled from '@emotion/styled';
 import { GlobalStyles } from 'aria-ui';
-import { HTMLAttributes, memo } from 'react';
+import { FC, HTMLAttributes, memo } from 'react';
 
-const Root = styled.div(({ theme }) => ({
+const Root = styled.div({
   bottom: 0,
   display: 'flex',
   flex: '1 1 auto',
@@ -13,9 +13,9 @@ const Root = styled.div(({ theme }) => ({
   position: 'absolute',
   right: 0,
   top: 0,
-}));
+});
 
-function Shell(props: HTMLAttributes<HTMLDivElement>) {
+export const Shell: FC<HTMLAttributes<HTMLDivElement>> = memo((props) => {
   const { children, ...rest } = props;
 
   return (
@@ -50,6 +50,4 @@ function Shell(props: HTMLAttributes<HTMLDivElement>) {
       {children}
     </Root>
   );
-}
-
-export default memo(Shell);
+});

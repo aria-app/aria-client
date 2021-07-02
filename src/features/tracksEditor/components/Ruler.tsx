@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import times from 'lodash/fp/times';
 import round from 'lodash/round';
 import { transparentize } from 'polished';
-import { memo, useCallback, useState } from 'react';
+import { FC, memo, useCallback, useState } from 'react';
 import Draggable from 'react-draggable';
 
 const Resizer = styled.div(({ theme }) => ({
@@ -92,7 +92,7 @@ export interface RulerProps {
   onPositionSet: (changedPosition: number) => void;
 }
 
-function Ruler(props: RulerProps) {
+export const Ruler: FC<RulerProps> = memo((props) => {
   const { measureCount, measureWidth, onMeasureCountChange, onPositionSet } =
     props;
   const [isResizing, setIsResizing] = useState(false);
@@ -171,6 +171,4 @@ function Ruler(props: RulerProps) {
       </Draggable>
     </Root>
   );
-}
-
-export default memo(Ruler);
+});

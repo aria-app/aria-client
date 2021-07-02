@@ -1,19 +1,14 @@
 import styled from '@emotion/styled';
 import { Router } from '@reach/router';
-import { memo } from 'react';
+import { FC } from 'react';
 
-import auth from '../../auth';
-import dashboard from '../../dashboard';
+import { useAuth } from '../../auth';
+import { Dashboard } from '../../dashboard';
 import { LoadingIndicator, Shell, ThemeProvider } from '../../shared';
-import songEditor from '../../songEditor';
-import songViewer from '../../songViewer';
-import Login from './Login';
-import PrivateRoute from './PrivateRoute';
-
-const { useAuth } = auth.hooks;
-const { Dashboard } = dashboard.components;
-const { SongEditor } = songEditor.components;
-const { SongViewer } = songViewer.components;
+import { SongEditor } from '../../songEditor';
+import { SongViewer } from '../../songViewer';
+import { Login } from './Login';
+import { PrivateRoute } from './PrivateRoute';
 
 const StyledRouter = styled(Router)({
   display: 'flex',
@@ -23,7 +18,7 @@ const StyledRouter = styled(Router)({
   position: 'relative',
 });
 
-function App() {
+export const App: FC<any> = () => {
   const { loading } = useAuth();
 
   return (
@@ -42,6 +37,4 @@ function App() {
       </Shell>
     </ThemeProvider>
   );
-}
-
-export default memo(App);
+};

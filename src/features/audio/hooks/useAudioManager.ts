@@ -1,7 +1,8 @@
 import { useContext } from 'react';
 
+import { AudioManagerType } from '../../../types';
 import { AudioManagerContext } from '../contexts';
 
-export default function useAudioManager(): any {
+export function useAudioManager(): AudioManagerType {
   return useContext(AudioManagerContext);
 }

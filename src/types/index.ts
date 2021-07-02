@@ -1,3 +1,5 @@
+export type AudioManagerType = any;
+
 export interface Note {
   __typename?: string;
   id: number;
@@ -5,7 +7,7 @@ export interface Note {
   sequence: Partial<Sequence> & { id: number };
 }
 
-export default interface PaginatedResponse<T> {
+export interface PaginatedResponse<T> {
   __typename?: string;
   data: T[];
   meta: PaginatedResponseMetadata;

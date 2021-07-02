@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import isEqual from 'lodash/fp/isEqual';
-import { memo, useCallback, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { DraggableCore, DraggableEventHandler } from 'react-draggable';
 
 import { Point } from '../../../types';
-import Fence from './Fence';
+import { Fence } from './Fence';
 
 const Root = styled.div({
   bottom: 0,
@@ -25,7 +25,7 @@ export interface SelectorProps {
   scrollTopEl: HTMLElement | null;
 }
 
-function Selector(props: SelectorProps) {
+export const Selector: FC<SelectorProps> = (props) => {
   const { isEnabled, onSelectInArea, scrollLeftEl, scrollTopEl } = props;
   const [endPoint, setEndPoint] = useState<Point>();
   const [startPoint, setStartPoint] = useState<Point>();
@@ -94,9 +94,7 @@ function Selector(props: SelectorProps) {
       </Root>
     </DraggableCore>
   );
-}
-
-export default memo(Selector);
+};
 
 function dragDataToGridPoint(dragData) {
   return {

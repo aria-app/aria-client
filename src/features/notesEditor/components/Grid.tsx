@@ -1,16 +1,16 @@
 import { Box } from 'aria-ui';
-import { memo, useCallback, useRef } from 'react';
+import { FC, memo, useCallback, useRef } from 'react';
 
 import { Note, Point } from '../../../types';
 import { Timeline } from '../../shared';
 import * as constants from '../constants';
 import { ToolType } from '../types';
-import DrawLayer from './DrawLayer';
-import Notes from './Notes';
-import Panner from './Panner';
-import PositionIndicator from './PositionIndicator';
-import Selector from './Selector';
-import Slots from './Slots';
+import { DrawLayer } from './DrawLayer';
+import { Notes } from './Notes';
+import { Panner } from './Panner';
+import { PositionIndicator } from './PositionIndicator';
+import { Selector } from './Selector';
+import { Slots } from './Slots';
 
 export interface GridProps {
   measureCount?: number;
@@ -33,7 +33,7 @@ export interface GridProps {
   toolType: ToolType;
 }
 
-function Grid(props: GridProps) {
+export const Grid: FC<GridProps> = memo((props) => {
   const ref = useRef<HTMLDivElement>(null);
   const {
     measureCount = 0,
@@ -134,6 +134,4 @@ function Grid(props: GridProps) {
       </Box>
     </Box>
   );
-}
-
-export default memo(Grid);
+});

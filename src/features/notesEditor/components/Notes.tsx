@@ -6,13 +6,13 @@ import isEqual from 'lodash/fp/isEqual';
 import max from 'lodash/fp/max';
 import min from 'lodash/fp/min';
 import uniqBy from 'lodash/fp/uniqBy';
-import { memo, useCallback, useMemo, useState } from 'react';
+import { FC, memo, useCallback, useMemo, useState } from 'react';
 
-import Dawww from '../../../dawww';
+import { Dawww } from '../../../dawww';
 import { Note, Point } from '../../../types';
 import * as constants from '../constants';
 import { PositionBounds, SizeBounds, ToolType } from '../types';
-import NotesNote from './NotesNote';
+import { NotesNote } from './NotesNote';
 
 const Root = styled.div({
   bottom: 0,
@@ -35,7 +35,7 @@ export interface NotesProps {
   toolType: ToolType;
 }
 
-function Notes(props: NotesProps) {
+export const Notes: FC<NotesProps> = memo((props) => {
   const {
     measureCount,
     notes,
@@ -222,9 +222,7 @@ function Notes(props: NotesProps) {
       ))}
     </Root>
   );
-}
-
-export default memo(Notes);
+});
 
 function applyPositionDeltas(notes, deltas) {
   return notes.map((note) => {

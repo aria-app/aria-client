@@ -5,41 +5,38 @@ import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
 import uniq from 'lodash/fp/uniq';
 import memoizeOne from 'memoize-one';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 
-import Dawww from '../../../dawww';
-import api from '../../api';
-import audio from '../../audio';
+import { Dawww } from '../../../dawww';
+import {
+  getTempId,
+  useCreateNote,
+  useDeleteNotes,
+  useDuplicateNotes,
+  useGetSequence,
+  useUpdateNotes,
+} from '../../api';
+import { useAudioManager } from '../../audio';
 import {
   getCenteredScroll,
   LoadingIndicator,
   toggleInArray,
 } from '../../shared';
 import { toolTypes } from '../constants';
-import Grid from './Grid';
-import Keys from './Keys';
-import NotesEditorToolbar from './NotesEditorToolbar';
-
-const { getTempId } = api.helpers;
-const {
-  useCreateNote,
-  useDeleteNotes,
-  useDuplicateNotes,
-  useGetSequence,
-  useUpdateNotes,
-} = api.hooks;
-const { useAudioManager } = audio.hooks;
+import { Grid } from './Grid';
+import { Keys } from './Keys';
+import { NotesEditorToolbar } from './NotesEditorToolbar';
 
 const getNotesByIds = memoizeOne((notes, ids) =>
   notes.filter((note) => includes(note.id, ids)),
 );
 
-function NotesEditor(
-  props: RouteComponentProps<{
+export const NotesEditor: FC<
+  RouteComponentProps<{
     sequenceId: string;
-  }>,
-) {
+  }>
+> = (props) => {
   const { navigate, sequenceId: sequenceIdProp } = props;
   const sequenceId = sequenceIdProp ? parseInt(sequenceIdProp) : -1;
   const audioManager = useAudioManager();
@@ -455,6 +452,4 @@ function NotesEditor(
       )}
     </Box>
   );
-}
-
-export default memo(NotesEditor);
+};

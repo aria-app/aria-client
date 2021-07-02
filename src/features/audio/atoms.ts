@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-import Dawww from '../../dawww';
+import { Dawww } from '../../dawww';
 import { PlaybackState } from '../../types';
 
 export const playbackState = atom<PlaybackState>({

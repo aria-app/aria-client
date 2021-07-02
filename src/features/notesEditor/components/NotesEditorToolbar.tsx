@@ -10,9 +10,9 @@ import EditIcon from 'mdi-react/EditIcon';
 import EraserIcon from 'mdi-react/EraserIcon';
 import HandRightIcon from 'mdi-react/HandRightIcon';
 import NearMeIcon from 'mdi-react/NearMeIcon';
-import { memo, MouseEventHandler, useMemo } from 'react';
+import { FC, memo, MouseEventHandler, useMemo } from 'react';
 
-import Dawww from '../../../dawww';
+import { Dawww } from '../../../dawww';
 import { Note } from '../../../types';
 import { SelectableIconButton } from '../../shared';
 import * as constants from '../constants';
@@ -35,7 +35,7 @@ export interface NotesEditorToolbarProps {
   toolType: ToolType;
 }
 
-function NotesEditorToolbar(props: NotesEditorToolbarProps) {
+export const NotesEditorToolbar: FC<NotesEditorToolbarProps> = memo((props) => {
   const {
     measureCount = 0,
     onClose,
@@ -155,6 +155,4 @@ function NotesEditorToolbar(props: NotesEditorToolbarProps) {
       </Stack>
     </Toolbar>
   );
-}
-
-export default memo(NotesEditorToolbar);
+});

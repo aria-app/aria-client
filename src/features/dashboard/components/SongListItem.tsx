@@ -2,7 +2,7 @@ import { Box, IconButton, Stack, Text } from 'aria-ui';
 import formatDistance from 'date-fns/formatDistance';
 import parseISO from 'date-fns/parseISO';
 import CloseIcon from 'mdi-react/CloseIcon';
-import { memo, useCallback, useMemo } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 
 import { Song } from '../../../types';
 
@@ -12,7 +12,7 @@ export interface SongListItemProps {
   song: Song;
 }
 
-function SongListItem(props: SongListItemProps) {
+export const SongListItem: FC<SongListItemProps> = (props) => {
   const { onDelete, onOpen, song } = props;
 
   const handleDeleteClick = useCallback(
@@ -78,6 +78,4 @@ function SongListItem(props: SongListItemProps) {
       </Stack>
     </Box>
   );
-}
-
-export default memo(SongListItem);
+};

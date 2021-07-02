@@ -1,15 +1,13 @@
 import { Box, IconButton, useThemeWithDefault } from 'aria-ui';
 import AddIcon from 'mdi-react/AddIcon';
-import { ReactElement, useCallback } from 'react';
+import { FC, useCallback } from 'react';
 
 export interface AddSequenceButtonProps {
   onClick: (position: number) => void;
   position: number;
 }
 
-export default function AddSequenceButton(
-  props: AddSequenceButtonProps,
-): ReactElement {
+export const AddSequenceButton: FC<AddSequenceButtonProps> = (props) => {
   const { onClick, position } = props;
   const theme = useThemeWithDefault();
 
@@ -41,4 +39,4 @@ export default function AddSequenceButton(
       />
     </Box>
   );
-}
+};

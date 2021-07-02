@@ -1,6 +1,6 @@
 import * as Tone from 'tone';
 
-import { Sequence, Song } from '../types';
+import { AudioManagerType, Sequence, Song } from '../types';
 import * as actions from './actions';
 import { channels, emit, on } from './bus';
 import * as constants from './constants';
@@ -17,7 +17,7 @@ export interface DawwwOptions {
   song?: Song;
 }
 
-export default function Dawww(options?: DawwwOptions): any {
+export function Dawww(options?: DawwwOptions): AudioManagerType {
   const dispatch = emit(channels.ACTION_OCCURRED);
   const toneAdapter = createToneAdapter(Tone);
   const shared = {

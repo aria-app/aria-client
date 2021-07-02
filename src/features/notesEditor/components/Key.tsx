@@ -1,7 +1,7 @@
 import { Box, Text, useThemeWithDefault } from 'aria-ui';
 import * as CSS from 'csstype';
 import includes from 'lodash/fp/includes';
-import { memo, useCallback } from 'react';
+import { FC, useCallback } from 'react';
 
 import { ScaleStep } from '../../../types';
 
@@ -12,7 +12,7 @@ export interface KeyProps {
   style: CSS.Properties<number | string>;
 }
 
-function Key(props: KeyProps) {
+export const Key: FC<KeyProps> = (props) => {
   const { isHoveredRow, onPress, step, style } = props;
   const theme = useThemeWithDefault();
 
@@ -55,6 +55,4 @@ function Key(props: KeyProps) {
       {isCKey && <Text color="textSecondary">{step.name}</Text>}
     </Box>
   );
-}
-
-export default memo(Key);
+};
