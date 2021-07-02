@@ -1,5 +1,5 @@
 import { Redirect, RouteComponentProps } from '@reach/router';
-import { ElementType, ReactElement } from 'react';
+import { ElementType, FC } from 'react';
 
 import { useAuth } from '../../auth';
 
@@ -7,9 +7,7 @@ export type PrivateRouteProps = RouteComponentProps & {
   component: ElementType;
 };
 
-export default function PrivateRoute(
-  props: PrivateRouteProps,
-): ReactElement | null {
+export const PrivateRoute: FC<PrivateRouteProps> = (props) => {
   const { component: Component, ...rest } = props;
   const { getIsAuthenticated, loading } = useAuth();
 
@@ -22,4 +20,4 @@ export default function PrivateRoute(
   }
 
   return <Component {...rest} />;
-}
+};
