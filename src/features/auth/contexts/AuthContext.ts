@@ -16,7 +16,7 @@ export interface AuthContextValue {
   user?: User;
 }
 
-export default createContext<AuthContextValue>({
+export const AuthContext = createContext<AuthContextValue>({
   getIsAuthenticated: () => false,
   handleLogin: () => {},
   loading: false,

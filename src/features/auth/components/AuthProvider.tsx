@@ -1,18 +1,12 @@
 import { useMutation, useQuery } from '@apollo/client';
-import {
-  ProviderProps,
-  ReactElement,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { FC, ProviderProps, useCallback, useEffect, useState } from 'react';
 
 import { LOGOUT, ME } from '../../api';
-import AuthContext, { AuthContextValue } from '../contexts/AuthContext';
+import { AuthContext, AuthContextValue } from '../contexts/AuthContext';
 
-export default function AuthProvider(
-  props: Partial<ProviderProps<AuthContextValue>>,
-): ReactElement {
+export const AuthProvider: FC<Partial<ProviderProps<AuthContextValue>>> = (
+  props,
+) => {
   const { data, error, loading, refetch } = useQuery(ME);
   const [logout] = useMutation(LOGOUT);
   const [expiresAt, setExpiresAt] = useState<number>();
@@ -55,4 +49,4 @@ export default function AuthProvider(
       {...props}
     />
   );
-}
+};
