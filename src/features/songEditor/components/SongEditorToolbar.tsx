@@ -3,7 +3,7 @@ import PauseIcon from 'mdi-react/PauseIcon';
 import PlayArrowIcon from 'mdi-react/PlayArrowIcon';
 import SettingsIcon from 'mdi-react/SettingsIcon';
 import StopIcon from 'mdi-react/StopIcon';
-import { memo, useCallback } from 'react';
+import { FC, memo, useCallback } from 'react';
 import * as Tone from 'tone';
 
 import { Dawww } from '../../../dawww';
@@ -19,7 +19,7 @@ export interface SongEditorToolbarProps {
   playbackState: PlaybackState;
 }
 
-function SongEditorToolbar(props: SongEditorToolbarProps) {
+export const SongEditorToolbar: FC<SongEditorToolbarProps> = memo((props) => {
   const { onPause, onPlay, onSongInfoOpen, onStop, playbackState } = props;
 
   const handlePlayPauseToggle = useCallback(
@@ -67,6 +67,4 @@ function SongEditorToolbar(props: SongEditorToolbarProps) {
       </Stack>
     </Toolbar>
   );
-}
-
-export default memo(SongEditorToolbar);
+});

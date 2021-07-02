@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogProps, FormGroup, Select, Stack } from 'aria-ui';
-import { memo } from 'react';
+import { FC, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Dawww } from '../../../dawww';
@@ -13,7 +13,7 @@ export interface SongInfoModalProps extends DialogProps {
   song?: Song;
 }
 
-function SongInfoModal(props: SongInfoModalProps) {
+export const SongInfoDialog: FC<SongInfoModalProps> = memo((props) => {
   const {
     onBPMChange,
     onConfirm,
@@ -61,6 +61,4 @@ function SongInfoModal(props: SongInfoModalProps) {
       </Stack>
     </Dialog>
   );
-}
-
-export default memo(SongInfoModal);
+});

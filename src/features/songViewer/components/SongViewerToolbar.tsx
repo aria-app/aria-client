@@ -2,7 +2,7 @@ import { IconButton, Stack, Toolbar } from 'aria-ui';
 import PauseIcon from 'mdi-react/PauseIcon';
 import PlayArrowIcon from 'mdi-react/PlayArrowIcon';
 import StopIcon from 'mdi-react/StopIcon';
-import { memo, useCallback } from 'react';
+import { FC, memo, useCallback } from 'react';
 import * as Tone from 'tone';
 
 import { Dawww } from '../../../dawww';
@@ -17,7 +17,7 @@ export interface SongViewerToolbarProps {
   playbackState: PlaybackState;
 }
 
-function SongViewerToolbar(props: SongViewerToolbarProps) {
+export const SongViewerToolbar: FC<SongViewerToolbarProps> = memo((props) => {
   const { onPause, onPlay, onStop, playbackState } = props;
 
   const handlePlayPauseToggle = useCallback(
@@ -58,6 +58,4 @@ function SongViewerToolbar(props: SongViewerToolbarProps) {
       </Stack>
     </Toolbar>
   );
-}
-
-export default memo(SongViewerToolbar);
+});

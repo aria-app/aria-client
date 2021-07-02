@@ -1,14 +1,16 @@
 import { useQuery } from '@apollo/client';
 import { RouteComponentProps } from '@reach/router';
 import { Box, Text } from 'aria-ui';
-import { memo, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 
 import { GET_SONG } from '../../api';
 import { useAudioManager, usePlaybackState } from '../../audio';
 import { LoadingIndicator } from '../../shared';
-import SongViewerToolbar from './SongViewerToolbar';
+import { SongViewerToolbar } from './SongViewerToolbar';
 
-function SongViewer(props: RouteComponentProps<{ songId: string }>) {
+export const SongViewer: FC<RouteComponentProps<{ songId: string }>> = (
+  props,
+) => {
   const { songId: songIdProp } = props;
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
@@ -59,6 +61,4 @@ function SongViewer(props: RouteComponentProps<{ songId: string }>) {
       )}
     </>
   );
-}
-
-export default memo(SongViewer);
+};

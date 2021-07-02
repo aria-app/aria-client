@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { Redirect, RouteComponentProps, Router } from '@reach/router';
 import { Box } from 'aria-ui';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import * as Tone from 'tone';
 
@@ -12,8 +12,8 @@ import { useAudioManager, usePlaybackState } from '../../audio';
 import { useAuth } from '../../auth';
 import { NotesEditor } from '../../notesEditor';
 import { TracksEditor } from '../../tracksEditor';
-import SongEditorToolbar from './SongEditorToolbar';
-import SongInfoModal from './SongInfoModal';
+import { SongEditorToolbar } from './SongEditorToolbar';
+import { SongInfoDialog } from './SongInfoDialog';
 
 const { STARTED } = Dawww.PLAYBACK_STATES;
 
@@ -25,7 +25,9 @@ const StyledRouter = styled(Router)({
   position: 'relative',
 });
 
-function SongEditor(props: RouteComponentProps<{ songId: string }>) {
+export const SongEditor: FC<RouteComponentProps<{ songId: string }>> = (
+  props,
+) => {
   const { navigate, songId: songIdProp } = props;
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
@@ -118,7 +120,7 @@ function SongEditor(props: RouteComponentProps<{ songId: string }>) {
         <NotesEditor path="sequence/:sequenceId" />
       </StyledRouter>
       {!loading && !error && (
-        <SongInfoModal
+        <SongInfoDialog
           isOpen={isSongInfoModalOpen}
           onBPMChange={handleSongBPMChange}
           onConfirm={handleSongInfoModalConfirm}
@@ -129,6 +131,4 @@ function SongEditor(props: RouteComponentProps<{ songId: string }>) {
       )}
     </Box>
   );
-}
-
-export default memo(SongEditor);
+};
