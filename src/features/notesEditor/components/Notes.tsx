@@ -12,7 +12,7 @@ import { Dawww } from '../../../dawww';
 import { Note, Point } from '../../../types';
 import * as constants from '../constants';
 import { PositionBounds, SizeBounds, ToolType } from '../types';
-import NotesNote from './NotesNote';
+import { NotesNote } from './NotesNote';
 
 const Root = styled.div({
   bottom: 0,

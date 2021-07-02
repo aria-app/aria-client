@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import * as CSS from 'csstype';
-import { ElementType, memo, useCallback, useMemo } from 'react';
+import { ElementType, FC, memo, useCallback, useMemo } from 'react';
 
 import { GridBoxItem } from '../types';
-import GridBox from './GridBox';
+import { GridBox } from './GridBox';
 
 const Root = styled.div({
   position: 'relative',
@@ -18,7 +18,7 @@ export interface GridBoxesProps {
   style: CSS.Properties<number | string>;
 }
 
-function GridBoxes(props: GridBoxesProps) {
+export const GridBoxes: FC<GridBoxesProps> = memo((props) => {
   const {
     boxContentComponent,
     items,
@@ -62,6 +62,4 @@ function GridBoxes(props: GridBoxesProps) {
       ))}
     </Root>
   );
-}
-
-export default memo(GridBoxes);
+});

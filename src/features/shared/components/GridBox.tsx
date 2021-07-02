@@ -1,8 +1,8 @@
 import styled from '@emotion/styled/macro';
 import clamp from 'lodash/fp/clamp';
-import PropTypes from 'prop-types';
 import {
   ElementType,
+  FC,
   HTMLAttributes,
   memo,
   useCallback,
@@ -59,14 +59,6 @@ const Root = styled.div<RootProps>(({ isDragging, isResizing }) => {
   };
 });
 
-GridBox.propTypes = {
-  contentComponent: PropTypes.elementType,
-  item: PropTypes.object,
-  onItemChange: PropTypes.func,
-  step: PropTypes.number,
-  totalLength: PropTypes.number,
-};
-
 export interface GridBoxProps extends HTMLAttributes<HTMLDivElement> {
   contentComponent?: ElementType;
   item: GridBoxItem;
@@ -75,7 +67,7 @@ export interface GridBoxProps extends HTMLAttributes<HTMLDivElement> {
   totalLength: number;
 }
 
-function GridBox(props: GridBoxProps) {
+export const GridBox: FC<GridBoxProps> = memo((props) => {
   const {
     contentComponent: ContentComponent = () => null,
     item,
@@ -162,6 +154,4 @@ function GridBox(props: GridBoxProps) {
       </Root>
     </Draggable>
   );
-}
-
-export default memo(GridBox);
+});

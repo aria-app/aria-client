@@ -1,14 +1,14 @@
 import { lightTheme, ThemeProvider as AriaUIThemeProvider } from 'aria-ui';
-import { ReactElement, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 export interface ThemeProviderProps {
   children: ReactNode;
 }
 
-export default function ThemeProvider({
-  children,
-}: ThemeProviderProps): ReactElement {
+export const ThemeProvider: FC<ThemeProviderProps> = (props) => {
+  const { children } = props;
+
   return (
     <AriaUIThemeProvider theme={lightTheme}>{children}</AriaUIThemeProvider>
   );
-}
+};

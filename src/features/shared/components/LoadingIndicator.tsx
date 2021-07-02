@@ -1,7 +1,7 @@
 import { Box, BoxProps, Spinner, Stack, Text } from 'aria-ui';
-import { forwardRef, memo } from 'react';
+import { forwardRef } from 'react';
 
-const LoadingIndicator = forwardRef<HTMLDivElement, BoxProps<'div'>>(
+export const LoadingIndicator = forwardRef<HTMLDivElement, BoxProps<'div'>>(
   (props, ref) => {
     const { children, ...rest } = props;
 
@@ -29,5 +29,3 @@ const LoadingIndicator = forwardRef<HTMLDivElement, BoxProps<'div'>>(
     );
   },
 );
-
-export default memo(LoadingIndicator);

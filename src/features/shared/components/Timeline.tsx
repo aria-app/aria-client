@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import PropTypes from 'prop-types';
-import React, { HTMLAttributes } from 'react';
+import { FC, HTMLAttributes } from 'react';
 
 const Root = styled.div(({ theme }) => ({
   backgroundColor: theme.colors.textPrimary,
@@ -14,17 +13,12 @@ const Root = styled.div(({ theme }) => ({
   zIndex: 9999,
 }));
 
-Timeline.propTypes = {
-  isVisible: PropTypes.bool,
-  offset: PropTypes.number,
-};
-
 export interface TimelineProps extends HTMLAttributes<HTMLDivElement> {
   isVisible: boolean;
   offset: number;
 }
 
-function Timeline(props: TimelineProps) {
+export const Timeline: FC<TimelineProps> = (props) => {
   const { isVisible, offset, style = {}, ...rest } = props;
 
   if (!isVisible) return null;
@@ -35,6 +29,4 @@ function Timeline(props: TimelineProps) {
       {...rest}
     />
   );
-}
-
-export default React.memo(Timeline);
+};

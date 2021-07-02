@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import isEqual from 'lodash/fp/isEqual';
-import { FC, memo, useCallback, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { DraggableCore, DraggableEventHandler } from 'react-draggable';
 
 import { Point } from '../../../types';
-import Fence from './Fence';
+import { Fence } from './Fence';
 
 const Root = styled.div({
   bottom: 0,

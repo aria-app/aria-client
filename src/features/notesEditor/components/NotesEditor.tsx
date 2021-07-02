@@ -26,7 +26,7 @@ import {
 import { toolTypes } from '../constants';
 import { Grid } from './Grid';
 import { Keys } from './Keys';
-import NotesEditorToolbar from './NotesEditorToolbar';
+import { NotesEditorToolbar } from './NotesEditorToolbar';
 
 const getNotesByIds = memoizeOne((notes, ids) =>
   notes.filter((note) => includes(note.id, ids)),

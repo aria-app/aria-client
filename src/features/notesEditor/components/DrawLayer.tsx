@@ -7,7 +7,7 @@ import { FC, memo, useCallback, useMemo, useRef, useState } from 'react';
 
 import { Point } from '../../../types';
 import { absoluteFill } from '../../shared';
-import NotesNote from './NotesNote';
+import { NotesNote } from './NotesNote';
 
 const Root = styled.div({
   ...absoluteFill,

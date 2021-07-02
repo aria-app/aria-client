@@ -6,11 +6,11 @@ import { Timeline } from '../../shared';
 import * as constants from '../constants';
 import { ToolType } from '../types';
 import { DrawLayer } from './DrawLayer';
-import Notes from './Notes';
-import Panner from './Panner';
-import PositionIndicator from './PositionIndicator';
-import Selector from './Selector';
-import Slots from './Slots';
+import { Notes } from './Notes';
+import { Panner } from './Panner';
+import { PositionIndicator } from './PositionIndicator';
+import { Selector } from './Selector';
+import { Slots } from './Slots';
 
 export interface GridProps {
   measureCount?: number;
