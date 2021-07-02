@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { memo, useCallback, useState } from 'react';
+import { FC, memo, useCallback, useState } from 'react';
 
 interface RootProps {
   isPanning: boolean;
@@ -26,7 +26,7 @@ export interface PannerProps {
   scrollTopEl: HTMLElement | null;
 }
 
-function Panner(props: PannerProps) {
+export const Panner: FC<PannerProps> = memo((props) => {
   const { scrollLeftEl, scrollTopEl } = props;
 
   const [startPoint, setStartPoint] = useState<PannerStartPoint>(null);
@@ -84,6 +84,4 @@ function Panner(props: PannerProps) {
       onMouseUp={handleMouseUp}
     />
   );
-}
-
-export default memo(Panner);
+});

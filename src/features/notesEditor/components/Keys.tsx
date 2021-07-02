@@ -1,10 +1,10 @@
 import { Box } from 'aria-ui';
 import * as CSS from 'csstype';
-import { memo, useCallback } from 'react';
+import { FC, memo, useCallback } from 'react';
 
 import { Dawww } from '../../../dawww';
 import { ScaleStep } from '../../../types';
-import Key from './Key';
+import { Key } from './Key';
 
 // TODO: Try moving this into the Key component.
 const keyStyles = Dawww.SCALE.reduce<
@@ -25,7 +25,7 @@ export interface KeysProps {
   onKeyPress: (step: ScaleStep) => void;
 }
 
-function Keys(props: KeysProps) {
+export const Keys: FC<KeysProps> = memo((props) => {
   const { hoveredRow, onKeyPress } = props;
 
   const getIsHoveredRow = useCallback(
@@ -63,6 +63,4 @@ function Keys(props: KeysProps) {
       ))}
     </Box>
   );
-}
-
-export default memo(Keys);
+});

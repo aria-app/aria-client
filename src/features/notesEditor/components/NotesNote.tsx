@@ -1,7 +1,14 @@
 import styled from '@emotion/styled/macro';
 import first from 'lodash/fp/first';
 import last from 'lodash/fp/last';
-import React, { HTMLAttributes, MouseEvent } from 'react';
+import {
+  FC,
+  HTMLAttributes,
+  memo,
+  MouseEvent,
+  useCallback,
+  useMemo,
+} from 'react';
 import Draggable from 'react-draggable';
 
 import { Note, Point } from '../../../types';
@@ -65,19 +72,6 @@ const NotesNotePoint = styled.div({
   zIndex: 150,
 });
 
-// Note.propTypes = {
-//   isSelected: PropTypes.bool,
-//   note: PropTypes.object,
-//   onDrag: PropTypes.func,
-//   onDragStart: PropTypes.func,
-//   onDragStop: PropTypes.func,
-//   onEndPointDrag: PropTypes.func,
-//   onEndPointDragStart: PropTypes.func,
-//   onEndPointDragStop: PropTypes.func,
-//   positionBounds: PropTypes.object,
-//   sizeBounds: PropTypes.object,
-// };
-
 export interface NotesNoteProps
   extends Omit<
     HTMLAttributes<HTMLDivElement>,
@@ -96,7 +90,7 @@ export interface NotesNoteProps
   sizeBounds?: SizeBounds;
 }
 
-function NotesNote(props: NotesNoteProps) {
+export const NotesNote: FC<NotesNoteProps> = memo((props) => {
   const {
     className,
     classes,
@@ -113,7 +107,7 @@ function NotesNote(props: NotesNoteProps) {
     ...rest
   } = props;
 
-  const connectorStyle = React.useMemo(() => {
+  const connectorStyle = useMemo(() => {
     const startPoint = first(note.points);
     const endPoint = last(note.points);
 
@@ -132,7 +126,7 @@ function NotesNote(props: NotesNoteProps) {
     };
   }, [note.points]);
 
-  const endPointStyle = React.useMemo(() => {
+  const endPointStyle = useMemo(() => {
     const startPoint = first(note.points);
     const endPoint = last(note.points);
 
@@ -149,28 +143,28 @@ function NotesNote(props: NotesNoteProps) {
     };
   }, [note]);
 
-  const handleDrag = React.useCallback(
+  const handleDrag = useCallback(
     (e, { deltaX, deltaY }) => {
       onDrag({ x: Math.round(deltaX / 40), y: Math.round(deltaY / 40) });
     },
     [onDrag],
   );
 
-  const handleDragStart = React.useCallback(
+  const handleDragStart = useCallback(
     (e) => {
       onDragStart(note, e);
     },
     [note, onDragStart],
   );
 
-  const handleEndPointDrag = React.useCallback(
+  const handleEndPointDrag = useCallback(
     (e, { deltaX }) => {
       onEndPointDrag({ x: Math.round(deltaX / 40) });
     },
     [onEndPointDrag],
   );
 
-  const handleEndPointDragStart = React.useCallback(
+  const handleEndPointDragStart = useCallback(
     (e) => {
       onEndPointDragStart(note, e);
     },
@@ -215,9 +209,7 @@ function NotesNote(props: NotesNoteProps) {
       </Root>
     </Draggable>
   );
-}
-
-export default React.memo(NotesNote);
+});
 
 function is32ndNote(note: Note): boolean {
   const startPoint = first(note.points);

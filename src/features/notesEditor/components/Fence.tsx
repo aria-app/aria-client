@@ -1,7 +1,7 @@
 import { Box, useThemeWithDefault } from 'aria-ui';
 import isEqual from 'lodash/fp/isEqual';
 import { transparentize } from 'polished';
-import { memo, useMemo } from 'react';
+import { FC, memo, useMemo } from 'react';
 
 import { Point } from '../../../types';
 
@@ -10,7 +10,7 @@ export interface FenceProps {
   startPoint?: Point;
 }
 
-function Fence(props: FenceProps) {
+export const Fence: FC<FenceProps> = memo((props) => {
   const { endPoint, startPoint } = props;
   const theme = useThemeWithDefault();
 
@@ -60,6 +60,4 @@ function Fence(props: FenceProps) {
       }}
     />
   );
-}
-
-export default memo(Fence);
+});
