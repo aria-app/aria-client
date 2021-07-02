@@ -8,7 +8,7 @@ import min from 'lodash/fp/min';
 import uniqBy from 'lodash/fp/uniqBy';
 import { memo, useCallback, useMemo, useState } from 'react';
 
-import Dawww from '../../../dawww';
+import { Dawww } from '../../../dawww';
 import { Note, Point } from '../../../types';
 import * as constants from '../constants';
 import { PositionBounds, SizeBounds, ToolType } from '../types';

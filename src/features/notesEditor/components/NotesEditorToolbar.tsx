@@ -12,7 +12,7 @@ import HandRightIcon from 'mdi-react/HandRightIcon';
 import NearMeIcon from 'mdi-react/NearMeIcon';
 import { memo, MouseEventHandler, useMemo } from 'react';
 
-import Dawww from '../../../dawww';
+import { Dawww } from '../../../dawww';
 import { Note } from '../../../types';
 import { SelectableIconButton } from '../../shared';
 import * as constants from '../constants';

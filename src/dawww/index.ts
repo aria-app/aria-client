@@ -17,7 +17,7 @@ export interface DawwwOptions {
   song?: Song;
 }
 
-export default function Dawww(options?: DawwwOptions): any {
+export function Dawww(options?: DawwwOptions): any {
   const dispatch = emit(channels.ACTION_OCCURRED);
   const toneAdapter = createToneAdapter(Tone);
   const shared = {

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import range from 'lodash/fp/range';
 import { memo, useMemo } from 'react';
 
-import Dawww from '../../../dawww';
+import { Dawww } from '../../../dawww';
 
 const Root = styled.div({
   flex: '1 0 auto',

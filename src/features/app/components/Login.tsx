@@ -10,13 +10,11 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import api from '../../api';
-import auth from '../../auth';
-
-const { useAuth } = auth.hooks;
+import { LOGIN } from '../../api';
+import { useAuth } from '../../auth';
 
 export default function Login(props: RouteComponentProps): ReactElement {
-  const [login, { client, error, loading }] = useMutation(api.queries.LOGIN);
+  const [login, { client, error, loading }] = useMutation(LOGIN);
   const { getIsAuthenticated, handleLogin } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

@@ -6,23 +6,16 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import * as Tone from 'tone';
 
-import Dawww from '../../../dawww';
-import api from '../../api';
-import { GetSongResponse } from '../../api/queries/GET_SONG';
-import audio from '../../audio';
-import auth from '../../auth';
-import notesEditor from '../../notesEditor';
-import tracksEditor from '../../tracksEditor';
+import { Dawww } from '../../../dawww';
+import { GET_SONG, GetSongResponse, useUpdateSong } from '../../api';
+import { useAudioManager, usePlaybackState } from '../../audio';
+import { useAuth } from '../../auth';
+import { NotesEditor } from '../../notesEditor';
+import { TracksEditor } from '../../tracksEditor';
 import SongEditorToolbar from './SongEditorToolbar';
 import SongInfoModal from './SongInfoModal';
 
-const { useUpdateSong } = api.hooks;
-const { GET_SONG } = api.queries;
-const { useAuth } = auth.hooks;
-const { useAudioManager, usePlaybackState } = audio.hooks;
 const { STARTED } = Dawww.PLAYBACK_STATES;
-const { NotesEditor } = notesEditor.components;
-const { TracksEditor } = tracksEditor.components;
 
 const StyledRouter = styled(Router)({
   display: 'flex',

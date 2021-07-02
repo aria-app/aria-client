@@ -6,14 +6,10 @@ import { RecoilRoot } from 'recoil';
 import * as Tone from 'tone';
 
 import { ApolloWrapper } from './ApolloWrapper';
-import app from './features/app';
-import audio from './features/audio';
-import auth from './features/auth';
+import { App } from './features/app';
+import { AudioProvider } from './features/audio';
+import { AuthProvider } from './features/auth';
 import { I18NWrapper } from './i18n';
-
-const { App } = app.components;
-const { AudioProvider } = audio.components;
-const { AuthProvider } = auth.components;
 
 configureHotkeys({ ignoreRepeatedEventsWhenKeyHeldDown: false });
 

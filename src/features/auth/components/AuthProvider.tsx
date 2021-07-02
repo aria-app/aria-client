@@ -7,14 +7,14 @@ import {
   useState,
 } from 'react';
 
-import api from '../../api';
+import { LOGOUT, ME } from '../../api';
 import AuthContext, { AuthContextValue } from '../contexts/AuthContext';
 
 export default function AuthProvider(
   props: Partial<ProviderProps<AuthContextValue>>,
 ): ReactElement {
-  const { data, error, loading, refetch } = useQuery(api.queries.ME);
-  const [logout] = useMutation(api.queries.LOGOUT);
+  const { data, error, loading, refetch } = useQuery(ME);
+  const [logout] = useMutation(LOGOUT);
   const [expiresAt, setExpiresAt] = useState<number>();
 
   const handleLogout = useCallback(async () => {

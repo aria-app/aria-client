@@ -2,18 +2,13 @@ import styled from '@emotion/styled';
 import { Router } from '@reach/router';
 import { memo } from 'react';
 
-import auth from '../../auth';
-import dashboard from '../../dashboard';
+import { useAuth } from '../../auth';
+import { Dashboard } from '../../dashboard';
 import { LoadingIndicator, Shell, ThemeProvider } from '../../shared';
-import songEditor from '../../songEditor';
-import songViewer from '../../songViewer';
+import { SongEditor } from '../../songEditor';
+import { SongViewer } from '../../songViewer';
 import Login from './Login';
 import PrivateRoute from './PrivateRoute';
-
-const { useAuth } = auth.hooks;
-const { Dashboard } = dashboard.components;
-const { SongEditor } = songEditor.components;
-const { SongViewer } = songViewer.components;
 
 const StyledRouter = styled(Router)({
   display: 'flex',

@@ -1,9 +1,7 @@
 import { Redirect, RouteComponentProps } from '@reach/router';
 import { ElementType, ReactElement } from 'react';
 
-import auth from '../../auth';
-
-const { useAuth } = auth.hooks;
+import { useAuth } from '../../auth';
 
 export type PrivateRouteProps = RouteComponentProps & {
   component: ElementType;

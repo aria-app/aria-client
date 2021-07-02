@@ -1,7 +1,7 @@
 import { ProviderProps, ReactElement, useEffect, useRef } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import Dawww from '../../../dawww';
+import { Dawww } from '../../../dawww';
 import { playbackState, position } from '../atoms';
 import { AudioManagerContext } from '../contexts';
 

@@ -6,7 +6,7 @@ import StopIcon from 'mdi-react/StopIcon';
 import { memo, useCallback } from 'react';
 import * as Tone from 'tone';
 
-import Dawww from '../../../dawww';
+import { Dawww } from '../../../dawww';
 import { PlaybackState } from '../../../types';
 
 const { STARTED, STOPPED } = Dawww.PLAYBACK_STATES;

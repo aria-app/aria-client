@@ -2,7 +2,7 @@ import { Box } from 'aria-ui';
 import * as CSS from 'csstype';
 import { memo, useCallback } from 'react';
 
-import Dawww from '../../../dawww';
+import { Dawww } from '../../../dawww';
 import { ScaleStep } from '../../../types';
 import Key from './Key';
 

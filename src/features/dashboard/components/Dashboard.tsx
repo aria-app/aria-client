@@ -4,23 +4,17 @@ import { Box, Button, Stack, Toolbar } from 'aria-ui';
 import AddIcon from 'mdi-react/AddIcon';
 import { memo, ReactElement, useCallback, useEffect } from 'react';
 
-import api from '../../api';
-import auth from '../../auth';
+import { CREATE_SONG, DELETE_SONG, GET_SONGS } from '../../api';
+import { useAuth } from '../../auth';
 import { Fade, LoadingIndicator } from '../../shared';
 import SongList from './SongList';
-
-const { useAuth } = auth.hooks;
 
 function Dashboard(props: RouteComponentProps): ReactElement {
   const { navigate } = props;
   const { logout, user } = useAuth();
-  const [createSong, { loading: createLoading }] = useMutation(
-    api.queries.CREATE_SONG,
-  );
-  const [deleteSong, { loading: deleteLoading }] = useMutation(
-    api.queries.DELETE_SONG,
-  );
-  const { data, loading: getLoading } = useQuery(api.queries.GET_SONGS, {
+  const [createSong, { loading: createLoading }] = useMutation(CREATE_SONG);
+  const [deleteSong, { loading: deleteLoading }] = useMutation(DELETE_SONG);
+  const { data, loading: getLoading } = useQuery(GET_SONGS, {
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
     skip: !user,
@@ -132,11 +126,11 @@ function Dashboard(props: RouteComponentProps): ReactElement {
         }}
       >
         <Button
-          color="brandPrimary"
+          color="backgroundContrast"
           onClick={handleSongAdd}
           startIcon={<AddIcon />}
           text="Add Song"
-          variant="outlined"
+          variant="contained"
         />
       </Box>
     </Stack>
