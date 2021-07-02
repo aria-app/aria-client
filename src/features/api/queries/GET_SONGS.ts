@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-import PaginatedResponse, { Song } from '../../../types';
+import { PaginatedResponse, Song } from '../../../types';
 
 export interface GetSongsResponse {
   songs: PaginatedResponse<Song>;

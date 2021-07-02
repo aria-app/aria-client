@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { memo, useCallback } from 'react';
+import { FC, memo, useCallback } from 'react';
 
 import { Sequence } from '../../../types';
 import TrackSequenceNote from './TrackSequenceNote';
@@ -32,7 +32,7 @@ export interface TrackListSequenceProps {
   sequence: Sequence;
 }
 
-function TrackListSequence(props: TrackListSequenceProps) {
+export const TrackListSequence: FC<TrackListSequenceProps> = memo((props) => {
   const { isSelected, onOpen, onSelect, sequence } = props;
 
   const handleClick = useCallback(() => {
@@ -61,6 +61,4 @@ function TrackListSequence(props: TrackListSequenceProps) {
       ))}
     </Root>
   );
-}
-
-export default memo(TrackListSequence);
+});

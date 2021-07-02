@@ -1,13 +1,11 @@
 import { Box, BoxProps, Button } from 'aria-ui';
 import AddIcon from 'mdi-react/AddIcon';
-import { ReactElement } from 'react';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export type AddTrackButtonProps = BoxProps<'div'>;
 
-export default function AddTrackButton(
-  props: AddTrackButtonProps,
-): ReactElement {
+export const AddTrackButton: FC<AddTrackButtonProps> = (props) => {
   const { t } = useTranslation();
 
   return (
@@ -27,4 +25,4 @@ export default function AddTrackButton(
       />
     </Box>
   );
-}
+};

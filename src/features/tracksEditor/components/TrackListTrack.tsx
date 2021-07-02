@@ -6,14 +6,14 @@ import inRange from 'lodash/fp/inRange';
 import isNil from 'lodash/fp/isNil';
 import range from 'lodash/fp/range';
 import some from 'lodash/fp/some';
-import { memo, useCallback, useMemo } from 'react';
+import { FC, memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Sequence, Track } from '../../../types';
 import { GridBoxes } from '../../shared';
-import AddSequenceButton from './AddSequenceButton';
-import TrackHeader from './TrackHeader';
-import TrackListSequence from './TrackListSequence';
+import { AddSequenceButton } from './AddSequenceButton';
+import { TrackHeader } from './TrackHeader';
+import { TrackListSequence } from './TrackListSequence';
 
 export interface TrackListTrackProps {
   onSequenceAdd: (options: { position: number; track: Track }) => void;
@@ -26,7 +26,7 @@ export interface TrackListTrackProps {
   track: Track;
 }
 
-function TrackListTrack(props: TrackListTrackProps) {
+export const TrackListTrack: FC<TrackListTrackProps> = memo((props) => {
   const {
     onSequenceAdd,
     onSequenceEdit,
@@ -163,6 +163,4 @@ function TrackListTrack(props: TrackListTrackProps) {
       </Box>
     </Stack>
   );
-}
-
-export default memo(TrackListTrack);
+});

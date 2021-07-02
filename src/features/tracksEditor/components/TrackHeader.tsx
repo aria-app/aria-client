@@ -1,7 +1,7 @@
 import { Box, BoxProps, Stack, Text, useThemeWithDefault } from 'aria-ui';
-import { memo } from 'react';
+import { FC, memo } from 'react';
 
-function TrackHeader(props: BoxProps<'div'>) {
+export const TrackHeader: FC<BoxProps<'div'>> = (props) => {
   const { children, ...rest } = props;
   const theme = useThemeWithDefault();
 
@@ -51,6 +51,4 @@ function TrackHeader(props: BoxProps<'div'>) {
       </Stack>
     </Box>
   );
-}
-
-export default memo(TrackHeader);
+};

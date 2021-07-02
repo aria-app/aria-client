@@ -1,7 +1,7 @@
 import { RouteComponentProps } from '@reach/router';
 import { Box } from 'aria-ui';
 import find from 'lodash/fp/find';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 
 import {
@@ -18,15 +18,15 @@ import {
 } from '../../api';
 import { useAudioManager, usePlaybackState, usePosition } from '../../audio';
 import { LoadingIndicator, Timeline } from '../../shared';
-import TrackEditingModal from './TrackEditingModal';
-import TrackList from './TrackList';
-import TracksEditorToolbar from './TracksEditorToolbar';
+import { TrackEditingModal } from './TrackEditingModal';
+import { TrackList } from './TrackList';
+import { TracksEditorToolbar } from './TracksEditorToolbar';
 
-function TracksEditor(
-  props: RouteComponentProps<{
+export const TracksEditor: FC<
+  RouteComponentProps<{
     songId: string;
-  }>,
-) {
+  }>
+> = (props) => {
   const { navigate, songId: songIdProp } = props;
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
@@ -264,6 +264,4 @@ function TracksEditor(
       )}
     </Box>
   );
-}
-
-export default memo(TracksEditor);
+};
