@@ -1,13 +1,11 @@
-import { ProviderProps, ReactElement, useEffect, useRef } from 'react';
+import { FC, ProviderProps, useEffect, useRef } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import { Dawww } from '../../../dawww';
 import { playbackState, position } from '../atoms';
 import { AudioManagerContext } from '../contexts';
 
-export default function AudioProvider(
-  props: Partial<ProviderProps<any>>,
-): ReactElement {
+export const AudioProvider: FC<Partial<ProviderProps<any>>> = (props) => {
   const audioManager = useRef(Dawww({}));
   const setPlaybackState = useSetRecoilState(playbackState);
   const setPosition = useSetRecoilState(position);
@@ -20,4 +18,4 @@ export default function AudioProvider(
   return (
     <AudioManagerContext.Provider value={audioManager.current} {...props} />
   );
-}
+};
