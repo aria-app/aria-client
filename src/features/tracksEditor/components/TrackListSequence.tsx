@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { FC, memo, useCallback } from 'react';
 
 import { Sequence } from '../../../types';
-import TrackSequenceNote from './TrackSequenceNote';
+import { TrackSequenceNote } from './TrackSequenceNote';
 
 interface RootProps {
   isPending: boolean;

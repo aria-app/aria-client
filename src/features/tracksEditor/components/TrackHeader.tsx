@@ -1,5 +1,5 @@
 import { Box, BoxProps, Stack, Text, useThemeWithDefault } from 'aria-ui';
-import { FC, memo } from 'react';
+import { FC } from 'react';
 
 export const TrackHeader: FC<BoxProps<'div'>> = (props) => {
   const { children, ...rest } = props;
