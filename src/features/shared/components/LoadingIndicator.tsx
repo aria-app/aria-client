@@ -23,7 +23,7 @@ export const LoadingIndicator = forwardRef<HTMLDivElement, BoxProps<'div'>>(
       >
         <Stack align="center" space={8}>
           <Spinner size="lg" />
-          <Text variant="label">{children}</Text>
+          <Text variant="helper">{children}</Text>
         </Stack>
       </Box>
     );
