@@ -1,5 +1,4 @@
-import styled from '@emotion/styled';
-import { absoluteFill } from 'aria-ui';
+import { absoluteFill, Box } from 'aria-ui';
 import compose from 'lodash/fp/compose';
 import first from 'lodash/fp/first';
 import noop from 'lodash/fp/noop';
@@ -8,15 +7,6 @@ import { FC, memo, useCallback, useMemo, useRef, useState } from 'react';
 
 import { Point } from '../../../types';
 import { NotesNote } from './NotesNote';
-
-const Root = styled.div({
-  ...absoluteFill,
-});
-
-const GhostStyledNotesNote = styled(NotesNote)({
-  opacity: 0.4,
-  pointerEvents: 'none',
-});
 
 export interface DrawLayerProps {
   mousePoint: Point;
@@ -85,15 +75,16 @@ export const DrawLayer: FC<DrawLayerProps> = memo((props) => {
   }, [isDrawing, mousePoint, onDraw]);
 
   return (
-    <Root
+    <Box
       onMouseDown={handleMouseDown}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onMouseUp={handleMouseUp}
       ref={ref}
+      sx={absoluteFill}
     >
       {isMouseOver && (
-        <GhostStyledNotesNote
+        <NotesNote
           note={ghostNote}
           onDrag={noop}
           onDragStart={noop}
@@ -101,8 +92,12 @@ export const DrawLayer: FC<DrawLayerProps> = memo((props) => {
           onEndPointDrag={noop}
           onEndPointDragStart={noop}
           onEndPointDragStop={noop}
+          sx={{
+            opacity: 0.4,
+            pointerEvents: 'none',
+          }}
         />
       )}
-    </Root>
+    </Box>
   );
 });
