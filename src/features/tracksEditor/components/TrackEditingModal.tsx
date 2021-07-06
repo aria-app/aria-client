@@ -73,7 +73,7 @@ export const TrackEditingModal: FC<TrackEditingModalProps> = (props) => {
           label="Voice"
           onValueChange={handleVoiceChange}
           options={voices.map((voice) => ({
-            label: t(voice.name),
+            label: t(voice.name) as string,
             value: voice.id,
           }))}
           placeholder={loading ? 'Loading...' : undefined}

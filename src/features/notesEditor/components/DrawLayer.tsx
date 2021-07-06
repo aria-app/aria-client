@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { absoluteFill } from 'aria-ui';
 import compose from 'lodash/fp/compose';
 import first from 'lodash/fp/first';
 import noop from 'lodash/fp/noop';
@@ -6,7 +7,6 @@ import split from 'lodash/fp/split';
 import { FC, memo, useCallback, useMemo, useRef, useState } from 'react';
 
 import { Point } from '../../../types';
-import { absoluteFill } from '../../shared';
 import { NotesNote } from './NotesNote';
 
 const Root = styled.div({
