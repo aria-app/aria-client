@@ -11,8 +11,8 @@ const minVolume = -20;
 const maxVolume = 0;
 
 export interface TrackEditingModalProps {
+  onClose: () => void;
   onDelete: (trackToDelete: Track) => void;
-  onDismiss: () => void;
   onTrackChange: (options: {
     id: number;
     voice?: Voice;
@@ -22,7 +22,7 @@ export interface TrackEditingModalProps {
 }
 
 export const TrackEditingModal: FC<TrackEditingModalProps> = (props) => {
-  const { onDelete, onDismiss, onTrackChange, track } = props;
+  const { onClose, onDelete, onTrackChange, track } = props;
   const { data: voicesData, loading } = useGetVoices();
   const [trackState, setTrackState] = useState<Track>();
   const { t } = useTranslation();
@@ -32,7 +32,7 @@ export const TrackEditingModal: FC<TrackEditingModalProps> = (props) => {
     [voicesData],
   );
 
-  const handleContentDeleteButtonClick = useCallback(() => {
+  const handleDeleteButtonClick = useCallback(() => {
     if (!trackState) return;
 
     onDelete(trackState);
@@ -66,7 +66,12 @@ export const TrackEditingModal: FC<TrackEditingModalProps> = (props) => {
   }, [track]);
 
   return (
-    <Dialog isOpen={!!track} onOverlayClick={onDismiss} title={t('Edit Track')}>
+    <Dialog
+      isOpen={!!track}
+      onClose={onClose}
+      onOverlayClick={onClose}
+      title={t('Edit Track')}
+    >
       <Stack align="start" space={6}>
         <Select
           disabled={loading}
@@ -92,7 +97,7 @@ export const TrackEditingModal: FC<TrackEditingModalProps> = (props) => {
         />
         <Button
           color="error"
-          onClick={handleContentDeleteButtonClick}
+          onClick={handleDeleteButtonClick}
           text={t('Delete')}
           variant="contained"
         />

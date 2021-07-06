@@ -72,7 +72,7 @@ export const SongEditor: FC<RouteComponentProps<{ songId: string }>> = (
     [data, updateSong],
   );
 
-  const handleSongInfoModalConfirm = useCallback(() => {
+  const handleSongInfoModalClose = useCallback(() => {
     setIsSongInfoModalOpen(false);
   }, []);
 
@@ -123,7 +123,7 @@ export const SongEditor: FC<RouteComponentProps<{ songId: string }>> = (
         <SongInfoDialog
           isOpen={isSongInfoModalOpen}
           onBPMChange={handleSongBPMChange}
-          onConfirm={handleSongInfoModalConfirm}
+          onClose={handleSongInfoModalClose}
           onReturnToDashboard={handleReturnToDashboard}
           onSignOut={handleSignOut}
           song={data?.song || undefined}
