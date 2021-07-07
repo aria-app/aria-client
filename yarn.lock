@@ -2696,10 +2696,10 @@ aria-query@^4.2.2:
     "@babel/runtime" "^7.10.2"
     "@babel/runtime-corejs3" "^7.10.2"
 
-aria-ui@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/aria-ui/-/aria-ui-2.1.1.tgz#e5e62841fe2e404b54182fb521d13697e839721c"
-  integrity sha512-OyO6QF1wqbFR4PVsqy3himvsWetknDeWXHmTusIn13dOVUuOO2LnEJgh9qDhGw6Efk3adYe5UtcH1+MB4FyOQA==
+aria-ui@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/aria-ui/-/aria-ui-2.1.2.tgz#bbfcc74c014e3645ed45fb0c26315d6ca1507afd"
+  integrity sha512-5bTh9cIW9RPtwF85NWBxJvmM5Pi4pexItCGvHT2Hx5aP/HieoESlTCV8KsJnQf+jiBJuDfggreyuqLTDzrvkkQ==
   dependencies:
     "@tippyjs/react" "^4.2.5"
     capsize "^2.0.0"
