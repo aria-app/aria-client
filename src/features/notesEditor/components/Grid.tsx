@@ -135,3 +135,5 @@ export const Grid: FC<GridProps> = memo((props) => {
     </Box>
   );
 });
+
+Grid.displayName = 'Grid';
