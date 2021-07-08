@@ -1,28 +1,8 @@
-import styled from '@emotion/styled';
+import { Box } from 'aria-ui';
 import { FC, memo, useCallback } from 'react';
 
 import { Sequence } from '../../../types';
 import { TrackSequenceNote } from './TrackSequenceNote';
-
-interface RootProps {
-  isPending: boolean;
-  isSelected: boolean;
-}
-
-const Root = styled.div<RootProps>(({ isPending, isSelected, theme }) => ({
-  display: 'flex',
-  height: 64,
-  padding: theme.space(1),
-  backgroundColor: isSelected
-    ? theme.colors.brandPrimary
-    : theme.colors.brandSubtle,
-  border: `2px solid ${theme.colors.backgroundContrast}`,
-  borderRadius: theme.borderRadii.md,
-  overflow: 'hidden',
-  pointerEvents: isPending ? 'none' : 'auto',
-  position: 'relative',
-  transition: 'box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease',
-}));
 
 export interface TrackListSequenceProps {
   isDragging: boolean;
@@ -46,11 +26,23 @@ export const TrackListSequence: FC<TrackListSequenceProps> = memo((props) => {
   }, [onOpen, sequence]);
 
   return (
-    <Root
-      isPending={sequence.id < 0}
-      isSelected={isSelected}
+    <Box
+      backgroundColor={isSelected ? 'brandPrimary' : 'brandSubtle'}
+      borderColor="backgroundContrast"
+      borderRadius="md"
+      borderWidth={2}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
+      padding={1}
+      sx={{
+        display: 'flex',
+        height: 64,
+        overflow: 'hidden',
+        pointerEvents: sequence.id < 0 ? 'none' : 'auto',
+        position: 'relative',
+        transition:
+          'box-shadow 250ms ease, opacity 500ms ease, transform 150ms ease',
+      }}
     >
       {sequence.notes.map((note) => (
         <TrackSequenceNote
@@ -59,6 +51,6 @@ export const TrackListSequence: FC<TrackListSequenceProps> = memo((props) => {
           note={note}
         />
       ))}
-    </Root>
+    </Box>
   );
 });

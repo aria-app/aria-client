@@ -1,4 +1,4 @@
-import styled from '@emotion/styled/macro';
+import { Box } from 'aria-ui';
 import clamp from 'lodash/fp/clamp';
 import {
   ElementType,
@@ -6,58 +6,12 @@ import {
   HTMLAttributes,
   memo,
   useCallback,
+  useMemo,
   useState,
 } from 'react';
 import Draggable from 'react-draggable';
 
 import { GridBoxItem } from '../types';
-
-const Resizer = styled.div(({ theme }) => ({
-  backgroundColor: 'transparent',
-  bottom: '0',
-  left: '0',
-  position: 'absolute',
-  top: '0',
-  width: theme.space(2),
-  zIndex: 2,
-}));
-
-interface RootProps {
-  isDragging: boolean;
-  isResizing: boolean;
-}
-
-const Root = styled.div<RootProps>(({ isDragging, isResizing }) => {
-  const getCursor = () => {
-    if (isDragging) {
-      return 'move';
-    }
-
-    if (isResizing) {
-      return 'col-resize';
-    }
-
-    return 'initial';
-  };
-
-  return {
-    cursor: getCursor(),
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    left: 0,
-    position: 'absolute',
-    top: 0,
-    transition:
-      isDragging || isResizing
-        ? 'none'
-        : 'transform 200ms ease, width 200ms ease',
-    zIndex: isDragging || isResizing ? 2 : 1,
-    [Resizer as any]: {
-      cursor: isDragging ? 'move' : 'col-resize',
-    },
-  };
-});
 
 export interface GridBoxProps extends HTMLAttributes<HTMLDivElement> {
   contentComponent?: ElementType;
@@ -79,6 +33,18 @@ export const GridBox: FC<GridBoxProps> = memo((props) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   const [length, setLength] = useState(item.length);
+
+  const cursor = useMemo(() => {
+    if (isDragging) {
+      return 'move';
+    }
+
+    if (isResizing) {
+      return 'col-resize';
+    }
+
+    return 'initial';
+  }, [isDragging, isResizing]);
 
   const handleDragStart = useCallback(() => {
     setIsDragging(true);
@@ -130,10 +96,22 @@ export const GridBox: FC<GridBoxProps> = memo((props) => {
       onStop={handleDragStop}
       position={{ x: item.x * step, y: 0 }}
     >
-      <Root
-        isDragging={isDragging}
-        isResizing={isResizing}
+      <Box
         style={{ width: length * step, ...style }}
+        sx={{
+          cursor,
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          left: 0,
+          position: 'absolute',
+          top: 0,
+          transition:
+            isDragging || isResizing
+              ? 'none'
+              : 'transform 200ms ease, width 200ms ease',
+          zIndex: isDragging || isResizing ? 2 : 1,
+        }}
       >
         <ContentComponent isDragging={isDragging} item={item} step={step} />
         <Draggable
@@ -149,9 +127,21 @@ export const GridBox: FC<GridBoxProps> = memo((props) => {
           onStop={handleResizerDragStop}
           position={{ x: item.length * step - 16, y: 0 }}
         >
-          <Resizer className="resizer" />
+          <Box
+            className="resizer"
+            sx={{
+              backgroundColor: 'transparent',
+              bottom: 0,
+              cursor: isDragging ? 'move' : 'col-resize',
+              left: 0,
+              position: 'absolute',
+              top: 0,
+              zIndex: 2,
+            }}
+            width={2}
+          />
         </Draggable>
-      </Root>
+      </Box>
     </Draggable>
   );
 });

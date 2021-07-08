@@ -1,13 +1,8 @@
-import styled from '@emotion/styled';
+import { Box } from 'aria-ui';
 import range from 'lodash/fp/range';
 import { FC, memo, useMemo } from 'react';
 
 import { Dawww } from '../../../dawww';
-
-const Root = styled.div({
-  flex: '1 0 auto',
-  minHeight: '100%',
-});
 
 export interface SlotsProps {
   measureCount: number;
@@ -46,7 +41,7 @@ export const Slots: FC<SlotsProps> = memo((props) => {
   );
 
   return (
-    <Root
+    <Box
       dangerouslySetInnerHTML={{
         __html: `
         <svg
@@ -57,6 +52,10 @@ export const Slots: FC<SlotsProps> = memo((props) => {
           ${slots}
         </svg>
       `,
+      }}
+      sx={{
+        flex: '1 0 auto',
+        minHeight: '100%',
       }}
     />
   );

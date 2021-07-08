@@ -1,88 +1,10 @@
-import styled from '@emotion/styled/macro';
-import { AnimatePresence, motion } from 'framer-motion';
+import { Box, MotionBox, useThemeWithDefault } from 'aria-ui';
+import { AnimatePresence } from 'framer-motion';
 import times from 'lodash/fp/times';
 import round from 'lodash/round';
 import { transparentize } from 'polished';
 import { FC, memo, useCallback, useState } from 'react';
 import Draggable from 'react-draggable';
-
-const Resizer = styled.div(({ theme }) => ({
-  backgroundColor: theme.colors.backgroundContrast,
-  borderRadius: theme.borderRadii.md,
-  cursor: 'col-resize',
-  height: 34,
-  left: 0,
-  padding: theme.space(0.5),
-  position: 'absolute',
-  top: -1,
-  width: 24,
-  '&:hover': {
-    borderColor: theme.colors.textSecondary,
-  },
-  '&::after': {
-    borderLeft: `2px dotted ${theme.colors.textSecondary}`,
-    borderRight: `2px dotted ${theme.colors.textSecondary}`,
-    content: "''",
-    display: 'block',
-    height: 10,
-    left: '50%',
-    position: 'absolute',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 4,
-  },
-}));
-
-interface RootProps {
-  isResizing: boolean;
-}
-
-const Root = styled.div<RootProps>(({ isResizing, theme }) => ({
-  backgroundColor: theme.colors.backgroundContrast,
-  borderRadius: theme.borderRadii.md,
-  cursor: 'pointer',
-  display: 'flex',
-  flex: '0 0 auto',
-  height: 36,
-  padding: theme.space(0.5),
-  position: 'relative',
-  transition: 'width 200ms ease',
-  ...(isResizing
-    ? {
-        cursor: 'col-resize',
-        transition: 'none',
-      }
-    : {}),
-  [Resizer as any]: {
-    transition: isResizing
-      ? 'none'
-      : 'border-color 200ms ease, transition 200ms ease',
-  },
-}));
-
-const Measure = styled(motion.div)(({ theme }) => ({
-  alignItems: 'flex-end',
-  bottom: 2,
-  display: 'flex',
-  left: 2,
-  paddingBottom: theme.space(0.25),
-  paddingLeft: theme.space(0.75),
-  position: 'absolute',
-  top: 2,
-  '&:not(:first-of-type)': {
-    borderLeft: `2px solid ${theme.colors.border}`,
-  },
-}));
-
-const MeasureNumber = styled.div(({ theme }) => ({
-  color: transparentize(0.5, theme.colors.textPrimary as string),
-  fontSize: 10,
-  fontWeight: 'bold',
-}));
-
-const ResizerDraggableWrapper = styled.div({
-  position: 'absolute',
-});
 
 export interface RulerProps {
   measureCount: number;
@@ -96,6 +18,7 @@ export const Ruler: FC<RulerProps> = memo((props) => {
     props;
   const [isResizing, setIsResizing] = useState(false);
   const [length, setLength] = useState(measureCount);
+  const theme = useThemeWithDefault();
 
   const handleClick = useCallback(
     (e) => {
@@ -129,24 +52,64 @@ export const Ruler: FC<RulerProps> = memo((props) => {
   }, [length, onMeasureCountChange]);
 
   return (
-    <Root
-      isResizing={isResizing}
+    <Box
+      backgroundColor="backgroundContrast"
+      borderRadius="md"
       onClick={handleClick}
+      padding={0.5}
       style={{ width: measureWidth * length + 4 }}
+      sx={{
+        cursor: 'pointer',
+        display: 'flex',
+        flex: '0 0 auto',
+        height: 36,
+        position: 'relative',
+        transition: 'width 200ms ease',
+        ...(isResizing
+          ? {
+              cursor: 'col-resize',
+              transition: 'none',
+            }
+          : {}),
+      }}
     >
       <AnimatePresence>
         {times(
           (i) => (
-            <Measure
+            <MotionBox
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               initial={{ opacity: 0 }}
               key={i}
+              paddingBottom={0.25}
+              paddingLeft={0.75}
               style={{ transform: `translateX(${i * 64}px)` }}
+              sx={{
+                alignItems: 'flex-end',
+                bottom: 2,
+                display: 'flex',
+                left: 2,
+                position: 'absolute',
+                top: 2,
+                '&:not(:first-of-type)': {
+                  borderLeft: `2px solid ${theme.colors.border}`,
+                },
+              }}
               transition={{ duration: 0.1 }}
             >
-              <MeasureNumber>{i + 1}</MeasureNumber>
-            </Measure>
+              <Box
+                sx={{
+                  color: transparentize(
+                    0.5,
+                    theme.colors.textPrimary as string,
+                  ),
+                  fontSize: 10,
+                  fontWeight: 'bold',
+                }}
+              >
+                {i + 1}
+              </Box>
+            </MotionBox>
           ),
           Math.round(length),
         )}
@@ -164,10 +127,44 @@ export const Ruler: FC<RulerProps> = memo((props) => {
         onStop={handleResizerDragStop}
         position={{ x: length * 64 + 16, y: 0 }}
       >
-        <ResizerDraggableWrapper>
-          <Resizer />
-        </ResizerDraggableWrapper>
+        <Box
+          sx={{
+            position: 'absolute',
+          }}
+        >
+          <Box
+            backgroundColor="backgroundContrast"
+            borderRadius="md"
+            padding={0.5}
+            sx={{
+              cursor: 'col-resize',
+              height: 34,
+              left: 0,
+              position: 'absolute',
+              top: -1,
+              transition: isResizing
+                ? 'none'
+                : 'border-color 200ms ease, transition 200ms ease',
+              width: 24,
+              '&:hover': {
+                borderColor: theme.colors.textSecondary,
+              },
+              '&::after': {
+                borderLeft: `2px dotted ${theme.colors.textSecondary}`,
+                borderRight: `2px dotted ${theme.colors.textSecondary}`,
+                content: "''",
+                display: 'block',
+                height: 10,
+                left: '50%',
+                position: 'absolute',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 4,
+              },
+            }}
+          />
+        </Box>
       </Draggable>
-    </Root>
+    </Box>
   );
 });
