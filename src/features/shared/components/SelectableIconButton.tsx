@@ -1,9 +1,4 @@
-import {
-  IconButton,
-  IconButtonProps,
-  mergeSX,
-  useThemeWithDefault,
-} from 'aria-ui';
+import { IconButton, IconButtonProps, mergeSX } from 'aria-ui';
 import { forwardRef } from 'react';
 
 export interface SelectableIconButtonProps extends IconButtonProps {
@@ -15,18 +10,14 @@ export const SelectableIconButton = forwardRef<
   SelectableIconButtonProps
 >((props, ref) => {
   const { isSelected, sx, ...rest } = props;
-  const theme = useThemeWithDefault();
-
-  const borderColor = isSelected ? theme.colors.brandPrimary : 'transparent';
-
   return (
     <IconButton
+      borderColor={isSelected ? 'brandPrimary' : 'transparent'}
+      borderWidth={2}
       color={isSelected ? 'brandPrimary' : undefined}
+      padding={1.5}
       ref={ref}
-      sx={mergeSX(
-        { border: `2px solid ${borderColor}`, label: 'SelectableIconButton' },
-        sx,
-      )}
+      sx={mergeSX({ label: 'SelectableIconButton' }, sx)}
       {...rest}
     />
   );

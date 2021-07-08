@@ -1,4 +1,4 @@
-import { Box, IconButton, useThemeWithDefault } from 'aria-ui';
+import { Box, IconButton } from 'aria-ui';
 import AddIcon from 'mdi-react/AddIcon';
 import { FC, useCallback } from 'react';
 
@@ -9,7 +9,6 @@ export interface AddSequenceButtonProps {
 
 export const AddSequenceButton: FC<AddSequenceButtonProps> = (props) => {
   const { onClick, position } = props;
-  const theme = useThemeWithDefault();
 
   const handleClick = useCallback(() => {
     onClick?.(position);
@@ -33,9 +32,11 @@ export const AddSequenceButton: FC<AddSequenceButtonProps> = (props) => {
       }}
     >
       <IconButton
+        borderColor="brandSubtle"
+        borderWidth={2}
         color="brandSubtle"
         icon={<AddIcon />}
-        sx={{ border: `2px solid ${theme.colors.brandSubtle}` }}
+        sx={{ label: 'AddSequenceButton' }}
       />
     </Box>
   );

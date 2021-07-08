@@ -1,4 +1,4 @@
-import styled from '@emotion/styled/macro';
+import { Box, mergeSX } from 'aria-ui';
 import first from 'lodash/fp/first';
 import last from 'lodash/fp/last';
 import {
@@ -13,64 +13,6 @@ import Draggable from 'react-draggable';
 
 import { Note, Point } from '../../../types';
 import { PositionBounds, SizeBounds } from '../types';
-
-const Connector = styled.div({
-  height: 10,
-  left: 20,
-  position: 'absolute',
-  top: 15,
-  transformOrigin: 'left center',
-  transition: 'transform 0.1s ease',
-  width: 1,
-  zIndex: 1,
-});
-
-const Fill = styled.div(({ theme }) => ({
-  borderRadius: theme.borderRadii.md,
-  height: 24,
-  width: 24,
-  '&:hover': {
-    transform: 'scale(1.05)',
-  },
-  '&:active': {
-    transform: 'scale(0.95)',
-  },
-}));
-
-const Root = styled.div<{ isSelected?: boolean }>(({ isSelected, theme }) => ({
-  left: 0,
-  pointerEvents: 'none',
-  position: 'absolute',
-  top: 0,
-  transition: 'transform 0.1s ease',
-  zIndex: isSelected ? 2 : 1,
-  [Connector as any]: {
-    backgroundColor: isSelected
-      ? theme.colors.brandPrimary
-      : theme.colors.brandSubtle,
-  },
-  [Fill as any]: {
-    backgroundColor: isSelected
-      ? theme.colors.brandPrimary
-      : theme.colors.brandSubtle,
-  },
-}));
-
-const NotesNotePoint = styled.div({
-  alignItems: 'center',
-  display: 'flex',
-  flex: '0 0 auto',
-  height: 40,
-  justifyContent: 'center',
-  left: 0,
-  overflow: 'hidden',
-  pointerEvents: 'all',
-  position: 'absolute',
-  top: 0,
-  transition: 'transform 0.1s ease',
-  width: 40,
-  zIndex: 2,
-});
 
 export interface NotesNoteProps
   extends Omit<
@@ -88,6 +30,7 @@ export interface NotesNoteProps
   onEndPointDragStop: () => void;
   positionBounds?: PositionBounds;
   sizeBounds?: SizeBounds;
+  sx?: any;
 }
 
 export const NotesNote: FC<NotesNoteProps> = memo((props) => {
@@ -104,6 +47,7 @@ export const NotesNote: FC<NotesNoteProps> = memo((props) => {
     onEndPointDragStop,
     positionBounds,
     sizeBounds,
+    sx,
     ...rest
   } = props;
 
@@ -185,11 +129,67 @@ export const NotesNote: FC<NotesNoteProps> = memo((props) => {
         y: note.points[0].y * 40,
       }}
     >
-      <Root isSelected={isSelected} {...rest}>
-        <NotesNotePoint className="start-point">
-          <Fill />
-        </NotesNotePoint>
-        <Connector style={connectorStyle} />
+      <Box
+        sx={mergeSX(
+          {
+            left: 0,
+            pointerEvents: 'none',
+            position: 'absolute',
+            top: 0,
+            transition: 'transform 0.1s ease',
+            zIndex: isSelected ? 2 : 1,
+          },
+          sx,
+        )}
+        {...rest}
+      >
+        <Box
+          className="start-point"
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            flex: '0 0 auto',
+            height: 40,
+            justifyContent: 'center',
+            left: 0,
+            overflow: 'hidden',
+            pointerEvents: 'all',
+            position: 'absolute',
+            top: 0,
+            transition: 'transform 0.1s ease',
+            width: 40,
+            zIndex: 2,
+          }}
+        >
+          <Box
+            backgroundColor={isSelected ? 'brandPrimary' : 'brandSubtle'}
+            borderRadius="md"
+            sx={{
+              height: 24,
+              width: 24,
+              '&:hover': {
+                transform: 'scale(1.05)',
+              },
+              '&:active': {
+                transform: 'scale(0.95)',
+              },
+            }}
+          />
+        </Box>
+        <Box
+          backgroundColor={isSelected ? 'brandPrimary' : 'brandSubtle'}
+          style={connectorStyle}
+          sx={{
+            height: 10,
+            left: 20,
+            position: 'absolute',
+            top: 15,
+            transformOrigin: 'left center',
+            transition: 'transform 0.1s ease',
+            width: 1,
+            zIndex: 1,
+          }}
+        />
         <Draggable
           axis="x"
           bounds={sizeBounds}
@@ -202,11 +202,41 @@ export const NotesNote: FC<NotesNoteProps> = memo((props) => {
             y: (note.points[1].y - note.points[0].y) * 40,
           }}
         >
-          <NotesNotePoint style={endPointStyle}>
-            <Fill />
-          </NotesNotePoint>
+          <Box
+            style={endPointStyle}
+            sx={{
+              alignItems: 'center',
+              display: 'flex',
+              flex: '0 0 auto',
+              height: 40,
+              justifyContent: 'center',
+              left: 0,
+              overflow: 'hidden',
+              pointerEvents: 'all',
+              position: 'absolute',
+              top: 0,
+              transition: 'transform 0.1s ease',
+              width: 40,
+              zIndex: 2,
+            }}
+          >
+            <Box
+              backgroundColor={isSelected ? 'brandPrimary' : 'brandSubtle'}
+              borderRadius="md"
+              sx={{
+                height: 24,
+                width: 24,
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                },
+                '&:active': {
+                  transform: 'scale(0.95)',
+                },
+              }}
+            />
+          </Box>
         </Draggable>
-      </Root>
+      </Box>
     </Draggable>
   );
 });

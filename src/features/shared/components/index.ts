@@ -1,4 +1,3 @@
-export * from './Fade';
 export * from './GridBox';
 export * from './GridBoxes';
 export * from './LoadingIndicator';

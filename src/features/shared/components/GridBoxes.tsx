@@ -1,13 +1,9 @@
-import styled from '@emotion/styled';
+import { Box } from 'aria-ui';
 import * as CSS from 'csstype';
 import { ElementType, FC, memo, useCallback, useMemo } from 'react';
 
 import { GridBoxItem } from '../types';
 import { GridBox } from './GridBox';
-
-const Root = styled.div({
-  position: 'relative',
-});
 
 export interface GridBoxesProps {
   boxContentComponent: ElementType;
@@ -49,7 +45,12 @@ export const GridBoxes: FC<GridBoxesProps> = memo((props) => {
   );
 
   return (
-    <Root style={{ ...style, width: length * step }}>
+    <Box
+      style={{ ...style, width: length * step }}
+      sx={{
+        position: 'relative',
+      }}
+    >
       {boxes.map((item) => (
         <GridBox
           contentComponent={boxContentComponent}
@@ -60,6 +61,6 @@ export const GridBoxes: FC<GridBoxesProps> = memo((props) => {
           totalLength={length}
         />
       ))}
-    </Root>
+    </Box>
   );
 });

@@ -256,8 +256,8 @@ export const TracksEditor: FC<
       />
       {!loading && (
         <TrackEditingModal
+          onClose={handleTrackDeselect}
           onDelete={handleTrackDelete}
-          onDismiss={handleTrackDeselect}
           onTrackChange={handleTrackEdit}
           track={selectedTrack}
         />

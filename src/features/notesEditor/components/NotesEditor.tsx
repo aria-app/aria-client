@@ -5,7 +5,7 @@ import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
 import uniq from 'lodash/fp/uniq';
 import memoizeOne from 'memoize-one';
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 
 import { Dawww } from '../../../dawww';
@@ -36,7 +36,7 @@ export const NotesEditor: FC<
   RouteComponentProps<{
     sequenceId: string;
   }>
-> = (props) => {
+> = memo((props) => {
   const { navigate, sequenceId: sequenceIdProp } = props;
   const sequenceId = sequenceIdProp ? parseInt(sequenceIdProp) : -1;
   const audioManager = useAudioManager();
@@ -452,4 +452,4 @@ export const NotesEditor: FC<
       )}
     </Box>
   );
-};
+});

@@ -1,18 +1,5 @@
-import styled from '@emotion/styled';
+import { Box } from 'aria-ui';
 import { FC, memo, useCallback, useState } from 'react';
-
-interface RootProps {
-  isPanning: boolean;
-}
-
-const Root = styled.div<RootProps>(({ isPanning }) => ({
-  bottom: 0,
-  cursor: isPanning ? 'grabbing' : 'grab',
-  left: 0,
-  position: 'absolute',
-  right: 0,
-  top: 0,
-}));
 
 type PannerStartPoint = {
   scrollLeft: number;
@@ -76,12 +63,19 @@ export const Panner: FC<PannerProps> = memo((props) => {
   }, [startPoint]);
 
   return (
-    <Root
-      isPanning={!!startPoint}
+    <Box
       onMouseDown={handleMouseDown}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
+      sx={{
+        bottom: 0,
+        cursor: !!startPoint ? 'grabbing' : 'grab',
+        left: 0,
+        position: 'absolute',
+        right: 0,
+        top: 0,
+      }}
     />
   );
 });

@@ -1,18 +1,10 @@
-import styled from '@emotion/styled';
+import { absoluteFill, Box } from 'aria-ui';
 import isEqual from 'lodash/fp/isEqual';
-import { FC, useCallback, useState } from 'react';
+import { FC, memo, useCallback, useState } from 'react';
 import { DraggableCore, DraggableEventHandler } from 'react-draggable';
 
 import { Point } from '../../../types';
 import { Fence } from './Fence';
-
-const Root = styled.div({
-  bottom: 0,
-  left: 0,
-  position: 'absolute',
-  right: 0,
-  top: 0,
-});
 
 export interface SelectorProps {
   isEnabled: boolean;
@@ -25,7 +17,7 @@ export interface SelectorProps {
   scrollTopEl: HTMLElement | null;
 }
 
-export const Selector: FC<SelectorProps> = (props) => {
+export const Selector: FC<SelectorProps> = memo((props) => {
   const { isEnabled, onSelectInArea, scrollLeftEl, scrollTopEl } = props;
   const [endPoint, setEndPoint] = useState<Point>();
   const [startPoint, setStartPoint] = useState<Point>();
@@ -89,12 +81,15 @@ export const Selector: FC<SelectorProps> = (props) => {
       onStart={handleDragStart}
       onStop={handleDragStop}
     >
-      <Root style={{ pointerEvents: isEnabled ? 'all' : 'none' }}>
+      <Box
+        style={{ pointerEvents: isEnabled ? 'all' : 'none' }}
+        sx={absoluteFill}
+      >
         <Fence endPoint={endPoint} startPoint={startPoint} />
-      </Root>
+      </Box>
     </DraggableCore>
   );
-};
+});
 
 function dragDataToGridPoint(dragData) {
   return {

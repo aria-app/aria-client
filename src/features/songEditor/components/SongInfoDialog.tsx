@@ -7,7 +7,7 @@ import { Song } from '../../../types';
 
 export interface SongInfoModalProps extends DialogProps {
   onBPMChange: (changedBPM: number) => void;
-  onConfirm: () => void;
+  onClose: () => void;
   onReturnToDashboard: () => void;
   onSignOut: () => void;
   song?: Song;
@@ -16,7 +16,7 @@ export interface SongInfoModalProps extends DialogProps {
 export const SongInfoDialog: FC<SongInfoModalProps> = memo((props) => {
   const {
     onBPMChange,
-    onConfirm,
+    onClose,
     onReturnToDashboard,
     onSignOut,
     song,
@@ -25,7 +25,12 @@ export const SongInfoDialog: FC<SongInfoModalProps> = memo((props) => {
   const { i18n, t } = useTranslation();
 
   return (
-    <Dialog onOverlayClick={onConfirm} title={t('Song Info')} {...rest}>
+    <Dialog
+      onClose={onClose}
+      onOverlayClick={onClose}
+      title={t('Song Info')}
+      {...rest}
+    >
       <Stack space={4} sx={{ alignItems: 'flex-start' }}>
         <FormGroup label={t('Shareable Link')}>
           <a
@@ -52,8 +57,8 @@ export const SongInfoDialog: FC<SongInfoModalProps> = memo((props) => {
           label={t('Select Language')}
           onValueChange={(language) => i18n.changeLanguage(language)}
           options={[
-            { label: t('English'), value: 'en' },
-            { label: t('Japanese'), value: 'jp' },
+            { label: t('English') as string, value: 'en' },
+            { label: t('Japanese') as string, value: 'jp' },
           ]}
           sx={{ width: 'auto' }}
           value={i18n.language}

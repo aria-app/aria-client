@@ -1,25 +1,22 @@
 import { Global } from '@emotion/react';
-import styled from '@emotion/styled';
-import { GlobalStyles } from 'aria-ui';
+import { absoluteFill, Box, GlobalStyles } from 'aria-ui';
 import { FC, HTMLAttributes, memo } from 'react';
-
-const Root = styled.div({
-  bottom: 0,
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  left: 0,
-  overflow: 'hidden',
-  position: 'absolute',
-  right: 0,
-  top: 0,
-});
 
 export const Shell: FC<HTMLAttributes<HTMLDivElement>> = memo((props) => {
   const { children, ...rest } = props;
 
   return (
-    <Root {...rest}>
+    <Box
+      sx={{
+        ...absoluteFill,
+        display: 'flex',
+        flex: '1 1 auto',
+        flexDirection: 'column',
+        label: 'Shell',
+        overflow: 'hidden',
+      }}
+      {...rest}
+    >
       <GlobalStyles />
       <Global
         styles={{
@@ -48,6 +45,6 @@ export const Shell: FC<HTMLAttributes<HTMLDivElement>> = memo((props) => {
         }}
       />
       {children}
-    </Root>
+    </Box>
   );
 });

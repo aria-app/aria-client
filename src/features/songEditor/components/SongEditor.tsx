@@ -1,5 +1,4 @@
 import { useQuery } from '@apollo/client';
-import styled from '@emotion/styled';
 import { Redirect, RouteComponentProps, Router } from '@reach/router';
 import { Box } from 'aria-ui';
 import { FC, useCallback, useEffect, useState } from 'react';
@@ -16,14 +15,6 @@ import { SongEditorToolbar } from './SongEditorToolbar';
 import { SongInfoDialog } from './SongInfoDialog';
 
 const { STARTED } = Dawww.PLAYBACK_STATES;
-
-const StyledRouter = styled(Router)({
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  overflow: 'hidden',
-  position: 'relative',
-});
 
 export const SongEditor: FC<RouteComponentProps<{ songId: string }>> = (
   props,
@@ -72,7 +63,7 @@ export const SongEditor: FC<RouteComponentProps<{ songId: string }>> = (
     [data, updateSong],
   );
 
-  const handleSongInfoModalConfirm = useCallback(() => {
+  const handleSongInfoModalClose = useCallback(() => {
     setIsSongInfoModalOpen(false);
   }, []);
 
@@ -115,15 +106,24 @@ export const SongEditor: FC<RouteComponentProps<{ songId: string }>> = (
         onStop={audioManager.stop}
         playbackState={playbackState}
       />
-      <StyledRouter>
+      <Box
+        as={Router}
+        sx={{
+          display: 'flex',
+          flex: '1 1 auto',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          position: 'relative',
+        }}
+      >
         <TracksEditor path="/" />
         <NotesEditor path="sequence/:sequenceId" />
-      </StyledRouter>
+      </Box>
       {!loading && !error && (
         <SongInfoDialog
           isOpen={isSongInfoModalOpen}
           onBPMChange={handleSongBPMChange}
-          onConfirm={handleSongInfoModalConfirm}
+          onClose={handleSongInfoModalClose}
           onReturnToDashboard={handleReturnToDashboard}
           onSignOut={handleSignOut}
           song={data?.song || undefined}

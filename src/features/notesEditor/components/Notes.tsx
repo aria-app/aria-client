@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { Box } from 'aria-ui';
 import find from 'lodash/fp/find';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
@@ -13,15 +13,6 @@ import { Note, Point } from '../../../types';
 import * as constants from '../constants';
 import { PositionBounds, SizeBounds, ToolType } from '../types';
 import { NotesNote } from './NotesNote';
-
-const Root = styled.div({
-  bottom: 0,
-  cursor: 'pointer',
-  left: 0,
-  pointerEvents: 'none',
-  position: 'absolute',
-  top: 0,
-});
 
 export interface NotesProps {
   measureCount: number;
@@ -199,9 +190,17 @@ export const Notes: FC<NotesProps> = memo((props) => {
   }, [notes, onResize, sizeDeltas]);
 
   return (
-    <Root
+    <Box
       style={{
         width: measureCount * 4 * 8 * 40,
+      }}
+      sx={{
+        bottom: 0,
+        cursor: 'pointer',
+        left: 0,
+        pointerEvents: 'none',
+        position: 'absolute',
+        top: 0,
       }}
     >
       {adjustedNotes.map((note) => (
@@ -220,7 +219,7 @@ export const Notes: FC<NotesProps> = memo((props) => {
           sizeBounds={sizeBounds}
         />
       ))}
-    </Root>
+    </Box>
   );
 });
 

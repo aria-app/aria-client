@@ -1,12 +1,12 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { RouteComponentProps } from '@reach/router';
-import { Box, Button, Stack, Toolbar } from 'aria-ui';
+import { Box, Button, Fade, Stack, Toolbar } from 'aria-ui';
 import AddIcon from 'mdi-react/AddIcon';
 import { FC, useCallback, useEffect } from 'react';
 
 import { CREATE_SONG, DELETE_SONG, GET_SONGS } from '../../api';
 import { useAuth } from '../../auth';
-import { Fade, LoadingIndicator } from '../../shared';
+import { LoadingIndicator } from '../../shared';
 import { SongList } from './SongList';
 
 export const Dashboard: FC<RouteComponentProps> = (props) => {
@@ -99,25 +99,25 @@ export const Dashboard: FC<RouteComponentProps> = (props) => {
           />
         )}
       </Toolbar>
-      <Fade in={loading}>
-        <LoadingIndicator>LOADING SONGS...</LoadingIndicator>
-      </Fade>
-      <Fade in={!loading}>
-        <Box
-          sx={{
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            maxWidth: 768,
-            width: '100vw',
-          }}
-        >
+      <Box
+        sx={{
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          maxWidth: 768,
+          width: '100vw',
+        }}
+      >
+        <Fade in={loading}>
+          <LoadingIndicator>LOADING SONGS...</LoadingIndicator>
+        </Fade>
+        <Fade in={!loading}>
           <SongList
             onDelete={handleSongDelete}
             onOpen={handleSongOpen}
             songs={data && data.songs.data}
           />
-        </Box>
-      </Fade>
+        </Fade>
+      </Box>
       <Box
         bottom={4}
         right={4}
