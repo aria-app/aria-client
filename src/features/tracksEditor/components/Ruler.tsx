@@ -1,10 +1,46 @@
-import { Box, MotionBox, useThemeWithDefault } from 'aria-ui';
+import { Box, MotionBox, Text, useThemeWithDefault } from 'aria-ui';
 import { AnimatePresence } from 'framer-motion';
 import times from 'lodash/fp/times';
 import round from 'lodash/round';
-import { transparentize } from 'polished';
 import { FC, memo, useCallback, useState } from 'react';
 import Draggable from 'react-draggable';
+
+const Measure: FC<{ index: number }> = memo(({ index }) => {
+  const theme = useThemeWithDefault();
+
+  return (
+    <MotionBox
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      initial={{ opacity: 0 }}
+      paddingBottom={0.25}
+      paddingLeft={0.75}
+      style={{ transform: `translateX(${index * 64}px)` }}
+      sx={{
+        alignItems: 'flex-end',
+        bottom: 2,
+        display: 'flex',
+        left: 2,
+        position: 'absolute',
+        top: 2,
+        '&:not(:first-of-type)': {
+          borderLeft: `2px solid ${theme.colors.border}`,
+        },
+      }}
+      transition={{ duration: 0.1 }}
+    >
+      <Text
+        sx={{
+          opacity: 0.5,
+          fontSize: 10,
+          fontWeight: 'bold',
+        }}
+      >
+        {index + 1}
+      </Text>
+    </MotionBox>
+  );
+});
 
 export interface RulerProps {
   measureCount: number;
@@ -75,41 +111,8 @@ export const Ruler: FC<RulerProps> = memo((props) => {
     >
       <AnimatePresence>
         {times(
-          (i) => (
-            <MotionBox
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              initial={{ opacity: 0 }}
-              key={i}
-              paddingBottom={0.25}
-              paddingLeft={0.75}
-              style={{ transform: `translateX(${i * 64}px)` }}
-              sx={{
-                alignItems: 'flex-end',
-                bottom: 2,
-                display: 'flex',
-                left: 2,
-                position: 'absolute',
-                top: 2,
-                '&:not(:first-of-type)': {
-                  borderLeft: `2px solid ${theme.colors.border}`,
-                },
-              }}
-              transition={{ duration: 0.1 }}
-            >
-              <Box
-                sx={{
-                  color: transparentize(
-                    0.5,
-                    theme.colors.textPrimary as string,
-                  ),
-                  fontSize: 10,
-                  fontWeight: 'bold',
-                }}
-              >
-                {i + 1}
-              </Box>
-            </MotionBox>
+          (index) => (
+            <Measure index={index} key={`measure-${index}`} />
           ),
           Math.round(length),
         )}
