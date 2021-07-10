@@ -1,15 +1,19 @@
 import { Box } from 'aria-ui';
 import * as CSS from 'csstype';
-import { ElementType, FC, memo, useCallback, useMemo } from 'react';
+import { FC, memo, useCallback, useMemo } from 'react';
 
 import { GridBoxItem } from '../types';
-import { GridBox } from './GridBox';
+import { GridBox, GridBoxContentComponentProps } from './GridBox';
 
-export interface GridBoxesProps {
-  boxContentComponent: ElementType;
-  items: GridBoxItem[];
+export type GridBoxesOnItemsChange<TItemPayload> = (
+  changedItems: GridBoxItem<TItemPayload>[],
+) => void;
+
+export interface GridBoxesProps<TItemPayload = any> {
+  boxContentComponent: FC<GridBoxContentComponentProps<TItemPayload>>;
+  items: GridBoxItem<TItemPayload>[];
   length: number;
-  onItemsChange: (changedItems: GridBoxItem[]) => void;
+  onItemsChange: GridBoxesOnItemsChange<TItemPayload>;
   step?: number;
   style: CSS.Properties<number | string>;
 }

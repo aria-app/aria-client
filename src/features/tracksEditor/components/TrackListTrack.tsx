@@ -10,7 +10,11 @@ import { FC, memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Sequence, Track } from '../../../types';
-import { GridBoxes } from '../../shared';
+import {
+  GridBoxContentComponentProps,
+  GridBoxes,
+  GridBoxesOnItemsChange,
+} from '../../shared';
 import { AddSequenceButton } from './AddSequenceButton';
 import { TrackHeader } from './TrackHeader';
 import { TrackListSequence } from './TrackListSequence';
@@ -43,8 +47,8 @@ export const TrackListTrack: FC<TrackListTrackProps> = memo((props) => {
     return track.sequences.map((sequence) => ({
       id: sequence.id,
       length: sequence.measureCount,
+      payload: sequence,
       x: sequence.position,
-      sequence,
     }));
   }, [track.sequences]);
 
@@ -71,18 +75,20 @@ export const TrackListTrack: FC<TrackListTrackProps> = memo((props) => {
     [selectedSequenceId],
   );
 
-  const handleGridBoxesItemsChange = useCallback(
+  const handleGridBoxesItemsChange = useCallback<
+    GridBoxesOnItemsChange<Sequence>
+  >(
     (items) => {
       const editedSequences = items
         .filter((item) => {
-          if (item.sequence.measureCount !== item.length) return true;
+          if (item.payload.measureCount !== item.length) return true;
 
-          if (item.sequence.position !== item.x) return true;
+          if (item.payload.position !== item.x) return true;
 
           return false;
         })
         .map((item) => ({
-          ...item.sequence,
+          ...item.payload,
           measureCount: item.length,
           position: item.x,
         }));
@@ -106,14 +112,16 @@ export const TrackListTrack: FC<TrackListTrackProps> = memo((props) => {
     [onSequenceAdd, track],
   );
 
-  const sequenceComponent = useCallback(
+  const sequenceComponent = useCallback<
+    FC<GridBoxContentComponentProps<Sequence>>
+  >(
     ({ isDragging, item }) => (
       <TrackListSequence
         isDragging={isDragging}
-        isSelected={getIsSequenceSelected(item.sequence)}
+        isSelected={getIsSequenceSelected(item.payload)}
         onOpen={onSequenceOpen}
         onSelect={onSequenceSelect}
-        sequence={item.sequence}
+        sequence={item.payload}
       />
     ),
     [getIsSequenceSelected, onSequenceOpen, onSequenceSelect],
