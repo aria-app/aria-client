@@ -1,25 +1,36 @@
 import { Meta, Story } from '@storybook/react';
-import { Box, Text } from 'aria-ui';
+import { Box } from 'aria-ui';
 import { FC, useCallback, useEffect } from 'react';
 import { useMemo, useState } from 'react';
 
-import { GridBoxItem } from '../../types';
 import {
   GridBox,
   GridBoxContentComponentProps,
-  GridBoxOnItemChange,
+  GridBoxOnLengthChange,
+  GridBoxOnXChange,
   GridBoxProps,
 } from '../GridBox';
 
 export default {
   component: GridBox,
+  decorators: [
+    (Story, { args }) => (
+      <Box
+        backgroundColor="backgroundContrast"
+        height={10}
+        sx={{ position: 'relative', width: args.totalLength }}
+      >
+        {Story()}
+      </Box>
+    ),
+  ],
   title: 'GridBox',
   argTypes: {
     contentComponent: { control: false },
   },
 } as Meta;
 
-const ContentComponent: FC<GridBoxContentComponentProps<any>> = ({
+const ContentComponent: FC<GridBoxContentComponentProps> = ({
   isDragging,
   isResizing,
 }) => {
@@ -35,56 +46,55 @@ const ContentComponent: FC<GridBoxContentComponentProps<any>> = ({
       grow
       sx={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}
     >
-      <Text block>{text}</Text>
+      {text}
     </Box>
   );
 };
 
-export const Default: Story<GridBoxProps<any>> = (args) => (
-  <Box
-    backgroundColor="backgroundContrast"
-    height={10}
-    sx={{ position: 'relative', width: args.totalLength }}
-  >
-    <GridBox {...args} />
-  </Box>
-);
+export const Default: Story<GridBoxProps> = (args) => <GridBox {...args} />;
 
 Default.args = {
   contentComponent: ContentComponent,
-  item: {
-    id: 0,
-    length: 1,
-    payload: 'Sample payload',
-    x: 1,
-  },
+  itemId: 0,
+  length: 1,
   step: 150,
   totalLength: 450,
+  x: 1,
 };
 
-export const Stateful: Story<GridBoxProps<any>> = (args) => {
-  const [item, setItem] = useState<GridBoxItem<any>>(args.item);
+export const Stateful: Story<GridBoxProps> = (args) => {
+  const [length, setLength] = useState<number>(args.length);
+  const [x, setX] = useState<number>(args.x);
 
-  const handleItemChange = useCallback<GridBoxOnItemChange<any>>(
-    (newItem) => {
-      args.onItemChange?.(newItem);
-      setItem(newItem);
+  const handleLengthChange = useCallback<GridBoxOnLengthChange>(
+    (id, changedLength) => {
+      args.onLengthChange?.(id, changedLength);
+      setLength(changedLength);
     },
-    [args, setItem],
+    [args, setLength],
+  );
+
+  const handleXChange = useCallback<GridBoxOnXChange>(
+    (id, changedX) => {
+      args.onXChange?.(id, changedX);
+      setX(changedX);
+    },
+    [args, setX],
   );
 
   useEffect(() => {
-    setItem(args.item);
-  }, [args.item, setItem]);
+    setLength(args.length);
+    setX(args.x);
+  }, [args.length, args.x, setLength]);
 
   return (
-    <Box
-      backgroundColor="backgroundContrast"
-      height={10}
-      sx={{ position: 'relative', width: args.totalLength }}
-    >
-      <GridBox {...args} item={item} onItemChange={handleItemChange} />
-    </Box>
+    <GridBox
+      {...args}
+      length={length}
+      onLengthChange={handleLengthChange}
+      onXChange={handleXChange}
+      x={x}
+    />
   );
 };
 

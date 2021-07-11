@@ -12,47 +12,47 @@ import {
 } from 'react';
 import Draggable from 'react-draggable';
 
-import { GridBoxItem } from '../types';
-
-export interface GridBoxContentComponentProps<TItemPayload> {
+export interface GridBoxContentComponentProps {
+  id: number;
   isDragging: boolean;
   isResizing: boolean;
-  item: GridBoxItem<TItemPayload>;
+  length: number;
   step: number;
+  x: number;
 }
 
-export type GridBoxOnItemChange<TItemPayload> = (
-  changedItem: GridBoxItem<TItemPayload>,
-) => void;
+export type GridBoxOnLengthChange = (id: number, changedLength: number) => void;
 
-export interface GridBoxProps<TItemPayload>
-  extends HTMLAttributes<HTMLDivElement> {
-  contentComponent?: FC<GridBoxContentComponentProps<TItemPayload>>;
-  item: GridBoxItem<TItemPayload>;
-  onItemChange: GridBoxOnItemChange<TItemPayload>;
+export type GridBoxOnXChange = (id: number, changedX: number) => void;
+
+export interface GridBoxProps extends HTMLAttributes<HTMLDivElement> {
+  contentComponent?: FC<GridBoxContentComponentProps>;
+  itemId: number;
+  length: number;
+  onLengthChange: GridBoxOnLengthChange;
+  onXChange: GridBoxOnXChange;
   step?: number;
   totalLength: number;
+  x: number;
 }
 
-export type GridBoxComponent<TItemPayload = any> = FC<
-  GridBoxProps<TItemPayload>
->;
-
-export const GridBox: GridBoxComponent = memo((props) => {
+export const GridBox: FC<GridBoxProps> = memo((props) => {
   const {
     contentComponent: ContentComponent = () => null,
-    item,
-    onItemChange,
+    itemId,
+    length: lengthProp,
+    onLengthChange,
+    onXChange,
     step = 100,
-    style = {},
     totalLength,
+    x,
   } = props;
+
   const rootNodeRef = useRef<HTMLDivElement>(null);
   const resizerNodeRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
-  const [length, setLength] = useState(item.length);
-
+  const [length, setLength] = useState(lengthProp);
   const cursor = useMemo(() => {
     if (isDragging) {
       return 'move';
@@ -75,21 +75,18 @@ export const GridBox: GridBoxComponent = memo((props) => {
 
       const newX = Math.round(dragData.lastX / step);
 
-      if (newX === item.x) return;
+      if (newX === x) return;
 
-      onItemChange({
-        ...item,
-        x: newX,
-      });
+      onXChange(itemId, newX);
     },
-    [item, onItemChange, step],
+    [itemId, onXChange, step, x],
   );
 
   const handleResizerDrag = useCallback(
     (e, dragData) => {
-      setLength(clamp(1, totalLength - item.x, dragData.lastX / step));
+      setLength(clamp(1, totalLength - x, dragData.lastX / step));
     },
-    [item.x, step, totalLength],
+    [x, step, totalLength],
   );
 
   const handleResizerDragStart = useCallback(() => {
@@ -101,42 +98,40 @@ export const GridBox: GridBoxComponent = memo((props) => {
 
     const newLength = Math.max(1, Math.round(length));
 
-    if (newLength === item.length) {
-      setLength(item.length);
+    if (newLength === lengthProp) {
+      setLength(lengthProp);
       return;
     }
 
-    onItemChange({
-      ...item,
-      length: newLength,
-    });
+    onLengthChange(itemId, newLength);
 
-    setLength(item.length);
-  }, [item, length, onItemChange]);
+    setLength(lengthProp);
+  }, [itemId, length, lengthProp, onLengthChange]);
 
   useEffect(() => {
-    setLength(item.length);
-  }, [item]);
+    setLength(lengthProp);
+  }, [lengthProp]);
 
   return (
     <Draggable
       axis="x"
       bounds="parent"
       cancel={'.resizer'}
-      key={item.id}
+      key={itemId}
       nodeRef={rootNodeRef}
       onStart={handleDragStart}
       onStop={handleDragStop}
-      position={{ x: item.x * step, y: 0 }}
+      position={{ x: x * step, y: 0 }}
     >
       <Box
         ref={rootNodeRef}
-        style={{ width: length * step, ...style }}
+        style={{ width: length * step }}
         sx={{
           cursor,
           display: 'flex',
           flexDirection: 'column',
           height: '100%',
+          label: 'GridBox',
           left: 0,
           position: 'absolute',
           top: 0,
@@ -148,10 +143,12 @@ export const GridBox: GridBoxComponent = memo((props) => {
         }}
       >
         <ContentComponent
+          id={itemId}
           isDragging={isDragging}
           isResizing={isResizing}
-          item={item}
+          length={length}
           step={step}
+          x={x}
         />
         <Draggable
           axis="x"
@@ -165,7 +162,7 @@ export const GridBox: GridBoxComponent = memo((props) => {
           onDrag={handleResizerDrag}
           onStart={handleResizerDragStart}
           onStop={handleResizerDragStop}
-          position={{ x: item.length * step - 16, y: 0 }}
+          position={{ x: lengthProp * step - 16, y: 0 }}
         >
           <Box
             className="resizer"

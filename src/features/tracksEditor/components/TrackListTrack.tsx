@@ -47,7 +47,6 @@ export const TrackListTrack: FC<TrackListTrackProps> = memo((props) => {
     return track.sequences.map((sequence) => ({
       id: sequence.id,
       length: sequence.measureCount,
-      payload: sequence,
       x: sequence.position,
     }));
   }, [track.sequences]);
@@ -66,36 +65,45 @@ export const TrackListTrack: FC<TrackListTrackProps> = memo((props) => {
     return find(isEmptyPosition, allPositions);
   }, [songMeasureCount, track.sequences]);
 
-  const getIsSequenceSelected = useCallback(
-    (sequence) => {
+  const getIsIdSelected = useCallback<(id: number) => boolean>(
+    (id) => {
       if (!selectedSequenceId) return false;
 
-      return sequence.id === selectedSequenceId;
+      return id === selectedSequenceId;
     },
     [selectedSequenceId],
   );
 
-  const handleGridBoxesItemsChange = useCallback<
-    GridBoxesOnItemsChange<Sequence>
-  >(
+  const getSequenceById = useCallback<(id: number) => Sequence>(
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    (id) => find((sequence) => sequence.id === id, track.sequences)!,
+    [track.sequences],
+  );
+
+  const handleGridBoxesItemsChange = useCallback<GridBoxesOnItemsChange>(
     (items) => {
       const editedSequences = items
-        .filter((item) => {
-          if (item.payload.measureCount !== item.length) return true;
+        .map(({ id, length, x }) => ({
+          length,
+          sequence: getSequenceById(id),
+          x,
+        }))
+        .filter(({ length, sequence, x }) => {
+          if (sequence.measureCount !== length) return true;
 
-          if (item.payload.position !== item.x) return true;
+          if (sequence.position !== x) return true;
 
           return false;
         })
-        .map((item) => ({
-          ...item.payload,
-          measureCount: item.length,
-          position: item.x,
+        .map(({ length, sequence, x }) => ({
+          ...sequence,
+          measureCount: length,
+          position: x,
         }));
 
       each(onSequenceEdit, editedSequences);
     },
-    [onSequenceEdit],
+    [getSequenceById, onSequenceEdit],
   );
 
   const handleHeaderClick = useCallback(() => {
@@ -112,19 +120,17 @@ export const TrackListTrack: FC<TrackListTrackProps> = memo((props) => {
     [onSequenceAdd, track],
   );
 
-  const sequenceComponent = useCallback<
-    FC<GridBoxContentComponentProps<Sequence>>
-  >(
-    ({ isDragging, item }) => (
+  const sequenceComponent = useCallback<FC<GridBoxContentComponentProps>>(
+    ({ id, isDragging }) => (
       <TrackListSequence
         isDragging={isDragging}
-        isSelected={getIsSequenceSelected(item.payload)}
+        isSelected={getIsIdSelected(id)}
         onOpen={onSequenceOpen}
         onSelect={onSequenceSelect}
-        sequence={item.payload}
+        sequence={getSequenceById(id)}
       />
     ),
-    [getIsSequenceSelected, onSequenceOpen, onSequenceSelect],
+    [getIsIdSelected, getSequenceById, onSequenceOpen, onSequenceSelect],
   );
 
   return (
@@ -141,9 +147,7 @@ export const TrackListTrack: FC<TrackListTrackProps> = memo((props) => {
           alignItems: 'stretch',
           display: 'flex',
           flex: '1 0 auto',
-          position: 'relative',
           transition: 'width 500ms ease',
-          zIndex: 0,
         }}
       >
         <GridBoxes
