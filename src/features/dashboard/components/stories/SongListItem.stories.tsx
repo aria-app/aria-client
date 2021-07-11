@@ -8,7 +8,7 @@ export default {
   decorators: [
     (Story) => <Box sx={{ maxWidth: 600, width: '100vh' }}>{Story()}</Box>,
   ],
-  title: 'SongListItem',
+  title: 'Dashboard/SongListItem',
 } as Meta;
 
 export const Default: Story<SongListItemProps> = (args) => (

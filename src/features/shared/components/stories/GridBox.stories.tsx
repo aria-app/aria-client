@@ -24,7 +24,7 @@ export default {
       </Box>
     ),
   ],
-  title: 'GridBox',
+  title: 'Shared/GridBox',
   argTypes: {
     contentComponent: { control: false },
   },

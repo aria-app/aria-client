@@ -30,7 +30,7 @@ export default {
       </Box>
     ),
   ],
-  title: 'GridBoxes',
+  title: 'Shared/GridBoxes',
   argTypes: {
     boxContentComponent: { control: false },
   },

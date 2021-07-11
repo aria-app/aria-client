@@ -148,6 +148,7 @@ export const TrackListTrack: FC<TrackListTrackProps> = memo((props) => {
           display: 'flex',
           flex: '1 0 auto',
           transition: 'width 500ms ease',
+          position: 'relative',
         }}
       >
         <GridBoxes
