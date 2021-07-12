@@ -8,7 +8,7 @@ import { TrackListTrack, TrackListTrackProps } from '../TrackListTrack';
 
 export default {
   component: TrackListTrack,
-  title: 'Shared/TrackListTrack',
+  title: 'TracksEditor/TrackListTrack',
 } as Meta;
 
 export const Default: Story<TrackListTrackProps> = (args) => (
