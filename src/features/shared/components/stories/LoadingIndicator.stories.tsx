@@ -5,7 +5,9 @@ import { LoadingIndicator, LoadingIndicatorProps } from '../LoadingIndicator';
 export default {
   component: LoadingIndicator,
   title: 'Shared/LoadingIndicator',
-  layout: 'fullscreen',
+  parameters: {
+    layout: 'fullscreen',
+  },
 } as Meta;
 
 export const Default: Story<LoadingIndicatorProps> = (args) => (

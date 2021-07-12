@@ -1,10 +1,10 @@
 import { Router } from '@reach/router';
-import { Box } from 'aria-ui';
+import { Box, lightTheme, ThemeProvider } from 'aria-ui';
 import { FC } from 'react';
 
 import { useAuth } from '../../auth';
 import { Dashboard } from '../../dashboard';
-import { LoadingIndicator, Shell, ThemeProvider } from '../../shared';
+import { LoadingIndicator, Shell } from '../../shared';
 import { SongEditor } from '../../songEditor';
 import { SongViewer } from '../../songViewer';
 import { Login } from './Login';
@@ -14,7 +14,7 @@ export const App: FC<any> = () => {
   const { loading } = useAuth();
 
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={lightTheme}>
       <Shell>
         {loading ? (
           <LoadingIndicator>AUTHENTICATING...</LoadingIndicator>

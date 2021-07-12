@@ -2,7 +2,9 @@ import { Global } from '@emotion/react';
 import { absoluteFill, Box, GlobalStyles } from 'aria-ui';
 import { FC, HTMLAttributes, memo } from 'react';
 
-export const Shell: FC<HTMLAttributes<HTMLDivElement>> = memo((props) => {
+export type ShellProps = HTMLAttributes<HTMLDivElement>;
+
+export const Shell: FC<ShellProps> = memo((props) => {
   const { children, ...rest } = props;
 
   return (
