@@ -7,6 +7,7 @@ import max from 'lodash/fp/max';
 import min from 'lodash/fp/min';
 import uniqBy from 'lodash/fp/uniqBy';
 import { FC, memo, useCallback, useMemo, useState } from 'react';
+import { DraggableEventHandler } from 'react-draggable';
 
 import { Dawww } from '../../../dawww';
 import { Note, Point } from '../../../types';
@@ -51,7 +52,7 @@ export const Notes: FC<NotesProps> = memo((props) => {
     left: 0,
     right: (measureCount * 8 * 4 - 1) * 40,
   });
-  const [sizeDeltas, setSizeDeltas] = useState({});
+  const [sizeDeltas, setSizeDeltas] = useState<Record<number, Point>>({});
 
   const adjustedNotes = useMemo(
     () =>
@@ -140,7 +141,7 @@ export const Notes: FC<NotesProps> = memo((props) => {
     [handleErase, handleSelect, measureCount, selectedNotes],
   );
 
-  const handleNoteDragStop = useCallback(() => {
+  const handleNoteDragStop = useCallback<DraggableEventHandler>(() => {
     const draggedNotes = applyPositionDeltas(notes, positionDeltas);
 
     if (!isEqual(draggedNotes, notes)) {
@@ -183,7 +184,7 @@ export const Notes: FC<NotesProps> = memo((props) => {
     [handleSelect, measureCount, selectedNotes],
   );
 
-  const handleNoteEndPointDragStop = useCallback(() => {
+  const handleNoteEndPointDragStop = useCallback<DraggableEventHandler>(() => {
     onResize(applySizeDeltas(notes, sizeDeltas));
 
     setSizeDeltas({});
@@ -223,7 +224,10 @@ export const Notes: FC<NotesProps> = memo((props) => {
   );
 });
 
-function applyPositionDeltas(notes, deltas) {
+export function applyPositionDeltas(
+  notes: Note[],
+  deltas: Record<number, Point>,
+): Note[] {
   return notes.map((note) => {
     const noteDelta = deltas[note.id];
 
@@ -239,7 +243,10 @@ function applyPositionDeltas(notes, deltas) {
   });
 }
 
-function applySizeDeltas(notes, deltas) {
+export function applySizeDeltas(
+  notes: Note[],
+  deltas: Record<number, Point>,
+): Note[] {
   return notes.map((note) => {
     const noteDelta = deltas[note.id];
 

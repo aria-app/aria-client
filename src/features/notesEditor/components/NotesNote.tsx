@@ -1,4 +1,4 @@
-import { Box, mergeSX } from 'aria-ui';
+import { Box, BoxProps, mergeSX } from 'aria-ui';
 import first from 'lodash/fp/first';
 import last from 'lodash/fp/last';
 import {
@@ -8,35 +8,35 @@ import {
   MouseEvent,
   useCallback,
   useMemo,
+  useRef,
 } from 'react';
-import Draggable from 'react-draggable';
+import Draggable, { DraggableEventHandler } from 'react-draggable';
 
 import { Note, Point } from '../../../types';
 import { PositionBounds, SizeBounds } from '../types';
+
+export type NotesNoteOnDrag = (dragDelta: Partial<Point>) => void;
 
 export interface NotesNoteProps
   extends Omit<
     HTMLAttributes<HTMLDivElement>,
     'onDrag' | 'onDragStart' | 'onDragStop'
   > {
-  classes?: Record<string, string>;
   isSelected?: boolean;
   note: Note;
-  onDrag: (dragDelta: Partial<Point>) => void;
+  onDrag: NotesNoteOnDrag;
   onDragStart: (note: Note, e: MouseEvent<HTMLDivElement>) => void;
-  onDragStop: () => void;
-  onEndPointDrag: (dragDelta: Partial<Point>) => void;
+  onDragStop: DraggableEventHandler;
+  onEndPointDrag: NotesNoteOnDrag;
   onEndPointDragStart: (note: Note, e: MouseEvent<HTMLDivElement>) => void;
-  onEndPointDragStop: () => void;
+  onEndPointDragStop: DraggableEventHandler;
   positionBounds?: PositionBounds;
   sizeBounds?: SizeBounds;
-  sx?: any;
+  sx?: BoxProps<any>['sx'];
 }
 
 export const NotesNote: FC<NotesNoteProps> = memo((props) => {
   const {
-    className,
-    classes,
     isSelected,
     note,
     onDrag,
@@ -50,6 +50,8 @@ export const NotesNote: FC<NotesNoteProps> = memo((props) => {
     sx,
     ...rest
   } = props;
+  const endPointNodeRef = useRef<HTMLDivElement>(null);
+  const startPointNodeRef = useRef<HTMLDivElement>(null);
 
   const connectorStyle = useMemo(() => {
     const startPoint = first(note.points);
@@ -121,6 +123,7 @@ export const NotesNote: FC<NotesNoteProps> = memo((props) => {
       enableUserSelectHack={true}
       grid={[40, 40]}
       handle=".start-point"
+      nodeRef={startPointNodeRef}
       onDrag={handleDrag}
       onStart={handleDragStart}
       onStop={onDragStop}
@@ -130,6 +133,7 @@ export const NotesNote: FC<NotesNoteProps> = memo((props) => {
       }}
     >
       <Box
+        ref={startPointNodeRef}
         sx={mergeSX(
           {
             left: 0,
@@ -194,6 +198,7 @@ export const NotesNote: FC<NotesNoteProps> = memo((props) => {
           axis="x"
           bounds={sizeBounds}
           grid={[40, 40]}
+          nodeRef={endPointNodeRef}
           onDrag={handleEndPointDrag}
           onStart={handleEndPointDragStart}
           onStop={onEndPointDragStop}
@@ -203,6 +208,7 @@ export const NotesNote: FC<NotesNoteProps> = memo((props) => {
           }}
         >
           <Box
+            ref={endPointNodeRef}
             style={endPointStyle}
             sx={{
               alignItems: 'center',
