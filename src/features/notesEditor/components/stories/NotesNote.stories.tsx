@@ -1,11 +1,11 @@
 import { Meta, Story } from '@storybook/react';
 import { Box } from 'aria-ui';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { DraggableEventHandler } from 'react-draggable';
 
 import { Note, Point } from '../../../../types';
 import { applyPositionDeltas, applySizeDeltas } from '../Notes';
-import { NotesNote, NotesNoteOnDrag, NotesNoteProps } from '../NotesNote';
+import { NotesNote, NotesNoteDragHandler, NotesNoteProps } from '../NotesNote';
 
 export default {
   component: NotesNote,
@@ -46,7 +46,7 @@ Default.args = {
     top: 0,
   },
   sizeBounds: {
-    left: 0,
+    left: 40,
     right: 200,
   },
 };
@@ -55,7 +55,16 @@ export const Stateful: Story<NotesNoteProps> = (args) => {
   const [sizeDelta, setSizeDelta] = useState<Point>({ x: 0, y: 0 });
   const [note, setNote] = useState<Note>(args.note);
 
-  const handleDrag = useCallback<NotesNoteOnDrag>(
+  const adjustedNote = useMemo(
+    () =>
+      applySizeDeltas(
+        applyPositionDeltas([note], { [note.id]: positionDelta }),
+        { [note.id]: sizeDelta },
+      )[0],
+    [note, positionDelta, sizeDelta],
+  );
+
+  const handleDrag = useCallback<NotesNoteDragHandler>(
     (dragDelta) => {
       const { x = 0, y = 0 } = dragDelta;
 
@@ -78,7 +87,7 @@ export const Stateful: Story<NotesNoteProps> = (args) => {
     [args, note, positionDelta],
   );
 
-  const handleEndPointDrag = useCallback<NotesNoteOnDrag>(
+  const handleEndPointDrag = useCallback<NotesNoteDragHandler>(
     (dragDelta) => {
       const { x = 0, y = 0 } = dragDelta;
 
@@ -108,7 +117,7 @@ export const Stateful: Story<NotesNoteProps> = (args) => {
   return (
     <NotesNote
       {...args}
-      note={note}
+      note={adjustedNote}
       onDrag={handleDrag}
       onDragStop={handleDragStop}
       onEndPointDrag={handleEndPointDrag}

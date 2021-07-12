@@ -15,7 +15,12 @@ import Draggable, { DraggableEventHandler } from 'react-draggable';
 import { Note, Point } from '../../../types';
 import { PositionBounds, SizeBounds } from '../types';
 
-export type NotesNoteOnDrag = (dragDelta: Partial<Point>) => void;
+export type NotesNoteDragStartHandler = (
+  note: Note,
+  e: MouseEvent<HTMLDivElement>,
+) => void;
+
+export type NotesNoteDragHandler = (dragDelta: Partial<Point>) => void;
 
 export interface NotesNoteProps
   extends Omit<
@@ -24,11 +29,11 @@ export interface NotesNoteProps
   > {
   isSelected?: boolean;
   note: Note;
-  onDrag: NotesNoteOnDrag;
-  onDragStart: (note: Note, e: MouseEvent<HTMLDivElement>) => void;
+  onDrag: NotesNoteDragHandler;
+  onDragStart: NotesNoteDragStartHandler;
   onDragStop: DraggableEventHandler;
-  onEndPointDrag: NotesNoteOnDrag;
-  onEndPointDragStart: (note: Note, e: MouseEvent<HTMLDivElement>) => void;
+  onEndPointDrag: NotesNoteDragHandler;
+  onEndPointDragStart: NotesNoteDragStartHandler;
   onEndPointDragStop: DraggableEventHandler;
   positionBounds?: PositionBounds;
   sizeBounds?: SizeBounds;
