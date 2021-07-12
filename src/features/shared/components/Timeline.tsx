@@ -1,31 +1,37 @@
-import { Box, BoxProps } from 'aria-ui';
-import { FC } from 'react';
+import { CSSObject } from '@emotion/core';
+import { Box } from 'aria-ui';
+import { CSSProperties } from 'react';
+import { FC, useMemo } from 'react';
 
-export interface TimelineProps extends BoxProps<'div'> {
+export interface TimelineProps {
   isVisible: boolean;
   offset: number;
 }
 
 export const Timeline: FC<TimelineProps> = (props) => {
-  const { isVisible, offset, style = {}, ...rest } = props;
+  const { isVisible, offset } = props;
+
+  const style = useMemo<CSSProperties>(
+    () => ({ transform: `translateX(${offset}px)` }),
+    [offset],
+  );
+
+  const sx = useMemo<CSSObject>(
+    () => ({
+      bottom: 0,
+      label: 'Timeline',
+      left: 0,
+      opacity: 0.25,
+      pointerEvents: 'none',
+      position: 'absolute',
+      top: 0,
+      width: 2,
+      zIndex: 9999,
+    }),
+    [],
+  );
 
   if (!isVisible) return null;
 
-  return (
-    <Box
-      backgroundColor="textPrimary"
-      style={{ ...style, transform: `translateX(${offset}px)` }}
-      sx={{
-        bottom: 0,
-        left: 0,
-        opacity: 0.25,
-        pointerEvents: 'none',
-        position: 'absolute',
-        top: 0,
-        width: 2,
-        zIndex: 9999,
-      }}
-      {...rest}
-    />
-  );
+  return <Box backgroundColor="textPrimary" style={style} sx={sx} />;
 };
