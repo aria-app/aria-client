@@ -1,8 +1,16 @@
 import { Meta, Story } from '@storybook/react';
 import { Box } from 'aria-ui';
+import { useCallback, useEffect, useState } from 'react';
 
+import { Note } from '../../../../types';
 import { toolTypes } from '../../constants';
-import { Notes, NotesProps } from '../Notes';
+import {
+  Notes,
+  NotesDragHandler,
+  NotesProps,
+  NotesResizeHandler,
+  NotesSelectHandler,
+} from '../Notes';
 
 export default {
   component: Notes,
@@ -59,4 +67,55 @@ Default.args = {
   octaveCount: 1,
   selectedNotes: [notes[0]],
   toolType: 'SELECT',
+};
+
+export const Stateful: Story<NotesProps> = (args) => {
+  const [notes, setNotes] = useState<Note[]>(args.notes);
+  const [selectedNotes, setSelectedNotes] = useState<Note[]>(
+    args.selectedNotes,
+  );
+
+  const handleDrag = useCallback<NotesDragHandler>(
+    (draggedNotes) => {
+      setNotes(draggedNotes);
+      args.onDrag(draggedNotes);
+    },
+    [args],
+  );
+
+  const handleResize = useCallback<NotesResizeHandler>(
+    (draggedNotes) => {
+      setNotes(draggedNotes);
+      args.onResize(draggedNotes);
+    },
+    [args],
+  );
+
+  const handleSelect = useCallback<NotesSelectHandler>(
+    (noteToSelect, isAdditive) => {
+      setSelectedNotes([noteToSelect]);
+      args.onSelect(noteToSelect, isAdditive);
+    },
+    [args],
+  );
+
+  useEffect(() => {
+    setNotes(args.notes);
+    setSelectedNotes(args.selectedNotes);
+  }, [args.notes, args.selectedNotes]);
+
+  return (
+    <Notes
+      {...args}
+      notes={notes}
+      onDrag={handleDrag}
+      onResize={handleResize}
+      onSelect={handleSelect}
+      selectedNotes={selectedNotes}
+    />
+  );
+};
+
+Stateful.args = {
+  ...Default.args,
 };

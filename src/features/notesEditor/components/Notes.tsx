@@ -14,15 +14,24 @@ import * as constants from '../constants';
 import { PositionBounds, SizeBounds, ToolType } from '../types';
 import { NotesNote, NotesNoteDragStartHandler } from './NotesNote';
 
+export type NotesDragHandler = (draggedNotes: Note[]) => void;
+
+export type NotesResizeHandler = (resizedNotes: Note[]) => void;
+
+export type NotesSelectHandler = (
+  noteToSelect: Note,
+  isAdditive: boolean,
+) => void;
+
 export interface NotesProps {
   measureCount: number;
   notes: Note[];
   octaveCount: number;
-  onDrag: (draggedNotes: Note[]) => void;
+  onDrag: NotesDragHandler;
   onDragPreview: (draggedNotes: Note[]) => void;
   onErase: (noteToErase: Note) => void;
-  onResize: (resizedNotes: Note[]) => void;
-  onSelect: (noteToSelect: Note, isAdditive: boolean) => void;
+  onResize: NotesResizeHandler;
+  onSelect: NotesSelectHandler;
   selectedNotes: Note[];
   toolType: ToolType;
 }
