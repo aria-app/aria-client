@@ -414,7 +414,11 @@ export const NotesEditor: FC<
                 flex: '1 0 auto',
               }}
             >
-              <Keys hoveredRow={mousePoint.y} onKeyPress={handlePreviewPitch} />
+              <Keys
+                hoveredRow={mousePoint.y}
+                octaveCount={Dawww.OCTAVE_RANGE.length}
+                onKeyPress={handlePreviewPitch}
+              />
               <Grid
                 measureCount={sequence?.measureCount}
                 mousePoint={mousePoint}
