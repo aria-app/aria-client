@@ -17,16 +17,14 @@ export const PositionIndicator: FC<PositionIndicatorProps> = memo((props) => {
     <>
       {x >= 0 && (
         <Box
+          backgroundColor="brandPrimary"
           style={{ transform: `translateX(${x * 40}px)` }}
           sx={{
-            backgroundColor: transparentize(
-              0.9,
-              theme.colors.brandPrimary as string,
-            ),
             borderRadius: theme.borderRadii.md,
             bottom: 0,
             label: 'PositionIndicatorColumn',
             left: 6,
+            opacity: 0.1,
             pointerEvents: 'none',
             position: 'absolute',
             top: 0,
@@ -36,16 +34,14 @@ export const PositionIndicator: FC<PositionIndicatorProps> = memo((props) => {
       )}
       {y >= 0 && (
         <Box
+          backgroundColor="brandPrimary"
           style={{ transform: `translateY(${y * 40}px)` }}
           sx={{
-            backgroundColor: transparentize(
-              0.9,
-              theme.colors.brandPrimary as string,
-            ),
             borderRadius: theme.borderRadii.md,
             label: 'PositionIndicatorRow',
             left: 0,
             height: 28,
+            opacity: 0.1,
             pointerEvents: 'none',
             position: 'absolute',
             right: 0,
