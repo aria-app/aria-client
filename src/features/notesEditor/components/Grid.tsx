@@ -103,7 +103,10 @@ export const Grid: FC<GridProps> = memo((props) => {
           position: 'relative',
         }}
       >
-        <Slots measureCount={measureCount} />
+        <Slots
+          measureCount={measureCount}
+          octaveCount={Dawww.OCTAVE_RANGE.length}
+        />
         {toolType === constants.toolTypes.DRAW && (
           <DrawLayer mousePoint={mousePoint} onDraw={onDraw} />
         )}
