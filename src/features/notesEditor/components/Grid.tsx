@@ -1,6 +1,7 @@
 import { Box } from 'aria-ui';
 import { FC, memo, useCallback, useRef } from 'react';
 
+import { Dawww } from '../../../dawww';
 import { Note, Point } from '../../../types';
 import { Timeline } from '../../shared';
 import * as constants from '../constants';
@@ -115,6 +116,7 @@ export const Grid: FC<GridProps> = memo((props) => {
         <Notes
           measureCount={measureCount}
           notes={notes}
+          octaveCount={Dawww.OCTAVE_RANGE.length}
           onDrag={onDrag}
           onDragPreview={onDragPreview}
           onErase={onErase}
