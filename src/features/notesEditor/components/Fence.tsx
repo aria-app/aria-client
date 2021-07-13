@@ -15,7 +15,10 @@ export const Fence: FC<FenceProps> = memo((props) => {
   const theme = useThemeWithDefault();
 
   const display = useMemo(
-    () => (startPoint && !isEqual(startPoint, endPoint) ? 'block' : 'none'),
+    () =>
+      endPoint && startPoint && !isEqual(startPoint, endPoint)
+        ? 'block'
+        : 'none',
     [endPoint, startPoint],
   );
 
