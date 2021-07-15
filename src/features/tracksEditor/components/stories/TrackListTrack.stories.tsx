@@ -1,5 +1,3 @@
-import '../../../../wdyr';
-
 import { Meta, Story } from '@storybook/react';
 import { useCallback, useEffect, useState } from 'react';
 

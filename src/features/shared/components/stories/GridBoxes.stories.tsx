@@ -1,5 +1,3 @@
-import '../../../../wdyr';
-
 import { Meta, Story } from '@storybook/react';
 import { Box } from 'aria-ui';
 import { FC, useCallback, useEffect } from 'react';
