@@ -1,5 +1,4 @@
 import { Box, useThemeWithDefault } from 'aria-ui';
-import { transparentize } from 'polished';
 import { FC, memo } from 'react';
 
 import { Point } from '../../../types';

@@ -1,5 +1,6 @@
 import { Box } from 'aria-ui';
 import { FC, memo, useCallback, useRef } from 'react';
+import reactFastCompare from 'react-fast-compare';
 
 import { Dawww } from '../../../dawww';
 import { Note, Point } from '../../../types';
@@ -76,9 +77,11 @@ export const Grid: FC<GridProps> = memo((props) => {
         y: Math.floor((y - offsetTop + scrollTop) / 40),
       };
 
+      if (reactFastCompare(nextGridMousePoint, mousePoint)) return;
+
       onMousePointChange(nextGridMousePoint);
     },
-    [onMousePointChange, notesEditorContentEl],
+    [notesEditorContentEl?.scrollTop, mousePoint, onMousePointChange],
   );
 
   return (
