@@ -6,7 +6,7 @@ import {
   Router,
 } from '@reach/router';
 import { Meta, Story } from '@storybook/react';
-import { Box } from 'aria-ui';
+import { Box, Toolbar } from 'aria-ui';
 import { FC, ProviderProps, useRef } from 'react';
 
 import { Dawww } from '../../../../dawww';
@@ -67,16 +67,16 @@ const mocks: MockedResponse<Record<string, any>>[] = [
             {
               id: 1,
               points: [
-                { x: 0, y: 0 },
-                { x: 1, y: 0 },
+                { x: 0, y: 34 },
+                { x: 1, y: 34 },
               ],
               sequence: { id: 1 },
             },
             {
               id: 2,
               points: [
-                { x: 2, y: 2 },
-                { x: 3, y: 2 },
+                { x: 2, y: 35 },
+                { x: 3, y: 35 },
               ],
               sequence: { id: 1 },
             },
@@ -95,7 +95,6 @@ export const Default: Story<any> = (args) => (
       <I18NWrapper>
         <LocationProvider history={history}>
           <Box
-            as={Router}
             sx={{
               display: 'flex',
               flex: '1 1 auto',
@@ -105,7 +104,19 @@ export const Default: Story<any> = (args) => (
               position: 'relative',
             }}
           >
-            <NotesEditor {...args} path="/:sequenceId" />
+            <Toolbar></Toolbar>
+            <Box
+              as={Router}
+              sx={{
+                display: 'flex',
+                flex: '1 1 auto',
+                flexDirection: 'column',
+                overflow: 'hidden',
+                position: 'relative',
+              }}
+            >
+              <NotesEditor {...args} path="/:sequenceId" />
+            </Box>
           </Box>
         </LocationProvider>
       </I18NWrapper>
