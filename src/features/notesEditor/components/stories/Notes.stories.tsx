@@ -3,7 +3,6 @@ import { Box } from 'aria-ui';
 import { useCallback, useEffect, useState } from 'react';
 
 import { Note } from '../../../../types';
-import { toolTypes } from '../../constants';
 import {
   Notes,
   NotesDragHandler,
@@ -28,12 +27,6 @@ export default {
       </Box>
     ),
   ],
-  argTypes: {
-    toolType: {
-      control: { type: 'inline-radio' },
-      options: Object.keys(toolTypes),
-    },
-  },
 } as Meta;
 
 export const Default: Story<NotesProps> = (args) => <Notes {...args} />;

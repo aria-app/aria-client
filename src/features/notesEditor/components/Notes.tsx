@@ -10,7 +10,6 @@ import { FC, memo, useCallback, useMemo, useState } from 'react';
 import { DraggableEventHandler } from 'react-draggable';
 
 import { Note, Point } from '../../../types';
-import * as constants from '../constants';
 import { PositionBounds, SizeBounds, ToolType } from '../types';
 import { NotesNote, NotesNoteDragStartHandler } from './NotesNote';
 
@@ -78,7 +77,7 @@ export const Notes: FC<NotesProps> = memo((props) => {
 
   const handleErase = useCallback(
     (note) => {
-      if (toolType !== constants.toolTypes.ERASE) return;
+      if (toolType !== 'ERASE') return;
 
       onErase(note);
     },
@@ -113,10 +112,7 @@ export const Notes: FC<NotesProps> = memo((props) => {
       const isAdditive = e.ctrlKey || e.metaKey;
 
       if (
-        !includes(toolType, [
-          constants.toolTypes.DRAW,
-          constants.toolTypes.SELECT,
-        ]) ||
+        !includes(toolType, ['DRAW', 'SELECT']) ||
         (getIsNoteSelected(note) && !isAdditive)
       )
         return;

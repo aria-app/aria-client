@@ -10,4 +10,4 @@ export interface SizeBounds {
   right: number;
 }
 
-export type ToolType = 'DRAW' | 'ERASE' | 'SELECT' | 'MOVE' | 'PAN';
+export type ToolType = 'DRAW' | 'ERASE' | 'SELECT' | 'PAN';
