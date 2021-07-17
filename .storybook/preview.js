@@ -1,4 +1,5 @@
 import { darkTheme, GlobalStyles, lightTheme, ThemeProvider } from 'aria-ui';
+import * as Tone from 'tone';
 
 export const globalTypes = {
   theme: {
@@ -34,3 +35,9 @@ export const decorators = [
     );
   },
 ];
+
+['keydown', 'mousedown', 'touchdown'].forEach((eventName) => {
+  document.body.addEventListener(eventName, () => {
+    Tone.start();
+  });
+});

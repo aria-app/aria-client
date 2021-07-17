@@ -53,11 +53,15 @@ export const Dashboard: FC<RouteComponentProps> = (props) => {
 
       if (!shouldDelete) return;
 
-      await deleteSong({
-        variables: {
-          id: song.id,
-        },
-      });
+      try {
+        await deleteSong({
+          variables: {
+            id: song.id,
+          },
+        });
+      } catch (error) {
+        console.error(error);
+      }
     },
     [deleteSong],
   );

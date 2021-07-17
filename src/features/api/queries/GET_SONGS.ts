@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 import { PaginatedResponse, Song } from '../../../types';
 
 export interface GetSongsResponse {
-  songs: PaginatedResponse<Song>;
+  songs: PaginatedResponse<Pick<Song, 'id' | 'name' | 'updatedAt'>>;
 }
 
 export const GET_SONGS = gql`
@@ -26,7 +26,6 @@ export const GET_SONGS = gql`
       data {
         id
         name
-        trackCount
         updatedAt
       }
       meta {
