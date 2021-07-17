@@ -23,7 +23,7 @@ import {
   LoadingIndicator,
   toggleInArray,
 } from '../../shared';
-import { toolTypes } from '../constants';
+import { ToolType } from '../types';
 import { Grid } from './Grid';
 import { Keys } from './Keys';
 import { NotesEditorToolbar } from './NotesEditorToolbar';
@@ -51,9 +51,9 @@ export const NotesEditor: FC<
   });
   const [contentEl, setContentEl] = useState<HTMLDivElement | null>(null);
   const [mousePoint, setMousePoint] = useState({ x: -1, y: 1 });
-  const [previousToolType, setPreviousToolType] = useState(toolTypes.SELECT);
+  const [previousToolType, setPreviousToolType] = useState<ToolType>('SELECT');
   const [selectedNoteIds, setSelectedNoteIds] = useState<number[]>([]);
-  const [toolType, setToolType] = useState(toolTypes.SELECT);
+  const [toolType, setToolType] = useState<ToolType>('SELECT');
 
   const sequence = useMemo(() => (data ? data.sequence : null), [data]);
 
@@ -94,7 +94,7 @@ export const NotesEditor: FC<
   }, []);
 
   const handleDrawToolActivate = useCallback(() => {
-    setToolType(toolTypes.DRAW);
+    setToolType('DRAW');
   }, []);
 
   const handleDuplicate = useCallback(
@@ -118,7 +118,7 @@ export const NotesEditor: FC<
   );
 
   const handleEraseToolActivate = useCallback(() => {
-    setToolType(toolTypes.ERASE);
+    setToolType('ERASE');
   }, []);
 
   const handlePreviewPitch = useCallback(
@@ -288,7 +288,7 @@ export const NotesEditor: FC<
 
       setPreviousToolType(toolType);
 
-      setToolType(toolTypes.PAN);
+      setToolType('PAN');
     },
     [toolType],
   );
@@ -303,7 +303,7 @@ export const NotesEditor: FC<
   );
 
   const handlePanToolActivate = useCallback(() => {
-    setToolType(toolTypes.PAN);
+    setToolType('PAN');
   }, []);
 
   const handleSelectAll = useCallback(() => {
@@ -313,7 +313,7 @@ export const NotesEditor: FC<
   }, [notes, selectedNotes.length]);
 
   const handleSelectToolActivate = useCallback(() => {
-    setToolType(toolTypes.SELECT);
+    setToolType('SELECT');
   }, []);
 
   const handleToolbarOctaveDown = useCallback(
@@ -414,7 +414,11 @@ export const NotesEditor: FC<
                 flex: '1 0 auto',
               }}
             >
-              <Keys hoveredRow={mousePoint.y} onKeyPress={handlePreviewPitch} />
+              <Keys
+                hoveredRow={mousePoint.y}
+                octaveCount={Dawww.OCTAVE_RANGE.length}
+                onKeyPress={handlePreviewPitch}
+              />
               <Grid
                 measureCount={sequence?.measureCount}
                 mousePoint={mousePoint}

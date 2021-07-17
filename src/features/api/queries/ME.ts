@@ -2,7 +2,9 @@ import { gql } from '@apollo/client';
 
 import { User } from '../../../types';
 
-export type MeResponse = User;
+export interface MeResponse {
+  me: Pick<User, 'email' | 'firstName' | 'id' | 'lastName'>;
+}
 
 export const ME = gql`
   query Me {
@@ -11,7 +13,6 @@ export const ME = gql`
       firstName
       id
       lastName
-      role
     }
   }
 `;

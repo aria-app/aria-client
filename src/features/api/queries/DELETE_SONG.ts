@@ -3,7 +3,9 @@ import { gql } from '@apollo/client';
 export type DeleteSongInput = number;
 
 export interface DeleteSongResponse {
-  success: boolean;
+  deleteSong: {
+    success: boolean;
+  };
 }
 
 export const DELETE_SONG = gql`

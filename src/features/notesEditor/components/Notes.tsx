@@ -7,21 +7,30 @@ import max from 'lodash/fp/max';
 import min from 'lodash/fp/min';
 import uniqBy from 'lodash/fp/uniqBy';
 import { FC, memo, useCallback, useMemo, useState } from 'react';
+import { DraggableEventHandler } from 'react-draggable';
 
-import { Dawww } from '../../../dawww';
 import { Note, Point } from '../../../types';
-import * as constants from '../constants';
 import { PositionBounds, SizeBounds, ToolType } from '../types';
-import { NotesNote } from './NotesNote';
+import { NotesNote, NotesNoteDragStartHandler } from './NotesNote';
+
+export type NotesDragHandler = (draggedNotes: Note[]) => void;
+
+export type NotesResizeHandler = (resizedNotes: Note[]) => void;
+
+export type NotesSelectHandler = (
+  noteToSelect: Note,
+  isAdditive: boolean,
+) => void;
 
 export interface NotesProps {
   measureCount: number;
   notes: Note[];
-  onDrag: (draggedNotes: Note[]) => void;
+  octaveCount: number;
+  onDrag: NotesDragHandler;
   onDragPreview: (draggedNotes: Note[]) => void;
   onErase: (noteToErase: Note) => void;
-  onResize: (resizedNotes: Note[]) => void;
-  onSelect: (noteToSelect: Note, isAdditive: boolean) => void;
+  onResize: NotesResizeHandler;
+  onSelect: NotesSelectHandler;
   selectedNotes: Note[];
   toolType: ToolType;
 }
@@ -30,6 +39,7 @@ export const Notes: FC<NotesProps> = memo((props) => {
   const {
     measureCount,
     notes,
+    octaveCount,
     onDrag,
     onDragPreview,
     onErase,
@@ -39,7 +49,8 @@ export const Notes: FC<NotesProps> = memo((props) => {
     toolType,
   } = props;
   const [positionBounds, setPositionBounds] = useState<PositionBounds>({
-    bottom: (Dawww.OCTAVE_RANGE.length * 12 - 1) * 40,
+    // TODO: Refactor out into prop
+    bottom: (octaveCount * 12 - 1) * 40,
     left: 0,
     right: (measureCount * 8 * 4 - 1) * 40,
     top: 0,
@@ -51,7 +62,7 @@ export const Notes: FC<NotesProps> = memo((props) => {
     left: 0,
     right: (measureCount * 8 * 4 - 1) * 40,
   });
-  const [sizeDeltas, setSizeDeltas] = useState({});
+  const [sizeDeltas, setSizeDeltas] = useState<Record<number, Point>>({});
 
   const adjustedNotes = useMemo(
     () =>
@@ -66,7 +77,7 @@ export const Notes: FC<NotesProps> = memo((props) => {
 
   const handleErase = useCallback(
     (note) => {
-      if (toolType !== constants.toolTypes.ERASE) return;
+      if (toolType !== 'ERASE') return;
 
       onErase(note);
     },
@@ -101,10 +112,7 @@ export const Notes: FC<NotesProps> = memo((props) => {
       const isAdditive = e.ctrlKey || e.metaKey;
 
       if (
-        !includes(toolType, [
-          constants.toolTypes.DRAW,
-          constants.toolTypes.SELECT,
-        ]) ||
+        !includes(toolType, ['DRAW', 'SELECT']) ||
         (getIsNoteSelected(note) && !isAdditive)
       )
         return;
@@ -114,16 +122,16 @@ export const Notes: FC<NotesProps> = memo((props) => {
     [getIsNoteSelected, onSelect, toolType],
   );
 
-  const handleNoteDragStart = useCallback(
+  const handleNoteDragStart = useCallback<NotesNoteDragStartHandler>(
     (draggedNote, e) => {
       const notes = uniqBy((x) => x.id, [draggedNote, ...selectedNotes]);
       const draggedX = getOr(0, 'points[0].x', draggedNote);
       const draggedY = getOr(0, 'points[0].y', draggedNote);
-      const maxX = max(notes.map(getOr(0, 'points[1].x')));
-      const maxY = max(notes.map(getOr(0, 'points[1].y')));
-      const minX = min(notes.map(getOr(0, 'points[0].x')));
-      const minY = min(notes.map(getOr(0, 'points[0].y')));
-      const baseBottom = Dawww.OCTAVE_RANGE.length * 12 - 1;
+      const maxX = max(notes.map((note) => note.points[1].x)) || 0;
+      const maxY = max(notes.map((note) => note.points[1].y)) || 0;
+      const minX = min(notes.map((note) => note.points[0].x)) || 0;
+      const minY = min(notes.map((note) => note.points[0].y)) || 0;
+      const baseBottom = octaveCount * 12 - 1;
       const baseRight = measureCount * 8 * 4 - 1;
 
       setPositionBounds({
@@ -137,10 +145,10 @@ export const Notes: FC<NotesProps> = memo((props) => {
 
       handleSelect(draggedNote, e);
     },
-    [handleErase, handleSelect, measureCount, selectedNotes],
+    [handleErase, handleSelect, measureCount, octaveCount, selectedNotes],
   );
 
-  const handleNoteDragStop = useCallback(() => {
+  const handleNoteDragStop = useCallback<DraggableEventHandler>(() => {
     const draggedNotes = applyPositionDeltas(notes, positionDeltas);
 
     if (!isEqual(draggedNotes, notes)) {
@@ -167,10 +175,10 @@ export const Notes: FC<NotesProps> = memo((props) => {
     [selectedNotes, sizeDeltas],
   );
 
-  const handleNoteEndPointDragStart = useCallback(
+  const handleNoteEndPointDragStart = useCallback<NotesNoteDragStartHandler>(
     (sizedNote, e) => {
       const notes = uniqBy((x) => x.id, [...selectedNotes, sizedNote]);
-      const maxPositionX = max(notes.map(getOr(0, 'points[0].x')));
+      const maxPositionX = max(notes.map((note) => note.points[0].x)) || 0;
       const baseRight = measureCount * 8 * 4 - 1;
 
       setSizeBounds({
@@ -183,7 +191,7 @@ export const Notes: FC<NotesProps> = memo((props) => {
     [handleSelect, measureCount, selectedNotes],
   );
 
-  const handleNoteEndPointDragStop = useCallback(() => {
+  const handleNoteEndPointDragStop = useCallback<DraggableEventHandler>(() => {
     onResize(applySizeDeltas(notes, sizeDeltas));
 
     setSizeDeltas({});
@@ -223,7 +231,10 @@ export const Notes: FC<NotesProps> = memo((props) => {
   );
 });
 
-function applyPositionDeltas(notes, deltas) {
+export function applyPositionDeltas(
+  notes: Note[],
+  deltas: Record<number, Point>,
+): Note[] {
   return notes.map((note) => {
     const noteDelta = deltas[note.id];
 
@@ -239,7 +250,10 @@ function applyPositionDeltas(notes, deltas) {
   });
 }
 
-function applySizeDeltas(notes, deltas) {
+export function applySizeDeltas(
+  notes: Note[],
+  deltas: Record<number, Point>,
+): Note[] {
   return notes.map((note) => {
     const noteDelta = deltas[note.id];
 

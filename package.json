@@ -7,11 +7,15 @@
   "private": true,
   "scripts": {
     "build": "react-scripts build",
+    "ci": "yarn lint && yarn build-storybook && yarn build && CI=true yarn test",
+    "clean": "rimraf build coverage storybook-static",
     "lint-eslint": "eslint \"src/**\" --fix --ignore-pattern \"src/**/*.json\"",
     "lint-prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
     "lint": "yarn run lint-eslint && yarn run lint-prettier",
     "start": "react-scripts start",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "dependencies": {
     "@apollo/client": "3.3.19",
@@ -39,6 +43,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-draggable": "^4.0.3",
+    "react-fast-compare": "^3.2.0",
     "react-hotkeys": "^2.0.0",
     "react-i18next": "^11.10.0",
     "react-router-dom": "^5.0.1",
@@ -46,6 +51,12 @@
     "tone": "^14.7.77"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^6.3.4",
+    "@storybook/addon-essentials": "^6.3.4",
+    "@storybook/addon-links": "^6.3.4",
+    "@storybook/node-logger": "^6.3.4",
+    "@storybook/preset-create-react-app": "^3.2.0",
+    "@storybook/react": "^6.3.4",
     "@types/deep-diff": "1.0.0",
     "@types/event-emitter": "0.3.3",
     "@types/jest": "26.0.23",
@@ -59,6 +70,7 @@
     "@types/react-dom": "17.0.8",
     "@types/react-router-dom": "^5.1.7",
     "@types/testing-library__jest-dom": "5.14.0",
+    "@welldone-software/why-did-you-render": "^6.2.0",
     "babel-eslint": "^10.1.0",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-flowtype": "^5.7.2",
@@ -72,10 +84,8 @@
     "husky": "4.3.0",
     "prettier": "2.3.0",
     "react-scripts": "4.0.3",
+    "rimraf": "^3.0.2",
     "typescript": "4.3.2"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": [
     ">0.2%",

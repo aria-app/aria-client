@@ -1,39 +1,58 @@
 import { Box } from 'aria-ui';
 import clamp from 'lodash/fp/clamp';
 import {
-  ElementType,
   FC,
   HTMLAttributes,
   memo,
   useCallback,
+  useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import Draggable from 'react-draggable';
 
-import { GridBoxItem } from '../types';
+export interface GridBoxContentComponentProps {
+  id: number;
+  isDragging: boolean;
+  isResizing: boolean;
+  length: number;
+  step: number;
+  x: number;
+}
+
+export type GridBoxOnLengthChange = (id: number, changedLength: number) => void;
+
+export type GridBoxOnXChange = (id: number, changedX: number) => void;
 
 export interface GridBoxProps extends HTMLAttributes<HTMLDivElement> {
-  contentComponent?: ElementType;
-  item: GridBoxItem;
-  onItemChange: (changedItem: GridBoxItem) => void;
+  contentComponent?: FC<GridBoxContentComponentProps>;
+  itemId: number;
+  length: number;
+  onLengthChange: GridBoxOnLengthChange;
+  onXChange: GridBoxOnXChange;
   step?: number;
   totalLength: number;
+  x: number;
 }
 
 export const GridBox: FC<GridBoxProps> = memo((props) => {
   const {
     contentComponent: ContentComponent = () => null,
-    item,
-    onItemChange,
+    itemId,
+    length: lengthProp,
+    onLengthChange,
+    onXChange,
     step = 100,
-    style = {},
     totalLength,
+    x,
   } = props;
+
+  const rootNodeRef = useRef<HTMLDivElement>(null);
+  const resizerNodeRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
-  const [length, setLength] = useState(item.length);
-
+  const [length, setLength] = useState(lengthProp);
   const cursor = useMemo(() => {
     if (isDragging) {
       return 'move';
@@ -54,19 +73,20 @@ export const GridBox: FC<GridBoxProps> = memo((props) => {
     (e, dragData) => {
       setIsDragging(false);
 
-      onItemChange({
-        ...item,
-        x: Math.round(dragData.lastX / 64),
-      });
+      const newX = Math.round(dragData.lastX / step);
+
+      if (newX === x) return;
+
+      onXChange(itemId, newX);
     },
-    [item, onItemChange],
+    [itemId, onXChange, step, x],
   );
 
   const handleResizerDrag = useCallback(
     (e, dragData) => {
-      setLength(clamp(1, totalLength - item.x, dragData.lastX / step));
+      setLength(clamp(1, totalLength - x, dragData.lastX / step));
     },
-    [item.x, step, totalLength],
+    [x, step, totalLength],
   );
 
   const handleResizerDragStart = useCallback(() => {
@@ -74,35 +94,44 @@ export const GridBox: FC<GridBoxProps> = memo((props) => {
   }, []);
 
   const handleResizerDragStop = useCallback(() => {
-    const roundedLength = Math.max(1, Math.round(length));
-
     setIsResizing(false);
 
-    onItemChange({
-      ...item,
-      length: roundedLength,
-    });
+    const newLength = Math.max(1, Math.round(length));
 
-    setLength(roundedLength);
-  }, [item, length, onItemChange]);
+    if (newLength === lengthProp) {
+      setLength(lengthProp);
+      return;
+    }
+
+    onLengthChange(itemId, newLength);
+
+    setLength(lengthProp);
+  }, [itemId, length, lengthProp, onLengthChange]);
+
+  useEffect(() => {
+    setLength(lengthProp);
+  }, [lengthProp]);
 
   return (
     <Draggable
       axis="x"
       bounds="parent"
       cancel={'.resizer'}
-      key={item.id}
+      key={itemId}
+      nodeRef={rootNodeRef}
       onStart={handleDragStart}
       onStop={handleDragStop}
-      position={{ x: item.x * step, y: 0 }}
+      position={{ x: x * step, y: 0 }}
     >
       <Box
-        style={{ width: length * step, ...style }}
+        ref={rootNodeRef}
+        style={{ width: length * step }}
         sx={{
           cursor,
           display: 'flex',
           flexDirection: 'column',
           height: '100%',
+          label: 'GridBox',
           left: 0,
           position: 'absolute',
           top: 0,
@@ -113,7 +142,14 @@ export const GridBox: FC<GridBoxProps> = memo((props) => {
           zIndex: isDragging || isResizing ? 2 : 1,
         }}
       >
-        <ContentComponent isDragging={isDragging} item={item} step={step} />
+        <ContentComponent
+          id={itemId}
+          isDragging={isDragging}
+          isResizing={isResizing}
+          length={length}
+          step={step}
+          x={x}
+        />
         <Draggable
           axis="x"
           bounds={{
@@ -122,13 +158,15 @@ export const GridBox: FC<GridBoxProps> = memo((props) => {
             right: undefined,
             top: undefined,
           }}
+          nodeRef={resizerNodeRef}
           onDrag={handleResizerDrag}
           onStart={handleResizerDragStart}
           onStop={handleResizerDragStop}
-          position={{ x: item.length * step - 16, y: 0 }}
+          position={{ x: lengthProp * step - 16, y: 0 }}
         >
           <Box
             className="resizer"
+            ref={resizerNodeRef}
             sx={{
               backgroundColor: 'transparent',
               bottom: 0,
@@ -138,10 +176,14 @@ export const GridBox: FC<GridBoxProps> = memo((props) => {
               top: 0,
               zIndex: 2,
             }}
-            width={2}
+            width={4}
           />
         </Draggable>
       </Box>
     </Draggable>
   );
 });
+
+GridBox.defaultProps = {
+  step: 100,
+};

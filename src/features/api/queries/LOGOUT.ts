@@ -1,7 +1,9 @@
 import { gql } from '@apollo/client';
 
 export interface LogoutResponse {
-  success: boolean;
+  logout: {
+    success: boolean;
+  };
 }
 
 export const LOGOUT = gql`

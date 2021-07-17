@@ -1,9 +1,10 @@
 import { Box } from 'aria-ui';
 import { FC, memo, useCallback, useRef } from 'react';
+import reactFastCompare from 'react-fast-compare';
 
+import { Dawww } from '../../../dawww';
 import { Note, Point } from '../../../types';
 import { Timeline } from '../../shared';
-import * as constants from '../constants';
 import { ToolType } from '../types';
 import { DrawLayer } from './DrawLayer';
 import { Notes } from './Notes';
@@ -75,9 +76,11 @@ export const Grid: FC<GridProps> = memo((props) => {
         y: Math.floor((y - offsetTop + scrollTop) / 40),
       };
 
+      if (reactFastCompare(nextGridMousePoint, mousePoint)) return;
+
       onMousePointChange(nextGridMousePoint);
     },
-    [onMousePointChange, notesEditorContentEl],
+    [notesEditorContentEl?.scrollTop, mousePoint, onMousePointChange],
   );
 
   return (
@@ -102,12 +105,15 @@ export const Grid: FC<GridProps> = memo((props) => {
           position: 'relative',
         }}
       >
-        <Slots measureCount={measureCount} />
-        {toolType === constants.toolTypes.DRAW && (
+        <Slots
+          measureCount={measureCount}
+          octaveCount={Dawww.OCTAVE_RANGE.length}
+        />
+        {toolType === 'DRAW' && (
           <DrawLayer mousePoint={mousePoint} onDraw={onDraw} />
         )}
         <Selector
-          isEnabled={toolType === constants.toolTypes.SELECT}
+          isEnabled={toolType === 'SELECT'}
           onSelectInArea={onSelectInArea}
           scrollLeftEl={ref.current}
           scrollTopEl={notesEditorContentEl}
@@ -115,6 +121,7 @@ export const Grid: FC<GridProps> = memo((props) => {
         <Notes
           measureCount={measureCount}
           notes={notes}
+          octaveCount={Dawww.OCTAVE_RANGE.length}
           onDrag={onDrag}
           onDragPreview={onDragPreview}
           onErase={onErase}
@@ -123,7 +130,7 @@ export const Grid: FC<GridProps> = memo((props) => {
           selectedNotes={selectedNotes}
           toolType={toolType}
         />
-        {toolType === constants.toolTypes.PAN && (
+        {toolType === 'PAN' && (
           <Panner
             scrollLeftEl={ref.current}
             scrollTopEl={notesEditorContentEl}

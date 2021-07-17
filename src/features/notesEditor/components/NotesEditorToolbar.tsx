@@ -15,9 +15,7 @@ import { FC, memo, MouseEventHandler, useMemo } from 'react';
 import { Dawww } from '../../../dawww';
 import { Note } from '../../../types';
 import { SelectableIconButton } from '../../shared';
-import * as constants from '../constants';
 import { ToolType } from '../types';
-const { DRAW, ERASE, PAN, SELECT } = constants.toolTypes;
 
 export interface NotesEditorToolbarProps {
   measureCount?: number;
@@ -99,28 +97,28 @@ export const NotesEditorToolbar: FC<NotesEditorToolbarProps> = memo((props) => {
             <Tooltip text="Select">
               <SelectableIconButton
                 icon={<NearMeIcon />}
-                isSelected={toolType === SELECT}
+                isSelected={toolType === 'SELECT'}
                 onClick={onSelectToolSelect}
               />
             </Tooltip>
             <Tooltip text="Draw">
               <SelectableIconButton
                 icon={<EditIcon />}
-                isSelected={toolType === DRAW}
+                isSelected={toolType === 'DRAW'}
                 onClick={onDrawToolSelect}
               />
             </Tooltip>
             <Tooltip text="Erase">
               <SelectableIconButton
                 icon={<EraserIcon />}
-                isSelected={toolType === ERASE}
+                isSelected={toolType === 'ERASE'}
                 onClick={onEraseToolSelect}
               />
             </Tooltip>
             <Tooltip text="Pan">
               <SelectableIconButton
                 icon={<HandRightIcon />}
-                isSelected={toolType === PAN}
+                isSelected={toolType === 'PAN'}
                 onClick={onPanToolSelect}
               />
             </Tooltip>

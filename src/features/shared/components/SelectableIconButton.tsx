@@ -1,8 +1,11 @@
 import { IconButton, IconButtonProps, mergeSX } from 'aria-ui';
-import { forwardRef } from 'react';
+import { forwardRef, HTMLAttributes } from 'react';
 
-export interface SelectableIconButtonProps extends IconButtonProps {
+export interface SelectableIconButtonProps
+  extends Omit<HTMLAttributes<HTMLButtonElement>, 'color'> {
+  icon: IconButtonProps['icon'];
   isSelected?: boolean;
+  sx?: IconButtonProps['sx'];
 }
 
 export const SelectableIconButton = forwardRef<

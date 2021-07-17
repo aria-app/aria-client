@@ -2,23 +2,23 @@ import { Box } from 'aria-ui';
 import range from 'lodash/fp/range';
 import { FC, memo, useMemo } from 'react';
 
-import { Dawww } from '../../../dawww';
-
 export interface SlotsProps {
   measureCount: number;
+  octaveCount: number;
 }
 
 export const Slots: FC<SlotsProps> = memo((props) => {
-  const { measureCount } = props;
+  const { measureCount, octaveCount } = props;
+  const scaleLength = octaveCount * 12;
 
   const slots = useMemo(
     () =>
       range(0, measureCount * 4 * 8).map((columnNumber) =>
-        range(0, Dawww.SCALE.length).map((rowNumber) =>
+        range(0, scaleLength).map((rowNumber) =>
           getSlot(columnNumber, rowNumber),
         ),
       ),
-    [measureCount],
+    [measureCount, scaleLength],
   );
 
   const stripes = useMemo(
@@ -33,11 +33,11 @@ export const Slots: FC<SlotsProps> = memo((props) => {
             x="${(2 * n + 1) * 320}"
             y="0"
             width="320"
-            height="${Dawww.SCALE.length * 40}"
+            height="${scaleLength * 40}"
           ></rect>
         `,
       ),
-    [measureCount],
+    [measureCount, scaleLength],
   );
 
   return (
@@ -46,8 +46,8 @@ export const Slots: FC<SlotsProps> = memo((props) => {
         __html: `
         <svg
           width="${measureCount * 4 * 8 * 40}"
-          height="${Dawww.SCALE.length * 40}"
-          viewBox="0 0 ${measureCount * 4 * 8 * 40} ${Dawww.SCALE.length * 40}">
+          height="${scaleLength * 40}"
+          viewBox="0 0 ${measureCount * 4 * 8 * 40} ${scaleLength * 40}">
           ${stripes}
           ${slots}
         </svg>

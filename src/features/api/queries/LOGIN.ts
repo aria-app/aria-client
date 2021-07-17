@@ -1,8 +1,10 @@
 import { gql } from '@apollo/client';
 
 export interface LoginResponse {
-  expiresAt: string;
-  success: boolean;
+  login: {
+    expiresAt: string;
+    success: boolean;
+  };
 }
 
 export const LOGIN = gql`

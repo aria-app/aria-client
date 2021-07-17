@@ -1,17 +1,27 @@
-import { Box } from 'aria-ui';
-import * as CSS from 'csstype';
-import { ElementType, FC, memo, useCallback, useMemo } from 'react';
+import { Box, BoxProps, mergeSX } from 'aria-ui';
+import { FC, memo, useCallback, useMemo } from 'react';
 
-import { GridBoxItem } from '../types';
-import { GridBox } from './GridBox';
+import {
+  GridBox,
+  GridBoxContentComponentProps,
+  GridBoxOnLengthChange,
+  GridBoxOnXChange,
+} from './GridBox';
 
-export interface GridBoxesProps {
-  boxContentComponent: ElementType;
-  items: GridBoxItem[];
+export interface GridBoxesItem {
+  id: number;
   length: number;
-  onItemsChange: (changedItems: GridBoxItem[]) => void;
+  x: number;
+}
+
+export type GridBoxesOnItemsChange = (changedItems: GridBoxesItem[]) => void;
+
+export interface GridBoxesProps extends BoxProps<'div'> {
+  boxContentComponent: FC<GridBoxContentComponentProps>;
+  items: GridBoxesItem[];
+  length: number;
+  onItemsChange: GridBoxesOnItemsChange;
   step?: number;
-  style: CSS.Properties<number | string>;
 }
 
 export const GridBoxes: FC<GridBoxesProps> = memo((props) => {
@@ -22,6 +32,7 @@ export const GridBoxes: FC<GridBoxesProps> = memo((props) => {
     onItemsChange,
     step = 100,
     style = {},
+    sx: sxProp,
   } = props;
 
   const boxes = useMemo(
@@ -29,36 +40,56 @@ export const GridBoxes: FC<GridBoxesProps> = memo((props) => {
     [items, length],
   );
 
-  const handleGridBoxItemChange = useCallback(
-    (draggedItem) => {
+  const sx = useMemo(
+    () =>
+      mergeSX(
+        {
+          label: 'GridBoxes',
+          position: 'relative',
+          zIndex: 0,
+        },
+        sxProp,
+      ),
+    [sxProp],
+  );
+
+  const handleGridBoxLengthChange = useCallback<GridBoxOnLengthChange>(
+    (id, changedLength) => {
       if (!onItemsChange) return;
 
       onItemsChange(
-        items.map((item) => {
-          if (item.id !== draggedItem.id) return item;
+        items.map((item) =>
+          item.id === id ? { ...item, length: changedLength } : item,
+        ),
+      );
+    },
+    [items, onItemsChange],
+  );
 
-          return draggedItem;
-        }),
+  const handleGridBoxXChange = useCallback<GridBoxOnXChange>(
+    (id, changedX) => {
+      if (!onItemsChange) return;
+
+      onItemsChange(
+        items.map((item) => (item.id === id ? { ...item, x: changedX } : item)),
       );
     },
     [items, onItemsChange],
   );
 
   return (
-    <Box
-      style={{ ...style, width: length * step }}
-      sx={{
-        position: 'relative',
-      }}
-    >
+    <Box style={{ ...style, width: length * step }} sx={sx}>
       {boxes.map((item) => (
         <GridBox
           contentComponent={boxContentComponent}
-          item={item}
+          itemId={item.id}
           key={item.id}
-          onItemChange={handleGridBoxItemChange}
+          length={item.length}
+          onLengthChange={handleGridBoxLengthChange}
+          onXChange={handleGridBoxXChange}
           step={step}
           totalLength={length}
+          x={item.x}
         />
       ))}
     </Box>

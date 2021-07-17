@@ -1,6 +1,6 @@
 import { absoluteFill, Box } from 'aria-ui';
 import isEqual from 'lodash/fp/isEqual';
-import { FC, memo, useCallback, useState } from 'react';
+import { FC, memo, useCallback, useRef, useState } from 'react';
 import { DraggableCore, DraggableEventHandler } from 'react-draggable';
 
 import { Point } from '../../../types';
@@ -19,6 +19,7 @@ export interface SelectorProps {
 
 export const Selector: FC<SelectorProps> = memo((props) => {
   const { isEnabled, onSelectInArea, scrollLeftEl, scrollTopEl } = props;
+  const nodeRef = useRef<HTMLDivElement>(null);
   const [endPoint, setEndPoint] = useState<Point>();
   const [startPoint, setStartPoint] = useState<Point>();
 
@@ -77,11 +78,13 @@ export const Selector: FC<SelectorProps> = memo((props) => {
   return (
     <DraggableCore
       grid={[40, 40]}
+      nodeRef={nodeRef}
       onDrag={handleDrag}
       onStart={handleDragStart}
       onStop={handleDragStop}
     >
       <Box
+        ref={nodeRef}
         style={{ pointerEvents: isEnabled ? 'all' : 'none' }}
         sx={absoluteFill}
       >

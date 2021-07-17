@@ -1,32 +1,21 @@
 import { Box } from 'aria-ui';
-import * as CSS from 'csstype';
+import { range } from 'lodash';
 import { FC, memo, useCallback } from 'react';
 
 import { Dawww } from '../../../dawww';
 import { ScaleStep } from '../../../types';
 import { Key } from './Key';
 
-// TODO: Try moving this into the Key component.
-const keyStyles = Dawww.SCALE.reduce<
-  Record<number, CSS.Properties<number | string>>
->((acc, currentStep) => {
-  return {
-    ...acc,
-    [currentStep.y]: {
-      borderBottomRightRadius:
-        currentStep.y === Dawww.SCALE.length - 1 ? 4 : undefined,
-      borderTopRightRadius: currentStep.y === 0 ? 4 : undefined,
-    },
-  };
-}, {});
-
 export interface KeysProps {
   hoveredRow?: number;
+  octaveCount: number;
   onKeyPress: (step: ScaleStep) => void;
 }
 
 export const Keys: FC<KeysProps> = memo((props) => {
-  const { hoveredRow, onKeyPress } = props;
+  const { hoveredRow, octaveCount, onKeyPress } = props;
+
+  const totalKeyCount = octaveCount * 12;
 
   const getIsHoveredRow = useCallback(
     (step) => step.y === hoveredRow,
@@ -42,23 +31,22 @@ export const Keys: FC<KeysProps> = memo((props) => {
 
   return (
     <Box
+      borderBottomRightRadius="md"
       borderColor="border"
+      borderTopRightRadius="md"
       borderWidth={2}
       sx={{
-        borderBottomRightRadius: 1,
-        borderTopRightRadius: 1,
         borderLeft: 0,
         flexShrink: 0,
       }}
-      width={10}
     >
-      {Dawww.SCALE.map((step) => (
+      {range(0, totalKeyCount).map((n) => (
         <Key
-          isHoveredRow={getIsHoveredRow(step)}
-          key={step.y}
+          isHoveredRow={getIsHoveredRow(Dawww.SCALE[n])}
+          key={n}
           onPress={handleKeyPress}
-          step={step}
-          style={keyStyles[step.y]}
+          step={Dawww.SCALE[n]}
+          totalKeyCount={totalKeyCount}
         />
       ))}
     </Box>
