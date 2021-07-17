@@ -1,11 +1,14 @@
-import { Box, BoxProps, Button } from 'aria-ui';
+import { Box, Button } from 'aria-ui';
 import AddIcon from 'mdi-react/AddIcon';
-import { FC } from 'react';
+import { FC, HTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export type AddTrackButtonProps = BoxProps<'div'>;
+export interface AddTrackButtonProps {
+  onClick?: HTMLAttributes<HTMLButtonElement>['onClick'];
+}
 
 export const AddTrackButton: FC<AddTrackButtonProps> = (props) => {
+  const { onClick } = props;
   const { t } = useTranslation();
 
   return (
@@ -15,10 +18,10 @@ export const AddTrackButton: FC<AddTrackButtonProps> = (props) => {
         display: 'flex',
         transition: 'transform 200ms ease',
       }}
-      {...props}
     >
       <Button
         color="backgroundContrast"
+        onClick={onClick}
         startIcon={<AddIcon />}
         text={t('Add Track')}
         variant="contained"
