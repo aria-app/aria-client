@@ -1,11 +1,12 @@
-import { Button, Dialog, DialogProps, FormGroup, Select, Stack } from 'aria-ui';
+import { Button, Dialog, FormGroup, Select, Stack } from 'aria-ui';
 import { FC, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Dawww } from '../../../dawww';
 import { Song } from '../../../types';
 
-export interface SongInfoModalProps extends DialogProps {
+export interface SongInfoDialogProps {
+  isOpen?: boolean;
   onBPMChange: (changedBPM: number) => void;
   onClose: () => void;
   onReturnToDashboard: () => void;
@@ -13,8 +14,9 @@ export interface SongInfoModalProps extends DialogProps {
   song?: Song;
 }
 
-export const SongInfoDialog: FC<SongInfoModalProps> = memo((props) => {
+export const SongInfoDialog: FC<SongInfoDialogProps> = memo((props) => {
   const {
+    isOpen,
     onBPMChange,
     onClose,
     onReturnToDashboard,
@@ -26,6 +28,7 @@ export const SongInfoDialog: FC<SongInfoModalProps> = memo((props) => {
 
   return (
     <Dialog
+      isOpen={isOpen}
       onClose={onClose}
       onOverlayClick={onClose}
       title={t('Song Info')}
