@@ -7,7 +7,9 @@ import { useTranslation } from 'react-i18next';
 import { LOGIN } from '../../api';
 import { useAuth } from '../../auth';
 
-export const Login: FC<RouteComponentProps> = (props) => {
+export type LoginProps = RouteComponentProps;
+
+export const Login: FC<LoginProps> = (props) => {
   const [login, { client, error, loading }] = useMutation(LOGIN);
   const { getIsAuthenticated, handleLogin } = useAuth();
   const [email, setEmail] = useState('');
