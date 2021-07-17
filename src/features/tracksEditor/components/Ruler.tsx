@@ -2,7 +2,7 @@ import { Box, MotionBox, Text, useThemeWithDefault } from 'aria-ui';
 import { AnimatePresence } from 'framer-motion';
 import times from 'lodash/fp/times';
 import round from 'lodash/round';
-import { FC, memo, useCallback, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useRef, useState } from 'react';
 import Draggable from 'react-draggable';
 
 const Measure: FC<{ index: number }> = memo(({ index }) => {
@@ -52,6 +52,7 @@ export interface RulerProps {
 export const Ruler: FC<RulerProps> = memo((props) => {
   const { measureCount, measureWidth, onMeasureCountChange, onPositionSet } =
     props;
+  const resizerNodeRef = useRef<HTMLDivElement>(null);
   const [isResizing, setIsResizing] = useState(false);
   const [length, setLength] = useState(measureCount);
   const theme = useThemeWithDefault();
@@ -84,8 +85,12 @@ export const Ruler: FC<RulerProps> = memo((props) => {
 
     onMeasureCountChange(roundedLength);
 
-    setLength(roundedLength);
-  }, [length, onMeasureCountChange]);
+    setLength(measureCount);
+  }, [length, measureCount, onMeasureCountChange]);
+
+  useEffect(() => {
+    setLength(measureCount);
+  }, [measureCount]);
 
   return (
     <Box
@@ -125,12 +130,14 @@ export const Ruler: FC<RulerProps> = memo((props) => {
           right: undefined,
           top: undefined,
         }}
+        nodeRef={resizerNodeRef}
         onDrag={handleResizerDrag}
         onStart={handleResizerDragStart}
         onStop={handleResizerDragStop}
         position={{ x: length * 64 + 16, y: 0 }}
       >
         <Box
+          ref={resizerNodeRef}
           sx={{
             position: 'absolute',
           }}
@@ -147,7 +154,7 @@ export const Ruler: FC<RulerProps> = memo((props) => {
               top: -1,
               transition: isResizing
                 ? 'none'
-                : 'border-color 200ms ease, transition 200ms ease',
+                : 'border-color 200ms ease, transform 200ms ease',
               width: 24,
               '&:hover': {
                 borderColor: theme.colors.textSecondary,
