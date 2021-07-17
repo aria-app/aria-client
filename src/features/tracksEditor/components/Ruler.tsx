@@ -2,50 +2,64 @@ import { Box, MotionBox, Text, useThemeWithDefault } from 'aria-ui';
 import { AnimatePresence } from 'framer-motion';
 import times from 'lodash/fp/times';
 import round from 'lodash/round';
-import { FC, memo, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  FC,
+  memo,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import Draggable from 'react-draggable';
 
-const Measure: FC<{ index: number }> = memo(({ index }) => {
-  const theme = useThemeWithDefault();
+const Measure: FC<{ index: number; measureWidth: number }> = memo(
+  ({ index, measureWidth }) => {
+    const theme = useThemeWithDefault();
 
-  return (
-    <MotionBox
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      initial={{ opacity: 0 }}
-      paddingBottom={0.25}
-      paddingLeft={0.75}
-      style={{ transform: `translateX(${index * 64}px)` }}
-      sx={{
-        alignItems: 'flex-end',
-        bottom: 2,
-        display: 'flex',
-        left: 2,
-        position: 'absolute',
-        top: 2,
-        '&:not(:first-of-type)': {
-          borderLeft: `2px solid ${theme.colors.border}`,
-        },
-      }}
-      transition={{ duration: 0.1 }}
-    >
-      <Text
+    return (
+      <MotionBox
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        initial={{ opacity: 0 }}
+        paddingBottom={0.25}
+        paddingLeft={0.75}
+        style={{ transform: `translateX(${index * measureWidth}px)` }}
         sx={{
-          opacity: 0.5,
-          fontSize: 10,
-          fontWeight: 'bold',
+          alignItems: 'flex-end',
+          bottom: 2,
+          display: 'flex',
+          left: 2,
+          position: 'absolute',
+          top: 2,
+          '&:not(:first-of-type)': {
+            borderLeft: `2px solid ${theme.colors.border}`,
+          },
         }}
+        transition={{ duration: 0.1 }}
       >
-        {index + 1}
-      </Text>
-    </MotionBox>
-  );
-});
+        <Text
+          sx={{
+            opacity: 0.5,
+            fontSize: 10,
+            fontWeight: 'bold',
+          }}
+        >
+          {index + 1}
+        </Text>
+      </MotionBox>
+    );
+  },
+);
+
+export type RulerMeasureCountChangeHandler = (
+  changedMeasureCount: number,
+) => void;
 
 export interface RulerProps {
   measureCount: number;
   measureWidth: number;
-  onMeasureCountChange: (changedMeasureCount: number) => void;
+  onMeasureCountChange: RulerMeasureCountChangeHandler;
   onPositionSet: (changedPosition: number) => void;
 }
 
@@ -57,8 +71,10 @@ export const Ruler: FC<RulerProps> = memo((props) => {
   const [length, setLength] = useState(measureCount);
   const theme = useThemeWithDefault();
 
-  const handleClick = useCallback(
+  const handleClick = useCallback<MouseEventHandler>(
     (e) => {
+      if (e.defaultPrevented) return;
+
       const measures = e.nativeEvent.offsetX / measureWidth;
       const notesPerMeasure = 32;
 
@@ -71,6 +87,10 @@ export const Ruler: FC<RulerProps> = memo((props) => {
     setIsResizing(true);
   }, []);
 
+  const handleResizerClick = useCallback<MouseEventHandler>((e) => {
+    e.preventDefault();
+  }, []);
+
   const handleResizerDrag = useCallback(
     (e, dragData) => {
       setLength(Math.max(1, (dragData.lastX - 16) / measureWidth));
@@ -78,15 +98,22 @@ export const Ruler: FC<RulerProps> = memo((props) => {
     [measureWidth],
   );
 
-  const handleResizerDragStop = useCallback(() => {
-    const roundedLength = Math.max(1, Math.round(length));
+  const handleResizerDragStop = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    setIsResizing(false);
+      const roundedLength = Math.max(1, Math.round(length));
 
-    onMeasureCountChange(roundedLength);
+      setIsResizing(false);
 
-    setLength(measureCount);
-  }, [length, measureCount, onMeasureCountChange]);
+      if (roundedLength !== measureCount) {
+        onMeasureCountChange(roundedLength);
+      }
+
+      setLength(measureCount);
+    },
+    [length, measureCount, onMeasureCountChange],
+  );
 
   useEffect(() => {
     setLength(measureCount);
@@ -117,7 +144,11 @@ export const Ruler: FC<RulerProps> = memo((props) => {
       <AnimatePresence>
         {times(
           (index) => (
-            <Measure index={index} key={`measure-${index}`} />
+            <Measure
+              index={index}
+              key={`measure-${index}`}
+              measureWidth={measureWidth}
+            />
           ),
           Math.round(length),
         )}
@@ -126,7 +157,7 @@ export const Ruler: FC<RulerProps> = memo((props) => {
         axis="x"
         bounds={{
           bottom: undefined,
-          left: 64 - 16,
+          left: measureWidth - 16,
           right: undefined,
           top: undefined,
         }}
@@ -134,9 +165,10 @@ export const Ruler: FC<RulerProps> = memo((props) => {
         onDrag={handleResizerDrag}
         onStart={handleResizerDragStart}
         onStop={handleResizerDragStop}
-        position={{ x: length * 64 + 16, y: 0 }}
+        position={{ x: length * measureWidth + 16, y: 0 }}
       >
         <Box
+          onClick={handleResizerClick}
           ref={resizerNodeRef}
           sx={{
             position: 'absolute',
