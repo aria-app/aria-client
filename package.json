@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "build": "react-scripts build",
-    "ci": "yarn lint && yarn build-storybook && yarn build && yarn test",
+    "ci": "yarn lint && yarn build-storybook && yarn build && CI=true yarn test",
     "clean": "rimraf build coverage storybook-static",
     "lint-eslint": "eslint \"src/**\" --fix --ignore-pattern \"src/**/*.json\"",
     "lint-prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
