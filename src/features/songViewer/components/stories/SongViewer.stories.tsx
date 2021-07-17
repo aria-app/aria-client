@@ -19,11 +19,11 @@ import {
 import { AudioProvider } from '../../../audio';
 import { AuthProvider } from '../../../auth';
 import { Shell } from '../../../shared';
-import { SongEditor } from '../SongEditor';
+import { SongViewer } from '../SongViewer';
 
 export default {
-  component: SongEditor,
-  title: 'SongEditor/SongEditor',
+  component: SongViewer,
+  title: 'SongViewer/SongViewer',
   argTypes: {
     default: { table: { disable: true } },
     location: { table: { disable: true } },
@@ -133,7 +133,7 @@ export const Default: Story<any> = (args) => (
                   position: 'relative',
                 }}
               >
-                <SongEditor {...args} path="/:songId" />
+                <SongViewer {...args} path="/:songId" />
               </Box>
             </Shell>
           </LocationProvider>
