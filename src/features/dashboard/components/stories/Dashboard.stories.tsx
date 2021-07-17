@@ -26,7 +26,6 @@ export default {
     location: { table: { disable: true } },
     navigate: { action: 'navigate', control: false },
     path: { table: { disable: true } },
-    sequenceId: { table: { disable: true } },
     uri: { table: { disable: true } },
   },
   title: 'Dashboard/Dashboard',
