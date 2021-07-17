@@ -1,30 +1,28 @@
 import {
   createHistory,
   createMemorySource,
+  Link,
   LocationProvider,
+  RouteComponentProps,
   Router,
 } from '@reach/router';
 import { Meta, Story } from '@storybook/react';
-import { FC, ProviderProps } from 'react';
+import { FC, ProviderProps, useCallback } from 'react';
 
 import {
   AuthContext,
   AuthContextValue,
 } from '../../../auth/contexts/AuthContext';
-import { PrivateRoute } from '../PrivateRoute';
+import { PrivateRoute, PrivateRouteProps } from '../PrivateRoute';
 
-export default {
-  component: PrivateRoute,
-  title: 'App/PrivateRoute',
-  argTypes: {
-    component: { control: false },
-    default: { table: { disable: true } },
-    location: { table: { disable: true } },
-    navigate: { table: { disable: true } },
-    path: { control: false },
-    uri: { table: { disable: true } },
-  },
-} as Meta;
+const FakeLogin: FC<RouteComponentProps & { prevPath: string }> = ({
+  prevPath,
+}) => (
+  <div>
+    Redirected to Login
+    <Link to={prevPath}>Go to {prevPath}</Link>
+  </div>
+);
 
 const MockAuthProvider: FC<
   Partial<ProviderProps<AuthContextValue>> & {
@@ -44,62 +42,90 @@ const MockAuthProvider: FC<
   />
 );
 
+interface PrivateRouteArgs extends PrivateRouteProps {
+  mockIsAuthenticated: boolean;
+  mockLoading: boolean;
+}
+
+export default {
+  component: PrivateRoute,
+  title: 'App/PrivateRoute',
+  argTypes: {
+    component: { control: false },
+    default: { table: { disable: true } },
+    mockIsAuthenticated: {
+      control: { type: 'boolean' },
+    },
+    mockLoading: {
+      control: { type: 'boolean' },
+    },
+    location: { table: { disable: true } },
+    navigate: { table: { disable: true } },
+    uri: { table: { disable: true } },
+  },
+  decorators: [
+    (Story, { args }) => {
+      const { mockIsAuthenticated, mockLoading, path } = args;
+      const source = createMemorySource(path);
+      const history = createHistory(source);
+
+      const getIsAuthenticated = useCallback(
+        () => mockIsAuthenticated,
+        [mockIsAuthenticated],
+      );
+
+      return (
+        <MockAuthProvider
+          valueOverrides={{
+            getIsAuthenticated,
+            loading: mockLoading,
+          }}
+        >
+          <LocationProvider history={history}>
+            <Router>
+              <FakeLogin path="/login" prevPath={path} />
+              {Story()}
+            </Router>
+          </LocationProvider>
+        </MockAuthProvider>
+      );
+    },
+  ],
+} as Meta<PrivateRouteArgs>;
+
 const Component = () => <div>Private Component</div>;
 
-export const Default: Story<any> = (args) => {
-  const source = createMemorySource(args.path);
-  const history = createHistory(source);
-
-  return (
-    <MockAuthProvider>
-      <LocationProvider history={history}>
-        <Router>
-          <PrivateRoute {...args} />
-        </Router>
-      </LocationProvider>
-    </MockAuthProvider>
-  );
-};
+export const Default: Story<PrivateRouteArgs> = ({
+  mockIsAuthenticated,
+  mockLoading,
+  ...rest
+}) => <PrivateRoute {...rest} />;
 
 Default.args = {
   component: Component,
+  mockIsAuthenticated: false,
+  mockLoading: false,
   path: '/foo',
 };
 
-export const Authenticated: Story<any> = (args) => {
-  const source = createMemorySource(args.path);
-  const history = createHistory(source);
-
-  return (
-    <MockAuthProvider valueOverrides={{ getIsAuthenticated: () => true }}>
-      <LocationProvider history={history}>
-        <Router>
-          <PrivateRoute {...args} />
-        </Router>
-      </LocationProvider>
-    </MockAuthProvider>
-  );
-};
+export const Authenticated: Story<PrivateRouteArgs> = ({
+  mockIsAuthenticated,
+  mockLoading,
+  ...rest
+}) => <PrivateRoute {...rest} />;
 
 Authenticated.args = {
   ...Default.args,
+  mockIsAuthenticated: true,
 };
 
-export const Loading: Story<any> = (args) => {
-  const source = createMemorySource(args.path);
-  const history = createHistory(source);
-
-  return (
-    <MockAuthProvider valueOverrides={{ loading: true }}>
-      <LocationProvider history={history}>
-        <Router>
-          <PrivateRoute {...args} />
-        </Router>
-      </LocationProvider>
-    </MockAuthProvider>
-  );
-};
+export const Loading: Story<PrivateRouteArgs> = ({
+  mockIsAuthenticated,
+  mockLoading,
+  ...rest
+}) => <PrivateRoute {...rest} />;
 
 Loading.args = {
   ...Default.args,
+  mockLoading: true,
 };
