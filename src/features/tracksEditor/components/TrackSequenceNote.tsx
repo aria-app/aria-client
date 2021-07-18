@@ -12,9 +12,9 @@ export interface TrackSequenceNoteProps {
 export const TrackSequenceNote: FC<TrackSequenceNoteProps> = memo(
   (props: TrackSequenceNoteProps) => {
     const { isSequenceSelected, note } = props;
-    const x0 = getOr(0, 'points[0].x', note);
-    const x1 = getOr(0, 'points[1].x', note);
-    const y0 = getOr(0, 'points[0].y', note) * (64 / 84);
+    const x0 = note.points[0].x;
+    const x1 = note.points[1].x;
+    const y0 = note.points[0].y * (64 / 84);
     const theme = useThemeWithDefault();
 
     return (
