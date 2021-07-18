@@ -6,7 +6,7 @@ import { SongListItem, SongListItemProps } from '../SongListItem';
 export default {
   component: SongListItem,
   decorators: [
-    (Story) => <Box sx={{ maxWidth: 600, width: '100vh' }}>{Story()}</Box>,
+    (Story) => <Box sx={{ maxWidth: 600, width: '100vw' }}>{Story()}</Box>,
   ],
   title: 'Dashboard/SongListItem',
 } as Meta;
