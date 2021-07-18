@@ -1,5 +1,4 @@
 import { Box, useThemeWithDefault } from 'aria-ui';
-import getOr from 'lodash/fp/getOr';
 import { FC, memo } from 'react';
 
 import { Note } from '../../../types';
