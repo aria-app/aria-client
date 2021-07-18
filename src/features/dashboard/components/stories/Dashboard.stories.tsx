@@ -60,6 +60,23 @@ const mocks: MockedResponse<Record<string, any>>[] = [
   },
   {
     request: {
+      query: CREATE_SONG,
+      variables: {
+        input: {
+          name: 'Same',
+        },
+      } as CreateSongVariables,
+    },
+    result: {
+      errors: [
+        new GraphQLError(
+          'You already have a song with that name. Please select another.',
+        ),
+      ],
+    },
+  },
+  {
+    request: {
       query: DELETE_SONG,
       variables: {
         id: 1,
