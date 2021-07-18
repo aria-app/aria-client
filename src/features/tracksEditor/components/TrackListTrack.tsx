@@ -7,7 +7,6 @@ import isNil from 'lodash/fp/isNil';
 import range from 'lodash/fp/range';
 import some from 'lodash/fp/some';
 import { FC, memo, useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 
 import { Sequence, Track } from '../../../types';
 import {
@@ -16,8 +15,8 @@ import {
   GridBoxesOnItemsChange,
 } from '../../shared';
 import { AddSequenceButton } from './AddSequenceButton';
-import { TrackHeader } from './TrackHeader';
 import { TrackListSequence } from './TrackListSequence';
+import { TrackListTrackHeader } from './TrackListTrackHeader';
 
 export interface TrackListTrackProps {
   onSequenceAdd: (options: { position: number; track: Track }) => void;
@@ -41,7 +40,6 @@ export const TrackListTrack: FC<TrackListTrackProps> = memo((props) => {
     songMeasureCount,
     track,
   } = props;
-  const { t } = useTranslation();
 
   const boxesItems = useMemo(() => {
     return track.sequences.map((sequence) => ({
@@ -121,9 +119,8 @@ export const TrackListTrack: FC<TrackListTrackProps> = memo((props) => {
   );
 
   const sequenceComponent = useCallback<FC<GridBoxContentComponentProps>>(
-    ({ id, isDragging }) => (
+    ({ id }) => (
       <TrackListSequence
-        isDragging={isDragging}
         isSelected={getIsIdSelected(id)}
         onOpen={onSequenceOpen}
         onSelect={onSequenceSelect}
@@ -135,9 +132,7 @@ export const TrackListTrack: FC<TrackListTrackProps> = memo((props) => {
 
   return (
     <Stack space={2}>
-      <TrackHeader onClick={handleHeaderClick}>
-        {t(track.voice.name)}
-      </TrackHeader>
+      <TrackListTrackHeader onClick={handleHeaderClick} track={track} />
       <Box
         backgroundColor="backgroundContrast"
         borderRadius="md"
