@@ -8,9 +8,9 @@ import { useAudioManager, usePlaybackState } from '../../audio';
 import { LoadingIndicator } from '../../shared';
 import { SongViewerToolbar } from './SongViewerToolbar';
 
-export const SongViewer: FC<RouteComponentProps<{ songId: string }>> = (
-  props,
-) => {
+export type SongViewerProps = RouteComponentProps<{ songId: string }>;
+
+export const SongViewer: FC<SongViewerProps> = (props) => {
   const { songId: songIdProp } = props;
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();

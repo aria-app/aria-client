@@ -1,14 +1,28 @@
-import { Box, BoxProps, Stack, Text, useThemeWithDefault } from 'aria-ui';
-import { FC } from 'react';
+import { Box, Stack, Text, useThemeWithDefault } from 'aria-ui';
+import { FC, MouseEventHandler } from 'react';
+import { useTranslation } from 'react-i18next';
 
-export const TrackHeader: FC<BoxProps<'div'>> = (props) => {
-  const { children, ...rest } = props;
+import { Track } from '../../../types';
+
+export interface TrackListTrackHeaderProps {
+  onClick: MouseEventHandler;
+  track: Track;
+}
+
+export const TrackListTrackHeader: FC<TrackListTrackHeaderProps> = (props) => {
+  const { track, ...rest } = props;
   const theme = useThemeWithDefault();
+  const { t } = useTranslation();
 
   return (
     <Box
+      borderRadius="md"
+      childColor="brandPrimary"
+      isInteractive
+      padding={1}
       sx={{
         alignItems: 'center',
+        alignSelf: 'flex-start',
         cursor: 'pointer',
         display: 'flex',
         textTransform: 'uppercase',
@@ -46,7 +60,7 @@ export const TrackHeader: FC<BoxProps<'div'>> = (props) => {
             marginBottom: -0.5,
           }}
         >
-          {children}
+          {t(track.voice.name)}
         </Text>
       </Stack>
     </Box>

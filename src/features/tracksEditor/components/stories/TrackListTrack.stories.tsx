@@ -52,6 +52,7 @@ Default.args = {
     volume: 1,
   },
 };
+
 export const EditableSequences: Story<TrackListTrackProps> = (args) => {
   const [track, setTrack] = useState<Track>(args.track);
 

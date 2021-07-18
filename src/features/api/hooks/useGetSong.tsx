@@ -1,9 +1,9 @@
 import { QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
 
-import { GET_SONG, GetSongInput, GetSongResponse } from '../queries';
+import { GET_SONG, GetSongResponse, GetSongVariables } from '../queries';
 
 type UseGetSong = (
-  options?: QueryHookOptions<GetSongResponse, GetSongInput>,
+  options?: QueryHookOptions<GetSongResponse, GetSongVariables>,
 ) => QueryResult<GetSongResponse>;
 
 export const useGetSong: UseGetSong = (options) =>

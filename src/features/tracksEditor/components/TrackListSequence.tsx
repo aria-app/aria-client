@@ -5,7 +5,6 @@ import { Sequence } from '../../../types';
 import { TrackSequenceNote } from './TrackSequenceNote';
 
 export interface TrackListSequenceProps {
-  isDragging: boolean;
   isSelected: boolean;
   onOpen: (sequenceToOpen: Sequence) => void;
   onSelect: (sequenceToSelect: Sequence) => void;

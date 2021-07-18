@@ -11,7 +11,6 @@ import { FC, ProviderProps, useRef } from 'react';
 
 import { Dawww } from '../../../../dawww';
 import { I18NWrapper } from '../../../../i18n';
-import { Sequence } from '../../../../types';
 import {
   GET_SEQUENCE,
   GetSequenceInput,
@@ -83,7 +82,7 @@ const mocks: MockedResponse<Record<string, any>>[] = [
           ],
           position: 0,
           track: { id: 1 },
-        } as Sequence,
+        },
       } as GetSequenceResponse,
     },
   },

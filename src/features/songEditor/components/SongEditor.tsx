@@ -16,9 +16,9 @@ import { SongInfoDialog } from './SongInfoDialog';
 
 const { STARTED } = Dawww.PLAYBACK_STATES;
 
-export const SongEditor: FC<RouteComponentProps<{ songId: string }>> = (
-  props,
-) => {
+export type SongEditorProps = RouteComponentProps<{ songId: string }>;
+
+export const SongEditor: FC<SongEditorProps> = (props) => {
   const { navigate, songId: songIdProp } = props;
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
