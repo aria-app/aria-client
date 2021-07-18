@@ -8,11 +8,12 @@ import {
   TextField,
 } from 'aria-ui';
 import { range } from 'lodash';
-import { FC, MouseEventHandler, useCallback } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { FC, useCallback, useEffect } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { Song } from '../../../types';
+import { useCreateSong } from '../../api/hooks/useCreateSong';
 
 const bpmOptions: SelectOption[] = range(60, 161, 10).map((n) => ({
   label: n,
@@ -24,70 +25,79 @@ export type AddSongDialogConfirmHandler = (
 ) => void;
 
 interface AddSongDialogFormValues {
-  bpm: string;
+  bpm: number;
   name: string;
 }
 
 export interface AddSongDialogProps {
   isOpen?: boolean;
-  onCancel: MouseEventHandler<HTMLButtonElement>;
-  onConfirm: AddSongDialogConfirmHandler;
+  onIsOpenChange: () => void;
 }
 
 export const AddSongDialog: FC<AddSongDialogProps> = (props) => {
-  const { isOpen, onCancel, onConfirm } = props;
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-    register,
-  } = useForm<AddSongDialogFormValues>({
-    defaultValues: {
-      bpm: '100',
-      name: 'New Song',
-    },
-  });
+  const { isOpen, onIsOpenChange } = props;
+  const [createSong] = useCreateSong();
+  const { formState, handleSubmit, register, reset, setError } =
+    useForm<AddSongDialogFormValues>({
+      defaultValues: {
+        bpm: 100,
+      },
+    });
+  const { errors, isSubmitting } = formState;
   const { t } = useTranslation();
 
-  const onSubmit = useCallback<SubmitHandler<AddSongDialogFormValues>>(
-    (data) => {
-      onConfirm({
-        ...data,
-        bpm: parseInt(data.bpm, 10),
-      });
+  const handleSubmitCallback = useCallback<
+    SubmitHandler<AddSongDialogFormValues>
+  >(
+    async ({ name }) => {
+      try {
+        await createSong({
+          name,
+        });
+        onIsOpenChange();
+      } catch (e) {
+        setError('name', {
+          message: e.message,
+          type: 'server',
+        });
+      }
     },
-    [onConfirm],
+    [createSong, onIsOpenChange, setError],
   );
+
+  useEffect(() => {
+    if (isOpen) {
+      reset();
+    }
+  }, [isOpen, reset]);
 
   return (
     <Dialog isOpen={isOpen}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(handleSubmitCallback)}>
         <Stack space={8}>
           <Text variant="header">{t('Add Song')}</Text>
           <TextField
-            error={errors.name && t('You must enter a name')}
-            inputProps={register('name', { required: true })}
+            error={errors.name?.message}
+            inputProps={register('name', {
+              required: 'You must enter a name.',
+            })}
             label="Name"
+            placeholder="Enter a name for your song"
           />
-          <Controller
-            control={control}
-            name="bpm"
-            render={({ field }) => (
-              <Select
-                label="BPM"
-                options={bpmOptions}
-                selectProps={{ ...field }}
-              />
-            )}
+          <Select
+            label="BPM"
+            options={bpmOptions}
+            selectProps={register('bpm', { valueAsNumber: true })}
           />
           <Stack
             direction="row"
             space={2}
             sx={{ display: 'flex', justifyContent: 'flex-end' }}
           >
-            <Button onClick={onCancel} text="Cancel" />
+            <Button onClick={onIsOpenChange} text="Cancel" />
             <Button
               color="brandPrimary"
+              isLoading={isSubmitting}
               text="Add Song"
               type="submit"
               variant="contained"
