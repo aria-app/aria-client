@@ -1,17 +1,21 @@
 import { useQuery } from '@apollo/client';
-import { RouteComponentProps } from '@reach/router';
 import { Box, Text } from 'aria-ui';
 import { FC, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { GET_SONG } from '../../api';
 import { useAudioManager, usePlaybackState } from '../../audio';
 import { LoadingIndicator } from '../../shared';
 import { SongViewerToolbar } from './SongViewerToolbar';
 
-export type SongViewerProps = RouteComponentProps<{ songId: string }>;
+export interface SongViewerParams {
+  songId: string;
+}
+
+export type SongViewerProps = Record<string, never>;
 
 export const SongViewer: FC<SongViewerProps> = (props) => {
-  const { songId: songIdProp } = props;
+  const { songId: songIdProp } = useParams<SongViewerParams>();
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
   const playbackState = usePlaybackState();

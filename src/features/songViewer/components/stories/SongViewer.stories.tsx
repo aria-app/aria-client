@@ -1,12 +1,6 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import {
-  createHistory,
-  createMemorySource,
-  LocationProvider,
-  Router,
-} from '@reach/router';
 import { Meta, Story } from '@storybook/react';
-import { Box } from 'aria-ui';
+import { MemoryRouter, Route, Switch } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
 import {
@@ -24,21 +18,10 @@ import { SongViewer } from '../SongViewer';
 export default {
   component: SongViewer,
   title: 'SongViewer/SongViewer',
-  argTypes: {
-    default: { table: { disable: true } },
-    location: { table: { disable: true } },
-    navigate: { action: 'navigate', control: false },
-    path: { table: { disable: true } },
-    songId: { table: { disable: true } },
-    uri: { table: { disable: true } },
-  },
   parameters: {
     layout: 'fullscreen',
   },
 } as Meta;
-
-const source = createMemorySource('/1');
-const history = createHistory(source);
 
 const mocks: MockedResponse<Record<string, any>>[] = [
   {
@@ -121,22 +104,15 @@ export const Default: Story<any> = (args) => (
     <MockedProvider mocks={mocks}>
       <AuthProvider>
         <AudioProvider>
-          <LocationProvider history={history}>
+          <MemoryRouter initialEntries={['/1']}>
             <Shell>
-              <Box
-                as={Router}
-                sx={{
-                  display: 'flex',
-                  flex: '1 1 auto',
-                  flexDirection: 'column',
-                  overflow: 'hidden',
-                  position: 'relative',
-                }}
-              >
-                <SongViewer {...args} path="/:songId" />
-              </Box>
+              <Switch>
+                <Route path="/:songId">
+                  <SongViewer {...args} />
+                </Route>
+              </Switch>
             </Shell>
-          </LocationProvider>
+          </MemoryRouter>
         </AudioProvider>
       </AuthProvider>
     </MockedProvider>

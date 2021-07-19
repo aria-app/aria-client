@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client';
-import { RouteComponentProps } from '@reach/router';
 import { Box, Button, Fade, Stack, Toolbar } from 'aria-ui';
 import AddIcon from 'mdi-react/AddIcon';
 import { FC, useCallback, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { GET_SONGS, useDeleteSong } from '../../api';
 import { useAuth } from '../../auth';
@@ -10,8 +10,10 @@ import { LoadingIndicator } from '../../shared';
 import { AddSongDialog } from './AddSongDialog';
 import { SongList } from './SongList';
 
-export const Dashboard: FC<RouteComponentProps> = (props) => {
-  const { navigate } = props;
+export type DashboardProps = Record<string, never>;
+
+export const Dashboard: FC<DashboardProps> = () => {
+  const history = useHistory();
   const { logout, user } = useAuth();
   const [deleteSong, { loading: deleteLoading }] = useDeleteSong();
   const { data, loading: getLoading } = useQuery(GET_SONGS, {
@@ -58,9 +60,9 @@ export const Dashboard: FC<RouteComponentProps> = (props) => {
 
   const handleSongOpen = useCallback(
     (song) => {
-      navigate?.(`edit-song/${song.id}`);
+      history.push(`/edit-song/${song.id}`);
     },
-    [navigate],
+    [history],
   );
 
   const handleUserClick = useCallback(() => {

@@ -1,20 +1,15 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import {
-  createHistory,
-  createMemorySource,
-  LocationProvider,
-  Router,
-} from '@reach/router';
 import { Meta, Story } from '@storybook/react';
-import { Box } from 'aria-ui';
 import { FC, ProviderProps, useCallback } from 'react';
+import { MemoryRouter } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 
 import { LOGIN, LoginResponse } from '../../../api';
 import {
   AuthContext,
   AuthContextValue,
 } from '../../../auth/contexts/AuthContext';
-import { Login, LoginProps } from '../Login';
+import { Login } from '../Login';
 import { PrivateRoute } from '../PrivateRoute';
 
 const mocks: MockedResponse<Record<string, any>>[] = [
@@ -55,9 +50,7 @@ const MockAuthProvider: FC<
   />
 );
 
-const LoggedInComponent = () => <div>Logged In!</div>;
-
-interface LoginArgs extends LoginProps {
+interface LoginArgs {
   mockIsAuthenticated: boolean;
   mockHandleLogin: boolean;
 }
@@ -82,8 +75,6 @@ export default {
   decorators: [
     (Story, { args }) => {
       const { mockIsAuthenticated, mockHandleLogin } = args;
-      const source = createMemorySource('/login');
-      const history = createHistory(source);
 
       const getIsAuthenticated = useCallback(
         () => mockIsAuthenticated,
@@ -98,21 +89,12 @@ export default {
               handleLogin: mockHandleLogin,
             }}
           >
-            <LocationProvider history={history}>
-              <Box
-                as={Router}
-                sx={{
-                  display: 'flex',
-                  flex: '1 1 auto',
-                  flexDirection: 'column',
-                  overflow: 'hidden',
-                  position: 'relative',
-                }}
-              >
-                {Story()}
-                <PrivateRoute component={LoggedInComponent} path="/" />
-              </Box>
-            </LocationProvider>
+            <MemoryRouter initialEntries={['/login']}>
+              <Switch>
+                <Route path="/login">{Story()}</Route>
+                <PrivateRoute path="/">Logged In!</PrivateRoute>
+              </Switch>
+            </MemoryRouter>
           </MockAuthProvider>
         </MockedProvider>
       );
@@ -128,5 +110,4 @@ export const Default: Story<LoginArgs> = ({
 
 Default.args = {
   mockIsAuthenticated: false,
-  path: '/login',
 };

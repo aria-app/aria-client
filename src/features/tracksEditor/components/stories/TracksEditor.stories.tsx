@@ -1,36 +1,20 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import {
-  createHistory,
-  createMemorySource,
-  LocationProvider,
-  Router,
-} from '@reach/router';
 import { Meta, Story } from '@storybook/react';
-import { absoluteFill, Box } from 'aria-ui';
+import { MemoryRouter, Route, Switch } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
 import { GET_SONG, GetSongResponse, GetSongVariables } from '../../../api';
 import { AudioProvider } from '../../../audio';
+import { Shell } from '../../../shared';
 import { TracksEditor } from '../TracksEditor';
 
 export default {
   component: TracksEditor,
   title: 'TracksEditor/TracksEditor',
-  argTypes: {
-    default: { table: { disable: true } },
-    location: { table: { disable: true } },
-    navigate: { action: 'navigate', control: false },
-    path: { table: { disable: true } },
-    songId: { table: { disable: true } },
-    uri: { table: { disable: true } },
-  },
   parameters: {
     layout: 'fullscreen',
   },
 } as Meta;
-
-const source = createMemorySource('/1');
-const history = createHistory(source);
 
 const mocks: MockedResponse<Record<string, any>>[] = [
   {
@@ -97,20 +81,15 @@ export const Default: Story<any> = (args) => (
   <RecoilRoot>
     <MockedProvider mocks={mocks}>
       <AudioProvider>
-        <LocationProvider history={history}>
-          <Box
-            as={Router}
-            sx={{
-              ...absoluteFill,
-              display: 'flex',
-              flex: '1 1 auto',
-              flexDirection: 'column',
-              overflow: 'hidden',
-            }}
-          >
-            <TracksEditor {...args} path="/:songId" />
-          </Box>
-        </LocationProvider>
+        <MemoryRouter initialEntries={['/1']}>
+          <Shell>
+            <Switch>
+              <Route path="/:songId">
+                <TracksEditor {...args} />
+              </Route>
+            </Switch>
+          </Shell>
+        </MemoryRouter>
       </AudioProvider>
     </MockedProvider>
   </RecoilRoot>

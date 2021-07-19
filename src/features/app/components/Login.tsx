@@ -1,20 +1,28 @@
 import { useMutation } from '@apollo/client';
-import { Redirect, RouteComponentProps } from '@reach/router';
-import { Box, Button, Stack, Text, TextField } from 'aria-ui';
+import {
+  Box,
+  Button,
+  Stack,
+  Text,
+  TextField,
+  useThemeWithDefault,
+} from 'aria-ui';
 import { FC, MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Redirect } from 'react-router-dom';
 
 import { LOGIN } from '../../api';
 import { useAuth } from '../../auth';
 
-export type LoginProps = RouteComponentProps;
+export type LoginProps = Record<string, never>;
 
-export const Login: FC<LoginProps> = (props) => {
+export const Login: FC<LoginProps> = () => {
   const [login, { client, error, loading }] = useMutation(LOGIN);
   const { getIsAuthenticated, handleLogin } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { t } = useTranslation();
+  const theme = useThemeWithDefault();
 
   const handleEmailChange = useCallback<(value: string) => void>(
     (value) => {
@@ -54,10 +62,9 @@ export const Login: FC<LoginProps> = (props) => {
   }, [client, getIsAuthenticated]);
 
   return getIsAuthenticated() ? (
-    <Redirect noThrow to="/" />
+    <Redirect to="/" />
   ) : (
     <Box
-      backgroundColor="backgroundDefault"
       sx={{
         alignItems: 'center',
         display: 'flex',
@@ -66,7 +73,15 @@ export const Login: FC<LoginProps> = (props) => {
         justifyContent: 'center',
       }}
     >
-      <Box backgroundColor="backgroundContrast" borderRadius="md" padding={6}>
+      <Box
+        backgroundColor="backgroundContrast"
+        borderRadius="md"
+        padding={6}
+        sx={{
+          maxWidth: theme.screenSizes.sm,
+          width: '100vw',
+        }}
+      >
         <Stack element="form" onSubmit={handleSubmit} space={8}>
           <Text variant="header">
             Log in to view and manage songs and data.
