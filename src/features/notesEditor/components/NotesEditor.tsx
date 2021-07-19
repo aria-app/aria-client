@@ -1,4 +1,3 @@
-import { RouteComponentProps } from '@reach/router';
 import { Box } from 'aria-ui';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
@@ -7,6 +6,7 @@ import uniq from 'lodash/fp/uniq';
 import memoizeOne from 'memoize-one';
 import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
+import { useHistory, useParams } from 'react-router-dom';
 
 import { Dawww } from '../../../dawww';
 import {
@@ -32,12 +32,15 @@ const getNotesByIds = memoizeOne((notes, ids) =>
   notes.filter((note) => includes(note.id, ids)),
 );
 
-export const NotesEditor: FC<
-  RouteComponentProps<{
-    sequenceId: string;
-  }>
-> = memo((props) => {
-  const { navigate, sequenceId: sequenceIdProp } = props;
+export interface NotesEditorParams {
+  sequenceId: string;
+}
+
+export type NotesEditorProps = Record<string, never>;
+
+export const NotesEditor: FC<NotesEditorProps> = memo(() => {
+  const history = useHistory();
+  const { sequenceId: sequenceIdProp } = useParams<NotesEditorParams>();
   const sequenceId = sequenceIdProp ? parseInt(sequenceIdProp) : -1;
   const audioManager = useAudioManager();
   const [createNote] = useCreateNote();
@@ -65,8 +68,8 @@ export const NotesEditor: FC<
   );
 
   const handleClose = useCallback(() => {
-    navigate?.('../../');
-  }, [navigate]);
+    history.push?.('../../');
+  }, [history]);
 
   const handleContentRefChange = useCallback((ref: HTMLDivElement) => {
     setContentEl(ref);

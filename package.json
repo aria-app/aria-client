@@ -47,7 +47,7 @@
     "react-hook-form": "^7.11.1",
     "react-hotkeys": "^2.0.0",
     "react-i18next": "^11.10.0",
-    "react-router-dom": "^5.0.1",
+    "react-router-dom": "^5.2.0",
     "recoil": "0.3.1",
     "tone": "^14.7.77"
   },

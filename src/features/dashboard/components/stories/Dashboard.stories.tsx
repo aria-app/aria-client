@@ -2,6 +2,7 @@ import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { Meta, Story } from '@storybook/react';
 import { formatISO } from 'date-fns/esm';
 import { GraphQLError } from 'graphql';
+import { MemoryRouter, Route, Switch } from 'react-router-dom';
 
 import {
   CREATE_SONG,
@@ -21,13 +22,6 @@ import { Dashboard } from '../Dashboard';
 
 export default {
   component: Dashboard,
-  argTypes: {
-    default: { table: { disable: true } },
-    location: { table: { disable: true } },
-    navigate: { action: 'navigate', control: false },
-    path: { table: { disable: true } },
-    uri: { table: { disable: true } },
-  },
   title: 'Dashboard/Dashboard',
   parameters: {
     layout: 'fullscreen',
@@ -167,7 +161,13 @@ const mocks: MockedResponse<Record<string, any>>[] = [
 export const Default: Story<any> = (args) => (
   <MockedProvider mocks={mocks}>
     <AuthProvider>
-      <Dashboard {...args} />
+      <MemoryRouter initialEntries={['/']}>
+        <Switch>
+          <Route path="/">
+            <Dashboard {...args} />
+          </Route>
+        </Switch>
+      </MemoryRouter>
     </AuthProvider>
   </MockedProvider>
 );

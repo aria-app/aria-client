@@ -1,8 +1,8 @@
-import { RouteComponentProps } from '@reach/router';
 import { Box } from 'aria-ui';
 import find from 'lodash/fp/find';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
+import { useHistory, useParams } from 'react-router-dom';
 
 import {
   getTempId,
@@ -22,29 +22,32 @@ import { TrackEditingModal } from './TrackEditingModal';
 import { TrackList } from './TrackList';
 import { TracksEditorToolbar } from './TracksEditorToolbar';
 
-export const TracksEditor: FC<
-  RouteComponentProps<{
-    songId: string;
-  }>
-> = (props) => {
-  const { navigate, songId: songIdProp } = props;
+export interface TracksEditorParams {
+  songId: string;
+}
+
+export type TracksEditorProps = Record<string, never>;
+
+export const TracksEditor: FC<TracksEditorProps> = () => {
+  const { songId: songIdProp } = useParams<TracksEditorParams>();
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
-  const playbackState = usePlaybackState();
-  const position = usePosition();
   const [createSequence] = useCreateSequence();
   const [createTrack] = useCreateTrack();
   const [deleteSequence] = useDeleteSequence();
   const [deleteTrack] = useDeleteTrack();
   const [duplicateSequence] = useDuplicateSequence();
-  const [updateSequence] = useUpdateSequence();
-  const [updateSong] = useUpdateSong();
-  const [updateTrack] = useUpdateTrack();
+  const history = useHistory();
   const { data, error, loading } = useGetSong({
     variables: {
       id: songId,
     },
   });
+  const playbackState = usePlaybackState();
+  const position = usePosition();
+  const [updateSequence] = useUpdateSequence();
+  const [updateSong] = useUpdateSong();
+  const [updateTrack] = useUpdateTrack();
   const [selectedSequenceId, setSelectedSequenceId] = useState(-1);
   const [selectedTrackId, setSelectedTrackId] = useState(-1);
 
@@ -127,9 +130,9 @@ export const TracksEditor: FC<
 
   const handleSequenceOpen = useCallback(
     (sequence) => {
-      navigate?.(`sequence/${sequence.id}`);
+      history.push?.(`sequence/${sequence.id}`);
     },
-    [navigate],
+    [history],
   );
 
   const handleSongMeasureCountChange = useCallback(
@@ -147,8 +150,8 @@ export const TracksEditor: FC<
   );
 
   const handleToolbarSequenceOpen = useCallback(() => {
-    navigate?.(`sequence/${selectedSequence?.id}`);
-  }, [navigate, selectedSequence]);
+    history.push?.(`sequence/${selectedSequence?.id}`);
+  }, [history, selectedSequence]);
 
   const handleTrackDeselect = useCallback(() => {
     setSelectedTrackId(-1);

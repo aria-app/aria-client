@@ -1,13 +1,8 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import {
-  createHistory,
-  createMemorySource,
-  LocationProvider,
-  Router,
-} from '@reach/router';
 import { Meta, Story } from '@storybook/react';
-import { Box, Toolbar } from 'aria-ui';
+import { Toolbar } from 'aria-ui';
 import { FC, ProviderProps, useRef } from 'react';
+import { MemoryRouter, Route, Switch } from 'react-router-dom';
 
 import { Dawww } from '../../../../dawww';
 import { I18NWrapper } from '../../../../i18n';
@@ -17,19 +12,12 @@ import {
   GetSequenceResponse,
 } from '../../../api';
 import { AudioManagerContext } from '../../../audio/contexts';
+import { Shell } from '../../../shared';
 import { NotesEditor } from '../NotesEditor';
 
 export default {
   component: NotesEditor,
   title: 'NotesEditor/NotesEditor',
-  argTypes: {
-    default: { table: { disable: true } },
-    location: { table: { disable: true } },
-    navigate: { table: { disable: true } },
-    path: { table: { disable: true } },
-    sequenceId: { table: { disable: true } },
-    uri: { table: { disable: true } },
-  },
   parameters: {
     layout: 'fullscreen',
   },
@@ -46,9 +34,6 @@ const MockAudioProvider: FC<Partial<ProviderProps<any>>> = (props) => {
     <AudioManagerContext.Provider value={audioManager.current} {...props} />
   );
 };
-
-const source = createMemorySource('/1');
-const history = createHistory(source);
 
 const mocks: MockedResponse<Record<string, any>>[] = [
   {
@@ -92,32 +77,16 @@ export const Default: Story<any> = (args) => (
   <MockedProvider mocks={mocks}>
     <MockAudioProvider>
       <I18NWrapper>
-        <LocationProvider history={history}>
-          <Box
-            sx={{
-              display: 'flex',
-              flex: '1 1 auto',
-              flexDirection: 'column',
-              height: '100vh',
-              overflow: 'hidden',
-              position: 'relative',
-            }}
-          >
-            <Toolbar></Toolbar>
-            <Box
-              as={Router}
-              sx={{
-                display: 'flex',
-                flex: '1 1 auto',
-                flexDirection: 'column',
-                overflow: 'hidden',
-                position: 'relative',
-              }}
-            >
-              <NotesEditor {...args} path="/:sequenceId" />
-            </Box>
-          </Box>
-        </LocationProvider>
+        <MemoryRouter initialEntries={['/1']}>
+          <Shell>
+            <Toolbar />
+            <Switch>
+              <Route path="/:sequenceId">
+                <NotesEditor {...args} />
+              </Route>
+            </Switch>
+          </Shell>
+        </MemoryRouter>
       </I18NWrapper>
     </MockAudioProvider>
   </MockedProvider>

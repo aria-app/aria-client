@@ -1,23 +1,21 @@
-import { Redirect, RouteComponentProps } from '@reach/router';
-import { ElementType, FC } from 'react';
+import { FC } from 'react';
+import { Redirect, Route, RouteProps } from 'react-router-dom';
 
 import { useAuth } from '../../auth';
 
-export type PrivateRouteProps = RouteComponentProps & {
-  component: ElementType;
-};
+export type PrivateRouteProps = RouteProps;
 
 export const PrivateRoute: FC<PrivateRouteProps> = (props) => {
-  const { component: Component, ...rest } = props;
+  const { children, ...rest } = props;
   const { getIsAuthenticated, loading } = useAuth();
 
   if (loading) {
     return null;
   }
 
-  if (!getIsAuthenticated()) {
-    return <Redirect noThrow to="/login" />;
-  }
-
-  return <Component {...rest} />;
+  return getIsAuthenticated() ? (
+    <Route {...rest}>{children}</Route>
+  ) : (
+    <Redirect to="/login" />
+  );
 };

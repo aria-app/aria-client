@@ -1,8 +1,15 @@
 import { useQuery } from '@apollo/client';
-import { Redirect, RouteComponentProps, Router } from '@reach/router';
 import { Box } from 'aria-ui';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
+import {
+  Redirect,
+  Route,
+  Switch,
+  useHistory,
+  useParams,
+  useRouteMatch,
+} from 'react-router-dom';
 import * as Tone from 'tone';
 
 import { Dawww } from '../../../dawww';
@@ -16,11 +23,18 @@ import { SongInfoDialog } from './SongInfoDialog';
 
 const { STARTED } = Dawww.PLAYBACK_STATES;
 
-export type SongEditorProps = RouteComponentProps<{ songId: string }>;
+export interface SongEditorParams {
+  songId: string;
+}
 
-export const SongEditor: FC<SongEditorProps> = (props) => {
-  const { navigate, songId: songIdProp } = props;
+export type SongEditorProps = Record<string, never>;
+
+export const SongEditor: FC<SongEditorProps> = () => {
+  const { path } = useRouteMatch();
+  const history = useHistory();
+  const { songId: songIdProp } = useParams<SongEditorParams>();
   const songId = songIdProp ? parseInt(songIdProp) : -1;
+  console.log(songId);
   const audioManager = useAudioManager();
   const { user } = useAuth();
   const playbackState = usePlaybackState();
@@ -46,8 +60,8 @@ export const SongEditor: FC<SongEditorProps> = (props) => {
   );
 
   const handleReturnToDashboard = useCallback(() => {
-    navigate?.('../../');
-  }, [navigate]);
+    history.push?.('../../');
+  }, [history]);
 
   const handleSongBPMChange = useCallback(
     (bpm) => {
@@ -72,8 +86,8 @@ export const SongEditor: FC<SongEditorProps> = (props) => {
   }, []);
 
   const handleSignOut = useCallback(() => {
-    navigate?.('../../sign-out');
-  }, [navigate]);
+    history.push?.('../../sign-out');
+  }, [history]);
 
   useEffect(() => {
     if (!data) return;
@@ -83,7 +97,7 @@ export const SongEditor: FC<SongEditorProps> = (props) => {
   }, [audioManager, data]);
 
   if (data && user && data.song?.user.id !== user.id) {
-    return <Redirect noThrow to={`/view-song/${data.song?.id}`} />;
+    return <Redirect to={`/view-song/${data.song?.id}`} />;
   }
 
   return (
@@ -106,19 +120,14 @@ export const SongEditor: FC<SongEditorProps> = (props) => {
         onStop={audioManager.stop}
         playbackState={playbackState}
       />
-      <Box
-        as={Router}
-        sx={{
-          display: 'flex',
-          flex: '1 1 auto',
-          flexDirection: 'column',
-          overflow: 'hidden',
-          position: 'relative',
-        }}
-      >
-        <TracksEditor path="/" />
-        <NotesEditor path="sequence/:sequenceId" />
-      </Box>
+      <Switch>
+        <Route exact path={path}>
+          <TracksEditor />
+        </Route>
+        <Route path={`${path}/sequence/:sequenceId`}>
+          <NotesEditor />
+        </Route>
+      </Switch>
       {!loading && !error && (
         <SongInfoDialog
           isOpen={isSongInfoModalOpen}

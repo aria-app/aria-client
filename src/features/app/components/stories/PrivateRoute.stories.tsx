@@ -1,13 +1,6 @@
-import {
-  createHistory,
-  createMemorySource,
-  Link,
-  LocationProvider,
-  RouteComponentProps,
-  Router,
-} from '@reach/router';
 import { Meta, Story } from '@storybook/react';
 import { FC, ProviderProps, useCallback } from 'react';
+import { Link, MemoryRouter, Route, Switch } from 'react-router-dom';
 
 import {
   AuthContext,
@@ -15,11 +8,9 @@ import {
 } from '../../../auth/contexts/AuthContext';
 import { PrivateRoute, PrivateRouteProps } from '../PrivateRoute';
 
-const FakeLogin: FC<RouteComponentProps & { prevPath: string }> = ({
-  prevPath,
-}) => (
+const FakeLogin: FC<{ prevPath: string }> = ({ prevPath }) => (
   <div>
-    Redirected to Login
+    <div>Redirected to Login</div>
     <Link to={prevPath}>Go to {prevPath}</Link>
   </div>
 );
@@ -66,9 +57,6 @@ export default {
   decorators: [
     (Story, { args }) => {
       const { mockIsAuthenticated, mockLoading, path } = args;
-      const source = createMemorySource(path);
-      const history = createHistory(source);
-
       const getIsAuthenticated = useCallback(
         () => mockIsAuthenticated,
         [mockIsAuthenticated],
@@ -81,19 +69,19 @@ export default {
             loading: mockLoading,
           }}
         >
-          <LocationProvider history={history}>
-            <Router>
-              <FakeLogin path="/login" prevPath={path} />
+          <MemoryRouter initialEntries={[path]}>
+            <Switch>
+              <Route path="/login">
+                <FakeLogin prevPath={path} />
+              </Route>
               {Story()}
-            </Router>
-          </LocationProvider>
+            </Switch>
+          </MemoryRouter>
         </MockAuthProvider>
       );
     },
   ],
 } as Meta<PrivateRouteArgs>;
-
-const Component = () => <div>Private Component</div>;
 
 export const Default: Story<PrivateRouteArgs> = ({
   mockIsAuthenticated,
@@ -102,7 +90,7 @@ export const Default: Story<PrivateRouteArgs> = ({
 }) => <PrivateRoute {...rest} />;
 
 Default.args = {
-  component: Component,
+  children: 'Private Component!',
   mockIsAuthenticated: false,
   mockLoading: false,
   path: '/foo',
