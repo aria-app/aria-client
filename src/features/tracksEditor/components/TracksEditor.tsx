@@ -2,7 +2,7 @@ import { Box } from 'aria-ui';
 import find from 'lodash/fp/find';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 
 import {
   getTempId,
@@ -45,6 +45,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   });
   const playbackState = usePlaybackState();
   const position = usePosition();
+  const { url } = useRouteMatch();
   const [updateSequence] = useUpdateSequence();
   const [updateSong] = useUpdateSong();
   const [updateTrack] = useUpdateTrack();
@@ -130,9 +131,9 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
 
   const handleSequenceOpen = useCallback(
     (sequence) => {
-      history.push?.(`sequence/${sequence.id}`);
+      history.push(`${url}/sequence/${sequence.id}`);
     },
-    [history],
+    [history, url],
   );
 
   const handleSongMeasureCountChange = useCallback(
@@ -150,8 +151,8 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   );
 
   const handleToolbarSequenceOpen = useCallback(() => {
-    history.push?.(`sequence/${selectedSequence?.id}`);
-  }, [history, selectedSequence]);
+    history.push(`${url}/sequence/${selectedSequence?.id}`);
+  }, [history, url, selectedSequence]);
 
   const handleTrackDeselect = useCallback(() => {
     setSelectedTrackId(-1);

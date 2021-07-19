@@ -60,7 +60,7 @@ export const Dashboard: FC<DashboardProps> = () => {
 
   const handleSongOpen = useCallback(
     (song) => {
-      history.push?.(`edit-song/${song.id}`);
+      history.push(`/edit-song/${song.id}`);
     },
     [history],
   );

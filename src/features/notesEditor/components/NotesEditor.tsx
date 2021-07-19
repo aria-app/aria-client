@@ -34,13 +34,14 @@ const getNotesByIds = memoizeOne((notes, ids) =>
 
 export interface NotesEditorParams {
   sequenceId: string;
+  songId: string;
 }
 
 export type NotesEditorProps = Record<string, never>;
 
 export const NotesEditor: FC<NotesEditorProps> = memo(() => {
   const history = useHistory();
-  const { sequenceId: sequenceIdProp } = useParams<NotesEditorParams>();
+  const { sequenceId: sequenceIdProp, songId } = useParams<NotesEditorParams>();
   const sequenceId = sequenceIdProp ? parseInt(sequenceIdProp) : -1;
   const audioManager = useAudioManager();
   const [createNote] = useCreateNote();
@@ -68,8 +69,8 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
   );
 
   const handleClose = useCallback(() => {
-    history.push?.('../../');
-  }, [history]);
+    history.push(`/edit-song/${songId}`);
+  }, [history, songId]);
 
   const handleContentRefChange = useCallback((ref: HTMLDivElement) => {
     setContentEl(ref);

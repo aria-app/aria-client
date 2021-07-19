@@ -36,7 +36,7 @@ export const SongEditor: FC<SongEditorProps> = () => {
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   console.log(songId);
   const audioManager = useAudioManager();
-  const { user } = useAuth();
+  const { logout, user } = useAuth();
   const playbackState = usePlaybackState();
   const [updateSong] = useUpdateSong();
   const { data, error, loading } = useQuery<GetSongResponse>(GET_SONG, {
@@ -60,7 +60,7 @@ export const SongEditor: FC<SongEditorProps> = () => {
   );
 
   const handleReturnToDashboard = useCallback(() => {
-    history.push?.('../../');
+    history.push('/');
   }, [history]);
 
   const handleSongBPMChange = useCallback(
@@ -86,8 +86,8 @@ export const SongEditor: FC<SongEditorProps> = () => {
   }, []);
 
   const handleSignOut = useCallback(() => {
-    history.push?.('../../sign-out');
-  }, [history]);
+    logout();
+  }, [logout]);
 
   useEffect(() => {
     if (!data) return;
