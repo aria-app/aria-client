@@ -1,10 +1,10 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { RouteComponentProps } from '@reach/router';
 import { Box, Button, Fade, Stack, Toolbar } from 'aria-ui';
 import AddIcon from 'mdi-react/AddIcon';
 import { FC, useCallback, useEffect, useState } from 'react';
 
-import { DELETE_SONG, GET_SONGS } from '../../api';
+import { GET_SONGS, useDeleteSong } from '../../api';
 import { useAuth } from '../../auth';
 import { LoadingIndicator } from '../../shared';
 import { AddSongDialog } from './AddSongDialog';
@@ -13,8 +13,9 @@ import { SongList } from './SongList';
 export const Dashboard: FC<RouteComponentProps> = (props) => {
   const { navigate } = props;
   const { logout, user } = useAuth();
-  const [deleteSong, { loading: deleteLoading }] = useMutation(DELETE_SONG);
+  const [deleteSong, { loading: deleteLoading }] = useDeleteSong();
   const { data, loading: getLoading } = useQuery(GET_SONGS, {
+    fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
     skip: !user,
     variables: {
@@ -46,9 +47,7 @@ export const Dashboard: FC<RouteComponentProps> = (props) => {
 
       try {
         await deleteSong({
-          variables: {
-            id: song.id,
-          },
+          id: song.id,
         });
       } catch (error) {
         console.error(error);

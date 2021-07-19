@@ -49,9 +49,10 @@ const mocks: MockedResponse<Record<string, any>>[] = [
         createSong: {
           message: 'Song was created.',
           song: {
-            id: 2,
+            __typename: 'Song',
+            id: 3,
             name: 'New Song',
-            updatedAt: formatISO(new Date(), { representation: 'date' }),
+            updatedAt: formatISO(new Date()),
           },
           success: true,
         },

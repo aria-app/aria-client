@@ -13,7 +13,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { Song } from '../../../types';
-import { useCreateSong } from '../../api/hooks/useCreateSong';
+import { useCreateSong } from '../../api';
 
 const bpmOptions: SelectOption[] = range(60, 161, 10).map((n) => ({
   label: n,
@@ -78,9 +78,12 @@ export const AddSongDialog: FC<AddSongDialogProps> = (props) => {
           <Text variant="header">{t('Add Song')}</Text>
           <TextField
             error={errors.name?.message}
-            inputProps={register('name', {
-              required: 'You must enter a name.',
-            })}
+            inputProps={{
+              autoFocus: true,
+              ...register('name', {
+                required: 'You must enter a name.',
+              }),
+            }}
             label="Name"
             placeholder="Enter a name for your song"
           />
