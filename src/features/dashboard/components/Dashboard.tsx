@@ -1,21 +1,21 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { RouteComponentProps } from '@reach/router';
 import { Box, Button, Fade, Stack, Toolbar } from 'aria-ui';
 import AddIcon from 'mdi-react/AddIcon';
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 
-import { CREATE_SONG, DELETE_SONG, GET_SONGS } from '../../api';
+import { GET_SONGS, useDeleteSong } from '../../api';
 import { useAuth } from '../../auth';
 import { LoadingIndicator } from '../../shared';
+import { AddSongDialog } from './AddSongDialog';
 import { SongList } from './SongList';
 
 export const Dashboard: FC<RouteComponentProps> = (props) => {
   const { navigate } = props;
   const { logout, user } = useAuth();
-  const [createSong, { loading: createLoading }] = useMutation(CREATE_SONG);
-  const [deleteSong, { loading: deleteLoading }] = useMutation(DELETE_SONG);
+  const [deleteSong, { loading: deleteLoading }] = useDeleteSong();
   const { data, loading: getLoading } = useQuery(GET_SONGS, {
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
     skip: !user,
     variables: {
@@ -24,26 +24,18 @@ export const Dashboard: FC<RouteComponentProps> = (props) => {
       userId: user && user.id,
     },
   });
+  const [isAddSongDialogOpen, setIsAddSongDialogOpen] =
+    useState<boolean>(false);
 
-  const loading = createLoading || deleteLoading || getLoading;
+  const loading = deleteLoading || getLoading;
 
-  const handleSongAdd = useCallback(async () => {
-    const name = window.prompt('Enter a name for the song', 'New Song');
+  const handleAddSongClick = useCallback(async () => {
+    setIsAddSongDialogOpen(true);
+  }, [setIsAddSongDialogOpen]);
 
-    if (!name) return;
-
-    try {
-      await createSong({
-        variables: {
-          input: {
-            name,
-          },
-        },
-      });
-    } catch (e) {
-      console.error(e.message);
-    }
-  }, [createSong]);
+  const handleAddSongDialogIsOpenChange = useCallback(() => {
+    setIsAddSongDialogOpen(false);
+  }, [setIsAddSongDialogOpen]);
 
   const handleSongDelete = useCallback(
     async (song) => {
@@ -55,9 +47,7 @@ export const Dashboard: FC<RouteComponentProps> = (props) => {
 
       try {
         await deleteSong({
-          variables: {
-            id: song.id,
-          },
+          id: song.id,
         });
       } catch (error) {
         console.error(error);
@@ -86,57 +76,63 @@ export const Dashboard: FC<RouteComponentProps> = (props) => {
   }, []);
 
   return (
-    <Stack space={4}>
-      <Toolbar
-        padding={2}
-        sx={{
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'flex-end',
-        }}
-      >
-        {user && (
+    <>
+      <Stack space={4}>
+        <Toolbar
+          padding={2}
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            justifyContent: 'flex-end',
+          }}
+        >
+          {user && (
+            <Button
+              onClick={handleUserClick}
+              text={`${user.firstName} ${user.lastName}`}
+              variant="minimal"
+            />
+          )}
+        </Toolbar>
+        <Box
+          sx={{
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            maxWidth: 768,
+            width: '100vw',
+          }}
+        >
+          <Fade in={loading}>
+            <LoadingIndicator>LOADING SONGS...</LoadingIndicator>
+          </Fade>
+          <Fade in={!loading}>
+            <SongList
+              onDelete={handleSongDelete}
+              onOpen={handleSongOpen}
+              songs={data && data.songs.data}
+            />
+          </Fade>
+        </Box>
+        <Box
+          bottom={4}
+          right={4}
+          sx={{
+            position: 'absolute',
+          }}
+        >
           <Button
-            onClick={handleUserClick}
-            text={`${user.firstName} ${user.lastName}`}
-            variant="minimal"
+            color="backgroundContrast"
+            onClick={handleAddSongClick}
+            startIcon={<AddIcon />}
+            text="Add Song"
+            variant="contained"
           />
-        )}
-      </Toolbar>
-      <Box
-        sx={{
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          maxWidth: 768,
-          width: '100vw',
-        }}
-      >
-        <Fade in={loading}>
-          <LoadingIndicator>LOADING SONGS...</LoadingIndicator>
-        </Fade>
-        <Fade in={!loading}>
-          <SongList
-            onDelete={handleSongDelete}
-            onOpen={handleSongOpen}
-            songs={data && data.songs.data}
-          />
-        </Fade>
-      </Box>
-      <Box
-        bottom={4}
-        right={4}
-        sx={{
-          position: 'absolute',
-        }}
-      >
-        <Button
-          color="backgroundContrast"
-          onClick={handleSongAdd}
-          startIcon={<AddIcon />}
-          text="Add Song"
-          variant="contained"
-        />
-      </Box>
-    </Stack>
+        </Box>
+      </Stack>
+      <AddSongDialog
+        isOpen={isAddSongDialogOpen}
+        onIsOpenChange={handleAddSongDialogIsOpenChange}
+      />
+    </>
   );
 };

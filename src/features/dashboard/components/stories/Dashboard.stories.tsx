@@ -49,13 +49,31 @@ const mocks: MockedResponse<Record<string, any>>[] = [
         createSong: {
           message: 'Song was created.',
           song: {
-            id: 2,
+            __typename: 'Song',
+            id: 3,
             name: 'New Song',
-            updatedAt: formatISO(new Date(), { representation: 'date' }),
+            updatedAt: formatISO(new Date()),
           },
           success: true,
         },
       } as CreateSongResponse,
+    },
+  },
+  {
+    request: {
+      query: CREATE_SONG,
+      variables: {
+        input: {
+          name: 'Same',
+        },
+      } as CreateSongVariables,
+    },
+    result: {
+      errors: [
+        new GraphQLError(
+          'You already have a song with that name. Please select another.',
+        ),
+      ],
     },
   },
   {
