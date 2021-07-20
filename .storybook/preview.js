@@ -2,7 +2,7 @@ import { darkTheme, GlobalStyles, lightTheme, ThemeProvider } from 'aria-ui';
 import * as Tone from 'tone';
 
 import { I18NWrapper } from '../src/i18n/I18NWrapper';
-console.log(navigator.languages);
+
 export const globalTypes = {
   locale: {
     name: 'Locale',
