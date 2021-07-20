@@ -14,7 +14,7 @@ export type LoginMutation = (variables: {
 }) => Promise<FetchResult<any>>;
 
 export interface LoginData {
-  createSong: LoginResponse;
+  login: LoginResponse;
 }
 
 export function useLogin(

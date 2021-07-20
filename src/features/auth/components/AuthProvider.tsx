@@ -1,14 +1,14 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { FC, ProviderProps, useCallback, useEffect, useState } from 'react';
 
-import { LOGOUT, ME } from '../../api';
+import { ME, useLogout } from '../../api';
 import { AuthContext, AuthContextValue } from '../contexts/AuthContext';
 
 export const AuthProvider: FC<Partial<ProviderProps<AuthContextValue>>> = (
   props,
 ) => {
   const { data, error, loading, refetch } = useQuery(ME);
-  const [logout] = useMutation(LOGOUT);
+  const [logout] = useLogout();
   const [expiresAt, setExpiresAt] = useState<number>();
 
   const handleLogout = useCallback(async () => {
