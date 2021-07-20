@@ -84,18 +84,18 @@ export const Login: FC<LoginProps> = () => {
       >
         <Stack element="form" onSubmit={handleSubmit} space={8}>
           <Text variant="header">
-            Log in to view and manage songs and data.
+            {t('Log in to view and manage songs and data.')}
           </Text>
           <Stack space={4}>
             <TextField
-              label="Email"
+              label={t('Email')}
               onValueChange={handleEmailChange}
               type="email"
               value={email}
             />
             <TextField
               error={error?.message}
-              label="Password"
+              label={t('Password')}
               onValueChange={handlePasswordChange}
               type="password"
               value={password}

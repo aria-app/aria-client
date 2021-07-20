@@ -1,6 +1,6 @@
-import i18n from 'i18next';
+import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import { ProviderProps, ReactElement } from 'react';
+import { FC, useEffect } from 'react';
 import {
   I18nextProvider,
   I18nextProviderProps,
@@ -8,24 +8,31 @@ import {
 } from 'react-i18next';
 
 import enTranslation from './locales/en/translation.json';
-import jpTranslation from './locales/jp/translation.json';
+import jaTranslation from './locales/ja/translation.json';
 
-i18n
+i18next
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     fallbackLng: 'en',
     keySeparator: false,
-    lng: 'en',
+    lng: navigator ? navigator.languages[0] : 'en',
     resources: {
       en: { translation: enTranslation },
-      jp: { translation: jpTranslation },
+      ja: { translation: jaTranslation },
     },
   });
 
-export function I18NWrapper({
-  children,
-  i18n: i18nProp,
-}: Partial<ProviderProps<any> & I18nextProviderProps>): ReactElement {
-  return <I18nextProvider i18n={i18nProp || i18n}>{children}</I18nextProvider>;
+export interface I18NWrapperProps extends I18nextProviderProps {
+  locale: 'en' | 'ja';
 }
+
+export const I18NWrapper: FC<I18NWrapperProps> = (props) => {
+  const { children, i18n = i18next, locale } = props;
+
+  useEffect(() => {
+    i18n.changeLanguage(locale);
+  }, [i18n, locale]);
+
+  return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;
+};

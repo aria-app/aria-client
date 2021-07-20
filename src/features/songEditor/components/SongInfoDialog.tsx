@@ -61,7 +61,7 @@ export const SongInfoDialog: FC<SongInfoDialogProps> = memo((props) => {
           onValueChange={(language) => i18n.changeLanguage(language)}
           options={[
             { label: t('English') as string, value: 'en' },
-            { label: t('Japanese') as string, value: 'jp' },
+            { label: t('Japanese') as string, value: 'ja' },
           ]}
           sx={{ width: 'auto' }}
           value={i18n.language}
