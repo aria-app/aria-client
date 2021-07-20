@@ -1,11 +1,7 @@
 import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import { FC, useEffect } from 'react';
-import {
-  I18nextProvider,
-  I18nextProviderProps,
-  initReactI18next,
-} from 'react-i18next';
+import { FC, ReactNode, useEffect } from 'react';
+import { I18nextProvider, initReactI18next } from 'react-i18next';
 
 import enTranslation from './locales/en/translation.json';
 import jaTranslation from './locales/ja/translation.json';
@@ -23,8 +19,10 @@ i18next
     },
   });
 
-export interface I18NWrapperProps extends I18nextProviderProps {
-  locale: 'en' | 'ja';
+export interface I18NWrapperProps {
+  children?: ReactNode;
+  i18n?: typeof i18next;
+  locale?: 'en' | 'ja';
 }
 
 export const I18NWrapper: FC<I18NWrapperProps> = (props) => {
