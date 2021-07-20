@@ -68,12 +68,10 @@ export interface Track {
 
 export interface User {
   __typename?: string;
-  createdAt: string;
   email: string;
   firstName: string;
   id: number;
   lastName: string;
-  password: string;
   songs: Song[];
 }
 

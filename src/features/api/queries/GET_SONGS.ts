@@ -6,6 +6,15 @@ export interface GetSongsResponse {
   songs: PaginatedResponse<Pick<Song, 'id' | 'name' | 'updatedAt'>>;
 }
 
+export interface GetSongsVariables {
+  limit?: number;
+  page?: number;
+  search?: string;
+  sort?: string;
+  sortDirection?: 'asc' | 'desc';
+  userId: number;
+}
+
 export const GET_SONGS = gql`
   query GetSongs(
     $limit: Int

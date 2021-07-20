@@ -13,7 +13,7 @@ export interface AuthContextValue {
   handleLogin: (loginResult: LoginResult) => void;
   logout: () => void;
   loading: boolean;
-  user?: User;
+  user?: Omit<User, 'songs'>;
 }
 
 export const AuthContext = createContext<AuthContextValue>({

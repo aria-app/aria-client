@@ -1,13 +1,12 @@
-import { useQuery } from '@apollo/client';
 import { FC, ProviderProps, useCallback, useEffect, useState } from 'react';
 
-import { ME, useLogout } from '../../api';
+import { useLogout, useMe } from '../../api';
 import { AuthContext, AuthContextValue } from '../contexts/AuthContext';
 
 export const AuthProvider: FC<Partial<ProviderProps<AuthContextValue>>> = (
   props,
 ) => {
-  const { data, error, loading, refetch } = useQuery(ME);
+  const { data, error, loading, refetch } = useMe();
   const [logout] = useLogout();
   const [expiresAt, setExpiresAt] = useState<number>();
 
@@ -44,7 +43,7 @@ export const AuthProvider: FC<Partial<ProviderProps<AuthContextValue>>> = (
         handleLogin,
         logout: handleLogout,
         loading,
-        user: data ? data.me : null,
+        user: data?.me,
       }}
       {...props}
     />

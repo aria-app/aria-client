@@ -13,6 +13,7 @@ export * from './useGetSong';
 export * from './useGetVoices';
 export * from './useLogin';
 export * from './useLogout';
+export * from './useMe';
 export * from './useUpdateNotes';
 export * from './useUpdateSequence';
 export * from './useUpdateSong';

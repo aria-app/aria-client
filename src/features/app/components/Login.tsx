@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Notice,
   Stack,
   Text,
   TextField,
@@ -43,6 +44,10 @@ export const Login: FC<LoginProps> = () => {
 
       try {
         const { data } = await login({ email, password });
+
+        if (!data) {
+          throw new Error('Failed to log in.');
+        }
 
         handleLogin(data.login);
       } catch (e) {
@@ -91,12 +96,12 @@ export const Login: FC<LoginProps> = () => {
               value={email}
             />
             <TextField
-              error={error?.message}
               label={t('Password')}
               onValueChange={handlePasswordChange}
               type="password"
               value={password}
             />
+            {error && <Notice status="error">{error.message}</Notice>}
           </Stack>
           <Button
             color="brandPrimary"
