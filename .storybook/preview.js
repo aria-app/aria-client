@@ -1,4 +1,4 @@
-import { urqlDecorator } from '@urql/storybook-addon';
+import { initialize, mswDecorator } from 'msw-storybook-addon';
 import { darkTheme, GlobalStyles, lightTheme, ThemeProvider } from 'aria-ui';
 import * as Tone from 'tone';
 
@@ -40,7 +40,7 @@ export const parameters = {
 };
 
 export const decorators = [
-  urqlDecorator,
+  mswDecorator,
   (storyFn, context) => {
     return (
       <I18NWrapper locale={context.globals.locale}>
@@ -55,7 +55,9 @@ export const decorators = [
   },
 ];
 
-['keydown', 'mousedown', 'touchdown'].forEach((eventName) => {
+initialize();
+
+[('keydown', 'mousedown', 'touchdown')].forEach((eventName) => {
   document.body.addEventListener(eventName, () => {
     Tone.start();
   });

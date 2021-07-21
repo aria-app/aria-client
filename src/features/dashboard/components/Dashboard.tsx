@@ -3,7 +3,7 @@ import AddIcon from 'mdi-react/AddIcon';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { urqlHooks, useDeleteSong } from '../../api';
+import { urqlHooks } from '../../api';
 import { useAuth } from '../../auth';
 import { LoadingIndicator } from '../../shared';
 import { AddSongDialog } from './AddSongDialog';
@@ -14,9 +14,10 @@ export type DashboardProps = Record<string, never>;
 export const Dashboard: FC<DashboardProps> = () => {
   const history = useHistory();
   const { logout, user } = useAuth();
-  const [deleteSong, { loading: deleteLoading }] = useDeleteSong();
-  const [result] = urqlHooks.useGetSongs({
+  const [deleteSongResult, deleteSong] = urqlHooks.useDeleteSong();
+  const [getSongsResult] = urqlHooks.useGetSongs({
     pause: !user,
+    requestPolicy: 'network-only',
     variables: {
       sort: 'updatedAt',
       sortDirection: 'desc',
@@ -26,9 +27,12 @@ export const Dashboard: FC<DashboardProps> = () => {
   const [isAddSongDialogOpen, setIsAddSongDialogOpen] =
     useState<boolean>(false);
 
-  const loading = deleteLoading || result.fetching;
+  const loading = deleteSongResult.fetching || getSongsResult.fetching;
 
-  const songs = useMemo(() => result.data?.songs?.data || [], [result]);
+  const songs = useMemo(
+    () => getSongsResult.data?.songs?.data || [],
+    [getSongsResult],
+  );
 
   const handleAddSongClick = useCallback(async () => {
     setIsAddSongDialogOpen(true);
@@ -47,9 +51,12 @@ export const Dashboard: FC<DashboardProps> = () => {
       if (!shouldDelete) return;
 
       try {
-        await deleteSong({
-          id: song.id,
-        });
+        await deleteSong(
+          {
+            id: song.id,
+          },
+          { additionalTypenames: ['Song'] },
+        );
       } catch (error) {
         console.error(error);
       }

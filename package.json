@@ -37,6 +37,8 @@
     "lodash": "^4.17.12",
     "mdi-react": "^7.5.0",
     "memoize-one": "^5.2.1",
+    "msw": "^0.32.2",
+    "msw-storybook-addon": "^1.2.0",
     "polished": "^4.1.2",
     "prop-types": "15.7.2",
     "react": "^17.0.1",
@@ -120,5 +122,8 @@
   "bugs": {
     "url": "https://github.com/nickjohnson-dev/aria/issues"
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:5000",
+  "msw": {
+    "workerDirectory": "public"
+  }
 }

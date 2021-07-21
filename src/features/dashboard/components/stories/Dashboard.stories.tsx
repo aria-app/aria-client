@@ -2,15 +2,17 @@ import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { Meta, Story } from '@storybook/react';
 import { formatISO } from 'date-fns/esm';
 import { GraphQLError } from 'graphql';
+import { graphql } from 'msw';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
 
+import { UrqlWrapper } from '../../../../UrqlWrapper';
 import {
   CREATE_SONG,
   CreateSongResponse,
   CreateSongVariables,
   DELETE_SONG,
   DeleteSongResponse,
-  GET_SONGS,
+  DeleteSongVariables,
   GetSongsResponse,
   LOGOUT,
   LogoutResponse,
@@ -20,38 +22,59 @@ import {
 import { AuthProvider } from '../../../auth';
 import { Dashboard } from '../Dashboard';
 
+const state = {
+  songs: [
+    {
+      id: 1,
+      name: 'Song 1',
+      updatedAt: '2021-01-01',
+    },
+    {
+      id: 2,
+      name: 'Song 2',
+      updatedAt: '2021-02-02',
+    },
+  ],
+};
+
 export default {
   component: Dashboard,
   title: 'Dashboard/Dashboard',
   parameters: {
     layout: 'fullscreen',
-    urql: (op) => {
-      console.log({ op });
+    msw: [
+      graphql.query('IntrospectionQuery', (req, res, ctx) => res(ctx.data({}))),
+      graphql.mutation<DeleteSongResponse, DeleteSongVariables>(
+        'DeleteSong',
+        (req, res, ctx) => {
+          const { id } = req.variables;
 
-      return {
-        data: {
-          songs: {
-            data: [
-              {
-                id: 1,
-                name: 'Song 1',
-                updatedAt: '2021-01-01',
+          state.songs = state.songs.filter((song) => song.id !== id);
+
+          return res(
+            ctx.data({
+              deleteSong: {
+                success: true,
               },
-              {
-                id: 2,
-                name: 'Song 2',
-                updatedAt: '2021-02-02',
-              },
-            ],
-            meta: {
-              currentPage: 1,
-              itemsPerPage: 10,
-              totalItemCount: 2,
-            },
-          },
+            }),
+          );
         },
-      };
-    },
+      ),
+      graphql.query<GetSongsResponse>('GetSongs', (req, res, ctx) =>
+        res(
+          ctx.data({
+            songs: {
+              data: state.songs,
+              meta: {
+                currentPage: 1,
+                itemsPerPage: 10,
+                totalItemCount: 2,
+              },
+            },
+          }),
+        ),
+      ),
+    ],
   },
 } as Meta;
 
@@ -125,39 +148,6 @@ const mocks: MockedResponse<Record<string, any>>[] = [
   },
   {
     request: {
-      query: GET_SONGS,
-      variables: {
-        sort: 'updatedAt',
-        sortDirection: 'desc',
-        userId: 1,
-      },
-    },
-    result: {
-      data: {
-        songs: {
-          data: [
-            {
-              id: 1,
-              name: 'Song 1',
-              updatedAt: '2021-01-01',
-            },
-            {
-              id: 2,
-              name: 'Song 2',
-              updatedAt: '2021-02-02',
-            },
-          ],
-          meta: {
-            currentPage: 1,
-            itemsPerPage: 10,
-            totalItemCount: 2,
-          },
-        },
-      } as GetSongsResponse,
-    },
-  },
-  {
-    request: {
       query: LOGOUT,
     },
     result: {
@@ -187,15 +177,17 @@ const mocks: MockedResponse<Record<string, any>>[] = [
 ];
 
 export const Default: Story<any> = (args) => (
-  <MockedProvider mocks={mocks}>
-    <AuthProvider>
-      <MemoryRouter initialEntries={['/']}>
-        <Switch>
-          <Route path="/">
-            <Dashboard {...args} />
-          </Route>
-        </Switch>
-      </MemoryRouter>
-    </AuthProvider>
-  </MockedProvider>
+  <UrqlWrapper clientOptions={{ requestPolicy: 'network-only' }}>
+    <MockedProvider mocks={mocks}>
+      <AuthProvider>
+        <MemoryRouter initialEntries={['/']}>
+          <Switch>
+            <Route path="/">
+              <Dashboard {...args} />
+            </Route>
+          </Switch>
+        </MemoryRouter>
+      </AuthProvider>
+    </MockedProvider>
+  </UrqlWrapper>
 );
