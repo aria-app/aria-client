@@ -1,9 +1,8 @@
-import { useQuery } from '@apollo/client';
 import { Box, Text } from 'aria-ui';
 import { FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { GET_SONG } from '../../api';
+import { useGetSong } from '../../api';
 import { useAudioManager, usePlaybackState } from '../../audio';
 import { LoadingIndicator } from '../../shared';
 import { SongViewerToolbar } from './SongViewerToolbar';
@@ -19,7 +18,7 @@ export const SongViewer: FC<SongViewerProps> = (props) => {
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
   const playbackState = usePlaybackState();
-  const { data, loading } = useQuery(GET_SONG, {
+  const { data, loading } = useGetSong({
     variables: { id: songId },
   });
 
@@ -28,7 +27,7 @@ export const SongViewer: FC<SongViewerProps> = (props) => {
 
     audioManager.updateSong(data.song);
 
-    window.document.title = `${data.song.name} - Aria`;
+    window.document.title = `${data.song?.name} - Aria`;
   }, [audioManager, data]);
 
   return (
@@ -59,7 +58,7 @@ export const SongViewer: FC<SongViewerProps> = (props) => {
               padding: 4,
             }}
           >
-            <Text variant="header">{data && data.song.name}</Text>
+            <Text variant="header">{data?.song?.name}</Text>
           </Box>
         </Box>
       )}

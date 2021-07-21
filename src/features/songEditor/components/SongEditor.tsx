@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client';
 import { Box } from 'aria-ui';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
@@ -13,7 +12,7 @@ import {
 import * as Tone from 'tone';
 
 import { Dawww } from '../../../dawww';
-import { GET_SONG, GetSongResponse, useUpdateSong } from '../../api';
+import { useGetSong, useUpdateSong } from '../../api';
 import { useAudioManager, usePlaybackState } from '../../audio';
 import { useAuth } from '../../auth';
 import { NotesEditor } from '../../notesEditor';
@@ -34,14 +33,13 @@ export const SongEditor: FC<SongEditorProps> = () => {
   const history = useHistory();
   const { songId: songIdProp } = useParams<SongEditorParams>();
   const songId = songIdProp ? parseInt(songIdProp) : -1;
-  console.log(songId);
   const audioManager = useAudioManager();
   const { logout, user } = useAuth();
-  const playbackState = usePlaybackState();
-  const [updateSong] = useUpdateSong();
-  const { data, error, loading } = useQuery<GetSongResponse>(GET_SONG, {
+  const { data, error, loading } = useGetSong({
     variables: { id: songId },
   });
+  const playbackState = usePlaybackState();
+  const [updateSong] = useUpdateSong();
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = useState(false);
 
   const playPause = useCallback(

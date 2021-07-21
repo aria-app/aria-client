@@ -54,6 +54,8 @@ export interface Song {
   user: Partial<User> & { id: number };
 }
 
+export type SongListSong = Pick<Song, 'id' | 'name' | 'updatedAt'>;
+
 export interface Track {
   __typename?: string;
   id: number;

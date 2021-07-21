@@ -1,4 +1,3 @@
-import { ApolloError } from '@apollo/client';
 import { createContext } from 'react';
 
 import { User } from '../../../types';
@@ -8,7 +7,7 @@ interface LoginResult {
 }
 
 export interface AuthContextValue {
-  error?: ApolloError;
+  error?: Error;
   getIsAuthenticated: () => boolean;
   handleLogin: (loginResult: LoginResult) => void;
   logout: () => void;

@@ -1,10 +1,9 @@
-import { useQuery } from '@apollo/client';
 import { Box, Button, Fade, Stack, Toolbar } from 'aria-ui';
 import AddIcon from 'mdi-react/AddIcon';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { GET_SONGS, useDeleteSong } from '../../api';
+import { useDeleteSong, useGetSongs } from '../../api';
 import { useAuth } from '../../auth';
 import { LoadingIndicator } from '../../shared';
 import { AddSongDialog } from './AddSongDialog';
@@ -16,14 +15,14 @@ export const Dashboard: FC<DashboardProps> = () => {
   const history = useHistory();
   const { logout, user } = useAuth();
   const [deleteSong, { loading: deleteLoading }] = useDeleteSong();
-  const { data, loading: getLoading } = useQuery(GET_SONGS, {
+  const { data, loading: getLoading } = useGetSongs({
     fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
     skip: !user,
     variables: {
       sort: 'updatedAt',
       sortDirection: 'desc',
-      userId: user && user.id,
+      userId: user?.id || -1,
     },
   });
   const [isAddSongDialogOpen, setIsAddSongDialogOpen] =
@@ -111,7 +110,7 @@ export const Dashboard: FC<DashboardProps> = () => {
             <SongList
               onDelete={handleSongDelete}
               onOpen={handleSongOpen}
-              songs={data && data.songs.data}
+              songs={data?.songs?.data || []}
             />
           </Fade>
         </Box>

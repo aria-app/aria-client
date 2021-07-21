@@ -1,13 +1,13 @@
 import { Stack } from 'aria-ui';
 import { FC, memo } from 'react';
 
-import { Song } from '../../../types';
+import { SongListSong } from '../../../types';
 import { SongListItem } from './SongListItem';
 
 export interface SongListProps {
-  onDelete: (song: Song) => void;
-  onOpen: (song: Song) => void;
-  songs: Song[];
+  onDelete: (song: SongListSong) => void;
+  onOpen: (song: SongListSong) => void;
+  songs: SongListSong[];
 }
 
 export const SongList: FC<SongListProps> = memo((props) => {
