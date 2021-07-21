@@ -175,6 +175,7 @@ const mocks: MockedResponse<Record<string, any>>[] = [
     result: {
       data: {
         me: {
+          createdAt: '2020-01-01T00:00:00Z',
           email: 'user@ariaapp.io',
           firstName: 'Yorick',
           id: 1,

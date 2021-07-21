@@ -1,7 +1,7 @@
-import { useMutation } from '@apollo/client';
 import {
   Box,
   Button,
+  Notice,
   Stack,
   Text,
   TextField,
@@ -11,13 +11,13 @@ import { FC, MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
 
-import { LOGIN } from '../../api';
+import { useLogin } from '../../api';
 import { useAuth } from '../../auth';
 
 export type LoginProps = Record<string, never>;
 
 export const Login: FC<LoginProps> = () => {
-  const [login, { client, error, loading }] = useMutation(LOGIN);
+  const [login, { client, error, loading }] = useLogin();
   const { getIsAuthenticated, handleLogin } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -43,9 +43,11 @@ export const Login: FC<LoginProps> = () => {
       e.preventDefault();
 
       try {
-        const { data } = await login({
-          variables: { email, password },
-        });
+        const { data } = await login({ email, password });
+
+        if (!data) {
+          throw new Error('Failed to log in.');
+        }
 
         handleLogin(data.login);
       } catch (e) {
@@ -94,12 +96,12 @@ export const Login: FC<LoginProps> = () => {
               value={email}
             />
             <TextField
-              error={error?.message}
               label={t('Password')}
               onValueChange={handlePasswordChange}
               type="password"
               value={password}
             />
+            {error && <Notice status="error">{error.message}</Notice>}
           </Stack>
           <Button
             color="brandPrimary"

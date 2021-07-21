@@ -17,15 +17,8 @@ export const Default: Story<SongListItemProps> = (args) => (
 
 Default.args = {
   song: {
-    bpm: 100,
-    createdAt: '2021-01-01',
     id: 1,
-    measureCount: 4,
     name: 'Song 1',
-    tracks: [],
     updatedAt: '2021-01-01',
-    user: {
-      id: 1,
-    },
   },
 };

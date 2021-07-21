@@ -4,12 +4,12 @@ import parseISO from 'date-fns/parseISO';
 import CloseIcon from 'mdi-react/CloseIcon';
 import { FC, useCallback, useMemo } from 'react';
 
-import { Song } from '../../../types';
+import { SongListSong } from '../../../types';
 
 export interface SongListItemProps {
-  onDelete: (song: Song) => void;
-  onOpen: (song: Song) => void;
-  song: Song;
+  onDelete: (song: SongListSong) => void;
+  onOpen: (song: SongListSong) => void;
+  song: SongListSong;
 }
 
 export const SongListItem: FC<SongListItemProps> = (props) => {

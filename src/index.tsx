@@ -1,4 +1,4 @@
-import '@emotion/core';
+import '@emotion/react';
 
 import { render } from 'react-dom';
 import { configure as configureHotkeys } from 'react-hotkeys';

@@ -24,7 +24,7 @@ const mocks: MockedResponse<Record<string, any>>[] = [
     result: {
       data: {
         login: {
-          expiresAt: '2022-01-01',
+          expiresAt: 9999999999,
           success: true,
         },
       } as LoginResponse,
