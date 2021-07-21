@@ -1,10 +1,9 @@
-import { useQuery } from '@apollo/client';
 import { Box, Button, Fade, Stack, Toolbar } from 'aria-ui';
 import AddIcon from 'mdi-react/AddIcon';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { GET_SONGS, useDeleteSong } from '../../api';
+import { urqlHooks, useDeleteSong } from '../../api';
 import { useAuth } from '../../auth';
 import { LoadingIndicator } from '../../shared';
 import { AddSongDialog } from './AddSongDialog';
@@ -16,20 +15,20 @@ export const Dashboard: FC<DashboardProps> = () => {
   const history = useHistory();
   const { logout, user } = useAuth();
   const [deleteSong, { loading: deleteLoading }] = useDeleteSong();
-  const { data, loading: getLoading } = useQuery(GET_SONGS, {
-    fetchPolicy: 'cache-and-network',
-    notifyOnNetworkStatusChange: true,
-    skip: !user,
+  const [result] = urqlHooks.useGetSongs({
+    pause: !user,
     variables: {
       sort: 'updatedAt',
       sortDirection: 'desc',
-      userId: user && user.id,
+      userId: user?.id || -1,
     },
   });
   const [isAddSongDialogOpen, setIsAddSongDialogOpen] =
     useState<boolean>(false);
 
-  const loading = deleteLoading || getLoading;
+  const loading = deleteLoading || result.fetching;
+
+  const songs = useMemo(() => result.data?.songs?.data || [], [result]);
 
   const handleAddSongClick = useCallback(async () => {
     setIsAddSongDialogOpen(true);
@@ -111,7 +110,7 @@ export const Dashboard: FC<DashboardProps> = () => {
             <SongList
               onDelete={handleSongDelete}
               onOpen={handleSongOpen}
-              songs={data && data.songs.data}
+              songs={songs}
             />
           </Fade>
         </Box>

@@ -25,6 +25,33 @@ export default {
   title: 'Dashboard/Dashboard',
   parameters: {
     layout: 'fullscreen',
+    urql: (op) => {
+      console.log({ op });
+
+      return {
+        data: {
+          songs: {
+            data: [
+              {
+                id: 1,
+                name: 'Song 1',
+                updatedAt: '2021-01-01',
+              },
+              {
+                id: 2,
+                name: 'Song 2',
+                updatedAt: '2021-02-02',
+              },
+            ],
+            meta: {
+              currentPage: 1,
+              itemsPerPage: 10,
+              totalItemCount: 2,
+            },
+          },
+        },
+      };
+    },
   },
 } as Meta;
 

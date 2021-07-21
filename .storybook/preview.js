@@ -1,3 +1,4 @@
+import { urqlDecorator } from '@urql/storybook-addon';
 import { darkTheme, GlobalStyles, lightTheme, ThemeProvider } from 'aria-ui';
 import * as Tone from 'tone';
 
@@ -39,6 +40,7 @@ export const parameters = {
 };
 
 export const decorators = [
+  urqlDecorator,
   (storyFn, context) => {
     return (
       <I18NWrapper locale={context.globals.locale}>
