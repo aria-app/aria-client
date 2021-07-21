@@ -1,9 +1,18 @@
 import { gql } from '@apollo/client';
 
-import { PaginatedResponse, Song } from '../../../types';
+import { PaginatedResponse, SongListSong } from '../../../types';
 
 export interface GetSongsResponse {
-  songs: PaginatedResponse<Pick<Song, 'id' | 'name' | 'updatedAt'>>;
+  songs: PaginatedResponse<SongListSong>;
+}
+
+export interface GetSongsVariables {
+  limit?: number;
+  page?: number;
+  search?: string;
+  sort?: string;
+  sortDirection?: 'asc' | 'desc';
+  userId: number;
 }
 
 export const GET_SONGS = gql`

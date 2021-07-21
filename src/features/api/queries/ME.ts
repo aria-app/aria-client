@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 import { User } from '../../../types';
 
 export interface MeResponse {
-  me: Pick<User, 'email' | 'firstName' | 'id' | 'lastName'>;
+  me: Omit<User, 'songs'>;
 }
 
 export const ME = gql`

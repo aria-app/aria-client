@@ -1,4 +1,4 @@
-import { CSSObject } from '@emotion/core';
+import { CSSObject } from '@emotion/react';
 import { Box } from 'aria-ui';
 import { CSSProperties } from 'react';
 import { FC, useMemo } from 'react';
