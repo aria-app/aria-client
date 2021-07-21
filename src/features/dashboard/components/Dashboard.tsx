@@ -17,7 +17,6 @@ export const Dashboard: FC<DashboardProps> = () => {
   const [deleteSongResult, deleteSong] = urqlHooks.useDeleteSong();
   const [getSongsResult] = urqlHooks.useGetSongs({
     pause: !user,
-    requestPolicy: 'network-only',
     variables: {
       sort: 'updatedAt',
       sortDirection: 'desc',
