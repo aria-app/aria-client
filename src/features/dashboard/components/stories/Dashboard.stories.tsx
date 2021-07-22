@@ -25,11 +25,13 @@ import { Dashboard } from '../Dashboard';
 const state = {
   songs: [
     {
+      __typename: 'Song',
       id: 1,
       name: 'Song 1',
       updatedAt: '2021-01-01',
     },
     {
+      __typename: 'Song',
       id: 2,
       name: 'Song 2',
       updatedAt: '2021-02-02',
@@ -177,7 +179,7 @@ const mocks: MockedResponse<Record<string, any>>[] = [
 ];
 
 export const Default: Story<any> = (args) => (
-  <UrqlWrapper clientOptions={{ requestPolicy: 'network-only' }}>
+  <UrqlWrapper>
     <MockedProvider mocks={mocks}>
       <AuthProvider>
         <MemoryRouter initialEntries={['/']}>
