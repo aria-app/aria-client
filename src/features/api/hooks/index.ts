@@ -1,3 +1,4 @@
+export * from './useClient';
 export * from './useCreateNote';
 export * from './useCreateSequence';
 export * from './useCreateTrack';

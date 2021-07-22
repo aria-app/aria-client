@@ -4,8 +4,8 @@ import { orderBy, uniqueId } from 'lodash';
 import { graphql } from 'msw';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
 
-import { UrqlWrapper } from '../../../../UrqlWrapper';
 import {
+  ClientProvider,
   CreateSongResponse,
   CreateSongVariables,
   DeleteSongResponse,
@@ -18,6 +18,7 @@ import {
   MeVariables,
 } from '../../../api';
 import { AuthProvider } from '../../../auth';
+import { Shell } from '../../../shared';
 import { Dashboard } from '../Dashboard';
 
 const state = {
@@ -149,15 +150,17 @@ export default {
 } as Meta;
 
 export const Default: Story<any> = (args) => (
-  <UrqlWrapper>
+  <ClientProvider>
     <AuthProvider>
       <MemoryRouter initialEntries={['/']}>
-        <Switch>
-          <Route path="/">
-            <Dashboard {...args} />
-          </Route>
-        </Switch>
+        <Shell>
+          <Switch>
+            <Route path="/">
+              <Dashboard {...args} />
+            </Route>
+          </Switch>
+        </Shell>
       </MemoryRouter>
     </AuthProvider>
-  </UrqlWrapper>
+  </ClientProvider>
 );

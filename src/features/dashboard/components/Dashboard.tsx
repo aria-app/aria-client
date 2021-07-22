@@ -11,14 +11,11 @@ import { SongList } from './SongList';
 
 export type DashboardProps = Record<string, never>;
 
-const context = { additionalTypenames: ['Song'] };
-
 export const Dashboard: FC<DashboardProps> = () => {
   const history = useHistory();
   const { logout, user } = useAuth();
   const [deleteSongResult, deleteSong] = urqlHooks.useDeleteSong();
   const [getSongsResult] = urqlHooks.useGetSongs({
-    context,
     pause: !user,
     variables: {
       sort: 'updatedAt',
@@ -87,7 +84,7 @@ export const Dashboard: FC<DashboardProps> = () => {
 
   return (
     <>
-      <Stack space={4}>
+      <Stack space={4} sx={{ flexGrow: 1, label: 'Dashboard' }}>
         <Toolbar
           padding={2}
           sx={{
