@@ -11,7 +11,7 @@
     "clean": "rimraf build coverage storybook-static",
     "lint-eslint": "eslint \"src/**\" --fix --ignore-pattern \"src/**/*.json\"",
     "lint-prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "lint": "yarn run lint-eslint && yarn run lint-prettier",
+    "lint": "yarn lint-eslint && yarn lint-prettier",
     "start": "react-scripts start",
     "test": "react-scripts test",
     "storybook": "start-storybook -p 6006 -s public",
@@ -116,7 +116,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "yarn run lint && CI=true yarn test"
+      "pre-push": "yarn lint && CI=true yarn test"
     }
   },
   "bugs": {
