@@ -1,19 +1,18 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { Meta, Story } from '@storybook/react';
 import { formatISO } from 'date-fns/esm';
-import { GraphQLError } from 'graphql';
+import { orderBy, uniqueId } from 'lodash';
 import { graphql } from 'msw';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
 
 import { UrqlWrapper } from '../../../../UrqlWrapper';
 import {
-  CREATE_SONG,
   CreateSongResponse,
   CreateSongVariables,
-  DELETE_SONG,
   DeleteSongResponse,
   DeleteSongVariables,
   GetSongsResponse,
+  GetSongsVariables,
   LOGOUT,
   LogoutResponse,
   ME,
@@ -26,15 +25,15 @@ const state = {
   songs: [
     {
       __typename: 'Song',
-      id: 1,
+      id: parseInt(uniqueId()),
       name: 'Song 1',
       updatedAt: '2021-01-01',
     },
     {
       __typename: 'Song',
-      id: 2,
+      id: parseInt(uniqueId()),
       name: 'Song 2',
-      updatedAt: '2021-02-02',
+      updatedAt: '2021-04-02',
     },
   ],
 };
@@ -46,6 +45,47 @@ export default {
     layout: 'fullscreen',
     msw: [
       graphql.query('IntrospectionQuery', (req, res, ctx) => res(ctx.data({}))),
+      graphql.mutation<CreateSongResponse, CreateSongVariables>(
+        'CreateSong',
+        (req, res, ctx) => {
+          const {
+            input: { name },
+          } = req.variables;
+
+          if (name === 'Fail') {
+            return res.networkError('Failed to connect');
+          }
+
+          if (state.songs.some((song) => song.name === name)) {
+            return res(
+              ctx.errors([
+                {
+                  message:
+                    'You already have a song with that name. Please select another.',
+                },
+              ]),
+            );
+          }
+
+          const newSong = {
+            __typename: 'Song',
+            id: parseInt(uniqueId()) || -1,
+            name,
+            updatedAt: formatISO(Date.now()),
+          };
+          state.songs = [...state.songs, newSong];
+
+          return res(
+            ctx.data({
+              createSong: {
+                message: 'Song was created.',
+                song: newSong,
+                success: true,
+              },
+            }),
+          );
+        },
+      ),
       graphql.mutation<DeleteSongResponse, DeleteSongVariables>(
         'DeleteSong',
         (req, res, ctx) => {
@@ -62,92 +102,31 @@ export default {
           );
         },
       ),
-      graphql.query<GetSongsResponse>('GetSongs', (req, res, ctx) =>
-        res(
-          ctx.data({
-            songs: {
-              data: state.songs,
-              meta: {
-                currentPage: 1,
-                itemsPerPage: 10,
-                totalItemCount: 2,
+      graphql.query<GetSongsResponse, GetSongsVariables>(
+        'GetSongs',
+        (req, res, ctx) =>
+          res(
+            ctx.data({
+              songs: {
+                data: orderBy(
+                  state.songs,
+                  req.variables.sort,
+                  req.variables.sortDirection,
+                ),
+                meta: {
+                  currentPage: 1,
+                  itemsPerPage: 10,
+                  totalItemCount: 2,
+                },
               },
-            },
-          }),
-        ),
+            }),
+          ),
       ),
     ],
   },
 } as Meta;
 
 const mocks: MockedResponse<Record<string, any>>[] = [
-  {
-    request: {
-      query: CREATE_SONG,
-      variables: {
-        input: {
-          name: 'New Song',
-        },
-      } as CreateSongVariables,
-    },
-    result: {
-      data: {
-        createSong: {
-          message: 'Song was created.',
-          song: {
-            __typename: 'Song',
-            id: 3,
-            name: 'New Song',
-            updatedAt: formatISO(new Date()),
-          },
-          success: true,
-        },
-      } as CreateSongResponse,
-    },
-  },
-  {
-    request: {
-      query: CREATE_SONG,
-      variables: {
-        input: {
-          name: 'Same',
-        },
-      } as CreateSongVariables,
-    },
-    result: {
-      errors: [
-        new GraphQLError(
-          'You already have a song with that name. Please select another.',
-        ),
-      ],
-    },
-  },
-  {
-    request: {
-      query: DELETE_SONG,
-      variables: {
-        id: 1,
-      },
-    },
-    result: {
-      data: {
-        deleteSong: {
-          success: true,
-        },
-      } as DeleteSongResponse,
-    },
-  },
-  {
-    request: {
-      query: DELETE_SONG,
-      variables: {
-        id: 2,
-      },
-    },
-    result: {
-      errors: [new GraphQLError('Could not delete song.')],
-    },
-  },
   {
     request: {
       query: LOGOUT,

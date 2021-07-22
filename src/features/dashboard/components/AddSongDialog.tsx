@@ -13,7 +13,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { Song } from '../../../types';
-import { useCreateSong } from '../../api';
+import { formatError, urqlHooks } from '../../api';
 
 const bpmOptions: SelectOption[] = range(60, 161, 10).map((n) => ({
   label: n,
@@ -36,7 +36,7 @@ export interface AddSongDialogProps {
 
 export const AddSongDialog: FC<AddSongDialogProps> = (props) => {
   const { isOpen, onIsOpenChange } = props;
-  const [createSong] = useCreateSong();
+  const [, createSong] = urqlHooks.useCreateSong();
   const { formState, handleSubmit, register, reset, setError } =
     useForm<AddSongDialogFormValues>({
       defaultValues: {
@@ -50,17 +50,18 @@ export const AddSongDialog: FC<AddSongDialogProps> = (props) => {
     SubmitHandler<AddSongDialogFormValues>
   >(
     async ({ name }) => {
-      try {
-        await createSong({
-          name,
-        });
-        onIsOpenChange();
-      } catch (e) {
-        setError('name', {
-          message: e.message,
-          type: 'server',
-        });
+      const { error } = await createSong({
+        input: {
+          name: name.replace(/\s+/g, ' ').trim(),
+        },
+      });
+
+      if (error) {
+        setError('name', formatError(error));
+        return;
       }
+
+      onIsOpenChange();
     },
     [createSong, onIsOpenChange, setError],
   );
