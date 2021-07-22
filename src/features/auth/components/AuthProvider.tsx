@@ -1,13 +1,13 @@
 import { FC, ProviderProps, useCallback, useEffect, useState } from 'react';
 
-import { useLogout, useMe } from '../../api';
+import { urqlHooks } from '../../api';
 import { AuthContext, AuthContextValue } from '../contexts/AuthContext';
 
 export const AuthProvider: FC<Partial<ProviderProps<AuthContextValue>>> = (
   props,
 ) => {
-  const { data, error, loading, refetch } = useMe();
-  const [logout] = useLogout();
+  const [{ data, error, fetching }, refetch] = urqlHooks.useMe();
+  const [, logout] = urqlHooks.useLogout();
   const [expiresAt, setExpiresAt] = useState<number>();
 
   const handleLogout = useCallback(async () => {
@@ -42,7 +42,7 @@ export const AuthProvider: FC<Partial<ProviderProps<AuthContextValue>>> = (
         getIsAuthenticated,
         handleLogin,
         logout: handleLogout,
-        loading,
+        loading: fetching,
         user: data?.me,
       }}
       {...props}

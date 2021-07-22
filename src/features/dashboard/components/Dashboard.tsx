@@ -11,11 +11,14 @@ import { SongList } from './SongList';
 
 export type DashboardProps = Record<string, never>;
 
+const context = { additionalTypenames: ['Song'] };
+
 export const Dashboard: FC<DashboardProps> = () => {
   const history = useHistory();
   const { logout, user } = useAuth();
   const [deleteSongResult, deleteSong] = urqlHooks.useDeleteSong();
   const [getSongsResult] = urqlHooks.useGetSongs({
+    context,
     pause: !user,
     variables: {
       sort: 'updatedAt',

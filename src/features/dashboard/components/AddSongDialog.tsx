@@ -50,11 +50,14 @@ export const AddSongDialog: FC<AddSongDialogProps> = (props) => {
     SubmitHandler<AddSongDialogFormValues>
   >(
     async ({ name }) => {
-      const { error } = await createSong({
-        input: {
-          name: name.replace(/\s+/g, ' ').trim(),
+      const { error } = await createSong(
+        {
+          input: {
+            name: name.replace(/\s+/g, ' ').trim(),
+          },
         },
-      });
+        { additionalTypenames: ['Song'] },
+      );
 
       if (error) {
         setError('name', formatError(error));

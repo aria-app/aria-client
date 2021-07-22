@@ -4,5 +4,5 @@ import { GET_SONGS, GetSongsResponse, GetSongsVariables } from '../queries';
 import { QueryHook } from './types';
 
 export const useGetSongs: QueryHook<GetSongsResponse, GetSongsVariables> = (
-  args,
+  args = {},
 ) => useQuery({ query: GET_SONGS, ...args });

@@ -1,4 +1,3 @@
-import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { Meta, Story } from '@storybook/react';
 import { formatISO } from 'date-fns/esm';
 import { orderBy, uniqueId } from 'lodash';
@@ -13,10 +12,10 @@ import {
   DeleteSongVariables,
   GetSongsResponse,
   GetSongsVariables,
-  LOGOUT,
   LogoutResponse,
-  ME,
+  LogoutVariables,
   MeResponse,
+  MeVariables,
 } from '../../../api';
 import { AuthProvider } from '../../../auth';
 import { Dashboard } from '../Dashboard';
@@ -122,53 +121,43 @@ export default {
             }),
           ),
       ),
+      graphql.mutation<LogoutResponse, LogoutVariables>(
+        'Logout',
+        (req, res, ctx) =>
+          res(
+            ctx.data({
+              logout: {
+                success: true,
+              },
+            }),
+          ),
+      ),
+      graphql.query<MeResponse, MeVariables>('Me', (req, res, ctx) =>
+        res(
+          ctx.data({
+            me: {
+              email: 'user@ariaapp.io',
+              firstName: 'Yorick',
+              id: parseInt(uniqueId()),
+              lastName: 'User',
+            },
+          }),
+        ),
+      ),
     ],
   },
 } as Meta;
 
-const mocks: MockedResponse<Record<string, any>>[] = [
-  {
-    request: {
-      query: LOGOUT,
-    },
-    result: {
-      data: {
-        logout: {
-          success: true,
-        },
-      } as LogoutResponse,
-    },
-  },
-  {
-    request: {
-      query: ME,
-    },
-    result: {
-      data: {
-        me: {
-          createdAt: '2020-01-01T00:00:00Z',
-          email: 'user@ariaapp.io',
-          firstName: 'Yorick',
-          id: 1,
-          lastName: 'User',
-        },
-      } as MeResponse,
-    },
-  },
-];
-
 export const Default: Story<any> = (args) => (
   <UrqlWrapper>
-    <MockedProvider mocks={mocks}>
-      <AuthProvider>
-        <MemoryRouter initialEntries={['/']}>
-          <Switch>
-            <Route path="/">
-              <Dashboard {...args} />
-            </Route>
-          </Switch>
-        </MemoryRouter>
-      </AuthProvider>
-    </MockedProvider>
+    <AuthProvider>
+      <MemoryRouter initialEntries={['/']}>
+        <Switch>
+          <Route path="/">
+            <Dashboard {...args} />
+          </Route>
+        </Switch>
+      </MemoryRouter>
+    </AuthProvider>
   </UrqlWrapper>
 );
