@@ -8,8 +8,8 @@ import { Dawww } from '../../../../dawww';
 import { I18NWrapper } from '../../../../i18n';
 import {
   GET_SEQUENCE,
-  GetSequenceInput,
   GetSequenceResponse,
+  GetSequenceVariables,
 } from '../../../api';
 import { AudioManagerContext } from '../../../audio/contexts';
 import { Shell } from '../../../shared';
@@ -40,7 +40,7 @@ const mocks: MockedResponse<Record<string, any>>[] = [
     delay: 0,
     request: {
       query: GET_SEQUENCE,
-      variables: { id: 1 } as GetSequenceInput,
+      variables: { id: 1 } as GetSequenceVariables,
     },
     result: {
       data: {
