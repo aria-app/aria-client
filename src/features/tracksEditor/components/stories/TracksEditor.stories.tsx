@@ -1,6 +1,6 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { Meta, Story } from '@storybook/react';
-import { max, uniqueId } from 'lodash';
+import { compact, first, max, uniqueId } from 'lodash';
 import { graphql } from 'msw';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
@@ -16,6 +16,8 @@ import {
   DeleteSequenceVariables,
   DeleteTrackResponse,
   DeleteTrackVariables,
+  DuplicateSequenceResponse,
+  DuplicateSequenceVariables,
   GetSongResponse,
   GetSongVariables,
 } from '../../../api';
@@ -114,7 +116,6 @@ export default {
             ctx.data({
               createSequence: {
                 sequence: newSequence,
-                success: true,
               },
             }),
           );
@@ -156,7 +157,6 @@ export default {
             ctx.data({
               createTrack: {
                 track: newTrack,
-                success: true,
               },
             }),
           );
@@ -200,6 +200,57 @@ export default {
             ctx.data({
               deleteTrack: {
                 success: true,
+              },
+            }),
+          );
+        },
+      ),
+      graphql.mutation<DuplicateSequenceResponse, DuplicateSequenceVariables>(
+        'DuplicateSequence',
+        (req, res, ctx) => {
+          const { id } = req.variables;
+
+          const existingSequence = first(
+            compact(
+              state.song.tracks.map((track) =>
+                first(track.sequences.filter((sequence) => sequence.id === id)),
+              ),
+            ),
+          );
+
+          if (!existingSequence) {
+            return res(
+              ctx.errors([
+                { message: 'No sequence matching that ID to duplicate' },
+              ]),
+            );
+          }
+
+          const newSequence = {
+            ...existingSequence,
+            id: parseInt(uniqueId()),
+            notes: existingSequence.notes.map((note) => ({
+              ...note,
+              id: parseInt(uniqueId()),
+            })),
+          };
+
+          state.song = {
+            ...state.song,
+            tracks: state.song.tracks.map((track) =>
+              track.id === existingSequence.track.id
+                ? {
+                    ...track,
+                    sequences: [...track.sequences, newSequence],
+                  }
+                : track,
+            ),
+          };
+
+          return res(
+            ctx.data({
+              duplicateSequence: {
+                sequence: newSequence,
               },
             }),
           );

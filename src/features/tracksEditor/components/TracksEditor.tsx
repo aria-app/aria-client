@@ -7,7 +7,6 @@ import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 import {
   getTempId,
   urqlHooks,
-  useDuplicateSequence,
   useUpdateSequence,
   useUpdateSong,
   useUpdateTrack,
@@ -32,7 +31,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   const [, createTrack] = urqlHooks.useCreateTrack();
   const [, deleteSequence] = urqlHooks.useDeleteSequence();
   const [, deleteTrack] = urqlHooks.useDeleteTrack();
-  const [duplicateSequence] = useDuplicateSequence();
+  const [, duplicateSequence] = urqlHooks.useDuplicateSequence();
   const history = useHistory();
   const [{ data, error, fetching }] = urqlHooks.useGetSong({
     variables: {
@@ -106,15 +105,18 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
 
       setSelectedSequenceId(tempId);
 
-      const duplicatedSequence = await duplicateSequence({
-        sequence: selectedSequence,
-        songId,
-        tempId,
-      });
+      const { data } = await duplicateSequence(
+        {
+          id: selectedSequence.id,
+        },
+        { additionalTypenames: ['Song'] },
+      );
 
-      setSelectedSequenceId(duplicatedSequence.id);
+      if (data?.duplicateSequence.sequence) {
+        setSelectedSequenceId(data?.duplicateSequence.sequence.id);
+      }
     },
-    [duplicateSequence, selectedSequence, songId],
+    [duplicateSequence, selectedSequence],
   );
 
   const handleSequenceEdit = useCallback(
