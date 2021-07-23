@@ -1,5 +1,3 @@
-import '../../../wdyr';
-
 import { FC, ProviderProps, useCallback, useEffect, useState } from 'react';
 
 import { urqlHooks, useClient } from '../../api';
