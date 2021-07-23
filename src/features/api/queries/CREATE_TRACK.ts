@@ -4,7 +4,6 @@ import { Track } from '../../../types';
 
 export interface CreateTrackResponse {
   createTrack: {
-    success: boolean;
     track: Omit<Track, 'isMuted' | 'isSoloing' | 'song'>;
   };
 }
@@ -18,7 +17,6 @@ export interface CreateTrackVariables {
 export const CREATE_TRACK = gql`
   mutation CreateTrack($input: CreateTrackInput!) {
     createTrack(input: $input) {
-      success
       track {
         id
         position

@@ -5,7 +5,6 @@ import { Sequence } from '../../../types';
 export interface CreateSequenceResponse {
   createSequence: {
     sequence: Sequence;
-    success: boolean;
   };
 }
 
@@ -37,7 +36,6 @@ export const CREATE_SEQUENCE = gql`
           id
         }
       }
-      success
     }
   }
 `;
