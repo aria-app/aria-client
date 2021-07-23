@@ -4,7 +4,8 @@ import { graphql } from 'msw';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
-import { Sequence, Song, Track } from '../../../../types';
+import * as fixtures from '../../../../fixtures';
+import { Sequence, Track } from '../../../../types';
 import {
   ClientProvider,
   CreateSequenceResponse,
@@ -32,80 +33,8 @@ import { AudioProvider } from '../../../audio';
 import { Shell } from '../../../shared';
 import { TracksEditor } from '../TracksEditor';
 
-const voices = [
-  {
-    __typename: 'Voice',
-    id: 1,
-    name: 'PWM',
-    toneOscillatorType: 'pwm',
-  },
-  {
-    __typename: 'Voice',
-    id: 2,
-    name: 'Sawtooth',
-    toneOscillatorType: 'sawtooth',
-  },
-  {
-    __typename: 'Voice',
-    id: 3,
-    name: 'Sine',
-    toneOscillatorType: 'sine',
-  },
-];
-
 const state = {
-  song: {
-    __typename: 'Song',
-    bpm: 100,
-    createdAt: '2021-01-01T00:00:00Z',
-    id: 100,
-    measureCount: 4,
-    name: 'Song 1',
-    tracks: [
-      {
-        __typename: 'Track',
-        id: 100,
-        isMuted: false,
-        isSoloing: false,
-        position: 1,
-        sequences: [
-          {
-            __typename: 'Sequence',
-            id: 100,
-            measureCount: 1,
-            notes: [],
-            position: 0,
-            track: {
-              __typename: 'Track',
-              id: 100,
-            },
-          },
-          {
-            __typename: 'Sequence',
-            id: 200,
-            measureCount: 2,
-            notes: [],
-            position: 2,
-            track: {
-              __typename: 'Track',
-              id: 100,
-            },
-          },
-        ],
-        song: {
-          __typename: 'Song',
-          id: 100,
-        },
-        voice: voices[0],
-        volume: 1,
-      },
-    ],
-    updatedAt: '2021-01-01T00:00:00Z',
-    user: {
-      __typename: 'User',
-      id: 1,
-    },
-  } as Song,
+  song: fixtures.song,
 };
 
 export default {
@@ -174,7 +103,7 @@ export default {
             song: {
               id: songId,
             },
-            voice: voices[0],
+            voice: fixtures.voices[0],
             volume: 0,
           };
 
@@ -301,7 +230,7 @@ export default {
         (req, res, ctx) => {
           return res(
             ctx.data({
-              voices,
+              voices: fixtures.voices,
             }),
           );
         },
@@ -405,7 +334,7 @@ export default {
           const updatedTrack = {
             ...existingTrack,
             voice: !isNil(voiceId)
-              ? voices.find((voice) => voice.id === voiceId) ||
+              ? fixtures.voices.find((voice) => voice.id === voiceId) ||
                 existingTrack.voice
               : existingTrack.voice,
             volume: !isNil(volume) ? volume : existingTrack.volume,

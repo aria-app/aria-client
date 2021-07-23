@@ -4,6 +4,7 @@ import { orderBy, uniqueId } from 'lodash';
 import { graphql } from 'msw';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
 
+import * as fixtures from '../../../../fixtures';
 import {
   ClientProvider,
   CreateSongResponse,
@@ -22,20 +23,7 @@ import { Shell } from '../../../shared';
 import { Dashboard } from '../Dashboard';
 
 const state = {
-  songs: [
-    {
-      __typename: 'Song',
-      id: parseInt(uniqueId()),
-      name: 'Song 1',
-      updatedAt: '2021-01-01',
-    },
-    {
-      __typename: 'Song',
-      id: parseInt(uniqueId()),
-      name: 'Song 2',
-      updatedAt: '2021-04-02',
-    },
-  ],
+  songs: fixtures.songListSongs,
 };
 
 export default {
@@ -78,9 +66,7 @@ export default {
           return res(
             ctx.data({
               createSong: {
-                message: 'Song was created.',
                 song: newSong,
-                success: true,
               },
             }),
           );
@@ -108,12 +94,14 @@ export default {
           res(
             ctx.data({
               songs: {
+                __typename: 'SongsResponse',
                 data: orderBy(
                   state.songs,
                   req.variables.sort,
                   req.variables.sortDirection,
                 ),
                 meta: {
+                  __typename: 'PaginationMetadata',
                   currentPage: 1,
                   itemsPerPage: 10,
                   totalItemCount: 2,
@@ -136,13 +124,7 @@ export default {
       graphql.query<MeResponse, MeVariables>('Me', (req, res, ctx) =>
         res(
           ctx.data({
-            me: {
-              __typename: 'User',
-              email: 'user@ariaapp.io',
-              firstName: 'Yorick',
-              id: parseInt(uniqueId()),
-              lastName: 'User',
-            },
+            me: fixtures.user,
           }),
         ),
       ),
