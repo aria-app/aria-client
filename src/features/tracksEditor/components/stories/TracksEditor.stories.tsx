@@ -1,4 +1,3 @@
-import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { Meta, Story } from '@storybook/react';
 import { compact, first, isNil, max, uniqueId } from 'lodash';
 import { graphql } from 'msw';
@@ -417,24 +416,20 @@ export default {
   },
 } as Meta;
 
-const mocks: MockedResponse<Record<string, any>>[] = [];
-
 export const Default: Story<any> = (args) => (
   <ClientProvider>
     <RecoilRoot>
-      <MockedProvider mocks={mocks}>
-        <AudioProvider>
-          <MemoryRouter initialEntries={['/1']}>
-            <Shell>
-              <Switch>
-                <Route path="/:songId">
-                  <TracksEditor {...args} />
-                </Route>
-              </Switch>
-            </Shell>
-          </MemoryRouter>
-        </AudioProvider>
-      </MockedProvider>
+      <AudioProvider>
+        <MemoryRouter initialEntries={['/1']}>
+          <Shell>
+            <Switch>
+              <Route path="/:songId">
+                <TracksEditor {...args} />
+              </Route>
+            </Switch>
+          </Shell>
+        </MemoryRouter>
+      </AudioProvider>
     </RecoilRoot>
   </ClientProvider>
 );
