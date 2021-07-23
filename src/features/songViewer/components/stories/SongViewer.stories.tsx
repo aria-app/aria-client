@@ -1,14 +1,14 @@
-import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { Meta, Story } from '@storybook/react';
+import { graphql } from 'msw';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
 import {
-  GET_SONG,
+  ClientProvider,
   GetSongResponse,
   GetSongVariables,
-  ME,
   MeResponse,
+  MeVariables,
 } from '../../../api';
 import { AudioProvider } from '../../../audio';
 import { AuthProvider } from '../../../auth';
@@ -20,88 +20,94 @@ export default {
   title: 'SongViewer/SongViewer',
   parameters: {
     layout: 'fullscreen',
+    msw: [
+      graphql.query('IntrospectionQuery', (req, res, ctx) => res(ctx.data({}))),
+      graphql.query<GetSongResponse, GetSongVariables>(
+        'GetSong',
+        (req, res, ctx) => {
+          return res(
+            ctx.data({
+              song: {
+                __typename: 'Song',
+                bpm: 100,
+                createdAt: '2021-01-01T00:00:00Z',
+                id: 100,
+                measureCount: 4,
+                name: 'Song 1',
+                tracks: [
+                  {
+                    __typename: 'Track',
+                    id: 100,
+                    isMuted: false,
+                    isSoloing: false,
+                    position: 1,
+                    sequences: [
+                      {
+                        __typename: 'Sequence',
+                        id: 100,
+                        measureCount: 1,
+                        notes: [],
+                        position: 0,
+                        track: {
+                          __typename: 'Track',
+                          id: 100,
+                        },
+                      },
+                      {
+                        __typename: 'Sequence',
+                        id: 200,
+                        measureCount: 2,
+                        notes: [],
+                        position: 2,
+                        track: {
+                          __typename: 'Track',
+                          id: 100,
+                        },
+                      },
+                    ],
+                    song: {
+                      __typename: 'Song',
+                      id: 100,
+                    },
+                    voice: {
+                      __typename: 'Voice',
+                      id: 1,
+                      name: 'PWM',
+                      toneOscillatorType: 'pwm',
+                    },
+                    volume: 1,
+                  },
+                ],
+                updatedAt: '2021-01-01T00:00:00Z',
+                user: {
+                  __typename: 'User',
+                  id: 1,
+                },
+              },
+            }),
+          );
+        },
+      ),
+      graphql.query<MeResponse, MeVariables>('Me', (req, res, ctx) =>
+        res(
+          ctx.data({
+            me: {
+              __typename: 'User',
+              email: 'user@ariaapp.io',
+              firstName: 'Yorick',
+              id: 1,
+              lastName: 'User',
+            },
+          }),
+        ),
+      ),
+    ],
   },
 } as Meta;
 
-const mocks: MockedResponse<Record<string, any>>[] = [
-  {
-    request: {
-      query: GET_SONG,
-      variables: { id: 1 } as GetSongVariables,
-    },
-    result: {
-      data: {
-        song: {
-          bpm: 100,
-          createdAt: '2021-01-01',
-          id: 1,
-          measureCount: 4,
-          name: 'Song 1',
-          tracks: [
-            {
-              id: 1,
-              isMuted: false,
-              isSoloing: false,
-              position: 1,
-              sequences: [
-                {
-                  id: 1,
-                  measureCount: 1,
-                  notes: [],
-                  position: 0,
-                  track: {
-                    id: 1,
-                  },
-                },
-                {
-                  id: 2,
-                  measureCount: 2,
-                  notes: [],
-                  position: 2,
-                  track: {
-                    id: 1,
-                  },
-                },
-              ],
-              song: {
-                id: 1,
-              },
-              voice: {
-                id: 1,
-                name: 'Sawtooth',
-                toneOscillatorType: 'sawtooth',
-              },
-              volume: 1,
-            },
-          ],
-          updatedAt: '2021-01-01',
-          user: {
-            id: 1,
-          },
-        },
-      } as GetSongResponse,
-    },
-  },
-  {
-    request: {
-      query: ME,
-    },
-    result: {
-      data: {
-        me: {
-          email: 'user@ariaapp.io',
-          firstName: 'Yorick',
-          id: 1,
-          lastName: 'User',
-        },
-      } as MeResponse,
-    },
-  },
-];
-
 export const Default: Story<any> = (args) => (
   <RecoilRoot>
-    <MockedProvider mocks={mocks}>
+    <ClientProvider>
       <AuthProvider>
         <AudioProvider>
           <MemoryRouter initialEntries={['/1']}>
@@ -115,6 +121,6 @@ export const Default: Story<any> = (args) => (
           </MemoryRouter>
         </AudioProvider>
       </AuthProvider>
-    </MockedProvider>
+    </ClientProvider>
   </RecoilRoot>
 );

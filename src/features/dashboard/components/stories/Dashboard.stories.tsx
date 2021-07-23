@@ -137,6 +137,7 @@ export default {
         res(
           ctx.data({
             me: {
+              __typename: 'User',
               email: 'user@ariaapp.io',
               firstName: 'Yorick',
               id: parseInt(uniqueId()),

@@ -34,16 +34,19 @@ import { TracksEditor } from '../TracksEditor';
 
 const voices = [
   {
+    __typename: 'Voice',
     id: 1,
     name: 'PWM',
     toneOscillatorType: 'pwm',
   },
   {
+    __typename: 'Voice',
     id: 2,
     name: 'Sawtooth',
     toneOscillatorType: 'sawtooth',
   },
   {
+    __typename: 'Voice',
     id: 3,
     name: 'Sine',
     toneOscillatorType: 'sine',
@@ -72,7 +75,10 @@ const state = {
             measureCount: 1,
             notes: [],
             position: 0,
-            track: { id: 100 },
+            track: {
+              __typename: 'Track',
+              id: 100,
+            },
           },
           {
             __typename: 'Sequence',
@@ -80,16 +86,25 @@ const state = {
             measureCount: 2,
             notes: [],
             position: 2,
-            track: { id: 100 },
+            track: {
+              __typename: 'Track',
+              id: 100,
+            },
           },
         ],
-        song: { id: 100 },
+        song: {
+          __typename: 'Song',
+          id: 100,
+        },
         voice: voices[0],
         volume: 1,
       },
     ],
     updatedAt: '2021-01-01T00:00:00Z',
-    user: { id: 100 },
+    user: {
+      __typename: 'User',
+      id: 1,
+    },
   } as Song,
 };
 

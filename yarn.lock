@@ -2128,7 +2128,7 @@
     prop-types "^15.7.2"
     regenerator-runtime "^0.13.7"
 
-"@storybook/addons@6.3.4", "@storybook/addons@>=6.0.28", "@storybook/addons@^6.0.0", "@storybook/addons@^6.3.0":
+"@storybook/addons@6.3.4", "@storybook/addons@^6.0.0", "@storybook/addons@^6.3.0":
   version "6.3.4"
   resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-6.3.4.tgz#016c5c3e36c78a320eb8b022cf7fe556d81577c2"
   integrity sha512-rf8K8X3JrB43gq5nw5SYgfucQkFg2QgUMWdByf7dQ4MyIl5zet+2MYiSXJ9lfbhGKJZ8orc81rmMtiocW4oBjg==
@@ -3437,20 +3437,12 @@
     "@graphql-typed-document-node/core" "^3.1.0"
     wonka "^4.0.14"
 
-"@urql/devtools@>=2.0.0", "@urql/devtools@^2.0.3":
+"@urql/devtools@^2.0.3":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@urql/devtools/-/devtools-2.0.3.tgz#780998c37386c72af9402a8f88c1b388e62f28cd"
   integrity sha512-TktPLiBS9LcBPHD6qcnb8wqOVcg3Bx0iCtvQ80uPpfofwwBGJmqnQTjUdEFU6kwaLOFZULQ9+Uo4831G823mQw==
   dependencies:
     wonka ">= 4.0.9"
-
-"@urql/storybook-addon@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@urql/storybook-addon/-/storybook-addon-1.0.7.tgz#18219e7f0254d9227d1fa9f6ee9a3dd32f79bac0"
-  integrity sha512-Q3Y/5Se1e4GK0gmXVIT9izlN4GtfvQL5zG+ulNfLtC/L2PkEEfZPOvJjvDke/STSh9l7Dp1jJueXliEFYHFm4Q==
-  optionalDependencies:
-    "@storybook/addons" ">=6.0.28"
-    "@urql/devtools" ">=2.0.0"
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
