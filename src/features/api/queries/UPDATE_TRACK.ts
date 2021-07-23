@@ -11,8 +11,8 @@ export interface UpdateTrackResponse {
 export interface UpdateTrackVariables {
   input: {
     id: number;
-    voiceId: number;
-    volume: number;
+    voiceId?: number;
+    volume?: number;
   };
 }
 

@@ -5,11 +5,13 @@ import {
 } from '@apollo/client';
 import { useCallback } from 'react';
 
-import { UPDATE_SONG, UpdateSongInput, UpdateSongResponse } from '../queries';
+import {
+  UPDATE_SONG,
+  UpdateSongResponse,
+  UpdateSongVariables,
+} from '../queries';
 
-type UpdateSongMutation = (variables: {
-  input: UpdateSongInput;
-}) => Promise<void>;
+type UpdateSongMutation = (variables: UpdateSongVariables) => Promise<void>;
 
 interface UpdateSongData {
   updateSong: UpdateSongResponse;

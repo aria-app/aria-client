@@ -1,6 +1,6 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { Meta, Story } from '@storybook/react';
-import { compact, first, max, uniqueId } from 'lodash';
+import { compact, first, isNil, max, uniqueId } from 'lodash';
 import { graphql } from 'msw';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
@@ -20,59 +20,77 @@ import {
   DuplicateSequenceVariables,
   GetSongResponse,
   GetSongVariables,
+  GetVoicesResponse,
+  GetVoicesVariables,
+  UpdateSequenceResponse,
+  UpdateSequenceVariables,
+  UpdateSongResponse,
+  UpdateSongVariables,
+  UpdateTrackResponse,
+  UpdateTrackVariables,
 } from '../../../api';
 import { AudioProvider } from '../../../audio';
 import { Shell } from '../../../shared';
 import { TracksEditor } from '../TracksEditor';
 
+const voices = [
+  {
+    id: 1,
+    name: 'PWM',
+    toneOscillatorType: 'pwm',
+  },
+  {
+    id: 2,
+    name: 'Sawtooth',
+    toneOscillatorType: 'sawtooth',
+  },
+  {
+    id: 3,
+    name: 'Sine',
+    toneOscillatorType: 'sine',
+  },
+];
+
 const state = {
   song: {
+    __typename: 'Song',
     bpm: 100,
-    createdAt: '2021-01-01',
+    createdAt: '2021-01-01T00:00:00Z',
     id: 100,
     measureCount: 4,
     name: 'Song 1',
     tracks: [
       {
+        __typename: 'Track',
         id: 100,
         isMuted: false,
         isSoloing: false,
         position: 1,
         sequences: [
           {
+            __typename: 'Sequence',
             id: 100,
             measureCount: 1,
             notes: [],
             position: 0,
-            track: {
-              id: 100,
-            },
+            track: { id: 100 },
           },
           {
+            __typename: 'Sequence',
             id: 200,
             measureCount: 2,
             notes: [],
             position: 2,
-            track: {
-              id: 100,
-            },
+            track: { id: 100 },
           },
         ],
-        song: {
-          id: 100,
-        },
-        voice: {
-          id: 100,
-          name: 'Sawtooth',
-          toneOscillatorType: 'sawtooth',
-        },
+        song: { id: 100 },
+        voice: voices[0],
         volume: 1,
       },
     ],
-    updatedAt: '2021-01-01',
-    user: {
-      id: 100,
-    },
+    updatedAt: '2021-01-01T00:00:00Z',
+    user: { id: 100 },
   } as Song,
 };
 
@@ -91,6 +109,7 @@ export default {
           } = req.variables;
 
           const newSequence: Sequence = {
+            __typename: 'Sequence',
             id: parseInt(uniqueId()),
             measureCount: 1,
             notes: [],
@@ -132,6 +151,7 @@ export default {
             max(state.song.tracks.map((track) => track.position)) || 0;
 
           const newTrack: Track = {
+            __typename: 'Track',
             id: parseInt(uniqueId()),
             isMuted: false,
             isSoloing: false,
@@ -140,11 +160,7 @@ export default {
             song: {
               id: songId,
             },
-            voice: {
-              id: 100,
-              name: 'Sawtooth',
-              toneOscillatorType: 'sawtooth',
-            },
+            voice: voices[0],
             volume: 0,
           };
 
@@ -262,6 +278,137 @@ export default {
           return res(
             ctx.data({
               song: state.song,
+            }),
+          );
+        },
+      ),
+      graphql.query<GetVoicesResponse, GetVoicesVariables>(
+        'GetVoices',
+        (req, res, ctx) => {
+          return res(
+            ctx.data({
+              voices,
+            }),
+          );
+        },
+      ),
+      graphql.mutation<UpdateSequenceResponse, UpdateSequenceVariables>(
+        'UpdateSequence',
+        (req, res, ctx) => {
+          const {
+            input: { id, measureCount, position },
+          } = req.variables;
+
+          const existingSequence = first(
+            compact(
+              state.song.tracks.map((track) =>
+                first(track.sequences.filter((sequence) => sequence.id === id)),
+              ),
+            ),
+          );
+
+          if (!existingSequence) {
+            return res(
+              ctx.errors([
+                { message: 'No sequence matching that ID to update' },
+              ]),
+            );
+          }
+
+          const updatedSequence = {
+            ...existingSequence,
+            measureCount: !isNil(measureCount)
+              ? measureCount
+              : existingSequence.measureCount,
+            position: !isNil(position) ? position : existingSequence.position,
+          };
+
+          state.song = {
+            ...state.song,
+            tracks: state.song.tracks.map((track) =>
+              track.id === existingSequence.track.id
+                ? {
+                    ...track,
+                    sequences: track.sequences.map((sequence) =>
+                      sequence.id === id ? updatedSequence : sequence,
+                    ),
+                  }
+                : track,
+            ),
+          };
+
+          return res(
+            ctx.data({
+              updateSequence: {
+                sequence: updatedSequence,
+              },
+            }),
+          );
+        },
+      ),
+      graphql.mutation<UpdateSongResponse, UpdateSongVariables>(
+        'UpdateSong',
+        (req, res, ctx) => {
+          const {
+            input: { bpm, measureCount, name },
+          } = req.variables;
+
+          state.song = {
+            ...state.song,
+            bpm: !isNil(bpm) ? bpm : state.song.bpm,
+            measureCount: !isNil(measureCount)
+              ? measureCount
+              : state.song.measureCount,
+            name: !isNil(name) ? name : state.song.name,
+          };
+
+          return res(
+            ctx.data({
+              updateSong: {
+                song: state.song,
+              },
+            }),
+          );
+        },
+      ),
+      graphql.mutation<UpdateTrackResponse, UpdateTrackVariables>(
+        'UpdateTrack',
+        (req, res, ctx) => {
+          const {
+            input: { id, voiceId, volume },
+          } = req.variables;
+
+          const existingTrack = state.song.tracks.find(
+            (track) => track.id === id,
+          );
+
+          if (!existingTrack) {
+            return res(
+              ctx.errors([{ message: 'No track matching that ID to update' }]),
+            );
+          }
+
+          const updatedTrack = {
+            ...existingTrack,
+            voice: !isNil(voiceId)
+              ? voices.find((voice) => voice.id === voiceId) ||
+                existingTrack.voice
+              : existingTrack.voice,
+            volume: !isNil(volume) ? volume : existingTrack.volume,
+          };
+
+          state.song = {
+            ...state.song,
+            tracks: state.song.tracks.map((track) =>
+              track.id === id ? updatedTrack : track,
+            ),
+          };
+
+          return res(
+            ctx.data({
+              updateTrack: {
+                track: updatedTrack,
+              },
             }),
           );
         },

@@ -8,8 +8,8 @@ import { useCallback } from 'react';
 import { Note } from '../../../types';
 import {
   DELETE_NOTES,
-  DeleteNotesInput,
   DeleteNotesResponse,
+  DeleteNotesVariables,
   GET_SEQUENCE,
   GetSequenceResponse,
 } from '../queries';
@@ -21,9 +21,9 @@ interface DeleteNotesData {
 }
 
 export function useDeleteNotes(
-  options?: MutationHookOptions<DeleteNotesData, DeleteNotesInput>,
+  options?: MutationHookOptions<DeleteNotesData, DeleteNotesVariables>,
 ): [DeleteNotesMutation, MutationResult<DeleteNotesData>] {
-  const [mutation, result] = useMutation<DeleteNotesData, DeleteNotesInput>(
+  const [mutation, result] = useMutation<DeleteNotesData, DeleteNotesVariables>(
     DELETE_NOTES,
     options,
   );
@@ -36,7 +36,6 @@ export function useDeleteNotes(
         await mutation({
           optimisticResponse: {
             deleteNotes: {
-              message: '',
               success: true,
             },
           },

@@ -2,12 +2,12 @@ import { QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
 
 import {
   GET_SEQUENCE,
-  GetSequenceInput,
   GetSequenceResponse,
+  GetSequenceVariables,
 } from '../queries';
 
 type UseGetSequence = (
-  options?: QueryHookOptions<GetSequenceResponse, GetSequenceInput>,
+  options?: QueryHookOptions<GetSequenceResponse, GetSequenceVariables>,
 ) => QueryResult<GetSequenceResponse>;
 
 export const useGetSequence: UseGetSequence = (options) =>

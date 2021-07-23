@@ -4,16 +4,13 @@ import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 
-import {
-  getTempId,
-  urqlHooks,
-  useUpdateSequence,
-  useUpdateSong,
-  useUpdateTrack,
-} from '../../api';
+import { getTempId, urqlHooks } from '../../api';
 import { useAudioManager, usePlaybackState, usePosition } from '../../audio';
 import { LoadingIndicator, Timeline } from '../../shared';
-import { TrackEditingModal } from './TrackEditingModal';
+import {
+  TrackEditingModal,
+  TrackEditingModalTrackChangeHandler,
+} from './TrackEditingModal';
 import { TrackList } from './TrackList';
 import { TracksEditorToolbar } from './TracksEditorToolbar';
 
@@ -41,9 +38,9 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   const playbackState = usePlaybackState();
   const position = usePosition();
   const { url } = useRouteMatch();
-  const [updateSequence] = useUpdateSequence();
-  const [updateSong] = useUpdateSong();
-  const [updateTrack] = useUpdateTrack();
+  const [, updateSequence] = urqlHooks.useUpdateSequence();
+  const [, updateSong] = urqlHooks.useUpdateSong();
+  const [, updateTrack] = urqlHooks.useUpdateTrack();
   const [selectedSequenceId, setSelectedSequenceId] = useState<number>();
   const [selectedTrackId, setSelectedTrackId] = useState<number>();
 
@@ -71,12 +68,9 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
 
   const handleSequenceAdd = useCallback(
     ({ position, track }) => {
-      createSequence(
-        {
-          input: { position, trackId: track.id },
-        },
-        { additionalTypenames: ['Song'] },
-      );
+      createSequence({
+        input: { position, trackId: track.id },
+      });
     },
     [createSequence],
   );
@@ -105,12 +99,9 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
 
       setSelectedSequenceId(tempId);
 
-      const { data } = await duplicateSequence(
-        {
-          id: selectedSequence.id,
-        },
-        { additionalTypenames: ['Song'] },
-      );
+      const { data } = await duplicateSequence({
+        id: selectedSequence.id,
+      });
 
       if (data?.duplicateSequence.sequence) {
         setSelectedSequenceId(data?.duplicateSequence.sequence.id);
@@ -170,10 +161,10 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
     [deleteTrack, handleTrackDeselect],
   );
 
-  const handleTrackEdit = useCallback(
-    (updates) => {
+  const handleTrackEdit = useCallback<TrackEditingModalTrackChangeHandler>(
+    ({ id, voiceId, volume }) => {
       updateTrack({
-        input: updates,
+        input: { id, voiceId, volume },
       });
     },
     [updateTrack],
@@ -195,7 +186,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   }, []);
 
   const handleTrackListTrackAdd = useCallback(() => {
-    createTrack({ input: { songId } }, { additionalTypenames: ['Song'] });
+    createTrack({ input: { songId } });
   }, [createTrack, songId]);
 
   const handleTrackSelect = useCallback((track) => {
