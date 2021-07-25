@@ -12,7 +12,7 @@ import {
 import * as Tone from 'tone';
 
 import { Dawww } from '../../../dawww';
-import { useGetSong, useUpdateSong } from '../../api';
+import { urqlHooks } from '../../api';
 import { useAudioManager, usePlaybackState } from '../../audio';
 import { useAuth } from '../../auth';
 import { NotesEditor } from '../../notesEditor';
@@ -35,11 +35,11 @@ export const SongEditor: FC<SongEditorProps> = () => {
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
   const { logout, user } = useAuth();
-  const { data, error, loading } = useGetSong({
+  const [{ data, error, fetching }] = urqlHooks.useGetSong({
     variables: { id: songId },
   });
   const playbackState = usePlaybackState();
-  const [updateSong] = useUpdateSong();
+  const [, updateSong] = urqlHooks.useUpdateSong();
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = useState(false);
 
   const playPause = useCallback(
@@ -126,7 +126,7 @@ export const SongEditor: FC<SongEditorProps> = () => {
           <NotesEditor />
         </Route>
       </Switch>
-      {!loading && !error && (
+      {!fetching && !error && (
         <SongInfoDialog
           isOpen={isSongInfoModalOpen}
           onBPMChange={handleSongBPMChange}

@@ -9,14 +9,7 @@ import { GlobalHotKeys } from 'react-hotkeys';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { Dawww } from '../../../dawww';
-import {
-  getTempId,
-  useCreateNote,
-  useDeleteNotes,
-  useDuplicateNotes,
-  useGetSequence,
-  useUpdateNotes,
-} from '../../api';
+import { getTempId, urqlHooks } from '../../api';
 import { useAudioManager } from '../../audio';
 import {
   getCenteredScroll,
@@ -44,11 +37,11 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
   const { sequenceId: sequenceIdProp, songId } = useParams<NotesEditorParams>();
   const sequenceId = sequenceIdProp ? parseInt(sequenceIdProp) : -1;
   const audioManager = useAudioManager();
-  const [createNote] = useCreateNote();
-  const [deleteNotes] = useDeleteNotes();
-  const [duplicateNotes] = useDuplicateNotes();
-  const [updateNotes] = useUpdateNotes();
-  const { data, loading } = useGetSequence({
+  const [, createNote] = urqlHooks.useCreateNote();
+  const [, deleteNotes] = urqlHooks.useDeleteNotes();
+  const [, duplicateNotes] = urqlHooks.useDuplicateNotes();
+  const [, updateNotes] = urqlHooks.useUpdateNotes();
+  const [{ data, fetching }] = urqlHooks.useGetSequence({
     variables: {
       id: sequenceId,
     },
@@ -82,9 +75,12 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
 
       if (isEmpty(selectedNotes)) return;
 
-      deleteNotes({
-        notes: selectedNotes,
-      });
+      deleteNotes(
+        {
+          ids: selectedNotes.map((note) => note.id),
+        },
+        { additionalTypenames: ['Sequence', 'Song'] },
+      );
 
       setSelectedNoteIds([]);
     },
@@ -111,12 +107,16 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
 
       setSelectedNoteIds(tempIds);
 
-      const duplicatedNotes = await duplicateNotes({
-        notes: selectedNotes,
-        tempIds,
-      });
+      const { data } = await duplicateNotes(
+        {
+          ids: selectedNotes.map((note) => note.id),
+        },
+        { additionalTypenames: ['Sequence', 'Song'] },
+      );
 
-      setSelectedNoteIds(duplicatedNotes.map((note) => note.id));
+      if (data) {
+        setSelectedNoteIds(data.duplicateNotes.notes.map((note) => note.id));
+      }
     },
     [duplicateNotes, selectedNotes],
   );
@@ -150,8 +150,10 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
       handlePreviewPitch(point.y);
 
       createNote({
-        points: [point, { x: point.x + 1, y: point.y }],
-        sequenceId: sequence.id,
+        input: {
+          points: [point, { x: point.x + 1, y: point.y }],
+          sequenceId: sequence.id,
+        },
       });
     },
     [createNote, handlePreviewPitch, sequence],
@@ -161,9 +163,12 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
     (note) => {
       setSelectedNoteIds([]);
 
-      deleteNotes({
-        notes: [note],
-      });
+      deleteNotes(
+        {
+          ids: [note.id],
+        },
+        { additionalTypenames: ['Sequence', 'Song'] },
+      );
     },
     [deleteNotes],
   );
@@ -202,9 +207,14 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
 
   const handleNotesUpdate = useCallback(
     (notes) => {
-      updateNotes({
-        notes,
-      });
+      updateNotes(
+        {
+          input: {
+            notes,
+          },
+        },
+        { additionalTypenames: ['Sequence', 'Song'] },
+      );
     },
     [updateNotes],
   );
@@ -234,9 +244,14 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
         handlePreviewPitch(notesToNudge[0].points[0].y + delta.y);
       }
 
-      updateNotes({
-        notes: notesToNudge.map(audioManager.helpers.translateNote(delta)),
-      });
+      updateNotes(
+        {
+          input: {
+            notes: notesToNudge.map(audioManager.helpers.translateNote(delta)),
+          },
+        },
+        { additionalTypenames: ['Sequence', 'Song'] },
+      );
     },
     [
       audioManager,
@@ -322,21 +337,31 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
 
   const handleToolbarOctaveDown = useCallback(
     () =>
-      updateNotes({
-        notes: selectedNotes.map(
-          audioManager.helpers.translateNote({ x: 0, y: 12 }),
-        ),
-      }),
+      updateNotes(
+        {
+          input: {
+            notes: selectedNotes.map(
+              audioManager.helpers.translateNote({ x: 0, y: 12 }),
+            ),
+          },
+        },
+        { additionalTypenames: ['Sequence', 'Song'] },
+      ),
     [audioManager, selectedNotes, updateNotes],
   );
 
   const handleToolbarOctaveUp = useCallback(
     () =>
-      updateNotes({
-        notes: selectedNotes.map(
-          audioManager.helpers.translateNote({ x: 0, y: -12 }),
-        ),
-      }),
+      updateNotes(
+        {
+          input: {
+            notes: selectedNotes.map(
+              audioManager.helpers.translateNote({ x: 0, y: -12 }),
+            ),
+          },
+        },
+        { additionalTypenames: ['Sequence', 'Song'] },
+      ),
     [audioManager, selectedNotes, updateNotes],
   );
 
@@ -397,7 +422,7 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
           DUPLICATE: ['ctrl+shift+d', 'meta+shift+d'],
         }}
       />
-      {loading ? (
+      {fetching ? (
         <LoadingIndicator>LOADING SONG...</LoadingIndicator>
       ) : (
         <>

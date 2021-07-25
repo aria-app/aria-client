@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-import { Note, Point } from '../../../types';
+import { Note } from '../../../types';
 
 export interface UpdateNotesResponse {
   updateNotes: {
@@ -10,8 +10,7 @@ export interface UpdateNotesResponse {
 
 export interface UpdateNotesVariables {
   input: {
-    id: number;
-    points: Point[];
+    notes: Note[];
   };
 }
 

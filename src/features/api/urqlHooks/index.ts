@@ -1,3 +1,4 @@
+export * from './useCreateNote';
 export * from './useCreateSequence';
 export * from './useCreateSong';
 export * from './useCreateTrack';
