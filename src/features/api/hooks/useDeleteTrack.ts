@@ -1,5 +1,4 @@
-import { gql } from '@apollo/client';
-import { useMutation } from 'urql';
+import { gql, useMutation } from 'urql';
 
 import { MutationHook } from './types';
 
@@ -13,7 +12,7 @@ export interface DeleteTrackVariables {
   id: number;
 }
 
-export const DELETE_TRACK = gql`
+export const DELETE_TRACK = gql<DeleteTrackResponse, DeleteTrackVariables>`
   mutation DeleteTrack($id: Int!) {
     deleteTrack(id: $id) {
       success

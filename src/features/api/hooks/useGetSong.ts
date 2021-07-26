@@ -1,6 +1,5 @@
-import { gql } from '@apollo/client';
 import { useMemo } from 'react';
-import { useQuery } from 'urql';
+import { gql, useQuery } from 'urql';
 
 import { Song } from '../../../types';
 import { QueryHook } from './types';
@@ -13,7 +12,7 @@ export interface GetSongVariables {
   id: number;
 }
 
-export const GET_SONG = gql`
+export const GET_SONG = gql<GetSongResponse, GetSongVariables>`
   query GetSong($id: Int!) {
     song(id: $id) {
       bpm

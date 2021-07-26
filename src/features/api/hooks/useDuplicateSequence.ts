@@ -1,5 +1,4 @@
-import { gql } from '@apollo/client';
-import { useMutation } from 'urql';
+import { gql, useMutation } from 'urql';
 
 import { Sequence } from '../../../types';
 import { MutationHook } from './types';
@@ -14,7 +13,10 @@ export type DuplicateSequenceVariables = {
   id: number;
 };
 
-export const DUPLICATE_SEQUENCE = gql`
+export const DUPLICATE_SEQUENCE = gql<
+  DuplicateSequenceResponse,
+  DuplicateSequenceVariables
+>`
   mutation DuplicateSequence($id: Int!) {
     duplicateSequence(id: $id) {
       sequence {

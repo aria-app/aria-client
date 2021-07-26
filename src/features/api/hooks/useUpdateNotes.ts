@@ -1,5 +1,4 @@
-import { gql } from '@apollo/client';
-import { useMutation } from 'urql';
+import { gql, useMutation } from 'urql';
 
 import { Note } from '../../../types';
 import { MutationHook } from './types';
@@ -16,7 +15,7 @@ export interface UpdateNotesVariables {
   };
 }
 
-export const UPDATE_NOTES = gql`
+export const UPDATE_NOTES = gql<UpdateNotesResponse, UpdateNotesVariables>`
   mutation UpdateNotes($input: UpdateNotesInput!) {
     updateNotes(input: $input) {
       notes {

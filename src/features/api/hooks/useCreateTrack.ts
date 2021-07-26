@@ -1,5 +1,4 @@
-import { gql } from '@apollo/client';
-import { useMutation } from 'urql';
+import { gql, useMutation } from 'urql';
 
 import { Track } from '../../../types';
 import { MutationHook } from './types';
@@ -16,7 +15,7 @@ export interface CreateTrackVariables {
   };
 }
 
-export const CREATE_TRACK = gql`
+export const CREATE_TRACK = gql<CreateTrackResponse, CreateTrackVariables>`
   mutation CreateTrack($input: CreateTrackInput!) {
     createTrack(input: $input) {
       track {

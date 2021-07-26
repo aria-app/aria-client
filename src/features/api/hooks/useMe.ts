@@ -1,6 +1,5 @@
-import { gql } from '@apollo/client';
 import { useMemo } from 'react';
-import { useQuery } from 'urql';
+import { gql, useQuery } from 'urql';
 
 import { User } from '../../../types';
 import { QueryHook } from './types';
@@ -11,7 +10,7 @@ export interface MeResponse {
 
 export type MeVariables = Record<string, never>;
 
-export const ME = gql`
+export const ME = gql<MeResponse, MeVariables>`
   query Me {
     me {
       email

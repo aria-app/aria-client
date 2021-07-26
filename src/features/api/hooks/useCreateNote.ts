@@ -1,5 +1,4 @@
-import { gql } from '@apollo/client';
-import { useMutation } from 'urql';
+import { gql, useMutation } from 'urql';
 
 import { Note, Point } from '../../../types';
 import { MutationHook } from './types';
@@ -17,7 +16,7 @@ export interface CreateNoteVariables {
   };
 }
 
-export const CREATE_NOTE = gql`
+export const CREATE_NOTE = gql<CreateNoteResponse, CreateNoteVariables>`
   mutation CreateNote($input: CreateNoteInput!) {
     createNote(input: $input) {
       message

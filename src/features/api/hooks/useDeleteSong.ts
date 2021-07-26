@@ -1,5 +1,4 @@
-import { gql } from '@apollo/client';
-import { useMutation } from 'urql';
+import { gql, useMutation } from 'urql';
 
 import { MutationHook } from './types';
 
@@ -15,7 +14,7 @@ export interface DeleteSongVariables {
   id: number;
 }
 
-export const DELETE_SONG = gql`
+export const DELETE_SONG = gql<DeleteSongResponse, DeleteSongVariables>`
   mutation DeleteSong($id: Int!) {
     deleteSong(id: $id) {
       success

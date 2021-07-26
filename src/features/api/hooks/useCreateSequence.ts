@@ -1,5 +1,4 @@
-import { gql } from '@apollo/client';
-import { useMutation } from 'urql';
+import { gql, useMutation } from 'urql';
 
 import { Sequence } from '../../../types';
 import { MutationHook } from './types';
@@ -17,7 +16,10 @@ export interface CreateSequenceVariables {
   };
 }
 
-export const CREATE_SEQUENCE = gql`
+export const CREATE_SEQUENCE = gql<
+  CreateSequenceResponse,
+  CreateSequenceVariables
+>`
   mutation CreateSequence($input: CreateSequenceInput!) {
     createSequence(input: $input) {
       sequence {

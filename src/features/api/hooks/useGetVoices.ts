@@ -1,6 +1,5 @@
-import { gql } from '@apollo/client';
 import { useMemo } from 'react';
-import { useQuery } from 'urql';
+import { gql, useQuery } from 'urql';
 
 import { Voice } from '../../../types';
 import { QueryHook } from './types';
@@ -11,7 +10,7 @@ export interface GetVoicesResponse {
 
 export type GetVoicesVariables = Record<string, never>;
 
-export const GET_VOICES = gql`
+export const GET_VOICES = gql<GetVoicesResponse, GetVoicesVariables>`
   query GetVoices {
     voices {
       id

@@ -1,6 +1,5 @@
-import { gql } from '@apollo/client';
 import { useMemo } from 'react';
-import { useQuery } from 'urql';
+import { gql, useQuery } from 'urql';
 
 import { PaginatedResponse, SongListSong } from '../../../types';
 import { QueryHook } from './types';
@@ -18,7 +17,7 @@ export interface GetSongsVariables {
   userId: number;
 }
 
-export const GET_SONGS = gql`
+export const GET_SONGS = gql<GetSongsResponse, GetSongsVariables>`
   query GetSongs(
     $limit: Int
     $page: Int

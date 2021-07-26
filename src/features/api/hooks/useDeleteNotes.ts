@@ -1,5 +1,4 @@
-import { gql } from '@apollo/client';
-import { useMutation } from 'urql';
+import { gql, useMutation } from 'urql';
 
 import { MutationHook } from './types';
 
@@ -11,7 +10,7 @@ export interface DeleteNotesVariables {
   ids: number[];
 }
 
-export const DELETE_NOTES = gql`
+export const DELETE_NOTES = gql<DeleteNotesResponse, DeleteNotesVariables>`
   mutation DeleteNotes($ids: [Int!]!) {
     deleteNotes(ids: $ids) {
       success

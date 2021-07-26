@@ -1,5 +1,4 @@
-import { gql } from '@apollo/client';
-import { useMutation } from 'urql';
+import { gql, useMutation } from 'urql';
 
 import { Note } from '../../../types';
 import { MutationHook } from './types';
@@ -14,7 +13,10 @@ export interface DuplicateNotesVariables {
   ids: number[];
 }
 
-export const DUPLICATE_NOTES = gql`
+export const DUPLICATE_NOTES = gql<
+  DuplicateNotesResponse,
+  DuplicateNotesVariables
+>`
   mutation DuplicateNotes($ids: [Int!]!) {
     duplicateNotes(ids: $ids) {
       notes {

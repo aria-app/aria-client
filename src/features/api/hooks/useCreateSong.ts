@@ -1,5 +1,4 @@
-import { gql } from '@apollo/client';
-import { useMutation } from 'urql';
+import { gql, useMutation } from 'urql';
 
 import { Song } from '../../../types';
 import { MutationHook } from './types';
@@ -16,7 +15,7 @@ export interface CreateSongResponse {
   };
 }
 
-export const CREATE_SONG = gql`
+export const CREATE_SONG = gql<CreateSongResponse, CreateSongVariables>`
   mutation CreateSong($input: CreateSongInput!) {
     createSong(input: $input) {
       song {
