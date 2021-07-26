@@ -1,11 +1,25 @@
+import { gql } from '@apollo/client';
 import { useMutation } from 'urql';
 
-import {
-  DELETE_TRACK,
-  DeleteTrackResponse,
-  DeleteTrackVariables,
-} from '../queries';
 import { MutationHook } from './types';
+
+export interface DeleteTrackResponse {
+  deleteTrack: {
+    success: boolean;
+  };
+}
+
+export interface DeleteTrackVariables {
+  id: number;
+}
+
+export const DELETE_TRACK = gql`
+  mutation DeleteTrack($id: Int!) {
+    deleteTrack(id: $id) {
+      success
+    }
+  }
+`;
 
 export const useDeleteTrack: MutationHook<
   DeleteTrackResponse,
