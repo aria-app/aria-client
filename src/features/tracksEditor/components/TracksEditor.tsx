@@ -4,7 +4,18 @@ import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 
-import { getTempId, urqlHooks } from '../../api';
+import {
+  getTempId,
+  useCreateSequence,
+  useCreateTrack,
+  useDeleteSequence,
+  useDeleteTrack,
+  useDuplicateSequence,
+  useGetSong,
+  useUpdateSequence,
+  useUpdateSong,
+  useUpdateTrack,
+} from '../../api';
 import { useAudioManager, usePlaybackState, usePosition } from '../../audio';
 import { LoadingIndicator, Timeline } from '../../shared';
 import {
@@ -24,13 +35,13 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   const { songId: songIdProp } = useParams<TracksEditorParams>();
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
-  const [, createSequence] = urqlHooks.useCreateSequence();
-  const [, createTrack] = urqlHooks.useCreateTrack();
-  const [, deleteSequence] = urqlHooks.useDeleteSequence();
-  const [, deleteTrack] = urqlHooks.useDeleteTrack();
-  const [, duplicateSequence] = urqlHooks.useDuplicateSequence();
+  const [, createSequence] = useCreateSequence();
+  const [, createTrack] = useCreateTrack();
+  const [, deleteSequence] = useDeleteSequence();
+  const [, deleteTrack] = useDeleteTrack();
+  const [, duplicateSequence] = useDuplicateSequence();
   const history = useHistory();
-  const [{ data, error, fetching }] = urqlHooks.useGetSong({
+  const [{ data, error, fetching }] = useGetSong({
     variables: {
       id: songId,
     },
@@ -38,9 +49,9 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   const playbackState = usePlaybackState();
   const position = usePosition();
   const { url } = useRouteMatch();
-  const [, updateSequence] = urqlHooks.useUpdateSequence();
-  const [, updateSong] = urqlHooks.useUpdateSong();
-  const [, updateTrack] = urqlHooks.useUpdateTrack();
+  const [, updateSequence] = useUpdateSequence();
+  const [, updateSong] = useUpdateSong();
+  const [, updateTrack] = useUpdateTrack();
   const [selectedSequenceId, setSelectedSequenceId] = useState<number>();
   const [selectedTrackId, setSelectedTrackId] = useState<number>();
 

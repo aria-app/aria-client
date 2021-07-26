@@ -4,7 +4,7 @@ import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Track } from '../../../types';
-import { urqlHooks } from '../../api';
+import { useGetVoices } from '../../api';
 
 const minVolume = -20;
 const maxVolume = 0;
@@ -24,7 +24,7 @@ export interface TrackEditingModalProps {
 
 export const TrackEditingModal: FC<TrackEditingModalProps> = (props) => {
   const { onClose, onDelete, onTrackChange, track } = props;
-  const [{ data, fetching }] = urqlHooks.useGetVoices();
+  const [{ data, fetching }] = useGetVoices();
   const [trackState, setTrackState] = useState<Track>();
   const { t } = useTranslation();
 

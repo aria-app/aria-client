@@ -3,7 +3,7 @@ import AddIcon from 'mdi-react/AddIcon';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { urqlHooks } from '../../api';
+import { useDeleteSong, useGetSongs } from '../../api';
 import { useAuth } from '../../auth';
 import { LoadingIndicator } from '../../shared';
 import { AddSongDialog } from './AddSongDialog';
@@ -14,8 +14,8 @@ export type DashboardProps = Record<string, never>;
 export const Dashboard: FC<DashboardProps> = () => {
   const history = useHistory();
   const { logout, user } = useAuth();
-  const [deleteSongResult, deleteSong] = urqlHooks.useDeleteSong();
-  const [getSongsResult] = urqlHooks.useGetSongs({
+  const [deleteSongResult, deleteSong] = useDeleteSong();
+  const [getSongsResult] = useGetSongs({
     pause: !user,
     variables: {
       sort: 'updatedAt',

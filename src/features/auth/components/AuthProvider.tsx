@@ -1,14 +1,14 @@
 import { FC, ProviderProps, useCallback, useEffect, useState } from 'react';
 
-import { urqlHooks, useClient } from '../../api';
+import { useClient, useLogout, useMe } from '../../api';
 import { AuthContext, AuthContextValue } from '../contexts/AuthContext';
 
 export const AuthProvider: FC<Partial<ProviderProps<AuthContextValue>>> = (
   props,
 ) => {
   const { resetClient } = useClient();
-  const [{ data, error, fetching }] = urqlHooks.useMe();
-  const [, logout] = urqlHooks.useLogout();
+  const [{ data, error, fetching }] = useMe();
+  const [, logout] = useLogout();
   const [expiresAt, setExpiresAt] = useState<number>();
 
   const handleLogout = useCallback(async () => {

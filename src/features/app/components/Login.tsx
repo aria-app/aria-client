@@ -11,13 +11,13 @@ import { FC, MouseEventHandler, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
 
-import { formatError, urqlHooks } from '../../api';
+import { formatError, useLogin } from '../../api';
 import { useAuth } from '../../auth';
 
 export type LoginProps = Record<string, never>;
 
 export const Login: FC<LoginProps> = () => {
-  const [{ error, fetching }, login] = urqlHooks.useLogin();
+  const [{ error, fetching }, login] = useLogin();
   const { getIsAuthenticated, handleLogin } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

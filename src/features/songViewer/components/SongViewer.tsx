@@ -2,7 +2,7 @@ import { Box, Text } from 'aria-ui';
 import { FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { urqlHooks } from '../../api';
+import { useGetSong } from '../../api';
 import { useAudioManager, usePlaybackState } from '../../audio';
 import { LoadingIndicator } from '../../shared';
 import { SongViewerToolbar } from './SongViewerToolbar';
@@ -18,7 +18,7 @@ export const SongViewer: FC<SongViewerProps> = (props) => {
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
   const playbackState = usePlaybackState();
-  const [{ data, fetching }] = urqlHooks.useGetSong({
+  const [{ data, fetching }] = useGetSong({
     variables: { id: songId },
   });
 

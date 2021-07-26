@@ -9,7 +9,14 @@ import { GlobalHotKeys } from 'react-hotkeys';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { Dawww } from '../../../dawww';
-import { getTempId, urqlHooks } from '../../api';
+import {
+  getTempId,
+  useCreateNote,
+  useDeleteNotes,
+  useDuplicateNotes,
+  useGetSequence,
+  useUpdateNotes,
+} from '../../api';
 import { useAudioManager } from '../../audio';
 import {
   getCenteredScroll,
@@ -37,11 +44,11 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
   const { sequenceId: sequenceIdProp, songId } = useParams<NotesEditorParams>();
   const sequenceId = sequenceIdProp ? parseInt(sequenceIdProp) : -1;
   const audioManager = useAudioManager();
-  const [, createNote] = urqlHooks.useCreateNote();
-  const [, deleteNotes] = urqlHooks.useDeleteNotes();
-  const [, duplicateNotes] = urqlHooks.useDuplicateNotes();
-  const [, updateNotes] = urqlHooks.useUpdateNotes();
-  const [{ data, fetching }] = urqlHooks.useGetSequence({
+  const [, createNote] = useCreateNote();
+  const [, deleteNotes] = useDeleteNotes();
+  const [, duplicateNotes] = useDuplicateNotes();
+  const [, updateNotes] = useUpdateNotes();
+  const [{ data, fetching }] = useGetSequence({
     variables: {
       id: sequenceId,
     },
