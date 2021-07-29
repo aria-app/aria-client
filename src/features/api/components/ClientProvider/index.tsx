@@ -5,18 +5,25 @@ import {
   Client,
   ClientOptions,
   createClient as createUrqlClient,
-  defaultExchanges,
+  dedupExchange,
+  fetchExchange,
   Provider,
 } from 'urql';
 
-import { ClientContext } from '../contexts/ClientContext';
+import { ClientContext } from '../../contexts/ClientContext';
+import { cacheExchange } from './cacheExchange';
 
 const createClient = (clientOptions) =>
   createUrqlClient(
     merge(
       {
         url: process.env.REACT_APP_API_URI || '',
-        exchanges: [devtoolsExchange, ...defaultExchanges],
+        exchanges: [
+          devtoolsExchange,
+          dedupExchange,
+          cacheExchange,
+          fetchExchange,
+        ],
       },
       clientOptions,
     ),
