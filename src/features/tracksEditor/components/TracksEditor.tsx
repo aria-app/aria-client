@@ -5,6 +5,8 @@ import { GlobalHotKeys } from 'react-hotkeys';
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 
 import {
+  getCreateSequenceMutationUpdater,
+  getCreateSequenceOptimisticResponse,
   getTempId,
   useCreateSequence,
   useCreateTrack,
@@ -35,13 +37,13 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   const { songId: songIdProp } = useParams<TracksEditorParams>();
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
-  const [, createSequence] = useCreateSequence();
+  const [createSequence] = useCreateSequence();
   const [, createTrack] = useCreateTrack();
   const [, deleteSequence] = useDeleteSequence();
   const [, deleteTrack] = useDeleteTrack();
   const [, duplicateSequence] = useDuplicateSequence();
   const history = useHistory();
-  const [{ data, error, fetching }] = useGetSong({
+  const { data, error, loading } = useGetSong({
     variables: {
       id: songId,
     },
@@ -79,11 +81,17 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
 
   const handleSequenceAdd = useCallback(
     ({ position, track }) => {
-      createSequence({
+      const variables = {
         input: { position, trackId: track.id },
+      };
+
+      createSequence({
+        optimisticResponse: getCreateSequenceOptimisticResponse(variables),
+        update: getCreateSequenceMutationUpdater(variables, { songId }),
+        variables,
       });
     },
-    [createSequence],
+    [createSequence, songId],
   );
 
   const handleSequenceDelete = useCallback(
@@ -231,9 +239,9 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
           DUPLICATE: ['ctrl+shift+d', 'meta+shift+d'],
         }}
       />
-      {fetching && <LoadingIndicator>LOADING SONG...</LoadingIndicator>}
-      {!fetching && error && <div>Failed to load song</div>}
-      {!fetching && !error && (
+      {loading && <LoadingIndicator>LOADING SONG...</LoadingIndicator>}
+      {!loading && error && <div>Failed to load song</div>}
+      {!loading && !error && (
         <>
           <TrackList
             onPositionSet={handleTrackListPositionSet}
@@ -263,7 +271,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
         }
         offset={position * 2 + 16}
       />
-      {!fetching && (
+      {!loading && (
         <TrackEditingModal
           onClose={handleTrackDeselect}
           onDelete={handleTrackDelete}
