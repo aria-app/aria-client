@@ -1,6 +1,6 @@
 import { gql, useMutation } from 'urql';
 
-import { MutationHook } from './types';
+import { UrqlMutationHook } from './types';
 
 export interface DeleteTrackResponse {
   deleteTrack: {
@@ -20,7 +20,7 @@ export const DELETE_TRACK = gql<DeleteTrackResponse, DeleteTrackVariables>`
   }
 `;
 
-export const useDeleteTrack: MutationHook<
+export const useDeleteTrack: UrqlMutationHook<
   DeleteTrackResponse,
   DeleteTrackVariables
 > = () => useMutation(DELETE_TRACK);

@@ -1,7 +1,7 @@
 import { gql, useMutation } from 'urql';
 
 import { Song } from '../../../types';
-import { MutationHook } from './types';
+import { UrqlMutationHook } from './types';
 
 export interface UpdateSongResponse {
   updateSong: {
@@ -32,7 +32,7 @@ export const UPDATE_SONG = gql<UpdateSongResponse, UpdateSongVariables>`
   }
 `;
 
-export const useUpdateSong: MutationHook<
+export const useUpdateSong: UrqlMutationHook<
   UpdateSongResponse,
   UpdateSongVariables
 > = () => useMutation(UPDATE_SONG);

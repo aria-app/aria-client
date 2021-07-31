@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { gql, useQuery } from 'urql';
 
 import { Sequence } from '../../../types';
-import { QueryHook } from './types';
+import { UrqlQueryHook } from './types';
 
 export interface GetSequenceResponse {
   sequence: Sequence;
@@ -35,7 +35,7 @@ export const GET_SEQUENCE = gql<GetSequenceResponse, GetSequenceVariables>`
   }
 `;
 
-export const useGetSequence: QueryHook<
+export const useGetSequence: UrqlQueryHook<
   GetSequenceResponse,
   GetSequenceVariables
 > = (args) => {

@@ -1,7 +1,7 @@
 import { gql, useMutation } from 'urql';
 
 import { Sequence } from '../../../types';
-import { MutationHook } from './types';
+import { UrqlMutationHook } from './types';
 
 export interface DuplicateSequenceResponse {
   duplicateSequence: {
@@ -41,7 +41,7 @@ export const DUPLICATE_SEQUENCE = gql<
   }
 `;
 
-export const useDuplicateSequence: MutationHook<
+export const useDuplicateSequence: UrqlMutationHook<
   DuplicateSequenceResponse,
   DuplicateSequenceVariables
 > = () => useMutation(DUPLICATE_SEQUENCE);

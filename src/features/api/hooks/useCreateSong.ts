@@ -1,7 +1,7 @@
 import { gql, useMutation } from 'urql';
 
 import { Song } from '../../../types';
-import { MutationHook } from './types';
+import { UrqlMutationHook } from './types';
 
 export interface CreateSongVariables {
   input: {
@@ -27,7 +27,7 @@ export const CREATE_SONG = gql<CreateSongResponse, CreateSongVariables>`
   }
 `;
 
-export const useCreateSong: MutationHook<
+export const useCreateSong: UrqlMutationHook<
   CreateSongResponse,
   CreateSongVariables
 > = () => useMutation(CREATE_SONG);

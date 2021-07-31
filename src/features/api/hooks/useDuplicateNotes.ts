@@ -1,7 +1,7 @@
 import { gql, useMutation } from 'urql';
 
 import { Note } from '../../../types';
-import { MutationHook } from './types';
+import { UrqlMutationHook } from './types';
 
 export interface DuplicateNotesResponse {
   duplicateNotes: {
@@ -33,7 +33,7 @@ export const DUPLICATE_NOTES = gql<
   }
 `;
 
-export const useDuplicateNotes: MutationHook<
+export const useDuplicateNotes: UrqlMutationHook<
   DuplicateNotesResponse,
   DuplicateNotesVariables
 > = () => useMutation(DUPLICATE_NOTES);

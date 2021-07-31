@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { gql, useQuery } from 'urql';
 
 import { PaginatedResponse, SongListSong } from '../../../types';
-import { QueryHook } from './types';
+import { UrqlQueryHook } from './types';
 
 export interface GetSongsResponse {
   songs: PaginatedResponse<SongListSong>;
@@ -48,7 +48,7 @@ export const GET_SONGS = gql<GetSongsResponse, GetSongsVariables>`
   }
 `;
 
-export const useGetSongs: QueryHook<GetSongsResponse, GetSongsVariables> = (
+export const useGetSongs: UrqlQueryHook<GetSongsResponse, GetSongsVariables> = (
   args,
 ) => {
   const context = useMemo(() => ({ additionalTypenames: ['Song'] }), []);

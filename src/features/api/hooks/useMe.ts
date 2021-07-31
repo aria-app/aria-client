@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { gql, useQuery } from 'urql';
 
 import { User } from '../../../types';
-import { QueryHook } from './types';
+import { UrqlQueryHook } from './types';
 
 export interface MeResponse {
   me: Omit<User, 'songs'>;
@@ -21,7 +21,7 @@ export const ME = gql<MeResponse, MeVariables>`
   }
 `;
 
-export const useMe: QueryHook<MeResponse, MeVariables> = (args = {}) => {
+export const useMe: UrqlQueryHook<MeResponse, MeVariables> = (args = {}) => {
   const context = useMemo(() => ({ additionalTypenames: ['User'] }), []);
 
   return useQuery({

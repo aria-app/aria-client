@@ -1,4 +1,5 @@
-import { gql, useMutation } from 'urql';
+import { gql, useMutation } from '@apollo/client';
+import { merge } from 'lodash';
 
 import { MutationHook } from './types';
 
@@ -13,7 +14,7 @@ export interface LoginVariables {
   password: string;
 }
 
-export const LOGIN = gql<LoginResponse, LoginVariables>`
+export const LOGIN = gql`
   mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       expiresAt
@@ -21,5 +22,6 @@ export const LOGIN = gql<LoginResponse, LoginVariables>`
   }
 `;
 
-export const useLogin: MutationHook<LoginResponse, LoginVariables> = () =>
-  useMutation(LOGIN);
+export const useLogin: MutationHook<LoginResponse, LoginVariables> = (
+  options,
+) => useMutation(LOGIN, merge({}, options));

@@ -1,6 +1,6 @@
 import { gql, useMutation } from 'urql';
 
-import { MutationHook } from './types';
+import { UrqlMutationHook } from './types';
 
 export type DeleteSongInput = number;
 
@@ -22,7 +22,7 @@ export const DELETE_SONG = gql<DeleteSongResponse, DeleteSongVariables>`
   }
 `;
 
-export const useDeleteSong: MutationHook<
+export const useDeleteSong: UrqlMutationHook<
   DeleteSongResponse,
   DeleteSongVariables
 > = () => useMutation(DELETE_SONG);

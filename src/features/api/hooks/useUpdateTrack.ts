@@ -1,7 +1,7 @@
 import { gql, useMutation } from 'urql';
 
 import { Track } from '../../../types';
-import { MutationHook } from './types';
+import { UrqlMutationHook } from './types';
 
 export interface UpdateTrackResponse {
   updateTrack: {
@@ -37,7 +37,7 @@ export const UPDATE_TRACK = gql<UpdateTrackResponse, UpdateTrackVariables>`
   }
 `;
 
-export const useUpdateTrack: MutationHook<
+export const useUpdateTrack: UrqlMutationHook<
   UpdateTrackResponse,
   UpdateTrackVariables
 > = () => useMutation(UPDATE_TRACK);

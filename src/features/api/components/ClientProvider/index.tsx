@@ -1,3 +1,4 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { devtoolsExchange } from '@urql/devtools';
 import { merge } from 'lodash';
 import { FC, memo, ReactNode, useCallback, useMemo, useState } from 'react';
@@ -34,12 +35,19 @@ export interface ClientProviderProps {
   clientOptions?: Partial<ClientOptions>;
 }
 
+const client = new ApolloClient({
+  uri: process.env.REACT_APP_API_URI || '',
+  cache: new InMemoryCache(),
+});
+
 export const ClientProvider: FC<ClientProviderProps> = memo((props) => {
   const { children, clientOptions } = props;
-  const [client, setClient] = useState<Client>(createClient(clientOptions));
+  const [urqlClient, setUrqlClient] = useState<Client>(
+    createClient(clientOptions),
+  );
 
   const handleResetClient = useCallback(() => {
-    setClient(createClient(clientOptions));
+    setUrqlClient(createClient(clientOptions));
   }, [clientOptions]);
 
   const value = useMemo(
@@ -50,8 +58,10 @@ export const ClientProvider: FC<ClientProviderProps> = memo((props) => {
   );
 
   return (
-    <ClientContext.Provider value={value}>
-      <Provider value={client}>{children}</Provider>
-    </ClientContext.Provider>
+    <ApolloProvider client={client}>
+      <ClientContext.Provider value={value}>
+        <Provider value={urqlClient}>{children}</Provider>
+      </ClientContext.Provider>
+    </ApolloProvider>
   );
 });

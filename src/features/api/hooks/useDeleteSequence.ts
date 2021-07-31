@@ -1,6 +1,6 @@
 import { gql, useMutation } from 'urql';
 
-import { MutationHook } from './types';
+import { UrqlMutationHook } from './types';
 
 export interface DeleteSequenceResponse {
   deleteSequence: {
@@ -23,7 +23,7 @@ export const DELETE_SEQUENCE = gql<
   }
 `;
 
-export const useDeleteSequence: MutationHook<
+export const useDeleteSequence: UrqlMutationHook<
   DeleteSequenceResponse,
   DeleteSequenceVariables
 > = () => useMutation(DELETE_SEQUENCE);

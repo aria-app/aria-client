@@ -1,6 +1,6 @@
 import { gql, useMutation } from 'urql';
 
-import { MutationHook } from './types';
+import { UrqlMutationHook } from './types';
 
 export interface LogoutResponse {
   logout: {
@@ -18,5 +18,5 @@ export const LOGOUT = gql<LogoutResponse, LogoutVariables>`
   }
 `;
 
-export const useLogout: MutationHook<LogoutResponse, LogoutVariables> = () =>
-  useMutation(LOGOUT);
+export const useLogout: UrqlMutationHook<LogoutResponse, LogoutVariables> =
+  () => useMutation(LOGOUT);

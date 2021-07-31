@@ -1,6 +1,6 @@
 import { gql, useMutation } from 'urql';
 
-import { MutationHook } from './types';
+import { UrqlMutationHook } from './types';
 
 export interface DeleteNotesResponse {
   success: boolean;
@@ -18,7 +18,7 @@ export const DELETE_NOTES = gql<DeleteNotesResponse, DeleteNotesVariables>`
   }
 `;
 
-export const useDeleteNotes: MutationHook<
+export const useDeleteNotes: UrqlMutationHook<
   DeleteNotesResponse,
   DeleteNotesVariables
 > = () => useMutation(DELETE_NOTES);

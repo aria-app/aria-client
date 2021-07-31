@@ -1,7 +1,7 @@
 import { gql, useMutation } from 'urql';
 
 import { Sequence } from '../../../types';
-import { MutationHook } from './types';
+import { UrqlMutationHook } from './types';
 
 export interface CreateSequenceResponse {
   createSequence: {
@@ -44,7 +44,7 @@ export const CREATE_SEQUENCE = gql<
   }
 `;
 
-export const useCreateSequence: MutationHook<
+export const useCreateSequence: UrqlMutationHook<
   CreateSequenceResponse,
   CreateSequenceVariables
 > = () => useMutation(CREATE_SEQUENCE);

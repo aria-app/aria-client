@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { gql, useQuery } from 'urql';
 
 import { Voice } from '../../../types';
-import { QueryHook } from './types';
+import { UrqlQueryHook } from './types';
 
 export interface GetVoicesResponse {
   voices: Voice[];
@@ -20,9 +20,10 @@ export const GET_VOICES = gql<GetVoicesResponse, GetVoicesVariables>`
   }
 `;
 
-export const useGetVoices: QueryHook<GetVoicesResponse, GetVoicesVariables> = (
-  args,
-) => {
+export const useGetVoices: UrqlQueryHook<
+  GetVoicesResponse,
+  GetVoicesVariables
+> = (args) => {
   const context = useMemo(() => ({ additionalTypenames: ['Voice'] }), []);
 
   return useQuery({

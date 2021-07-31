@@ -11,13 +11,13 @@ import { FC, MouseEventHandler, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
 
-import { formatError, useLogin } from '../../api';
+import { useLogin } from '../../api';
 import { useAuth } from '../../auth';
 
 export type LoginProps = Record<string, never>;
 
 export const Login: FC<LoginProps> = () => {
-  const [{ error, fetching }, login] = useLogin();
+  const [login, { error, loading }] = useLogin();
   const { getIsAuthenticated, handleLogin } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -43,10 +43,9 @@ export const Login: FC<LoginProps> = () => {
       e.preventDefault();
 
       try {
-        const { data } = await login(
-          { email, password },
-          { additionalTypenames: ['User'] },
-        );
+        const { data } = await login({
+          variables: { email, password },
+        });
 
         if (!data) {
           throw new Error('Failed to log in.');
@@ -100,13 +99,11 @@ export const Login: FC<LoginProps> = () => {
               type="password"
               value={password}
             />
-            {error && (
-              <Notice status="error">{formatError(error).message}</Notice>
-            )}
+            {error && <Notice status="error">{error.message}</Notice>}
           </Stack>
           <Button
             color="brandPrimary"
-            isLoading={fetching}
+            isLoading={loading}
             sx={{ alignSelf: 'flex-end' }}
             text={t('Log in')}
             type="submit"
