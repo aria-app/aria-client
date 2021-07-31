@@ -1,8 +1,8 @@
-import { useMemo } from 'react';
-import { gql, useQuery } from 'urql';
+import { gql, useQuery } from '@apollo/client';
+import { merge } from 'lodash';
 
 import { PaginatedResponse, SongListSong } from '../../../types';
-import { UrqlQueryHook } from './types';
+import { QueryHook } from './types';
 
 export interface GetSongsResponse {
   songs: PaginatedResponse<SongListSong>;
@@ -17,7 +17,7 @@ export interface GetSongsVariables {
   userId: number;
 }
 
-export const GET_SONGS = gql<GetSongsResponse, GetSongsVariables>`
+export const GET_SONGS = gql`
   query GetSongs(
     $limit: Int
     $page: Int
@@ -48,14 +48,6 @@ export const GET_SONGS = gql<GetSongsResponse, GetSongsVariables>`
   }
 `;
 
-export const useGetSongs: UrqlQueryHook<GetSongsResponse, GetSongsVariables> = (
-  args,
-) => {
-  const context = useMemo(() => ({ additionalTypenames: ['Song'] }), []);
-
-  return useQuery({
-    context,
-    query: GET_SONGS,
-    ...args,
-  });
-};
+export const useGetSongs: QueryHook<GetSongsResponse, GetSongsVariables> = (
+  options,
+) => useQuery(GET_SONGS, merge({}, options));

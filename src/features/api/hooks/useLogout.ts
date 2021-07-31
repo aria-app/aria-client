@@ -1,6 +1,7 @@
-import { gql, useMutation } from 'urql';
+import { gql, useMutation } from '@apollo/client';
+import { merge } from 'lodash';
 
-import { UrqlMutationHook } from './types';
+import { MutationHook } from './types';
 
 export interface LogoutResponse {
   logout: {
@@ -10,7 +11,7 @@ export interface LogoutResponse {
 
 export type LogoutVariables = Record<string, never>;
 
-export const LOGOUT = gql<LogoutResponse, LogoutVariables>`
+export const LOGOUT = gql`
   mutation Logout {
     logout {
       success
@@ -18,5 +19,6 @@ export const LOGOUT = gql<LogoutResponse, LogoutVariables>`
   }
 `;
 
-export const useLogout: UrqlMutationHook<LogoutResponse, LogoutVariables> =
-  () => useMutation(LOGOUT);
+export const useLogout: MutationHook<LogoutResponse, LogoutVariables> = (
+  options,
+) => useMutation(LOGOUT, merge({}, options));

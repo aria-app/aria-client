@@ -1,8 +1,8 @@
-import { useMemo } from 'react';
-import { gql, useQuery } from 'urql';
+import { gql, useQuery } from '@apollo/client';
+import { merge } from 'lodash';
 
 import { User } from '../../../types';
-import { UrqlQueryHook } from './types';
+import { QueryHook } from './types';
 
 export interface MeResponse {
   me: Omit<User, 'songs'>;
@@ -10,7 +10,7 @@ export interface MeResponse {
 
 export type MeVariables = Record<string, never>;
 
-export const ME = gql<MeResponse, MeVariables>`
+export const ME = gql`
   query Me {
     me {
       email
@@ -21,12 +21,5 @@ export const ME = gql<MeResponse, MeVariables>`
   }
 `;
 
-export const useMe: UrqlQueryHook<MeResponse, MeVariables> = (args = {}) => {
-  const context = useMemo(() => ({ additionalTypenames: ['User'] }), []);
-
-  return useQuery({
-    context,
-    query: ME,
-    ...args,
-  });
-};
+export const useMe: QueryHook<MeResponse, MeVariables> = (options) =>
+  useQuery(ME, merge({}, options));

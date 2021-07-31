@@ -3,7 +3,7 @@ import AddIcon from 'mdi-react/AddIcon';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { useDeleteSong, useGetSongs } from '../../api';
+import { getDeleteSongUpdater, useDeleteSong, useGetSongs } from '../../api';
 import { useAuth } from '../../auth';
 import { LoadingIndicator } from '../../shared';
 import { AddSongDialog } from './AddSongDialog';
@@ -14,9 +14,9 @@ export type DashboardProps = Record<string, never>;
 export const Dashboard: FC<DashboardProps> = () => {
   const history = useHistory();
   const { logout, user } = useAuth();
-  const [deleteSongResult, deleteSong] = useDeleteSong();
-  const [getSongsResult] = useGetSongs({
-    pause: !user,
+  const [deleteSong, deleteSongResult] = useDeleteSong();
+  const getSongsResult = useGetSongs({
+    skip: !user,
     variables: {
       sort: 'updatedAt',
       sortDirection: 'desc',
@@ -26,7 +26,7 @@ export const Dashboard: FC<DashboardProps> = () => {
   const [isAddSongDialogOpen, setIsAddSongDialogOpen] =
     useState<boolean>(false);
 
-  const loading = deleteSongResult.fetching || getSongsResult.fetching;
+  const loading = deleteSongResult.loading || getSongsResult.loading;
 
   const songs = useMemo(
     () => getSongsResult.data?.songs?.data || [],
@@ -50,12 +50,12 @@ export const Dashboard: FC<DashboardProps> = () => {
       if (!shouldDelete) return;
 
       try {
-        await deleteSong(
-          {
+        await deleteSong({
+          update: getDeleteSongUpdater(song.id),
+          variables: {
             id: song.id,
           },
-          { additionalTypenames: ['Song'] },
-        );
+        });
       } catch (error) {
         console.error(error);
       }
