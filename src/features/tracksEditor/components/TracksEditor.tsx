@@ -1,4 +1,5 @@
 import { Box } from 'aria-ui';
+import { isNil } from 'lodash';
 import find from 'lodash/fp/find';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
@@ -15,6 +16,8 @@ import {
   getTempId,
   getUpdateSequenceMutationUpdater,
   getUpdateSequenceOptimisticResponse,
+  getUpdateTrackMutationUpdater,
+  getUpdateTrackOptimisticResponse,
   useCreateSequence,
   useCreateTrack,
   useDeleteSequence,
@@ -60,7 +63,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   const { url } = useRouteMatch();
   const [updateSequence] = useUpdateSequence();
   const [, updateSong] = useUpdateSong();
-  const [, updateTrack] = useUpdateTrack();
+  const [updateTrack] = useUpdateTrack();
   const [selectedSequenceId, setSelectedSequenceId] = useState<number>();
   const [selectedTrackId, setSelectedTrackId] = useState<number>();
 
@@ -213,11 +216,30 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
 
   const handleTrackEdit = useCallback<TrackEditingModalTrackChangeHandler>(
     ({ id, voiceId, volume }) => {
-      updateTrack({
+      const variables = {
         input: { id, voiceId, volume },
+      };
+
+      const trackToUpdate = tracks.find((track) => track.id === id);
+
+      if (!trackToUpdate) return;
+
+      updateTrack({
+        optimisticResponse: getUpdateTrackOptimisticResponse(variables, {
+          updatedTrack: {
+            ...trackToUpdate,
+            voice: {
+              ...trackToUpdate.voice,
+              id: !isNil(voiceId) ? voiceId : trackToUpdate.voice.id,
+            },
+            volume: !isNil(volume) ? volume : trackToUpdate.volume,
+          },
+        }),
+        update: getUpdateTrackMutationUpdater(variables),
+        variables,
       });
     },
-    [updateTrack],
+    [tracks, updateTrack],
   );
 
   const handleTrackListPositionSet = useCallback(
