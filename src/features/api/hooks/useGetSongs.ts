@@ -1,5 +1,4 @@
 import { gql, useQuery } from '@apollo/client';
-import { merge } from 'lodash';
 
 import { PaginatedResponse, SongListSong } from '../../../types';
 import { QueryHook } from './types';
@@ -50,4 +49,4 @@ export const GET_SONGS = gql`
 
 export const useGetSongs: QueryHook<GetSongsResponse, GetSongsVariables> = (
   options,
-) => useQuery(GET_SONGS, merge({}, options));
+) => useQuery(GET_SONGS, options);

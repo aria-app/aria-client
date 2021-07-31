@@ -1,5 +1,4 @@
 import { gql, useMutation } from '@apollo/client';
-import { merge } from 'lodash';
 
 import { MutationHook } from './types';
 
@@ -21,4 +20,4 @@ export const LOGOUT = gql`
 
 export const useLogout: MutationHook<LogoutResponse, LogoutVariables> = (
   options,
-) => useMutation(LOGOUT, merge({}, options));
+) => useMutation(LOGOUT, options);

@@ -1,8 +1,7 @@
-import { useMemo } from 'react';
-import { gql, useQuery } from 'urql';
+import { gql, useQuery } from '@apollo/client';
 
 import { Song } from '../../../types';
-import { UrqlQueryHook } from './types';
+import { QueryHook } from './types';
 
 export interface GetSongResponse {
   song: Song;
@@ -12,7 +11,7 @@ export interface GetSongVariables {
   id: number;
 }
 
-export const GET_SONG = gql<GetSongResponse, GetSongVariables>`
+export const GET_SONG = gql`
   query GetSong($id: Int!) {
     song(id: $id) {
       bpm
@@ -56,14 +55,6 @@ export const GET_SONG = gql<GetSongResponse, GetSongVariables>`
   }
 `;
 
-export const useGetSong: UrqlQueryHook<GetSongResponse, GetSongVariables> = (
-  args,
-) => {
-  const context = useMemo(() => ({ additionalTypenames: ['Song'] }), []);
-
-  return useQuery({
-    context,
-    query: GET_SONG,
-    ...args,
-  });
-};
+export const useGetSong: QueryHook<GetSongResponse, GetSongVariables> = (
+  options,
+) => useQuery(GET_SONG, options);

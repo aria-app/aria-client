@@ -1,5 +1,4 @@
 import { gql, useQuery } from '@apollo/client';
-import { merge } from 'lodash';
 
 import { User } from '../../../types';
 import { QueryHook } from './types';
@@ -22,4 +21,4 @@ export const ME = gql`
 `;
 
 export const useMe: QueryHook<MeResponse, MeVariables> = (options) =>
-  useQuery(ME, merge({}, options));
+  useQuery(ME, options);

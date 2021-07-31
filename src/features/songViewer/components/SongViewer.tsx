@@ -18,7 +18,7 @@ export const SongViewer: FC<SongViewerProps> = (props) => {
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
   const playbackState = usePlaybackState();
-  const [{ data, fetching }] = useGetSong({
+  const { data, loading } = useGetSong({
     variables: { id: songId },
   });
 
@@ -32,7 +32,7 @@ export const SongViewer: FC<SongViewerProps> = (props) => {
 
   return (
     <>
-      {fetching ? (
+      {loading ? (
         <LoadingIndicator>Loading Song...</LoadingIndicator>
       ) : (
         <Box

@@ -1,5 +1,4 @@
 import { gql, useMutation } from '@apollo/client';
-import { merge } from 'lodash';
 
 import { MutationHook } from './types';
 
@@ -24,4 +23,4 @@ export const LOGIN = gql`
 
 export const useLogin: MutationHook<LoginResponse, LoginVariables> = (
   options,
-) => useMutation(LOGIN, merge({}, options));
+) => useMutation(LOGIN, options);
