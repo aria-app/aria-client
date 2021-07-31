@@ -1,6 +1,8 @@
-import { gql, useMutation } from 'urql';
+import { gql, MutationHookOptions, useMutation } from '@apollo/client';
+import { merge } from 'lodash';
 
-import { UrqlMutationHook } from './types';
+import { MutationHook, MutationUpdaterFunctionCreator } from './types';
+import { GET_SONG, GetSongResponse } from './useGetSong';
 
 export interface DeleteTrackResponse {
   deleteTrack: {
@@ -12,7 +14,34 @@ export interface DeleteTrackVariables {
   id: number;
 }
 
-export const DELETE_TRACK = gql<DeleteTrackResponse, DeleteTrackVariables>`
+export const getDeleteTrackMutationUpdater: MutationUpdaterFunctionCreator<
+  DeleteTrackResponse,
+  DeleteTrackVariables,
+  { songId: number }
+> = ({ id }, { songId }) => {
+  return (cache, { data }) => {
+    if (!data) return;
+
+    const songResponse = cache.readQuery<GetSongResponse>({
+      query: GET_SONG,
+      variables: { id: songId },
+    });
+
+    if (!songResponse) return;
+
+    cache.writeQuery({
+      query: GET_SONG,
+      data: {
+        song: {
+          ...songResponse.song,
+          tracks: songResponse.song.tracks.filter((track) => track.id !== id),
+        },
+      },
+    });
+  };
+};
+
+export const DELETE_TRACK = gql`
   mutation DeleteTrack($id: Int!) {
     deleteTrack(id: $id) {
       success
@@ -20,7 +49,21 @@ export const DELETE_TRACK = gql<DeleteTrackResponse, DeleteTrackVariables>`
   }
 `;
 
-export const useDeleteTrack: UrqlMutationHook<
+export const useDeleteTrack: MutationHook<
   DeleteTrackResponse,
   DeleteTrackVariables
-> = () => useMutation(DELETE_TRACK);
+> = (options) =>
+  useMutation(
+    DELETE_TRACK,
+    merge(
+      {
+        optimisticResponse: {
+          __typename: 'DeleteTrackResponse',
+          deleteTrack: {
+            success: true,
+          },
+        },
+      } as MutationHookOptions<DeleteTrackResponse, DeleteTrackVariables>,
+      options,
+    ),
+  );

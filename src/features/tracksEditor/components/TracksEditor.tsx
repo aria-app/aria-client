@@ -9,6 +9,7 @@ import {
   getCreateSequenceOptimisticResponse,
   getCreateTrackOptimisticResponse,
   getDeleteSequenceMutationUpdater,
+  getDeleteTrackMutationUpdater,
   getTempId,
   useCreateSequence,
   useCreateTrack,
@@ -42,7 +43,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   const [createSequence] = useCreateSequence();
   const [createTrack] = useCreateTrack();
   const [deleteSequence] = useDeleteSequence();
-  const [, deleteTrack] = useDeleteTrack();
+  const [deleteTrack] = useDeleteTrack();
   const [, duplicateSequence] = useDuplicateSequence();
   const history = useHistory();
   const { data, error, loading } = useGetSong({
@@ -179,9 +180,14 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
     (track) => {
       handleTrackDeselect();
 
-      deleteTrack({ id: track.id }, { additionalTypenames: ['Song'] });
+      const variables = { id: track.id };
+
+      deleteTrack({
+        update: getDeleteTrackMutationUpdater(variables, { songId }),
+        variables,
+      });
     },
-    [deleteTrack, handleTrackDeselect],
+    [deleteTrack, handleTrackDeselect, songId],
   );
 
   const handleTrackEdit = useCallback<TrackEditingModalTrackChangeHandler>(

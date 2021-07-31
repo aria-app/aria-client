@@ -37,7 +37,31 @@ export interface ClientProviderProps {
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API_URI || '',
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Sequence: {
+        fields: {
+          notes: {
+            merge: false,
+          },
+        },
+      },
+      Song: {
+        fields: {
+          tracks: {
+            merge: false,
+          },
+        },
+      },
+      Track: {
+        fields: {
+          sequences: {
+            merge: false,
+          },
+        },
+      },
+    },
+  }),
 });
 
 export const ClientProvider: FC<ClientProviderProps> = memo((props) => {
