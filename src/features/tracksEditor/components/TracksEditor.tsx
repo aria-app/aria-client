@@ -7,6 +7,7 @@ import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 import {
   getCreateSequenceMutationUpdater,
   getCreateSequenceOptimisticResponse,
+  getCreateTrackOptimisticResponse,
   getTempId,
   useCreateSequence,
   useCreateTrack,
@@ -38,7 +39,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
   const [createSequence] = useCreateSequence();
-  const [, createTrack] = useCreateTrack();
+  const [createTrack] = useCreateTrack();
   const [, deleteSequence] = useDeleteSequence();
   const [, deleteTrack] = useDeleteTrack();
   const [, duplicateSequence] = useDuplicateSequence();
@@ -205,7 +206,12 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   }, []);
 
   const handleTrackListTrackAdd = useCallback(() => {
-    createTrack({ input: { songId } });
+    const variables = { input: { songId } };
+
+    createTrack({
+      optimisticResponse: getCreateTrackOptimisticResponse(variables),
+      variables,
+    });
   }, [createTrack, songId]);
 
   const handleTrackSelect = useCallback((track) => {

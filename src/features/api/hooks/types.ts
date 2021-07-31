@@ -22,11 +22,14 @@ export type MutationUpdater<TData, TVariables> = MutationUpdaterFunction<
   Cache
 >;
 
-export type MutationUpdaterFunctionCreator<TData, TVariables, TExtras = never> =
-  (
-    variables: TVariables,
-    extras: TExtras extends never ? undefined : TExtras,
-  ) => MutationUpdaterFunction<TData, TVariables, DefaultContext, Cache>;
+export type MutationUpdaterFunctionCreator<
+  TData,
+  TVariables,
+  TExtras = never,
+> = (
+  variables: TVariables,
+  extras: TExtras extends never ? undefined : TExtras,
+) => MutationUpdaterFunction<TData, TVariables, DefaultContext, Cache>;
 
 export type MutationOptimisticResponseCreator<TData, TVariables> = (
   variables: TVariables,
@@ -36,8 +39,10 @@ export type QueryHook<TData, TVariables> = (
   options?: QueryHookOptions<TData, TVariables>,
 ) => QueryResult<TData, TVariables>;
 
-export type UrqlMutationHook<TData = any, TVariables = Record<string, any>> =
-  () => UseMutationResponse<TData, TVariables>;
+export type UrqlMutationHook<
+  TData = any,
+  TVariables = Record<string, any>,
+> = () => UseMutationResponse<TData, TVariables>;
 
 export type UrqlQueryHook<TData = any, TVariables = Record<string, any>> = (
   args?: Omit<UseQueryArgs<TVariables, TData>, 'query'>,

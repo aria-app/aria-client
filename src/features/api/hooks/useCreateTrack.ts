@@ -1,11 +1,14 @@
-import { gql, useMutation } from 'urql';
+import { gql, MutationHookOptions, useMutation } from '@apollo/client';
+import { merge } from 'lodash';
 
 import { Track } from '../../../types';
-import { UrqlMutationHook } from './types';
+import { getTempId } from '../helpers';
+import { MutationHook, MutationOptimisticResponseCreator } from './types';
+import { GET_SONG, GetSongResponse } from './useGetSong';
 
 export interface CreateTrackResponse {
   createTrack: {
-    track: Omit<Track, 'isMuted' | 'isSoloing' | 'song'>;
+    track: Omit<Track, 'isMuted' | 'isSoloing'>;
   };
 }
 
@@ -15,7 +18,35 @@ export interface CreateTrackVariables {
   };
 }
 
-export const CREATE_TRACK = gql<CreateTrackResponse, CreateTrackVariables>`
+export const getCreateTrackOptimisticResponse: MutationOptimisticResponseCreator<
+  CreateTrackResponse,
+  CreateTrackVariables
+> = ({ input }) => {
+  const { songId } = input;
+
+  return {
+    __typename: 'CreateTrackResponse',
+    createTrack: {
+      track: {
+        __typename: 'Track',
+        id: getTempId(),
+        sequences: [],
+        position: 9999999999,
+        song: {
+          id: songId,
+        },
+        voice: {
+          id: 1,
+          name: 'PWM',
+          toneOscillatorType: 'PWM',
+        },
+        volume: 0,
+      },
+    },
+  };
+};
+
+export const CREATE_TRACK = gql`
   mutation CreateTrack($input: CreateTrackInput!) {
     createTrack(input: $input) {
       track {
@@ -39,6 +70,9 @@ export const CREATE_TRACK = gql<CreateTrackResponse, CreateTrackVariables>`
             id
           }
         }
+        song {
+          id
+        }
         voice {
           id
           name
@@ -50,7 +84,39 @@ export const CREATE_TRACK = gql<CreateTrackResponse, CreateTrackVariables>`
   }
 `;
 
-export const useCreateTrack: UrqlMutationHook<
+export const useCreateTrack: MutationHook<
   CreateTrackResponse,
   CreateTrackVariables
-> = () => useMutation(CREATE_TRACK);
+> = (options) =>
+  useMutation(
+    CREATE_TRACK,
+    merge(
+      {
+        update(cache, { data }) {
+          if (!data) return;
+
+          const {
+            createTrack: { track },
+          } = data;
+
+          const songResponse = cache.readQuery<GetSongResponse>({
+            query: GET_SONG,
+            variables: { id: track.song.id },
+          });
+
+          if (!songResponse) return;
+
+          cache.writeQuery({
+            query: GET_SONG,
+            data: {
+              song: {
+                ...songResponse.song,
+                tracks: [...songResponse.song.tracks, track],
+              },
+            },
+          });
+        },
+      } as MutationHookOptions<CreateTrackResponse, CreateTrackVariables>,
+      options,
+    ),
+  );

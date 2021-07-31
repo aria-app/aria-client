@@ -40,6 +40,9 @@ export const GET_SONG = gql`
             id
           }
         }
+        song {
+          id
+        }
         voice {
           id
           name

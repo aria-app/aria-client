@@ -1,5 +1,4 @@
-import { gql, MutationHookOptions, useMutation } from '@apollo/client';
-import { merge } from 'lodash';
+import { gql, useMutation } from '@apollo/client';
 
 import { Sequence } from '../../../types';
 import { getTempId } from '../helpers';
@@ -113,14 +112,4 @@ export const getCreateSequenceMutationUpdater: MutationUpdaterFunctionCreator<
 export const useCreateSequence: MutationHook<
   CreateSequenceResponse,
   CreateSequenceVariables
-> = (options) =>
-  useMutation(
-    CREATE_SEQUENCE,
-    merge(
-      {} as MutationHookOptions<
-        CreateSequenceResponse,
-        CreateSequenceVariables
-      >,
-      options,
-    ),
-  );
+> = (options) => useMutation(CREATE_SEQUENCE, options);
