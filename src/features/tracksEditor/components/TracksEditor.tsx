@@ -11,6 +11,8 @@ import {
   getDeleteSequenceMutationUpdater,
   getDeleteTrackMutationUpdater,
   getTempId,
+  getUpdateSequenceMutationUpdater,
+  getUpdateSequenceOptimisticResponse,
   useCreateSequence,
   useCreateTrack,
   useDeleteSequence,
@@ -54,7 +56,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   const playbackState = usePlaybackState();
   const position = usePosition();
   const { url } = useRouteMatch();
-  const [, updateSequence] = useUpdateSequence();
+  const [updateSequence] = useUpdateSequence();
   const [, updateSong] = useUpdateSong();
   const [, updateTrack] = useUpdateTrack();
   const [selectedSequenceId, setSelectedSequenceId] = useState<number>();
@@ -136,15 +138,23 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
 
   const handleSequenceEdit = useCallback(
     (sequence) => {
-      updateSequence({
+      const variables = {
         input: {
           id: sequence.id,
           measureCount: sequence.measureCount,
           position: sequence.position,
         },
+      };
+
+      updateSequence({
+        optimisticResponse: getUpdateSequenceOptimisticResponse(variables, {
+          updatedSequence: sequence,
+        }),
+        update: getUpdateSequenceMutationUpdater(variables, { songId }),
+        variables,
       });
     },
-    [updateSequence],
+    [songId, updateSequence],
   );
 
   const handleSequenceOpen = useCallback(

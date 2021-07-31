@@ -1,9 +1,15 @@
-import { gql, useMutation } from 'urql';
+import { gql, useMutation } from '@apollo/client';
 
 import { Sequence } from '../../../types';
-import { UrqlMutationHook } from './types';
+import {
+  MutationHook,
+  MutationOptimisticResponseCreator,
+  MutationUpdaterFunctionCreator,
+} from './types';
+import { GET_SONG, GetSongResponse } from './useGetSong';
 
 export interface UpdateSequenceResponse {
+  __typename: 'UpdateSequenceResponse';
   updateSequence: {
     sequence: Sequence;
   };
@@ -17,10 +23,7 @@ export interface UpdateSequenceVariables {
   };
 }
 
-export const UPDATE_SEQUENCE = gql<
-  UpdateSequenceResponse,
-  UpdateSequenceVariables
->`
+export const UPDATE_SEQUENCE = gql`
   mutation UpdateSequence($input: UpdateSequenceInput!) {
     updateSequence(input: $input) {
       sequence {
@@ -45,7 +48,54 @@ export const UPDATE_SEQUENCE = gql<
   }
 `;
 
-export const useUpdateSequence: UrqlMutationHook<
+export const getUpdateSequenceOptimisticResponse: MutationOptimisticResponseCreator<
+  UpdateSequenceResponse,
+  UpdateSequenceVariables,
+  { updatedSequence: Sequence }
+> = (variables, { updatedSequence }) => ({
+  __typename: 'UpdateSequenceResponse',
+  updateSequence: {
+    sequence: updatedSequence,
+  },
+});
+
+export const getUpdateSequenceMutationUpdater: MutationUpdaterFunctionCreator<
+  UpdateSequenceResponse,
+  UpdateSequenceVariables,
+  { songId: number }
+> = (variables, { songId }) => {
+  return (cache, { data }) => {
+    if (!data) return;
+
+    const {
+      updateSequence: { sequence },
+    } = data;
+
+    const songResponse = cache.readQuery<GetSongResponse>({
+      query: GET_SONG,
+      variables: { id: songId },
+    });
+
+    if (!songResponse) return;
+
+    cache.writeQuery({
+      query: GET_SONG,
+      data: {
+        song: {
+          ...songResponse.song,
+          tracks: songResponse.song.tracks.map((track) => ({
+            ...track,
+            sequences: track.sequences.map((existingSequence) =>
+              existingSequence.id === sequence.id ? sequence : existingSequence,
+            ),
+          })),
+        },
+      },
+    });
+  };
+};
+
+export const useUpdateSequence: MutationHook<
   UpdateSequenceResponse,
   UpdateSequenceVariables
-> = () => useMutation(UPDATE_SEQUENCE);
+> = (options) => useMutation(UPDATE_SEQUENCE, options);

@@ -23,29 +23,6 @@ export interface CreateSequenceVariables {
   };
 }
 
-export const getCreateSequenceOptimisticResponse: MutationOptimisticResponseCreator<
-  CreateSequenceResponse,
-  CreateSequenceVariables
-> = ({ input }) => {
-  const { position, trackId } = input;
-
-  return {
-    __typename: 'CreateSequenceResponse',
-    createSequence: {
-      sequence: {
-        __typename: 'Sequence',
-        id: getTempId(),
-        measureCount: 1,
-        notes: [],
-        position,
-        track: {
-          id: trackId,
-        },
-      },
-    },
-  };
-};
-
 export const CREATE_SEQUENCE = gql`
   mutation CreateSequence($input: CreateSequenceInput!) {
     createSequence(input: $input) {
@@ -70,6 +47,29 @@ export const CREATE_SEQUENCE = gql`
     }
   }
 `;
+
+export const getCreateSequenceOptimisticResponse: MutationOptimisticResponseCreator<
+  CreateSequenceResponse,
+  CreateSequenceVariables
+> = ({ input }) => {
+  const { position, trackId } = input;
+
+  return {
+    __typename: 'CreateSequenceResponse',
+    createSequence: {
+      sequence: {
+        __typename: 'Sequence',
+        id: getTempId(),
+        measureCount: 1,
+        notes: [],
+        position,
+        track: {
+          id: trackId,
+        },
+      },
+    },
+  };
+};
 
 export const getCreateSequenceMutationUpdater: MutationUpdaterFunctionCreator<
   CreateSequenceResponse,
