@@ -12,7 +12,11 @@ import {
 import * as Tone from 'tone';
 
 import { Dawww } from '../../../dawww';
-import { useGetSong, useUpdateSong } from '../../api';
+import {
+  getUpdateSongOptimisticResponse,
+  useGetSong,
+  useUpdateSong,
+} from '../../api';
 import { useAudioManager, usePlaybackState } from '../../audio';
 import { useAuth } from '../../auth';
 import { NotesEditor } from '../../notesEditor';
@@ -35,11 +39,11 @@ export const SongEditor: FC<SongEditorProps> = () => {
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
   const { logout, user } = useAuth();
-  const [{ data, error, fetching }] = useGetSong({
+  const { data, error, loading } = useGetSong({
     variables: { id: songId },
   });
   const playbackState = usePlaybackState();
-  const [, updateSong] = useUpdateSong();
+  const [updateSong] = useUpdateSong();
   const [isSongInfoModalOpen, setIsSongInfoModalOpen] = useState(false);
 
   const playPause = useCallback(
@@ -63,14 +67,25 @@ export const SongEditor: FC<SongEditorProps> = () => {
 
   const handleSongBPMChange = useCallback(
     (bpm) => {
-      if (!data?.song) return;
+      if (!data) return;
 
-      updateSong({
-        input: {
-          id: data.song.id,
-          bpm,
-        },
-      });
+      try {
+        const variables = {
+          input: {
+            id: data.song.id,
+            bpm,
+          },
+        };
+
+        updateSong({
+          optimisticResponse: getUpdateSongOptimisticResponse(variables, {
+            updatedSong: { ...data.song, bpm },
+          }),
+          variables,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     },
     [data, updateSong],
   );
@@ -126,7 +141,7 @@ export const SongEditor: FC<SongEditorProps> = () => {
           <NotesEditor />
         </Route>
       </Switch>
-      {!fetching && !error && (
+      {!loading && !error && (
         <SongInfoDialog
           isOpen={isSongInfoModalOpen}
           onBPMChange={handleSongBPMChange}
