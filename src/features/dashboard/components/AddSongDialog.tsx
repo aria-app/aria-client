@@ -13,7 +13,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { Song } from '../../../types';
-import { formatError, useCreateSong } from '../../api';
+import { useCreateSong } from '../../api';
 
 const bpmOptions: SelectOption[] = range(60, 161, 10).map((n) => ({
   label: n,
@@ -36,7 +36,7 @@ export interface AddSongDialogProps {
 
 export const AddSongDialog: FC<AddSongDialogProps> = (props) => {
   const { isOpen, onIsOpenChange } = props;
-  const [, createSong] = useCreateSong();
+  const [createSong] = useCreateSong();
   const { formState, handleSubmit, register, reset, setError } =
     useForm<AddSongDialogFormValues>({
       defaultValues: {
@@ -54,21 +54,19 @@ export const AddSongDialog: FC<AddSongDialogProps> = (props) => {
     SubmitHandler<AddSongDialogFormValues>
   >(
     async ({ name }) => {
-      const { error } = await createSong(
-        {
-          input: {
-            name: name.replace(/\s+/g, ' ').trim(),
+      try {
+        await createSong({
+          variables: {
+            input: {
+              name: name.replace(/\s+/g, ' ').trim(),
+            },
           },
-        },
-        { additionalTypenames: ['Song'] },
-      );
+        });
 
-      if (error) {
-        setError('name', formatError(error));
-        return;
+        close();
+      } catch (error) {
+        setError('name', error);
       }
-
-      close();
     },
     [close, createSong, setError],
   );
