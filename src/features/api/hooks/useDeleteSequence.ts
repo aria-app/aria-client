@@ -1,8 +1,11 @@
-import { gql, useMutation } from 'urql';
+import { gql, MutationHookOptions, useMutation } from '@apollo/client';
+import { merge } from 'lodash';
 
-import { UrqlMutationHook } from './types';
+import { MutationHook, MutationUpdaterFunctionCreator } from './types';
+import { GET_SONG, GetSongResponse } from './useGetSong';
 
 export interface DeleteSequenceResponse {
+  __typename: 'DeleteSequenceResponse';
   deleteSequence: {
     success: boolean;
   };
@@ -12,10 +15,7 @@ export interface DeleteSequenceVariables {
   id: number;
 }
 
-export const DELETE_SEQUENCE = gql<
-  DeleteSequenceResponse,
-  DeleteSequenceVariables
->`
+export const DELETE_SEQUENCE = gql`
   mutation DeleteSequence($id: Int!) {
     deleteSequence(id: $id) {
       success
@@ -23,7 +23,53 @@ export const DELETE_SEQUENCE = gql<
   }
 `;
 
-export const useDeleteSequence: UrqlMutationHook<
+export const getDeleteSequenceMutationUpdater: MutationUpdaterFunctionCreator<
+  DeleteSequenceResponse,
+  DeleteSequenceVariables,
+  { songId: number }
+> = ({ id }, { songId }) => {
+  return (cache, { data }) => {
+    if (!data) return;
+
+    const songResponse = cache.readQuery<GetSongResponse>({
+      query: GET_SONG,
+      variables: { id: songId },
+    });
+
+    if (!songResponse) return;
+
+    cache.writeQuery({
+      query: GET_SONG,
+      data: {
+        song: {
+          ...songResponse.song,
+          tracks: songResponse.song.tracks.map((track) => ({
+            ...track,
+            sequences: track.sequences.filter(
+              (existingSequence) => existingSequence.id !== id,
+            ),
+          })),
+        },
+      },
+    });
+  };
+};
+
+export const useDeleteSequence: MutationHook<
   DeleteSequenceResponse,
   DeleteSequenceVariables
-> = () => useMutation(DELETE_SEQUENCE);
+> = (options) =>
+  useMutation(
+    DELETE_SEQUENCE,
+    merge(
+      {
+        optimisticResponse: {
+          __typename: 'DeleteSequenceResponse',
+          deleteSequence: {
+            success: true,
+          },
+        },
+      } as MutationHookOptions<DeleteSequenceResponse, DeleteSequenceVariables>,
+      options,
+    ),
+  );

@@ -8,6 +8,7 @@ import {
   getCreateSequenceMutationUpdater,
   getCreateSequenceOptimisticResponse,
   getCreateTrackOptimisticResponse,
+  getDeleteSequenceMutationUpdater,
   getTempId,
   useCreateSequence,
   useCreateTrack,
@@ -40,7 +41,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   const audioManager = useAudioManager();
   const [createSequence] = useCreateSequence();
   const [createTrack] = useCreateTrack();
-  const [, deleteSequence] = useDeleteSequence();
+  const [deleteSequence] = useDeleteSequence();
   const [, deleteTrack] = useDeleteTrack();
   const [, duplicateSequence] = useDuplicateSequence();
   const history = useHistory();
@@ -101,12 +102,14 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
 
       if (!selectedSequence) return;
 
-      deleteSequence(
-        { id: selectedSequence.id },
-        { additionalTypenames: ['Song'] },
-      );
+      const variables = { id: selectedSequence.id };
+
+      deleteSequence({
+        update: getDeleteSequenceMutationUpdater(variables, { songId }),
+        variables,
+      });
     },
-    [deleteSequence, selectedSequence],
+    [deleteSequence, selectedSequence, songId],
   );
 
   const handleSequenceDuplicate = useCallback(
