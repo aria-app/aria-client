@@ -16,6 +16,7 @@ import {
   getTempId,
   getUpdateSequenceMutationUpdater,
   getUpdateSequenceOptimisticResponse,
+  getUpdateSongOptimisticResponse,
   getUpdateTrackMutationUpdater,
   getUpdateTrackOptimisticResponse,
   useCreateSequence,
@@ -62,7 +63,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   const position = usePosition();
   const { url } = useRouteMatch();
   const [updateSequence] = useUpdateSequence();
-  const [, updateSong] = useUpdateSong();
+  const [updateSong] = useUpdateSong();
   const [updateTrack] = useUpdateTrack();
   const [selectedSequenceId, setSelectedSequenceId] = useState<number>();
   const [selectedTrackId, setSelectedTrackId] = useState<number>();
@@ -179,15 +180,26 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   );
 
   const handleSongMeasureCountChange = useCallback(
-    (measureCount) => {
-      if (!data?.song) return;
+    async (measureCount) => {
+      if (!data) return;
 
-      updateSong({
-        input: {
-          id: data?.song.id,
-          measureCount,
-        },
-      });
+      try {
+        const variables = {
+          input: {
+            id: data.song.id,
+            measureCount,
+          },
+        };
+
+        await updateSong({
+          optimisticResponse: getUpdateSongOptimisticResponse(variables, {
+            updatedSong: { ...data.song, measureCount },
+          }),
+          variables,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     },
     [data, updateSong],
   );

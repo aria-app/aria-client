@@ -1,9 +1,10 @@
-import { gql, useMutation } from 'urql';
+import { gql, useMutation } from '@apollo/client';
 
 import { Song } from '../../../types';
-import { UrqlMutationHook } from './types';
+import { MutationHook, MutationOptimisticResponseCreator } from './types';
 
 export interface UpdateSongResponse {
+  __typename: 'UpdateSongResponse';
   updateSong: {
     song: Song;
   };
@@ -18,7 +19,7 @@ export interface UpdateSongVariables {
   };
 }
 
-export const UPDATE_SONG = gql<UpdateSongResponse, UpdateSongVariables>`
+export const UPDATE_SONG = gql`
   mutation UpdateSong($input: UpdateSongInput!) {
     updateSong(input: $input) {
       song {
@@ -32,7 +33,18 @@ export const UPDATE_SONG = gql<UpdateSongResponse, UpdateSongVariables>`
   }
 `;
 
-export const useUpdateSong: UrqlMutationHook<
+export const getUpdateSongOptimisticResponse: MutationOptimisticResponseCreator<
+  UpdateSongResponse,
+  UpdateSongVariables,
+  { updatedSong: Song }
+> = (variables, { updatedSong }) => ({
+  __typename: 'UpdateSongResponse',
+  updateSong: {
+    song: updatedSong,
+  },
+});
+
+export const useUpdateSong: MutationHook<
   UpdateSongResponse,
   UpdateSongVariables
-> = () => useMutation(UPDATE_SONG);
+> = (options) => useMutation(UPDATE_SONG, options);
