@@ -24,7 +24,7 @@ export interface TrackEditingModalProps {
 
 export const TrackEditingModal: FC<TrackEditingModalProps> = (props) => {
   const { onClose, onDelete, onTrackChange, track } = props;
-  const [{ data, fetching }] = useGetVoices();
+  const { data, loading } = useGetVoices();
   const [trackState, setTrackState] = useState<Track>();
   const { t } = useTranslation();
 
@@ -72,14 +72,14 @@ export const TrackEditingModal: FC<TrackEditingModalProps> = (props) => {
     >
       <Stack align="start" space={6}>
         <Select
-          disabled={fetching}
+          disabled={loading}
           label="Voice"
           onValueChange={handleVoiceChange}
           options={voices.map((voice) => ({
             label: t(voice.name) as string,
             value: voice.id,
           }))}
-          placeholder={fetching ? 'Loading...' : undefined}
+          placeholder={loading ? 'Loading...' : undefined}
           sx={{ width: 'auto' }}
           value={trackState?.voice?.id}
         />

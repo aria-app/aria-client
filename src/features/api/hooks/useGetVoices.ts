@@ -1,8 +1,7 @@
-import { useMemo } from 'react';
-import { gql, useQuery } from 'urql';
+import { gql, useQuery } from '@apollo/client';
 
 import { Voice } from '../../../types';
-import { UrqlQueryHook } from './types';
+import { QueryHook } from './types';
 
 export interface GetVoicesResponse {
   voices: Voice[];
@@ -10,7 +9,7 @@ export interface GetVoicesResponse {
 
 export type GetVoicesVariables = Record<string, never>;
 
-export const GET_VOICES = gql<GetVoicesResponse, GetVoicesVariables>`
+export const GET_VOICES = gql`
   query GetVoices {
     voices {
       id
@@ -20,15 +19,6 @@ export const GET_VOICES = gql<GetVoicesResponse, GetVoicesVariables>`
   }
 `;
 
-export const useGetVoices: UrqlQueryHook<
-  GetVoicesResponse,
-  GetVoicesVariables
-> = (args) => {
-  const context = useMemo(() => ({ additionalTypenames: ['Voice'] }), []);
-
-  return useQuery({
-    context,
-    query: GET_VOICES,
-    ...args,
-  });
-};
+export const useGetVoices: QueryHook<GetVoicesResponse, GetVoicesVariables> = (
+  options,
+) => useQuery(GET_VOICES, options);
