@@ -1,7 +1,12 @@
-import { gql, useMutation } from 'urql';
+import { gql, useMutation } from '@apollo/client';
 
 import { Sequence } from '../../../types';
-import { UrqlMutationHook } from './types';
+import {
+  MutationHook,
+  MutationOptimisticResponseCreator,
+  MutationUpdaterFunctionCreator,
+} from './types';
+import { GET_SONG, GetSongResponse } from './useGetSong';
 
 export interface DuplicateSequenceResponse {
   duplicateSequence: {
@@ -13,10 +18,7 @@ export type DuplicateSequenceVariables = {
   id: number;
 };
 
-export const DUPLICATE_SEQUENCE = gql<
-  DuplicateSequenceResponse,
-  DuplicateSequenceVariables
->`
+export const DUPLICATE_SEQUENCE = gql`
   mutation DuplicateSequence($id: Int!) {
     duplicateSequence(id: $id) {
       sequence {
@@ -41,7 +43,59 @@ export const DUPLICATE_SEQUENCE = gql<
   }
 `;
 
-export const useDuplicateSequence: UrqlMutationHook<
+export const getDuplicateSequenceOptimisticResponse: MutationOptimisticResponseCreator<
+  DuplicateSequenceResponse,
+  DuplicateSequenceVariables,
+  { sequenceToDuplicate: Sequence; tempId: number }
+> = (variables, { sequenceToDuplicate, tempId }) => ({
+  __typename: 'DuplicateSequenceResponse',
+  duplicateSequence: {
+    sequence: {
+      ...sequenceToDuplicate,
+      id: tempId,
+    },
+  },
+});
+
+export const getDuplicateSequenceMutationUpdater: MutationUpdaterFunctionCreator<
+  DuplicateSequenceResponse,
+  DuplicateSequenceVariables,
+  { songId: number }
+> = (variables, { songId }) => {
+  return (cache, { data }) => {
+    if (!data) return;
+
+    const {
+      duplicateSequence: { sequence },
+    } = data;
+
+    const songResponse = cache.readQuery<GetSongResponse>({
+      query: GET_SONG,
+      variables: { id: songId },
+    });
+
+    if (!songResponse) return;
+
+    cache.writeQuery({
+      query: GET_SONG,
+      data: {
+        song: {
+          ...songResponse.song,
+          tracks: songResponse.song.tracks.map((track) =>
+            track.id === sequence.track.id
+              ? {
+                  ...track,
+                  sequences: [...track.sequences, sequence],
+                }
+              : track,
+          ),
+        },
+      },
+    });
+  };
+};
+
+export const useDuplicateSequence: MutationHook<
   DuplicateSequenceResponse,
   DuplicateSequenceVariables
-> = () => useMutation(DUPLICATE_SEQUENCE);
+> = (options) => useMutation(DUPLICATE_SEQUENCE, options);

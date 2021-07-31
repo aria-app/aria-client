@@ -83,12 +83,18 @@ export const getUpdateSequenceMutationUpdater: MutationUpdaterFunctionCreator<
       data: {
         song: {
           ...songResponse.song,
-          tracks: songResponse.song.tracks.map((track) => ({
-            ...track,
-            sequences: track.sequences.map((existingSequence) =>
-              existingSequence.id === sequence.id ? sequence : existingSequence,
-            ),
-          })),
+          tracks: songResponse.song.tracks.map((track) =>
+            track.id === sequence.track.id
+              ? {
+                  ...track,
+                  sequences: track.sequences.map((existingSequence) =>
+                    existingSequence.id === sequence.id
+                      ? sequence
+                      : existingSequence,
+                  ),
+                }
+              : track,
+          ),
         },
       },
     });

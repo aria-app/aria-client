@@ -10,6 +10,8 @@ import {
   getCreateTrackOptimisticResponse,
   getDeleteSequenceMutationUpdater,
   getDeleteTrackMutationUpdater,
+  getDuplicateSequenceMutationUpdater,
+  getDuplicateSequenceOptimisticResponse,
   getTempId,
   getUpdateSequenceMutationUpdater,
   getUpdateSequenceOptimisticResponse,
@@ -46,7 +48,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   const [createTrack] = useCreateTrack();
   const [deleteSequence] = useDeleteSequence();
   const [deleteTrack] = useDeleteTrack();
-  const [, duplicateSequence] = useDuplicateSequence();
+  const [duplicateSequence] = useDuplicateSequence();
   const history = useHistory();
   const { data, error, loading } = useGetSong({
     variables: {
@@ -125,15 +127,24 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
 
       setSelectedSequenceId(tempId);
 
-      const { data } = await duplicateSequence({
+      const variables = {
         id: selectedSequence.id,
+      };
+
+      const { data } = await duplicateSequence({
+        optimisticResponse: getDuplicateSequenceOptimisticResponse(variables, {
+          sequenceToDuplicate: selectedSequence,
+          tempId,
+        }),
+        update: getDuplicateSequenceMutationUpdater(variables, { songId }),
+        variables,
       });
 
       if (data?.duplicateSequence.sequence) {
         setSelectedSequenceId(data?.duplicateSequence.sequence.id);
       }
     },
-    [duplicateSequence, selectedSequence],
+    [duplicateSequence, selectedSequence, songId],
   );
 
   const handleSequenceEdit = useCallback(
