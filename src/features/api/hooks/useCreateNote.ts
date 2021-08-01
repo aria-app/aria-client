@@ -72,7 +72,7 @@ export const getCreateNoteMutationUpdater: MutationUpdaterFunctionCreator<
       query: GET_SONG,
       variables: { id: songId },
     });
-    console.log({ songResponse, songId });
+
     if (!songResponse) return;
 
     const updatedSong = {
@@ -90,7 +90,6 @@ export const getCreateNoteMutationUpdater: MutationUpdaterFunctionCreator<
       })),
     };
 
-    console.log({ song: songResponse.song, note, updatedSong });
     cache.writeQuery({
       query: GET_SONG,
       data: {

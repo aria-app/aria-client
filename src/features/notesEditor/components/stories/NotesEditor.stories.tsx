@@ -83,7 +83,7 @@ export default {
 
           return res(
             ctx.data({
-              deleteNote: {
+              deleteNotes: {
                 success: true,
               },
             }),

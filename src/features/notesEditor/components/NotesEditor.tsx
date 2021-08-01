@@ -12,6 +12,7 @@ import { Dawww } from '../../../dawww';
 import {
   getCreateNoteMutationUpdater,
   getCreateNoteOptimisticResponse,
+  getDeleteNotesMutationUpdater,
   getTempId,
   useCreateNote,
   useDeleteNotes,
@@ -50,7 +51,7 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
   const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
   const [createNote] = useCreateNote();
-  const [, deleteNotes] = useDeleteNotes();
+  const [deleteNotes] = useDeleteNotes();
   const [, duplicateNotes] = useDuplicateNotes();
   const [, updateNotes] = useUpdateNotes();
   useGetSong({
@@ -87,21 +88,27 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
   }, []);
 
   const handleDelete = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
 
       if (isEmpty(selectedNotes)) return;
 
-      deleteNotes(
-        {
+      try {
+        const variables = {
           ids: selectedNotes.map((note) => note.id),
-        },
-        { additionalTypenames: ['Sequence', 'Song'] },
-      );
+        };
 
-      setSelectedNoteIds([]);
+        await deleteNotes({
+          update: getDeleteNotesMutationUpdater(variables, { songId }),
+          variables,
+        });
+
+        setSelectedNoteIds([]);
+      } catch (error) {
+        console.error(error);
+      }
     },
-    [deleteNotes, selectedNotes],
+    [deleteNotes, selectedNotes, songId],
   );
 
   const handleDeselectAll = useCallback((e) => {
@@ -180,7 +187,7 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
           variables,
         });
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     [createNote, handlePreviewPitch, sequence, songId],
@@ -190,14 +197,16 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
     (note) => {
       setSelectedNoteIds([]);
 
-      deleteNotes(
-        {
-          ids: [note.id],
-        },
-        { additionalTypenames: ['Sequence', 'Song'] },
-      );
+      const variables = {
+        ids: [note.id],
+      };
+
+      deleteNotes({
+        update: getDeleteNotesMutationUpdater(variables, { songId }),
+        variables,
+      });
     },
-    [deleteNotes],
+    [deleteNotes, songId],
   );
 
   const handleGridSelect = useCallback(
