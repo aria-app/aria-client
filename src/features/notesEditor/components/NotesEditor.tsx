@@ -1,4 +1,5 @@
 import { Box } from 'aria-ui';
+import { find, flatMap } from 'lodash';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -9,15 +10,17 @@ import { GlobalHotKeys } from 'react-hotkeys';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { Dawww } from '../../../dawww';
+import { Note, Sequence } from '../../../types';
 import {
   getCreateNoteMutationUpdater,
   getCreateNoteOptimisticResponse,
   getDeleteNotesMutationUpdater,
+  getDuplicateNotesMutationUpdater,
+  getDuplicateNotesOptimisticResponse,
   getTempId,
   useCreateNote,
   useDeleteNotes,
   useDuplicateNotes,
-  useGetSequence,
   useGetSong,
   useUpdateNotes,
 } from '../../api';
@@ -52,16 +55,11 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
   const audioManager = useAudioManager();
   const [createNote] = useCreateNote();
   const [deleteNotes] = useDeleteNotes();
-  const [, duplicateNotes] = useDuplicateNotes();
+  const [duplicateNotes] = useDuplicateNotes();
   const [, updateNotes] = useUpdateNotes();
-  useGetSong({
+  const { data, loading } = useGetSong({
     variables: {
       id: songId,
-    },
-  });
-  const { data, loading } = useGetSequence({
-    variables: {
-      id: sequenceId,
     },
   });
   const [contentEl, setContentEl] = useState<HTMLDivElement | null>(null);
@@ -70,11 +68,23 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
   const [selectedNoteIds, setSelectedNoteIds] = useState<number[]>([]);
   const [toolType, setToolType] = useState<ToolType>('SELECT');
 
-  const sequence = useMemo(() => (data ? data.sequence : null), [data]);
+  const sequence = useMemo<Sequence | undefined>(
+    () =>
+      data
+        ? find(
+            flatMap(data.song.tracks, (track) => track.sequences),
+            (sequence) => sequence.id === sequenceId,
+          )
+        : undefined,
+    [data, sequenceId],
+  );
 
-  const notes = useMemo(() => (sequence ? sequence.notes : []), [sequence]);
+  const notes = useMemo<Note[]>(
+    () => (sequence ? sequence.notes : []),
+    [sequence],
+  );
 
-  const selectedNotes = useMemo(
+  const selectedNotes = useMemo<Note[]>(
     () => getNotesByIds(notes, selectedNoteIds),
     [notes, selectedNoteIds],
   );
@@ -131,18 +141,24 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
 
       setSelectedNoteIds(tempIds);
 
-      const { data } = await duplicateNotes(
-        {
-          ids: selectedNotes.map((note) => note.id),
-        },
-        { additionalTypenames: ['Sequence', 'Song'] },
-      );
+      const variables = {
+        ids: selectedNotes.map((note) => note.id),
+      };
+
+      const { data } = await duplicateNotes({
+        optimisticResponse: getDuplicateNotesOptimisticResponse(variables, {
+          notesToDuplicate: selectedNotes,
+          tempIds,
+        }),
+        update: getDuplicateNotesMutationUpdater(variables, { songId }),
+        variables,
+      });
 
       if (data) {
         setSelectedNoteIds(data.duplicateNotes.notes.map((note) => note.id));
       }
     },
-    [duplicateNotes, selectedNotes],
+    [duplicateNotes, selectedNotes, songId],
   );
 
   const handleEraseToolActivate = useCallback(() => {
@@ -402,10 +418,10 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
   );
 
   useEffect(() => {
-    if (!data) return;
+    if (!sequence) return;
 
-    audioManager.updateSequence(data.sequence);
-  }, [audioManager, data, sequenceId]);
+    audioManager.updateSequence(sequence);
+  }, [audioManager, sequence]);
 
   useEffect(() => {
     if (!contentEl) return;

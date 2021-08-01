@@ -201,7 +201,7 @@ export const Default: Story<any> = (args) => (
   <ClientProvider>
     <MockAudioProvider>
       <I18NWrapper>
-        <MemoryRouter initialEntries={['/100/1']}>
+        <MemoryRouter initialEntries={['/100/100']}>
           <Shell>
             <Toolbar />
             <Switch>
