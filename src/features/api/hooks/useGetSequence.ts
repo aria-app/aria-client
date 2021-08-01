@@ -1,8 +1,7 @@
-import { useMemo } from 'react';
-import { gql, useQuery } from 'urql';
+import { gql, useQuery } from '@apollo/client';
 
 import { Sequence } from '../../../types';
-import { UrqlQueryHook } from './types';
+import { QueryHook } from './types';
 
 export interface GetSequenceResponse {
   sequence: Sequence;
@@ -12,7 +11,7 @@ export interface GetSequenceVariables {
   id: number;
 }
 
-export const GET_SEQUENCE = gql<GetSequenceResponse, GetSequenceVariables>`
+export const GET_SEQUENCE = gql`
   query GetSequence($id: Int!) {
     sequence(id: $id) {
       id
@@ -35,15 +34,7 @@ export const GET_SEQUENCE = gql<GetSequenceResponse, GetSequenceVariables>`
   }
 `;
 
-export const useGetSequence: UrqlQueryHook<
+export const useGetSequence: QueryHook<
   GetSequenceResponse,
   GetSequenceVariables
-> = (args) => {
-  const context = useMemo(() => ({ additionalTypenames: ['Sequence'] }), []);
-
-  return useQuery({
-    context,
-    query: GET_SEQUENCE,
-    ...args,
-  });
-};
+> = (options) => useQuery(GET_SEQUENCE, options);

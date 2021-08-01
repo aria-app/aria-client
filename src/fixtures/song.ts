@@ -21,19 +21,21 @@ export const song: Song = {
           __typename: 'Sequence',
           id: 100,
           measureCount: 1,
-          notes: [],
+          notes: [
+            {
+              __typename: 'Note',
+              id: 100,
+              points: [
+                { x: 0, y: 34 },
+                { x: 1, y: 34 },
+              ],
+              sequence: {
+                __typename: 'Sequence',
+                id: 100,
+              },
+            },
+          ],
           position: 0,
-          track: {
-            __typename: 'Track',
-            id: 100,
-          },
-        },
-        {
-          __typename: 'Sequence',
-          id: 200,
-          measureCount: 2,
-          notes: [],
-          position: 2,
           track: {
             __typename: 'Track',
             id: 100,

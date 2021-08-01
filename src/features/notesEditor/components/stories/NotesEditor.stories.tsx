@@ -19,6 +19,8 @@ import {
   DuplicateNotesVariables,
   GetSequenceResponse,
   GetSequenceVariables,
+  GetSongResponse,
+  GetSongVariables,
   UpdateNotesResponse,
   UpdateNotesVariables,
 } from '../../../api';
@@ -27,7 +29,8 @@ import { Shell } from '../../../shared';
 import { NotesEditor } from '../NotesEditor';
 
 const state = {
-  sequence: fixtures.sequence,
+  sequence: fixtures.song.tracks[0].sequences[0],
+  song: fixtures.song,
 };
 
 export default {
@@ -59,7 +62,9 @@ export default {
 
           return res(
             ctx.data({
-              note: newNote,
+              createNote: {
+                note: newNote,
+              },
             }),
           );
         },
@@ -78,7 +83,9 @@ export default {
 
           return res(
             ctx.data({
-              success: true,
+              deleteNote: {
+                success: true,
+              },
             }),
           );
         },
@@ -125,6 +132,16 @@ export default {
           return res(
             ctx.data({
               sequence: state.sequence,
+            }),
+          );
+        },
+      ),
+      graphql.query<GetSongResponse, GetSongVariables>(
+        'GetSong',
+        (req, res, ctx) => {
+          return res(
+            ctx.data({
+              song: state.song,
             }),
           );
         },
@@ -184,11 +201,11 @@ export const Default: Story<any> = (args) => (
   <ClientProvider>
     <MockAudioProvider>
       <I18NWrapper>
-        <MemoryRouter initialEntries={['/1']}>
+        <MemoryRouter initialEntries={['/100/1']}>
           <Shell>
             <Toolbar />
             <Switch>
-              <Route path="/:sequenceId">
+              <Route path="/:songId/:sequenceId">
                 <NotesEditor {...args} />
               </Route>
             </Switch>

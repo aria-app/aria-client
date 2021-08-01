@@ -10,11 +10,14 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import { Dawww } from '../../../dawww';
 import {
+  getCreateNoteMutationUpdater,
+  getCreateNoteOptimisticResponse,
   getTempId,
   useCreateNote,
   useDeleteNotes,
   useDuplicateNotes,
   useGetSequence,
+  useGetSong,
   useUpdateNotes,
 } from '../../api';
 import { useAudioManager } from '../../audio';
@@ -41,14 +44,21 @@ export type NotesEditorProps = Record<string, never>;
 
 export const NotesEditor: FC<NotesEditorProps> = memo(() => {
   const history = useHistory();
-  const { sequenceId: sequenceIdProp, songId } = useParams<NotesEditorParams>();
+  const { sequenceId: sequenceIdProp, songId: songIdProp } =
+    useParams<NotesEditorParams>();
   const sequenceId = sequenceIdProp ? parseInt(sequenceIdProp) : -1;
+  const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
-  const [, createNote] = useCreateNote();
+  const [createNote] = useCreateNote();
   const [, deleteNotes] = useDeleteNotes();
   const [, duplicateNotes] = useDuplicateNotes();
   const [, updateNotes] = useUpdateNotes();
-  const [{ data, fetching }] = useGetSequence({
+  useGetSong({
+    variables: {
+      id: songId,
+    },
+  });
+  const { data, loading } = useGetSequence({
     variables: {
       id: sequenceId,
     },
@@ -151,19 +161,29 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
   );
 
   const handleGridDraw = useCallback(
-    (point) => {
+    async (point) => {
       if (!sequence) return;
 
       handlePreviewPitch(point.y);
 
-      createNote({
-        input: {
-          points: [point, { x: point.x + 1, y: point.y }],
-          sequenceId: sequence.id,
-        },
-      });
+      try {
+        const variables = {
+          input: {
+            points: [point, { x: point.x + 1, y: point.y }],
+            sequenceId: sequence.id,
+          },
+        };
+
+        await createNote({
+          optimisticResponse: getCreateNoteOptimisticResponse(variables),
+          update: getCreateNoteMutationUpdater(variables, { songId }),
+          variables,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
-    [createNote, handlePreviewPitch, sequence],
+    [createNote, handlePreviewPitch, sequence, songId],
   );
 
   const handleGridErase = useCallback(
@@ -429,7 +449,7 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
           DUPLICATE: ['ctrl+shift+d', 'meta+shift+d'],
         }}
       />
-      {fetching ? (
+      {loading ? (
         <LoadingIndicator>LOADING SONG...</LoadingIndicator>
       ) : (
         <>
