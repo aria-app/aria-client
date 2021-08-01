@@ -30,11 +30,8 @@ export type MutationUpdaterFunctionCreator<
   TVariables,
   TExtras = void,
 > = TExtras extends void
-  ? (
-      variables: TVariables,
-    ) => MutationUpdaterFunction<TData, TVariables, DefaultContext, Cache>
+  ? () => MutationUpdaterFunction<TData, TVariables, DefaultContext, Cache>
   : (
-      variables: TVariables,
       extras: TExtras,
     ) => MutationUpdaterFunction<TData, TVariables, DefaultContext, Cache>;
 

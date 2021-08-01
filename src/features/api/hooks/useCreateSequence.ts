@@ -74,7 +74,7 @@ export const getCreateSequenceMutationUpdater: MutationUpdaterFunctionCreator<
   CreateSequenceResponse,
   CreateSequenceVariables,
   { songId: number }
-> = (variables, { songId }) => {
+> = ({ songId }) => {
   return (cache, { data }) => {
     if (!data) return;
 

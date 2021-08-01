@@ -18,9 +18,11 @@ export const getDeleteTrackMutationUpdater: MutationUpdaterFunctionCreator<
   DeleteTrackResponse,
   DeleteTrackVariables,
   { songId: number }
-> = ({ id }, { songId }) => {
-  return (cache, { data }) => {
+> = ({ songId }) => {
+  return (cache, { data }, { variables = {} }) => {
     if (!data) return;
+
+    const { id } = variables;
 
     const songResponse = cache.readQuery<GetSongResponse>({
       query: GET_SONG,

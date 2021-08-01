@@ -53,7 +53,7 @@ export const getDuplicateNotesMutationUpdater: MutationUpdaterFunctionCreator<
   DuplicateNotesResponse,
   DuplicateNotesVariables,
   { songId: number }
-> = (variables, { songId }) => {
+> = ({ songId }) => {
   return (cache, { data }) => {
     if (!data) return;
 

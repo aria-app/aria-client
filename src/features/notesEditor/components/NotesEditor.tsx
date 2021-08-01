@@ -112,7 +112,7 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
         };
 
         await deleteNotes({
-          update: getDeleteNotesMutationUpdater(variables, { songId }),
+          update: getDeleteNotesMutationUpdater({ songId }),
           variables,
         });
 
@@ -153,7 +153,7 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
           notesToDuplicate: selectedNotes,
           tempIds,
         }),
-        update: getDuplicateNotesMutationUpdater(variables, { songId }),
+        update: getDuplicateNotesMutationUpdater({ songId }),
         variables,
       });
 
@@ -205,7 +205,7 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
             ...variables.input,
             tempId: getTempId(),
           }),
-          update: getCreateNoteMutationUpdater(variables, { songId }),
+          update: getCreateNoteMutationUpdater({ songId }),
           variables,
         });
       } catch (error) {
@@ -224,7 +224,7 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
       };
 
       deleteNotes({
-        update: getDeleteNotesMutationUpdater(variables, { songId }),
+        update: getDeleteNotesMutationUpdater({ songId }),
         variables,
       });
     },
@@ -281,7 +281,7 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
           optimisticResponse: getUpdateNotesOptimisticResponse({
             updatedNotes,
           }),
-          update: getUpdateNotesMutationUpdater(variables, { songId }),
+          update: getUpdateNotesMutationUpdater({ songId }),
           variables,
         });
       } catch (error) {

@@ -73,7 +73,7 @@ export const getUpdateTrackOptimisticResponse: MutationOptimisticResponseCreator
 export const getUpdateTrackMutationUpdater: MutationUpdaterFunctionCreator<
   UpdateTrackResponse,
   UpdateTrackVariables
-> = (variables) => {
+> = () => {
   return (cache, { data }) => {
     if (!data) return;
 

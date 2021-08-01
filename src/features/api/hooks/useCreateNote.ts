@@ -63,7 +63,7 @@ export const getCreateNoteMutationUpdater: MutationUpdaterFunctionCreator<
   CreateNoteResponse,
   CreateNoteVariables,
   { songId: number }
-> = (variables, { songId }) => {
+> = ({ songId }) => {
   return (cache, { data }) => {
     if (!data) return;
 

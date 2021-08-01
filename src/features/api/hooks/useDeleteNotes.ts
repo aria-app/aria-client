@@ -27,9 +27,11 @@ export const getDeleteNotesMutationUpdater: MutationUpdaterFunctionCreator<
   DeleteNotesResponse,
   DeleteNotesVariables,
   { songId: number }
-> = ({ ids }, { songId }) => {
-  return (cache, { data }) => {
+> = ({ songId }) => {
+  return (cache, { data }, { variables = {} }) => {
     if (!data) return;
+
+    const { ids = [] } = variables;
 
     const songResponse = cache.readQuery<GetSongResponse>({
       query: GET_SONG,

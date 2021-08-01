@@ -101,7 +101,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
           ...variables.input,
           tempId: getTempId(),
         }),
-        update: getCreateSequenceMutationUpdater(variables, { songId }),
+        update: getCreateSequenceMutationUpdater({ songId }),
         variables,
       });
     },
@@ -117,7 +117,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
       const variables = { id: selectedSequence.id };
 
       deleteSequence({
-        update: getDeleteSequenceMutationUpdater(variables, { songId }),
+        update: getDeleteSequenceMutationUpdater({ songId }),
         variables,
       });
     },
@@ -143,7 +143,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
           sequenceToDuplicate: selectedSequence,
           tempId,
         }),
-        update: getDuplicateSequenceMutationUpdater(variables, { songId }),
+        update: getDuplicateSequenceMutationUpdater({ songId }),
         variables,
       });
 
@@ -168,7 +168,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
         optimisticResponse: getUpdateSequenceOptimisticResponse({
           updatedSequence: sequence,
         }),
-        update: getUpdateSequenceMutationUpdater(variables, { songId }),
+        update: getUpdateSequenceMutationUpdater({ songId }),
         variables,
       });
     },
@@ -222,7 +222,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
       const variables = { id: track.id };
 
       deleteTrack({
-        update: getDeleteTrackMutationUpdater(variables, { songId }),
+        update: getDeleteTrackMutationUpdater({ songId }),
         variables,
       });
     },
@@ -250,7 +250,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
             volume: !isNil(volume) ? volume : trackToUpdate.volume,
           },
         }),
-        update: getUpdateTrackMutationUpdater(variables),
+        update: getUpdateTrackMutationUpdater(),
         variables,
       });
     },
