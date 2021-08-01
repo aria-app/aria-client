@@ -90,29 +90,6 @@ export const getDuplicateNotesMutationUpdater: MutationUpdaterFunctionCreator<
         },
       },
     });
-    // cache.writeQuery({
-    //   query: GET_SONG,
-    //   data: {
-    //     song: {
-    //       ...songResponse.song,
-    //       tracks: songResponse.song.tracks.map((track) => ({
-    //         ...track,
-    //         sequences: track.sequences.map((sequence) =>
-    //           sequence.id === notes[0].sequence.id
-    //             ? {
-    //                 ...sequence,
-    //                 notes: sequence.notes.map(
-    //                   (existingNote) =>
-    //                     notes.find((note) => note.id === existingNote.id) ||
-    //                     existingNote,
-    //                 ),
-    //               }
-    //             : sequence,
-    //         ),
-    //       })),
-    //     },
-    //   },
-    // });
   };
 };
 

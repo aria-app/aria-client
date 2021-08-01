@@ -96,28 +96,6 @@ export const getCreateNoteMutationUpdater: MutationUpdaterFunctionCreator<
         song: updatedSong,
       },
     });
-    // UpdateNote update
-    // cache.writeQuery({
-    //   query: GET_SONG,
-    //   data: {
-    //     song: {
-    //       ...songResponse.song,
-    //       tracks: songResponse.song.tracks.map((track) => ({
-    //         ...track,
-    //         sequences: track.sequences.map((sequence) =>
-    //           sequence.id === note.sequence.id
-    //             ? {
-    //                 ...sequence,
-    //                 notes: sequence.notes.map((existingNote) =>
-    //                   existingNote.id === note.id ? note : existingNote,
-    //                 ),
-    //               }
-    //             : sequence,
-    //         ),
-    //       })),
-    //     },
-    //   },
-    // });
   };
 };
 

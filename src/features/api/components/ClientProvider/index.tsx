@@ -36,7 +36,7 @@ export interface ClientProviderProps {
 }
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_API_URI || '',
+  connectToDevTools: true,
   cache: new InMemoryCache({
     typePolicies: {
       Sequence: {
@@ -62,6 +62,7 @@ const client = new ApolloClient({
       },
     },
   }),
+  uri: process.env.REACT_APP_API_URI || '',
 });
 
 export const ClientProvider: FC<ClientProviderProps> = memo((props) => {
