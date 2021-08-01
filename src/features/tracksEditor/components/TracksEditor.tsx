@@ -1,11 +1,24 @@
 import { Box } from 'aria-ui';
+import { isNil } from 'lodash';
 import find from 'lodash/fp/find';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 
 import {
+  getCreateSequenceMutationUpdater,
+  getCreateSequenceOptimisticResponse,
+  getCreateTrackOptimisticResponse,
+  getDeleteSequenceMutationUpdater,
+  getDeleteTrackMutationUpdater,
+  getDuplicateSequenceMutationUpdater,
+  getDuplicateSequenceOptimisticResponse,
   getTempId,
+  getUpdateSequenceMutationUpdater,
+  getUpdateSequenceOptimisticResponse,
+  getUpdateSongOptimisticResponse,
+  getUpdateTrackMutationUpdater,
+  getUpdateTrackOptimisticResponse,
   useCreateSequence,
   useCreateTrack,
   useDeleteSequence,
@@ -18,7 +31,10 @@ import {
 } from '../../api';
 import { useAudioManager, usePlaybackState, usePosition } from '../../audio';
 import { LoadingIndicator, Timeline } from '../../shared';
-import { TrackEditingModal } from './TrackEditingModal';
+import {
+  TrackEditingModal,
+  TrackEditingModalTrackChangeHandler,
+} from './TrackEditingModal';
 import { TrackList } from './TrackList';
 import { TracksEditorToolbar } from './TracksEditorToolbar';
 
@@ -49,8 +65,8 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   const [updateSequence] = useUpdateSequence();
   const [updateSong] = useUpdateSong();
   const [updateTrack] = useUpdateTrack();
-  const [selectedSequenceId, setSelectedSequenceId] = useState(-1);
-  const [selectedTrackId, setSelectedTrackId] = useState(-1);
+  const [selectedSequenceId, setSelectedSequenceId] = useState<number>();
+  const [selectedTrackId, setSelectedTrackId] = useState<number>();
 
   const tracks = useMemo(() => {
     return data?.song?.tracks ?? [];
@@ -76,7 +92,18 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
 
   const handleSequenceAdd = useCallback(
     ({ position, track }) => {
-      createSequence({ position, songId, trackId: track.id });
+      const variables = {
+        input: { position, trackId: track.id },
+      };
+
+      createSequence({
+        optimisticResponse: getCreateSequenceOptimisticResponse({
+          ...variables.input,
+          tempId: getTempId(),
+        }),
+        update: getCreateSequenceMutationUpdater({ songId }),
+        variables,
+      });
     },
     [createSequence, songId],
   );
@@ -87,9 +114,11 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
 
       if (!selectedSequence) return;
 
+      const variables = { id: selectedSequence.id };
+
       deleteSequence({
-        sequence: selectedSequence,
-        songId,
+        update: getDeleteSequenceMutationUpdater({ songId }),
+        variables,
       });
     },
     [deleteSequence, selectedSequence, songId],
@@ -105,28 +134,45 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
 
       setSelectedSequenceId(tempId);
 
-      const duplicatedSequence = await duplicateSequence({
-        sequence: selectedSequence,
-        songId,
-        tempId,
+      const variables = {
+        id: selectedSequence.id,
+      };
+
+      const { data } = await duplicateSequence({
+        optimisticResponse: getDuplicateSequenceOptimisticResponse({
+          sequenceToDuplicate: selectedSequence,
+          tempId,
+        }),
+        update: getDuplicateSequenceMutationUpdater({ songId }),
+        variables,
       });
 
-      setSelectedSequenceId(duplicatedSequence.id);
+      if (data?.duplicateSequence.sequence) {
+        setSelectedSequenceId(data?.duplicateSequence.sequence.id);
+      }
     },
     [duplicateSequence, selectedSequence, songId],
   );
 
   const handleSequenceEdit = useCallback(
     (sequence) => {
-      updateSequence({
+      const variables = {
         input: {
           id: sequence.id,
           measureCount: sequence.measureCount,
           position: sequence.position,
         },
+      };
+
+      updateSequence({
+        optimisticResponse: getUpdateSequenceOptimisticResponse({
+          updatedSequence: sequence,
+        }),
+        update: getUpdateSequenceMutationUpdater({ songId }),
+        variables,
       });
     },
-    [updateSequence],
+    [songId, updateSequence],
   );
 
   const handleSequenceOpen = useCallback(
@@ -137,15 +183,26 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   );
 
   const handleSongMeasureCountChange = useCallback(
-    (measureCount) => {
-      if (!data?.song) return;
+    async (measureCount) => {
+      if (!data) return;
 
-      updateSong({
-        input: {
-          id: data?.song.id,
-          measureCount,
-        },
-      });
+      try {
+        const variables = {
+          input: {
+            id: data.song.id,
+            measureCount,
+          },
+        };
+
+        await updateSong({
+          optimisticResponse: getUpdateSongOptimisticResponse({
+            updatedSong: { ...data.song, measureCount },
+          }),
+          variables,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     },
     [data, updateSong],
   );
@@ -162,18 +219,42 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
     (track) => {
       handleTrackDeselect();
 
-      deleteTrack({ songId, track });
+      const variables = { id: track.id };
+
+      deleteTrack({
+        update: getDeleteTrackMutationUpdater({ songId }),
+        variables,
+      });
     },
     [deleteTrack, handleTrackDeselect, songId],
   );
 
-  const handleTrackEdit = useCallback(
-    (updates) => {
+  const handleTrackEdit = useCallback<TrackEditingModalTrackChangeHandler>(
+    ({ id, voiceId, volume }) => {
+      const variables = {
+        input: { id, voiceId, volume },
+      };
+
+      const trackToUpdate = tracks.find((track) => track.id === id);
+
+      if (!trackToUpdate) return;
+
       updateTrack({
-        input: updates,
+        optimisticResponse: getUpdateTrackOptimisticResponse({
+          updatedTrack: {
+            ...trackToUpdate,
+            voice: {
+              ...trackToUpdate.voice,
+              id: !isNil(voiceId) ? voiceId : trackToUpdate.voice.id,
+            },
+            volume: !isNil(volume) ? volume : trackToUpdate.volume,
+          },
+        }),
+        update: getUpdateTrackMutationUpdater(),
+        variables,
       });
     },
-    [updateTrack],
+    [tracks, updateTrack],
   );
 
   const handleTrackListPositionSet = useCallback(
@@ -192,7 +273,15 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
   }, []);
 
   const handleTrackListTrackAdd = useCallback(() => {
-    createTrack({ songId });
+    const variables = { input: { songId } };
+
+    createTrack({
+      optimisticResponse: getCreateTrackOptimisticResponse({
+        songId,
+        tempId: getTempId(),
+      }),
+      variables,
+    });
   }, [createTrack, songId]);
 
   const handleTrackSelect = useCallback((track) => {

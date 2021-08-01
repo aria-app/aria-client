@@ -1,21 +1,40 @@
 import {
-  FetchResult,
+  ApolloCache,
+  DefaultContext,
   MutationHookOptions,
-  MutationResult,
-  OperationVariables,
+  MutationTuple,
+  MutationUpdaterFunction,
   QueryHookOptions,
   QueryResult,
 } from '@apollo/client';
 
-export type QueryHook<TData = any, TVariables = OperationVariables> = (
+export type Cache = ApolloCache<any>;
+
+export type MutationHook<TData, TVariables> = (
+  options?: MutationHookOptions<TData, TVariables, DefaultContext>,
+) => MutationTuple<TData, TVariables, DefaultContext, Cache>;
+
+export type MutationUpdater<TData, TVariables> = MutationUpdaterFunction<
+  TData,
+  TVariables,
+  DefaultContext,
+  Cache
+>;
+
+export type MutationOptimisticResponseCreator<TData, TExtras> = (
+  extras: TExtras,
+) => TData;
+
+export type MutationUpdaterFunctionCreator<
+  TData,
+  TVariables,
+  TExtras = void,
+> = TExtras extends void
+  ? () => MutationUpdaterFunction<TData, TVariables, DefaultContext, Cache>
+  : (
+      extras: TExtras,
+    ) => MutationUpdaterFunction<TData, TVariables, DefaultContext, Cache>;
+
+export type QueryHook<TData, TVariables> = (
   options?: QueryHookOptions<TData, TVariables>,
-) => QueryResult<TData>;
-
-export type WrappedMutationFunction<
-  TData = any,
-  TVariables = OperationVariables,
-> = (variables: TVariables) => Promise<FetchResult<TData>>;
-
-export type MutationHook<TData = any, TVariables = OperationVariables> = (
-  options?: MutationHookOptions<TData, TVariables>,
-) => [WrappedMutationFunction<TData, TVariables>, MutationResult<TData>];
+) => QueryResult<TData, TVariables>;

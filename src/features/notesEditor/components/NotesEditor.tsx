@@ -1,7 +1,9 @@
 import { Box } from 'aria-ui';
+import { find, flatMap } from 'lodash';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
+import pick from 'lodash/fp/pick';
 import uniq from 'lodash/fp/uniq';
 import memoizeOne from 'memoize-one';
 import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
@@ -9,12 +11,20 @@ import { GlobalHotKeys } from 'react-hotkeys';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { Dawww } from '../../../dawww';
+import { Note, Sequence } from '../../../types';
 import {
+  getCreateNoteMutationUpdater,
+  getCreateNoteOptimisticResponse,
+  getDeleteNotesMutationUpdater,
+  getDuplicateNotesMutationUpdater,
+  getDuplicateNotesOptimisticResponse,
   getTempId,
+  getUpdateNotesMutationUpdater,
+  getUpdateNotesOptimisticResponse,
   useCreateNote,
   useDeleteNotes,
   useDuplicateNotes,
-  useGetSequence,
+  useGetSong,
   useUpdateNotes,
 } from '../../api';
 import { useAudioManager } from '../../audio';
@@ -41,16 +51,18 @@ export type NotesEditorProps = Record<string, never>;
 
 export const NotesEditor: FC<NotesEditorProps> = memo(() => {
   const history = useHistory();
-  const { sequenceId: sequenceIdProp, songId } = useParams<NotesEditorParams>();
+  const { sequenceId: sequenceIdProp, songId: songIdProp } =
+    useParams<NotesEditorParams>();
   const sequenceId = sequenceIdProp ? parseInt(sequenceIdProp) : -1;
+  const songId = songIdProp ? parseInt(songIdProp) : -1;
   const audioManager = useAudioManager();
   const [createNote] = useCreateNote();
   const [deleteNotes] = useDeleteNotes();
   const [duplicateNotes] = useDuplicateNotes();
   const [updateNotes] = useUpdateNotes();
-  const { data, loading } = useGetSequence({
+  const { data, loading } = useGetSong({
     variables: {
-      id: sequenceId,
+      id: songId,
     },
   });
   const [contentEl, setContentEl] = useState<HTMLDivElement | null>(null);
@@ -59,11 +71,23 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
   const [selectedNoteIds, setSelectedNoteIds] = useState<number[]>([]);
   const [toolType, setToolType] = useState<ToolType>('SELECT');
 
-  const sequence = useMemo(() => (data ? data.sequence : null), [data]);
+  const sequence = useMemo<Sequence | undefined>(
+    () =>
+      data
+        ? find(
+            flatMap(data.song.tracks, (track) => track.sequences),
+            (sequence) => sequence.id === sequenceId,
+          )
+        : undefined,
+    [data, sequenceId],
+  );
 
-  const notes = useMemo(() => (sequence ? sequence.notes : []), [sequence]);
+  const notes = useMemo<Note[]>(
+    () => (sequence ? sequence.notes : []),
+    [sequence],
+  );
 
-  const selectedNotes = useMemo(
+  const selectedNotes = useMemo<Note[]>(
     () => getNotesByIds(notes, selectedNoteIds),
     [notes, selectedNoteIds],
   );
@@ -77,18 +101,27 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
   }, []);
 
   const handleDelete = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
 
       if (isEmpty(selectedNotes)) return;
 
-      deleteNotes({
-        notes: selectedNotes,
-      });
+      try {
+        const variables = {
+          ids: selectedNotes.map((note) => note.id),
+        };
 
-      setSelectedNoteIds([]);
+        await deleteNotes({
+          update: getDeleteNotesMutationUpdater({ songId }),
+          variables,
+        });
+
+        setSelectedNoteIds([]);
+      } catch (error) {
+        console.error(error);
+      }
     },
-    [deleteNotes, selectedNotes],
+    [deleteNotes, selectedNotes, songId],
   );
 
   const handleDeselectAll = useCallback((e) => {
@@ -111,14 +144,24 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
 
       setSelectedNoteIds(tempIds);
 
-      const duplicatedNotes = await duplicateNotes({
-        notes: selectedNotes,
-        tempIds,
+      const variables = {
+        ids: selectedNotes.map((note) => note.id),
+      };
+
+      const { data } = await duplicateNotes({
+        optimisticResponse: getDuplicateNotesOptimisticResponse({
+          notesToDuplicate: selectedNotes,
+          tempIds,
+        }),
+        update: getDuplicateNotesMutationUpdater({ songId }),
+        variables,
       });
 
-      setSelectedNoteIds(duplicatedNotes.map((note) => note.id));
+      if (data) {
+        setSelectedNoteIds(data.duplicateNotes.notes.map((note) => note.id));
+      }
     },
-    [duplicateNotes, selectedNotes],
+    [duplicateNotes, selectedNotes, songId],
   );
 
   const handleEraseToolActivate = useCallback(() => {
@@ -144,28 +187,48 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
   );
 
   const handleGridDraw = useCallback(
-    (point) => {
+    async (point) => {
       if (!sequence) return;
 
       handlePreviewPitch(point.y);
 
-      createNote({
-        points: [point, { x: point.x + 1, y: point.y }],
-        sequenceId: sequence.id,
-      });
+      try {
+        const variables = {
+          input: {
+            points: [point, { x: point.x + 1, y: point.y }],
+            sequenceId: sequence.id,
+          },
+        };
+
+        await createNote({
+          optimisticResponse: getCreateNoteOptimisticResponse({
+            ...variables.input,
+            tempId: getTempId(),
+          }),
+          update: getCreateNoteMutationUpdater({ songId }),
+          variables,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     },
-    [createNote, handlePreviewPitch, sequence],
+    [createNote, handlePreviewPitch, sequence, songId],
   );
 
   const handleGridErase = useCallback(
     (note) => {
       setSelectedNoteIds([]);
 
+      const variables = {
+        ids: [note.id],
+      };
+
       deleteNotes({
-        notes: [note],
+        update: getDeleteNotesMutationUpdater({ songId }),
+        variables,
       });
     },
-    [deleteNotes],
+    [deleteNotes, songId],
   );
 
   const handleGridSelect = useCallback(
@@ -200,17 +263,36 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
     [notes, selectedNoteIds],
   );
 
-  const handleNotesUpdate = useCallback(
-    (notes) => {
-      updateNotes({
-        notes,
-      });
+  const handleNotesUpdate = useCallback<
+    (updatedNotes: Note[]) => Promise<void>
+  >(
+    async (updatedNotes) => {
+      try {
+        const variables = {
+          input: {
+            notes: updatedNotes.map((note) => ({
+              id: note.id,
+              points: note.points.map(pick(['x', 'y'])),
+            })),
+          },
+        };
+
+        await updateNotes({
+          optimisticResponse: getUpdateNotesOptimisticResponse({
+            updatedNotes,
+          }),
+          update: getUpdateNotesMutationUpdater({ songId }),
+          variables,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     },
-    [updateNotes],
+    [songId, updateNotes],
   );
 
   const handleNudge = useCallback(
-    (delta) => {
+    async (delta) => {
       if (!sequence || isEmpty(selectedNotes)) return;
 
       // TODO: Why does this not just use selectedNotes?
@@ -234,17 +316,17 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
         handlePreviewPitch(notesToNudge[0].points[0].y + delta.y);
       }
 
-      updateNotes({
-        notes: notesToNudge.map(audioManager.helpers.translateNote(delta)),
-      });
+      handleNotesUpdate(
+        notesToNudge.map(audioManager.helpers.translateNote(delta)),
+      );
     },
     [
-      audioManager,
+      audioManager.helpers,
+      handleNotesUpdate,
       handlePreviewPitch,
       notes,
       selectedNotes,
       sequence,
-      updateNotes,
     ],
   );
 
@@ -322,29 +404,25 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
 
   const handleToolbarOctaveDown = useCallback(
     () =>
-      updateNotes({
-        notes: selectedNotes.map(
-          audioManager.helpers.translateNote({ x: 0, y: 12 }),
-        ),
-      }),
-    [audioManager, selectedNotes, updateNotes],
+      handleNotesUpdate(
+        selectedNotes.map(audioManager.helpers.translateNote({ x: 0, y: 12 })),
+      ),
+    [audioManager.helpers, handleNotesUpdate, selectedNotes],
   );
 
   const handleToolbarOctaveUp = useCallback(
     () =>
-      updateNotes({
-        notes: selectedNotes.map(
-          audioManager.helpers.translateNote({ x: 0, y: -12 }),
-        ),
-      }),
-    [audioManager, selectedNotes, updateNotes],
+      handleNotesUpdate(
+        selectedNotes.map(audioManager.helpers.translateNote({ x: 0, y: -12 })),
+      ),
+    [audioManager.helpers, handleNotesUpdate, selectedNotes],
   );
 
   useEffect(() => {
-    if (!data) return;
+    if (!sequence) return;
 
-    audioManager.updateSequence(data.sequence);
-  }, [audioManager, data, sequenceId]);
+    audioManager.updateSequence(sequence);
+  }, [audioManager, sequence]);
 
   useEffect(() => {
     if (!contentEl) return;

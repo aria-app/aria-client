@@ -1,25 +1,182 @@
-import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { Meta, Story } from '@storybook/react';
 import { Toolbar } from 'aria-ui';
+import { compact, uniqueId } from 'lodash';
+import { graphql } from 'msw';
 import { FC, ProviderProps, useRef } from 'react';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
 
 import { Dawww } from '../../../../dawww';
+import * as fixtures from '../../../../fixtures';
 import { I18NWrapper } from '../../../../i18n';
+import { Note } from '../../../../types';
 import {
-  GET_SEQUENCE,
-  GetSequenceInput,
-  GetSequenceResponse,
+  ClientProvider,
+  CreateNoteResponse,
+  CreateNoteVariables,
+  DeleteNotesResponse,
+  DeleteNotesVariables,
+  DuplicateNotesResponse,
+  DuplicateNotesVariables,
+  GetSongResponse,
+  GetSongVariables,
+  UpdateNotesResponse,
+  UpdateNotesVariables,
 } from '../../../api';
 import { AudioManagerContext } from '../../../audio/contexts';
 import { Shell } from '../../../shared';
 import { NotesEditor } from '../NotesEditor';
+
+const state = {
+  sequence: fixtures.song.tracks[0].sequences[0],
+  song: fixtures.song,
+};
 
 export default {
   component: NotesEditor,
   title: 'NotesEditor/NotesEditor',
   parameters: {
     layout: 'fullscreen',
+    msw: [
+      graphql.query('IntrospectionQuery', (req, res, ctx) => res(ctx.data({}))),
+      graphql.mutation<CreateNoteResponse, CreateNoteVariables>(
+        'CreateNote',
+        (req, res, ctx) => {
+          const {
+            input: { points },
+          } = req.variables;
+
+          const newNote = {
+            id: parseInt(uniqueId()),
+            points,
+            sequence: {
+              id: state.sequence.id,
+            },
+          };
+
+          state.sequence = {
+            ...state.sequence,
+            notes: [...state.sequence.notes, newNote],
+          };
+
+          return res(
+            ctx.data({
+              createNote: {
+                note: newNote,
+              },
+            }),
+          );
+        },
+      ),
+      graphql.mutation<DeleteNotesResponse, DeleteNotesVariables>(
+        'DeleteNotes',
+        (req, res, ctx) => {
+          const { ids } = req.variables;
+
+          state.sequence = {
+            ...state.sequence,
+            notes: state.sequence.notes.filter(
+              (note) => !ids.includes(note.id),
+            ),
+          };
+
+          return res(
+            ctx.data({
+              deleteNotes: {
+                success: true,
+              },
+            }),
+          );
+        },
+      ),
+      graphql.mutation<DuplicateNotesResponse, DuplicateNotesVariables>(
+        'DuplicateNotes',
+        (req, res, ctx) => {
+          const { ids } = req.variables;
+
+          const notesToDuplicate = ids.map((id) =>
+            state.sequence.notes.find((note) => note.id === id),
+          );
+
+          if (notesToDuplicate.some((note) => note === undefined)) {
+            return res(
+              ctx.errors([
+                { message: 'Could not duplicate the requested notes.' },
+              ]),
+            );
+          }
+
+          const newNotes = (notesToDuplicate as Note[]).map((note) => ({
+            ...note,
+            id: parseInt(uniqueId()),
+          }));
+
+          state.sequence = {
+            ...state.sequence,
+            notes: [...state.sequence.notes, ...newNotes],
+          };
+
+          return res(
+            ctx.data<DuplicateNotesResponse>({
+              duplicateNotes: {
+                notes: newNotes,
+              },
+            }),
+          );
+        },
+      ),
+      graphql.query<GetSongResponse, GetSongVariables>(
+        'GetSong',
+        (req, res, ctx) => {
+          return res(
+            ctx.data({
+              song: state.song,
+            }),
+          );
+        },
+      ),
+      graphql.mutation<UpdateNotesResponse, UpdateNotesVariables>(
+        'UpdateNotes',
+        (req, res, ctx) => {
+          const {
+            input: { notes },
+          } = req.variables;
+
+          const updatedNotes: (Note | undefined)[] = notes.map((update) => {
+            const existingNote = state.sequence.notes.find(
+              (note) => note.id === update.id,
+            );
+
+            return existingNote
+              ? { ...existingNote, points: update.points }
+              : existingNote;
+          });
+
+          if (updatedNotes.some((note) => note === undefined)) {
+            return res(
+              ctx.errors([
+                { message: 'Could not update the requested notes.' },
+              ]),
+            );
+          }
+
+          state.sequence = {
+            ...state.sequence,
+            notes: state.sequence.notes.map(
+              (note) =>
+                compact(updatedNotes).find(({ id }) => id === note.id) || note,
+            ),
+          };
+
+          return res(
+            ctx.data<UpdateNotesResponse>({
+              updateNotes: {
+                notes: compact(updatedNotes),
+              },
+            }),
+          );
+        },
+      ),
+    ],
   },
 } as Meta;
 
@@ -35,53 +192,15 @@ const MockAudioProvider: FC<Partial<ProviderProps<any>>> = (props) => {
   );
 };
 
-const mocks: MockedResponse<Record<string, any>>[] = [
-  {
-    delay: 0,
-    request: {
-      query: GET_SEQUENCE,
-      variables: { id: 1 } as GetSequenceInput,
-    },
-    result: {
-      data: {
-        sequence: {
-          id: 1,
-          measureCount: 1,
-          notes: [
-            {
-              id: 1,
-              points: [
-                { x: 0, y: 34 },
-                { x: 1, y: 34 },
-              ],
-              sequence: { id: 1 },
-            },
-            {
-              id: 2,
-              points: [
-                { x: 2, y: 35 },
-                { x: 3, y: 35 },
-              ],
-              sequence: { id: 1 },
-            },
-          ],
-          position: 0,
-          track: { id: 1 },
-        },
-      } as GetSequenceResponse,
-    },
-  },
-];
-
 export const Default: Story<any> = (args) => (
-  <MockedProvider mocks={mocks}>
+  <ClientProvider>
     <MockAudioProvider>
       <I18NWrapper>
-        <MemoryRouter initialEntries={['/1']}>
+        <MemoryRouter initialEntries={['/100/100']}>
           <Shell>
             <Toolbar />
             <Switch>
-              <Route path="/:sequenceId">
+              <Route path="/:songId/:sequenceId">
                 <NotesEditor {...args} />
               </Route>
             </Switch>
@@ -89,5 +208,5 @@ export const Default: Story<any> = (args) => (
         </MemoryRouter>
       </I18NWrapper>
     </MockAudioProvider>
-  </MockedProvider>
+  </ClientProvider>
 );

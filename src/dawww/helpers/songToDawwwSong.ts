@@ -36,7 +36,7 @@ function trackToDawwwTrack({
     isMuted,
     isSoloing,
     voice: voice.toneOscillatorType,
-    // TODO: Good place to do readable version to weird Tone scale?
+    // TODO: Good place to do readable version to weird Tone volume range?
     volume,
   };
 }

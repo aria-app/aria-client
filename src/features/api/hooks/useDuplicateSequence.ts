@@ -1,92 +1,100 @@
-import {
-  MutationHookOptions,
-  MutationResult,
-  useMutation,
-} from '@apollo/client';
-import { useCallback } from 'react';
+import { gql, useMutation } from '@apollo/client';
 
 import { Sequence } from '../../../types';
 import {
-  DUPLICATE_SEQUENCE,
-  DuplicateSequenceResponse,
-  GET_SONG,
-  GetSongResponse,
-} from '../queries';
+  MutationHook,
+  MutationOptimisticResponseCreator,
+  MutationUpdaterFunctionCreator,
+} from './types';
+import { GET_SONG, GetSongResponse } from './useGetSong';
 
-type DuplicateSequenceMutation = (variables: {
-  sequence: Sequence;
-  songId: number;
-  tempId: number;
-}) => Promise<Sequence>;
-
-interface DuplicateSequenceData {
-  duplicateSequence: DuplicateSequenceResponse;
+export interface DuplicateSequenceResponse {
+  duplicateSequence: {
+    sequence: Sequence;
+  };
 }
 
-export function useDuplicateSequence(
-  options?: MutationHookOptions,
-): [DuplicateSequenceMutation, MutationResult<DuplicateSequenceData>] {
-  const [mutation, ...rest] = useMutation(DUPLICATE_SEQUENCE, options);
+export type DuplicateSequenceVariables = {
+  id: number;
+};
 
-  const wrappedMutation = useCallback(
-    async ({ sequence, songId, tempId }) => {
-      try {
-        const { data } = await mutation({
-          optimisticResponse: {
-            duplicateSequence: {
-              message: '',
-              sequence: {
-                id: tempId,
-                measureCount: sequence.measureCount,
-                notes: sequence.notes,
-                position: sequence.position,
-                track: sequence.track,
-                __typename: 'Sequence',
-              },
-              success: true,
-              __typename: 'DuplicateSequenceResponse',
-            },
-          },
-          update: (cache, result) => {
-            const newSequence = result.data.duplicateSequence.sequence;
-
-            const prevData = cache.readQuery<GetSongResponse>({
-              query: GET_SONG,
-              variables: { id: songId },
-            });
-
-            if (!prevData || !prevData.song) return;
-
-            cache.writeQuery({
-              query: GET_SONG,
-              variables: { id: songId },
-              data: {
-                song: {
-                  ...prevData.song,
-                  tracks: prevData.song.tracks.map((track) =>
-                    track.id === newSequence.track.id
-                      ? {
-                          ...track,
-                          sequences: [...track.sequences, newSequence],
-                        }
-                      : track,
-                  ),
-                },
-              },
-            });
-          },
-          variables: {
-            id: sequence.id,
-          },
-        });
-
-        return data.duplicateSequence.sequence;
-      } catch (e) {
-        console.error(e.message);
+export const DUPLICATE_SEQUENCE = gql`
+  mutation DuplicateSequence($id: Int!) {
+    duplicateSequence(id: $id) {
+      sequence {
+        id
+        measureCount
+        notes {
+          id
+          points {
+            x
+            y
+          }
+          sequence {
+            id
+          }
+        }
+        position
+        track {
+          id
+        }
       }
-    },
-    [mutation],
-  );
+    }
+  }
+`;
 
-  return [wrappedMutation, ...rest];
-}
+export const getDuplicateSequenceOptimisticResponse: MutationOptimisticResponseCreator<
+  DuplicateSequenceResponse,
+  { sequenceToDuplicate: Sequence; tempId: number }
+> = ({ sequenceToDuplicate, tempId }) => ({
+  __typename: 'DuplicateSequenceResponse',
+  duplicateSequence: {
+    sequence: {
+      ...sequenceToDuplicate,
+      id: tempId,
+    },
+  },
+});
+
+export const getDuplicateSequenceMutationUpdater: MutationUpdaterFunctionCreator<
+  DuplicateSequenceResponse,
+  DuplicateSequenceVariables,
+  { songId: number }
+> = ({ songId }) => {
+  return (cache, { data }) => {
+    if (!data) return;
+
+    const {
+      duplicateSequence: { sequence },
+    } = data;
+
+    const songResponse = cache.readQuery<GetSongResponse>({
+      query: GET_SONG,
+      variables: { id: songId },
+    });
+
+    if (!songResponse) return;
+
+    cache.writeQuery({
+      query: GET_SONG,
+      data: {
+        song: {
+          ...songResponse.song,
+          tracks: songResponse.song.tracks.map((track) =>
+            track.id === sequence.track.id
+              ? {
+                  ...track,
+                  sequences: [...track.sequences, sequence],
+                }
+              : track,
+          ),
+        },
+      },
+    });
+  };
+};
+
+export const useDuplicateSequence: MutationHook<
+  DuplicateSequenceResponse,
+  DuplicateSequenceVariables
+> = (options) => useMutation(DUPLICATE_SEQUENCE, options);

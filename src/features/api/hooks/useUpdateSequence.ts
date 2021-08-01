@@ -1,54 +1,106 @@
+import { gql, useMutation } from '@apollo/client';
+
+import { Sequence } from '../../../types';
 import {
-  MutationHookOptions,
-  MutationResult,
-  useMutation,
-} from '@apollo/client';
-import { useCallback } from 'react';
+  MutationHook,
+  MutationOptimisticResponseCreator,
+  MutationUpdaterFunctionCreator,
+} from './types';
+import { GET_SONG, GetSongResponse } from './useGetSong';
 
-import {
-  UPDATE_SEQUENCE,
-  UpdateSequenceInput,
-  UpdateSequenceResponse,
-} from '../queries';
-
-type UpdateSequenceMutation = (variables: {
-  input: UpdateSequenceInput;
-}) => Promise<void>;
-
-interface UpdateSequenceData {
-  updateSequence: UpdateSequenceResponse;
+export interface UpdateSequenceResponse {
+  __typename: 'UpdateSequenceResponse';
+  updateSequence: {
+    sequence: Sequence;
+  };
 }
 
-export function useUpdateSequence(
-  options?: MutationHookOptions,
-): [UpdateSequenceMutation, MutationResult<UpdateSequenceData>] {
-  const [mutation, ...rest] = useMutation(UPDATE_SEQUENCE, options);
+export interface UpdateSequenceVariables {
+  input: {
+    id: number;
+    measureCount: number;
+    position: number;
+  };
+}
 
-  const wrappedMutation = useCallback(
-    async ({ input }) => {
-      try {
-        await mutation({
-          optimisticResponse: {
-            __typename: 'Mutation',
-            updateSequence: {
-              message: '',
-              sequence: {
-                __typename: 'Sequence',
-                ...input,
-              },
-              success: true,
-            },
-          },
-          variables: {
-            input,
-          },
-        });
-      } catch (e) {
-        console.error(e.message);
+export const UPDATE_SEQUENCE = gql`
+  mutation UpdateSequence($input: UpdateSequenceInput!) {
+    updateSequence(input: $input) {
+      sequence {
+        id
+        measureCount
+        notes {
+          id
+          points {
+            x
+            y
+          }
+          sequence {
+            id
+          }
+        }
+        position
+        track {
+          id
+        }
       }
-    },
-    [mutation],
-  );
+    }
+  }
+`;
 
-  return [wrappedMutation, ...rest];
-}
+export const getUpdateSequenceOptimisticResponse: MutationOptimisticResponseCreator<
+  UpdateSequenceResponse,
+  { updatedSequence: Sequence }
+> = ({ updatedSequence }) => ({
+  __typename: 'UpdateSequenceResponse',
+  updateSequence: {
+    sequence: updatedSequence,
+  },
+});
+
+export const getUpdateSequenceMutationUpdater: MutationUpdaterFunctionCreator<
+  UpdateSequenceResponse,
+  UpdateSequenceVariables,
+  { songId: number }
+> = ({ songId }) => {
+  return (cache, { data }) => {
+    if (!data) return;
+
+    const {
+      updateSequence: { sequence },
+    } = data;
+
+    const songResponse = cache.readQuery<GetSongResponse>({
+      query: GET_SONG,
+      variables: { id: songId },
+    });
+
+    if (!songResponse) return;
+
+    cache.writeQuery({
+      query: GET_SONG,
+      data: {
+        song: {
+          ...songResponse.song,
+          tracks: songResponse.song.tracks.map((track) =>
+            track.id === sequence.track.id
+              ? {
+                  ...track,
+                  sequences: track.sequences.map((existingSequence) =>
+                    existingSequence.id === sequence.id
+                      ? sequence
+                      : existingSequence,
+                  ),
+                }
+              : track,
+          ),
+        },
+      },
+    });
+  };
+};
+
+export const useUpdateSequence: MutationHook<
+  UpdateSequenceResponse,
+  UpdateSequenceVariables
+> = (options) => useMutation(UPDATE_SEQUENCE, options);

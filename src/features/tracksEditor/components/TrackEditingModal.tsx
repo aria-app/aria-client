@@ -1,36 +1,34 @@
 import { Button, Dialog, Select, Stack } from 'aria-ui';
-import find from 'lodash/fp/find';
 import range from 'lodash/fp/range';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Track, Voice } from '../../../types';
+import { Track } from '../../../types';
 import { useGetVoices } from '../../api';
 
 const minVolume = -20;
 const maxVolume = 0;
 
+export type TrackEditingModalTrackChangeHandler = (options: {
+  id: number;
+  voiceId?: number;
+  volume?: number;
+}) => void;
+
 export interface TrackEditingModalProps {
   onClose: () => void;
   onDelete: (trackToDelete: Track) => void;
-  onTrackChange: (options: {
-    id: number;
-    voice?: Voice;
-    volume?: number;
-  }) => void;
+  onTrackChange: TrackEditingModalTrackChangeHandler;
   track?: Track;
 }
 
 export const TrackEditingModal: FC<TrackEditingModalProps> = (props) => {
   const { onClose, onDelete, onTrackChange, track } = props;
-  const { data: voicesData, loading } = useGetVoices();
+  const { data, loading } = useGetVoices();
   const [trackState, setTrackState] = useState<Track>();
   const { t } = useTranslation();
 
-  const voices = useMemo(
-    () => (voicesData ? voicesData.voices : []),
-    [voicesData],
-  );
+  const voices = useMemo(() => (data ? data.voices : []), [data]);
 
   const handleDeleteButtonClick = useCallback(() => {
     if (!trackState) return;
@@ -44,10 +42,10 @@ export const TrackEditingModal: FC<TrackEditingModalProps> = (props) => {
 
       onTrackChange({
         id: trackState.id,
-        voice: find((voice) => voice.id === value, voices),
+        voiceId: value,
       });
     },
-    [onTrackChange, trackState, voices],
+    [onTrackChange, trackState],
   );
 
   const handleVolumeChange = useCallback<(value: number) => void>(

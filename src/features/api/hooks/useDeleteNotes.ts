@@ -1,78 +1,78 @@
-import {
-  MutationHookOptions,
-  MutationResult,
-  useMutation,
-} from '@apollo/client';
-import { useCallback } from 'react';
+import { gql, MutationHookOptions, useMutation } from '@apollo/client';
+import { merge } from 'lodash';
 
-import { Note } from '../../../types';
-import {
-  DELETE_NOTES,
-  DeleteNotesInput,
+import { MutationHook, MutationUpdaterFunctionCreator } from './types';
+import { GET_SONG, GetSongResponse } from './useGetSong';
+
+export interface DeleteNotesResponse {
+  __typename: 'DeleteNotesResponse';
+  deleteNotes: {
+    success: boolean;
+  };
+}
+
+export interface DeleteNotesVariables {
+  ids: number[];
+}
+
+export const DELETE_NOTES = gql`
+  mutation DeleteNotes($ids: [Int!]!) {
+    deleteNotes(ids: $ids) {
+      success
+    }
+  }
+`;
+
+export const getDeleteNotesMutationUpdater: MutationUpdaterFunctionCreator<
   DeleteNotesResponse,
-  GET_SEQUENCE,
-  GetSequenceResponse,
-} from '../queries';
+  DeleteNotesVariables,
+  { songId: number }
+> = ({ songId }) => {
+  return (cache, { data }, { variables = {} }) => {
+    if (!data) return;
 
-type DeleteNotesMutation = (variables: { notes: Note[] }) => Promise<void>;
+    const { ids = [] } = variables;
 
-interface DeleteNotesData {
-  deleteNotes: DeleteNotesResponse;
-}
+    const songResponse = cache.readQuery<GetSongResponse>({
+      query: GET_SONG,
+      variables: { id: songId },
+    });
 
-export function useDeleteNotes(
-  options?: MutationHookOptions<DeleteNotesData, DeleteNotesInput>,
-): [DeleteNotesMutation, MutationResult<DeleteNotesData>] {
-  const [mutation, result] = useMutation<DeleteNotesData, DeleteNotesInput>(
+    if (!songResponse) return;
+
+    cache.writeQuery({
+      query: GET_SONG,
+      data: {
+        song: {
+          ...songResponse.song,
+          tracks: songResponse.song.tracks.map((track) => ({
+            ...track,
+            sequences: track.sequences.map((sequence) => ({
+              ...sequence,
+              notes: sequence.notes.filter((note) => !ids.includes(note.id)),
+            })),
+          })),
+        },
+      },
+    });
+  };
+};
+
+export const useDeleteNotes: MutationHook<
+  DeleteNotesResponse,
+  DeleteNotesVariables
+> = (options) =>
+  useMutation(
     DELETE_NOTES,
-    options,
+    merge(
+      {
+        optimisticResponse: {
+          __typename: 'DeleteNotesResponse',
+          deleteNotes: {
+            success: true,
+          },
+        },
+      } as MutationHookOptions<DeleteNotesResponse, DeleteNotesVariables>,
+      options,
+    ),
   );
-
-  const wrappedMutation: DeleteNotesMutation = useCallback(
-    async ({ notes }) => {
-      const idsToDelete = notes.map((note) => note.id);
-
-      try {
-        await mutation({
-          optimisticResponse: {
-            deleteNotes: {
-              message: '',
-              success: true,
-            },
-          },
-          update: (cache, result) => {
-            if (!result?.data?.deleteNotes.success) return;
-
-            const prevData = cache.readQuery<GetSequenceResponse>({
-              query: GET_SEQUENCE,
-              variables: { id: notes[0].sequence.id },
-            });
-
-            if (!prevData || !prevData.sequence) return;
-
-            cache.writeQuery({
-              query: GET_SEQUENCE,
-              variables: { id: notes[0].sequence.id },
-              data: {
-                sequence: {
-                  ...prevData.sequence,
-                  notes: prevData.sequence.notes.filter(
-                    (note) => !idsToDelete.includes(note.id),
-                  ),
-                },
-              },
-            });
-          },
-          variables: {
-            ids: idsToDelete,
-          },
-        });
-      } catch (e) {
-        console.error(e.message);
-      }
-    },
-    [mutation],
-  );
-
-  return [wrappedMutation, result];
-}

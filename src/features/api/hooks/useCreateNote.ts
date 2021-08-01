@@ -1,86 +1,108 @@
+import { gql, useMutation } from '@apollo/client';
+
+import { Note, Point } from '../../../types';
 import {
-  MutationHookOptions,
-  MutationResult,
-  useMutation,
-} from '@apollo/client';
-import { useCallback } from 'react';
+  MutationHook,
+  MutationOptimisticResponseCreator,
+  MutationUpdaterFunctionCreator,
+} from './types';
+import { GET_SONG, GetSongResponse } from './useGetSong';
 
-import { Point } from '../../../types';
-import {
-  CREATE_NOTE,
-  CreateNoteResponse,
-  GET_SEQUENCE,
-  GetSequenceResponse,
-} from '../queries';
-
-export type CreateNoteMutation = (variables: {
-  points: Point[];
-  sequenceId: number;
-}) => Promise<void>;
-
-export interface CreateNoteData {
-  createNote: CreateNoteResponse;
+export interface CreateNoteResponse {
+  createNote: {
+    note: Note;
+  };
 }
 
-export function useCreateNote(
-  options?: MutationHookOptions,
-): [CreateNoteMutation, MutationResult<CreateNoteData>] {
-  const [mutation, ...rest] = useMutation(CREATE_NOTE, options);
+export interface CreateNoteVariables {
+  input: {
+    points: Point[];
+    sequenceId: number;
+  };
+}
 
-  const wrappedMutation = useCallback(
-    async ({ points, sequenceId }) => {
-      try {
-        await mutation({
-          optimisticResponse: {
-            __typename: 'Mutation',
-            createNote: {
-              message: '',
-              note: {
-                id: Math.round(Math.random() * -1000000),
-                points,
-                sequence: {
-                  id: sequenceId,
-                  __typename: 'Sequence',
-                },
-                __typename: 'Note',
-              },
-              success: true,
-            },
-          },
-          update: (cache, result) => {
-            const newNote = result.data.createNote.note;
-
-            const prevData = cache.readQuery<GetSequenceResponse>({
-              query: GET_SEQUENCE,
-              variables: { id: sequenceId },
-            });
-
-            if (!prevData || !prevData.sequence) return;
-
-            cache.writeQuery({
-              query: GET_SEQUENCE,
-              variables: { id: sequenceId },
-              data: {
-                sequence: {
-                  ...prevData.sequence,
-                  notes: [...prevData.sequence.notes, newNote],
-                },
-              },
-            });
-          },
-          variables: {
-            input: {
-              points,
-              sequenceId,
-            },
-          },
-        });
-      } catch (e) {
-        console.error(e.message);
+export const CREATE_NOTE = gql`
+  mutation CreateNote($input: CreateNoteInput!) {
+    createNote(input: $input) {
+      note {
+        id
+        points {
+          x
+          y
+        }
+        sequence {
+          id
+        }
       }
-    },
-    [mutation],
-  );
+    }
+  }
+`;
 
-  return [wrappedMutation, ...rest];
-}
+export const getCreateNoteOptimisticResponse: MutationOptimisticResponseCreator<
+  CreateNoteResponse,
+  {
+    points: Point[];
+    sequenceId: number;
+    tempId: number;
+  }
+> = ({ tempId, points, sequenceId }) => ({
+  __typename: 'CreateNoteResponse',
+  createNote: {
+    note: {
+      __typename: 'Note',
+      id: tempId,
+      points,
+      sequence: {
+        id: sequenceId,
+      },
+    },
+  },
+});
+
+export const getCreateNoteMutationUpdater: MutationUpdaterFunctionCreator<
+  CreateNoteResponse,
+  CreateNoteVariables,
+  { songId: number }
+> = ({ songId }) => {
+  return (cache, { data }) => {
+    if (!data) return;
+
+    const {
+      createNote: { note },
+    } = data;
+
+    const songResponse = cache.readQuery<GetSongResponse>({
+      query: GET_SONG,
+      variables: { id: songId },
+    });
+
+    if (!songResponse) return;
+
+    const updatedSong = {
+      ...songResponse.song,
+      tracks: songResponse.song.tracks.map((track) => ({
+        ...track,
+        sequences: track.sequences.map((sequence) =>
+          sequence.id === note.sequence.id
+            ? {
+                ...sequence,
+                notes: [...sequence.notes, note],
+              }
+            : sequence,
+        ),
+      })),
+    };
+
+    cache.writeQuery({
+      query: GET_SONG,
+      data: {
+        song: updatedSong,
+      },
+    });
+  };
+};
+
+export const useCreateNote: MutationHook<
+  CreateNoteResponse,
+  CreateNoteVariables
+> = (options) => useMutation(CREATE_NOTE, options);

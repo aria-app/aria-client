@@ -11,14 +11,14 @@
     "clean": "rimraf build coverage storybook-static",
     "lint-eslint": "eslint \"src/**\" --fix --ignore-pattern \"src/**/*.json\"",
     "lint-prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "lint": "yarn run lint-eslint && yarn run lint-prettier",
+    "lint": "yarn lint-eslint && yarn lint-prettier",
     "start": "react-scripts start",
     "test": "react-scripts test",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
   },
   "dependencies": {
-    "@apollo/client": "3.3.21",
+    "@apollo/client": "^3.4.1",
     "@emotion/css": "^11.1.3",
     "@emotion/react": "11.4.0",
     "@loadable/component": "5.15.0",
@@ -36,6 +36,8 @@
     "lodash": "^4.17.12",
     "mdi-react": "^7.5.0",
     "memoize-one": "^5.2.1",
+    "msw": "0.24.4",
+    "msw-storybook-addon": "^1.2.0",
     "polished": "^4.1.2",
     "prop-types": "15.7.2",
     "react": "^17.0.1",
@@ -111,11 +113,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "yarn run lint && CI=true yarn test"
+      "pre-push": "yarn lint && CI=true yarn test"
     }
   },
   "bugs": {
     "url": "https://github.com/nickjohnson-dev/aria/issues"
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:5000",
+  "msw": {
+    "workerDirectory": "public"
+  }
 }

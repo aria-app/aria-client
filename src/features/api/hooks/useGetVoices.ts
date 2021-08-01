@@ -1,10 +1,24 @@
-import { QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 
-import { GET_VOICES, GetVoicesResponse } from '../queries';
+import { Voice } from '../../../types';
+import { QueryHook } from './types';
 
-type UseGetVoices = (
-  options?: QueryHookOptions<GetVoicesResponse, never>,
-) => QueryResult<GetVoicesResponse>;
+export interface GetVoicesResponse {
+  voices: Voice[];
+}
 
-export const useGetVoices: UseGetVoices = (options) =>
-  useQuery<GetVoicesResponse>(GET_VOICES, options);
+export type GetVoicesVariables = Record<string, never>;
+
+export const GET_VOICES = gql`
+  query GetVoices {
+    voices {
+      id
+      name
+      toneOscillatorType
+    }
+  }
+`;
+
+export const useGetVoices: QueryHook<GetVoicesResponse, GetVoicesVariables> = (
+  options,
+) => useQuery(GET_VOICES, options);

@@ -1,45 +1,59 @@
-import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { Meta, Story } from '@storybook/react';
+import { graphql } from 'msw';
 
-import { GET_VOICES, GetVoicesResponse } from '../../../api';
+import {
+  ClientProvider,
+  GetVoicesResponse,
+  GetVoicesVariables,
+} from '../../../api';
 import {
   TrackEditingModal,
   TrackEditingModalProps,
 } from '../TrackEditingModal';
 
-export default {
-  component: TrackEditingModal,
-  title: 'TracksEditor/TrackEditingModal',
-} as Meta;
-
-const mocks: MockedResponse<Record<string, any>>[] = [
+const voices = [
   {
-    request: {
-      query: GET_VOICES,
-    },
-    result: {
-      data: {
-        voices: [
-          {
-            id: 1,
-            name: 'Sawtooth',
-            toneOscillatorType: 'sawtooth',
-          },
-          {
-            id: 2,
-            name: 'Sine',
-            toneOscillatorType: 'sine',
-          },
-        ],
-      } as GetVoicesResponse,
-    },
+    id: 1,
+    name: 'PWM',
+    toneOscillatorType: 'pwm',
+  },
+  {
+    id: 2,
+    name: 'Sawtooth',
+    toneOscillatorType: 'sawtooth',
+  },
+  {
+    id: 3,
+    name: 'Sine',
+    toneOscillatorType: 'sine',
   },
 ];
 
+export default {
+  component: TrackEditingModal,
+  title: 'TracksEditor/TrackEditingModal',
+  parameters: {
+    layout: 'fullscreen',
+    msw: [
+      graphql.query('IntrospectionQuery', (req, res, ctx) => res(ctx.data({}))),
+      graphql.query<GetVoicesResponse, GetVoicesVariables>(
+        'GetVoices',
+        (req, res, ctx) => {
+          return res(
+            ctx.data({
+              voices,
+            }),
+          );
+        },
+      ),
+    ],
+  },
+} as Meta;
+
 export const Default: Story<TrackEditingModalProps> = (args) => (
-  <MockedProvider mocks={mocks}>
+  <ClientProvider>
     <TrackEditingModal {...args} />
-  </MockedProvider>
+  </ClientProvider>
 );
 
 Default.args = {
@@ -71,11 +85,7 @@ Default.args = {
     song: {
       id: 1,
     },
-    voice: {
-      id: 2,
-      name: 'Sine',
-      toneOscillatorType: 'sine',
-    },
+    voice: voices[0],
     volume: -5,
   },
 };

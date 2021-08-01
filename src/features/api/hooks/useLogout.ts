@@ -1,28 +1,23 @@
-import {
-  FetchResult,
-  MutationHookOptions,
-  MutationResult,
-  useMutation,
-} from '@apollo/client';
-import { useCallback } from 'react';
+import { gql, useMutation } from '@apollo/client';
 
-import { LOGOUT, LogoutResponse } from '../queries';
+import { MutationHook } from './types';
 
-export type LogoutMutation = () => Promise<FetchResult<any>>;
-
-export interface LogoutData {
-  logout: LogoutResponse;
+export interface LogoutResponse {
+  logout: {
+    success: boolean;
+  };
 }
 
-export function useLogout(
-  options?: MutationHookOptions,
-): [LogoutMutation, MutationResult<LogoutData>] {
-  const [mutation, ...rest] = useMutation(LOGOUT, options);
+export type LogoutVariables = Record<string, never>;
 
-  const wrappedMutation = useCallback<LogoutMutation>(
-    () => mutation(),
-    [mutation],
-  );
+export const LOGOUT = gql`
+  mutation Logout {
+    logout {
+      success
+    }
+  }
+`;
 
-  return [wrappedMutation, ...rest];
-}
+export const useLogout: MutationHook<LogoutResponse, LogoutVariables> = (
+  options,
+) => useMutation(LOGOUT, options);

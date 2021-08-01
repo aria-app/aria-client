@@ -1,61 +1,108 @@
+import { gql, useMutation } from '@apollo/client';
+
+import { Track } from '../../../types';
 import {
-  MutationHookOptions,
-  MutationResult,
-  useMutation,
-} from '@apollo/client';
-import isNil from 'lodash/fp/isNil';
-import { useCallback } from 'react';
+  MutationHook,
+  MutationOptimisticResponseCreator,
+  MutationUpdaterFunctionCreator,
+} from './types';
+import { GET_SONG, GetSongResponse } from './useGetSong';
 
-import {
-  UPDATE_TRACK,
-  UpdateTrackInput,
-  UpdateTrackResponse,
-} from '../queries';
-
-type UpdateTrackMutation = (variables: {
-  input: UpdateTrackInput;
-}) => Promise<void>;
-
-interface UpdateTrackData {
-  updateTrack: UpdateTrackResponse;
+export interface UpdateTrackResponse {
+  updateTrack: {
+    track: Track;
+  };
 }
 
-export function useUpdateTrack(
-  options?: MutationHookOptions,
-): [UpdateTrackMutation, MutationResult<UpdateTrackData>] {
-  const [mutation, ...rest] = useMutation(UPDATE_TRACK, options);
+export interface UpdateTrackVariables {
+  input: {
+    id: number;
+    voiceId?: number;
+    volume?: number;
+  };
+}
 
-  const wrappedMutation = useCallback(
-    async ({ input }) => {
-      try {
-        await mutation({
-          optimisticResponse: {
-            __typename: 'Mutation',
-            updateTrack: {
-              message: '',
-              success: true,
-              track: {
-                id: input.id,
-                ...(!isNil(input.voice) ? { voice: input.voice } : {}),
-                ...(!isNil(input.volume) ? { volume: input.volume } : {}),
-                __typename: 'Track',
-              },
-            },
-          },
-          variables: {
-            input: {
-              id: input.id,
-              ...(!isNil(input.voice) ? { voiceId: input.voice.id } : {}),
-              ...(!isNil(input.volume) ? { volume: input.volume } : {}),
-            },
-          },
-        });
-      } catch (e) {
-        console.error(e.message);
+export const UPDATE_TRACK = gql`
+  mutation UpdateTrack($input: UpdateTrackInput!) {
+    updateTrack(input: $input) {
+      track {
+        id
+        position
+        sequences {
+          id
+          measureCount
+          notes {
+            id
+            points {
+              x
+              y
+            }
+            sequence {
+              id
+            }
+          }
+          position
+          track {
+            id
+          }
+        }
+        song {
+          id
+        }
+        voice {
+          id
+          name
+          toneOscillatorType
+        }
+        volume
       }
-    },
-    [mutation],
-  );
+    }
+  }
+`;
 
-  return [wrappedMutation, ...rest];
-}
+export const getUpdateTrackOptimisticResponse: MutationOptimisticResponseCreator<
+  UpdateTrackResponse,
+  { updatedTrack: Track }
+> = ({ updatedTrack }) => ({
+  __typename: 'UpdateTrackResponse',
+  updateTrack: {
+    track: updatedTrack,
+  },
+});
+
+export const getUpdateTrackMutationUpdater: MutationUpdaterFunctionCreator<
+  UpdateTrackResponse,
+  UpdateTrackVariables
+> = () => {
+  return (cache, { data }) => {
+    if (!data) return;
+
+    const {
+      updateTrack: { track },
+    } = data;
+
+    const songResponse = cache.readQuery<GetSongResponse>({
+      query: GET_SONG,
+      variables: { id: track.song.id },
+    });
+
+    if (!songResponse) return;
+
+    cache.writeQuery({
+      query: GET_SONG,
+      data: {
+        song: {
+          ...songResponse.song,
+          tracks: songResponse.song.tracks.map((existingTrack) =>
+            existingTrack.id === track.id ? track : existingTrack,
+          ),
+        },
+      },
+    });
+  };
+};
+
+export const useUpdateTrack: MutationHook<
+  UpdateTrackResponse,
+  UpdateTrackVariables
+> = (options) => useMutation(UPDATE_TRACK, options);

@@ -1,38 +1,52 @@
-import {
-  FetchResult,
-  gql,
-  MutationHookOptions,
-  MutationResult,
-  useMutation,
-} from '@apollo/client';
-import { useCallback } from 'react';
+import { gql, MutationHookOptions, useMutation } from '@apollo/client';
+import { merge } from 'lodash';
 
-import { CREATE_SONG, CreateSongResponse } from '../queries';
+import { Song } from '../../../types';
+import { MutationHook } from './types';
 
-export type CreateSongMutation = (variables: {
-  name: string;
-}) => Promise<FetchResult<any>>;
-
-export interface CreateSongData {
-  createSong: CreateSongResponse;
+export interface CreateSongVariables {
+  input: {
+    name: string;
+  };
 }
 
-export function useCreateSong(
-  options?: MutationHookOptions,
-): [CreateSongMutation, MutationResult<CreateSongData>] {
-  const [mutation, ...rest] = useMutation(CREATE_SONG, options);
+export interface CreateSongResponse {
+  __typename: 'CreateSongResponse';
+  createSong: {
+    song: Pick<Song, '__typename' | 'id' | 'name' | 'updatedAt'>;
+  };
+}
 
-  const wrappedMutation = useCallback(
-    ({ name }) =>
-      mutation({
-        update(cache, { data: { createSong } }) {
+export const CREATE_SONG = gql`
+  mutation CreateSong($input: CreateSongInput!) {
+    createSong(input: $input) {
+      song {
+        id
+        name
+        updatedAt
+      }
+    }
+  }
+`;
+
+export const useCreateSong: MutationHook<
+  CreateSongResponse,
+  CreateSongVariables
+> = (options) =>
+  useMutation(
+    CREATE_SONG,
+    merge(
+      {
+        update(cache, { data }) {
           cache.modify({
             fields: {
-              songs(existingSongs = []) {
+              songs(existingSongs) {
+                if (!existingSongs) return;
+
                 const newSongRef = cache.writeFragment({
-                  data: createSong.song,
+                  data: data?.createSong.song,
                   fragment: gql`
-                    fragment NewSong on Song {
+                    fragment CreateSong on Song {
                       id
                       name
                       updatedAt
@@ -42,20 +56,13 @@ export function useCreateSong(
 
                 return {
                   ...existingSongs,
-                  data: [...existingSongs.data, newSongRef],
+                  data: [newSongRef, ...existingSongs.data],
                 };
               },
             },
           });
         },
-        variables: {
-          input: {
-            name,
-          },
-        },
-      }),
-    [mutation],
+      } as MutationHookOptions<CreateSongResponse, CreateSongVariables>,
+      options,
+    ),
   );
-
-  return [wrappedMutation, ...rest];
-}

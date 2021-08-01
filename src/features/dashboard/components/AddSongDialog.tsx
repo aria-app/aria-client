@@ -31,7 +31,7 @@ interface AddSongDialogFormValues {
 
 export interface AddSongDialogProps {
   isOpen?: boolean;
-  onIsOpenChange: () => void;
+  onIsOpenChange: (isOpen: boolean) => void;
 }
 
 export const AddSongDialog: FC<AddSongDialogProps> = (props) => {
@@ -46,23 +46,29 @@ export const AddSongDialog: FC<AddSongDialogProps> = (props) => {
   const { errors, isSubmitting } = formState;
   const { t } = useTranslation();
 
+  const close = useCallback(() => {
+    onIsOpenChange(false);
+  }, [onIsOpenChange]);
+
   const handleSubmitCallback = useCallback<
     SubmitHandler<AddSongDialogFormValues>
   >(
     async ({ name }) => {
       try {
         await createSong({
-          name,
+          variables: {
+            input: {
+              name: name.replace(/\s+/g, ' ').trim(),
+            },
+          },
         });
-        onIsOpenChange();
-      } catch (e) {
-        setError('name', {
-          message: e.message,
-          type: 'server',
-        });
+
+        close();
+      } catch (error) {
+        setError('name', error);
       }
     },
-    [createSong, onIsOpenChange, setError],
+    [close, createSong, setError],
   );
 
   useEffect(() => {
@@ -97,7 +103,7 @@ export const AddSongDialog: FC<AddSongDialogProps> = (props) => {
             space={2}
             sx={{ display: 'flex', justifyContent: 'flex-end' }}
           >
-            <Button onClick={onIsOpenChange} text="Cancel" />
+            <Button onClick={close} text="Cancel" />
             <Button
               color="brandPrimary"
               isLoading={isSubmitting}

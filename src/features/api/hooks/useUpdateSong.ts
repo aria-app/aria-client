@@ -1,50 +1,49 @@
-import {
-  MutationHookOptions,
-  MutationResult,
-  useMutation,
-} from '@apollo/client';
-import { useCallback } from 'react';
+import { gql, useMutation } from '@apollo/client';
 
-import { UPDATE_SONG, UpdateSongInput, UpdateSongResponse } from '../queries';
+import { Song } from '../../../types';
+import { MutationHook, MutationOptimisticResponseCreator } from './types';
 
-type UpdateSongMutation = (variables: {
-  input: UpdateSongInput;
-}) => Promise<void>;
-
-interface UpdateSongData {
-  updateSong: UpdateSongResponse;
+export interface UpdateSongResponse {
+  __typename: 'UpdateSongResponse';
+  updateSong: {
+    song: Song;
+  };
 }
 
-export function useUpdateSong(
-  options?: MutationHookOptions,
-): [UpdateSongMutation, MutationResult<UpdateSongData>] {
-  const [mutation, ...rest] = useMutation(UPDATE_SONG, options);
+export interface UpdateSongVariables {
+  input: {
+    bpm?: number;
+    id: number;
+    measureCount?: number;
+    name?: string;
+  };
+}
 
-  const wrappedMutation = useCallback(
-    async ({ input }) => {
-      const { id, ...rest } = input;
-      try {
-        await mutation({
-          optimisticResponse: {
-            __typename: 'Mutation',
-            updateSong: {
-              song: {
-                id: input.id,
-                __typename: 'Song',
-                ...rest,
-              },
-            },
-          },
-          variables: {
-            input,
-          },
-        });
-      } catch (e) {
-        console.error(e.message);
+export const UPDATE_SONG = gql`
+  mutation UpdateSong($input: UpdateSongInput!) {
+    updateSong(input: $input) {
+      song {
+        bpm
+        updatedAt
+        id
+        measureCount
+        name
       }
-    },
-    [mutation],
-  );
+    }
+  }
+`;
 
-  return [wrappedMutation, ...rest];
-}
+export const getUpdateSongOptimisticResponse: MutationOptimisticResponseCreator<
+  UpdateSongResponse,
+  { updatedSong: Song }
+> = ({ updatedSong }) => ({
+  __typename: 'UpdateSongResponse',
+  updateSong: {
+    song: updatedSong,
+  },
+});
+
+export const useUpdateSong: MutationHook<
+  UpdateSongResponse,
+  UpdateSongVariables
+> = (options) => useMutation(UPDATE_SONG, options);

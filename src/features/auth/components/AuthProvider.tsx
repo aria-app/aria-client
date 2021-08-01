@@ -1,3 +1,4 @@
+import { useApolloClient } from '@apollo/client';
 import { FC, ProviderProps, useCallback, useEffect, useState } from 'react';
 
 import { useLogout, useMe } from '../../api';
@@ -6,7 +7,8 @@ import { AuthContext, AuthContextValue } from '../contexts/AuthContext';
 export const AuthProvider: FC<Partial<ProviderProps<AuthContextValue>>> = (
   props,
 ) => {
-  const { data, error, loading, refetch } = useMe();
+  const { resetStore } = useApolloClient();
+  const { data, error, loading } = useMe();
   const [logout] = useLogout();
   const [expiresAt, setExpiresAt] = useState<number>();
 
@@ -14,7 +16,8 @@ export const AuthProvider: FC<Partial<ProviderProps<AuthContextValue>>> = (
     await logout();
     setExpiresAt(undefined);
     window.localStorage.removeItem('expiresAt');
-  }, [logout, setExpiresAt]);
+    resetStore();
+  }, [logout, resetStore, setExpiresAt]);
 
   const getIsAuthenticated = useCallback(
     () => !!expiresAt && new Date().getTime() / 1000 < expiresAt,
@@ -25,9 +28,8 @@ export const AuthProvider: FC<Partial<ProviderProps<AuthContextValue>>> = (
     (loginResult) => {
       setExpiresAt(loginResult.expiresAt);
       window.localStorage.setItem('expiresAt', loginResult.expiresAt);
-      refetch();
     },
-    [refetch, setExpiresAt],
+    [setExpiresAt],
   );
 
   useEffect(() => {
@@ -41,8 +43,8 @@ export const AuthProvider: FC<Partial<ProviderProps<AuthContextValue>>> = (
         error,
         getIsAuthenticated,
         handleLogin,
-        logout: handleLogout,
         loading,
+        logout: handleLogout,
         user: data?.me,
       }}
       {...props}

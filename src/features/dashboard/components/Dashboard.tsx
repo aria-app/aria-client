@@ -1,9 +1,9 @@
 import { Box, Button, Fade, Stack, Toolbar } from 'aria-ui';
 import AddIcon from 'mdi-react/AddIcon';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { useDeleteSong, useGetSongs } from '../../api';
+import { getDeleteSongUpdater, useDeleteSong, useGetSongs } from '../../api';
 import { useAuth } from '../../auth';
 import { LoadingIndicator } from '../../shared';
 import { AddSongDialog } from './AddSongDialog';
@@ -14,10 +14,8 @@ export type DashboardProps = Record<string, never>;
 export const Dashboard: FC<DashboardProps> = () => {
   const history = useHistory();
   const { logout, user } = useAuth();
-  const [deleteSong, { loading: deleteLoading }] = useDeleteSong();
-  const { data, loading: getLoading } = useGetSongs({
-    fetchPolicy: 'cache-and-network',
-    notifyOnNetworkStatusChange: true,
+  const [deleteSong, deleteSongResult] = useDeleteSong();
+  const getSongsResult = useGetSongs({
     skip: !user,
     variables: {
       sort: 'updatedAt',
@@ -28,7 +26,12 @@ export const Dashboard: FC<DashboardProps> = () => {
   const [isAddSongDialogOpen, setIsAddSongDialogOpen] =
     useState<boolean>(false);
 
-  const loading = deleteLoading || getLoading;
+  const loading = deleteSongResult.loading || getSongsResult.loading;
+
+  const songs = useMemo(
+    () => getSongsResult.data?.songs?.data || [],
+    [getSongsResult],
+  );
 
   const handleAddSongClick = useCallback(async () => {
     setIsAddSongDialogOpen(true);
@@ -48,7 +51,10 @@ export const Dashboard: FC<DashboardProps> = () => {
 
       try {
         await deleteSong({
-          id: song.id,
+          update: getDeleteSongUpdater(song.id),
+          variables: {
+            id: song.id,
+          },
         });
       } catch (error) {
         console.error(error);
@@ -78,7 +84,7 @@ export const Dashboard: FC<DashboardProps> = () => {
 
   return (
     <>
-      <Stack space={4}>
+      <Stack space={4} sx={{ flexGrow: 1, label: 'Dashboard' }}>
         <Toolbar
           padding={2}
           sx={{
@@ -110,7 +116,7 @@ export const Dashboard: FC<DashboardProps> = () => {
             <SongList
               onDelete={handleSongDelete}
               onOpen={handleSongOpen}
-              songs={data?.songs?.data || []}
+              songs={songs}
             />
           </Fade>
         </Box>

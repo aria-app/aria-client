@@ -7,7 +7,7 @@ import {
   TextField,
   useThemeWithDefault,
 } from 'aria-ui';
-import { FC, MouseEventHandler, useCallback, useEffect, useState } from 'react';
+import { FC, MouseEventHandler, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ import { useAuth } from '../../auth';
 export type LoginProps = Record<string, never>;
 
 export const Login: FC<LoginProps> = () => {
-  const [login, { client, error, loading }] = useLogin();
+  const [login, { error, loading }] = useLogin();
   const { getIsAuthenticated, handleLogin } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -43,7 +43,9 @@ export const Login: FC<LoginProps> = () => {
       e.preventDefault();
 
       try {
-        const { data } = await login({ email, password });
+        const { data } = await login({
+          variables: { email, password },
+        });
 
         if (!data) {
           throw new Error('Failed to log in.');
@@ -56,12 +58,6 @@ export const Login: FC<LoginProps> = () => {
     },
     [email, handleLogin, login, password],
   );
-
-  useEffect(() => {
-    if (getIsAuthenticated()) return;
-
-    client.resetStore();
-  }, [client, getIsAuthenticated]);
 
   return getIsAuthenticated() ? (
     <Redirect to="/" />
@@ -92,12 +88,14 @@ export const Login: FC<LoginProps> = () => {
             <TextField
               label={t('Email')}
               onValueChange={handleEmailChange}
+              placeholder="Enter email"
               type="email"
               value={email}
             />
             <TextField
               label={t('Password')}
               onValueChange={handlePasswordChange}
+              placeholder="Enter password"
               type="password"
               value={password}
             />

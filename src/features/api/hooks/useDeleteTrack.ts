@@ -1,73 +1,71 @@
-import {
-  MutationHookOptions,
-  MutationResult,
-  useMutation,
-} from '@apollo/client';
-import { useCallback } from 'react';
+import { gql, MutationHookOptions, useMutation } from '@apollo/client';
+import { merge } from 'lodash';
 
-import { Track } from '../../../types';
-import {
-  DELETE_TRACK,
+import { MutationHook, MutationUpdaterFunctionCreator } from './types';
+import { GET_SONG, GetSongResponse } from './useGetSong';
+
+export interface DeleteTrackResponse {
+  deleteTrack: {
+    success: boolean;
+  };
+}
+
+export interface DeleteTrackVariables {
+  id: number;
+}
+
+export const getDeleteTrackMutationUpdater: MutationUpdaterFunctionCreator<
   DeleteTrackResponse,
-  GET_SONG,
-  GetSongResponse,
-} from '../queries';
+  DeleteTrackVariables,
+  { songId: number }
+> = ({ songId }) => {
+  return (cache, { data }, { variables = {} }) => {
+    if (!data) return;
 
-type DeleteTrackMutation = (variables: {
-  songId: number;
-  track: Track;
-}) => Promise<void>;
+    const { id } = variables;
 
-interface DeleteTrackData {
-  deleteTrack: DeleteTrackResponse;
-}
+    const songResponse = cache.readQuery<GetSongResponse>({
+      query: GET_SONG,
+      variables: { id: songId },
+    });
 
-export function useDeleteTrack(
-  options?: MutationHookOptions,
-): [DeleteTrackMutation, MutationResult<DeleteTrackData>] {
-  const [mutation, ...rest] = useMutation(DELETE_TRACK, options);
+    if (!songResponse) return;
 
-  const wrappedMutation = useCallback(
-    async ({ songId, track }) => {
-      try {
-        await mutation({
-          optimisticResponse: {
-            __typename: 'Mutation',
-            deleteTrack: {
-              success: true,
-            },
+    cache.writeQuery({
+      query: GET_SONG,
+      data: {
+        song: {
+          ...songResponse.song,
+          tracks: songResponse.song.tracks.filter((track) => track.id !== id),
+        },
+      },
+    });
+  };
+};
+
+export const DELETE_TRACK = gql`
+  mutation DeleteTrack($id: Int!) {
+    deleteTrack(id: $id) {
+      success
+    }
+  }
+`;
+
+export const useDeleteTrack: MutationHook<
+  DeleteTrackResponse,
+  DeleteTrackVariables
+> = (options) =>
+  useMutation(
+    DELETE_TRACK,
+    merge(
+      {
+        optimisticResponse: {
+          __typename: 'DeleteTrackResponse',
+          deleteTrack: {
+            success: true,
           },
-          update: (cache, result) => {
-            if (!result.data.deleteTrack.success) return;
-
-            const prevData = cache.readQuery<GetSongResponse>({
-              query: GET_SONG,
-              variables: { id: songId },
-            });
-
-            if (!prevData || !prevData.song) return;
-
-            cache.writeQuery({
-              query: GET_SONG,
-              variables: { id: songId },
-              data: {
-                song: {
-                  ...prevData.song,
-                  tracks: prevData.song.tracks.filter((t) => t.id !== track.id),
-                },
-              },
-            });
-          },
-          variables: {
-            id: track.id,
-          },
-        });
-      } catch (e) {
-        console.error(e.message);
-      }
-    },
-    [mutation],
+        },
+      } as MutationHookOptions<DeleteTrackResponse, DeleteTrackVariables>,
+      options,
+    ),
   );
-
-  return [wrappedMutation, ...rest];
-}

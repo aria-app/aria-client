@@ -1,51 +1,64 @@
-import {
-  FetchResult,
-  MutationHookOptions,
-  MutationResult,
-  useMutation,
-} from '@apollo/client';
-import { useCallback } from 'react';
+import { gql, MutationHookOptions, useMutation } from '@apollo/client';
+import { merge } from 'lodash';
 
-import { DELETE_SONG, DeleteSongResponse } from '../queries';
+import { MutationHook, MutationUpdater } from './types';
 
-export type DeleteSongMutation = (variables: {
+export type DeleteSongInput = number;
+
+export interface DeleteSongResponse {
+  deleteSong: {
+    success: boolean;
+  };
+}
+
+export interface DeleteSongVariables {
   id: number;
-}) => Promise<FetchResult<any>>;
-
-export interface DeleteSongData {
-  deleteSong: DeleteSongResponse;
 }
 
-export function useDeleteSong(
-  options?: MutationHookOptions,
-): [DeleteSongMutation, MutationResult<DeleteSongData>] {
-  const [mutation, ...rest] = useMutation(DELETE_SONG, options);
+export const DELETE_SONG = gql`
+  mutation DeleteSong($id: Int!) {
+    deleteSong(id: $id) {
+      success
+    }
+  }
+`;
 
-  const wrappedMutation = useCallback(
-    ({ id }) =>
-      mutation({
-        update(cache, { data: { deleteSong } }) {
-          cache.modify({
-            fields: {
-              songs(existingSongsRef = [], { readField }) {
-                if (!deleteSong.success) return existingSongsRef;
+export function getDeleteSongUpdater(
+  songId: number,
+): MutationUpdater<DeleteSongResponse, DeleteSongVariables> {
+  return (cache) => {
+    cache.modify({
+      fields: {
+        songs(existingSongs, { readField }) {
+          if (!existingSongs) return;
 
-                return {
-                  ...existingSongsRef,
-                  data: existingSongsRef.data.filter(
-                    (songRef) => readField('id', songRef) !== id,
-                  ),
-                };
-              },
-            },
-          });
+          return {
+            ...existingSongs,
+            data: existingSongs.data.filter(
+              (existingSong) => readField('id', existingSong) !== songId,
+            ),
+          };
         },
-        variables: {
-          id,
+      },
+    });
+  };
+}
+
+export const useDeleteSong: MutationHook<
+  DeleteSongResponse,
+  DeleteSongVariables
+> = (options) =>
+  useMutation(
+    DELETE_SONG,
+    merge(
+      {
+        optimisticResponse: {
+          __typename: 'DeleteSongResponse',
+          deleteSong: {
+            success: true,
+          },
         },
-      }),
-    [mutation],
+      } as MutationHookOptions,
+      options,
+    ),
   );
-
-  return [wrappedMutation, ...rest];
-}

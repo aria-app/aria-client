@@ -8,7 +8,6 @@ export * from './useDeleteSong';
 export * from './useDeleteTrack';
 export * from './useDuplicateNotes';
 export * from './useDuplicateSequence';
-export * from './useGetSequence';
 export * from './useGetSong';
 export * from './useGetSongs';
 export * from './useGetVoices';

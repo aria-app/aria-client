@@ -1,59 +1,101 @@
-import {
-  MutationHookOptions,
-  MutationResult,
-  useMutation,
-} from '@apollo/client';
-import { useCallback } from 'react';
+import { gql, useMutation } from '@apollo/client';
+import { isEmpty } from 'lodash';
 
 import { Note } from '../../../types';
-import { UPDATE_NOTES, UpdateNotesResponse } from '../queries';
+import {
+  MutationHook,
+  MutationOptimisticResponseCreator,
+  MutationUpdaterFunctionCreator,
+} from './types';
+import { GET_SONG, GetSongResponse } from './useGetSong';
 
-type UpdateNotesMutation = (variables: { notes: Note[] }) => Promise<void>;
-
-interface UpdateNotesData {
-  updateNotes: UpdateNotesResponse;
+export interface UpdateNotesResponse {
+  updateNotes: {
+    notes: Note[];
+  };
 }
 
-export function useUpdateNotes(
-  options?: MutationHookOptions,
-): [UpdateNotesMutation, MutationResult<UpdateNotesData>] {
-  const [mutation, ...rest] = useMutation(UPDATE_NOTES, options);
+export interface UpdateNotesVariables {
+  input: {
+    notes: Pick<Note, 'id' | 'points'>[];
+  };
+}
 
-  const wrappedMutation = useCallback(
-    async ({ notes }) => {
-      try {
-        await mutation({
-          optimisticResponse: {
-            __typename: 'Mutation',
-            updateNotes: {
-              message: '',
-              notes: notes.map((note) => ({
-                id: note.id,
-                points: note.points,
-                sequence: note.sequence,
-                __typename: 'Note',
-              })),
-              success: true,
-            },
-          },
-          variables: {
-            input: {
-              notes: notes.map((note) => ({
-                id: note.id,
-                points: note.points.map((point) => ({
-                  x: point.x,
-                  y: point.y,
-                })),
-              })),
-            },
-          },
-        });
-      } catch (e) {
-        console.error(e.message);
+export const UPDATE_NOTES = gql`
+  mutation UpdateNotes($input: UpdateNotesInput!) {
+    updateNotes(input: $input) {
+      notes {
+        id
+        points {
+          x
+          y
+        }
+        sequence {
+          id
+        }
       }
-    },
-    [mutation],
-  );
+    }
+  }
+`;
 
-  return [wrappedMutation, ...rest];
-}
+export const getUpdateNotesOptimisticResponse: MutationOptimisticResponseCreator<
+  UpdateNotesResponse,
+  { updatedNotes: Note[] }
+> = ({ updatedNotes }) => ({
+  __typename: 'UpdateNotesResponse',
+  updateNotes: {
+    notes: updatedNotes,
+  },
+});
+
+export const getUpdateNotesMutationUpdater: MutationUpdaterFunctionCreator<
+  UpdateNotesResponse,
+  UpdateNotesVariables,
+  { songId: number }
+> = ({ songId }) => {
+  return (cache, { data }) => {
+    if (!data) return;
+
+    const {
+      updateNotes: { notes },
+    } = data;
+
+    if (isEmpty(notes)) return;
+
+    const songResponse = cache.readQuery<GetSongResponse>({
+      query: GET_SONG,
+      variables: { id: songId },
+    });
+
+    if (!songResponse) return;
+
+    cache.writeQuery({
+      query: GET_SONG,
+      data: {
+        song: {
+          ...songResponse.song,
+          tracks: songResponse.song.tracks.map((track) => ({
+            ...track,
+            sequences: track.sequences.map((sequence) =>
+              sequence.id === notes[0].sequence.id
+                ? {
+                    ...sequence,
+                    notes: sequence.notes.map(
+                      (existingNote) =>
+                        notes.find((note) => note.id === existingNote.id) ||
+                        existingNote,
+                    ),
+                  }
+                : sequence,
+            ),
+          })),
+        },
+      },
+    });
+  };
+};
+
+export const useUpdateNotes: MutationHook<
+  UpdateNotesResponse,
+  UpdateNotesVariables
+> = (options) => useMutation(UPDATE_NOTES, options);

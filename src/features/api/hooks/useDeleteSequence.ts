@@ -1,82 +1,77 @@
-import {
-  MutationHookOptions,
-  MutationResult,
-  useMutation,
-} from '@apollo/client';
-import { useCallback } from 'react';
+import { gql, MutationHookOptions, useMutation } from '@apollo/client';
+import { merge } from 'lodash';
 
-import { Sequence } from '../../../types';
-import {
-  DELETE_SEQUENCE,
+import { MutationHook, MutationUpdaterFunctionCreator } from './types';
+import { GET_SONG, GetSongResponse } from './useGetSong';
+
+export interface DeleteSequenceResponse {
+  __typename: 'DeleteSequenceResponse';
+  deleteSequence: {
+    success: boolean;
+  };
+}
+
+export interface DeleteSequenceVariables {
+  id: number;
+}
+
+export const DELETE_SEQUENCE = gql`
+  mutation DeleteSequence($id: Int!) {
+    deleteSequence(id: $id) {
+      success
+    }
+  }
+`;
+
+export const getDeleteSequenceMutationUpdater: MutationUpdaterFunctionCreator<
   DeleteSequenceResponse,
-  GET_SONG,
-  GetSongResponse,
-} from '../queries';
+  DeleteSequenceVariables,
+  { songId: number }
+> = ({ songId }) => {
+  return (cache, { data }, { variables = {} }) => {
+    if (!data) return;
 
-type DeleteSequenceMutation = (variables: {
-  sequence: Sequence;
-  songId: number;
-}) => Promise<void>;
+    const { id } = variables;
 
-interface DeleteSequenceData {
-  deleteSequence: DeleteSequenceResponse;
-}
+    const songResponse = cache.readQuery<GetSongResponse>({
+      query: GET_SONG,
+      variables: { id: songId },
+    });
 
-export function useDeleteSequence(
-  options?: MutationHookOptions,
-): [DeleteSequenceMutation, MutationResult<DeleteSequenceData>] {
-  const [mutation, ...rest] = useMutation(DELETE_SEQUENCE, options);
+    if (!songResponse) return;
 
-  const wrappedMutation = useCallback(
-    async ({ sequence, songId }) => {
-      try {
-        await mutation({
-          optimisticResponse: {
-            __typename: 'Mutation',
-            deleteSequence: {
-              success: true,
-            },
+    cache.writeQuery({
+      query: GET_SONG,
+      data: {
+        song: {
+          ...songResponse.song,
+          tracks: songResponse.song.tracks.map((track) => ({
+            ...track,
+            sequences: track.sequences.filter(
+              (existingSequence) => existingSequence.id !== id,
+            ),
+          })),
+        },
+      },
+    });
+  };
+};
+
+export const useDeleteSequence: MutationHook<
+  DeleteSequenceResponse,
+  DeleteSequenceVariables
+> = (options) =>
+  useMutation(
+    DELETE_SEQUENCE,
+    merge(
+      {
+        optimisticResponse: {
+          __typename: 'DeleteSequenceResponse',
+          deleteSequence: {
+            success: true,
           },
-          update: (cache, result) => {
-            if (!result.data.deleteSequence.success) return;
-
-            const prevData = cache.readQuery<GetSongResponse>({
-              query: GET_SONG,
-              variables: { id: songId },
-            });
-
-            if (!prevData || !prevData.song) return;
-
-            cache.writeQuery({
-              query: GET_SONG,
-              variables: { id: songId },
-              data: {
-                song: {
-                  ...prevData.song,
-                  tracks: prevData.song.tracks.map((track) =>
-                    track.id === sequence.track.id
-                      ? {
-                          ...track,
-                          sequences: track.sequences.filter(
-                            (s) => s.id !== sequence.id,
-                          ),
-                        }
-                      : track,
-                  ),
-                },
-              },
-            });
-          },
-          variables: {
-            id: sequence.id,
-          },
-        });
-      } catch (e) {
-        console.error(e.message);
-      }
-    },
-    [mutation],
+        },
+      } as MutationHookOptions<DeleteSequenceResponse, DeleteSequenceVariables>,
+      options,
+    ),
   );
-
-  return [wrappedMutation, ...rest];
-}

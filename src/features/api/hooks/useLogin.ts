@@ -1,26 +1,26 @@
-import { useMutation } from '@apollo/client';
-import { useCallback } from 'react';
+import { gql, useMutation } from '@apollo/client';
 
-import { LOGIN, LoginResponse, LoginVariables } from '../queries';
-import { MutationHook, WrappedMutationFunction } from './types';
+import { MutationHook } from './types';
+
+export interface LoginResponse {
+  login: {
+    expiresAt: number;
+  };
+}
+
+export interface LoginVariables {
+  email: string;
+  password: string;
+}
+
+export const LOGIN = gql`
+  mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      expiresAt
+    }
+  }
+`;
 
 export const useLogin: MutationHook<LoginResponse, LoginVariables> = (
   options,
-) => {
-  const [mutation, ...rest] = useMutation(LOGIN, options);
-
-  const wrappedMutation = useCallback<
-    WrappedMutationFunction<LoginResponse, LoginVariables>
-  >(
-    ({ email, password }) =>
-      mutation({
-        variables: {
-          email,
-          password,
-        },
-      }),
-    [mutation],
-  );
-
-  return [wrappedMutation, ...rest];
-};
+) => useMutation(LOGIN, options);

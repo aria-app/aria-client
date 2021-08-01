@@ -12,7 +12,11 @@ import {
 import * as Tone from 'tone';
 
 import { Dawww } from '../../../dawww';
-import { useGetSong, useUpdateSong } from '../../api';
+import {
+  getUpdateSongOptimisticResponse,
+  useGetSong,
+  useUpdateSong,
+} from '../../api';
 import { useAudioManager, usePlaybackState } from '../../audio';
 import { useAuth } from '../../auth';
 import { NotesEditor } from '../../notesEditor';
@@ -63,14 +67,25 @@ export const SongEditor: FC<SongEditorProps> = () => {
 
   const handleSongBPMChange = useCallback(
     (bpm) => {
-      if (!data?.song) return;
+      if (!data) return;
 
-      updateSong({
-        input: {
-          id: data.song.id,
-          bpm,
-        },
-      });
+      try {
+        const variables = {
+          input: {
+            id: data.song.id,
+            bpm,
+          },
+        };
+
+        updateSong({
+          optimisticResponse: getUpdateSongOptimisticResponse({
+            updatedSong: { ...data.song, bpm },
+          }),
+          variables,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     },
     [data, updateSong],
   );

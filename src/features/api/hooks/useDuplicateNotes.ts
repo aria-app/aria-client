@@ -1,82 +1,98 @@
-import {
-  MutationHookOptions,
-  MutationResult,
-  useMutation,
-} from '@apollo/client';
-import { useCallback } from 'react';
+import { gql, useMutation } from '@apollo/client';
+import { isEmpty } from 'lodash';
 
 import { Note } from '../../../types';
 import {
-  DUPLICATE_NOTES,
-  DuplicateNotesResponse,
-  GET_SEQUENCE,
-  GetSequenceResponse,
-} from '../queries';
+  MutationHook,
+  MutationOptimisticResponseCreator,
+  MutationUpdaterFunctionCreator,
+} from './types';
+import { GET_SONG, GetSongResponse } from './useGetSong';
 
-type DuplicateNotesMutation = (variables: {
-  notes: Note[];
-  tempIds: number[];
-}) => Promise<Note[]>;
-
-interface DuplicateNotesData {
-  duplicateNotes: DuplicateNotesResponse;
+export interface DuplicateNotesResponse {
+  duplicateNotes: {
+    notes: Note[];
+  };
 }
 
-export function useDuplicateNotes(
-  options?: MutationHookOptions,
-): [DuplicateNotesMutation, MutationResult<DuplicateNotesData>] {
-  const [mutation, ...rest] = useMutation(DUPLICATE_NOTES, options);
+export interface DuplicateNotesVariables {
+  ids: number[];
+}
 
-  const wrappedMutation = useCallback(
-    async ({ notes, tempIds }) => {
-      try {
-        const { data } = await mutation({
-          optimisticResponse: {
-            duplicateNotes: {
-              message: '',
-              notes: notes.map((note, index) => ({
-                id: tempIds[index],
-                points: note.points,
-                sequence: note.sequence,
-                __typename: 'Note',
-              })),
-              success: true,
-              __typename: 'DuplicateNotesResponse',
-            },
-          },
-          update: (cache, result) => {
-            const newNotes = result.data.duplicateNotes.notes;
-
-            const prevData = cache.readQuery<GetSequenceResponse>({
-              query: GET_SEQUENCE,
-              variables: { id: notes[0].sequence.id },
-            });
-
-            if (!prevData || !prevData.sequence) return;
-
-            cache.writeQuery({
-              query: GET_SEQUENCE,
-              variables: { id: notes[0].sequence.id },
-              data: {
-                sequence: {
-                  ...prevData.sequence,
-                  notes: [...prevData.sequence.notes, ...newNotes],
-                },
-              },
-            });
-          },
-          variables: {
-            ids: notes.map((note) => note.id),
-          },
-        });
-
-        return data.duplicateNotes.notes;
-      } catch (e) {
-        console.error(e.message);
+export const DUPLICATE_NOTES = gql`
+  mutation DuplicateNotes($ids: [Int!]!) {
+    duplicateNotes(ids: $ids) {
+      notes {
+        id
+        points {
+          x
+          y
+        }
+        sequence {
+          id
+        }
       }
-    },
-    [mutation],
-  );
+    }
+  }
+`;
 
-  return [wrappedMutation, ...rest];
-}
+export const getDuplicateNotesOptimisticResponse: MutationOptimisticResponseCreator<
+  DuplicateNotesResponse,
+  { notesToDuplicate: Note[]; tempIds: number[] }
+> = ({ notesToDuplicate, tempIds }) => ({
+  __typename: 'DuplicateNotesResponse',
+  duplicateNotes: {
+    notes: notesToDuplicate.map((note, index) => ({
+      ...note,
+      id: tempIds[index],
+    })),
+  },
+});
+
+export const getDuplicateNotesMutationUpdater: MutationUpdaterFunctionCreator<
+  DuplicateNotesResponse,
+  DuplicateNotesVariables,
+  { songId: number }
+> = ({ songId }) => {
+  return (cache, { data }) => {
+    if (!data) return;
+
+    const {
+      duplicateNotes: { notes },
+    } = data;
+
+    if (isEmpty(notes)) return;
+
+    const songResponse = cache.readQuery<GetSongResponse>({
+      query: GET_SONG,
+      variables: { id: songId },
+    });
+
+    if (!songResponse) return;
+
+    cache.writeQuery({
+      query: GET_SONG,
+      data: {
+        song: {
+          ...songResponse.song,
+          tracks: songResponse.song.tracks.map((track) => ({
+            ...track,
+            sequences: track.sequences.map((sequence) =>
+              sequence.id === notes[0].sequence.id
+                ? {
+                    ...sequence,
+                    notes: [...sequence.notes, ...notes],
+                  }
+                : sequence,
+            ),
+          })),
+        },
+      },
+    });
+  };
+};
+
+export const useDuplicateNotes: MutationHook<
+  DuplicateNotesResponse,
+  DuplicateNotesVariables
+> = (options) => useMutation(DUPLICATE_NOTES, options);

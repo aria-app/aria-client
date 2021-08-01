@@ -1,10 +1,52 @@
-import { QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 
-import { GET_SONGS, GetSongsResponse, GetSongsVariables } from '../queries';
+import { PaginatedResponse, SongListSong } from '../../../types';
+import { QueryHook } from './types';
 
-type UseGetSongs = (
-  options?: QueryHookOptions<GetSongsResponse, GetSongsVariables>,
-) => QueryResult<GetSongsResponse>;
+export interface GetSongsResponse {
+  songs: PaginatedResponse<SongListSong>;
+}
 
-export const useGetSongs: UseGetSongs = (options) =>
-  useQuery<GetSongsResponse>(GET_SONGS, options);
+export interface GetSongsVariables {
+  limit?: number;
+  page?: number;
+  search?: string;
+  sort?: string;
+  sortDirection?: 'asc' | 'desc';
+  userId: number;
+}
+
+export const GET_SONGS = gql`
+  query GetSongs(
+    $limit: Int
+    $page: Int
+    $search: String
+    $sort: String
+    $sortDirection: String
+    $userId: Int
+  ) {
+    songs(
+      limit: $limit
+      page: $page
+      search: $search
+      sort: $sort
+      sortDirection: $sortDirection
+      userId: $userId
+    ) {
+      data {
+        id
+        name
+        updatedAt
+      }
+      meta {
+        currentPage
+        itemsPerPage
+        totalItemCount
+      }
+    }
+  }
+`;
+
+export const useGetSongs: QueryHook<GetSongsResponse, GetSongsVariables> = (
+  options,
+) => useQuery(GET_SONGS, options);

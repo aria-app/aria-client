@@ -1,7 +1,62 @@
-import { useQuery } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 
-import { GET_SONG, GetSongResponse, GetSongVariables } from '../queries';
+import { Song } from '../../../types';
 import { QueryHook } from './types';
+
+export interface GetSongResponse {
+  song: Song;
+}
+
+export interface GetSongVariables {
+  id: number;
+}
+
+export const GET_SONG = gql`
+  query GetSong($id: Int!) {
+    song(id: $id) {
+      bpm
+      createdAt
+      id
+      measureCount
+      name
+      tracks {
+        id
+        position
+        sequences {
+          id
+          measureCount
+          notes {
+            id
+            points {
+              x
+              y
+            }
+            sequence {
+              id
+            }
+          }
+          position
+          track {
+            id
+          }
+        }
+        song {
+          id
+        }
+        voice {
+          id
+          name
+          toneOscillatorType
+        }
+        volume
+      }
+      updatedAt
+      user {
+        id
+      }
+    }
+  }
+`;
 
 export const useGetSong: QueryHook<GetSongResponse, GetSongVariables> = (
   options,
