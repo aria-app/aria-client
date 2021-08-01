@@ -2,14 +2,12 @@ import { Box } from 'aria-ui';
 import { range } from 'lodash';
 import { FC, memo, useCallback } from 'react';
 
-import { Dawww } from '../../../dawww';
-import { ScaleStep } from '../../../types';
 import { Key } from './Key';
 
 export interface KeysProps {
   hoveredRow?: number;
   octaveCount: number;
-  onKeyPress: (step: ScaleStep) => void;
+  onKeyPress: (step: number) => void;
 }
 
 export const Keys: FC<KeysProps> = memo((props) => {
@@ -18,13 +16,13 @@ export const Keys: FC<KeysProps> = memo((props) => {
   const totalKeyCount = octaveCount * 12;
 
   const getIsHoveredRow = useCallback(
-    (step) => step.y === hoveredRow,
+    (step) => step === hoveredRow,
     [hoveredRow],
   );
 
   const handleKeyPress = useCallback(
     (step) => {
-      onKeyPress(step.y);
+      onKeyPress(step);
     },
     [onKeyPress],
   );
@@ -42,10 +40,10 @@ export const Keys: FC<KeysProps> = memo((props) => {
     >
       {range(0, totalKeyCount).map((n) => (
         <Key
-          isHoveredRow={getIsHoveredRow(Dawww.SCALE[n])}
+          isHoveredRow={getIsHoveredRow(n)}
           key={n}
           onPress={handleKeyPress}
-          step={Dawww.SCALE[n]}
+          step={n}
           totalKeyCount={totalKeyCount}
         />
       ))}

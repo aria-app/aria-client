@@ -102,7 +102,6 @@ Dawww.MAX_BPM = constants.MAX_BPM;
 Dawww.MIN_BPM = constants.MIN_BPM;
 Dawww.OCTAVE_RANGE = constants.OCTAVE_RANGE;
 Dawww.PLAYBACK_STATES = constants.PLAYBACK_STATES;
-Dawww.SCALE = constants.SCALE;
 Dawww.VOICES = constants.VOICES;
 
 Dawww.addPoints = helpers.addPoints;

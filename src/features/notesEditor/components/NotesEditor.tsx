@@ -168,7 +168,7 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
     setToolType('ERASE');
   }, []);
 
-  const handlePreviewPitch = useCallback(
+  const handlePreviewPitch = useCallback<(pitch: number) => void>(
     (pitch) => {
       if (!sequence) return;
 

@@ -28,11 +28,6 @@ export type Point = {
   y: number;
 };
 
-export interface ScaleStep {
-  name: string;
-  y: number;
-}
-
 export interface Sequence {
   __typename?: string;
   id: number;
