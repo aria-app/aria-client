@@ -1,12 +1,14 @@
 import {
   Box,
   Button,
+  Icon,
   Notice,
   Stack,
   Text,
   TextField,
   useThemeWithDefault,
 } from 'aria-ui';
+import MusicNoteIcon from 'mdi-react/MusicNoteIcon';
 import { FC, useCallback } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -75,6 +77,7 @@ export const Login: FC<LoginProps> = () => {
         backgroundColor="backgroundContrast"
         borderRadius="md"
         padding={6}
+        paddingTop={8}
         sx={{
           maxWidth: theme.screenSizes.sm,
           width: '100vw',
@@ -83,12 +86,31 @@ export const Login: FC<LoginProps> = () => {
         <Stack
           element="form"
           onSubmit={handleSubmit(handleSubmitCallback)}
-          space={8}
+          space={10}
         >
-          <Text variant="header">
-            {t('Log in to view and manage songs and data.')}
+          <Stack
+            align="center"
+            direction="row"
+            space={4}
+            sx={{ justifyContent: 'center' }}
+          >
+            <Box backgroundColor="brandPrimary" borderRadius="md" padding={3}>
+              <Icon
+                block
+                color="brandPrimary"
+                colorIsBackground
+                icon={<MusicNoteIcon />}
+                size="lg"
+              />
+            </Box>
+            <Text block variant="display">
+              {t('Aria')}
+            </Text>
+          </Stack>
+          <Text sx={{ alignSelf: 'center' }} variant="header">
+            {t('Log in')}
           </Text>
-          <Stack space={4}>
+          <Stack space={6}>
             <TextField
               error={errors.email?.message}
               inputProps={{
