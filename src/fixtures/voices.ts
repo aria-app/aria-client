@@ -4,8 +4,8 @@ export const voices: Voice[] = [
   {
     __typename: 'Voice',
     id: 1,
-    name: 'PWM',
-    toneOscillatorType: 'pwm',
+    name: 'Pulse',
+    toneOscillatorType: 'pulse',
   },
   {
     __typename: 'Voice',

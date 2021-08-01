@@ -17,7 +17,7 @@ export interface UpdateNotesResponse {
 
 export interface UpdateNotesVariables {
   input: {
-    notes: Note[];
+    notes: Pick<Note, 'id' | 'points'>[];
   };
 }
 
@@ -40,11 +40,12 @@ export const UPDATE_NOTES = gql`
 
 export const getUpdateNotesOptimisticResponse: MutationOptimisticResponseCreator<
   UpdateNotesResponse,
-  UpdateNotesVariables
-> = ({ input: { notes } }) => ({
+  UpdateNotesVariables,
+  { updatedNotes: Note[] }
+> = (variables, { updatedNotes }) => ({
   __typename: 'UpdateNotesResponse',
   updateNotes: {
-    notes,
+    notes: updatedNotes,
   },
 });
 

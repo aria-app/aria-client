@@ -3,6 +3,7 @@ import { find, flatMap } from 'lodash';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
+import pick from 'lodash/fp/pick';
 import uniq from 'lodash/fp/uniq';
 import memoizeOne from 'memoize-one';
 import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
@@ -259,17 +260,24 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
     [notes, selectedNoteIds],
   );
 
-  const handleNotesUpdate = useCallback(
-    async (notes) => {
+  const handleNotesUpdate = useCallback<
+    (updatedNotes: Note[]) => Promise<void>
+  >(
+    async (updatedNotes) => {
       try {
         const variables = {
           input: {
-            notes,
+            notes: updatedNotes.map((note) => ({
+              id: note.id,
+              points: note.points.map(pick(['x', 'y'])),
+            })),
           },
         };
 
         await updateNotes({
-          optimisticResponse: getUpdateNotesOptimisticResponse(variables),
+          optimisticResponse: getUpdateNotesOptimisticResponse(variables, {
+            updatedNotes,
+          }),
           update: getUpdateNotesMutationUpdater(variables, { songId }),
           variables,
         });

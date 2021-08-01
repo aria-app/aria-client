@@ -37,8 +37,8 @@ export const getCreateTrackOptimisticResponse: MutationOptimisticResponseCreator
         },
         voice: {
           id: 1,
-          name: 'PWM',
-          toneOscillatorType: 'PWM',
+          name: 'Pulse',
+          toneOscillatorType: 'pulse',
         },
         volume: 0,
       },

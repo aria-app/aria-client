@@ -1,4 +1,3 @@
-export * from './useClient';
 export * from './useCreateNote';
 export * from './useCreateSequence';
 export * from './useCreateSong';
@@ -9,7 +8,6 @@ export * from './useDeleteSong';
 export * from './useDeleteTrack';
 export * from './useDuplicateNotes';
 export * from './useDuplicateSequence';
-export * from './useGetSequence';
 export * from './useGetSong';
 export * from './useGetSongs';
 export * from './useGetVoices';

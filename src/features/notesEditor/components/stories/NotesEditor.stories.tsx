@@ -1,6 +1,6 @@
 import { Meta, Story } from '@storybook/react';
 import { Toolbar } from 'aria-ui';
-import { uniqueId } from 'lodash';
+import { compact, uniqueId } from 'lodash';
 import { graphql } from 'msw';
 import { FC, ProviderProps, useRef } from 'react';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
@@ -17,8 +17,6 @@ import {
   DeleteNotesVariables,
   DuplicateNotesResponse,
   DuplicateNotesVariables,
-  GetSequenceResponse,
-  GetSequenceVariables,
   GetSongResponse,
   GetSongVariables,
   UpdateNotesResponse,
@@ -126,16 +124,6 @@ export default {
           );
         },
       ),
-      graphql.query<GetSequenceResponse, GetSequenceVariables>(
-        'GetSequence',
-        (req, res, ctx) => {
-          return res(
-            ctx.data({
-              sequence: state.sequence,
-            }),
-          );
-        },
-      ),
       graphql.query<GetSongResponse, GetSongVariables>(
         'GetSong',
         (req, res, ctx) => {
@@ -153,11 +141,17 @@ export default {
             input: { notes },
           } = req.variables;
 
-          const notesToUpdate = notes.map(({ id }) =>
-            state.sequence.notes.find((note) => note.id === id),
-          );
+          const updatedNotes: (Note | undefined)[] = notes.map((update) => {
+            const existingNote = state.sequence.notes.find(
+              (note) => note.id === update.id,
+            );
 
-          if (notesToUpdate.some((note) => note === undefined)) {
+            return existingNote
+              ? { ...existingNote, points: update.points }
+              : existingNote;
+          });
+
+          if (updatedNotes.some((note) => note === undefined)) {
             return res(
               ctx.errors([
                 { message: 'Could not update the requested notes.' },
@@ -168,14 +162,15 @@ export default {
           state.sequence = {
             ...state.sequence,
             notes: state.sequence.notes.map(
-              (note) => notes.find(({ id }) => id === note.id) || note,
+              (note) =>
+                compact(updatedNotes).find(({ id }) => id === note.id) || note,
             ),
           };
 
           return res(
             ctx.data<UpdateNotesResponse>({
               updateNotes: {
-                notes,
+                notes: compact(updatedNotes),
               },
             }),
           );
