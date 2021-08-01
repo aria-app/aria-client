@@ -1,17 +1,41 @@
 import { Meta, Story } from '@storybook/react';
+import { graphql } from 'msw';
 
+import {
+  ClientProvider,
+  DeleteSongResponse,
+  DeleteSongVariables,
+} from '../../../api';
+import { getMockRouterDecorator } from '../../../shared';
 import { SongInfoDialog, SongInfoDialogProps } from '../SongInfoDialog';
 
 export default {
   component: SongInfoDialog,
+  decorators: [getMockRouterDecorator()],
   title: 'SongEditor/SongInfoDialog',
   parameters: {
     layout: 'fullscreen',
+    msw: [
+      graphql.mutation<DeleteSongResponse, DeleteSongVariables>(
+        'DeleteSong',
+        (req, res, ctx) => {
+          return res(
+            ctx.data({
+              deleteSong: {
+                success: true,
+              },
+            }),
+          );
+        },
+      ),
+    ],
   },
 } as Meta;
 
 export const Default: Story<SongInfoDialogProps> = (args) => (
-  <SongInfoDialog {...args} />
+  <ClientProvider>
+    <SongInfoDialog {...args} />
+  </ClientProvider>
 );
 
 Default.args = {

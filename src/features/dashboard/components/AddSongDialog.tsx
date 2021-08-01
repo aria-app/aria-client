@@ -11,6 +11,7 @@ import { range } from 'lodash';
 import { FC, useCallback, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 
 import { Song } from '../../../types';
 import { useCreateSong } from '../../api';
@@ -44,6 +45,7 @@ export const AddSongDialog: FC<AddSongDialogProps> = (props) => {
       },
     });
   const { errors, isSubmitting } = formState;
+  const history = useHistory();
   const { t } = useTranslation();
 
   const close = useCallback(() => {
@@ -55,7 +57,7 @@ export const AddSongDialog: FC<AddSongDialogProps> = (props) => {
   >(
     async ({ name }) => {
       try {
-        await createSong({
+        const { data } = await createSong({
           variables: {
             input: {
               name: name.replace(/\s+/g, ' ').trim(),
@@ -63,12 +65,16 @@ export const AddSongDialog: FC<AddSongDialogProps> = (props) => {
           },
         });
 
-        close();
+        if (!data) {
+          throw new Error('Could not create song');
+        }
+
+        history.push(`/edit-song/${data.createSong.song.id}`);
       } catch (error) {
         setError('name', error);
       }
     },
-    [close, createSong, setError],
+    [createSong, history, setError],
   );
 
   useEffect(() => {
@@ -81,7 +87,7 @@ export const AddSongDialog: FC<AddSongDialogProps> = (props) => {
     <Dialog isOpen={isOpen}>
       <form onSubmit={handleSubmit(handleSubmitCallback)}>
         <Stack space={8}>
-          <Text variant="header">{t('Add Song')}</Text>
+          <Text variant="header">{t('New Song')}</Text>
           <TextField
             error={errors.name?.message}
             inputProps={{
@@ -107,7 +113,7 @@ export const AddSongDialog: FC<AddSongDialogProps> = (props) => {
             <Button
               color="brandPrimary"
               isLoading={isSubmitting}
-              text="Add Song"
+              text={t('Create')}
               type="submit"
               variant="contained"
             />

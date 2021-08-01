@@ -7,10 +7,12 @@ import {
   CreateSongResponse,
   CreateSongVariables,
 } from '../../../api';
+import { getMockRouterDecorator } from '../../../shared/storybook/getMockRouterDecorator';
 import { AddSongDialog, AddSongDialogProps } from '../AddSongDialog';
 
 export default {
   component: AddSongDialog,
+  decorators: [getMockRouterDecorator()],
   title: 'Dashboard/AddSongDialog',
   parameters: {
     layout: 'fullscreen',
