@@ -5,7 +5,6 @@ import { graphql } from 'msw';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
 
 import * as fixtures from '../../../../fixtures';
-import { introspection } from '../../../../introspection';
 import {
   ClientProvider,
   CreateSongResponse,
@@ -33,9 +32,6 @@ export default {
   parameters: {
     layout: 'fullscreen',
     msw: [
-      graphql.query('IntrospectionQuery', (req, res, ctx) =>
-        res(ctx.data(introspection)),
-      ),
       graphql.mutation<CreateSongResponse, CreateSongVariables>(
         'CreateSong',
         (req, res, ctx) => {
