@@ -21,13 +21,9 @@ export type MutationUpdater<TData, TVariables> = MutationUpdaterFunction<
   Cache
 >;
 
-export type MutationOptimisticResponseCreator<
-  TData,
-  TVariables,
-  TExtras = void,
-> = TExtras extends void
-  ? (variables: TVariables) => TData
-  : (variables: TVariables, extras: TExtras) => TData;
+export type MutationOptimisticResponseCreator<TData, TExtras> = (
+  extras: TExtras,
+) => TData;
 
 export type MutationUpdaterFunctionCreator<
   TData,

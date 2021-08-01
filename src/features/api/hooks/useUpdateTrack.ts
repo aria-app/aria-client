@@ -62,9 +62,8 @@ export const UPDATE_TRACK = gql`
 
 export const getUpdateTrackOptimisticResponse: MutationOptimisticResponseCreator<
   UpdateTrackResponse,
-  UpdateTrackVariables,
   { updatedTrack: Track }
-> = (variables, { updatedTrack }) => ({
+> = ({ updatedTrack }) => ({
   __typename: 'UpdateTrackResponse',
   updateTrack: {
     track: updatedTrack,

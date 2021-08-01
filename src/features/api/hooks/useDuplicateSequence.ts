@@ -45,9 +45,8 @@ export const DUPLICATE_SEQUENCE = gql`
 
 export const getDuplicateSequenceOptimisticResponse: MutationOptimisticResponseCreator<
   DuplicateSequenceResponse,
-  DuplicateSequenceVariables,
   { sequenceToDuplicate: Sequence; tempId: number }
-> = (variables, { sequenceToDuplicate, tempId }) => ({
+> = ({ sequenceToDuplicate, tempId }) => ({
   __typename: 'DuplicateSequenceResponse',
   duplicateSequence: {
     sequence: {

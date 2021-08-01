@@ -38,9 +38,8 @@ export const DUPLICATE_NOTES = gql`
 
 export const getDuplicateNotesOptimisticResponse: MutationOptimisticResponseCreator<
   DuplicateNotesResponse,
-  DuplicateNotesVariables,
   { notesToDuplicate: Note[]; tempIds: number[] }
-> = (variables, { notesToDuplicate, tempIds }) => ({
+> = ({ notesToDuplicate, tempIds }) => ({
   __typename: 'DuplicateNotesResponse',
   duplicateNotes: {
     notes: notesToDuplicate.map((note, index) => ({

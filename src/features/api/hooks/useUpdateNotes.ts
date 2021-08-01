@@ -40,9 +40,8 @@ export const UPDATE_NOTES = gql`
 
 export const getUpdateNotesOptimisticResponse: MutationOptimisticResponseCreator<
   UpdateNotesResponse,
-  UpdateNotesVariables,
   { updatedNotes: Note[] }
-> = (variables, { updatedNotes }) => ({
+> = ({ updatedNotes }) => ({
   __typename: 'UpdateNotesResponse',
   updateNotes: {
     notes: updatedNotes,

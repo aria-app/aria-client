@@ -78,7 +78,7 @@ export const SongEditor: FC<SongEditorProps> = () => {
         };
 
         updateSong({
-          optimisticResponse: getUpdateSongOptimisticResponse(variables, {
+          optimisticResponse: getUpdateSongOptimisticResponse({
             updatedSong: { ...data.song, bpm },
           }),
           variables,

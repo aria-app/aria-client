@@ -1,7 +1,6 @@
 import { gql, useMutation } from '@apollo/client';
 
 import { Note, Point } from '../../../types';
-import { getTempId } from '../helpers';
 import {
   MutationHook,
   MutationOptimisticResponseCreator,
@@ -41,13 +40,17 @@ export const CREATE_NOTE = gql`
 
 export const getCreateNoteOptimisticResponse: MutationOptimisticResponseCreator<
   CreateNoteResponse,
-  CreateNoteVariables
-> = ({ input: { points, sequenceId } }) => ({
+  {
+    points: Point[];
+    sequenceId: number;
+    tempId: number;
+  }
+> = ({ tempId, points, sequenceId }) => ({
   __typename: 'CreateNoteResponse',
   createNote: {
     note: {
       __typename: 'Note',
-      id: getTempId(),
+      id: tempId,
       points,
       sequence: {
         id: sequenceId,

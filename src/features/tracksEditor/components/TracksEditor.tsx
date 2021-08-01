@@ -97,7 +97,10 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
       };
 
       createSequence({
-        optimisticResponse: getCreateSequenceOptimisticResponse(variables),
+        optimisticResponse: getCreateSequenceOptimisticResponse({
+          ...variables.input,
+          tempId: getTempId(),
+        }),
         update: getCreateSequenceMutationUpdater(variables, { songId }),
         variables,
       });
@@ -136,7 +139,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
       };
 
       const { data } = await duplicateSequence({
-        optimisticResponse: getDuplicateSequenceOptimisticResponse(variables, {
+        optimisticResponse: getDuplicateSequenceOptimisticResponse({
           sequenceToDuplicate: selectedSequence,
           tempId,
         }),
@@ -162,7 +165,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
       };
 
       updateSequence({
-        optimisticResponse: getUpdateSequenceOptimisticResponse(variables, {
+        optimisticResponse: getUpdateSequenceOptimisticResponse({
           updatedSequence: sequence,
         }),
         update: getUpdateSequenceMutationUpdater(variables, { songId }),
@@ -192,7 +195,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
         };
 
         await updateSong({
-          optimisticResponse: getUpdateSongOptimisticResponse(variables, {
+          optimisticResponse: getUpdateSongOptimisticResponse({
             updatedSong: { ...data.song, measureCount },
           }),
           variables,
@@ -237,7 +240,7 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
       if (!trackToUpdate) return;
 
       updateTrack({
-        optimisticResponse: getUpdateTrackOptimisticResponse(variables, {
+        optimisticResponse: getUpdateTrackOptimisticResponse({
           updatedTrack: {
             ...trackToUpdate,
             voice: {
@@ -273,7 +276,10 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
     const variables = { input: { songId } };
 
     createTrack({
-      optimisticResponse: getCreateTrackOptimisticResponse(variables),
+      optimisticResponse: getCreateTrackOptimisticResponse({
+        songId,
+        tempId: getTempId(),
+      }),
       variables,
     });
   }, [createTrack, songId]);

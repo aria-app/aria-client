@@ -1,7 +1,6 @@
 import { gql, useMutation } from '@apollo/client';
 
 import { Sequence } from '../../../types';
-import { getTempId } from '../helpers';
 import {
   MutationHook,
   MutationOptimisticResponseCreator,
@@ -50,26 +49,26 @@ export const CREATE_SEQUENCE = gql`
 
 export const getCreateSequenceOptimisticResponse: MutationOptimisticResponseCreator<
   CreateSequenceResponse,
-  CreateSequenceVariables
-> = ({ input }) => {
-  const { position, trackId } = input;
-
-  return {
-    __typename: 'CreateSequenceResponse',
-    createSequence: {
-      sequence: {
-        __typename: 'Sequence',
-        id: getTempId(),
-        measureCount: 1,
-        notes: [],
-        position,
-        track: {
-          id: trackId,
-        },
+  {
+    position: number;
+    tempId: number;
+    trackId: number;
+  }
+> = ({ position, tempId, trackId }) => ({
+  __typename: 'CreateSequenceResponse',
+  createSequence: {
+    sequence: {
+      __typename: 'Sequence',
+      id: tempId,
+      measureCount: 1,
+      notes: [],
+      position,
+      track: {
+        id: trackId,
       },
     },
-  };
-};
+  },
+});
 
 export const getCreateSequenceMutationUpdater: MutationUpdaterFunctionCreator<
   CreateSequenceResponse,

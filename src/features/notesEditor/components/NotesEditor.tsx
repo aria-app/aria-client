@@ -149,7 +149,7 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
       };
 
       const { data } = await duplicateNotes({
-        optimisticResponse: getDuplicateNotesOptimisticResponse(variables, {
+        optimisticResponse: getDuplicateNotesOptimisticResponse({
           notesToDuplicate: selectedNotes,
           tempIds,
         }),
@@ -201,7 +201,10 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
         };
 
         await createNote({
-          optimisticResponse: getCreateNoteOptimisticResponse(variables),
+          optimisticResponse: getCreateNoteOptimisticResponse({
+            ...variables.input,
+            tempId: getTempId(),
+          }),
           update: getCreateNoteMutationUpdater(variables, { songId }),
           variables,
         });
@@ -275,7 +278,7 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
         };
 
         await updateNotes({
-          optimisticResponse: getUpdateNotesOptimisticResponse(variables, {
+          optimisticResponse: getUpdateNotesOptimisticResponse({
             updatedNotes,
           }),
           update: getUpdateNotesMutationUpdater(variables, { songId }),

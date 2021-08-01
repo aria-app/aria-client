@@ -50,9 +50,8 @@ export const UPDATE_SEQUENCE = gql`
 
 export const getUpdateSequenceOptimisticResponse: MutationOptimisticResponseCreator<
   UpdateSequenceResponse,
-  UpdateSequenceVariables,
   { updatedSequence: Sequence }
-> = (variables, { updatedSequence }) => ({
+> = ({ updatedSequence }) => ({
   __typename: 'UpdateSequenceResponse',
   updateSequence: {
     sequence: updatedSequence,

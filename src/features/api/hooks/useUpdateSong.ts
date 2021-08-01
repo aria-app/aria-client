@@ -35,9 +35,8 @@ export const UPDATE_SONG = gql`
 
 export const getUpdateSongOptimisticResponse: MutationOptimisticResponseCreator<
   UpdateSongResponse,
-  UpdateSongVariables,
   { updatedSong: Song }
-> = (variables, { updatedSong }) => ({
+> = ({ updatedSong }) => ({
   __typename: 'UpdateSongResponse',
   updateSong: {
     song: updatedSong,

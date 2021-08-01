@@ -2,7 +2,6 @@ import { gql, MutationHookOptions, useMutation } from '@apollo/client';
 import { merge } from 'lodash';
 
 import { Track } from '../../../types';
-import { getTempId } from '../helpers';
 import { MutationHook, MutationOptimisticResponseCreator } from './types';
 import { GET_SONG, GetSongResponse } from './useGetSong';
 
@@ -20,31 +19,27 @@ export interface CreateTrackVariables {
 
 export const getCreateTrackOptimisticResponse: MutationOptimisticResponseCreator<
   CreateTrackResponse,
-  CreateTrackVariables
-> = ({ input }) => {
-  const { songId } = input;
-
-  return {
-    __typename: 'CreateTrackResponse',
-    createTrack: {
-      track: {
-        __typename: 'Track',
-        id: getTempId(),
-        sequences: [],
-        position: 9999999999,
-        song: {
-          id: songId,
-        },
-        voice: {
-          id: 1,
-          name: 'Pulse',
-          toneOscillatorType: 'pulse',
-        },
-        volume: 0,
+  { songId: number; tempId: number }
+> = ({ songId, tempId }) => ({
+  __typename: 'CreateTrackResponse',
+  createTrack: {
+    track: {
+      __typename: 'Track',
+      id: tempId,
+      sequences: [],
+      position: 9999999999,
+      song: {
+        id: songId,
       },
+      voice: {
+        id: 1,
+        name: 'Pulse',
+        toneOscillatorType: 'pulse',
+      },
+      volume: 0,
     },
-  };
-};
+  },
+});
 
 export const CREATE_TRACK = gql`
   mutation CreateTrack($input: CreateTrackInput!) {
