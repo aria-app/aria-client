@@ -46,7 +46,7 @@ export const Dashboard: FC<DashboardProps> = () => {
   const handleSongDelete = useCallback(
     async (song) => {
       const shouldDelete = window.confirm(
-        `Are you sure you want to delete the song "${song.name}"?`,
+        `Are you sure you want to delete the song "${song.name}"? This action is permanent.`,
       );
 
       if (!shouldDelete) return;

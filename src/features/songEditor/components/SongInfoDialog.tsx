@@ -1,9 +1,11 @@
 import { Button, Dialog, FormGroup, Select, Stack } from 'aria-ui';
-import { FC, memo } from 'react';
+import { FC, memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 
 import { Dawww } from '../../../dawww';
 import { Song } from '../../../types';
+import { getDeleteSongUpdater, useDeleteSong } from '../../api';
 
 export interface SongInfoDialogProps {
   isOpen?: boolean;
@@ -24,7 +26,30 @@ export const SongInfoDialog: FC<SongInfoDialogProps> = memo((props) => {
     song,
     ...rest
   } = props;
+  const [deleteSong] = useDeleteSong();
+  const history = useHistory();
   const { i18n, t } = useTranslation();
+
+  const handleDeleteSong = useCallback(async () => {
+    if (!song) return;
+
+    try {
+      const shouldDelete = window.confirm(
+        `Are you sure you want to delete the song "${song.name}"? This action is permanent.`,
+      );
+
+      if (!shouldDelete) return;
+
+      await deleteSong({
+        update: getDeleteSongUpdater(song.id),
+        variables: { id: song.id },
+      });
+
+      history.push('/');
+    } catch (error) {
+      console.error(error);
+    }
+  }, [deleteSong, history, song]);
 
   return (
     <Dialog
@@ -41,7 +66,7 @@ export const SongInfoDialog: FC<SongInfoDialogProps> = memo((props) => {
             rel="noopener noreferrer"
             target="_blank"
           >
-            https://ariaapp.io/view-song/{song?.id}
+            {process.env.PUBLIC_URL}/view-song/{song?.id}
           </a>
         </FormGroup>
         <Select
@@ -65,6 +90,12 @@ export const SongInfoDialog: FC<SongInfoDialogProps> = memo((props) => {
           ]}
           sx={{ width: 'auto' }}
           value={i18n.language}
+        />
+        <Button
+          color="error"
+          onClick={handleDeleteSong}
+          text={t('Delete Song')}
+          variant="contained"
         />
       </Stack>
     </Dialog>
