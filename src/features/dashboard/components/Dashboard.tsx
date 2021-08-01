@@ -1,6 +1,7 @@
 import { Box, Button, Fade, Stack, Toolbar } from 'aria-ui';
 import AddIcon from 'mdi-react/AddIcon';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
 import { getDeleteSongUpdater, useDeleteSong, useGetSongs } from '../../api';
@@ -25,6 +26,7 @@ export const Dashboard: FC<DashboardProps> = () => {
   });
   const [isAddSongDialogOpen, setIsAddSongDialogOpen] =
     useState<boolean>(false);
+  const { t } = useTranslation();
 
   const loading = deleteSongResult.loading || getSongsResult.loading;
 
@@ -131,7 +133,7 @@ export const Dashboard: FC<DashboardProps> = () => {
             color="backgroundContrast"
             onClick={handleAddSongClick}
             startIcon={<AddIcon />}
-            text="Add Song"
+            text={t('New Song')}
             variant="contained"
           />
         </Box>
