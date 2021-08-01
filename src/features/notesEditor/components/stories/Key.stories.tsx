@@ -11,6 +11,6 @@ export const Default: Story<KeyProps> = (args) => <Key {...args} />;
 
 Default.args = {
   isHoveredRow: false,
-  step: { name: 'C3', y: 47 },
+  step: 47,
   totalKeyCount: 1,
 };
