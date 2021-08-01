@@ -22,7 +22,6 @@ export default {
   parameters: {
     layout: 'fullscreen',
     msw: [
-      graphql.query('IntrospectionQuery', (req, res, ctx) => res(ctx.data({}))),
       graphql.query<GetSongResponse, GetSongVariables>(
         'GetSong',
         (req, res, ctx) => {

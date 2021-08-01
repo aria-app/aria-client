@@ -45,11 +45,14 @@ export default {
   parameters: {
     layout: 'fullscreen',
     msw: [
-      graphql.query('IntrospectionQuery', (req, res, ctx) => res(ctx.data({}))),
       graphql.mutation<LoginResponse, LoginVariables>(
         'Login',
         (req, res, ctx) => {
           const { email, password } = req.variables;
+
+          if (password === 'fail') {
+            return res.networkError('Could not log in');
+          }
 
           if (email !== 'user@ariaapp.io' || password !== 'password') {
             return res(

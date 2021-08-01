@@ -7,41 +7,33 @@ import {
   TextField,
   useThemeWithDefault,
 } from 'aria-ui';
-import { FC, MouseEventHandler, useCallback, useState } from 'react';
+import { FC, useCallback } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
 
 import { useLogin } from '../../api';
 import { useAuth } from '../../auth';
 
+export interface LoginFormValues {
+  email: string;
+  password: string;
+  meta: void;
+}
+
 export type LoginProps = Record<string, never>;
 
 export const Login: FC<LoginProps> = () => {
-  const [login, { error, loading }] = useLogin();
+  const [login] = useLogin();
   const { getIsAuthenticated, handleLogin } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { clearErrors, formState, handleSubmit, register, setError } =
+    useForm<LoginFormValues>();
+  const { errors, isSubmitting } = formState;
   const { t } = useTranslation();
   const theme = useThemeWithDefault();
 
-  const handleEmailChange = useCallback<(value: string) => void>(
-    (value) => {
-      setEmail(value);
-    },
-    [setEmail],
-  );
-
-  const handlePasswordChange = useCallback<(value: string) => void>(
-    (value) => {
-      setPassword(value);
-    },
-    [setPassword],
-  );
-
-  const handleSubmit = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    async (e) => {
-      e.preventDefault();
-
+  const handleSubmitCallback = useCallback<SubmitHandler<LoginFormValues>>(
+    async ({ email, password }) => {
       try {
         const { data } = await login({
           variables: { email, password },
@@ -52,12 +44,20 @@ export const Login: FC<LoginProps> = () => {
         }
 
         handleLogin(data.login);
-      } catch (e) {
-        console.error(e.message);
+      } catch (error) {
+        setError('meta', error);
       }
     },
-    [email, handleLogin, login, password],
+    [handleLogin, login, setError],
   );
+
+  const emailFormProps = register('email', {
+    required: 'You must enter an email.',
+  });
+
+  const passwordFormProps = register('password', {
+    required: 'You must enter a password.',
+  });
 
   return getIsAuthenticated() ? (
     <Redirect to="/" />
@@ -80,30 +80,49 @@ export const Login: FC<LoginProps> = () => {
           width: '100vw',
         }}
       >
-        <Stack element="form" onSubmit={handleSubmit} space={8}>
+        <Stack
+          element="form"
+          onSubmit={handleSubmit(handleSubmitCallback)}
+          space={8}
+        >
           <Text variant="header">
             {t('Log in to view and manage songs and data.')}
           </Text>
           <Stack space={4}>
             <TextField
+              error={errors.email?.message}
+              inputProps={{
+                autoFocus: true,
+                ...emailFormProps,
+                onChange: (e) => {
+                  emailFormProps.onChange(e);
+                  clearErrors('meta');
+                },
+              }}
               label={t('Email')}
-              onValueChange={handleEmailChange}
               placeholder="Enter email"
               type="email"
-              value={email}
             />
             <TextField
+              error={errors.password?.message}
+              inputProps={{
+                ...passwordFormProps,
+                onChange: (e) => {
+                  passwordFormProps.onChange(e);
+                  clearErrors('meta');
+                },
+              }}
               label={t('Password')}
-              onValueChange={handlePasswordChange}
               placeholder="Enter password"
               type="password"
-              value={password}
             />
-            {error && <Notice status="error">{error.message}</Notice>}
+            {errors.meta && (
+              <Notice status="error">{errors.meta.message}</Notice>
+            )}
           </Stack>
           <Button
             color="brandPrimary"
-            isLoading={loading}
+            isLoading={isSubmitting}
             sx={{ alignSelf: 'flex-end' }}
             text={t('Log in')}
             type="submit"

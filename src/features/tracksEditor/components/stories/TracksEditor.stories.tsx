@@ -43,7 +43,6 @@ export default {
   parameters: {
     layout: 'fullscreen',
     msw: [
-      graphql.query('IntrospectionQuery', (req, res, ctx) => res(ctx.data({}))),
       graphql.mutation<CreateSequenceResponse, CreateSequenceVariables>(
         'CreateSequence',
         (req, res, ctx) => {
