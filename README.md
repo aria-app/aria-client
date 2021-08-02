@@ -3,6 +3,10 @@
 
 Easy-to-use music sequencer inspired by Little Big Planet 2 + 3.
 
+*App (Requires login):* https://ariaapp.netlify.app
+
+*Storybook (No login required, play around freely!):* https://aria-client-storybook.netlify.app
+
 # Architecture
 
 Built using functional concepts and these great technologies:
