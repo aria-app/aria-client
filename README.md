@@ -12,5 +12,7 @@ Easy-to-use music sequencer inspired by Little Big Planet 2 + 3.
 Built using functional concepts and these great technologies:
 
 - React
-- Redux
+- Apollo
+- Emotion
 - Tone.js
+- TypeScript
