@@ -1,6 +1,6 @@
 import { Meta, Story } from '@storybook/react';
 import { formatISO } from 'date-fns/esm';
-import { orderBy, uniqueId } from 'lodash';
+import { orderBy, partition, uniqueId } from 'lodash';
 import { graphql } from 'msw';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
 
@@ -76,12 +76,17 @@ export default {
         (req, res, ctx) => {
           const { id } = req.variables;
 
-          state.songs = state.songs.filter((song) => song.id !== id);
+          const [deletedSongs, songsWithoutDeleted] = partition(
+            state.songs,
+            (song) => song.id === id,
+          );
+
+          state.songs = songsWithoutDeleted;
 
           return res(
-            ctx.data({
+            ctx.data<DeleteSongResponse>({
               deleteSong: {
-                success: true,
+                song: deletedSongs[0],
               },
             }),
           );

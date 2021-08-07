@@ -1,13 +1,17 @@
-import { gql, MutationHookOptions, useMutation } from '@apollo/client';
-import { merge } from 'lodash';
+import { gql, useMutation } from '@apollo/client';
 
-import { MutationHook, MutationUpdater } from './types';
+import { SongListSong } from '../../../types';
+import {
+  MutationHook,
+  MutationOptimisticResponseCreator,
+  MutationUpdaterFunctionCreator,
+} from './types';
 
 export type DeleteSongInput = number;
 
 export interface DeleteSongResponse {
   deleteSong: {
-    success: boolean;
+    song: SongListSong;
   };
 }
 
@@ -18,15 +22,35 @@ export interface DeleteSongVariables {
 export const DELETE_SONG = gql`
   mutation DeleteSong($id: Int!) {
     deleteSong(id: $id) {
-      success
+      song {
+        id
+      }
     }
   }
 `;
 
-export function getDeleteSongUpdater(
-  songId: number,
-): MutationUpdater<DeleteSongResponse, DeleteSongVariables> {
-  return (cache) => {
+export const getDeleteSongOptimisticResponse: MutationOptimisticResponseCreator<
+  DeleteSongResponse,
+  { songToDelete: SongListSong }
+> = ({ songToDelete }) => ({
+  __typename: 'DeleteSongResponse',
+  deleteSong: {
+    song: songToDelete,
+  },
+});
+
+export const getDeleteSongUpdater: MutationUpdaterFunctionCreator<
+  DeleteSongResponse,
+  DeleteSongVariables
+> =
+  () =>
+  (cache, { data }) => {
+    if (!data) return;
+
+    const {
+      deleteSong: { song },
+    } = data;
+
     cache.modify({
       fields: {
         songs(existingSongs, { readField }) {
@@ -35,30 +59,15 @@ export function getDeleteSongUpdater(
           return {
             ...existingSongs,
             data: existingSongs.data.filter(
-              (existingSong) => readField('id', existingSong) !== songId,
+              (existingSong) => readField('id', existingSong) !== song.id,
             ),
           };
         },
       },
     });
   };
-}
 
 export const useDeleteSong: MutationHook<
   DeleteSongResponse,
   DeleteSongVariables
-> = (options) =>
-  useMutation(
-    DELETE_SONG,
-    merge(
-      {
-        optimisticResponse: {
-          __typename: 'DeleteSongResponse',
-          deleteSong: {
-            success: true,
-          },
-        },
-      } as MutationHookOptions,
-      options,
-    ),
-  );
+> = (options) => useMutation(DELETE_SONG, options);
