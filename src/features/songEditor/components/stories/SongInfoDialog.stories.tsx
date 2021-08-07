@@ -1,6 +1,7 @@
 import { Meta, Story } from '@storybook/react';
 import { graphql } from 'msw';
 
+import { Song } from '../../../../types';
 import {
   ClientProvider,
   DeleteSongResponse,
@@ -8,6 +9,19 @@ import {
 } from '../../../api';
 import { getMockRouterDecorator } from '../../../shared';
 import { SongInfoDialog, SongInfoDialogProps } from '../SongInfoDialog';
+
+const song: Song = {
+  bpm: 100,
+  createdAt: '2021-01-01',
+  id: 1,
+  measureCount: 4,
+  name: 'Song 1',
+  tracks: [],
+  updatedAt: '2021-01-01',
+  user: {
+    id: 1,
+  },
+};
 
 export default {
   component: SongInfoDialog,
@@ -22,7 +36,7 @@ export default {
           return res(
             ctx.data({
               deleteSong: {
-                success: true,
+                song,
               },
             }),
           );
@@ -40,16 +54,5 @@ export const Default: Story<SongInfoDialogProps> = (args) => (
 
 Default.args = {
   isOpen: true,
-  song: {
-    bpm: 100,
-    createdAt: '2021-01-01',
-    id: 1,
-    measureCount: 4,
-    name: 'Song 1',
-    tracks: [],
-    updatedAt: '2021-01-01',
-    user: {
-      id: 1,
-    },
-  },
+  song,
 };

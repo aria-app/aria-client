@@ -41,7 +41,7 @@ export const SongInfoDialog: FC<SongInfoDialogProps> = memo((props) => {
       if (!shouldDelete) return;
 
       await deleteSong({
-        update: getDeleteSongUpdater(song.id),
+        update: getDeleteSongUpdater(),
         variables: { id: song.id },
       });
 
