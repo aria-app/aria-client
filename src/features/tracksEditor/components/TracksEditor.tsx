@@ -12,6 +12,7 @@ import {
   getDeleteSequenceMutationUpdater,
   getDeleteSequenceOptimisticResponse,
   getDeleteTrackMutationUpdater,
+  getDeleteTrackOptimisticResponse,
   getDuplicateSequenceMutationUpdater,
   getDuplicateSequenceOptimisticResponse,
   getTempId,
@@ -226,11 +227,14 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
       const variables = { id: track.id };
 
       deleteTrack({
-        update: getDeleteTrackMutationUpdater({ songId }),
+        optimisticResponse: getDeleteTrackOptimisticResponse({
+          trackToDelete: track,
+        }),
+        update: getDeleteTrackMutationUpdater(),
         variables,
       });
     },
-    [deleteTrack, handleTrackDeselect, songId],
+    [deleteTrack, handleTrackDeselect],
   );
 
   const handleTrackEdit = useCallback<TrackEditingModalTrackChangeHandler>(

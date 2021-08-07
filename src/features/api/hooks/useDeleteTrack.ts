@@ -1,12 +1,17 @@
-import { gql, MutationHookOptions, useMutation } from '@apollo/client';
-import { merge } from 'lodash';
+import { gql, useMutation } from '@apollo/client';
 
-import { MutationHook, MutationUpdaterFunctionCreator } from './types';
+import { Track } from '../../../types';
+import {
+  MutationHook,
+  MutationOptimisticResponseCreator,
+  MutationUpdaterFunctionCreator,
+} from './types';
 import { GET_SONG, GetSongResponse } from './useGetSong';
 
 export interface DeleteTrackResponse {
+  __typename: 'DeleteTrackResponse';
   deleteTrack: {
-    success: boolean;
+    track: Track;
   };
 }
 
@@ -14,19 +19,44 @@ export interface DeleteTrackVariables {
   id: number;
 }
 
+export const DELETE_TRACK = gql`
+  mutation DeleteTrack($id: Int!) {
+    deleteTrack(id: $id) {
+      track {
+        id
+        song {
+          id
+        }
+      }
+    }
+  }
+`;
+
+export const getDeleteTrackOptimisticResponse: MutationOptimisticResponseCreator<
+  DeleteTrackResponse,
+  { trackToDelete: Track }
+> = ({ trackToDelete }) => ({
+  __typename: 'DeleteTrackResponse',
+  deleteTrack: {
+    track: trackToDelete,
+  },
+});
+
 export const getDeleteTrackMutationUpdater: MutationUpdaterFunctionCreator<
   DeleteTrackResponse,
-  DeleteTrackVariables,
-  { songId: number }
-> = ({ songId }) => {
-  return (cache, { data }, { variables = {} }) => {
+  DeleteTrackVariables
+> =
+  () =>
+  (cache, { data }) => {
     if (!data) return;
 
-    const { id } = variables;
+    const {
+      deleteTrack: { track },
+    } = data;
 
     const songResponse = cache.readQuery<GetSongResponse>({
       query: GET_SONG,
-      variables: { id: songId },
+      variables: { id: track.song.id },
     });
 
     if (!songResponse) return;
@@ -36,36 +66,15 @@ export const getDeleteTrackMutationUpdater: MutationUpdaterFunctionCreator<
       data: {
         song: {
           ...songResponse.song,
-          tracks: songResponse.song.tracks.filter((track) => track.id !== id),
+          tracks: songResponse.song.tracks.filter(
+            (existingTrack) => existingTrack.id !== track.id,
+          ),
         },
       },
     });
   };
-};
-
-export const DELETE_TRACK = gql`
-  mutation DeleteTrack($id: Int!) {
-    deleteTrack(id: $id) {
-      success
-    }
-  }
-`;
 
 export const useDeleteTrack: MutationHook<
   DeleteTrackResponse,
   DeleteTrackVariables
-> = (options) =>
-  useMutation(
-    DELETE_TRACK,
-    merge(
-      {
-        optimisticResponse: {
-          __typename: 'DeleteTrackResponse',
-          deleteTrack: {
-            success: true,
-          },
-        },
-      } as MutationHookOptions<DeleteTrackResponse, DeleteTrackVariables>,
-      options,
-    ),
-  );
+> = (options) => useMutation(DELETE_TRACK, options);

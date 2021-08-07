@@ -161,15 +161,21 @@ export default {
         (req, res, ctx) => {
           const { id } = req.variables;
 
+          const [deletedTracks, tracksWithoutDeleted] = partition(
+            state.song.tracks,
+            (track) => track.id === id,
+          );
+
           state.song = {
             ...state.song,
-            tracks: state.song.tracks.filter((track) => track.id !== id),
+            tracks: tracksWithoutDeleted,
           };
 
           return res(
-            ctx.data({
+            ctx.data<DeleteTrackResponse>({
+              __typename: 'DeleteTrackResponse',
               deleteTrack: {
-                success: true,
+                track: deletedTracks[0],
               },
             }),
           );
@@ -375,7 +381,7 @@ export const Default: Story<any> = (args) => (
   <ClientProvider>
     <RecoilRoot>
       <AudioProvider>
-        <MemoryRouter initialEntries={['/1']}>
+        <MemoryRouter initialEntries={[`/${state.song.id}`]}>
           <Shell>
             <Switch>
               <Route path="/:songId">
