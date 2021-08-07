@@ -48,6 +48,7 @@ export function Dawww(options?: DawwwOptions): AudioManagerType {
   };
 
   on(channels.ACTION_OCCURRED, (action) => {
+    // console.log('Action Occurred', action);
     setState(reducer(getState(), action, shared));
 
     effects(getState, action, shared);
