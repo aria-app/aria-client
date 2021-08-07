@@ -1,13 +1,17 @@
-import { gql, MutationHookOptions, useMutation } from '@apollo/client';
-import { merge } from 'lodash';
+import { gql, useMutation } from '@apollo/client';
 
-import { MutationHook, MutationUpdaterFunctionCreator } from './types';
+import { Sequence } from '../../../types';
+import {
+  MutationHook,
+  MutationOptimisticResponseCreator,
+  MutationUpdaterFunctionCreator,
+} from './types';
 import { GET_SONG, GetSongResponse } from './useGetSong';
 
 export interface DeleteSequenceResponse {
   __typename: 'DeleteSequenceResponse';
   deleteSequence: {
-    success: boolean;
+    sequence: Sequence;
   };
 }
 
@@ -18,17 +22,30 @@ export interface DeleteSequenceVariables {
 export const DELETE_SEQUENCE = gql`
   mutation DeleteSequence($id: Int!) {
     deleteSequence(id: $id) {
-      success
+      sequence {
+        id
+      }
     }
   }
 `;
+
+export const getDeleteSequenceOptimisticResponse: MutationOptimisticResponseCreator<
+  DeleteSequenceResponse,
+  { sequenceToDelete: Sequence }
+> = ({ sequenceToDelete }) => ({
+  __typename: 'DeleteSequenceResponse',
+  deleteSequence: {
+    sequence: sequenceToDelete,
+  },
+});
 
 export const getDeleteSequenceMutationUpdater: MutationUpdaterFunctionCreator<
   DeleteSequenceResponse,
   DeleteSequenceVariables,
   { songId: number }
-> = ({ songId }) => {
-  return (cache, { data }, { variables = {} }) => {
+> =
+  ({ songId }) =>
+  (cache, { data }, { variables = {} }) => {
     if (!data) return;
 
     const { id } = variables;
@@ -55,23 +72,8 @@ export const getDeleteSequenceMutationUpdater: MutationUpdaterFunctionCreator<
       },
     });
   };
-};
 
 export const useDeleteSequence: MutationHook<
   DeleteSequenceResponse,
   DeleteSequenceVariables
-> = (options) =>
-  useMutation(
-    DELETE_SEQUENCE,
-    merge(
-      {
-        optimisticResponse: {
-          __typename: 'DeleteSequenceResponse',
-          deleteSequence: {
-            success: true,
-          },
-        },
-      } as MutationHookOptions<DeleteSequenceResponse, DeleteSequenceVariables>,
-      options,
-    ),
-  );
+> = (options) => useMutation(DELETE_SEQUENCE, options);

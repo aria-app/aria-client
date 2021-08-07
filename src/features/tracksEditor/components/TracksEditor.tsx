@@ -10,6 +10,7 @@ import {
   getCreateSequenceOptimisticResponse,
   getCreateTrackOptimisticResponse,
   getDeleteSequenceMutationUpdater,
+  getDeleteSequenceOptimisticResponse,
   getDeleteTrackMutationUpdater,
   getDuplicateSequenceMutationUpdater,
   getDuplicateSequenceOptimisticResponse,
@@ -117,6 +118,9 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
       const variables = { id: selectedSequence.id };
 
       deleteSequence({
+        optimisticResponse: getDeleteSequenceOptimisticResponse({
+          sequenceToDelete: selectedSequence,
+        }),
         update: getDeleteSequenceMutationUpdater({ songId }),
         variables,
       });

@@ -1,5 +1,5 @@
 import { Meta, Story } from '@storybook/react';
-import { compact, first, isNil, max, uniqueId } from 'lodash';
+import { compact, first, isNil, max, partition, uniqueId } from 'lodash';
 import { graphql } from 'msw';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
@@ -125,20 +125,32 @@ export default {
         (req, res, ctx) => {
           const { id } = req.variables;
 
+          const parentTrack = state.song.tracks.find((track) =>
+            track.sequences.some((sequence) => sequence.id === id),
+          );
+
+          if (!parentTrack) {
+            return res(ctx.errors([{ message: 'Could not delete sequence' }]));
+          }
+
+          const [deletedSequences, sequencesWithoutDeleted] = partition(
+            parentTrack.sequences,
+            (sequence) => sequence.id === id,
+          );
+
           state.song = {
             ...state.song,
             tracks: state.song.tracks.map((track) => ({
               ...track,
-              sequences: track.sequences.filter(
-                (sequence) => sequence.id !== id,
-              ),
+              sequences: sequencesWithoutDeleted,
             })),
           };
 
           return res(
-            ctx.data({
+            ctx.data<DeleteSequenceResponse>({
+              __typename: 'DeleteSequenceResponse',
               deleteSequence: {
-                success: true,
+                sequence: deletedSequences[0],
               },
             }),
           );
