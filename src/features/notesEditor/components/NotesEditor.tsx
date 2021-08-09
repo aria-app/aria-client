@@ -16,6 +16,7 @@ import {
   getCreateNoteMutationUpdater,
   getCreateNoteOptimisticResponse,
   getDeleteNotesMutationUpdater,
+  getDeleteNotesOptimisticUpdate,
   getDuplicateNotesMutationUpdater,
   getDuplicateNotesOptimisticResponse,
   getTempId,
@@ -112,6 +113,9 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
         };
 
         await deleteNotes({
+          optimisticResponse: getDeleteNotesOptimisticUpdate({
+            notesToDelete: selectedNotes,
+          }),
           update: getDeleteNotesMutationUpdater({ songId }),
           variables,
         });
@@ -224,6 +228,9 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
       };
 
       deleteNotes({
+        optimisticResponse: getDeleteNotesOptimisticUpdate({
+          notesToDelete: [note],
+        }),
         update: getDeleteNotesMutationUpdater({ songId }),
         variables,
       });

@@ -1,6 +1,6 @@
 import { Meta, Story } from '@storybook/react';
 import { Toolbar } from 'aria-ui';
-import { compact, uniqueId } from 'lodash';
+import { compact, partition, uniqueId } from 'lodash';
 import { graphql } from 'msw';
 import { FC, ProviderProps, useRef } from 'react';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
@@ -71,17 +71,21 @@ export default {
         (req, res, ctx) => {
           const { ids } = req.variables;
 
+          const [deletedNotes, notesWithoutDeleted] = partition(
+            state.sequence.notes,
+            (note) => ids.includes(note.id),
+          );
+
           state.sequence = {
             ...state.sequence,
-            notes: state.sequence.notes.filter(
-              (note) => !ids.includes(note.id),
-            ),
+            notes: notesWithoutDeleted,
           };
 
           return res(
-            ctx.data({
+            ctx.data<DeleteNotesResponse>({
+              __typename: 'DeleteNotesResponse',
               deleteNotes: {
-                success: true,
+                notes: deletedNotes,
               },
             }),
           );

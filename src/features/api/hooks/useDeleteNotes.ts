@@ -1,13 +1,17 @@
-import { gql, MutationHookOptions, useMutation } from '@apollo/client';
-import { merge } from 'lodash';
+import { gql, useMutation } from '@apollo/client';
 
-import { MutationHook, MutationUpdaterFunctionCreator } from './types';
+import { Note } from '../../../types';
+import {
+  MutationHook,
+  MutationOptimisticResponseCreator,
+  MutationUpdaterFunctionCreator,
+} from './types';
 import { GET_SONG, GetSongResponse } from './useGetSong';
 
 export interface DeleteNotesResponse {
   __typename: 'DeleteNotesResponse';
   deleteNotes: {
-    success: boolean;
+    notes: Note[];
   };
 }
 
@@ -18,10 +22,22 @@ export interface DeleteNotesVariables {
 export const DELETE_NOTES = gql`
   mutation DeleteNotes($ids: [Int!]!) {
     deleteNotes(ids: $ids) {
-      success
+      notes {
+        id
+      }
     }
   }
 `;
+
+export const getDeleteNotesOptimisticUpdate: MutationOptimisticResponseCreator<
+  DeleteNotesResponse,
+  { notesToDelete: Note[] }
+> = ({ notesToDelete }) => ({
+  __typename: 'DeleteNotesResponse',
+  deleteNotes: {
+    notes: notesToDelete,
+  },
+});
 
 export const getDeleteNotesMutationUpdater: MutationUpdaterFunctionCreator<
   DeleteNotesResponse,
@@ -61,18 +77,4 @@ export const getDeleteNotesMutationUpdater: MutationUpdaterFunctionCreator<
 export const useDeleteNotes: MutationHook<
   DeleteNotesResponse,
   DeleteNotesVariables
-> = (options) =>
-  useMutation(
-    DELETE_NOTES,
-    merge(
-      {
-        optimisticResponse: {
-          __typename: 'DeleteNotesResponse',
-          deleteNotes: {
-            success: true,
-          },
-        },
-      } as MutationHookOptions<DeleteNotesResponse, DeleteNotesVariables>,
-      options,
-    ),
-  );
+> = (options) => useMutation(DELETE_NOTES, options);
