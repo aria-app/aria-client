@@ -15,7 +15,7 @@ import {
   DeleteSongVariables,
   GetSongsData,
   GetSongsVariables,
-  LogoutResponse,
+  LogoutData,
   LogoutVariables,
 } from '../../../api';
 import { AuthProvider } from '../../../auth';
@@ -125,17 +125,15 @@ export default {
             }),
           ),
       ),
-      graphql.mutation<LogoutResponse, LogoutVariables>(
-        'Logout',
-        (req, res, ctx) =>
-          res(
-            ctx.data<LogoutResponse>({
+      graphql.mutation<LogoutData, LogoutVariables>('Logout', (req, res, ctx) =>
+        res(
+          ctx.data<LogoutData>({
+            logout: {
               __typename: 'LogoutResponse',
-              logout: {
-                success: true,
-              },
-            }),
-          ),
+              success: true,
+            },
+          }),
+        ),
       ),
     ],
   },

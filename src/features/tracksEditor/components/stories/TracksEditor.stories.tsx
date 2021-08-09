@@ -16,17 +16,17 @@ import {
   DeleteSequenceVariables,
   DeleteTrackData,
   DeleteTrackVariables,
-  DuplicateSequenceResponse,
+  DuplicateSequenceData,
   DuplicateSequenceVariables,
   GetSongData,
   GetSongVariables,
   GetVoicesData,
   GetVoicesVariables,
-  UpdateSequenceResponse,
+  UpdateSequenceData,
   UpdateSequenceVariables,
-  UpdateSongResponse,
+  UpdateSongData,
   UpdateSongVariables,
-  UpdateTrackResponse,
+  UpdateTrackData,
   UpdateTrackVariables,
 } from '../../../api';
 import { AudioProvider } from '../../../audio';
@@ -183,7 +183,7 @@ export default {
           );
         },
       ),
-      graphql.mutation<DuplicateSequenceResponse, DuplicateSequenceVariables>(
+      graphql.mutation<DuplicateSequenceData, DuplicateSequenceVariables>(
         'DuplicateSequence',
         (req, res, ctx) => {
           const { id } = req.variables;
@@ -226,8 +226,9 @@ export default {
           };
 
           return res(
-            ctx.data<DuplicateSequenceResponse>({
+            ctx.data<DuplicateSequenceData>({
               duplicateSequence: {
+                __typename: 'DuplicateSequenceResponse',
                 sequence: newSequence,
               },
             }),
@@ -254,7 +255,7 @@ export default {
           );
         },
       ),
-      graphql.mutation<UpdateSequenceResponse, UpdateSequenceVariables>(
+      graphql.mutation<UpdateSequenceData, UpdateSequenceVariables>(
         'UpdateSequence',
         (req, res, ctx) => {
           const {
@@ -300,16 +301,16 @@ export default {
           };
 
           return res(
-            ctx.data<UpdateSequenceResponse>({
-              __typename: 'UpdateSequenceResponse',
+            ctx.data<UpdateSequenceData>({
               updateSequence: {
+                __typename: 'UpdateSequenceResponse',
                 sequence: updatedSequence,
               },
             }),
           );
         },
       ),
-      graphql.mutation<UpdateSongResponse, UpdateSongVariables>(
+      graphql.mutation<UpdateSongData, UpdateSongVariables>(
         'UpdateSong',
         (req, res, ctx) => {
           const {
@@ -326,16 +327,16 @@ export default {
           };
 
           return res(
-            ctx.data<UpdateSongResponse>({
-              __typename: 'UpdateSongResponse',
+            ctx.data<UpdateSongData>({
               updateSong: {
+                __typename: 'UpdateSongResponse',
                 song: state.song,
               },
             }),
           );
         },
       ),
-      graphql.mutation<UpdateTrackResponse, UpdateTrackVariables>(
+      graphql.mutation<UpdateTrackData, UpdateTrackVariables>(
         'UpdateTrack',
         (req, res, ctx) => {
           const {
@@ -369,8 +370,9 @@ export default {
           };
 
           return res(
-            ctx.data<UpdateTrackResponse>({
+            ctx.data<UpdateTrackData>({
               updateTrack: {
+                __typename: 'UpdateTrackResponse',
                 track: updatedTrack,
               },
             }),

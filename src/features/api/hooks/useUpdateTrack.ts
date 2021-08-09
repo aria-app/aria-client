@@ -8,8 +8,9 @@ import {
 } from './types';
 import { GET_SONG, GetSongData } from './useGetSong';
 
-export interface UpdateTrackResponse {
+export interface UpdateTrackData {
   updateTrack: {
+    __typename: 'UpdateTrackResponse';
     track: Track;
   };
 }
@@ -61,17 +62,17 @@ export const UPDATE_TRACK = gql`
 `;
 
 export const getUpdateTrackOptimisticResponse: MutationOptimisticResponseCreator<
-  UpdateTrackResponse,
+  UpdateTrackData,
   { updatedTrack: Track }
 > = ({ updatedTrack }) => ({
-  __typename: 'UpdateTrackResponse',
   updateTrack: {
+    __typename: 'UpdateTrackResponse',
     track: updatedTrack,
   },
 });
 
 export const getUpdateTrackMutationUpdater: MutationUpdaterFunctionCreator<
-  UpdateTrackResponse,
+  UpdateTrackData,
   UpdateTrackVariables
 > = () => {
   return (cache, { data }) => {
@@ -103,6 +104,6 @@ export const getUpdateTrackMutationUpdater: MutationUpdaterFunctionCreator<
 };
 
 export const useUpdateTrack: MutationHook<
-  UpdateTrackResponse,
+  UpdateTrackData,
   UpdateTrackVariables
 > = (options) => useMutation(UPDATE_TRACK, options);

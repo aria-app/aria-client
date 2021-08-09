@@ -8,8 +8,9 @@ import {
 } from './types';
 import { GET_SONG, GetSongData } from './useGetSong';
 
-export interface DuplicateSequenceResponse {
+export interface DuplicateSequenceData {
   duplicateSequence: {
+    __typename: 'DuplicateSequenceResponse';
     sequence: Sequence;
   };
 }
@@ -44,11 +45,11 @@ export const DUPLICATE_SEQUENCE = gql`
 `;
 
 export const getDuplicateSequenceOptimisticResponse: MutationOptimisticResponseCreator<
-  DuplicateSequenceResponse,
+  DuplicateSequenceData,
   { sequenceToDuplicate: Sequence; tempId: number }
 > = ({ sequenceToDuplicate, tempId }) => ({
-  __typename: 'DuplicateSequenceResponse',
   duplicateSequence: {
+    __typename: 'DuplicateSequenceResponse',
     sequence: {
       ...sequenceToDuplicate,
       id: tempId,
@@ -57,7 +58,7 @@ export const getDuplicateSequenceOptimisticResponse: MutationOptimisticResponseC
 });
 
 export const getDuplicateSequenceMutationUpdater: MutationUpdaterFunctionCreator<
-  DuplicateSequenceResponse,
+  DuplicateSequenceData,
   DuplicateSequenceVariables,
   { songId: number }
 > = ({ songId }) => {
@@ -95,6 +96,6 @@ export const getDuplicateSequenceMutationUpdater: MutationUpdaterFunctionCreator
 };
 
 export const useDuplicateSequence: MutationHook<
-  DuplicateSequenceResponse,
+  DuplicateSequenceData,
   DuplicateSequenceVariables
 > = (options) => useMutation(DUPLICATE_SEQUENCE, options);

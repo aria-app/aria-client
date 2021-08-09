@@ -2,9 +2,9 @@ import { gql, useMutation } from '@apollo/client';
 
 import { MutationHook } from './types';
 
-export interface LoginResponse {
-  __typename: 'LoginResponse';
+export interface LoginData {
   login: {
+    __typename: 'LoginResponse';
     expiresAt: number;
   };
 }
@@ -22,6 +22,5 @@ export const LOGIN = gql`
   }
 `;
 
-export const useLogin: MutationHook<LoginResponse, LoginVariables> = (
-  options,
-) => useMutation(LOGIN, options);
+export const useLogin: MutationHook<LoginData, LoginVariables> = (options) =>
+  useMutation(LOGIN, options);

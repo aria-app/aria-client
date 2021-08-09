@@ -15,11 +15,11 @@ import {
   CreateNoteVariables,
   DeleteNotesData,
   DeleteNotesVariables,
-  DuplicateNotesResponse,
+  DuplicateNotesData,
   DuplicateNotesVariables,
   GetSongData,
   GetSongVariables,
-  UpdateNotesResponse,
+  UpdateNotesData,
   UpdateNotesVariables,
 } from '../../../api';
 import { AudioManagerContext } from '../../../audio/contexts';
@@ -93,7 +93,7 @@ export default {
           );
         },
       ),
-      graphql.mutation<DuplicateNotesResponse, DuplicateNotesVariables>(
+      graphql.mutation<DuplicateNotesData, DuplicateNotesVariables>(
         'DuplicateNotes',
         (req, res, ctx) => {
           const { ids } = req.variables;
@@ -121,8 +121,9 @@ export default {
           };
 
           return res(
-            ctx.data<DuplicateNotesResponse>({
+            ctx.data<DuplicateNotesData>({
               duplicateNotes: {
+                __typename: 'DuplicateNotesResponse',
                 notes: newNotes,
               },
             }),
@@ -139,7 +140,7 @@ export default {
           );
         },
       ),
-      graphql.mutation<UpdateNotesResponse, UpdateNotesVariables>(
+      graphql.mutation<UpdateNotesData, UpdateNotesVariables>(
         'UpdateNotes',
         (req, res, ctx) => {
           const {
@@ -173,8 +174,9 @@ export default {
           };
 
           return res(
-            ctx.data<UpdateNotesResponse>({
+            ctx.data<UpdateNotesData>({
               updateNotes: {
+                __typename: 'UpdateNotesResponse',
                 notes: compact(updatedNotes),
               },
             }),

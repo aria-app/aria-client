@@ -9,8 +9,9 @@ import {
 } from './types';
 import { GET_SONG, GetSongData } from './useGetSong';
 
-export interface DuplicateNotesResponse {
+export interface DuplicateNotesData {
   duplicateNotes: {
+    __typename: 'DuplicateNotesResponse';
     notes: Note[];
   };
 }
@@ -37,11 +38,11 @@ export const DUPLICATE_NOTES = gql`
 `;
 
 export const getDuplicateNotesOptimisticResponse: MutationOptimisticResponseCreator<
-  DuplicateNotesResponse,
+  DuplicateNotesData,
   { notesToDuplicate: Note[]; tempIds: number[] }
 > = ({ notesToDuplicate, tempIds }) => ({
-  __typename: 'DuplicateNotesResponse',
   duplicateNotes: {
+    __typename: 'DuplicateNotesResponse',
     notes: notesToDuplicate.map((note, index) => ({
       ...note,
       id: tempIds[index],
@@ -50,7 +51,7 @@ export const getDuplicateNotesOptimisticResponse: MutationOptimisticResponseCrea
 });
 
 export const getDuplicateNotesMutationUpdater: MutationUpdaterFunctionCreator<
-  DuplicateNotesResponse,
+  DuplicateNotesData,
   DuplicateNotesVariables,
   { songId: number }
 > = ({ songId }) => {
@@ -93,6 +94,6 @@ export const getDuplicateNotesMutationUpdater: MutationUpdaterFunctionCreator<
 };
 
 export const useDuplicateNotes: MutationHook<
-  DuplicateNotesResponse,
+  DuplicateNotesData,
   DuplicateNotesVariables
 > = (options) => useMutation(DUPLICATE_NOTES, options);
