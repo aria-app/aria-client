@@ -26,12 +26,10 @@ export const basicSong: Song = {
               id: 1,
               points: [
                 {
-                  __typename: 'Point',
                   x: 0,
                   y: 0,
                 },
                 {
-                  __typename: 'Point',
                   x: 3,
                   y: 0,
                 },

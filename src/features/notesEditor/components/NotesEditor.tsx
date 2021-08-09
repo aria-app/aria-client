@@ -3,7 +3,6 @@ import { find, flatMap } from 'lodash';
 import getOr from 'lodash/fp/getOr';
 import includes from 'lodash/fp/includes';
 import isEmpty from 'lodash/fp/isEmpty';
-import pick from 'lodash/fp/pick';
 import uniq from 'lodash/fp/uniq';
 import memoizeOne from 'memoize-one';
 import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
@@ -11,7 +10,7 @@ import { GlobalHotKeys } from 'react-hotkeys';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { Dawww } from '../../../dawww';
-import { Note, Sequence } from '../../../types';
+import { Note, Point, Sequence } from '../../../types';
 import {
   getCreateNoteMutationUpdater,
   getCreateNoteOptimisticResponse,
@@ -67,7 +66,7 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
     },
   });
   const [contentEl, setContentEl] = useState<HTMLDivElement | null>(null);
-  const [mousePoint, setMousePoint] = useState({ x: -1, y: 1 });
+  const [mousePoint, setMousePoint] = useState<Point>({ x: -1, y: 1 });
   const [previousToolType, setPreviousToolType] = useState<ToolType>('SELECT');
   const [selectedNoteIds, setSelectedNoteIds] = useState<number[]>([]);
   const [toolType, setToolType] = useState<ToolType>('SELECT');
@@ -279,7 +278,7 @@ export const NotesEditor: FC<NotesEditorProps> = memo(() => {
           input: {
             notes: updatedNotes.map((note) => ({
               id: note.id,
-              points: note.points.map(pick(['x', 'y'])),
+              points: note.points,
             })),
           },
         };

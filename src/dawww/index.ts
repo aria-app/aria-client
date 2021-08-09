@@ -65,6 +65,7 @@ export function Dawww(options?: DawwwOptions): AudioManagerType {
   // Load initial song data
   updateSong(
     options?.song || {
+      __typename: 'Song',
       bpm: 0,
       createdAt: '2000-01-01',
       id: -1,

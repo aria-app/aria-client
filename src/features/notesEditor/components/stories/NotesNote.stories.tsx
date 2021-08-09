@@ -7,6 +7,19 @@ import { Note, Point } from '../../../../types';
 import { applyPositionDeltas, applySizeDeltas } from '../Notes';
 import { NotesNote, NotesNoteDragHandler, NotesNoteProps } from '../NotesNote';
 
+const note = {
+  __typename: 'Note',
+  id: 1,
+  points: [
+    { x: 0, y: 0 },
+    { x: 1, y: 0 },
+  ],
+  sequence: {
+    __typename: 'Sequence',
+    id: 1,
+  },
+};
+
 export default {
   component: NotesNote,
   decorators: [
@@ -29,16 +42,7 @@ export const Default: Story<NotesNoteProps> = (args) => <NotesNote {...args} />;
 
 Default.args = {
   isSelected: false,
-  note: {
-    id: 1,
-    points: [
-      { x: 0, y: 0 },
-      { x: 1, y: 0 },
-    ],
-    sequence: {
-      id: 1,
-    },
-  },
+  note,
   positionBounds: {
     bottom: 0,
     left: 0,

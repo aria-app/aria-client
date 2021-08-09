@@ -10,10 +10,10 @@ export interface Note {
 export interface PaginatedResponse<TData, TTypename> {
   __typename: TTypename;
   data: TData[];
-  meta: PaginatedResponseMetadata;
+  meta: PaginationMetadata;
 }
 
-export interface PaginatedResponseMetadata {
+export interface PaginationMetadata {
   __typename: string;
   currentPage: number;
   itemsPerPage: number;
@@ -23,7 +23,6 @@ export interface PaginatedResponseMetadata {
 export type PlaybackState = 'PAUSED' | 'STARTED' | 'STOPPED';
 
 export type Point = {
-  __typename: string;
   x: number;
   y: number;
 };
@@ -49,10 +48,7 @@ export interface Song {
   user: Partial<User> & { id: number };
 }
 
-export type SongListSong = Pick<
-  Song,
-  '__typename' | 'id' | 'name' | 'updatedAt'
->;
+export type SongListSong = Pick<Song, 'id' | 'name' | 'updatedAt'>;
 
 export interface Track {
   __typename: string;

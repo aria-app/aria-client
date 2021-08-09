@@ -5,6 +5,33 @@ import {
   NotesEditorToolbarProps,
 } from '../NotesEditorToolbar';
 
+const notes = [
+  {
+    __typename: 'Note',
+    id: 1,
+    points: [
+      { x: 0, y: 0 },
+      { x: 1, y: 0 },
+    ],
+    sequence: {
+      __typename: 'Sequence',
+      id: 1,
+    },
+  },
+  {
+    __typename: 'Note',
+    id: 2,
+    points: [
+      { x: 2, y: 2 },
+      { x: 3, y: 2 },
+    ],
+    sequence: {
+      __typename: 'Sequence',
+      id: 1,
+    },
+  },
+];
+
 export default {
   component: NotesEditorToolbar,
   title: 'NotesEditor/NotesEditorToolbar',
@@ -40,22 +67,5 @@ export const SelectedNotes: Story<NotesEditorToolbarProps> = (args) => (
 
 SelectedNotes.args = {
   ...Default.args,
-  selectedNotes: [
-    {
-      id: 1,
-      points: [
-        { x: 0, y: 34 },
-        { x: 1, y: 34 },
-      ],
-      sequence: { id: 1 },
-    },
-    {
-      id: 2,
-      points: [
-        { x: 2, y: 35 },
-        { x: 3, y: 35 },
-      ],
-      sequence: { id: 1 },
-    },
-  ],
+  selectedNotes: notes,
 };
