@@ -1,20 +1,20 @@
 export type AudioManagerType = any;
 
 export interface Note {
-  __typename?: string;
+  __typename: string;
   id: number;
   points: Point[];
   sequence: Partial<Sequence> & { id: number };
 }
 
-export interface PaginatedResponse<T> {
-  __typename?: string;
-  data: T[];
+export interface PaginatedResponse<TData, TTypename> {
+  __typename: TTypename;
+  data: TData[];
   meta: PaginatedResponseMetadata;
 }
 
 export interface PaginatedResponseMetadata {
-  __typename?: string;
+  __typename: string;
   currentPage: number;
   itemsPerPage: number;
   totalItemCount: number;
@@ -23,13 +23,13 @@ export interface PaginatedResponseMetadata {
 export type PlaybackState = 'PAUSED' | 'STARTED' | 'STOPPED';
 
 export type Point = {
-  __typename?: string;
+  __typename: string;
   x: number;
   y: number;
 };
 
 export interface Sequence {
-  __typename?: string;
+  __typename: string;
   id: number;
   measureCount: number;
   notes: Note[];
@@ -38,7 +38,7 @@ export interface Sequence {
 }
 
 export interface Song {
-  __typename?: string;
+  __typename: string;
   bpm: number;
   createdAt: string;
   id: number;
@@ -55,7 +55,7 @@ export type SongListSong = Pick<
 >;
 
 export interface Track {
-  __typename?: string;
+  __typename: string;
   id: number;
   isMuted: boolean;
   isSoloing: boolean;
@@ -67,7 +67,7 @@ export interface Track {
 }
 
 export interface User {
-  __typename?: string;
+  __typename: string;
   email: string;
   firstName: string;
   id: number;
@@ -76,7 +76,7 @@ export interface User {
 }
 
 export interface Voice {
-  __typename?: string;
+  __typename: string;
   id: number;
   name: string;
   toneOscillatorType: string;

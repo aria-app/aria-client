@@ -12,7 +12,7 @@ import {
   CreateSequenceVariables,
   CreateTrackData,
   CreateTrackVariables,
-  CurrentUserResponse,
+  CurrentUserData,
   CurrentUserVariables,
   DeleteSequenceResponse,
   DeleteSequenceVariables,
@@ -20,9 +20,9 @@ import {
   DeleteTrackVariables,
   DuplicateSequenceResponse,
   DuplicateSequenceVariables,
-  GetSongResponse,
+  GetSongData,
   GetSongVariables,
-  GetVoicesResponse,
+  GetVoicesData,
   GetVoicesVariables,
   UpdateSequenceResponse,
   UpdateSequenceVariables,
@@ -125,11 +125,11 @@ export default {
           );
         },
       ),
-      graphql.query<CurrentUserResponse, CurrentUserVariables>(
+      graphql.query<CurrentUserData, CurrentUserVariables>(
         'CurrentUser',
         (req, res, ctx) =>
           res(
-            ctx.data<CurrentUserResponse>({
+            ctx.data<CurrentUserData>({
               currentUser: fixtures.user,
             }),
           ),
@@ -246,21 +246,21 @@ export default {
           );
         },
       ),
-      graphql.query<GetSongResponse, GetSongVariables>(
+      graphql.query<GetSongData, GetSongVariables>(
         'GetSong',
         (req, res, ctx) => {
           return res(
-            ctx.data<GetSongResponse>({
+            ctx.data<GetSongData>({
               song: state.song,
             }),
           );
         },
       ),
-      graphql.query<GetVoicesResponse, GetVoicesVariables>(
+      graphql.query<GetVoicesData, GetVoicesVariables>(
         'GetVoices',
         (req, res, ctx) => {
           return res(
-            ctx.data<GetVoicesResponse>({
+            ctx.data<GetVoicesData>({
               voices: fixtures.voices,
             }),
           );

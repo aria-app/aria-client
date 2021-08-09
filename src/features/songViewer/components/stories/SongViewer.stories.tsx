@@ -6,9 +6,9 @@ import { RecoilRoot } from 'recoil';
 import * as fixtures from '../../../../fixtures';
 import {
   ClientProvider,
-  CurrentUserResponse,
+  CurrentUserData,
   CurrentUserVariables,
-  GetSongResponse,
+  GetSongData,
   GetSongVariables,
 } from '../../../api';
 import { AudioProvider } from '../../../audio';
@@ -22,20 +22,20 @@ export default {
   parameters: {
     layout: 'fullscreen',
     msw: [
-      graphql.query<CurrentUserResponse, CurrentUserVariables>(
+      graphql.query<CurrentUserData, CurrentUserVariables>(
         'CurrentUser',
         (req, res, ctx) =>
           res(
-            ctx.data<CurrentUserResponse>({
+            ctx.data<CurrentUserData>({
               currentUser: fixtures.user,
             }),
           ),
       ),
-      graphql.query<GetSongResponse, GetSongVariables>(
+      graphql.query<GetSongData, GetSongVariables>(
         'GetSong',
         (req, res, ctx) => {
           return res(
-            ctx.data<GetSongResponse>({
+            ctx.data<GetSongData>({
               song: fixtures.song,
             }),
           );

@@ -9,11 +9,11 @@ import {
   ClientProvider,
   CreateSongData,
   CreateSongVariables,
-  CurrentUserResponse,
+  CurrentUserData,
   CurrentUserVariables,
   DeleteSongResponse,
   DeleteSongVariables,
-  GetSongsResponse,
+  GetSongsData,
   GetSongsVariables,
   LogoutResponse,
   LogoutVariables,
@@ -72,11 +72,11 @@ export default {
           );
         },
       ),
-      graphql.query<CurrentUserResponse, CurrentUserVariables>(
+      graphql.query<CurrentUserData, CurrentUserVariables>(
         'CurrentUser',
         (req, res, ctx) =>
           res(
-            ctx.data<CurrentUserResponse>({
+            ctx.data<CurrentUserData>({
               currentUser: fixtures.user,
             }),
           ),
@@ -102,11 +102,11 @@ export default {
           );
         },
       ),
-      graphql.query<GetSongsResponse, GetSongsVariables>(
+      graphql.query<GetSongsData, GetSongsVariables>(
         'GetSongs',
         (req, res, ctx) =>
           res(
-            ctx.data<GetSongsResponse>({
+            ctx.data<GetSongsData>({
               songs: {
                 __typename: 'SongsResponse',
                 data: orderBy(

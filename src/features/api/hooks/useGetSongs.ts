@@ -3,8 +3,8 @@ import { gql, useQuery } from '@apollo/client';
 import { PaginatedResponse, SongListSong } from '../../../types';
 import { QueryHook } from './types';
 
-export interface GetSongsResponse {
-  songs: PaginatedResponse<SongListSong>;
+export interface GetSongsData {
+  songs: PaginatedResponse<SongListSong, 'SongsResponse'>;
 }
 
 export interface GetSongsVariables {
@@ -47,6 +47,6 @@ export const GET_SONGS = gql`
   }
 `;
 
-export const useGetSongs: QueryHook<GetSongsResponse, GetSongsVariables> = (
+export const useGetSongs: QueryHook<GetSongsData, GetSongsVariables> = (
   options,
 ) => useQuery(GET_SONGS, options);

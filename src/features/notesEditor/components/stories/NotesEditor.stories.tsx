@@ -17,7 +17,7 @@ import {
   DeleteNotesVariables,
   DuplicateNotesResponse,
   DuplicateNotesVariables,
-  GetSongResponse,
+  GetSongData,
   GetSongVariables,
   UpdateNotesResponse,
   UpdateNotesVariables,
@@ -128,11 +128,11 @@ export default {
           );
         },
       ),
-      graphql.query<GetSongResponse, GetSongVariables>(
+      graphql.query<GetSongData, GetSongVariables>(
         'GetSong',
         (req, res, ctx) => {
           return res(
-            ctx.data<GetSongResponse>({
+            ctx.data<GetSongData>({
               song: state.song,
             }),
           );

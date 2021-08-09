@@ -6,7 +6,7 @@ import {
   MutationOptimisticResponseCreator,
   MutationUpdaterFunctionCreator,
 } from './types';
-import { GET_SONG, GetSongResponse } from './useGetSong';
+import { GET_SONG, GetSongData } from './useGetSong';
 
 export interface CreateNoteData {
   createNote: {
@@ -72,16 +72,16 @@ export const getCreateNoteMutationUpdater: MutationUpdaterFunctionCreator<
       createNote: { note },
     } = data;
 
-    const songResponse = cache.readQuery<GetSongResponse>({
+    const songData = cache.readQuery<GetSongData>({
       query: GET_SONG,
       variables: { id: songId },
     });
 
-    if (!songResponse) return;
+    if (!songData) return;
 
     const updatedSong = {
-      ...songResponse.song,
-      tracks: songResponse.song.tracks.map((track) => ({
+      ...songData.song,
+      tracks: songData.song.tracks.map((track) => ({
         ...track,
         sequences: track.sequences.map((sequence) =>
           sequence.id === note.sequence.id

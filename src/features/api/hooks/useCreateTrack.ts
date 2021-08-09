@@ -3,7 +3,7 @@ import { merge } from 'lodash';
 
 import { Track } from '../../../types';
 import { MutationHook, MutationOptimisticResponseCreator } from './types';
-import { GET_SONG, GetSongResponse } from './useGetSong';
+import { GET_SONG, GetSongData } from './useGetSong';
 
 export interface CreateTrackData {
   createTrack: {
@@ -95,19 +95,19 @@ export const useCreateTrack: MutationHook<
             createTrack: { track },
           } = data;
 
-          const songResponse = cache.readQuery<GetSongResponse>({
+          const songData = cache.readQuery<GetSongData>({
             query: GET_SONG,
             variables: { id: track.song.id },
           });
 
-          if (!songResponse) return;
+          if (!songData) return;
 
           cache.writeQuery({
             query: GET_SONG,
             data: {
               song: {
-                ...songResponse.song,
-                tracks: [...songResponse.song.tracks, track],
+                ...songData.song,
+                tracks: [...songData.song.tracks, track],
               },
             },
           });

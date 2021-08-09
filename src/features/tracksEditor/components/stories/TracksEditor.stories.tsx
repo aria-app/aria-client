@@ -18,9 +18,9 @@ import {
   DeleteTrackVariables,
   DuplicateSequenceResponse,
   DuplicateSequenceVariables,
-  GetSongResponse,
+  GetSongData,
   GetSongVariables,
-  GetVoicesResponse,
+  GetVoicesData,
   GetVoicesVariables,
   UpdateSequenceResponse,
   UpdateSequenceVariables,
@@ -234,21 +234,21 @@ export default {
           );
         },
       ),
-      graphql.query<GetSongResponse, GetSongVariables>(
+      graphql.query<GetSongData, GetSongVariables>(
         'GetSong',
         (req, res, ctx) => {
           return res(
-            ctx.data<GetSongResponse>({
+            ctx.data<GetSongData>({
               song: state.song,
             }),
           );
         },
       ),
-      graphql.query<GetVoicesResponse, GetVoicesVariables>(
+      graphql.query<GetVoicesData, GetVoicesVariables>(
         'GetVoices',
         (req, res, ctx) => {
           return res(
-            ctx.data<GetVoicesResponse>({
+            ctx.data<GetVoicesData>({
               voices: fixtures.voices,
             }),
           );

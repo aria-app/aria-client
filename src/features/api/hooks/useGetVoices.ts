@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import { Voice } from '../../../types';
 import { QueryHook } from './types';
 
-export interface GetVoicesResponse {
+export interface GetVoicesData {
   voices: Voice[];
 }
 
@@ -19,6 +19,6 @@ export const GET_VOICES = gql`
   }
 `;
 
-export const useGetVoices: QueryHook<GetVoicesResponse, GetVoicesVariables> = (
+export const useGetVoices: QueryHook<GetVoicesData, GetVoicesVariables> = (
   options,
 ) => useQuery(GET_VOICES, options);

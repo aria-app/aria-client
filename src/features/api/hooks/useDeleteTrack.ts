@@ -6,7 +6,7 @@ import {
   MutationOptimisticResponseCreator,
   MutationUpdaterFunctionCreator,
 } from './types';
-import { GET_SONG, GetSongResponse } from './useGetSong';
+import { GET_SONG, GetSongData } from './useGetSong';
 
 export interface DeleteTrackResponse {
   __typename: 'DeleteTrackResponse';
@@ -54,19 +54,19 @@ export const getDeleteTrackMutationUpdater: MutationUpdaterFunctionCreator<
       deleteTrack: { track },
     } = data;
 
-    const songResponse = cache.readQuery<GetSongResponse>({
+    const songData = cache.readQuery<GetSongData>({
       query: GET_SONG,
       variables: { id: track.song.id },
     });
 
-    if (!songResponse) return;
+    if (!songData) return;
 
     cache.writeQuery({
       query: GET_SONG,
       data: {
         song: {
-          ...songResponse.song,
-          tracks: songResponse.song.tracks.filter(
+          ...songData.song,
+          tracks: songData.song.tracks.filter(
             (existingTrack) => existingTrack.id !== track.id,
           ),
         },

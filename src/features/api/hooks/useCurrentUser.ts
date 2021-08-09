@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import { User } from '../../../types';
 import { QueryHook } from './types';
 
-export interface CurrentUserResponse {
+export interface CurrentUserData {
   currentUser: Omit<User, 'songs'>;
 }
 
@@ -20,7 +20,5 @@ export const CURRENT_USER = gql`
   }
 `;
 
-export const useCurrentUser: QueryHook<
-  CurrentUserResponse,
-  CurrentUserVariables
-> = (options) => useQuery(CURRENT_USER, options);
+export const useCurrentUser: QueryHook<CurrentUserData, CurrentUserVariables> =
+  (options) => useQuery(CURRENT_USER, options);
