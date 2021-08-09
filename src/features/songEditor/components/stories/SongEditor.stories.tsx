@@ -12,6 +12,8 @@ import {
   CreateSequenceVariables,
   CreateTrackResponse,
   CreateTrackVariables,
+  CurrentUserResponse,
+  CurrentUserVariables,
   DeleteSequenceResponse,
   DeleteSequenceVariables,
   DeleteTrackResponse,
@@ -22,8 +24,6 @@ import {
   GetSongVariables,
   GetVoicesResponse,
   GetVoicesVariables,
-  MeResponse,
-  MeVariables,
   UpdateSequenceResponse,
   UpdateSequenceVariables,
   UpdateSongResponse,
@@ -122,6 +122,15 @@ export default {
             }),
           );
         },
+      ),
+      graphql.query<CurrentUserResponse, CurrentUserVariables>(
+        'CurrentUser',
+        (req, res, ctx) =>
+          res(
+            ctx.data({
+              currentUser: fixtures.user,
+            }),
+          ),
       ),
       graphql.mutation<DeleteSequenceResponse, DeleteSequenceVariables>(
         'DeleteSequence',
@@ -254,13 +263,6 @@ export default {
             }),
           );
         },
-      ),
-      graphql.query<MeResponse, MeVariables>('Me', (req, res, ctx) =>
-        res(
-          ctx.data({
-            me: fixtures.user,
-          }),
-        ),
       ),
       graphql.mutation<UpdateSequenceResponse, UpdateSequenceVariables>(
         'UpdateSequence',

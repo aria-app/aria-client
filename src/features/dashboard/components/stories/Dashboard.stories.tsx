@@ -9,14 +9,14 @@ import {
   ClientProvider,
   CreateSongResponse,
   CreateSongVariables,
+  CurrentUserResponse,
+  CurrentUserVariables,
   DeleteSongResponse,
   DeleteSongVariables,
   GetSongsResponse,
   GetSongsVariables,
   LogoutResponse,
   LogoutVariables,
-  MeResponse,
-  MeVariables,
 } from '../../../api';
 import { AuthProvider } from '../../../auth';
 import { Shell } from '../../../shared';
@@ -71,6 +71,15 @@ export default {
           );
         },
       ),
+      graphql.query<CurrentUserResponse, CurrentUserVariables>(
+        'CurrentUser',
+        (req, res, ctx) =>
+          res(
+            ctx.data({
+              currentUser: fixtures.user,
+            }),
+          ),
+      ),
       graphql.mutation<DeleteSongResponse, DeleteSongVariables>(
         'DeleteSong',
         (req, res, ctx) => {
@@ -124,13 +133,6 @@ export default {
               },
             }),
           ),
-      ),
-      graphql.query<MeResponse, MeVariables>('Me', (req, res, ctx) =>
-        res(
-          ctx.data({
-            me: fixtures.user,
-          }),
-        ),
       ),
     ],
   },

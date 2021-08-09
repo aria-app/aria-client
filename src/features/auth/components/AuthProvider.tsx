@@ -1,14 +1,14 @@
 import { useApolloClient } from '@apollo/client';
 import { FC, ProviderProps, useCallback, useEffect, useState } from 'react';
 
-import { useLogout, useMe } from '../../api';
+import { useCurrentUser, useLogout } from '../../api';
 import { AuthContext, AuthContextValue } from '../contexts/AuthContext';
 
 export const AuthProvider: FC<Partial<ProviderProps<AuthContextValue>>> = (
   props,
 ) => {
   const { resetStore } = useApolloClient();
-  const { data, error, loading } = useMe();
+  const { data, error, loading } = useCurrentUser();
   const [logout] = useLogout();
   const [expiresAt, setExpiresAt] = useState<number>();
 
@@ -45,7 +45,7 @@ export const AuthProvider: FC<Partial<ProviderProps<AuthContextValue>>> = (
         handleLogin,
         loading,
         logout: handleLogout,
-        user: data?.me,
+        user: data?.currentUser,
       }}
       {...props}
     />
