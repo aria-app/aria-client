@@ -13,7 +13,7 @@ import {
   ClientProvider,
   CreateNoteData,
   CreateNoteVariables,
-  DeleteNotesResponse,
+  DeleteNotesData,
   DeleteNotesVariables,
   DuplicateNotesResponse,
   DuplicateNotesVariables,
@@ -45,6 +45,7 @@ export default {
           } = req.variables;
 
           const newNote = {
+            __typename: 'Note',
             id: parseInt(uniqueId()),
             points,
             sequence: {
@@ -67,7 +68,7 @@ export default {
           );
         },
       ),
-      graphql.mutation<DeleteNotesResponse, DeleteNotesVariables>(
+      graphql.mutation<DeleteNotesData, DeleteNotesVariables>(
         'DeleteNotes',
         (req, res, ctx) => {
           const { ids } = req.variables;
@@ -83,9 +84,9 @@ export default {
           };
 
           return res(
-            ctx.data<DeleteNotesResponse>({
-              __typename: 'DeleteNotesResponse',
+            ctx.data<DeleteNotesData>({
               deleteNotes: {
+                __typename: 'DeleteNotesResponse',
                 notes: deletedNotes,
               },
             }),

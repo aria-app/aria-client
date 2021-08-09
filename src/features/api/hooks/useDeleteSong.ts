@@ -9,8 +9,9 @@ import {
 
 export type DeleteSongInput = number;
 
-export interface DeleteSongResponse {
+export interface DeleteSongData {
   deleteSong: {
+    __typename: 'DeleteSongResponse';
     song: SongListSong;
   };
 }
@@ -30,17 +31,17 @@ export const DELETE_SONG = gql`
 `;
 
 export const getDeleteSongOptimisticResponse: MutationOptimisticResponseCreator<
-  DeleteSongResponse,
+  DeleteSongData,
   { songToDelete: SongListSong }
 > = ({ songToDelete }) => ({
-  __typename: 'DeleteSongResponse',
   deleteSong: {
+    __typename: 'DeleteSongResponse',
     song: songToDelete,
   },
 });
 
 export const getDeleteSongUpdater: MutationUpdaterFunctionCreator<
-  DeleteSongResponse,
+  DeleteSongData,
   DeleteSongVariables
 > =
   () =>
@@ -67,7 +68,5 @@ export const getDeleteSongUpdater: MutationUpdaterFunctionCreator<
     });
   };
 
-export const useDeleteSong: MutationHook<
-  DeleteSongResponse,
-  DeleteSongVariables
-> = (options) => useMutation(DELETE_SONG, options);
+export const useDeleteSong: MutationHook<DeleteSongData, DeleteSongVariables> =
+  (options) => useMutation(DELETE_SONG, options);

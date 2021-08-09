@@ -8,7 +8,7 @@ import { GET_SONG, GetSongData } from './useGetSong';
 export interface CreateTrackData {
   createTrack: {
     __typename: 'CreateTrackResponse';
-    track: Omit<Track, 'isMuted' | 'isSoloing'>;
+    track: Track;
   };
 }
 
@@ -18,35 +18,13 @@ export interface CreateTrackVariables {
   };
 }
 
-export const getCreateTrackOptimisticResponse: MutationOptimisticResponseCreator<
-  CreateTrackData,
-  { songId: number; tempId: number }
-> = ({ songId, tempId }) => ({
-  createTrack: {
-    __typename: 'CreateTrackResponse',
-    track: {
-      __typename: 'Track',
-      id: tempId,
-      sequences: [],
-      position: 9999999999,
-      song: {
-        id: songId,
-      },
-      voice: {
-        id: 1,
-        name: 'Pulse',
-        toneOscillatorType: 'pulse',
-      },
-      volume: 0,
-    },
-  },
-});
-
 export const CREATE_TRACK = gql`
   mutation CreateTrack($input: CreateTrackInput!) {
     createTrack(input: $input) {
       track {
         id
+        isMuted
+        isSoloing
         position
         sequences {
           id
@@ -79,6 +57,33 @@ export const CREATE_TRACK = gql`
     }
   }
 `;
+
+export const getCreateTrackOptimisticResponse: MutationOptimisticResponseCreator<
+  CreateTrackData,
+  { songId: number; tempId: number }
+> = ({ songId, tempId }) => ({
+  createTrack: {
+    __typename: 'CreateTrackResponse',
+    track: {
+      __typename: 'Track',
+      id: tempId,
+      isMuted: false,
+      isSoloing: false,
+      sequences: [],
+      position: 9999999999,
+      song: {
+        id: songId,
+      },
+      voice: {
+        __typename: 'Voice',
+        id: 1,
+        name: 'Pulse',
+        toneOscillatorType: 'pulse',
+      },
+      volume: 0,
+    },
+  },
+});
 
 export const useCreateTrack: MutationHook<
   CreateTrackData,

@@ -8,9 +8,9 @@ import {
 } from './types';
 import { GET_SONG, GetSongData } from './useGetSong';
 
-export interface DeleteSequenceResponse {
-  __typename: 'DeleteSequenceResponse';
+export interface DeleteSequenceData {
   deleteSequence: {
+    __typename: 'DeleteSequenceResponse';
     sequence: Sequence;
   };
 }
@@ -30,17 +30,17 @@ export const DELETE_SEQUENCE = gql`
 `;
 
 export const getDeleteSequenceOptimisticResponse: MutationOptimisticResponseCreator<
-  DeleteSequenceResponse,
+  DeleteSequenceData,
   { sequenceToDelete: Sequence }
 > = ({ sequenceToDelete }) => ({
-  __typename: 'DeleteSequenceResponse',
   deleteSequence: {
+    __typename: 'DeleteSequenceResponse',
     sequence: sequenceToDelete,
   },
 });
 
 export const getDeleteSequenceMutationUpdater: MutationUpdaterFunctionCreator<
-  DeleteSequenceResponse,
+  DeleteSequenceData,
   DeleteSequenceVariables,
   { songId: number }
 > =
@@ -74,6 +74,6 @@ export const getDeleteSequenceMutationUpdater: MutationUpdaterFunctionCreator<
   };
 
 export const useDeleteSequence: MutationHook<
-  DeleteSequenceResponse,
+  DeleteSequenceData,
   DeleteSequenceVariables
 > = (options) => useMutation(DELETE_SEQUENCE, options);

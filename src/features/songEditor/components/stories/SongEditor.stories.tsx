@@ -14,9 +14,9 @@ import {
   CreateTrackVariables,
   CurrentUserData,
   CurrentUserVariables,
-  DeleteSequenceResponse,
+  DeleteSequenceData,
   DeleteSequenceVariables,
-  DeleteTrackResponse,
+  DeleteTrackData,
   DeleteTrackVariables,
   DuplicateSequenceResponse,
   DuplicateSequenceVariables,
@@ -134,7 +134,7 @@ export default {
             }),
           ),
       ),
-      graphql.mutation<DeleteSequenceResponse, DeleteSequenceVariables>(
+      graphql.mutation<DeleteSequenceData, DeleteSequenceVariables>(
         'DeleteSequence',
         (req, res, ctx) => {
           const { id } = req.variables;
@@ -161,16 +161,16 @@ export default {
           };
 
           return res(
-            ctx.data<DeleteSequenceResponse>({
-              __typename: 'DeleteSequenceResponse',
+            ctx.data<DeleteSequenceData>({
               deleteSequence: {
+                __typename: 'DeleteSequenceResponse',
                 sequence: deletedSequences[0],
               },
             }),
           );
         },
       ),
-      graphql.mutation<DeleteTrackResponse, DeleteTrackVariables>(
+      graphql.mutation<DeleteTrackData, DeleteTrackVariables>(
         'DeleteTrack',
         (req, res, ctx) => {
           const { id } = req.variables;
@@ -186,9 +186,9 @@ export default {
           };
 
           return res(
-            ctx.data<DeleteTrackResponse>({
-              __typename: 'DeleteTrackResponse',
+            ctx.data<DeleteTrackData>({
               deleteTrack: {
+                __typename: 'DeleteTrackResponse',
                 track: deletedTracks[0],
               },
             }),

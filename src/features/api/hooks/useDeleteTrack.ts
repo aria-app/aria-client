@@ -8,9 +8,9 @@ import {
 } from './types';
 import { GET_SONG, GetSongData } from './useGetSong';
 
-export interface DeleteTrackResponse {
-  __typename: 'DeleteTrackResponse';
+export interface DeleteTrackData {
   deleteTrack: {
+    __typename: 'DeleteTrackResponse';
     track: Track;
   };
 }
@@ -33,17 +33,17 @@ export const DELETE_TRACK = gql`
 `;
 
 export const getDeleteTrackOptimisticResponse: MutationOptimisticResponseCreator<
-  DeleteTrackResponse,
+  DeleteTrackData,
   { trackToDelete: Track }
 > = ({ trackToDelete }) => ({
-  __typename: 'DeleteTrackResponse',
   deleteTrack: {
+    __typename: 'DeleteTrackResponse',
     track: trackToDelete,
   },
 });
 
 export const getDeleteTrackMutationUpdater: MutationUpdaterFunctionCreator<
-  DeleteTrackResponse,
+  DeleteTrackData,
   DeleteTrackVariables
 > =
   () =>
@@ -75,6 +75,6 @@ export const getDeleteTrackMutationUpdater: MutationUpdaterFunctionCreator<
   };
 
 export const useDeleteTrack: MutationHook<
-  DeleteTrackResponse,
+  DeleteTrackData,
   DeleteTrackVariables
 > = (options) => useMutation(DELETE_TRACK, options);

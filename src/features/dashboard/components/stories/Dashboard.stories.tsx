@@ -11,7 +11,7 @@ import {
   CreateSongVariables,
   CurrentUserData,
   CurrentUserVariables,
-  DeleteSongResponse,
+  DeleteSongData,
   DeleteSongVariables,
   GetSongsData,
   GetSongsVariables,
@@ -81,7 +81,7 @@ export default {
             }),
           ),
       ),
-      graphql.mutation<DeleteSongResponse, DeleteSongVariables>(
+      graphql.mutation<DeleteSongData, DeleteSongVariables>(
         'DeleteSong',
         (req, res, ctx) => {
           const { id } = req.variables;
@@ -94,8 +94,9 @@ export default {
           state.songs = songsWithoutDeleted;
 
           return res(
-            ctx.data<DeleteSongResponse>({
+            ctx.data<DeleteSongData>({
               deleteSong: {
+                __typename: 'DeleteSongResponse',
                 song: deletedSongs[0],
               },
             }),

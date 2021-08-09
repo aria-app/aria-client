@@ -8,9 +8,9 @@ import {
 } from './types';
 import { GET_SONG, GetSongData } from './useGetSong';
 
-export interface DeleteNotesResponse {
-  __typename: 'DeleteNotesResponse';
+export interface DeleteNotesData {
   deleteNotes: {
+    __typename: 'DeleteNotesResponse';
     notes: Note[];
   };
 }
@@ -30,17 +30,17 @@ export const DELETE_NOTES = gql`
 `;
 
 export const getDeleteNotesOptimisticUpdate: MutationOptimisticResponseCreator<
-  DeleteNotesResponse,
+  DeleteNotesData,
   { notesToDelete: Note[] }
 > = ({ notesToDelete }) => ({
-  __typename: 'DeleteNotesResponse',
   deleteNotes: {
+    __typename: 'DeleteNotesResponse',
     notes: notesToDelete,
   },
 });
 
 export const getDeleteNotesMutationUpdater: MutationUpdaterFunctionCreator<
-  DeleteNotesResponse,
+  DeleteNotesData,
   DeleteNotesVariables,
   { songId: number }
 > = ({ songId }) => {
@@ -75,6 +75,6 @@ export const getDeleteNotesMutationUpdater: MutationUpdaterFunctionCreator<
 };
 
 export const useDeleteNotes: MutationHook<
-  DeleteNotesResponse,
+  DeleteNotesData,
   DeleteNotesVariables
 > = (options) => useMutation(DELETE_NOTES, options);
