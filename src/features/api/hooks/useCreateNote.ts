@@ -8,9 +8,9 @@ import {
 } from './types';
 import { GET_SONG, GetSongResponse } from './useGetSong';
 
-export interface CreateNoteResponse {
-  __typename: 'CreateNoteResponse';
+export interface CreateNoteData {
   createNote: {
+    __typename: 'CreateNoteResponse';
     note: Note;
   };
 }
@@ -40,15 +40,15 @@ export const CREATE_NOTE = gql`
 `;
 
 export const getCreateNoteOptimisticResponse: MutationOptimisticResponseCreator<
-  CreateNoteResponse,
+  CreateNoteData,
   {
     points: Point[];
     sequenceId: number;
     tempId: number;
   }
 > = ({ tempId, points, sequenceId }) => ({
-  __typename: 'CreateNoteResponse',
   createNote: {
+    __typename: 'CreateNoteResponse',
     note: {
       __typename: 'Note',
       id: tempId,
@@ -61,7 +61,7 @@ export const getCreateNoteOptimisticResponse: MutationOptimisticResponseCreator<
 });
 
 export const getCreateNoteMutationUpdater: MutationUpdaterFunctionCreator<
-  CreateNoteResponse,
+  CreateNoteData,
   CreateNoteVariables,
   { songId: number }
 > = ({ songId }) => {
@@ -103,7 +103,5 @@ export const getCreateNoteMutationUpdater: MutationUpdaterFunctionCreator<
   };
 };
 
-export const useCreateNote: MutationHook<
-  CreateNoteResponse,
-  CreateNoteVariables
-> = (options) => useMutation(CREATE_NOTE, options);
+export const useCreateNote: MutationHook<CreateNoteData, CreateNoteVariables> =
+  (options) => useMutation(CREATE_NOTE, options);

@@ -11,7 +11,7 @@ import { I18NWrapper } from '../../../../i18n';
 import { Note } from '../../../../types';
 import {
   ClientProvider,
-  CreateNoteResponse,
+  CreateNoteData,
   CreateNoteVariables,
   DeleteNotesResponse,
   DeleteNotesVariables,
@@ -37,7 +37,7 @@ export default {
   parameters: {
     layout: 'fullscreen',
     msw: [
-      graphql.mutation<CreateNoteResponse, CreateNoteVariables>(
+      graphql.mutation<CreateNoteData, CreateNoteVariables>(
         'CreateNote',
         (req, res, ctx) => {
           const {
@@ -58,9 +58,9 @@ export default {
           };
 
           return res(
-            ctx.data<CreateNoteResponse>({
-              __typename: 'CreateNoteResponse',
+            ctx.data<CreateNoteData>({
               createNote: {
+                __typename: 'CreateNoteResponse',
                 note: newNote,
               },
             }),
