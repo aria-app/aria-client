@@ -74,7 +74,8 @@ export default {
           };
 
           return res(
-            ctx.data({
+            ctx.data<CreateSequenceResponse>({
+              __typename: 'CreateSequenceResponse',
               createSequence: {
                 sequence: newSequence,
               },
@@ -112,7 +113,8 @@ export default {
           };
 
           return res(
-            ctx.data({
+            ctx.data<CreateTrackResponse>({
+              __typename: 'CreateTrackResponse',
               createTrack: {
                 track: newTrack,
               },
@@ -224,7 +226,7 @@ export default {
           };
 
           return res(
-            ctx.data({
+            ctx.data<DuplicateSequenceResponse>({
               duplicateSequence: {
                 sequence: newSequence,
               },
@@ -236,7 +238,7 @@ export default {
         'GetSong',
         (req, res, ctx) => {
           return res(
-            ctx.data({
+            ctx.data<GetSongResponse>({
               song: state.song,
             }),
           );
@@ -246,7 +248,7 @@ export default {
         'GetVoices',
         (req, res, ctx) => {
           return res(
-            ctx.data({
+            ctx.data<GetVoicesResponse>({
               voices: fixtures.voices,
             }),
           );
@@ -298,7 +300,8 @@ export default {
           };
 
           return res(
-            ctx.data({
+            ctx.data<UpdateSequenceResponse>({
+              __typename: 'UpdateSequenceResponse',
               updateSequence: {
                 sequence: updatedSequence,
               },
@@ -323,7 +326,8 @@ export default {
           };
 
           return res(
-            ctx.data({
+            ctx.data<UpdateSongResponse>({
+              __typename: 'UpdateSongResponse',
               updateSong: {
                 song: state.song,
               },
@@ -365,7 +369,7 @@ export default {
           };
 
           return res(
-            ctx.data({
+            ctx.data<UpdateTrackResponse>({
               updateTrack: {
                 track: updatedTrack,
               },

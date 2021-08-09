@@ -6,6 +6,7 @@ import { MutationHook, MutationOptimisticResponseCreator } from './types';
 import { GET_SONG, GetSongResponse } from './useGetSong';
 
 export interface CreateTrackResponse {
+  __typename: 'CreateTrackResponse';
   createTrack: {
     track: Omit<Track, 'isMuted' | 'isSoloing'>;
   };

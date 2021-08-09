@@ -47,11 +47,10 @@ export default {
           };
 
           return res(
-            ctx.data({
+            ctx.data<CreateSongResponse>({
+              __typename: 'CreateSongResponse',
               createSong: {
-                message: 'Song was created.',
                 song: newSong,
-                success: true,
               },
             }),
           );

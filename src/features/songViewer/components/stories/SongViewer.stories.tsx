@@ -26,7 +26,7 @@ export default {
         'CurrentUser',
         (req, res, ctx) =>
           res(
-            ctx.data({
+            ctx.data<CurrentUserResponse>({
               currentUser: fixtures.user,
             }),
           ),
@@ -35,7 +35,7 @@ export default {
         'GetSong',
         (req, res, ctx) => {
           return res(
-            ctx.data({
+            ctx.data<GetSongResponse>({
               song: fixtures.song,
             }),
           );

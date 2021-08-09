@@ -61,10 +61,10 @@ export default {
           }
 
           return res(
-            ctx.data({
+            ctx.data<LoginResponse>({
+              __typename: 'LoginResponse',
               login: {
                 expiresAt: 9999999999,
-                success: true,
               },
             }),
           );

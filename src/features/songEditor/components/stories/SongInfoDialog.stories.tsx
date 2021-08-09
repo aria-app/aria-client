@@ -34,7 +34,7 @@ export default {
         'DeleteSong',
         (req, res, ctx) => {
           return res(
-            ctx.data({
+            ctx.data<DeleteSongResponse>({
               deleteSong: {
                 song,
               },

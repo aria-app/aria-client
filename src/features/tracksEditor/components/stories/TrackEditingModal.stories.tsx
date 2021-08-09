@@ -39,7 +39,7 @@ export default {
         'GetVoices',
         (req, res, ctx) => {
           return res(
-            ctx.data({
+            ctx.data<GetVoicesResponse>({
               voices,
             }),
           );

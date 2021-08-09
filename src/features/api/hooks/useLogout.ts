@@ -3,6 +3,7 @@ import { gql, useMutation } from '@apollo/client';
 import { MutationHook } from './types';
 
 export interface LogoutResponse {
+  __typename: 'LogoutResponse';
   logout: {
     success: boolean;
   };

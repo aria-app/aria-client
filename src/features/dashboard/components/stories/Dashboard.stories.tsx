@@ -63,7 +63,8 @@ export default {
           state.songs = [...state.songs, newSong];
 
           return res(
-            ctx.data({
+            ctx.data<CreateSongResponse>({
+              __typename: 'CreateSongResponse',
               createSong: {
                 song: newSong,
               },
@@ -75,7 +76,7 @@ export default {
         'CurrentUser',
         (req, res, ctx) =>
           res(
-            ctx.data({
+            ctx.data<CurrentUserResponse>({
               currentUser: fixtures.user,
             }),
           ),
@@ -105,7 +106,7 @@ export default {
         'GetSongs',
         (req, res, ctx) =>
           res(
-            ctx.data({
+            ctx.data<GetSongsResponse>({
               songs: {
                 __typename: 'SongsResponse',
                 data: orderBy(
@@ -127,7 +128,8 @@ export default {
         'Logout',
         (req, res, ctx) =>
           res(
-            ctx.data({
+            ctx.data<LogoutResponse>({
+              __typename: 'LogoutResponse',
               logout: {
                 success: true,
               },

@@ -3,6 +3,7 @@ import { gql, useMutation } from '@apollo/client';
 import { MutationHook } from './types';
 
 export interface LoginResponse {
+  __typename: 'LoginResponse';
   login: {
     expiresAt: number;
   };

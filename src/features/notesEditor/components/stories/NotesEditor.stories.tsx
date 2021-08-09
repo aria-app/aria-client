@@ -58,7 +58,8 @@ export default {
           };
 
           return res(
-            ctx.data({
+            ctx.data<CreateNoteResponse>({
+              __typename: 'CreateNoteResponse',
               createNote: {
                 note: newNote,
               },
@@ -131,7 +132,7 @@ export default {
         'GetSong',
         (req, res, ctx) => {
           return res(
-            ctx.data({
+            ctx.data<GetSongResponse>({
               song: state.song,
             }),
           );

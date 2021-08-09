@@ -9,6 +9,7 @@ import {
 import { GET_SONG, GetSongResponse } from './useGetSong';
 
 export interface CreateNoteResponse {
+  __typename: 'CreateNoteResponse';
   createNote: {
     note: Note;
   };
