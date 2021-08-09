@@ -8,9 +8,9 @@ import * as fixtures from '../../../../fixtures';
 import { Sequence, Track } from '../../../../types';
 import {
   ClientProvider,
-  CreateSequenceResponse,
+  CreateSequenceData,
   CreateSequenceVariables,
-  CreateTrackResponse,
+  CreateTrackData,
   CreateTrackVariables,
   DeleteSequenceResponse,
   DeleteSequenceVariables,
@@ -43,7 +43,7 @@ export default {
   parameters: {
     layout: 'fullscreen',
     msw: [
-      graphql.mutation<CreateSequenceResponse, CreateSequenceVariables>(
+      graphql.mutation<CreateSequenceData, CreateSequenceVariables>(
         'CreateSequence',
         (req, res, ctx) => {
           const {
@@ -74,16 +74,16 @@ export default {
           };
 
           return res(
-            ctx.data<CreateSequenceResponse>({
-              __typename: 'CreateSequenceResponse',
+            ctx.data<CreateSequenceData>({
               createSequence: {
+                __typename: 'CreateSequenceResponse',
                 sequence: newSequence,
               },
             }),
           );
         },
       ),
-      graphql.mutation<CreateTrackResponse, CreateTrackVariables>(
+      graphql.mutation<CreateTrackData, CreateTrackVariables>(
         'CreateTrack',
         (req, res, ctx) => {
           const {
@@ -113,9 +113,9 @@ export default {
           };
 
           return res(
-            ctx.data<CreateTrackResponse>({
-              __typename: 'CreateTrackResponse',
+            ctx.data<CreateTrackData>({
               createTrack: {
+                __typename: 'CreateTrackResponse',
                 track: newTrack,
               },
             }),

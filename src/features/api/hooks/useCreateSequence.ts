@@ -8,9 +8,9 @@ import {
 } from './types';
 import { GET_SONG, GetSongResponse } from './useGetSong';
 
-export interface CreateSequenceResponse {
-  __typename: 'CreateSequenceResponse';
+export interface CreateSequenceData {
   createSequence: {
+    __typename: 'CreateSequenceResponse';
     sequence: Sequence;
   };
 }
@@ -48,15 +48,15 @@ export const CREATE_SEQUENCE = gql`
 `;
 
 export const getCreateSequenceOptimisticResponse: MutationOptimisticResponseCreator<
-  CreateSequenceResponse,
+  CreateSequenceData,
   {
     position: number;
     tempId: number;
     trackId: number;
   }
 > = ({ position, tempId, trackId }) => ({
-  __typename: 'CreateSequenceResponse',
   createSequence: {
+    __typename: 'CreateSequenceResponse',
     sequence: {
       __typename: 'Sequence',
       id: tempId,
@@ -71,7 +71,7 @@ export const getCreateSequenceOptimisticResponse: MutationOptimisticResponseCrea
 });
 
 export const getCreateSequenceMutationUpdater: MutationUpdaterFunctionCreator<
-  CreateSequenceResponse,
+  CreateSequenceData,
   CreateSequenceVariables,
   { songId: number }
 > = ({ songId }) => {
@@ -109,6 +109,6 @@ export const getCreateSequenceMutationUpdater: MutationUpdaterFunctionCreator<
 };
 
 export const useCreateSequence: MutationHook<
-  CreateSequenceResponse,
+  CreateSequenceData,
   CreateSequenceVariables
 > = (options) => useMutation(CREATE_SEQUENCE, options);

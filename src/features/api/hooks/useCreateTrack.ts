@@ -5,9 +5,9 @@ import { Track } from '../../../types';
 import { MutationHook, MutationOptimisticResponseCreator } from './types';
 import { GET_SONG, GetSongResponse } from './useGetSong';
 
-export interface CreateTrackResponse {
-  __typename: 'CreateTrackResponse';
+export interface CreateTrackData {
   createTrack: {
+    __typename: 'CreateTrackResponse';
     track: Omit<Track, 'isMuted' | 'isSoloing'>;
   };
 }
@@ -19,11 +19,11 @@ export interface CreateTrackVariables {
 }
 
 export const getCreateTrackOptimisticResponse: MutationOptimisticResponseCreator<
-  CreateTrackResponse,
+  CreateTrackData,
   { songId: number; tempId: number }
 > = ({ songId, tempId }) => ({
-  __typename: 'CreateTrackResponse',
   createTrack: {
+    __typename: 'CreateTrackResponse',
     track: {
       __typename: 'Track',
       id: tempId,
@@ -81,7 +81,7 @@ export const CREATE_TRACK = gql`
 `;
 
 export const useCreateTrack: MutationHook<
-  CreateTrackResponse,
+  CreateTrackData,
   CreateTrackVariables
 > = (options) =>
   useMutation(
@@ -112,7 +112,7 @@ export const useCreateTrack: MutationHook<
             },
           });
         },
-      } as MutationHookOptions<CreateTrackResponse, CreateTrackVariables>,
+      } as MutationHookOptions<CreateTrackData, CreateTrackVariables>,
       options,
     ),
   );

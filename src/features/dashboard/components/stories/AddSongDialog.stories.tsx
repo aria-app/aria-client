@@ -4,7 +4,7 @@ import { graphql } from 'msw';
 
 import {
   ClientProvider,
-  CreateSongResponse,
+  CreateSongData,
   CreateSongVariables,
 } from '../../../api';
 import { getMockRouterDecorator } from '../../../shared/storybook/getMockRouterDecorator';
@@ -17,7 +17,7 @@ export default {
   parameters: {
     layout: 'fullscreen',
     msw: [
-      graphql.mutation<CreateSongResponse, CreateSongVariables>(
+      graphql.mutation<CreateSongData, CreateSongVariables>(
         'CreateSong',
         (req, res, ctx) => {
           const {
@@ -47,9 +47,9 @@ export default {
           };
 
           return res(
-            ctx.data<CreateSongResponse>({
-              __typename: 'CreateSongResponse',
+            ctx.data<CreateSongData>({
               createSong: {
+                __typename: 'CreateSongResponse',
                 song: newSong,
               },
             }),
