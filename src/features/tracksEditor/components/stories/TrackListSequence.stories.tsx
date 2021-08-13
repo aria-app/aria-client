@@ -38,6 +38,7 @@ const sequence = {
   ],
   position: 0,
   track: {
+    __typename: 'Track',
     id: 1,
   },
 };

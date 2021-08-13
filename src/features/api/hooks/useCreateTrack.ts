@@ -72,6 +72,7 @@ export const getCreateTrackOptimisticResponse: MutationOptimisticResponseCreator
       sequences: [],
       position: 9999999999,
       song: {
+        __typename: 'Song',
         id: songId,
       },
       voice: {

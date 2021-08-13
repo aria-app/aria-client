@@ -4,7 +4,7 @@ export interface Note {
   __typename: string;
   id: number;
   points: Point[];
-  sequence: Partial<Sequence> & { id: number };
+  sequence: Pick<Sequence, '__typename' | 'id'>;
 }
 
 export interface PaginatedResponse<TData, TTypename> {
@@ -33,7 +33,7 @@ export interface Sequence {
   measureCount: number;
   notes: Note[];
   position: number;
-  track: Partial<Track> & { id: number };
+  track: Pick<Track, '__typename' | 'id'>;
 }
 
 export interface Song {
@@ -45,7 +45,7 @@ export interface Song {
   name: string;
   tracks: Track[];
   updatedAt: string;
-  user: Partial<User> & { id: number };
+  user: Pick<User, '__typename' | 'id'>;
 }
 
 export type SongListSong = Pick<
@@ -60,7 +60,7 @@ export interface Track {
   isSoloing: boolean;
   position: number;
   sequences: Sequence[];
-  song: Partial<Song> & { id: number };
+  song: Pick<Song, '__typename' | 'id'>;
   voice: Voice;
   volume: number;
 }

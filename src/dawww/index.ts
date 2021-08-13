@@ -73,6 +73,7 @@ export function Dawww(options?: DawwwOptions): AudioManagerType {
       name: '',
       updatedAt: '2000-01-01',
       user: {
+        __typename: 'User',
         id: -1,
       },
       tracks: [],

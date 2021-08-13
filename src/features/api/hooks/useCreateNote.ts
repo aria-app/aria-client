@@ -54,6 +54,7 @@ export const getCreateNoteOptimisticResponse: MutationOptimisticResponseCreator<
       id: tempId,
       points,
       sequence: {
+        __typename: 'Sequence',
         id: sequenceId,
       },
     },

@@ -64,6 +64,7 @@ export const getCreateSequenceOptimisticResponse: MutationOptimisticResponseCrea
       notes: [],
       position,
       track: {
+        __typename: 'Track',
         id: trackId,
       },
     },

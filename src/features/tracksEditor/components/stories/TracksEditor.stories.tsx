@@ -57,6 +57,7 @@ export default {
             notes: [],
             position,
             track: {
+              __typename: 'Track',
               id: trackId,
             },
           };
@@ -101,6 +102,7 @@ export default {
             position: prevMaxPosition + 1,
             sequences: [],
             song: {
+              __typename: 'Song',
               id: songId,
             },
             voice: fixtures.voices[0],

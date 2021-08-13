@@ -23,6 +23,7 @@ Default.args = {
     notes: [],
     position: 0,
     track: {
+      __typename: 'Track',
       id: 1,
     },
   },

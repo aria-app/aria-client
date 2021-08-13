@@ -49,6 +49,7 @@ export default {
             id: parseInt(uniqueId()),
             points,
             sequence: {
+              __typename: 'Sequence',
               id: state.sequence.id,
             },
           };
