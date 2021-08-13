@@ -1,22 +1,22 @@
 import { Meta, Story } from '@storybook/react';
 import { formatISO } from 'date-fns/esm';
-import { orderBy, uniqueId } from 'lodash';
+import { orderBy, partition, uniqueId } from 'lodash';
 import { graphql } from 'msw';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
 
 import * as fixtures from '../../../../fixtures';
 import {
   ClientProvider,
-  CreateSongResponse,
+  CreateSongData,
   CreateSongVariables,
-  DeleteSongResponse,
+  CurrentUserData,
+  CurrentUserVariables,
+  DeleteSongData,
   DeleteSongVariables,
-  GetSongsResponse,
+  GetSongsData,
   GetSongsVariables,
-  LogoutResponse,
+  LogoutData,
   LogoutVariables,
-  MeResponse,
-  MeVariables,
 } from '../../../api';
 import { AuthProvider } from '../../../auth';
 import { Shell } from '../../../shared';
@@ -32,7 +32,7 @@ export default {
   parameters: {
     layout: 'fullscreen',
     msw: [
-      graphql.mutation<CreateSongResponse, CreateSongVariables>(
+      graphql.mutation<CreateSongData, CreateSongVariables>(
         'CreateSong',
         (req, res, ctx) => {
           const {
@@ -63,35 +63,51 @@ export default {
           state.songs = [...state.songs, newSong];
 
           return res(
-            ctx.data({
+            ctx.data<CreateSongData>({
               createSong: {
+                __typename: 'CreateSongResponse',
                 song: newSong,
               },
             }),
           );
         },
       ),
-      graphql.mutation<DeleteSongResponse, DeleteSongVariables>(
+      graphql.query<CurrentUserData, CurrentUserVariables>(
+        'CurrentUser',
+        (req, res, ctx) =>
+          res(
+            ctx.data<CurrentUserData>({
+              currentUser: fixtures.user,
+            }),
+          ),
+      ),
+      graphql.mutation<DeleteSongData, DeleteSongVariables>(
         'DeleteSong',
         (req, res, ctx) => {
           const { id } = req.variables;
 
-          state.songs = state.songs.filter((song) => song.id !== id);
+          const [deletedSongs, songsWithoutDeleted] = partition(
+            state.songs,
+            (song) => song.id === id,
+          );
+
+          state.songs = songsWithoutDeleted;
 
           return res(
-            ctx.data({
+            ctx.data<DeleteSongData>({
               deleteSong: {
-                success: true,
+                __typename: 'DeleteSongResponse',
+                song: deletedSongs[0],
               },
             }),
           );
         },
       ),
-      graphql.query<GetSongsResponse, GetSongsVariables>(
+      graphql.query<GetSongsData, GetSongsVariables>(
         'GetSongs',
         (req, res, ctx) =>
           res(
-            ctx.data({
+            ctx.data<GetSongsData>({
               songs: {
                 __typename: 'SongsResponse',
                 data: orderBy(
@@ -109,21 +125,13 @@ export default {
             }),
           ),
       ),
-      graphql.mutation<LogoutResponse, LogoutVariables>(
-        'Logout',
-        (req, res, ctx) =>
-          res(
-            ctx.data({
-              logout: {
-                success: true,
-              },
-            }),
-          ),
-      ),
-      graphql.query<MeResponse, MeVariables>('Me', (req, res, ctx) =>
+      graphql.mutation<LogoutData, LogoutVariables>('Logout', (req, res, ctx) =>
         res(
-          ctx.data({
-            me: fixtures.user,
+          ctx.data<LogoutData>({
+            logout: {
+              __typename: 'LogoutResponse',
+              success: true,
+            },
           }),
         ),
       ),

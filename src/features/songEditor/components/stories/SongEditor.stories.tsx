@@ -1,5 +1,5 @@
 import { Meta, Story } from '@storybook/react';
-import { compact, first, isNil, max, uniqueId } from 'lodash';
+import { compact, first, isNil, max, partition, uniqueId } from 'lodash';
 import { graphql } from 'msw';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
@@ -8,27 +8,27 @@ import * as fixtures from '../../../../fixtures';
 import { Sequence, Track } from '../../../../types';
 import {
   ClientProvider,
-  CreateSequenceResponse,
+  CreateSequenceData,
   CreateSequenceVariables,
-  CreateTrackResponse,
+  CreateTrackData,
   CreateTrackVariables,
-  DeleteSequenceResponse,
+  CurrentUserData,
+  CurrentUserVariables,
+  DeleteSequenceData,
   DeleteSequenceVariables,
-  DeleteTrackResponse,
+  DeleteTrackData,
   DeleteTrackVariables,
-  DuplicateSequenceResponse,
+  DuplicateSequenceData,
   DuplicateSequenceVariables,
-  GetSongResponse,
+  GetSongData,
   GetSongVariables,
-  GetVoicesResponse,
+  GetVoicesData,
   GetVoicesVariables,
-  MeResponse,
-  MeVariables,
-  UpdateSequenceResponse,
+  UpdateSequenceData,
   UpdateSequenceVariables,
-  UpdateSongResponse,
+  UpdateSongData,
   UpdateSongVariables,
-  UpdateTrackResponse,
+  UpdateTrackData,
   UpdateTrackVariables,
 } from '../../../api';
 import { AudioProvider } from '../../../audio';
@@ -46,7 +46,7 @@ export default {
   parameters: {
     layout: 'fullscreen',
     msw: [
-      graphql.mutation<CreateSequenceResponse, CreateSequenceVariables>(
+      graphql.mutation<CreateSequenceData, CreateSequenceVariables>(
         'CreateSequence',
         (req, res, ctx) => {
           const {
@@ -60,6 +60,7 @@ export default {
             notes: [],
             position,
             track: {
+              __typename: 'Track',
               id: trackId,
             },
           };
@@ -77,15 +78,16 @@ export default {
           };
 
           return res(
-            ctx.data({
+            ctx.data<CreateSequenceData>({
               createSequence: {
+                __typename: 'CreateSequenceResponse',
                 sequence: newSequence,
               },
             }),
           );
         },
       ),
-      graphql.mutation<CreateTrackResponse, CreateTrackVariables>(
+      graphql.mutation<CreateTrackData, CreateTrackVariables>(
         'CreateTrack',
         (req, res, ctx) => {
           const {
@@ -103,6 +105,7 @@ export default {
             position: prevMaxPosition + 1,
             sequences: [],
             song: {
+              __typename: 'Song',
               id: songId,
             },
             voice: fixtures.voices[0],
@@ -115,58 +118,86 @@ export default {
           };
 
           return res(
-            ctx.data({
+            ctx.data<CreateTrackData>({
               createTrack: {
+                __typename: 'CreateTrackResponse',
                 track: newTrack,
               },
             }),
           );
         },
       ),
-      graphql.mutation<DeleteSequenceResponse, DeleteSequenceVariables>(
+      graphql.query<CurrentUserData, CurrentUserVariables>(
+        'CurrentUser',
+        (req, res, ctx) =>
+          res(
+            ctx.data<CurrentUserData>({
+              currentUser: fixtures.user,
+            }),
+          ),
+      ),
+      graphql.mutation<DeleteSequenceData, DeleteSequenceVariables>(
         'DeleteSequence',
         (req, res, ctx) => {
           const { id } = req.variables;
+
+          const parentTrack = state.song.tracks.find((track) =>
+            track.sequences.some((sequence) => sequence.id === id),
+          );
+
+          if (!parentTrack) {
+            return res(ctx.errors([{ message: 'Could not delete sequence' }]));
+          }
+
+          const [deletedSequences, sequencesWithoutDeleted] = partition(
+            parentTrack.sequences,
+            (sequence) => sequence.id === id,
+          );
 
           state.song = {
             ...state.song,
             tracks: state.song.tracks.map((track) => ({
               ...track,
-              sequences: track.sequences.filter(
-                (sequence) => sequence.id !== id,
-              ),
+              sequences: sequencesWithoutDeleted,
             })),
           };
 
           return res(
-            ctx.data({
+            ctx.data<DeleteSequenceData>({
               deleteSequence: {
-                success: true,
+                __typename: 'DeleteSequenceResponse',
+                sequence: deletedSequences[0],
               },
             }),
           );
         },
       ),
-      graphql.mutation<DeleteTrackResponse, DeleteTrackVariables>(
+      graphql.mutation<DeleteTrackData, DeleteTrackVariables>(
         'DeleteTrack',
         (req, res, ctx) => {
           const { id } = req.variables;
 
+          const [deletedTracks, tracksWithoutDeleted] = partition(
+            state.song.tracks,
+            (track) => track.id === id,
+          );
+
           state.song = {
             ...state.song,
-            tracks: state.song.tracks.filter((track) => track.id !== id),
+            tracks: tracksWithoutDeleted,
           };
 
           return res(
-            ctx.data({
+            ctx.data<DeleteTrackData>({
               deleteTrack: {
-                success: true,
+                __typename: 'DeleteTrackResponse',
+                track: deletedTracks[0],
               },
             }),
           );
         },
       ),
-      graphql.mutation<DuplicateSequenceResponse, DuplicateSequenceVariables>(
+      graphql.mutation<DuplicateSequenceData, DuplicateSequenceVariables>(
         'DuplicateSequence',
         (req, res, ctx) => {
           const { id } = req.variables;
@@ -209,42 +240,36 @@ export default {
           };
 
           return res(
-            ctx.data({
+            ctx.data<DuplicateSequenceData>({
               duplicateSequence: {
+                __typename: 'DuplicateSequenceResponse',
                 sequence: newSequence,
               },
             }),
           );
         },
       ),
-      graphql.query<GetSongResponse, GetSongVariables>(
+      graphql.query<GetSongData, GetSongVariables>(
         'GetSong',
         (req, res, ctx) => {
           return res(
-            ctx.data({
+            ctx.data<GetSongData>({
               song: state.song,
             }),
           );
         },
       ),
-      graphql.query<GetVoicesResponse, GetVoicesVariables>(
+      graphql.query<GetVoicesData, GetVoicesVariables>(
         'GetVoices',
         (req, res, ctx) => {
           return res(
-            ctx.data({
+            ctx.data<GetVoicesData>({
               voices: fixtures.voices,
             }),
           );
         },
       ),
-      graphql.query<MeResponse, MeVariables>('Me', (req, res, ctx) =>
-        res(
-          ctx.data({
-            me: fixtures.user,
-          }),
-        ),
-      ),
-      graphql.mutation<UpdateSequenceResponse, UpdateSequenceVariables>(
+      graphql.mutation<UpdateSequenceData, UpdateSequenceVariables>(
         'UpdateSequence',
         (req, res, ctx) => {
           const {
@@ -290,15 +315,16 @@ export default {
           };
 
           return res(
-            ctx.data({
+            ctx.data<UpdateSequenceData>({
               updateSequence: {
+                __typename: 'UpdateSequenceResponse',
                 sequence: updatedSequence,
               },
             }),
           );
         },
       ),
-      graphql.mutation<UpdateSongResponse, UpdateSongVariables>(
+      graphql.mutation<UpdateSongData, UpdateSongVariables>(
         'UpdateSong',
         (req, res, ctx) => {
           const {
@@ -315,15 +341,16 @@ export default {
           };
 
           return res(
-            ctx.data({
+            ctx.data<UpdateSongData>({
               updateSong: {
+                __typename: 'UpdateSongResponse',
                 song: state.song,
               },
             }),
           );
         },
       ),
-      graphql.mutation<UpdateTrackResponse, UpdateTrackVariables>(
+      graphql.mutation<UpdateTrackData, UpdateTrackVariables>(
         'UpdateTrack',
         (req, res, ctx) => {
           const {
@@ -357,8 +384,9 @@ export default {
           };
 
           return res(
-            ctx.data({
+            ctx.data<UpdateTrackData>({
               updateTrack: {
+                __typename: 'UpdateTrackResponse',
                 track: updatedTrack,
               },
             }),
@@ -374,7 +402,7 @@ export const Default: Story<any> = (args) => (
     <ClientProvider>
       <AuthProvider>
         <AudioProvider>
-          <MemoryRouter initialEntries={['/1']}>
+          <MemoryRouter initialEntries={[`/${state.song.id}`]}>
             <Shell>
               <Switch>
                 <Route path="/:songId">

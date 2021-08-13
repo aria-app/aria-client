@@ -7,10 +7,11 @@ import {
   MutationOptimisticResponseCreator,
   MutationUpdaterFunctionCreator,
 } from './types';
-import { GET_SONG, GetSongResponse } from './useGetSong';
+import { GET_SONG, GetSongData } from './useGetSong';
 
-export interface UpdateNotesResponse {
+export interface UpdateNotesData {
   updateNotes: {
+    __typename: 'UpdateNotesResponse';
     notes: Note[];
   };
 }
@@ -39,17 +40,17 @@ export const UPDATE_NOTES = gql`
 `;
 
 export const getUpdateNotesOptimisticResponse: MutationOptimisticResponseCreator<
-  UpdateNotesResponse,
+  UpdateNotesData,
   { updatedNotes: Note[] }
 > = ({ updatedNotes }) => ({
-  __typename: 'UpdateNotesResponse',
   updateNotes: {
+    __typename: 'UpdateNotesResponse',
     notes: updatedNotes,
   },
 });
 
 export const getUpdateNotesMutationUpdater: MutationUpdaterFunctionCreator<
-  UpdateNotesResponse,
+  UpdateNotesData,
   UpdateNotesVariables,
   { songId: number }
 > = ({ songId }) => {
@@ -62,19 +63,19 @@ export const getUpdateNotesMutationUpdater: MutationUpdaterFunctionCreator<
 
     if (isEmpty(notes)) return;
 
-    const songResponse = cache.readQuery<GetSongResponse>({
+    const songData = cache.readQuery<GetSongData>({
       query: GET_SONG,
       variables: { id: songId },
     });
 
-    if (!songResponse) return;
+    if (!songData) return;
 
     cache.writeQuery({
       query: GET_SONG,
       data: {
         song: {
-          ...songResponse.song,
-          tracks: songResponse.song.tracks.map((track) => ({
+          ...songData.song,
+          tracks: songData.song.tracks.map((track) => ({
             ...track,
             sequences: track.sequences.map((sequence) =>
               sequence.id === notes[0].sequence.id
@@ -96,6 +97,6 @@ export const getUpdateNotesMutationUpdater: MutationUpdaterFunctionCreator<
 };
 
 export const useUpdateNotes: MutationHook<
-  UpdateNotesResponse,
+  UpdateNotesData,
   UpdateNotesVariables
 > = (options) => useMutation(UPDATE_NOTES, options);

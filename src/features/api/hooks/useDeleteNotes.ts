@@ -1,13 +1,17 @@
-import { gql, MutationHookOptions, useMutation } from '@apollo/client';
-import { merge } from 'lodash';
+import { gql, useMutation } from '@apollo/client';
 
-import { MutationHook, MutationUpdaterFunctionCreator } from './types';
-import { GET_SONG, GetSongResponse } from './useGetSong';
+import { Note } from '../../../types';
+import {
+  MutationHook,
+  MutationOptimisticResponseCreator,
+  MutationUpdaterFunctionCreator,
+} from './types';
+import { GET_SONG, GetSongData } from './useGetSong';
 
-export interface DeleteNotesResponse {
-  __typename: 'DeleteNotesResponse';
+export interface DeleteNotesData {
   deleteNotes: {
-    success: boolean;
+    __typename: 'DeleteNotesResponse';
+    notes: Note[];
   };
 }
 
@@ -18,13 +22,25 @@ export interface DeleteNotesVariables {
 export const DELETE_NOTES = gql`
   mutation DeleteNotes($ids: [Int!]!) {
     deleteNotes(ids: $ids) {
-      success
+      notes {
+        id
+      }
     }
   }
 `;
 
+export const getDeleteNotesOptimisticUpdate: MutationOptimisticResponseCreator<
+  DeleteNotesData,
+  { notesToDelete: Note[] }
+> = ({ notesToDelete }) => ({
+  deleteNotes: {
+    __typename: 'DeleteNotesResponse',
+    notes: notesToDelete,
+  },
+});
+
 export const getDeleteNotesMutationUpdater: MutationUpdaterFunctionCreator<
-  DeleteNotesResponse,
+  DeleteNotesData,
   DeleteNotesVariables,
   { songId: number }
 > = ({ songId }) => {
@@ -33,19 +49,19 @@ export const getDeleteNotesMutationUpdater: MutationUpdaterFunctionCreator<
 
     const { ids = [] } = variables;
 
-    const songResponse = cache.readQuery<GetSongResponse>({
+    const songData = cache.readQuery<GetSongData>({
       query: GET_SONG,
       variables: { id: songId },
     });
 
-    if (!songResponse) return;
+    if (!songData) return;
 
     cache.writeQuery({
       query: GET_SONG,
       data: {
         song: {
-          ...songResponse.song,
-          tracks: songResponse.song.tracks.map((track) => ({
+          ...songData.song,
+          tracks: songData.song.tracks.map((track) => ({
             ...track,
             sequences: track.sequences.map((sequence) => ({
               ...sequence,
@@ -59,20 +75,6 @@ export const getDeleteNotesMutationUpdater: MutationUpdaterFunctionCreator<
 };
 
 export const useDeleteNotes: MutationHook<
-  DeleteNotesResponse,
+  DeleteNotesData,
   DeleteNotesVariables
-> = (options) =>
-  useMutation(
-    DELETE_NOTES,
-    merge(
-      {
-        optimisticResponse: {
-          __typename: 'DeleteNotesResponse',
-          deleteNotes: {
-            success: true,
-          },
-        },
-      } as MutationHookOptions<DeleteNotesResponse, DeleteNotesVariables>,
-      options,
-    ),
-  );
+> = (options) => useMutation(DELETE_NOTES, options);

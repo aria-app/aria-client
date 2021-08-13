@@ -6,10 +6,11 @@ import {
   MutationOptimisticResponseCreator,
   MutationUpdaterFunctionCreator,
 } from './types';
-import { GET_SONG, GetSongResponse } from './useGetSong';
+import { GET_SONG, GetSongData } from './useGetSong';
 
-export interface CreateNoteResponse {
+export interface CreateNoteData {
   createNote: {
+    __typename: 'CreateNoteResponse';
     note: Note;
   };
 }
@@ -39,20 +40,21 @@ export const CREATE_NOTE = gql`
 `;
 
 export const getCreateNoteOptimisticResponse: MutationOptimisticResponseCreator<
-  CreateNoteResponse,
+  CreateNoteData,
   {
     points: Point[];
     sequenceId: number;
     tempId: number;
   }
 > = ({ tempId, points, sequenceId }) => ({
-  __typename: 'CreateNoteResponse',
   createNote: {
+    __typename: 'CreateNoteResponse',
     note: {
       __typename: 'Note',
       id: tempId,
       points,
       sequence: {
+        __typename: 'Sequence',
         id: sequenceId,
       },
     },
@@ -60,7 +62,7 @@ export const getCreateNoteOptimisticResponse: MutationOptimisticResponseCreator<
 });
 
 export const getCreateNoteMutationUpdater: MutationUpdaterFunctionCreator<
-  CreateNoteResponse,
+  CreateNoteData,
   CreateNoteVariables,
   { songId: number }
 > = ({ songId }) => {
@@ -71,16 +73,16 @@ export const getCreateNoteMutationUpdater: MutationUpdaterFunctionCreator<
       createNote: { note },
     } = data;
 
-    const songResponse = cache.readQuery<GetSongResponse>({
+    const songData = cache.readQuery<GetSongData>({
       query: GET_SONG,
       variables: { id: songId },
     });
 
-    if (!songResponse) return;
+    if (!songData) return;
 
     const updatedSong = {
-      ...songResponse.song,
-      tracks: songResponse.song.tracks.map((track) => ({
+      ...songData.song,
+      tracks: songData.song.tracks.map((track) => ({
         ...track,
         sequences: track.sequences.map((sequence) =>
           sequence.id === note.sequence.id
@@ -102,7 +104,5 @@ export const getCreateNoteMutationUpdater: MutationUpdaterFunctionCreator<
   };
 };
 
-export const useCreateNote: MutationHook<
-  CreateNoteResponse,
-  CreateNoteVariables
-> = (options) => useMutation(CREATE_NOTE, options);
+export const useCreateNote: MutationHook<CreateNoteData, CreateNoteVariables> =
+  (options) => useMutation(CREATE_NOTE, options);

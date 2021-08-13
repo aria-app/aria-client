@@ -4,7 +4,7 @@ import { FC, ProviderProps, useCallback } from 'react';
 import { MemoryRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
-import { ClientProvider, LoginResponse, LoginVariables } from '../../../api';
+import { ClientProvider, LoginData, LoginVariables } from '../../../api';
 import {
   AuthContext,
   AuthContextValue,
@@ -45,31 +45,28 @@ export default {
   parameters: {
     layout: 'fullscreen',
     msw: [
-      graphql.mutation<LoginResponse, LoginVariables>(
-        'Login',
-        (req, res, ctx) => {
-          const { email, password } = req.variables;
+      graphql.mutation<LoginData, LoginVariables>('Login', (req, res, ctx) => {
+        const { email, password } = req.variables;
 
-          if (password === 'fail') {
-            return res.networkError('Could not log in');
-          }
+        if (password === 'fail') {
+          return res.networkError('Could not log in');
+        }
 
-          if (email !== 'user@ariaapp.io' || password !== 'password') {
-            return res(
-              ctx.errors([{ message: 'The email or password was incorrect.' }]),
-            );
-          }
-
+        if (email !== 'user@ariaapp.io' || password !== 'password') {
           return res(
-            ctx.data({
-              login: {
-                expiresAt: 9999999999,
-                success: true,
-              },
-            }),
+            ctx.errors([{ message: 'The email or password was incorrect.' }]),
           );
-        },
-      ),
+        }
+
+        return res(
+          ctx.data<LoginData>({
+            login: {
+              __typename: 'LoginResponse',
+              expiresAt: 9999999999,
+            },
+          }),
+        );
+      }),
     ],
   },
 } as Meta;

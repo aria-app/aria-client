@@ -14,7 +14,7 @@ export const setPartEventsByNoteId: DawwwEffects = (
   const { notes, sequences } = song;
 
   const { sequenceId } = notes[id] || note;
-  const { trackId } = sequences[sequenceId];
+  const { trackId } = sequences[sequenceId] || {};
   const notesInSequence = filter((n) => n.sequenceId === sequenceId, notes);
 
   times((stepIndex) => {

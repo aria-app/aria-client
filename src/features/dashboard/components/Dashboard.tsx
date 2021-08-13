@@ -4,7 +4,12 @@ import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
-import { getDeleteSongUpdater, useDeleteSong, useGetSongs } from '../../api';
+import {
+  getDeleteSongOptimisticResponse,
+  getDeleteSongUpdater,
+  useDeleteSong,
+  useGetSongs,
+} from '../../api';
 import { useAuth } from '../../auth';
 import { LoadingIndicator } from '../../shared';
 import { AddSongDialog } from './AddSongDialog';
@@ -53,7 +58,10 @@ export const Dashboard: FC<DashboardProps> = () => {
 
       try {
         await deleteSong({
-          update: getDeleteSongUpdater(song.id),
+          optimisticResponse: getDeleteSongOptimisticResponse({
+            songToDelete: song,
+          }),
+          update: getDeleteSongUpdater(),
           variables: {
             id: song.id,
           },

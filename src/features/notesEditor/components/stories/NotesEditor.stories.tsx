@@ -1,6 +1,6 @@
 import { Meta, Story } from '@storybook/react';
 import { Toolbar } from 'aria-ui';
-import { compact, uniqueId } from 'lodash';
+import { compact, partition, uniqueId } from 'lodash';
 import { graphql } from 'msw';
 import { FC, ProviderProps, useRef } from 'react';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
@@ -11,15 +11,15 @@ import { I18NWrapper } from '../../../../i18n';
 import { Note } from '../../../../types';
 import {
   ClientProvider,
-  CreateNoteResponse,
+  CreateNoteData,
   CreateNoteVariables,
-  DeleteNotesResponse,
+  DeleteNotesData,
   DeleteNotesVariables,
-  DuplicateNotesResponse,
+  DuplicateNotesData,
   DuplicateNotesVariables,
-  GetSongResponse,
+  GetSongData,
   GetSongVariables,
-  UpdateNotesResponse,
+  UpdateNotesData,
   UpdateNotesVariables,
 } from '../../../api';
 import { AudioManagerContext } from '../../../audio/contexts';
@@ -37,7 +37,7 @@ export default {
   parameters: {
     layout: 'fullscreen',
     msw: [
-      graphql.mutation<CreateNoteResponse, CreateNoteVariables>(
+      graphql.mutation<CreateNoteData, CreateNoteVariables>(
         'CreateNote',
         (req, res, ctx) => {
           const {
@@ -45,9 +45,11 @@ export default {
           } = req.variables;
 
           const newNote = {
+            __typename: 'Note',
             id: parseInt(uniqueId()),
             points,
             sequence: {
+              __typename: 'Sequence',
               id: state.sequence.id,
             },
           };
@@ -58,36 +60,41 @@ export default {
           };
 
           return res(
-            ctx.data({
+            ctx.data<CreateNoteData>({
               createNote: {
+                __typename: 'CreateNoteResponse',
                 note: newNote,
               },
             }),
           );
         },
       ),
-      graphql.mutation<DeleteNotesResponse, DeleteNotesVariables>(
+      graphql.mutation<DeleteNotesData, DeleteNotesVariables>(
         'DeleteNotes',
         (req, res, ctx) => {
           const { ids } = req.variables;
 
+          const [deletedNotes, notesWithoutDeleted] = partition(
+            state.sequence.notes,
+            (note) => ids.includes(note.id),
+          );
+
           state.sequence = {
             ...state.sequence,
-            notes: state.sequence.notes.filter(
-              (note) => !ids.includes(note.id),
-            ),
+            notes: notesWithoutDeleted,
           };
 
           return res(
-            ctx.data({
+            ctx.data<DeleteNotesData>({
               deleteNotes: {
-                success: true,
+                __typename: 'DeleteNotesResponse',
+                notes: deletedNotes,
               },
             }),
           );
         },
       ),
-      graphql.mutation<DuplicateNotesResponse, DuplicateNotesVariables>(
+      graphql.mutation<DuplicateNotesData, DuplicateNotesVariables>(
         'DuplicateNotes',
         (req, res, ctx) => {
           const { ids } = req.variables;
@@ -115,25 +122,26 @@ export default {
           };
 
           return res(
-            ctx.data<DuplicateNotesResponse>({
+            ctx.data<DuplicateNotesData>({
               duplicateNotes: {
+                __typename: 'DuplicateNotesResponse',
                 notes: newNotes,
               },
             }),
           );
         },
       ),
-      graphql.query<GetSongResponse, GetSongVariables>(
+      graphql.query<GetSongData, GetSongVariables>(
         'GetSong',
         (req, res, ctx) => {
           return res(
-            ctx.data({
+            ctx.data<GetSongData>({
               song: state.song,
             }),
           );
         },
       ),
-      graphql.mutation<UpdateNotesResponse, UpdateNotesVariables>(
+      graphql.mutation<UpdateNotesData, UpdateNotesVariables>(
         'UpdateNotes',
         (req, res, ctx) => {
           const {
@@ -167,8 +175,9 @@ export default {
           };
 
           return res(
-            ctx.data<UpdateNotesResponse>({
+            ctx.data<UpdateNotesData>({
               updateNotes: {
+                __typename: 'UpdateNotesResponse',
                 notes: compact(updatedNotes),
               },
             }),

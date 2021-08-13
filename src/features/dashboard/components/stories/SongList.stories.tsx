@@ -1,6 +1,7 @@
 import { Meta, Story } from '@storybook/react';
 import { Box } from 'aria-ui';
 
+import { songListSongs } from '../../../../fixtures';
 import { SongList, SongListProps } from '../SongList';
 
 export default {
@@ -14,16 +15,5 @@ export default {
 export const Default: Story<SongListProps> = (args) => <SongList {...args} />;
 
 Default.args = {
-  songs: [
-    {
-      id: 1,
-      name: 'Song 1',
-      updatedAt: '2021-01-01',
-    },
-    {
-      id: 2,
-      name: 'Song 2',
-      updatedAt: '2021-02-02',
-    },
-  ],
+  songs: songListSongs,
 };

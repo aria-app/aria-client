@@ -56,7 +56,10 @@ export const NotesEditorToolbar: FC<NotesEditorToolbarProps> = memo((props) => {
     () =>
       Dawww.someNoteWillMoveOutside(
         measureCount,
-        { x: 0, y: 12 },
+        {
+          x: 0,
+          y: 12,
+        },
         selectedNotes,
       ),
     [measureCount, selectedNotes],
@@ -66,7 +69,10 @@ export const NotesEditorToolbar: FC<NotesEditorToolbarProps> = memo((props) => {
     () =>
       Dawww.someNoteWillMoveOutside(
         measureCount,
-        { x: 0, y: -12 },
+        {
+          x: 0,
+          y: -12,
+        },
         selectedNotes,
       ),
     [measureCount, selectedNotes],

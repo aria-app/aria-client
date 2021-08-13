@@ -11,6 +11,33 @@ import {
   NotesSelectHandler,
 } from '../Notes';
 
+const notes = [
+  {
+    __typename: 'Note',
+    id: 1,
+    points: [
+      { x: 0, y: 0 },
+      { x: 1, y: 0 },
+    ],
+    sequence: {
+      __typename: 'Sequence',
+      id: 1,
+    },
+  },
+  {
+    __typename: 'Note',
+    id: 2,
+    points: [
+      { x: 2, y: 2 },
+      { x: 3, y: 2 },
+    ],
+    sequence: {
+      __typename: 'Sequence',
+      id: 1,
+    },
+  },
+];
+
 export default {
   component: Notes,
   title: 'NotesEditor/Notes',
@@ -30,29 +57,6 @@ export default {
 } as Meta;
 
 export const Default: Story<NotesProps> = (args) => <Notes {...args} />;
-
-const notes = [
-  {
-    id: 1,
-    points: [
-      { x: 0, y: 0 },
-      { x: 1, y: 0 },
-    ],
-    sequence: {
-      id: 1,
-    },
-  },
-  {
-    id: 2,
-    points: [
-      { x: 2, y: 2 },
-      { x: 3, y: 2 },
-    ],
-    sequence: {
-      id: 1,
-    },
-  },
-];
 
 Default.args = {
   measureCount: 1,

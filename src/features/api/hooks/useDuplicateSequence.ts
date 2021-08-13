@@ -6,10 +6,11 @@ import {
   MutationOptimisticResponseCreator,
   MutationUpdaterFunctionCreator,
 } from './types';
-import { GET_SONG, GetSongResponse } from './useGetSong';
+import { GET_SONG, GetSongData } from './useGetSong';
 
-export interface DuplicateSequenceResponse {
+export interface DuplicateSequenceData {
   duplicateSequence: {
+    __typename: 'DuplicateSequenceResponse';
     sequence: Sequence;
   };
 }
@@ -44,11 +45,11 @@ export const DUPLICATE_SEQUENCE = gql`
 `;
 
 export const getDuplicateSequenceOptimisticResponse: MutationOptimisticResponseCreator<
-  DuplicateSequenceResponse,
+  DuplicateSequenceData,
   { sequenceToDuplicate: Sequence; tempId: number }
 > = ({ sequenceToDuplicate, tempId }) => ({
-  __typename: 'DuplicateSequenceResponse',
   duplicateSequence: {
+    __typename: 'DuplicateSequenceResponse',
     sequence: {
       ...sequenceToDuplicate,
       id: tempId,
@@ -57,7 +58,7 @@ export const getDuplicateSequenceOptimisticResponse: MutationOptimisticResponseC
 });
 
 export const getDuplicateSequenceMutationUpdater: MutationUpdaterFunctionCreator<
-  DuplicateSequenceResponse,
+  DuplicateSequenceData,
   DuplicateSequenceVariables,
   { songId: number }
 > = ({ songId }) => {
@@ -68,19 +69,19 @@ export const getDuplicateSequenceMutationUpdater: MutationUpdaterFunctionCreator
       duplicateSequence: { sequence },
     } = data;
 
-    const songResponse = cache.readQuery<GetSongResponse>({
+    const songData = cache.readQuery<GetSongData>({
       query: GET_SONG,
       variables: { id: songId },
     });
 
-    if (!songResponse) return;
+    if (!songData) return;
 
     cache.writeQuery({
       query: GET_SONG,
       data: {
         song: {
-          ...songResponse.song,
-          tracks: songResponse.song.tracks.map((track) =>
+          ...songData.song,
+          tracks: songData.song.tracks.map((track) =>
             track.id === sequence.track.id
               ? {
                   ...track,
@@ -95,6 +96,6 @@ export const getDuplicateSequenceMutationUpdater: MutationUpdaterFunctionCreator
 };
 
 export const useDuplicateSequence: MutationHook<
-  DuplicateSequenceResponse,
+  DuplicateSequenceData,
   DuplicateSequenceVariables
 > = (options) => useMutation(DUPLICATE_SEQUENCE, options);

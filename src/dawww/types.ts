@@ -82,7 +82,8 @@ export type DawwwReducer<TState = State> = (
   shared: DawwwContext,
 ) => any;
 
-export interface DawwwNote extends Omit<Note, 'points' | 'sequence'> {
+export interface DawwwNote
+  extends Omit<Note, '__typename' | 'points' | 'sequence'> {
   points: DawwwPoint[];
   sequenceId: number;
 }
@@ -92,12 +93,16 @@ export interface DawwwPoint {
   y: number;
 }
 
-export interface DawwwSequence extends Omit<Sequence, 'notes' | 'track'> {
+export interface DawwwSequence
+  extends Omit<Sequence, '__typename' | 'notes' | 'track'> {
   trackId: number;
 }
 
 export interface DawwwTrack
-  extends Omit<Track, 'position' | 'sequences' | 'song' | 'voice'> {
+  extends Omit<
+    Track,
+    '__typename' | 'position' | 'sequences' | 'song' | 'voice'
+  > {
   voice: string;
 }
 

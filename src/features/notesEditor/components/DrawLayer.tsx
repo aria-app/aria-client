@@ -21,6 +21,7 @@ export const DrawLayer: FC<DrawLayerProps> = memo((props) => {
 
   const ghostNote = useMemo(
     () => ({
+      __typename: 'Note',
       id: -1,
       points: [
         {
@@ -33,6 +34,7 @@ export const DrawLayer: FC<DrawLayerProps> = memo((props) => {
         },
       ],
       sequence: {
+        __typename: 'Sequence',
         id: -1,
       },
     }),

@@ -48,6 +48,7 @@ export function Dawww(options?: DawwwOptions): AudioManagerType {
   };
 
   on(channels.ACTION_OCCURRED, (action) => {
+    // console.log('Action Occurred', action);
     setState(reducer(getState(), action, shared));
 
     effects(getState, action, shared);
@@ -64,6 +65,7 @@ export function Dawww(options?: DawwwOptions): AudioManagerType {
   // Load initial song data
   updateSong(
     options?.song || {
+      __typename: 'Song',
       bpm: 0,
       createdAt: '2000-01-01',
       id: -1,
@@ -71,6 +73,7 @@ export function Dawww(options?: DawwwOptions): AudioManagerType {
       name: '',
       updatedAt: '2000-01-01',
       user: {
+        __typename: 'User',
         id: -1,
       },
       tracks: [],

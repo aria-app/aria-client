@@ -3,11 +3,12 @@ import { merge } from 'lodash';
 
 import { Track } from '../../../types';
 import { MutationHook, MutationOptimisticResponseCreator } from './types';
-import { GET_SONG, GetSongResponse } from './useGetSong';
+import { GET_SONG, GetSongData } from './useGetSong';
 
-export interface CreateTrackResponse {
+export interface CreateTrackData {
   createTrack: {
-    track: Omit<Track, 'isMuted' | 'isSoloing'>;
+    __typename: 'CreateTrackResponse';
+    track: Track;
   };
 }
 
@@ -17,35 +18,13 @@ export interface CreateTrackVariables {
   };
 }
 
-export const getCreateTrackOptimisticResponse: MutationOptimisticResponseCreator<
-  CreateTrackResponse,
-  { songId: number; tempId: number }
-> = ({ songId, tempId }) => ({
-  __typename: 'CreateTrackResponse',
-  createTrack: {
-    track: {
-      __typename: 'Track',
-      id: tempId,
-      sequences: [],
-      position: 9999999999,
-      song: {
-        id: songId,
-      },
-      voice: {
-        id: 1,
-        name: 'Pulse',
-        toneOscillatorType: 'pulse',
-      },
-      volume: 0,
-    },
-  },
-});
-
 export const CREATE_TRACK = gql`
   mutation CreateTrack($input: CreateTrackInput!) {
     createTrack(input: $input) {
       track {
         id
+        isMuted
+        isSoloing
         position
         sequences {
           id
@@ -79,8 +58,36 @@ export const CREATE_TRACK = gql`
   }
 `;
 
+export const getCreateTrackOptimisticResponse: MutationOptimisticResponseCreator<
+  CreateTrackData,
+  { songId: number; tempId: number }
+> = ({ songId, tempId }) => ({
+  createTrack: {
+    __typename: 'CreateTrackResponse',
+    track: {
+      __typename: 'Track',
+      id: tempId,
+      isMuted: false,
+      isSoloing: false,
+      sequences: [],
+      position: 9999999999,
+      song: {
+        __typename: 'Song',
+        id: songId,
+      },
+      voice: {
+        __typename: 'Voice',
+        id: 1,
+        name: 'Pulse',
+        toneOscillatorType: 'pulse',
+      },
+      volume: 0,
+    },
+  },
+});
+
 export const useCreateTrack: MutationHook<
-  CreateTrackResponse,
+  CreateTrackData,
   CreateTrackVariables
 > = (options) =>
   useMutation(
@@ -94,24 +101,24 @@ export const useCreateTrack: MutationHook<
             createTrack: { track },
           } = data;
 
-          const songResponse = cache.readQuery<GetSongResponse>({
+          const songData = cache.readQuery<GetSongData>({
             query: GET_SONG,
             variables: { id: track.song.id },
           });
 
-          if (!songResponse) return;
+          if (!songData) return;
 
           cache.writeQuery({
             query: GET_SONG,
             data: {
               song: {
-                ...songResponse.song,
-                tracks: [...songResponse.song.tracks, track],
+                ...songData.song,
+                tracks: [...songData.song.tracks, track],
               },
             },
           });
         },
-      } as MutationHookOptions<CreateTrackResponse, CreateTrackVariables>,
+      } as MutationHookOptions<CreateTrackData, CreateTrackVariables>,
       options,
     ),
   );

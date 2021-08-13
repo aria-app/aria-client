@@ -7,10 +7,11 @@ import {
   MutationOptimisticResponseCreator,
   MutationUpdaterFunctionCreator,
 } from './types';
-import { GET_SONG, GetSongResponse } from './useGetSong';
+import { GET_SONG, GetSongData } from './useGetSong';
 
-export interface DuplicateNotesResponse {
+export interface DuplicateNotesData {
   duplicateNotes: {
+    __typename: 'DuplicateNotesResponse';
     notes: Note[];
   };
 }
@@ -37,11 +38,11 @@ export const DUPLICATE_NOTES = gql`
 `;
 
 export const getDuplicateNotesOptimisticResponse: MutationOptimisticResponseCreator<
-  DuplicateNotesResponse,
+  DuplicateNotesData,
   { notesToDuplicate: Note[]; tempIds: number[] }
 > = ({ notesToDuplicate, tempIds }) => ({
-  __typename: 'DuplicateNotesResponse',
   duplicateNotes: {
+    __typename: 'DuplicateNotesResponse',
     notes: notesToDuplicate.map((note, index) => ({
       ...note,
       id: tempIds[index],
@@ -50,7 +51,7 @@ export const getDuplicateNotesOptimisticResponse: MutationOptimisticResponseCrea
 });
 
 export const getDuplicateNotesMutationUpdater: MutationUpdaterFunctionCreator<
-  DuplicateNotesResponse,
+  DuplicateNotesData,
   DuplicateNotesVariables,
   { songId: number }
 > = ({ songId }) => {
@@ -63,19 +64,19 @@ export const getDuplicateNotesMutationUpdater: MutationUpdaterFunctionCreator<
 
     if (isEmpty(notes)) return;
 
-    const songResponse = cache.readQuery<GetSongResponse>({
+    const songData = cache.readQuery<GetSongData>({
       query: GET_SONG,
       variables: { id: songId },
     });
 
-    if (!songResponse) return;
+    if (!songData) return;
 
     cache.writeQuery({
       query: GET_SONG,
       data: {
         song: {
-          ...songResponse.song,
-          tracks: songResponse.song.tracks.map((track) => ({
+          ...songData.song,
+          tracks: songData.song.tracks.map((track) => ({
             ...track,
             sequences: track.sequences.map((sequence) =>
               sequence.id === notes[0].sequence.id
@@ -93,6 +94,6 @@ export const getDuplicateNotesMutationUpdater: MutationUpdaterFunctionCreator<
 };
 
 export const useDuplicateNotes: MutationHook<
-  DuplicateNotesResponse,
+  DuplicateNotesData,
   DuplicateNotesVariables
 > = (options) => useMutation(DUPLICATE_NOTES, options);

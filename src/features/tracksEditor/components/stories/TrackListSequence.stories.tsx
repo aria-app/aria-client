@@ -6,6 +6,43 @@ import {
   TrackListSequenceProps,
 } from '../TrackListSequence';
 
+const sequence = {
+  __typename: 'Sequence',
+  id: 1,
+  measureCount: 1,
+  notes: [
+    {
+      __typename: 'Note',
+      id: 1,
+      points: [
+        { x: 0, y: 0 },
+        { x: 1, y: 0 },
+      ],
+      sequence: {
+        __typename: 'Sequence',
+        id: 1,
+      },
+    },
+    {
+      __typename: 'Note',
+      id: 2,
+      points: [
+        { x: 2, y: 2 },
+        { x: 3, y: 2 },
+      ],
+      sequence: {
+        __typename: 'Sequence',
+        id: 1,
+      },
+    },
+  ],
+  position: 0,
+  track: {
+    __typename: 'Track',
+    id: 1,
+  },
+};
+
 export default {
   component: TrackListSequence,
   title: 'TracksEditor/TrackListSequence',
@@ -19,24 +56,5 @@ export const Default: Story<TrackListSequenceProps> = (args) => (
 
 Default.args = {
   isSelected: false,
-  sequence: {
-    id: 1,
-    measureCount: 1,
-    notes: [
-      {
-        id: 1,
-        points: [
-          { x: 2, y: 32 },
-          { x: 6, y: 32 },
-        ],
-        sequence: {
-          id: 1,
-        },
-      },
-    ],
-    position: 0,
-    track: {
-      id: 1,
-    },
-  },
+  sequence,
 };

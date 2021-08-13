@@ -6,11 +6,11 @@ import {
   MutationOptimisticResponseCreator,
   MutationUpdaterFunctionCreator,
 } from './types';
-import { GET_SONG, GetSongResponse } from './useGetSong';
+import { GET_SONG, GetSongData } from './useGetSong';
 
-export interface CreateSequenceResponse {
-  __typename: 'CreateSequenceResponse';
+export interface CreateSequenceData {
   createSequence: {
+    __typename: 'CreateSequenceResponse';
     sequence: Sequence;
   };
 }
@@ -48,15 +48,15 @@ export const CREATE_SEQUENCE = gql`
 `;
 
 export const getCreateSequenceOptimisticResponse: MutationOptimisticResponseCreator<
-  CreateSequenceResponse,
+  CreateSequenceData,
   {
     position: number;
     tempId: number;
     trackId: number;
   }
 > = ({ position, tempId, trackId }) => ({
-  __typename: 'CreateSequenceResponse',
   createSequence: {
+    __typename: 'CreateSequenceResponse',
     sequence: {
       __typename: 'Sequence',
       id: tempId,
@@ -64,6 +64,7 @@ export const getCreateSequenceOptimisticResponse: MutationOptimisticResponseCrea
       notes: [],
       position,
       track: {
+        __typename: 'Track',
         id: trackId,
       },
     },
@@ -71,7 +72,7 @@ export const getCreateSequenceOptimisticResponse: MutationOptimisticResponseCrea
 });
 
 export const getCreateSequenceMutationUpdater: MutationUpdaterFunctionCreator<
-  CreateSequenceResponse,
+  CreateSequenceData,
   CreateSequenceVariables,
   { songId: number }
 > = ({ songId }) => {
@@ -82,19 +83,19 @@ export const getCreateSequenceMutationUpdater: MutationUpdaterFunctionCreator<
       createSequence: { sequence },
     } = data;
 
-    const songResponse = cache.readQuery<GetSongResponse>({
+    const songData = cache.readQuery<GetSongData>({
       query: GET_SONG,
       variables: { id: songId },
     });
 
-    if (!songResponse) return;
+    if (!songData) return;
 
     cache.writeQuery({
       query: GET_SONG,
       data: {
         song: {
-          ...songResponse.song,
-          tracks: songResponse.song.tracks.map((track) =>
+          ...songData.song,
+          tracks: songData.song.tracks.map((track) =>
             track.id === sequence.track.id
               ? {
                   ...track,
@@ -109,6 +110,6 @@ export const getCreateSequenceMutationUpdater: MutationUpdaterFunctionCreator<
 };
 
 export const useCreateSequence: MutationHook<
-  CreateSequenceResponse,
+  CreateSequenceData,
   CreateSequenceVariables
 > = (options) => useMutation(CREATE_SEQUENCE, options);

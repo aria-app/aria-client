@@ -6,6 +6,19 @@ import {
   TrackSequenceNoteProps,
 } from '../TrackSequenceNote';
 
+const note = {
+  __typename: 'Note',
+  id: 1,
+  points: [
+    { x: 2, y: 32 },
+    { x: 6, y: 32 },
+  ],
+  sequence: {
+    __typename: 'Sequence',
+    id: 1,
+  },
+};
+
 export default {
   component: TrackSequenceNote,
   title: 'TracksEditor/TrackSequenceNote',
@@ -19,14 +32,5 @@ export const Default: Story<TrackSequenceNoteProps> = (args) => (
 
 Default.args = {
   isSequenceSelected: false,
-  note: {
-    id: 1,
-    points: [
-      { x: 2, y: 32 },
-      { x: 6, y: 32 },
-    ],
-    sequence: {
-      id: 1,
-    },
-  },
+  note,
 };
