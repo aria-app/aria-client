@@ -5,6 +5,18 @@ import {
   TracksEditorToolbarProps,
 } from '../TracksEditorToolbar';
 
+const selectedSequence = {
+  __typename: 'Sequence',
+  id: 1,
+  measureCount: 1,
+  notes: [],
+  position: 0,
+  track: {
+    __typename: 'Track',
+    id: 1,
+  },
+};
+
 export default {
   component: TracksEditorToolbar,
   title: 'TracksEditor/TracksEditorToolbar',
@@ -32,13 +44,5 @@ export const SelectedSequence: Story<TracksEditorToolbarProps> = (args) => (
 
 SelectedSequence.args = {
   ...Default.args,
-  selectedSequence: {
-    id: 1,
-    measureCount: 1,
-    notes: [],
-    position: 0,
-    track: {
-      id: 1,
-    },
-  },
+  selectedSequence,
 };
