@@ -1,4 +1,5 @@
 import { Meta, Story } from '@storybook/react';
+import { orderBy } from 'lodash';
 import { graphql } from 'msw';
 
 import {
@@ -81,7 +82,20 @@ export default {
         (req, res, ctx) => {
           return res(
             ctx.data<GetVoicesData>({
-              voices,
+              voices: {
+                __typename: 'VoicesResponse',
+                data: orderBy(
+                  voices,
+                  req.variables.sort,
+                  req.variables.sortDirection,
+                ),
+                meta: {
+                  __typename: 'PaginationMetadata',
+                  currentPage: 1,
+                  itemsPerPage: 10,
+                  totalItemCount: 2,
+                },
+              },
             }),
           );
         },

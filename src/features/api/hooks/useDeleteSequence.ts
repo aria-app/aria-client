@@ -1,6 +1,6 @@
 import { gql, useMutation } from '@apollo/client';
 
-import { Sequence } from '../../../types';
+import { Minimal, Sequence } from '../../../types';
 import {
   MutationHook,
   MutationOptimisticResponseCreator,
@@ -11,7 +11,7 @@ import { GET_SONG, GetSongData } from './useGetSong';
 export interface DeleteSequenceData {
   deleteSequence: {
     __typename: 'DeleteSequenceResponse';
-    sequence: Sequence;
+    sequence: Minimal<Sequence>;
   };
 }
 

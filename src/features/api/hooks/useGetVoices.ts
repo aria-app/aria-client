@@ -1,20 +1,25 @@
 import { gql, useQuery } from '@apollo/client';
 
-import { Voice } from '../../../types';
+import { PaginatedResponse, Voice } from '../../../types';
 import { QueryHook } from './types';
 
 export interface GetVoicesData {
-  voices: Voice[];
+  voices: PaginatedResponse<Voice, 'VoicesResponse'>;
 }
 
-export type GetVoicesVariables = Record<string, never>;
+export interface GetVoicesVariables {
+  sort: keyof Voice;
+  sortDirection?: 'asc' | 'desc';
+}
 
 export const GET_VOICES = gql`
   query GetVoices {
     voices {
-      id
-      name
-      toneOscillatorType
+      data {
+        id
+        name
+        toneOscillatorType
+      }
     }
   }
 `;
