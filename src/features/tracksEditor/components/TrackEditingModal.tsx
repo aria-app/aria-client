@@ -3,7 +3,7 @@ import range from 'lodash/fp/range';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Track } from '../../../types';
+import { Track, Voice } from '../../../types';
 import { useGetVoices } from '../../api';
 
 const minVolume = -20;
@@ -28,7 +28,7 @@ export const TrackEditingModal: FC<TrackEditingModalProps> = (props) => {
   const [trackState, setTrackState] = useState<Track>();
   const { t } = useTranslation();
 
-  const voices = useMemo(() => (data ? data.voices : []), [data]);
+  const voices = useMemo<Voice[]>(() => (data ? data.voices.data : []), [data]);
 
   const handleDeleteButtonClick = useCallback(() => {
     if (!trackState) return;
