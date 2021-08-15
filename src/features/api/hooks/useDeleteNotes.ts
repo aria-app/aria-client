@@ -1,6 +1,6 @@
 import { gql, useMutation } from '@apollo/client';
 
-import { Note } from '../../../types';
+import { Minimal, Note } from '../../../types';
 import {
   MutationHook,
   MutationOptimisticResponseCreator,
@@ -11,7 +11,7 @@ import { GET_SONG, GetSongData } from './useGetSong';
 export interface DeleteNotesData {
   deleteNotes: {
     __typename: 'DeleteNotesResponse';
-    notes: Note[];
+    notes: Minimal<Note>[];
   };
 }
 

@@ -1,10 +1,15 @@
 export type AudioManagerType = any;
 
+export type Minimal<TEntity extends { __typename: string; id: number }> = Pick<
+  TEntity,
+  '__typename' | 'id'
+>;
+
 export interface Note {
   __typename: string;
   id: number;
   points: Point[];
-  sequence: Pick<Sequence, '__typename' | 'id'>;
+  sequence: Minimal<Sequence>;
 }
 
 export interface PaginatedResponse<TData, TTypename> {
@@ -33,7 +38,7 @@ export interface Sequence {
   measureCount: number;
   notes: Note[];
   position: number;
-  track: Pick<Track, '__typename' | 'id'>;
+  track: Minimal<Track>;
 }
 
 export interface Song {
@@ -45,7 +50,7 @@ export interface Song {
   name: string;
   tracks: Track[];
   updatedAt: string;
-  user: Pick<User, '__typename' | 'id'>;
+  user: Minimal<User>;
 }
 
 export type SongListSong = Pick<
@@ -60,7 +65,7 @@ export interface Track {
   isSoloing: boolean;
   position: number;
   sequences: Sequence[];
-  song: Pick<Song, '__typename' | 'id'>;
+  song: Minimal<Song>;
   voice: Voice;
   volume: number;
 }

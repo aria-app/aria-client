@@ -1,6 +1,6 @@
 import { gql, useMutation } from '@apollo/client';
 
-import { SongListSong } from '../../../types';
+import { Minimal, SongListSong } from '../../../types';
 import {
   MutationHook,
   MutationOptimisticResponseCreator,
@@ -12,7 +12,7 @@ export type DeleteSongInput = number;
 export interface DeleteSongData {
   deleteSong: {
     __typename: 'DeleteSongResponse';
-    song: SongListSong;
+    song: Minimal<SongListSong>;
   };
 }
 

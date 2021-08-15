@@ -230,11 +230,11 @@ export const TracksEditor: FC<TracksEditorProps> = () => {
         optimisticResponse: getDeleteTrackOptimisticResponse({
           trackToDelete: track,
         }),
-        update: getDeleteTrackMutationUpdater(),
+        update: getDeleteTrackMutationUpdater({ songId }),
         variables,
       });
     },
-    [deleteTrack, handleTrackDeselect],
+    [deleteTrack, handleTrackDeselect, songId],
   );
 
   const handleTrackEdit = useCallback<TrackEditingModalTrackChangeHandler>(

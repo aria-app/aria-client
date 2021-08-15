@@ -1,6 +1,6 @@
 import { gql, useMutation } from '@apollo/client';
 
-import { Track } from '../../../types';
+import { Minimal, Track } from '../../../types';
 import {
   MutationHook,
   MutationOptimisticResponseCreator,
@@ -11,7 +11,7 @@ import { GET_SONG, GetSongData } from './useGetSong';
 export interface DeleteTrackData {
   deleteTrack: {
     __typename: 'DeleteTrackResponse';
-    track: Track;
+    track: Minimal<Track>;
   };
 }
 
@@ -24,9 +24,6 @@ export const DELETE_TRACK = gql`
     deleteTrack(id: $id) {
       track {
         id
-        song {
-          id
-        }
       }
     }
   }
@@ -44,9 +41,10 @@ export const getDeleteTrackOptimisticResponse: MutationOptimisticResponseCreator
 
 export const getDeleteTrackMutationUpdater: MutationUpdaterFunctionCreator<
   DeleteTrackData,
-  DeleteTrackVariables
+  DeleteTrackVariables,
+  { songId: number }
 > =
-  () =>
+  ({ songId }) =>
   (cache, { data }) => {
     if (!data) return;
 
@@ -56,7 +54,7 @@ export const getDeleteTrackMutationUpdater: MutationUpdaterFunctionCreator<
 
     const songData = cache.readQuery<GetSongData>({
       query: GET_SONG,
-      variables: { id: track.song.id },
+      variables: { id: songId },
     });
 
     if (!songData) return;
