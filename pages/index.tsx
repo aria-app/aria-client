@@ -1,6 +1,6 @@
 import '@emotion/react';
-import { useEffect } from 'react';
 
+import { FC, useEffect } from 'react';
 import { configure as configureHotkeys } from 'react-hotkeys';
 import { RecoilRoot } from 'recoil';
 import * as Tone from 'tone';
@@ -11,7 +11,7 @@ import { AudioProvider } from '../src/features/audio';
 import { AuthProvider } from '../src/features/auth';
 import { I18NWrapper } from '../src/i18n';
 
-export function Index() {
+export const Index: FC<any> = () => {
   useEffect(() => {
     configureHotkeys({ ignoreRepeatedEventsWhenKeyHeldDown: false });
 
@@ -34,6 +34,6 @@ export function Index() {
       </RecoilRoot>
     </ClientProvider>
   );
-}
+};
 
 export default Index;
