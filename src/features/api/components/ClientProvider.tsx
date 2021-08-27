@@ -28,7 +28,7 @@ const client = new ApolloClient({
       },
     },
   }),
-  uri: process.env.REACT_APP_API_URI || '',
+  uri: process.env.apiBaseUrl || '',
 });
 
 export type ClientProviderProps = Omit<

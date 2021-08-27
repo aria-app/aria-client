@@ -1,5 +1,5 @@
 import { lightTheme, ThemeProvider } from 'aria-ui';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { useAuth } from '../../auth';
@@ -12,6 +12,15 @@ import { PrivateRoute } from './PrivateRoute';
 
 export const App: FC<any> = () => {
   const { loading } = useAuth();
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, [setIsMounted]);
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <ThemeProvider theme={lightTheme}>
