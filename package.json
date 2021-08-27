@@ -118,7 +118,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "yarn lint && CI=true yarn test"
+      "pre-push": "yarn lint"
     }
   },
   "bugs": {
